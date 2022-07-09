@@ -160,17 +160,17 @@ if ( ! empty( $_POST['values'] )
 	if ( ! empty( $_REQUEST['values']['PEOPLE'] ) )
 	{
 		// FJ other fields required.
-		$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
+		$required_error = CheckRequiredCustomFields( 'people_fields', $_REQUEST['values']['PEOPLE'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values']['PEOPLE'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', 'values', 'PEOPLE' );
+		$_REQUEST['values']['PEOPLE'] = FilterCustomFieldsMarkdown( 'people_fields', 'values', 'PEOPLE' );
 
 		if ( $_REQUEST['person_id'] !== 'new' )
 		{
 			$sql = "UPDATE PEOPLE SET ";
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
-				FROM PEOPLE_FIELDS
+				FROM people_fields
 				ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 			$go = 0;
@@ -1374,7 +1374,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				$categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
 					c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
-					FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f
+					FROM PEOPLE_FIELD_CATEGORIES c,people_fields f
 					WHERE f.CATEGORY_ID=c.ID
 					ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 

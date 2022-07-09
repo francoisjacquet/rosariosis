@@ -32,7 +32,7 @@ function RegistrationSave( $config, $values )
 			continue;
 		}
 
-		$values['parent'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', 'parent', $id, 'fields' );
+		$values['parent'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'people_fields', 'parent', $id, 'fields' );
 
 		$contact_id = RegistrationSaveContact( $config_parent, issetVal( $values['parent'][ $id ] ) );
 
@@ -74,7 +74,7 @@ function RegistrationSave( $config, $values )
 			continue;
 		}
 
-		$values['contact'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', 'contact', $id, 'fields' );
+		$values['contact'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'people_fields', 'contact', $id, 'fields' );
 
 		$contact_id = RegistrationSaveContact( [], issetVal( $values['contact'][ $id ] ) );
 

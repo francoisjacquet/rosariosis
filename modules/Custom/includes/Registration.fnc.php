@@ -358,7 +358,7 @@ function RegistrationContactFields( $name, $categories )
 	$categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
 		c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION," .
 		( $not_required ? "NULL AS REQUIRED" : "f.REQUIRED" ) . "
-		FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f
+		FROM PEOPLE_FIELD_CATEGORIES c,people_fields f
 		WHERE f.CATEGORY_ID=c.ID
 		AND f.CATEGORY_ID IN(" . $category_ids . ")
 		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );

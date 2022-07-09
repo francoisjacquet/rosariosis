@@ -14,7 +14,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM address_fields" );
 
 		$people_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-			FROM PEOPLE_FIELDS" );
+			FROM people_fields" );
 
 		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 

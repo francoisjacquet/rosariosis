@@ -11,7 +11,7 @@ $contacts_RET = DBGet( "SELECT TITLE,VALUE
 	WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 $fields_RET = DBGet( "SELECT pf.ID,pf.TITLE
-	FROM PEOPLE_FIELDS pf,PEOPLE_FIELD_CATEGORIES pfc
+	FROM people_fields pf,PEOPLE_FIELD_CATEGORIES pfc
 	WHERE pf.CATEGORY_ID=pfc.ID
 	AND (" . ( $person_RET[1]['CUSTODY'] == 'Y' ? "pfc.CUSTODY='Y'" : 'FALSE' ) . "
 		OR " . ( $person_RET[1]['EMERGENCY'] == 'Y' ? "pfc.EMERGENCY='Y'" : 'FALSE') . ")
