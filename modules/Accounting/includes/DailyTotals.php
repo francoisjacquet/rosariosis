@@ -53,7 +53,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 		AND STAFF_ID IS NULL" );
 
 	$accounting_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
-		FROM ACCOUNTING_INCOMES f
+		FROM accounting_incomes f
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'

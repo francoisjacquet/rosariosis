@@ -47,7 +47,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 
 		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_INCOMES
-			FROM ACCOUNTING_INCOMES
+			FROM accounting_incomes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH

@@ -70,7 +70,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 	}
 
 	$RET = DBGet( "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID
-	FROM ACCOUNTING_INCOMES f
+	FROM accounting_incomes f
 	WHERE f.SYEAR='" . UserSyear() . "'
 	AND f.SCHOOL_ID='" . UserSchool() . "'
 	AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'

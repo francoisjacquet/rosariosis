@@ -195,7 +195,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<br />';
 
 	$incomes_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
-		FROM ACCOUNTING_INCOMES f
+		FROM accounting_incomes f
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'" );
 
