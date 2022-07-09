@@ -183,7 +183,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				// Enroll student in Default Calendar.
 				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['CALENDAR_ID'] = DBGetOne( "SELECT CALENDAR_ID
-					FROM ATTENDANCE_CALENDARS
+					FROM attendance_calendars
 					WHERE SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND DEFAULT_CALENDAR='Y'" );

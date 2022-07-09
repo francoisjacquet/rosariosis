@@ -54,7 +54,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		(SELECT max(SCHOOL_DATE)
 			FROM ATTENDANCE_CALENDAR
 			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS END_DATE
-		FROM ATTENDANCE_CALENDARS ac,STAFF s
+		FROM attendance_calendars ac,STAFF s
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (s.SCHOOLS IS NULL OR position(CONCAT(',', ac.SCHOOL_ID, ',') IN s.SCHOOLS)>0)
@@ -115,7 +115,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	{
 		// @since 9.0 Check default if school has no default calendar.
 		$default_checked = ! DBGetOne( "SELECT 1
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND DEFAULT_CALENDAR='Y'" );
@@ -223,7 +223,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	{
 		if ( ! empty( $_REQUEST['default'] ) )
 		{
-			DBQuery( "UPDATE ATTENDANCE_CALENDARS
+			DBQuery( "UPDATE attendance_calendars
 				SET DEFAULT_CALENDAR=NULL
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -234,14 +234,14 @@ if ( $_REQUEST['modfunc'] === 'create'
 		{
 			$calendar_id = $_REQUEST['calendar_id'];
 
-			DBQuery( "UPDATE ATTENDANCE_CALENDARS
+			DBQuery( "UPDATE attendance_calendars
 				SET TITLE='" . $_REQUEST['title'] . "',DEFAULT_CALENDAR='" . $_REQUEST['default'] . "'
 				WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 		}
 		// Create
 		else
 		{
-			DBQuery( "INSERT INTO ATTENDANCE_CALENDARS
+			DBQuery( "INSERT INTO attendance_calendars
 				(SYEAR,SCHOOL_ID,TITLE,DEFAULT_CALENDAR)
 				values('" . UserSyear() . "','" . UserSchool() . "','" . $_REQUEST['title'] . "','" . $_REQUEST['default'] . "')" );
 
@@ -381,13 +381,13 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 		$delete_sql = "DELETE FROM ATTENDANCE_CALENDAR
 			WHERE CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "';";
 
-		$delete_sql .= "DELETE FROM ATTENDANCE_CALENDARS
+		$delete_sql .= "DELETE FROM attendance_calendars
 			WHERE CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "';";
 
 		DBQuery( $delete_sql );
 
 		$default_RET = DBGet( "SELECT CALENDAR_ID
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND DEFAULT_CALENDAR='Y'" );
@@ -416,7 +416,7 @@ if ( ! isset( $_REQUEST['calendar_id'] )
 	|| intval( $_REQUEST['calendar_id'] ) < 1 )
 {
 	$default_calendar_id = DBGetOne( "SELECT CALENDAR_ID
-		FROM ATTENDANCE_CALENDARS
+		FROM attendance_calendars
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND DEFAULT_CALENDAR='Y'" );
@@ -428,7 +428,7 @@ if ( ! isset( $_REQUEST['calendar_id'] )
 	else
 	{
 		$calendar_id = DBGetOne( "SELECT CALENDAR_ID
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -944,7 +944,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( AllowEdit() )
 	{
 		$title_RET = DBGet( "SELECT CALENDAR_ID,TITLE,DEFAULT_CALENDAR
-			FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='" . UserSchool() . "'
+			FROM attendance_calendars WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
 

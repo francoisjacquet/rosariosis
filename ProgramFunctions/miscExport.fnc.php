@@ -78,7 +78,7 @@ function _makeCalendar( $value, $column )
 	if ( ! $calendars_RET )
 	{
 		$calendars_RET = DBGet( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SYEAR='" . UserSyear() . "'", [], [ 'CALENDAR_ID' ] );
 	}
 

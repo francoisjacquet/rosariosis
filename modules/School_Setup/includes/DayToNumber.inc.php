@@ -22,7 +22,7 @@ function dayToNumber( $date, $calendar_id = 0 )
 	{
 		// Get Default Calendar.
 		$calendar_id = DBGetOne( "SELECT CALENDAR_ID
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY DEFAULT_CALENDAR" );

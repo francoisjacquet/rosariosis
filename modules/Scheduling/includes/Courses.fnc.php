@@ -149,7 +149,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	$inputs = [];
 
 	$options_RET = DBGet( "SELECT TITLE,CALENDAR_ID
-		FROM ATTENDANCE_CALENDARS
+		FROM attendance_calendars
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY DEFAULT_CALENDAR ASC,TITLE" );

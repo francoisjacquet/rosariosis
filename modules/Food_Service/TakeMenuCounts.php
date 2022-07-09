@@ -47,7 +47,7 @@ if ( $course_RET[1]['CALENDAR_ID'] )
 }
 else
 {
-	$calendar_id = DBGet( "SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND DEFAULT_CALENDAR='Y'" );
+	$calendar_id = DBGet( "SELECT CALENDAR_ID FROM attendance_calendars WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND DEFAULT_CALENDAR='Y'" );
 	$calendar_id = $calendar_id['CALENDAR_ID'];
 }
 

@@ -1666,7 +1666,7 @@ class Widget_calendar implements Widget
 			$extra['WHERE'] .= " AND ssm.CALENDAR_ID" . $where_not . "='" . (int) $_REQUEST['calendar'] . "'";
 
 			$calendars_RET = DBGet( "SELECT CALENDAR_ID,TITLE
-				FROM ATTENDANCE_CALENDARS
+				FROM attendance_calendars
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY DEFAULT_CALENDAR ASC" );
@@ -1696,7 +1696,7 @@ class Widget_calendar implements Widget
 	function html()
 	{
 		$calendars_RET = DBGet( "SELECT CALENDAR_ID,TITLE
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY DEFAULT_CALENDAR ASC" );

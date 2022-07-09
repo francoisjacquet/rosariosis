@@ -24,7 +24,7 @@ $time_last = mktime( 0, 0, 0, $_REQUEST['month'], $last, $_REQUEST['year'] );
 
 // Use default calendar.
 $default_calendar_id = DBGetOne( "SELECT CALENDAR_ID
-	FROM ATTENDANCE_CALENDARS
+	FROM attendance_calendars
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND DEFAULT_CALENDAR='Y'" );
@@ -36,7 +36,7 @@ if ( $default_calendar_id )
 else
 {
 	$calendar_id = DBGetOne( "SELECT CALENDAR_ID
-		FROM ATTENDANCE_CALENDARS
+		FROM attendance_calendars
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

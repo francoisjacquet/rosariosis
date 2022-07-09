@@ -15,7 +15,7 @@ $tables = [
 	'STAFF' => _( 'Users' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
-	'ATTENDANCE_CALENDARS' => _( 'Calendars' ),
+	'attendance_calendars' => _( 'Calendars' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
 	'COURSES' => _( 'Courses' ),
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
@@ -137,7 +137,7 @@ if ( Prompt(
 		&& ( ( ! isset( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['SCHOOL_PERIODS'] ) && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] ) && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['ATTENDANCE_CALENDARS'] ) && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['REPORT_CARD_GRADES'] ) && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
 	{
 		if ( ! ( isset( $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
@@ -404,20 +404,20 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'ATTENDANCE_CALENDARS':
+		case 'attendance_calendars':
 
 			if ( $mode === 'delete' )
 			{
-				DBQuery( "DELETE FROM ATTENDANCE_CALENDARS
+				DBQuery( "DELETE FROM attendance_calendars
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . $next_syear . "'" );
 
 				break;
 			}
 
-			DBQuery( "INSERT INTO ATTENDANCE_CALENDARS (SYEAR,SCHOOL_ID,TITLE,DEFAULT_CALENDAR,ROLLOVER_ID)
+			DBQuery( "INSERT INTO attendance_calendars (SYEAR,SCHOOL_ID,TITLE,DEFAULT_CALENDAR,ROLLOVER_ID)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,DEFAULT_CALENDAR,CALENDAR_ID
-				FROM ATTENDANCE_CALENDARS
+				FROM attendance_calendars
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -631,7 +631,7 @@ function Rollover( $table, $mode = 'delete' )
 					LIMIT 1),DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,
 				GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,AVAILABILITY,PARENT_ID,
 				(SELECT CALENDAR_ID
-					FROM ATTENDANCE_CALENDARS
+					FROM attendance_calendars
 					WHERE SCHOOL_ID=p.SCHOOL_ID
 					AND ROLLOVER_ID=p.CALENDAR_ID
 					LIMIT 1),COURSE_PERIOD_ID
@@ -716,7 +716,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND DEFAULT_CODE='Y'
 						LIMIT 1) AS ENROLLMENT_CODE,NULL AS DROP_CODE,
 					(SELECT CALENDAR_ID
-						FROM ATTENDANCE_CALENDARS
+						FROM attendance_calendars
 						WHERE ROLLOVER_ID=e.CALENDAR_ID
 						LIMIT 1),SCHOOL_ID,SCHOOL_ID
 				FROM STUDENT_ENROLLMENT e
@@ -744,7 +744,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND DEFAULT_CODE='Y'
 						LIMIT 1) AS ENROLLMENT_CODE,NULL AS DROP_CODE,
 					(SELECT CALENDAR_ID
-						FROM ATTENDANCE_CALENDARS
+						FROM attendance_calendars
 						WHERE ROLLOVER_ID=e.CALENDAR_ID
 						LIMIT 1),SCHOOL_ID,SCHOOL_ID
 				FROM STUDENT_ENROLLMENT e
@@ -779,7 +779,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND DEFAULT_CODE='Y'
 						LIMIT 1) AS ENROLLMENT_CODE,NULL AS DROP_CODE,
 					(SELECT CALENDAR_ID
-						FROM ATTENDANCE_CALENDARS
+						FROM attendance_calendars
 						WHERE SCHOOL_ID=e.NEXT_SCHOOL
 						AND SYEAR=e.SYEAR+1
 						AND DEFAULT_CALENDAR='Y'

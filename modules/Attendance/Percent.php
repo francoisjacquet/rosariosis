@@ -151,7 +151,7 @@ if ( ! $_REQUEST['modfunc'] )
 			GROUP BY CALENDAR_ID", [], [ 'CALENDAR_ID' ] );
 
 		$calendars_RET = DBGet( "SELECT CALENDAR_ID,TITLE
-			FROM ATTENDANCE_CALENDARS
+			FROM attendance_calendars
 			WHERE SYEAR='" . UserSyear() . "' " .
 			( $_REQUEST['_search_all_schools'] != 'Y' ? " AND SCHOOL_ID='" . UserSchool() . "'" : '' ), [], [ 'CALENDAR_ID' ] );
 
