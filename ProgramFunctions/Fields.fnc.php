@@ -136,8 +136,8 @@ function DeleteDBField( $table, $id )
 
 	$fields_table = $table === 'students' ? 'custom' : $table;
 
-	// Remove trailing / plural 'S', excepted for address.
-	$fields_table = mb_substr( $fields_table, -1 ) === 'S' && mb_substr( $fields_table, -2 ) !== 'SS' ?
+	// Remove trailing / plural 's', excepted for address.
+	$fields_table = mb_substr( $fields_table, -1 ) === 's' && mb_substr( $fields_table, -2 ) !== 'ss' ?
 		mb_substr( $fields_table, 0, -1 ) :
 		$fields_table;
 
@@ -188,8 +188,8 @@ function DeleteDBFieldCategory( $table, $id )
 		DeleteDBField( $table, $field['ID'] );
 	}
 
-	// Remove trailing / plural 'S', excepted for ADDRESS.
-	$field_categories_table = mb_substr( $table, -1 ) === 'S' && mb_substr( $table, -2 ) !== 'SS' ?
+	// Remove trailing / plural 's', excepted for address.
+	$field_categories_table = mb_substr( $table, -1 ) === 's' && mb_substr( $table, -2 ) !== 'ss' ?
 		mb_substr( $table, 0, -1 ) :
 		$table;
 
