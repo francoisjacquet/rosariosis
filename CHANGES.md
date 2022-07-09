@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.4
+--------------
+- SQL convert table names to lowercase, program wide
+
 Changes in 9.3
 --------------
 - Handle case where Course Period Parent ID is null in Courses.php

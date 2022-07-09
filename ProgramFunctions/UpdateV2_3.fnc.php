@@ -456,7 +456,7 @@ function _update2914()
  * Update to version 3.0
  *
  * Add Access Log.
- * 1. Add ACCESS_LOG table.
+ * 1. Add access_log table.
  * Will not grant access to the program to Admins.
  * Go to Users > User Profiles for that.
  *
@@ -473,7 +473,7 @@ function _update30()
 	$return = true;
 
 	/**
-	 * 1. Add ACCESS_LOG table.
+	 * 1. Add access_log table.
 	 */
 	$access_log_table_exists = DBGet( "SELECT 1
 		FROM pg_catalog.pg_tables

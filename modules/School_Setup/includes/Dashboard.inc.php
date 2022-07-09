@@ -55,7 +55,7 @@ if ( ! function_exists( 'DashboardSchoolSetupAdmin' ) )
 		SUM(CASE WHEN PROFILE='parent' THEN 1 END) AS LOGIN_PARENT,
 		SUM(CASE WHEN PROFILE='student' THEN 1 END) AS LOGIN_STUDENT,
 		SUM(CASE WHEN STATUS IS NULL OR STATUS='B' THEN 1 END) AS LOGIN_FAIL
-		FROM ACCESS_LOG
+		FROM access_log
 		WHERE LOGIN_TIME >='" . $start_date . "'
 		AND LOGIN_TIME <='" . DBDate() . ' 23:59:59' . "'" );
 

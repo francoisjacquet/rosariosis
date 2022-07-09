@@ -175,7 +175,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		$failed_login_RET = DBGet( "SELECT
 			COUNT(CASE WHEN STATUS IS NULL OR STATUS='B' THEN 1 END) AS FAILED_COUNT,
 			COUNT(CASE WHEN STATUS='B' THEN 1 END) AS BANNED_COUNT
-			FROM ACCESS_LOG
+			FROM access_log
 			WHERE LOGIN_TIME > (CURRENT_TIMESTAMP - INTERVAL " . ( $DatabaseType === 'mysql' ? '10 minute' : "'10 minute'" ) . ")
 			AND USER_AGENT='" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) . "'
 			AND IP_ADDRESS='" . $ip . "'" );
@@ -281,7 +281,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	// Access Log.
 	if ( ! function_exists( 'AccessLogRecord' ) )
 	{
-		DBQuery( "INSERT INTO ACCESS_LOG
+		DBQuery( "INSERT INTO access_log
 			(SYEAR,USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,USER_AGENT,STATUS)
 			values('" . Config( 'SYEAR' ) . "',
 			'" . $username . "',

@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	// Prompt before deleting log.
 	if ( DeletePrompt( _( 'Access Log' ) ) )
 	{
-		DBQuery( 'DELETE FROM ACCESS_LOG' );
+		DBQuery( 'DELETE FROM access_log' );
 
 		$note[] = _( 'Access Log cleared.' );
 
@@ -62,7 +62,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$access_logs_RET = DBGet( "SELECT
 		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS,USER_AGENT
-		FROM ACCESS_LOG
+		FROM access_log
 		WHERE LOGIN_TIME >='" . $start_date . "'
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
 		ORDER BY LOGIN_TIME DESC", $access_logs_functions );
