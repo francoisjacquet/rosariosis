@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			|| ! empty( $_FILES ) )
 		{
 			// FJ other fields required.
-			$required_error = CheckRequiredCustomFields( 'SCHOOL_FIELDS', $_REQUEST['values'] );
+			$required_error = CheckRequiredCustomFields( 'school_fields', $_REQUEST['values'] );
 
 			if ( $required_error )
 			{
@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			}
 
 			// FJ textarea fields MarkDown sanitize.
-			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'SCHOOL_FIELDS', 'values' );
+			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'school_fields', 'values' );
 
 			if (  ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
 				&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
@@ -45,7 +45,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$sql = "UPDATE SCHOOLS SET ";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
-					FROM SCHOOL_FIELDS
+					FROM school_fields
 					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				$go = 0;
@@ -331,7 +331,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// FJ add School Fields.
 	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
-		FROM SCHOOL_FIELDS
+		FROM school_fields
 		ORDER BY SORT_ORDER,TITLE" );
 
 	$fields_RET = ParseMLArray( $fields_RET, 'TITLE' );

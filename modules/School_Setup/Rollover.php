@@ -263,7 +263,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			//FJ add School Fields
 			$school_custom = '';
-			$fields_RET = DBGet( "SELECT ID FROM SCHOOL_FIELDS" );
+			$fields_RET = DBGet( "SELECT ID FROM school_fields" );
 
 			foreach ( (array) $fields_RET as $field )
 			{

@@ -373,7 +373,7 @@ function _update2913()
  * Update to version 2.9.14
  *
  * Add School Field types.
- * 1. Add SELECT_OPTIONS column to SCHOOL_FIELDS table.
+ * 1. Add SELECT_OPTIONS column to school_fields table.
  * Admin User Profile restriction.
  * 2. Add Users/User.php&category_id=1&user_profile to profile_exceptions table.
  * 3. Add Users/User.php&category_id=1&user_profile to staff_exceptions table.
@@ -391,7 +391,7 @@ function _update2914()
 	$return = true;
 
 	/**
-	 * 1. Add SELECT_OPTIONS column to SCHOOL_FIELDS table.
+	 * 1. Add SELECT_OPTIONS column to school_fields table.
 	 */
 	$select_options_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'school_fields')

@@ -19,7 +19,7 @@ Changes in 2.9.14
 -----------------
 - Add "No courses found" error in Side.php
 - Fix gettext bug when string is '.' in ParseML.php
-- Add SELECT\_OPTIONS column to SCHOOL_FIELDS table in Update.fnc.php & rosariosis.sql
+- Add SELECT\_OPTIONS column to school_fields table in Update.fnc.php & rosariosis.sql
 - Add School Field types in Schools.php & SchoolFields.php (sponsored by Aptiris)
 - Add help for School Fields in Help\_en.php & Help_es.php
 - Get autos / edits pull-down edited options: fix $field var name in AssignOtherInfo.php
@@ -1060,8 +1060,8 @@ Changes in 2.2
 	-created School_Setup/SchoolFields.php
 	-add program to School_Setup/Menu.php
 	-add program to PROFILE_EXCEPTIONS table
-	-add SCHOOL_FIELDS table
-	-create INDEXes for SCHOOL_FIELDS table
+	-add school_fields table
+	-create INDEXes for school_fields table
 	-rollover School Fields
 	-update translations
 - Remove search + system_field in *_FIELDS tables

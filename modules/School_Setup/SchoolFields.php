@@ -57,7 +57,7 @@ if ( isset( $_POST['tables'] )
 					$sql = 'INSERT INTO ' . DBEscapeIdentifier( $table ) . ' ';
 
 					// New Field.
-					if ( $table === 'SCHOOL_FIELDS' )
+					if ( $table === 'school_fields' )
 					{
 						$fields = '';
 
@@ -89,7 +89,7 @@ if ( isset( $_POST['tables'] )
 					{
 						$id = DBLastInsertID();
 
-						if ( $table === 'SCHOOL_FIELDS' )
+						if ( $table === 'school_fields' )
 						{
 							AddDBField( 'SCHOOLS', $id, $columns['TYPE'] );
 
@@ -138,7 +138,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$RET = DBGet( "SELECT ID,(SELECT NULL) AS CATEGORY_ID,TITLE,TYPE,
 			SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED
-			FROM SCHOOL_FIELDS
+			FROM school_fields
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
@@ -162,7 +162,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// DISPLAY THE MENU.
 	// FIELDS.
 	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
-		FROM SCHOOL_FIELDS
+		FROM school_fields
 		ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 
 	echo '<div class="st">';
