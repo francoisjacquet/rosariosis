@@ -32,7 +32,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
 			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
 
-		$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+		$sql = "INSERT INTO food_service_staff_transactions (" . $fields . ") values (" . $values . ")";
 
 		DBQuery( $sql );
 
@@ -115,7 +115,7 @@ if ( UserStaffID()
 
 		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT,
 		(SELECT ICON FROM food_service_items WHERE SHORT_NAME=fsti.SHORT_NAME LIMIT 1) AS ICON
-		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,food_service_staff_transaction_items fsti
+		FROM food_service_staff_transactions fst,food_service_staff_transaction_items fsti
 		WHERE fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.SYEAR='" . UserSyear() . "'
 		AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'

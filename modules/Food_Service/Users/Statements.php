@@ -74,7 +74,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 					'NULL',
 					"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
 				] ) . " AS SELLER
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+			FROM food_service_staff_transactions fst
 			WHERE fst.STAFF_ID='" . UserStaffID() . "'
 			AND fst.SYEAR='" . UserSyear() . "'
 			AND fst.TIMESTAMP BETWEEN '" . $start_date . "'	AND date '" . $end_date . "' +1" .
@@ -128,7 +128,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			$RET = DBGet( "SELECT fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+			FROM food_service_staff_transactions fst
 			WHERE fst.STAFF_ID='" . UserStaffID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1" .

@@ -72,7 +72,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$last_deposit = DBGet( "SELECT
 			(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			CAST(fst.TIMESTAMP AS varchar(10)) AS DATE
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+			FROM food_service_staff_transactions fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.STAFF_ID='" . (int) $staff['STAFF_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'

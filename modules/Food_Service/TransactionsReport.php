@@ -62,7 +62,7 @@ GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME", [ 'ITEM_SHORT_NAME' => 'bump_amount' ]
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $RET = DBGet( "SELECT 'User' AS TYPE,fst.SHORT_NAME,fsti.SHORT_NAME AS ITEM_SHORT_NAME,sum(fsti.AMOUNT) AS AMOUNT
-FROM food_service_staff_transaction_items fsti,FOOD_SERVICE_STAFF_TRANSACTIONS fst
+FROM food_service_staff_transaction_items fsti,food_service_staff_transactions fst
 WHERE fst.SHORT_NAME NOT IN (SELECT TITLE FROM food_service_menus WHERE SCHOOL_ID='" . UserSchool() . "')
 AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 AND fst.SYEAR='" . UserSyear() . "'

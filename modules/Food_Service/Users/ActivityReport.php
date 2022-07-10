@@ -46,7 +46,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 				'NULL',
 				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
 			] ) . " AS SELLER
-		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+		FROM food_service_staff_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
@@ -109,7 +109,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 				'NULL',
 				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)",
 			] ) . " AS FULL_NAME
-		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+		FROM food_service_staff_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "

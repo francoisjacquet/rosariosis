@@ -60,7 +60,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 		$meals_staff_RET = DBGet( "SELECT
 			COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,
 			CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS varchar(10)) AS TRANSACTION_DATE
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS
+			FROM food_service_staff_transactions
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STAFF_ID
