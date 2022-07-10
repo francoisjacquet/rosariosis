@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( ! empty( $_REQUEST['food_service'] ) )
 		{
-			$sql = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ";
+			$sql = "UPDATE food_service_staff_accounts SET ";
 
 			foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
 			{
@@ -31,10 +31,10 @@ if ( ! $_REQUEST['modfunc']
 	&& UserStaffID() )
 {
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " ,
-	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-	(SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
-	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
-	(SELECT BARCODE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
+	(SELECT s.STAFF_ID FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+	(SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
+	(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
+	(SELECT BARCODE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
 	FROM STAFF s
 	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 	$staff = $staff[1];

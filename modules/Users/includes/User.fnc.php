@@ -26,7 +26,7 @@ function UserDeleteSQL( $staff_id )
 	$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
 		WHERE STAFF_ID='" . (int) $staff_id . "';";
 
-	$delete_sql .= "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
+	$delete_sql .= "DELETE FROM food_service_staff_accounts
 		WHERE STAFF_ID='" . (int) $staff_id . "';";
 
 	$delete_sql .= "DELETE FROM STAFF

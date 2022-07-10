@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$staffs = DBGet( "SELECT s.FIRST_NAME," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,fsa.STATUS,fsa.BALANCE,s.STAFF_ID
-			FROM STAFF s,FOOD_SERVICE_STAFF_ACCOUNTS fsa
+			FROM STAFF s,food_service_staff_accounts fsa
 			WHERE s.STAFF_ID IN (" . $st_list . ")
 			AND fsa.STAFF_ID=s.STAFF_ID
 			AND s.SYEAR='" . UserSyear() . "'" );
@@ -126,7 +126,7 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 	if ( ! mb_strpos( $extra['FROM'], 'fsa' ) )
 	{
-		$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fsa';
+		$extra['FROM'] .= ',food_service_staff_accounts fsa';
 		$extra['WHERE'] .= ' AND fsa.STAFF_ID=s.STAFF_ID';
 	}
 

@@ -10,7 +10,7 @@ function DeleteTransactionItem( $transaction_id, $item_id, $type = 'student' )
 	if ( $type == 'staff' )
 	{
 		$sql1 = "UPDATE FOOD_SERVICE_STAFF_TRANSACTIONS SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE TRANSACTION_ID>='" . $transaction_id . "' AND STAFF_ID=(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
-		$sql2 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE STAFF_ID=(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
+		$sql2 = "UPDATE food_service_staff_accounts SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE STAFF_ID=(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
 		$sql3 = "DELETE FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "'";
 	}
 	else

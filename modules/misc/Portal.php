@@ -411,10 +411,10 @@ switch ( User( 'PROFILE' ) )
 
 			// warn if negative food service balance
 			$staff = DBGet( "SELECT (SELECT STATUS
-					FROM FOOD_SERVICE_STAFF_ACCOUNTS
+					FROM food_service_staff_accounts
 					WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
 				(SELECT BALANCE
-					FROM FOOD_SERVICE_STAFF_ACCOUNTS
+					FROM food_service_staff_accounts
 					WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 				FROM STAFF s
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
@@ -691,8 +691,8 @@ switch ( User( 'PROFILE' ) )
 		if ( $RosarioModules['Food_Service'] && Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
 			// warn if negative food service balance
-			$staff = DBGet( "SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
-				(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+			$staff = DBGet( "SELECT (SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
+				(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 				FROM STAFF s
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			$staff = $staff[1];
@@ -876,8 +876,8 @@ switch ( User( 'PROFILE' ) )
 			}
 
 			// Warn if negative food service balance.
-			$staff = DBGet( "SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
-				(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+			$staff = DBGet( "SELECT (SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
+				(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 				FROM STAFF s
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			$staff = $staff[1];

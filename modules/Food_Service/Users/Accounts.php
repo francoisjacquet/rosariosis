@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( DeletePrompt( _( 'User Account' ) ) )
 			{
-				DBQuery( "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
+				DBQuery( "DELETE FROM food_service_staff_accounts
 					WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 				// Unset modfunc & redirect URL.
@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$question = _( 'Are you sure you want to assign that barcode?' );
 
 				$account_id = DBGetOne( "SELECT STAFF_ID
-					FROM FOOD_SERVICE_STAFF_ACCOUNTS
+					FROM food_service_staff_accounts
 					WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'
 					AND STAFF_ID!='" . UserStaffID() . "'" );
 
@@ -68,7 +68,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			if ( ! $account_id
 				|| Prompt( 'Confirm', $question, $message ) )
 			{
-				$sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
+				$sql = 'UPDATE food_service_staff_accounts SET ';
 
 				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
 				{
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
-					DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
+					DBQuery( "UPDATE food_service_staff_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 					DBQuery( "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 				}
 
@@ -102,7 +102,7 @@ if ( $_REQUEST['modfunc'] === 'create' )
 	if ( UserStaffID()
 		&& AllowEdit()
 		&& ! DBGet( "SELECT 1
-			FROM FOOD_SERVICE_STAFF_ACCOUNTS
+			FROM food_service_staff_accounts
 			WHERE STAFF_ID='" . UserStaffID() . "'" ) )
 	{
 		$fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
@@ -115,7 +115,7 @@ if ( $_REQUEST['modfunc'] === 'create' )
 			$values .= "'" . trim( $value ) . "',";
 		}
 
-		$sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS (' . mb_substr( $fields, 0, -1 ) .
+		$sql = 'INSERT INTO food_service_staff_accounts (' . mb_substr( $fields, 0, -1 ) .
 		') VALUES (' . mb_substr( $values, 0, -1 ) . ')';
 
 		DBQuery( $sql );
@@ -131,8 +131,8 @@ StaffWidgets( 'fsa_barcode' );
 StaffWidgets( 'fsa_exists_Y' );
 
 $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
-$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
-$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
+$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
 $extra['functions'] += [ 'BALANCE' => 'red' ];
 $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
 
@@ -141,10 +141,10 @@ Search( 'staff_id', $extra );
 if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-	(SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
-	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
-	(SELECT BARCODE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
+	(SELECT s.STAFF_ID FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+	(SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
+	(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
+	(SELECT BARCODE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
 	FROM STAFF s
 	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 

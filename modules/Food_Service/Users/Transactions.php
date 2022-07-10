@@ -8,7 +8,7 @@ if ( ! empty( $_REQUEST['values'] )
 	if ( UserStaffID()
 		&& AllowEdit() )
 	{
-		//$existing_account = DBGet( 'SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID() );
+		//$existing_account = DBGet( 'SELECT \'exists\' FROM food_service_staff_accounts WHERE STAFF_ID='.UserStaffID() );
 		//if ( !count($existing_account))
 		//	BackPrompt('That user does not have a Meal Account. Choose a different username and try again.');
 
@@ -17,7 +17,7 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . UserStaffID() . "',
-				(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='" . UserStaffID() . "'),
+				(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID='" . UserStaffID() . "'),
 				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
 				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
 
@@ -39,7 +39,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 			DBQuery( $sql );
 
-			DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS
+			DBQuery( "UPDATE food_service_staff_accounts
 				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 					FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS
 					WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
@@ -59,8 +59,8 @@ StaffWidgets( 'fsa_status' );
 StaffWidgets( 'fsa_barcode' );
 StaffWidgets( 'fsa_exists_Y' );
 
-$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
-$extra['SELECT'] .= ",(SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
+$extra['SELECT'] .= ",(SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
 $extra['functions'] += [ 'BALANCE' => 'red' ];
 $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
 
@@ -72,8 +72,8 @@ if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+	(SELECT STAFF_ID FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+	(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 	FROM STAFF s
 	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 

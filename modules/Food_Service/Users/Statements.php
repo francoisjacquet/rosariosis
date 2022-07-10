@@ -7,9 +7,9 @@ StaffWidgets( 'fsa_barcode' );
 StaffWidgets( 'fsa_exists_Y' );
 
 $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
-$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
+$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
 
-$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
 
 $extra['functions'] += [ 'BALANCE' => 'red' ];
 
@@ -20,8 +20,8 @@ Search( 'staff_id', $extra );
 if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-		(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-		(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+		(SELECT STAFF_ID FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+		(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 		FROM STAFF s
 		WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 

@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$values = "'" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() .
 			"',(SELECT BALANCE
-			FROM FOOD_SERVICE_STAFF_ACCOUNTS
+			FROM food_service_staff_accounts
 			WHERE STAFF_ID='" . UserStaffID() . "'),CURRENT_TIMESTAMP,'" .
 			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
 			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
@@ -57,7 +57,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			DBQuery( $sql );
 		}
 
-		$sql = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS
+		$sql = "UPDATE food_service_staff_accounts
 			SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 				FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS
 				WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
@@ -84,8 +84,8 @@ if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+	(SELECT STAFF_ID FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+	(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 	FROM STAFF s
 	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 

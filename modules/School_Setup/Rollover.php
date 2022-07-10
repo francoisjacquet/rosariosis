@@ -40,7 +40,7 @@ if ( $RosarioModules['Eligibility'] )
 
 if ( $RosarioModules['Food_Service'] )
 {
-	$tables += [ 'FOOD_SERVICE_STAFF_ACCOUNTS' => _( 'Food Service Staff Accounts' ) ];
+	$tables += [ 'food_service_staff_accounts' => _( 'Food Service Staff Accounts' ) ];
 }
 
 if ( $RosarioModules['Discipline'] )
@@ -52,7 +52,7 @@ $table_list = '<table class="widefat center">';
 
 foreach ( (array) $tables as $table => $name )
 {
-	if ( $table != 'FOOD_SERVICE_STAFF_ACCOUNTS' )
+	if ( $table != 'food_service_staff_accounts' )
 	{
 		$exists_RET[$table] = DBGet( "SELECT count(*) AS COUNT
 			FROM " . DBEscapeIdentifier( $table ) . "
@@ -61,10 +61,10 @@ foreach ( (array) $tables as $table => $name )
 	}
 	else
 	{
-		$exists_RET['FOOD_SERVICE_STAFF_ACCOUNTS'] = DBGet( "SELECT count(*) AS COUNT
+		$exists_RET['food_service_staff_accounts'] = DBGet( "SELECT count(*) AS COUNT
 			FROM STAFF
 			WHERE SYEAR='" . $next_syear . "'
-			AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)" );
+			AND exists(SELECT * FROM food_service_staff_accounts WHERE STAFF_ID=STAFF.STAFF_ID)" );
 	}
 
 	$input_title = $name;
@@ -304,9 +304,9 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				$delete_sql = "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
+				$delete_sql = "DELETE FROM food_service_staff_accounts
 						WHERE exists(SELECT * FROM STAFF
-							WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID
+							WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 							AND SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
@@ -348,13 +348,13 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $RosarioModules['Food_Service'] )
 			{
-				DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS
+				DBQuery( "UPDATE food_service_staff_accounts
 					SET STAFF_ID=(SELECT ROLLOVER_ID
 						FROM STAFF
-						WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID
+						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 						LIMIT 1)
 					WHERE exists(SELECT * FROM STAFF
-						WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID
+						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 						AND ROLLOVER_ID IS NOT NULL
 						AND SYEAR='" . $next_syear . "')" );
 			}
@@ -948,16 +948,16 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'FOOD_SERVICE_STAFF_ACCOUNTS':
+		case 'food_service_staff_accounts':
 
-			DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS fs1
+			DBQuery( "UPDATE food_service_staff_accounts fs1
 				SET STAFF_ID=(SELECT STAFF_ID FROM STAFF WHERE ROLLOVER_ID=fs1.STAFF_ID)
 				WHERE exists(SELECT *
 					FROM STAFF
 					WHERE ROLLOVER_ID=fs1.STAFF_ID
 					AND SYEAR='" . $next_syear . "')
 				AND NOT EXISTS(SELECT 1
-					FROM FOOD_SERVICE_STAFF_ACCOUNTS fs2,STAFF st
+					FROM food_service_staff_accounts fs2,STAFF st
 					WHERE fs2.STAFF_ID=st.STAFF_ID
 					AND st.SYEAR='" . $next_syear . "')" );
 

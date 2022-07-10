@@ -123,7 +123,7 @@ class StaffWidget_fsa_balance implements StaffWidget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
+			$extra['FROM'] .= ',food_service_staff_accounts fssa';
 
 			$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 		}
@@ -184,7 +184,7 @@ class StaffWidget_fsa_status implements StaffWidget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
+			$extra['FROM'] .= ',food_service_staff_accounts fssa';
 
 			$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 		}
@@ -247,7 +247,7 @@ class StaffWidget_fsa_barcode implements StaffWidget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
+			$extra['FROM'] .= ',food_service_staff_accounts fssa';
 
 			$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 		}
@@ -290,7 +290,7 @@ class StaffWidget_fsa_exists implements StaffWidget
 
 		$extra['WHERE'] .= ' AND ' . ( $_REQUEST['fsa_exists'] == 'N' ? 'NOT ' : '' ) . "EXISTS
 			(SELECT 'exists'
-				FROM FOOD_SERVICE_STAFF_ACCOUNTS
+				FROM food_service_staff_accounts
 				WHERE STAFF_ID=s.STAFF_ID)";
 
 		if ( ! $extra['NoSearchTerms'] )

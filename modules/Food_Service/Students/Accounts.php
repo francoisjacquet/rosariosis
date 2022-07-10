@@ -34,7 +34,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			else
 			{
 				$account_id = DBGetOne( "SELECT STAFF_ID
-					FROM FOOD_SERVICE_STAFF_ACCOUNTS
+					FROM food_service_staff_accounts
 					WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 
 				if ( $account_id )
@@ -71,7 +71,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
 					DBQuery( "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
-					DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
+					DBQuery( "UPDATE food_service_staff_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 				}
 
 				DBQuery( $sql );
