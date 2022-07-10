@@ -188,7 +188,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 	{
 		if ( $_REQUEST['tab_id'] !== 'new' )
 		{
-			$delete_sql = "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['id'] . "';";
+			$delete_sql = "DELETE FROM gradebook_grades WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['id'] . "';";
 			$delete_sql .= "DELETE FROM gradebook_assignments WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['id'] . "';";
 		}
 		else
@@ -201,7 +201,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 			{
 				foreach ( (array) $assignments_RET as $assignment_id )
 				{
-					$delete_sql .= "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . (int) $assignment_id['ASSIGNMENT_ID'] . "';";
+					$delete_sql .= "DELETE FROM gradebook_grades WHERE ASSIGNMENT_ID='" . (int) $assignment_id['ASSIGNMENT_ID'] . "';";
 				}
 			}
 

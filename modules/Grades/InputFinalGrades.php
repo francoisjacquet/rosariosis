@@ -239,7 +239,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 						OR ga.COURSE_ID=cp.COURSE_ID)
 						AND ga.STAFF_ID=cp.TEACHER_ID)
 					AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
-				LEFT OUTER JOIN GRADEBOOK_GRADES gg ON
+				LEFT OUTER JOIN gradebook_grades gg ON
 				(gg.STUDENT_ID=s.STUDENT_ID
 					AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
 					AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";

@@ -102,7 +102,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 						if ( ! isset( $_REQUEST['delete_cancel'] ) )
 						{
 							// If user clicked OK.
-							$delete_sql = "DELETE FROM GRADEBOOK_GRADES
+							$delete_sql = "DELETE FROM gradebook_grades
 								WHERE STUDENT_ID='" . UserStudentID() . "'
 								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 

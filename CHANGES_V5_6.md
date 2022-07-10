@@ -29,7 +29,7 @@ Changes in 6.9
 - Add UserImpersonateTeacher() function in User.fnc.php
 - Translate "Secondary Teacher" strings to French & Spanish in rosariosis.po
 - JS Select use this.value instead of this.options[selectedIndex].value, program wide
-- SQL deprecate GRADEBOOK_GRADES column PERIOD_ID in Grades.php & rosariosis.sql
+- SQL deprecate gradebook_grades column PERIOD_ID in Grades.php & rosariosis.sql
 - Only list Teacher Course Periods & set UserCoursePeriod() in Side.php & TeacherPrograms.php
 - Add School Periods select input in SchoolPeriodsSelectInput.fnc.php, TakeAttendance.php & EnterEligibility.php
 - Set UserPeriod() per program in EnterEligibility.php

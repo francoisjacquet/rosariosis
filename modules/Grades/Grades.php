@@ -113,7 +113,7 @@ if ( ! empty( $_REQUEST['values'] )
 	if ( UserStudentID() )
 	{
 		$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
-			FROM GRADEBOOK_GRADES g,gradebook_assignments a
+			FROM gradebook_grades g,gradebook_assignments a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.STUDENT_ID='" . UserStudentID() . "'
@@ -127,7 +127,7 @@ if ( ! empty( $_REQUEST['values'] )
 	elseif ( $_REQUEST['assignment_id'] === 'all' )
 	{
 		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
-			FROM GRADEBOOK_GRADES g,gradebook_assignments a
+			FROM gradebook_grades g,gradebook_assignments a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
@@ -138,7 +138,7 @@ if ( ! empty( $_REQUEST['values'] )
 	else
 	{
 		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
-			FROM GRADEBOOK_GRADES
+			FROM gradebook_grades
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
 			[],
@@ -182,7 +182,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 			if ( ! empty( $current_RET[$student_id][$assignment_id] ) )
 			{
-				$sql = "UPDATE GRADEBOOK_GRADES SET ";
+				$sql = "UPDATE gradebook_grades SET ";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -195,8 +195,8 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 			elseif ( $columns['POINTS'] != '' || $columns['COMMENT'] )
 			{
-				// @deprecated since 6.9 SQL GRADEBOOK_GRADES column PERIOD_ID.
-				$sql = "INSERT INTO GRADEBOOK_GRADES (STUDENT_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT)
+				// @deprecated since 6.9 SQL gradebook_grades column PERIOD_ID.
+				$sql = "INSERT INTO gradebook_grades (STUDENT_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT)
 					values('" . $student_id . "','" . UserCoursePeriod() . "','" . $assignment_id . "','" . $columns['POINTS'] . "','" . $columns['COMMENT'] . "')";
 			}
 
@@ -263,7 +263,7 @@ if ( UserStudentID() )
 	];
 
 	$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
-	FROM GRADEBOOK_GRADES g,gradebook_assignments a
+	FROM gradebook_grades g,gradebook_assignments a
 	WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 	AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 	AND g.STUDENT_ID='" . UserStudentID() . "'
@@ -297,7 +297,7 @@ if ( UserStudentID() )
 	AND ga.MARKING_PERIOD_ID='" . UserMP() . "'" .
 	( $_REQUEST['assignment_id'] == 'all' ? '' : " AND ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" ) .
 	( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) . ")
-	LEFT OUTER JOIN GRADEBOOK_GRADES gg ON
+	LEFT OUTER JOIN gradebook_grades gg ON
 	(gg.STUDENT_ID=s.STUDENT_ID
 	AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
 	AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
@@ -351,7 +351,7 @@ else
 	if ( $_REQUEST['assignment_id'] == 'all' )
 	{
 		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
-			FROM GRADEBOOK_GRADES g,gradebook_assignments a
+			FROM gradebook_grades g,gradebook_assignments a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
@@ -424,7 +424,7 @@ else
 		];
 
 		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
-			FROM GRADEBOOK_GRADES
+			FROM gradebook_grades
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", [], [ 'STUDENT_ID', 'ASSIGNMENT_ID' ] );
 	}
@@ -439,7 +439,7 @@ else
 
 			$extra['FROM'] = " JOIN gradebook_assignments ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
 				AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
-			LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID
+			LEFT OUTER JOIN gradebook_grades gg ON (gg.STUDENT_ID=s.STUDENT_ID
 				AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
 				AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";
 

@@ -471,7 +471,7 @@ function _update83()
 /**
  * Update to version 8.4
  *
- * 1. GRADEBOOK_GRADES table: Change comment column type to text.
+ * 1. gradebook_grades table: Change comment column type to text.
  * 2. accounting_incomes table: Add FILE_ATTACHED column.
  *
  * Local function
@@ -487,7 +487,7 @@ function _update84()
 	$return = true;
 
 	/**
-	 * 1. GRADEBOOK_GRADES table:
+	 * 1. gradebook_grades table:
 	 * Change comment column type to text
 	 * Was character varying(100) which was too short for teachers.
 	 */

@@ -326,7 +326,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		$prompt_title = _( 'Assignment' );
 
 		$assignment_has_grades = DBGet( "SELECT 1
-			FROM GRADEBOOK_GRADES
+			FROM gradebook_grades
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 		if ( $assignment_has_grades )
@@ -384,7 +384,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 			foreach ( (array) $assignments_RET as $assignment_id )
 			{
-				DBQuery( "DELETE FROM GRADEBOOK_GRADES
+				DBQuery( "DELETE FROM gradebook_grades
 					WHERE ASSIGNMENT_ID='" . (int) $assignment_id['ASSIGNMENT_ID'] . "'" );
 
 				$_REQUEST['assignment_id'] = $assignment_id['ASSIGNMENT_ID'];
@@ -401,7 +401,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		}
 		else
 		{
-			DBQuery( "DELETE FROM GRADEBOOK_GRADES
+			DBQuery( "DELETE FROM gradebook_grades
 				WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 			if ( ! empty( $assignment_file )
