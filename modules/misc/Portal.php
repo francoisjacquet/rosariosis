@@ -344,7 +344,7 @@ switch ( User( 'PROFILE' ) )
 						AND CALENDAR_ID=cp.CALENDAR_ID)
 					AS INT) FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
-						FROM ATTENDANCE_COMPLETED ac
+						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID
 						AND ac.PERIOD_ID=cpsp.PERIOD_ID
 						AND TABLE_NAME='" . (int) $category['ID'] . "')
@@ -377,7 +377,7 @@ switch ( User( 'PROFILE' ) )
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
-						FROM ATTENDANCE_COMPLETED ac
+						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID
 						AND ac.PERIOD_ID=cpsp.PERIOD_ID
 						AND TABLE_NAME='" . (int) $category['ID'] . "')
@@ -632,7 +632,7 @@ switch ( User( 'PROFILE' ) )
 						AND CALENDAR_ID=acc.CALENDAR_ID)
 					AS INT) FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
-						FROM ATTENDANCE_COMPLETED ac
+						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID
 						AND ac.PERIOD_ID=cpsp.PERIOD_ID
 						AND TABLE_NAME='" . (int) $category['ID'] . "')
@@ -663,7 +663,7 @@ switch ( User( 'PROFILE' ) )
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
-						FROM ATTENDANCE_COMPLETED ac
+						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID
 						AND ac.PERIOD_ID=cpsp.PERIOD_ID
 						AND TABLE_NAME='" . (int) $category['ID'] . "')

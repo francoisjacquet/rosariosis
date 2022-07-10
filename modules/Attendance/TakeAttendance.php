@@ -258,7 +258,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 	}
 
 	$completed_RET = DBGet( "SELECT 'Y' AS COMPLETED
-		FROM ATTENDANCE_COMPLETED
+		FROM attendance_completed
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE='" . $date . "'
 		AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
@@ -266,7 +266,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 
 	if ( empty( $completed_RET ) )
 	{
-		DBQuery( "INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME)
+		DBQuery( "INSERT INTO attendance_completed (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME)
 			values(
 			'" . User( 'STAFF_ID' ) . "',
 			'" . $date . "',
@@ -371,7 +371,7 @@ _( 'You can edit this attendance' ) . '</span>' :
 ' <span style="color:red" class="nobr">' . _( 'You cannot edit this attendance' ) . '</span>';
 
 $completed_RET = DBGet( "SELECT 'Y' AS COMPLETED
-	FROM ATTENDANCE_COMPLETED
+	FROM attendance_completed
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'

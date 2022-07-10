@@ -59,7 +59,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
 	(SELECT 'Y'
-		FROM ATTENDANCE_COMPLETED ac
+		FROM attendance_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
 		AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
 		AND ac.PERIOD_ID=sp.PERIOD_ID
@@ -99,7 +99,7 @@ else
 	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
 		sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
 		(SELECT 'Y'
-			FROM ATTENDANCE_COMPLETED ac
+			FROM attendance_completed ac
 			WHERE ac.STAFF_ID=cp.TEACHER_ID
 			AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
 			AND ac.PERIOD_ID=sp.PERIOD_ID
