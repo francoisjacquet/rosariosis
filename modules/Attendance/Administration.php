@@ -208,7 +208,7 @@ if ( ! empty( $_REQUEST['attendance_day'] ) )
 }
 
 $codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE
-	FROM ATTENDANCE_CODES
+	FROM attendance_codes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
@@ -345,7 +345,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 }
 else
 {
-	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
+	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,attendance_codes ac
 		WHERE ap.SCHOOL_DATE='" . $date . "'
 		AND ap.STUDENT_ID=ssm.STUDENT_ID
 		AND ap.ATTENDANCE_CODE=ac.ID
@@ -398,7 +398,7 @@ else
 	elseif ( $abs )
 	{
 		$RET = DBGet( "SELECT ID
-			FROM ATTENDANCE_CODES
+			FROM attendance_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)

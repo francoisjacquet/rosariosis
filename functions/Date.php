@@ -19,7 +19,7 @@ DBQuery( "SET DATESTYLE='ISO'" );
  * Database ISO format, ready for SQL
  *
  * @example "SELECT SCHOOL_DATE
- *               FROM ATTENDANCE_CALENDAR
+ *               FROM attendance_calendar
  *               WHERE SCHOOL_DATE<'" . DBDate() . "'";
  *
  * @example DBDate() > $res['DATE']

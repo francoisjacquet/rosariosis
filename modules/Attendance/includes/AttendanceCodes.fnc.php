@@ -109,7 +109,7 @@ function AttendanceCodesTipMessage( $type = '', $table = '0' )
 		}
 
 		$attendance_codes_RET = DBGet( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
-		FROM ATTENDANCE_CODES
+		FROM attendance_codes
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND TABLE_NAME='" . (int) $table . "'" .

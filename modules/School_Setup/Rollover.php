@@ -16,7 +16,7 @@ $tables = [
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'attendance_calendars' => _( 'Calendars' ),
-	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
+	'attendance_codes' => _( 'Attendance Codes' ),
 	'COURSES' => _( 'Courses' ),
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
 	'STUDENT_ENROLLMENT' => _( 'Students' ),
@@ -423,11 +423,11 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'ATTENDANCE_CODES':
+		case 'attendance_codes':
 
 			if ( $mode === 'delete' )
 			{
-				$delete_sql = "DELETE FROM ATTENDANCE_CODES
+				$delete_sql = "DELETE FROM attendance_codes
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -446,12 +446,12 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "INSERT INTO ATTENDANCE_CODES (SYEAR,SCHOOL_ID,TITLE,SHORT_NAME,TYPE,
+			DBQuery( "INSERT INTO attendance_codes (SYEAR,SCHOOL_ID,TITLE,SHORT_NAME,TYPE,
 				STATE_CODE,DEFAULT_CODE,TABLE_NAME,SORT_ORDER)
 				SELECT c.SYEAR+1,c.SCHOOL_ID,c.TITLE,
 				c.SHORT_NAME,c.TYPE,c.STATE_CODE,c.DEFAULT_CODE," .
 				db_case( [ 'c.TABLE_NAME', "'0'", "'0'", '(SELECT ID FROM attendance_code_categories WHERE SCHOOL_ID=c.SCHOOL_ID AND ROLLOVER_ID=c.TABLE_NAME)' ] ) . ",c.SORT_ORDER
-				FROM ATTENDANCE_CODES c
+				FROM attendance_codes c
 				WHERE c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'" );
 

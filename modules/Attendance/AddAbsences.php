@@ -36,7 +36,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND STUDENT_ID IN (" . $students_list . ")", [], [ 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ] );
 
 		$state_code = DBGetOne( "SELECT STATE_CODE
-			FROM ATTENDANCE_CODES
+			FROM attendance_codes
 			WHERE ID='" . (int) $_REQUEST['absence_code'] . "'" );
 
 		$go = false;
@@ -204,7 +204,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<tr><td><label><select name="absence_code">';
 
 		$codes_RET = DBGet( "SELECT TITLE,ID
-			FROM ATTENDANCE_CODES
+			FROM attendance_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND TABLE_NAME='0'" );

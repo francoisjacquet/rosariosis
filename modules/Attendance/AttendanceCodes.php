@@ -22,7 +22,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				if ( isset( $columns['DEFAULT_CODE'] )
 					&& $columns['DEFAULT_CODE'] == 'Y' )
 				{
-					DBQuery( "UPDATE ATTENDANCE_CODES
+					DBQuery( "UPDATE attendance_codes
 						SET DEFAULT_CODE=NULL
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					if ( $_REQUEST['table'] !== 'new' )
 					{
-						$sql = "UPDATE ATTENDANCE_CODES SET ";
+						$sql = "UPDATE attendance_codes SET ";
 					}
 					else
 					{
@@ -55,7 +55,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					if ( $_REQUEST['table'] !== 'new' )
 					{
-						$sql = "INSERT INTO ATTENDANCE_CODES ";
+						$sql = "INSERT INTO attendance_codes ";
 						$fields = 'SCHOOL_ID,SYEAR,TABLE_NAME,';
 						$values = "'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['table'] . "',";
 					}
@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Attendance Code' ) ) )
 		{
-			DBQuery( "DELETE FROM ATTENDANCE_CODES WHERE ID='" . (int) $_REQUEST['id'] . "'" );
+			DBQuery( "DELETE FROM attendance_codes WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -115,7 +115,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		$delete_sql = "DELETE FROM attendance_code_categories
 			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
-		$delete_sql .= "DELETE FROM ATTENDANCE_CODES
+		$delete_sql .= "DELETE FROM attendance_codes
 			WHERE TABLE_NAME='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -144,7 +144,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['table'] !== 'new' )
 	{
 		$attendance_codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER
-			FROM ATTENDANCE_CODES
+			FROM attendance_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
@@ -181,7 +181,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['table'] !== 'new' )
 	{
 		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER
-		FROM ATTENDANCE_CODES
+		FROM attendance_codes
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'

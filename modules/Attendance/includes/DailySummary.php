@@ -232,7 +232,7 @@ if ( $_REQUEST['student_id']
 		$schedule_RET = DBGet( $sql );
 
 		$sql = "SELECT ap.SCHOOL_DATE,ap.PERIOD_ID,ac.SHORT_NAME,ac.STATE_CODE,ac.DEFAULT_CODE,ac.TITLE
-			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
+			FROM ATTENDANCE_PERIOD ap,attendance_codes ac
 			WHERE ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 			AND ap.ATTENDANCE_CODE=ac.ID
 			AND ap.STUDENT_ID='" . UserStudentID() . "'";
@@ -418,7 +418,7 @@ function _makeColor( $value, $column )
 		if ( empty( $attendance_codes_RET ) )
 		{
 			$attendance_codes_RET = DBGet( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
-				FROM ATTENDANCE_CODES
+				FROM attendance_codes
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND TABLE_NAME='0'", [], [ 'ID' ] );
@@ -445,7 +445,7 @@ function makeCodePulldown( $value, $student_id, $date )
 	if ( empty( $attendance_codes_RET ) )
 	{
 		$attendance_codes_RET = DBGet( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME
-			FROM ATTENDANCE_CODES
+			FROM attendance_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND TABLE_NAME='0'", [], [ 'ID' ] );

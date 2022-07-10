@@ -72,7 +72,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 	RedirectURL( 'attendance' );
 }
 
-$codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
+$codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE FROM attendance_codes WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
 $periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
 
 if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
@@ -107,7 +107,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 }
 else
 {
-	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac WHERE ap.SCHOOL_DATE='" . $date . "' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ";
+	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM ATTENDANCE_PERIOD ap,attendance_codes ac WHERE ap.SCHOOL_DATE='" . $date . "' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ";
 
 	if ( isset( $_REQUEST['codes'] )
 		&& ! empty( $_REQUEST['codes'] ) )
@@ -144,7 +144,7 @@ else
 	}
 	elseif ( $abs )
 	{
-		$RET = DBGet( "SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
+		$RET = DBGet( "SELECT ID FROM attendance_codes WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
 
 		if ( ! empty( $RET ) )
 		{

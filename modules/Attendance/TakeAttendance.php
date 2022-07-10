@@ -289,7 +289,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 }
 
 $codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
-	FROM ATTENDANCE_CODES
+	FROM attendance_codes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND TYPE='teacher'

@@ -944,12 +944,12 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		{
 			// Period-by-period absences.
 			$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
-				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
+				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
 					WHERE ac.ID=ap.ATTENDANCE_CODE
 					AND ac.STATE_CODE='A'
 					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS YTD_ABSENCES,
-				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
+				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
 					WHERE ac.ID=ap.ATTENDANCE_CODE
 					AND ac.STATE_CODE='A'
 					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
@@ -958,8 +958,8 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		}
 
 		// FJ multiple school periods for a course period.
-		//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
-		$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,
+		//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,attendance_codes ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
+		$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,attendance_codes ac,COURSE_PERIODS rc_cp,
 			SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
@@ -1172,7 +1172,7 @@ function _getAttendanceRET( $st_list )
 		$extra['SELECT_ONLY'] = "ap.SCHOOL_DATE,ap.COURSE_PERIOD_ID,ac.ID AS ATTENDANCE_CODE,
 			ap.MARKING_PERIOD_ID,ssm.STUDENT_ID";
 
-		$extra['FROM'] = ",ATTENDANCE_CODES ac,ATTENDANCE_PERIOD ap";
+		$extra['FROM'] = ",attendance_codes ac,ATTENDANCE_PERIOD ap";
 
 		$extra['WHERE'] .= " AND ac.ID=ap.ATTENDANCE_CODE
 			AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)
@@ -1209,7 +1209,7 @@ function _getOtherAttendanceCodes()
 	{
 		// Get Other Attendance Codes.
 		$other_attendance_codes = DBGet( "SELECT SHORT_NAME,ID,TITLE
-			FROM ATTENDANCE_CODES
+			FROM attendance_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
