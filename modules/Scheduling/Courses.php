@@ -112,7 +112,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 			ORDER BY SORT_ORDER,TITLE" );
 
 		$courses_RET = DBGet( "SELECT SUBJECT_ID,COURSE_ID,TITLE
-			FROM COURSES
+			FROM courses
 			WHERE (UPPER(TITLE) LIKE '%" . mb_strtoupper( $_REQUEST['search_term'] ) . "%'
 			OR UPPER(SHORT_NAME)='" . mb_strtoupper( $_REQUEST['search_term'] ) . "')
 			AND SYEAR='" . ( $_REQUEST['modfunc'] === 'choose_course'
@@ -125,7 +125,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		// FJ http://centresis.org/forums/viewtopic.php?f=13&t=4112
 		$periods_RET = DBGet( "SELECT c.SUBJECT_ID,cp.COURSE_ID,cp.COURSE_PERIOD_ID,
 			cp.TITLE,cp.MP,cp.MARKING_PERIOD_ID,cp.CALENDAR_ID,cp.TOTAL_SEATS AS AVAILABLE_SEATS
-			FROM course_periods cp,COURSES c
+			FROM course_periods cp,courses c
 			WHERE cp.COURSE_ID=c.COURSE_ID
 			AND (UPPER(cp.TITLE) LIKE '%" . mb_strtoupper( $_REQUEST['search_term'] ) . "%'
 			OR UPPER(cp.SHORT_NAME)='" . mb_strtoupper( $_REQUEST['search_term'] ) . "')
@@ -271,7 +271,7 @@ if ( ! empty( $_REQUEST['tables'] )
 {
 	$where = [
 		'course_subjects' => 'SUBJECT_ID',
-		'COURSES' => 'COURSE_ID',
+		'courses' => 'COURSE_ID',
 		'course_periods' => 'COURSE_PERIOD_ID',
 		'course_period_school_periods' => 'COURSE_PERIOD_SCHOOL_PERIODS_ID',
 	];
@@ -316,11 +316,11 @@ if ( ! empty( $_REQUEST['tables'] )
 
 				if ( ! (  ( isset( $columns['TITLE'] ) && empty( $columns['TITLE'] ) ) || ( $table_name == 'course_periods' && (  ( isset( $columns['SHORT_NAME'] ) && empty( $columns['SHORT_NAME'] ) ) || ( isset( $columns['TEACHER_ID'] ) && empty( $columns['TEACHER_ID'] ) ) ) ) || ( mb_strpos( $id, 'new' ) !== false && ! empty( $columns['PERIOD_ID'] ) && ! isset( $columns['DAYS'] ) ) ) )
 				{
-					if ( $table_name === 'COURSES'
+					if ( $table_name === 'courses'
 						&& $columns['DESCRIPTION'] )
 					{
 						// Sanitize Course Description HTML. Get data from $_POST as it has HTML tags.
-						$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables']['COURSES'][ $id ]['DESCRIPTION'] );
+						$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables']['courses'][ $id ]['DESCRIPTION'] );
 					}
 
 					if ( isset( $columns['TOTAL_SEATS'] )
@@ -363,7 +363,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 					if ( mb_strpos( $id, 'new' ) === false )
 					{
-						if ( $table_name == 'COURSES'
+						if ( $table_name == 'courses'
 							&& ! empty( $columns['SUBJECT_ID'] )
 							&& $columns['SUBJECT_ID'] != $_REQUEST['subject_id'] )
 						{
@@ -465,7 +465,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							// Hook.
 							do_action( 'Scheduling/Courses.php|update_course_subject' );
 						}
-						elseif ( $table_name === 'COURSES' )
+						elseif ( $table_name === 'courses' )
 						{
 							// Hook.
 							do_action( 'Scheduling/Courses.php|update_course' );
@@ -492,7 +492,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							$fields = 'SCHOOL_ID,SYEAR,';
 							$values = "'" . UserSchool() . "','" . UserSyear() . "',";
 						}
-						elseif ( $table_name == 'COURSES' )
+						elseif ( $table_name == 'courses' )
 						{
 							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
 							$values = "'" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
@@ -607,7 +607,7 @@ if ( ! empty( $_REQUEST['tables'] )
 								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course_subject' );
 							}
-							elseif ( $table_name == 'COURSES' )
+							elseif ( $table_name == 'courses' )
 							{
 								$_REQUEST['course_id'] = $id;
 
@@ -797,7 +797,7 @@ if (  ( ! $_REQUEST['modfunc']
 				&& $_REQUEST['subject_id'] !== 'new' )
 			{
 				$has_courses = DBGetOne( "SELECT 1
-					FROM COURSES
+					FROM courses
 					WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
 
 				if ( ! $has_courses )
@@ -865,7 +865,7 @@ if (  ( ! $_REQUEST['modfunc']
 			else
 			{
 				$RET = DBGet( "SELECT TITLE
-					FROM COURSES
+					FROM courses
 					WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course Period' );
@@ -1268,7 +1268,7 @@ if (  ( ! $_REQUEST['modfunc']
 					&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 				{
 					$parent = DBGet( "SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE
-						FROM course_periods cp,COURSES c
+						FROM course_periods cp,courses c
 						WHERE c.COURSE_ID=cp.COURSE_ID
 						AND cp.COURSE_PERIOD_ID='" . (int) $RET['PARENT_ID'] . "'" );
 
@@ -1315,7 +1315,7 @@ if (  ( ! $_REQUEST['modfunc']
 			if ( $_REQUEST['course_id'] !== 'new' )
 			{
 				$RET = DBGet( "SELECT TITLE,SHORT_NAME,GRADE_LEVEL,CREDIT_HOURS,DESCRIPTION
-					FROM COURSES
+					FROM courses
 					WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 				$RET = $RET[1];
@@ -1341,14 +1341,14 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['TITLE'] ),
-				'tables[COURSES][' . $_REQUEST['course_id'] . '][TITLE]',
+				'tables[courses][' . $_REQUEST['course_id'] . '][TITLE]',
 				_( 'Title' ),
 				'required maxlength=100 size=20'
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['SHORT_NAME'] ),
-				'tables[COURSES][' . $_REQUEST['course_id'] . '][SHORT_NAME]',
+				'tables[courses][' . $_REQUEST['course_id'] . '][SHORT_NAME]',
 				_( 'Short Name' ),
 				'maxlength=25'
 			) . '</td>';
@@ -1356,7 +1356,7 @@ if (  ( ! $_REQUEST['modfunc']
 			//FJ add Credit Hours to Courses
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['CREDIT_HOURS'] ),
-				'tables[COURSES][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
+				'tables[courses][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
 				' type="number" step="any" min="0" max="9999"'
 			) . '</td></tr>';
@@ -1364,7 +1364,7 @@ if (  ( ! $_REQUEST['modfunc']
 			// Add Description (TinyMCE input) to Course.
 			$header .= '<tr class="st"><td colspan="3">' . TinyMCEInput(
 				issetVal( $RET['DESCRIPTION'] ),
-				'tables[COURSES][' . $_REQUEST['course_id'] . '][DESCRIPTION]',
+				'tables[courses][' . $_REQUEST['course_id'] . '][DESCRIPTION]',
 				_( 'Description' )
 			) . '</td></tr>';
 
@@ -1374,7 +1374,7 @@ if (  ( ! $_REQUEST['modfunc']
 			foreach ( (array) $subjects_RET as $type)
 			$options[$type['SUBJECT_ID']] = $type['TITLE'];
 
-			$header .= '<td>' . SelectInput($RET['SUBJECT_ID']?$RET['SUBJECT_ID']:$_REQUEST['subject_id'],'tables[COURSES]['.$_REQUEST['course_id'].'][SUBJECT_ID]',_('Subject'),$options,false) . '</td>';
+			$header .= '<td>' . SelectInput($RET['SUBJECT_ID']?$RET['SUBJECT_ID']:$_REQUEST['subject_id'],'tables[courses]['.$_REQUEST['course_id'].'][SUBJECT_ID]',_('Subject'),$options,false) . '</td>';
 			}*/
 			$header .= '</tr></table>';
 		}
@@ -1524,7 +1524,7 @@ if (  ( ! $_REQUEST['modfunc']
 		&& $_REQUEST['subject_id'] !== 'new' )
 	{
 		$courses_RET = DBGet( "SELECT COURSE_ID,TITLE
-			FROM COURSES
+			FROM courses
 			WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 			ORDER BY TITLE" );
 

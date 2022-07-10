@@ -9,7 +9,7 @@ if ( empty( $_REQUEST['course_id'] ) )
 else
 {
 	$course_title = DBGetOne( "SELECT TITLE
-		FROM COURSES
+		FROM courses
 		WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 	$html_to_escape = $course_title .

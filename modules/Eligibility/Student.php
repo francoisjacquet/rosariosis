@@ -158,7 +158,7 @@ if ( UserStudentID()
 	echo '</form>';
 
 	$RET = DBGet( "SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE
-	FROM ELIGIBILITY e,COURSES c,course_periods cp
+	FROM ELIGIBILITY e,courses c,course_periods cp
 	WHERE e.STUDENT_ID='" . UserStudentID() . "'
 	AND e.SYEAR='" . UserSyear() . "'
 	AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID

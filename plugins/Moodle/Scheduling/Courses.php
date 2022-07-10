@@ -31,7 +31,7 @@ function core_course_create_categories_object()
 
 		//$idnumber = (string)$_REQUEST['subject_id'];
 	}
-	elseif ( $table_name == 'COURSES' )
+	elseif ( $table_name == 'courses' )
 	{
 		//get the Moodle parent category
 		$parent = MoodleXRosarioGet( 'subject_id', $_REQUEST['subject_id'] );
@@ -92,7 +92,7 @@ function core_course_create_categories_response( $response )
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
 	}
-	elseif ( $table_name == 'COURSES' )
+	elseif ( $table_name == 'courses' )
 	{
 		$column = 'course_id';
 		$rosario_id = (string) $_REQUEST['course_id'];
@@ -126,7 +126,7 @@ function core_course_update_categories_object()
 	 */
 	//gather the Moodle category ID
 
-	if ( $table_name == 'COURSES' )
+	if ( $table_name == 'courses' )
 	{
 		$column = 'course_id';
 		$rosario_id = $_REQUEST['course_id'];

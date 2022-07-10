@@ -598,7 +598,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			//FJ add assigned date
 			$RET = DBGet( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
 				a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE,a.SUBMISSION
-				FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
+				FROM GRADEBOOK_ASSIGNMENTS a,courses c
 				WHERE (a.COURSE_ID=c.COURSE_ID
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
 						FROM course_periods cp

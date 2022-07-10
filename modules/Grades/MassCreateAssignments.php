@@ -480,7 +480,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Fix SQL error when course has no periods.
 			$courses_RET = DBGet( "SELECT c.COURSE_ID,
 				c.TITLE,cs.TITLE AS SUBJECT
-				FROM COURSES c, course_subjects cs
+				FROM courses c, course_subjects cs
 				WHERE c.SCHOOL_ID='" . UserSchool() . "'
 				AND c.SYEAR='" . UserSyear() . "'
 				AND cs.SCHOOL_ID=c.SCHOOL_ID
@@ -527,7 +527,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Display the course periods list.
 			$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
 				c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
-				FROM course_periods cp, COURSES c, course_subjects cs
+				FROM course_periods cp, courses c, course_subjects cs
 				WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 				AND cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID=c.SCHOOL_ID

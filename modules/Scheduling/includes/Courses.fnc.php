@@ -530,7 +530,7 @@ function CourseDeleteSQL( $course_id )
 	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
-	$delete_sql .= "DELETE FROM COURSES
+	$delete_sql .= "DELETE FROM courses
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	return $delete_sql;

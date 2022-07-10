@@ -503,7 +503,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 			$cp_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,
 				c.TITLE AS COURSE_TITLE,cp.SHORT_NAME AS CP_SHORT_NAME,cp.SECONDARY_TEACHER_ID
-				FROM course_periods cp,COURSES c
+				FROM course_periods cp,courses c
 				WHERE c.COURSE_ID=cp.COURSE_ID
 				AND cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID='" . UserSchool() . "'

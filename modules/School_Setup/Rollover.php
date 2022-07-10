@@ -17,7 +17,7 @@ $tables = [
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'attendance_calendars' => _( 'Calendars' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
-	'COURSES' => _( 'Courses' ),
+	'courses' => _( 'Courses' ),
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
 	'STUDENT_ENROLLMENT' => _( 'Students' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
@@ -26,7 +26,7 @@ $tables = [
 ];
 
 $tables_tooltip = [
-	'COURSES' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
+	'courses' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
 	'STUDENT_ENROLLMENT' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
 	'REPORT_CARD_COMMENTS' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
@@ -108,7 +108,7 @@ if ( Prompt(
 	$table_list
 ) )
 {
-	if ( isset( $_REQUEST['tables']['COURSES'] )
+	if ( isset( $_REQUEST['tables']['courses'] )
 		&& $exists_RET['REPORT_CARD_COMMENTS'][1]['COUNT']
 		&& ! $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
 	{
@@ -117,11 +117,11 @@ if ( Prompt(
 	}
 
 	if ( isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] )
-		&& $exists_RET['COURSES'][1]['COUNT']
-		&& ! isset( $_REQUEST['tables']['COURSES'] ) )
+		&& $exists_RET['courses'][1]['COUNT']
+		&& ! isset( $_REQUEST['tables']['courses'] ) )
 	{
 		// Fix SQL error foreign keys: Roll again Courses when rolling Marking Periods.
-		$_REQUEST['tables']['COURSES'] = 'Y';
+		$_REQUEST['tables']['courses'] = 'Y';
 	}
 
 	if ( isset( $_REQUEST['tables']['STUDENT_ENROLLMENT'] )
@@ -133,7 +133,7 @@ if ( Prompt(
 		$_REQUEST['tables'] = array_merge( [ 'SCHOOLS' => 'Y' ], $_REQUEST['tables'] );
 	}
 
-	if ( ! ( isset( $_REQUEST['tables']['COURSES'] )
+	if ( ! ( isset( $_REQUEST['tables']['courses'] )
 		&& ( ( ! isset( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['SCHOOL_PERIODS'] ) && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] ) && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT'] < 1 )
@@ -141,8 +141,8 @@ if ( Prompt(
 			|| ( ! isset( $_REQUEST['tables']['REPORT_CARD_GRADES'] ) && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
 	{
 		if ( ! ( isset( $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
-			&&  ( ! isset( $_REQUEST['tables']['COURSES'] )
-				&& $exists_RET['COURSES'][1]['COUNT'] < 1 ) ) )
+			&&  ( ! isset( $_REQUEST['tables']['courses'] )
+				&& $exists_RET['courses'][1]['COUNT'] < 1 ) ) )
 		{
 			if ( ! empty( $_REQUEST['tables'] ) )
 			{
@@ -532,7 +532,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'COURSES':
+		case 'courses':
 
 			if ( $mode === 'delete' )
 			{
@@ -540,7 +540,7 @@ function Rollover( $table, $mode = 'delete' )
 				// Error happens when an Assignment,or a Schedule request
 				// was added for a rolled-over Course.
 				$delete_sql = "DELETE FROM GRADEBOOK_ASSIGNMENTS
-					WHERE COURSE_ID IN(SELECT COURSE_ID FROM COURSES
+					WHERE COURSE_ID IN(SELECT COURSE_ID FROM courses
 						WHERE SYEAR='" . $next_syear . "'
 						AND SCHOOL_ID='" . UserSchool() . "')
 					OR COURSE_PERIOD_ID IN(SELECT COURSE_PERIOD_ID FROM course_periods
@@ -548,7 +548,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND SCHOOL_ID='" . UserSchool() . "');";
 
 				$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES
-					WHERE COURSE_ID IN(SELECT COURSE_ID FROM COURSES
+					WHERE COURSE_ID IN(SELECT COURSE_ID FROM courses
 						WHERE SYEAR='" . $next_syear . "'
 						AND SCHOOL_ID='" . UserSchool() . "');";
 
@@ -567,7 +567,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM COURSES
+				$delete_sql .= "DELETE FROM courses
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -589,8 +589,8 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			// ROLL COURSES
-			DBQuery( "INSERT INTO COURSES (SYEAR,SUBJECT_ID,SCHOOL_ID,GRADE_LEVEL,TITLE,
+			// ROLL courses
+			DBQuery( "INSERT INTO courses (SYEAR,SUBJECT_ID,SCHOOL_ID,GRADE_LEVEL,TITLE,
 				SHORT_NAME,CREDIT_HOURS,DESCRIPTION,ROLLOVER_ID)
 				SELECT SYEAR+1,
 				(SELECT SUBJECT_ID
@@ -598,7 +598,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE s.SCHOOL_ID=c.SCHOOL_ID
 					AND s.ROLLOVER_ID=c.SUBJECT_ID
 					LIMIT 1),SCHOOL_ID,GRADE_LEVEL,TITLE,SHORT_NAME,
-				CREDIT_HOURS,DESCRIPTION,COURSE_ID FROM COURSES c
+				CREDIT_HOURS,DESCRIPTION,COURSE_ID FROM courses c
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -610,7 +610,7 @@ function Rollover( $table, $mode = 'delete' )
 				CALENDAR_ID,ROLLOVER_ID)
 				SELECT SYEAR+1,SCHOOL_ID,
 				(SELECT COURSE_ID
-					FROM COURSES c
+					FROM courses c
 					WHERE c.SCHOOL_ID=p.SCHOOL_ID
 					AND c.ROLLOVER_ID=p.COURSE_ID
 					LIMIT 1),TITLE,SHORT_NAME,MP,
@@ -852,7 +852,7 @@ function Rollover( $table, $mode = 'delete' )
 				SORT_ORDER,COURSE_ID,ROLLOVER_ID)
 				SELECT SYEAR+1,
 				SCHOOL_ID,TITLE,SORT_ORDER," .
-				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM COURSES WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . ",ID
+				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM courses WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . ",ID
 				FROM REPORT_CARD_COMMENT_CATEGORIES rc
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -861,7 +861,7 @@ function Rollover( $table, $mode = 'delete' )
 				COURSE_ID,CATEGORY_ID,SCALE_ID)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,
 				SORT_ORDER," .
-				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM COURSES WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . "," .
+				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM courses WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . "," .
 				db_case( [ 'CATEGORY_ID', "''", 'NULL', "(SELECT ID FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ROLLOVER_ID=rc.CATEGORY_ID)" ] ) . ",SCALE_ID
 				FROM REPORT_CARD_COMMENTS rc
 				WHERE SYEAR='" . UserSyear() . "'

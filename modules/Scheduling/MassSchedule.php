@@ -220,7 +220,7 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 	else
 	{
 		$course_title = DBGetOne( "SELECT TITLE
-			FROM COURSES
+			FROM courses
 			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 		$period_title = DBGetOne( "SELECT TITLE

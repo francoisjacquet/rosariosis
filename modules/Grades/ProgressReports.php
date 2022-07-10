@@ -151,7 +151,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		foreach ( $cp_RET as $cp_id => $cp )
 		{
 			$course_RET = DBGet( "SELECT c.TITLE,c.COURSE_ID,cp.TEACHER_ID
-				FROM course_periods cp,COURSES c
+				FROM course_periods cp,courses c
 				WHERE c.COURSE_ID=cp.COURSE_ID
 				AND cp.COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
 

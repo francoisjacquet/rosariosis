@@ -155,7 +155,7 @@ function _update42beta()
 /**
  * Update to version 4.3
  *
- * 1. COURSES table: Add DESCRIPTION column.
+ * 1. courses table: Add DESCRIPTION column.
  *
  * Local function
  *
@@ -170,7 +170,7 @@ function _update43beta()
 	$return = true;
 
 	/**
-	 * 1. COURSES table: Add DESCRIPTION column.
+	 * 1. courses table: Add DESCRIPTION column.
 	 */
 	$description_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'courses')

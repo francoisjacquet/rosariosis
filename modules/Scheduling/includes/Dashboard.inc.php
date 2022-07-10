@@ -52,7 +52,7 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 
 		$courses_RET = DBGet( "SELECT COUNT(COURSE_ID) AS COURSES_NB,
 			COUNT(DISTINCT SUBJECT_ID) AS SUBJECTS_NB
-		FROM COURSES
+		FROM courses
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

@@ -88,7 +88,7 @@ echo '<br />';
 PopTable( 'header', _( 'Configuration' ) );
 
 $grades = DBGet( "SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID
-FROM REPORT_CARD_GRADES rcg,course_periods cp,COURSES c
+FROM REPORT_CARD_GRADES rcg,course_periods cp,courses c
 WHERE cp.COURSE_ID=c.COURSE_ID
 AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 AND cp.SCHOOL_ID='" . UserSchool() . "'

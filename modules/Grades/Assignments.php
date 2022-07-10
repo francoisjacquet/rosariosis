@@ -339,7 +339,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 		$assignment_course_title = DBGetOne( "SELECT c.TITLE
-			FROM GRADEBOOK_ASSIGNMENTS ga,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
+			FROM GRADEBOOK_ASSIGNMENTS ga,courses c,GRADEBOOK_ASSIGNMENT_TYPES gat
 			WHERE c.COURSE_ID=gat.COURSE_ID
 			AND ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID" );

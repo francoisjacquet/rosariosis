@@ -4,7 +4,7 @@ if ( $_REQUEST['modfunc'] === 'XMLHttpRequest' )
 {
 	header( "Content-Type: text/xml\n\n" );
 
-	$courses_RET = DBGet( "SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE " .
+	$courses_RET = DBGet( "SELECT c.COURSE_ID,c.TITLE FROM courses c WHERE " .
 		( $_REQUEST['subject_id'] ? "c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "' AND " : '' ) .
 		"UPPER(c.TITLE) LIKE '" . mb_strtoupper( $_REQUEST['course_title'] ) .
 		"%' AND c.SYEAR='" . UserSyear() .
@@ -103,7 +103,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 		$course_id = $_REQUEST['course'];
 
 		$subject_id = DBGetOne( "SELECT SUBJECT_ID
-			FROM COURSES
+			FROM courses
 			WHERE COURSE_ID='" . (int) $course_id . "'" );
 
 		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
@@ -181,7 +181,7 @@ function processRequest()
 
 	$requests_RET = DBGet( "SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,
 		r.MARKING_PERIOD_ID,r.WITH_TEACHER_ID,r.NOT_TEACHER_ID,r.WITH_PERIOD_ID,r.NOT_PERIOD_ID
-		FROM SCHEDULE_REQUESTS r,COURSES c
+		FROM SCHEDULE_REQUESTS r,courses c
 		WHERE r.COURSE_ID=c.COURSE_ID
 		AND r.SYEAR='" . UserSyear() . "'
 		AND r.STUDENT_ID='" . UserStudentID() . "'", $functions );

@@ -165,7 +165,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		if ( ! empty( $_SESSION['MassDrops.php'] ) )
 		{
 			$course_title = DBGetOne( "SELECT TITLE
-				FROM COURSES
+				FROM courses
 				WHERE COURSE_ID='" . (int) $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 			$period_title = DBGetOne( "SELECT TITLE
@@ -255,7 +255,7 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 		$_SESSION['MassDrops.php']['course_period_id'] = issetVal( $_REQUEST['course_period_id'] );
 
 		$course_title = DBGetOne( "SELECT TITLE
-			FROM COURSES
+			FROM courses
 			WHERE COURSE_ID='" . (int) $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 		$period_title = DBGetOne( "SELECT TITLE

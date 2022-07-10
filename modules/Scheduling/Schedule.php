@@ -227,7 +227,7 @@ if ( UserStudentID()
 	cp.PERIOD_ID,cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
 	c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,
 	s.STUDENT_ID,ROOM,DAYS,SCHEDULER_LOCK
-	FROM SCHEDULE s,COURSES c,course_periods cp,SCHOOL_PERIODS sp
+	FROM SCHEDULE s,courses c,course_periods cp,SCHOOL_PERIODS sp
 	WHERE
 	s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 	AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID
@@ -241,7 +241,7 @@ if ( UserStudentID()
 		" . _SQLUnixTimestamp( 's.END_DATE' ) . " AS END_EPOCH,
 		cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
 		c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,s.STUDENT_ID,ROOM,SCHEDULER_LOCK
-		FROM SCHEDULE s,COURSES c,course_periods cp
+		FROM SCHEDULE s,courses c,course_periods cp
 		WHERE s.COURSE_ID=c.COURSE_ID
 		AND s.COURSE_ID=cp.COURSE_ID
 		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
@@ -332,7 +332,7 @@ if ( UserStudentID()
 		require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 
 		$extra['WHERE'] = " AND s.STUDENT_ID='" . UserStudentID() . "'";
-		$extra['FROM'] = ',SCHEDULE_REQUESTS sr,COURSES c';
+		$extra['FROM'] = ',SCHEDULE_REQUESTS sr,courses c';
 
 		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 			FROM custom_fields

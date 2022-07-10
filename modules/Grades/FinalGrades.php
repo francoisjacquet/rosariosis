@@ -67,9 +67,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		//FJ multiple school periods for a course period
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
-		course_periods rc_cp,COURSES c,SCHOOL_PERIODS sp";*/
+		course_periods rc_cp,courses c,SCHOOL_PERIODS sp";*/
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,
-		course_periods rc_cp,COURSES c,SCHOOL_PERIODS sp,course_period_school_periods cpsp";
+		course_periods rc_cp,courses c,SCHOOL_PERIODS sp,course_period_school_periods cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND c.COURSE_ID = rc_cp.COURSE_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/
@@ -446,7 +446,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				//FJ add Course-specific comments tipmessage
 				$commentsA_RET = DBGet( "SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
-				FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc, COURSES co, REPORT_CARD_COMMENT_CODE_SCALES cs
+				FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc, courses co, REPORT_CARD_COMMENT_CODE_SCALES cs
 				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")))
 				AND c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'

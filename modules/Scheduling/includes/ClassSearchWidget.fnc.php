@@ -179,7 +179,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 
 		if ( ! empty( $_REQUEST['subject_id'] ) )
 		{
-			$from .= ",COURSES c";
+			$from .= ",courses c";
 			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'";
 		}
 

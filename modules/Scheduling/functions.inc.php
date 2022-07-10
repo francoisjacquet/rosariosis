@@ -20,7 +20,7 @@ function MyWidgets( $item )
 					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
 						WHERE STUDENT_ID=ssm.STUDENT_ID
 						AND COURSE_ID IN(SELECT COURSE_ID
-							FROM COURSES
+							FROM courses
 							WHERE SUBJECT_ID='" . (int) $_REQUEST['w_ly_subject_id'] . "'))";
 
 					$subject_title = DBGetOne( "SELECT TITLE
@@ -42,7 +42,7 @@ function MyWidgets( $item )
 						AND COURSE_ID='" . (int) $_REQUEST['w_ly_course_id'] . "')";
 
 					$course_title = DBGetOne( "SELECT TITLE
-						FROM COURSES
+						FROM courses
 						WHERE COURSE_ID='" . (int) $_REQUEST['w_ly_course_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
@@ -60,7 +60,7 @@ function MyWidgets( $item )
 						AND COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "')";
 
 					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
-						FROM course_periods cp,COURSES c
+						FROM course_periods cp,courses c
 						WHERE c.COURSE_ID=cp.COURSE_ID
 						AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "'" );
 

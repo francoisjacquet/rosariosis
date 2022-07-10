@@ -663,13 +663,13 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			//reset SUBJECT_ID / COURSE_ID / COURSE_PERIOD_ID to pre-rollover values
 
-			if ( ! empty( $_REQUEST['tables']['COURSES'] ) && $exists_RET['COURSES'][1]['COUNT'] )
+			if ( ! empty( $_REQUEST['tables']['courses'] ) && $exists_RET['courses'][1]['COUNT'] )
 			{
 				//SUBJECT_ID
 				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT * FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='subject_id'" );
 
 				//COURSE_ID
-				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSES WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSES WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='course_id'" );
+				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM courses WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM courses WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='course_id'" );
 
 				//COURSE_PERIOD_ID
 				$course_periods_RET = DBGet( "SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM course_periods cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='" . $next_syear . "' AND cp.SCHOOL_ID='" . UserSchool() . "' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc." . DBEscapeIdentifier( 'column' ) . "='course_period_id'" );
@@ -706,7 +706,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				}
 			}
 
-			if ( ! empty( $_REQUEST['tables']['COURSES'] ) )
+			if ( ! empty( $_REQUEST['tables']['courses'] ) )
 			{
 				// course_subjects ROLLOVER.
 				$course_subjects_RET = DBGet( "SELECT SUBJECT_ID,ROLLOVER_ID FROM course_subjects WHERE SYEAR='" . $next_syear . "' AND SCHOOL_ID='" . UserSchool() . "' AND ROLLOVER_ID IS NOT NULL" );
@@ -716,9 +716,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 					DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID='" . (int) $value['SUBJECT_ID'] . "' WHERE ROSARIO_ID='" . (int) $value['ROLLOVER_ID'] . "' AND " . DBEscapeIdentifier( 'column' ) . "='subject_id'" );
 				}
 
-				// COURSES ROLLOVER.
+				// courses ROLLOVER.
 				$courses_RET = DBGet( "SELECT COURSE_ID,ROLLOVER_ID
-					FROM COURSES
+					FROM courses
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND ROLLOVER_ID IS NOT NULL" );

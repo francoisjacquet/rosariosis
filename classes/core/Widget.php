@@ -71,7 +71,7 @@ class Widget_course implements Widget
 				AND w_ss.SYEAR=ssm.SYEAR
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 				AND w_ss.COURSE_ID IN(SELECT COURSE_ID
-					FROM COURSES
+					FROM courses
 					WHERE SUBJECT_ID='" . (int) $_REQUEST['w_subject_id'] . "'
 					AND SYEAR=ssm.SYEAR
 					AND SCHOOL_ID=ssm.SCHOOL_ID)";
@@ -98,7 +98,7 @@ class Widget_course implements Widget
 				AND w_ss.COURSE_ID='" . (int) $_REQUEST['w_course_id'] . "'";
 
 			$course_title = DBGetOne( "SELECT TITLE
-				FROM COURSES
+				FROM courses
 				WHERE COURSE_ID='" . (int) $_REQUEST['w_course_id'] . "'" );
 
 			if ( ! $extra['NoSearchTerms'] )
@@ -119,7 +119,7 @@ class Widget_course implements Widget
 				AND w_ss.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'";
 
 			$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
-				FROM course_periods cp,COURSES c
+				FROM course_periods cp,courses c
 				WHERE c.COURSE_ID=cp.COURSE_ID
 				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" );
 
@@ -166,7 +166,7 @@ class Widget_course implements Widget
 		// @since 7.4 Add Course Widget: select / Pull-Down.
 		$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,
 		c.COURSE_ID,cs.SUBJECT_ID,cs.TITLE AS SUBJECT_TITLE
-		FROM course_periods cp,COURSES c,course_subjects cs
+		FROM course_periods cp,courses c,course_subjects cs
 		WHERE cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.COURSE_ID=c.COURSE_ID
@@ -253,7 +253,7 @@ class Widget_request implements Widget
 		}
 
 		$course_title = DBGetOne( "SELECT c.TITLE
-			FROM COURSES c
+			FROM courses c
 			WHERE c.COURSE_ID='" . (int) $_REQUEST['request_course_id'] . "'" );
 
 		// Request.

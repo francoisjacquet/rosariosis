@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			&& is_array( $_REQUEST['student'] ) )
 		{
 			$course_exists = DBGetOne( "SELECT 1
-				FROM COURSES
+				FROM courses
 				WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'
 				AND SYEAR='" . UserSyear() . "'" );
 
@@ -88,7 +88,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		if ( ! empty( $_SESSION['MassRequests.php'] ) )
 		{
 			$course_title = DBGetOne( "SELECT TITLE
-				FROM COURSES
+				FROM courses
 				WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'" );
 
 			echo $course_title;
@@ -198,7 +198,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		$_SESSION['MassRequests.php']['course_id'] = issetVal( $_REQUEST['course_id'] );
 
 		$course_title = DBGetOne( "SELECT TITLE
-			FROM COURSES
+			FROM courses
 			WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'" );
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = ' .

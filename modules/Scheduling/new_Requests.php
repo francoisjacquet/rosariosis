@@ -18,7 +18,7 @@ if ( ! $_REQUEST['modfunc'] && UserStudentID() )
 if ( $_REQUEST['modfunc'] == 'verify' )
 {
 	$courses_RET = DBGet( "SELECT TITLE,COURSE_ID,SUBJECT_ID
-		FROM COURSES
+		FROM courses
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'", [], [ 'COURSE_ID' ] );
 
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] == 'choose' )
 {
 	$functions = [ 'WITH_PERIOD_ID' => '_makeWithSelects', 'NOT_PERIOD_ID' => '_makeWithoutSelects' ];
 	$requests_RET = DBGet( "SELECT sr.COURSE_ID,c.COURSE_TITLE,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID
-	FROM SCHEDULE_REQUESTS sr,COURSES c
+	FROM SCHEDULE_REQUESTS sr,courses c
 	WHERE sr.SYEAR='" . UserSyear() . "'
 	AND sr.STUDENT_ID='" . UserStudentID() . "'
 	AND sr.COURSE_ID=c.COURSE_ID", $functions );

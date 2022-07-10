@@ -399,7 +399,7 @@ function GetAssignment( $assignment_id )
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
 		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS CATEGORY, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
-		FROM GRADEBOOK_ASSIGNMENTS ga,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
+		FROM GRADEBOOK_ASSIGNMENTS ga,courses c,GRADEBOOK_ASSIGNMENT_TYPES gat
 		" . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . (int) $assignment_id . "'
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
@@ -529,7 +529,7 @@ function StudentAssignmentsListOutput()
 			FROM STUDENT_ASSIGNMENTS sa
 			WHERE ga.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 			AND sa.STUDENT_ID=ss.STUDENT_ID) AS SUBMITTED
-		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, COURSES c, course_periods cp
+		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, courses c, course_periods cp
 		WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 		AND ss.SYEAR='" . UserSyear() . "'
 		AND ss.SCHOOL_ID='" . UserSchool() . "'

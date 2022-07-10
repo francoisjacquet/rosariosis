@@ -362,7 +362,7 @@ function HonorRollWidgets( $item )
 			if ( ! empty( $_REQUEST['subject_id'] ) )
 			{
 				$extra['WHERE'] .=  " AND exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,course_periods cp, COURSES c
+				FROM STUDENT_REPORT_CARD_GRADES sg,course_periods cp, courses c
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR

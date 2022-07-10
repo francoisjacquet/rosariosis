@@ -53,7 +53,7 @@ if ( $_REQUEST['subject_id'] )
 		$location = 'courses';
 
 		$course_RET = DBGet( "SELECT TITLE
-			FROM COURSES
+			FROM courses
 			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 		$course_link_url = 'Modules.php?modname=' . $_REQUEST['modname'] .
@@ -127,7 +127,7 @@ echo '</div>';
 // Now, Course & Course periods Lists are responsive (multiple columns).
 $LO_options['responsive'] = true;
 
-// COURSES ----
+// courses ----
 
 if ( $_REQUEST['modfunc'] === 'courses'
 	|| $_REQUEST['modfunc'] === 'course_periods'
@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 	$_RET = DBGet( "SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,
 		cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
 		(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
-		FROM COURSES c,course_periods cp
+		FROM courses c,course_periods cp
 		WHERE c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 		AND c.COURSE_ID=cp.COURSE_ID
 		AND c.SYEAR='" . UserSyear() . "'
