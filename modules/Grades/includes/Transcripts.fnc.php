@@ -118,7 +118,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$syear_history_RET = DBGet( "SELECT DISTINCT SYEAR
-				FROM HISTORY_MARKING_PERIODS
+				FROM history_marking_periods
 				WHERE SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				UNION SELECT DISTINCT SYEAR

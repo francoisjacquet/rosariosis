@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					AUTO_INCREMENT=" . (int) ( $mp_id + 1 ) );
 			}
 
-			$sql = 'INSERT INTO HISTORY_MARKING_PERIODS ';
+			$sql = 'INSERT INTO history_marking_periods ';
 			$fields = 'MARKING_PERIOD_ID,SCHOOL_ID,';
 			$values = $mp_id . ",'" . UserSchool() . "',";
 
