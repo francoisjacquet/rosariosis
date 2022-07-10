@@ -81,14 +81,14 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 			$values = "'" . $item_id++ . "','" . $transaction_id . "','-" . $price . "','" . $discount . "','" . $items_RET[$item_sn][1]['SHORT_NAME'] . "','" . $items_RET[$item_sn][1]['DESCRIPTION'] . "'";
 
-			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (" . $fields . ") values (" . $values . ")";
+			$sql = "INSERT INTO food_service_transaction_items (" . $fields . ") values (" . $values . ")";
 
 			DBQuery( $sql );
 		}
 
 		DBQuery( "UPDATE food_service_accounts
 			SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
-				FROM FOOD_SERVICE_TRANSACTION_ITEMS
+				FROM food_service_transaction_items
 				WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
 			WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'" );
 
@@ -142,7 +142,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT,
 			(SELECT ICON FROM food_service_items WHERE SHORT_NAME=fsti.SHORT_NAME LIMIT 1) AS ICON
-			FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+			FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
 			WHERE fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND fst.STUDENT_ID='" . UserStudentID() . "'
 			AND fst.SYEAR='" . UserSyear() . "'

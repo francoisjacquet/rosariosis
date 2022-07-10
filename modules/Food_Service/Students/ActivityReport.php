@@ -42,7 +42,7 @@ if ( UserStudentID()
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 	    	fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,
 	    	(SELECT sum(AMOUNT)
-	    		FROM FOOD_SERVICE_TRANSACTION_ITEMS
+	    		FROM food_service_transaction_items
 	    		WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 	    	fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 			db_case( [
@@ -71,7 +71,7 @@ if ( UserStudentID()
 		foreach ( (array) $RET as $key => $value )
 		{
 			// get details of each transaction
-			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
+			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
 
 			foreach ( (array) $tmpRET as $RET_key => $RET_val )
 			{
@@ -115,7 +115,7 @@ if ( UserStudentID()
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,
 	    fst.STUDENT_ID,fst.DISCOUNT,
 		(SELECT sum(AMOUNT)
-			FROM FOOD_SERVICE_TRANSACTION_ITEMS
+			FROM food_service_transaction_items
 			WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 			db_case( [

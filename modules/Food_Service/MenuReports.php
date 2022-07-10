@@ -178,10 +178,10 @@ $users_locale = [ 'Student' => _( 'Student' ), 'User' => _( 'User' ) ];
 if ( 'sales' == $_REQUEST['type_select'] )
 {
 	$RET = DBGet( "SELECT 'Student' AS TYPE,fsti.SHORT_NAME,fst.DISCOUNT,-sum((SELECT AMOUNT
-		FROM FOOD_SERVICE_TRANSACTION_ITEMS
+		FROM food_service_transaction_items
 		WHERE TRANSACTION_ID=fsti.TRANSACTION_ID
 		AND ITEM_ID=fsti.ITEM_ID)) AS COUNT
-	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+	FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
@@ -269,7 +269,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 else
 {
 	$RET = DBGet( "SELECT 'Student' AS TYPE,fst.DISCOUNT,fsti.SHORT_NAME,count(*)
-	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+	FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'

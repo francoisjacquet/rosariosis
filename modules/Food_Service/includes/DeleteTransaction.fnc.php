@@ -19,9 +19,9 @@ function DeleteTransaction( $transaction_id, $type = 'student' )
 	}
 	else
 	{
-		$sql1 = "UPDATE FOOD_SERVICE_TRANSACTIONS SET BALANCE=BALANCE-(SELECT coalesce(sum(AMOUNT),0) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "') WHERE TRANSACTION_ID>='" . $transaction_id . "' AND ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
-		$sql2 = "UPDATE food_service_accounts SET BALANCE=BALANCE-(SELECT coalesce(sum(AMOUNT),0) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "') WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
-		$sql3 = "DELETE FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "'";
+		$sql1 = "UPDATE FOOD_SERVICE_TRANSACTIONS SET BALANCE=BALANCE-(SELECT coalesce(sum(AMOUNT),0) FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $transaction_id . "') WHERE TRANSACTION_ID>='" . $transaction_id . "' AND ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
+		$sql2 = "UPDATE food_service_accounts SET BALANCE=BALANCE-(SELECT coalesce(sum(AMOUNT),0) FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $transaction_id . "') WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
+		$sql3 = "DELETE FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $transaction_id . "'";
 		$sql4 = "DELETE FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "'";
 	}
 

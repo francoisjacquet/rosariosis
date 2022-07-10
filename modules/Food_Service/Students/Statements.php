@@ -107,7 +107,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		{
 			$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			fst.STUDENT_ID,fst.DISCOUNT,
-			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			(SELECT sum(AMOUNT) FROM food_service_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 				db_case( [
 					'fst.STUDENT_ID',
@@ -137,7 +137,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 			foreach ( (array) $RET as $key => $value )
 			{
-				$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'" );
+				$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,* FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'" );
 //FJ add translation
 
 				foreach ( (array) $tmpRET as $RET_key => $RET_val )
@@ -175,7 +175,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		}
 		else
 		{
-			$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM food_service_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'

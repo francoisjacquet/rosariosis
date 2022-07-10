@@ -21,9 +21,9 @@ function DeleteTransactionItem( $transaction_id, $item_id, $type = 'student' )
 	}
 	else
 	{
-		$sql1 = "UPDATE FOOD_SERVICE_TRANSACTIONS SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE TRANSACTION_ID>='" . $transaction_id . "' AND ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
-		$sql2 = "UPDATE food_service_accounts SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
-		$sql3 = "DELETE FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "'";
+		$sql1 = "UPDATE FOOD_SERVICE_TRANSACTIONS SET BALANCE=BALANCE-(SELECT AMOUNT FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE TRANSACTION_ID>='" . $transaction_id . "' AND ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
+		$sql2 = "UPDATE food_service_accounts SET BALANCE=BALANCE-(SELECT AMOUNT FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "') WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "')";
+		$sql3 = "DELETE FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $transaction_id . "' AND ITEM_ID='" . (int) $item_id . "'";
 	}
 
 	db_trans_start();
@@ -33,7 +33,7 @@ function DeleteTransactionItem( $transaction_id, $item_id, $type = 'student' )
 	db_trans_commit();
 
 	//FJ if no more transaction items, delete transaction
-	$trans_items_RET = DBGet( "SELECT ITEM_ID FROM " . ( $type == 'staff' ? "food_service_staff_transaction_items" : "FOOD_SERVICE_TRANSACTION_ITEMS" ) . " WHERE TRANSACTION_ID='" . (int) $transaction_id . "'" );
+	$trans_items_RET = DBGet( "SELECT ITEM_ID FROM " . ( $type == 'staff' ? "food_service_staff_transaction_items" : "food_service_transaction_items" ) . " WHERE TRANSACTION_ID='" . (int) $transaction_id . "'" );
 
 	if ( empty( $trans_items_RET ) )
 	{

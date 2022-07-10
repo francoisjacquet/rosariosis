@@ -52,7 +52,7 @@ DrawHeader(
 echo '</form>';
 
 $RET = DBGet( "SELECT 'Student' AS TYPE,fst.SHORT_NAME,fsti.SHORT_NAME AS ITEM_SHORT_NAME,sum(fsti.AMOUNT) AS AMOUNT
-FROM FOOD_SERVICE_TRANSACTION_ITEMS fsti, FOOD_SERVICE_TRANSACTIONS fst
+FROM food_service_transaction_items fsti, FOOD_SERVICE_TRANSACTIONS fst
 WHERE fst.SHORT_NAME NOT IN (SELECT TITLE FROM food_service_menus WHERE SCHOOL_ID='" . UserSchool() . "')
 AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 AND fst.SYEAR='" . UserSyear() . "'

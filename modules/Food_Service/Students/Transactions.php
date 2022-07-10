@@ -35,13 +35,13 @@ if ( ! empty( $_REQUEST['values'] )
 			( $_REQUEST['values']['TYPE'] === 'Debit' ? -$amount : $amount ) . "',NULL,'" .
 			mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
 
-			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (" . $fields . ") VALUES(" . $values . ")";
+			$sql = "INSERT INTO food_service_transaction_items (" . $fields . ") VALUES(" . $values . ")";
 
 			DBQuery( $sql );
 
 			DBQuery( "UPDATE food_service_accounts
 				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
-					FROM FOOD_SERVICE_TRANSACTION_ITEMS
+					FROM food_service_transaction_items
 					WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
 				WHERE ACCOUNT_ID='" . (int) $account_id . "'" );
 		}
@@ -103,7 +103,7 @@ if ( UserStudentID()
 	if ( $student['BALANCE'] != '' )
 	{
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
-		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+		FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='" . UserStudentID() . "')
