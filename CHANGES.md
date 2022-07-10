@@ -5,6 +5,7 @@ Changes in 9.4
 --------------
 - SQL convert table names to lowercase, program wide
 - Fix delete file attached in StudentFees.php
+- Use DBEscapeIdentifier() for reserved 'column' keyword in plugins/Moodle/
 
 Changes in 9.3
 --------------

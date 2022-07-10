@@ -40,7 +40,7 @@ function core_user_get_users_response( $response )
 		)
 	)
 	 */
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('staff_id','" . UserStaffID() . "'," . $response['users'][0]['id'] . ")" );
 
 	$_REQUEST['moodle_create_staff'] = false;
@@ -161,7 +161,7 @@ function core_user_create_users_response( $response )
 	)
 	 */
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES ('staff_id','" . UserStaffID() . "'," . $response[0]['id'] . ")" );
 
 	$_REQUEST['moodle_create_user'] = false;
@@ -302,7 +302,7 @@ function core_user_delete_users_response( $response )
 {
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='staff_id'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='staff_id'
 		AND rosario_id='" . UserStaffID() . "'" );
 
 	return null;

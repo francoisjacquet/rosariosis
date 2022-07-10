@@ -391,7 +391,7 @@ function MoodleUserImportStudent( $user )
 	$sql .= '(' . $fields . ') values(' . $values . ')';
 	DBQuery( $sql );
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('student_id','" . $student_id . "'," . $user['id'] . ")" );
 
 	return $student_id;
@@ -509,7 +509,7 @@ function MoodleUserImportUser( $user, $profile )
 
 	$staff_id = DBLastInsertID();
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('staff_id','" . $staff_id . "'," . $user['id'] . ")" );
 
 	return $staff_id;

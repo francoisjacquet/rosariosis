@@ -98,7 +98,7 @@ function core_course_create_categories_response( $response )
 		$rosario_id = (string) $_REQUEST['course_id'];
 	}
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
 		VALUES('" . $column . "', '" . $rosario_id . "', " . $response[0]['id'] . ")" );
 
 	return null;
@@ -233,7 +233,7 @@ function core_course_delete_categories_response( $response )
 
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='" . $column . "'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='" . $column . "'
 		AND rosario_id='" . $rosario_id . "'" );
 
 	return null;
@@ -345,7 +345,7 @@ function core_course_create_courses_response( $response )
 	}
 	)*/
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
 		VALUES('course_period_id', '" . $_REQUEST['course_period_id'] . "', " . $response[0]['id'] . ")" );
 
 	$_REQUEST['moodle_create_course_period'] = false;
@@ -443,7 +443,7 @@ function core_course_delete_courses_response( $response )
 {
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='course_period_id'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='course_period_id'
 		AND rosario_id='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 	return null;

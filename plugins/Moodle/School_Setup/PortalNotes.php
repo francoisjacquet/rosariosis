@@ -77,7 +77,7 @@ function core_notes_create_notes_response( $response )
 		return false;
 	}
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES ('portal_note_id','" . $portal_note_id . "'," . $response[0]['noteid'] . ")" );
 
 	return null;
@@ -144,7 +144,7 @@ function core_notes_delete_notes_response( $response )
 	}
 
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='portal_note_id'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='portal_note_id'
 		AND rosario_id='" . (int) $_REQUEST['id'] . "'" );
 
 	return null;

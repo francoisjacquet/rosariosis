@@ -39,7 +39,7 @@ function core_user_get_users_response( $response )
 		)
 	)
 	 */
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('student_id','" . UserStudentID() . "'," . $response['users'][0]['id'] . ")" );
 
 	$_REQUEST['moodle_create_student'] = false;
@@ -159,7 +159,7 @@ function core_user_create_users_response( $response )
 		)
 	)
 	 */
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('student_id','" . UserStudentID() . "'," . $response[0]['id'] . ")" );
 
 	$_REQUEST['moodle_create_student'] = false;
@@ -320,7 +320,7 @@ function core_user_delete_users_response( $response )
 {
 	// Delete the reference the moodlexrosario cross-reference table.
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='student_id'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='student_id'
 		AND rosario_id='" . UserStudentID() . "'" );
 
 	return null;
@@ -351,7 +351,7 @@ function core_role_assign_roles_object()
 		FROM moodlexrosario
 		WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS
 			WHERE STUDENT_ID='" . (int) $student_id . "' LIMIT 1)
-		AND \"column\"='staff_id'" );
+		AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
 
 	if ( empty( $userid ) )
 	{

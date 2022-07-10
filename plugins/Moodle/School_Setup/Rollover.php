@@ -119,7 +119,7 @@ function core_course_create_courses_response( $response )
 	}
 	)*/
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('course_period_id','" . $rolled_course_period['COURSE_PERIOD_ID'] . "'," . $response[0]['id'] . ")" );
 
 	return null;
@@ -269,7 +269,7 @@ function core_course_delete_courses_response( $response )
 
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='course_period_id'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='course_period_id'
 		AND moodle_id='" . $cp_moodle_id . "'" );
 
 	return null;

@@ -124,7 +124,7 @@ function core_calendar_create_calendar_events_response( $response )
 	}
 
 	$assignment_id = $id;
-	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id)
+	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
 		VALUES('assignment_id', '" . $assignment_id . "', " . $response['events'][0]['id'] . ")" );
 
 	return null;
@@ -199,7 +199,7 @@ function core_calendar_delete_calendar_events_response( $response )
 
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
-		WHERE \"column\"='assignment_id'
+		WHERE " . DBEscapeIdentifier( 'column' ) . "='assignment_id'
 		AND rosario_id='" . $assignment_id . "'" );
 
 	return null;
