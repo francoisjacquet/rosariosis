@@ -215,7 +215,7 @@ Changes in 2.9
 - SendEmail() program function now uses PHPMailer and accepts attachments
 - Remove FROM_DUAL constant (not used by PostgreSQL) program wide
 - Add jQuery ScrollToFixed plugin in assets/js/jquery-scrolltofixed/
-- Add STUDENTS_EMAIL_FIELD to CONFIG table in rosariosis.sql & Configuration.php
+- Add STUDENTS_EMAIL_FIELD to config table in rosariosis.sql & Configuration.php
 - Add Password Reset feature in PasswordReset.php
 - Update TinyMCE to version 4.3.6 in assets/js/tinymce/
 - Add TinyMCEInput() & SanitizeHTML() functions in Inputs.php & MarkDownHTML.fnc.php
@@ -576,7 +576,7 @@ Changes in 2.7.1
 Changes in 2.7
 --------------
 - Remove $RosarioAdmins list in config.inc.php
-- Move $RosarioModules to database CONFIG table
+- Move $RosarioModules to database config table
 - Bigger config values capacity to accept serialized variables in rosariosis.sql
 - Remove $RosarioModules + MOODLE_INTEGRATOR in config.inc.php
 - Add SendEmail function

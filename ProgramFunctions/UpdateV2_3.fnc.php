@@ -11,8 +11,8 @@
 /**
  * Update to version 2.9-alpha
  *
- * 1. Add VERSION to CONFIG table
- * 2. Add STUDENTS_EMAIL_FIELD to CONFIG table.
+ * 1. Add VERSION to config table
+ * 2. Add STUDENTS_EMAIL_FIELD to config table.
  * 3. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
  * 4. Update STUDENT_MP_COMMENTS table
  * 5. Create school_fields_seq Sequence
@@ -32,9 +32,9 @@ function _update29alpha()
 
 
 	/**
-	 * 1. Add VERSION to CONFIG table.
+	 * 1. Add VERSION to config table.
 	 */
-	$version_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='VERSION'" );
+	$version_added = DBGet( "SELECT 1 FROM config WHERE TITLE='VERSION'" );
 
 	if ( ! $version_added )
 	{
@@ -43,9 +43,9 @@ function _update29alpha()
 
 
 	/**
-	 * 2. Add STUDENTS_EMAIL_FIELD to CONFIG table.
+	 * 2. Add STUDENTS_EMAIL_FIELD to config table.
 	 */
-	$students_email_field_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='STUDENTS_EMAIL_FIELD'" );
+	$students_email_field_added = DBGet( "SELECT 1 FROM config WHERE TITLE='STUDENTS_EMAIL_FIELD'" );
 
 	if ( ! $students_email_field_added )
 	{
@@ -239,7 +239,7 @@ function _update292()
 /**
  * Update to version 2.9.5
  *
- * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to CONFIG table.
+ * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to config table.
  *
  * Local function
  *
@@ -255,9 +255,9 @@ function _update295()
 
 
 	/**
-	 * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to CONFIG table.
+	 * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to config table.
 	 */
-	$limit_existing_contacts_addresses_field_added = DBGet( "SELECT 1 FROM CONFIG
+	$limit_existing_contacts_addresses_field_added = DBGet( "SELECT 1 FROM config
 		WHERE TITLE='LIMIT_EXISTING_CONTACTS_ADDRESSES'" );
 
 	if ( ! $limit_existing_contacts_addresses_field_added )
@@ -272,7 +272,7 @@ function _update295()
 /**
  * Update to version 2.9.12
  *
- * 1. Add THEME_FORCE to CONFIG table.
+ * 1. Add THEME_FORCE to config table.
  *
  * Local function
  *
@@ -287,9 +287,9 @@ function _update2912()
 	$return = true;
 
 	/**
-	 * 1. Add THEME_FORCE to CONFIG table.
+	 * 1. Add THEME_FORCE to config table.
 	 */
-	$theme_force_field_added = DBGet( "SELECT 1 FROM CONFIG
+	$theme_force_field_added = DBGet( "SELECT 1 FROM config
 		WHERE TITLE='THEME_FORCE'" );
 
 	if ( ! $theme_force_field_added )
@@ -589,7 +589,7 @@ function _update31()
 /**
  * Update to version 3.5
  *
- * 1. Add FAILED_LOGIN_LIMIT to CONFIG table
+ * 1. Add FAILED_LOGIN_LIMIT to config table
  *
  * Local function
  *
@@ -604,9 +604,9 @@ function _update35()
 	$return = true;
 
 	/**
-	 * 1. Add FAILED_LOGIN_LIMIT to CONFIG table.
+	 * 1. Add FAILED_LOGIN_LIMIT to config table.
 	 */
-	$failed_login_limit_added = DBGet( "SELECT 1 FROM CONFIG
+	$failed_login_limit_added = DBGet( "SELECT 1 FROM config
 		WHERE TITLE='FAILED_LOGIN_LIMIT'" );
 
 	if ( ! $failed_login_limit_added )
@@ -621,7 +621,7 @@ function _update35()
 /**
  * Update to version 3.7-beta
  *
- * 1. Add DISPLAY_NAME to CONFIG table
+ * 1. Add DISPLAY_NAME to config table
  *
  * Local function
  *
@@ -636,9 +636,9 @@ function _update37beta()
 	$return = true;
 
 	/**
-	 * 1. Add DISPLAY_NAME to CONFIG table.
+	 * 1. Add DISPLAY_NAME to config table.
 	 */
-	$display_name_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'" );
+	$display_name_added = DBGet( "SELECT 1 FROM config WHERE TITLE='DISPLAY_NAME'" );
 
 	if ( ! $display_name_added )
 	{
@@ -653,7 +653,7 @@ function _update37beta()
 /**
  * Update to version 3.9
  *
- * 1. Add DISPLAY_NAME to CONFIG table for every school.
+ * 1. Add DISPLAY_NAME to config table for every school.
  *
  * Local function
  *
@@ -668,9 +668,9 @@ function _update39()
 	$return = true;
 
 	/**
-	 * 1. Add DISPLAY_NAME to CONFIG table for every school.
+	 * 1. Add DISPLAY_NAME to config table for every school.
 	 */
-	$display_name_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'
+	$display_name_added = DBGet( "SELECT 1 FROM config WHERE TITLE='DISPLAY_NAME'
 		AND SCHOOL_ID<>0" );
 
 	if ( ! $display_name_added )

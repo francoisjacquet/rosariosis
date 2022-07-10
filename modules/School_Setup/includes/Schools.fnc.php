@@ -45,7 +45,7 @@ function SchoolDeleteSQL( $school_id )
 
 	$delete_sql .= "UPDATE STAFF SET SCHOOLS=REPLACE(SCHOOLS,'," . $school_id . ",',',');";
 
-	$delete_sql .= "DELETE FROM CONFIG WHERE SCHOOL_ID='" . (int) $school_id . "';";
+	$delete_sql .= "DELETE FROM config WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
 	$delete_sql .= "DELETE FROM program_config WHERE SCHOOL_ID='" . (int) $school_id . "';";
 

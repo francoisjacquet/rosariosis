@@ -43,7 +43,7 @@ function Config( $item, $value = null )
 			"SCHOOL_ID='0'";
 
 		$_ROSARIO['Config'] = DBGet( "SELECT TITLE,CONFIG_VALUE,SCHOOL_ID
-			FROM CONFIG
+			FROM config
 			WHERE " . $school_where, [], [ 'TITLE' ] );
 
 		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $DefaultSyear;
@@ -54,14 +54,14 @@ function Config( $item, $value = null )
 		if ( ! isset( $_ROSARIO['Config'][ (string) $item ][1]['TITLE'] ) )
 		{
 			// Insert value (does not exist).
-			DBQuery( "INSERT INTO CONFIG (CONFIG_VALUE,TITLE,SCHOOL_ID)
+			DBQuery( "INSERT INTO config (CONFIG_VALUE,TITLE,SCHOOL_ID)
 				VALUES('" . $value . "','" . $item . "','" .
 				( UserSchool() > 0 ? UserSchool() : '0' ) . "')" );
 		}
 		elseif ( $value != DBEscapeString( $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] ) )
 		{
 			// Update value (different from current value).
-			DBQuery( "UPDATE CONFIG
+			DBQuery( "UPDATE config
 				SET CONFIG_VALUE='" . $value . "'
 				WHERE TITLE='" . $item . "'
 				AND SCHOOL_ID='" . (int) $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] . "'" );

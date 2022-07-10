@@ -74,9 +74,9 @@ else
 
 			$old_theme = Config( 'THEME' );
 
-			$_REQUEST['values']['CONFIG'] = issetVal( $_REQUEST['values']['CONFIG'] );
+			$_REQUEST['values']['config'] = issetVal( $_REQUEST['values']['config'] );
 
-			foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
+			foreach ( (array) $_REQUEST['values']['config'] as $column => $value )
 			{
 				$numeric_columns = [
 					'FAILED_LOGIN_LIMIT',
@@ -225,11 +225,11 @@ else
 			&& ! $multiple_schools_admin_has_1_school )
 		{
 			echo '<table class="cellpadding-5"><tr><td>' .
-				TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required maxlength=25' ) .
+				TextInput( Config( 'NAME' ), 'values[config][NAME]', _( 'Program Name' ), 'required maxlength=25' ) .
 			'</td></tr>';
 
 			echo '<tr><td>' .
-				MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) ) .
+				MLTextInput( Config( 'TITLE' ), 'values[config][TITLE]', _( 'Program Title' ) ) .
 			'</td></tr>';
 
 			// FJ add Default Theme to Configuration.
@@ -248,7 +248,7 @@ else
 
 			echo '<tr><td>' . RadioInput(
 				Config( 'THEME' ),
-				'values[CONFIG][THEME]',
+				'values[config][THEME]',
 				'',
 				$theme_options,
 				false
@@ -264,7 +264,7 @@ else
 			// Add Force Default Theme.
 			echo CheckboxInput(
 				Config( 'THEME_FORCE' ),
-				'values[CONFIG][THEME_FORCE]',
+				'values[config][THEME_FORCE]',
 				_( 'Force' ),
 				'',
 				true
@@ -275,7 +275,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				Config( 'CREATE_USER_ACCOUNT' ),
-				'values[CONFIG][CREATE_USER_ACCOUNT]',
+				'values[config][CREATE_USER_ACCOUNT]',
 				_( 'Create User Account' ) .
 				'<div class="tooltip"><i>' .
 				_( 'New users will be added with the No Access profile' ) .
@@ -296,7 +296,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				Config( 'CREATE_STUDENT_ACCOUNT' ),
-				'values[CONFIG][CREATE_STUDENT_ACCOUNT]',
+				'values[config][CREATE_STUDENT_ACCOUNT]',
 				_( 'Create Student Account' ) . $create_student_account_tooltip,
 				'',
 				false,
@@ -307,7 +307,7 @@ else
 			// @since 5.9 Automatic Student Account Activation.
 			echo '<tr><td>' . CheckboxInput(
 				Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ),
-				'values[CONFIG][CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION]',
+				'values[config][CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION]',
 				_( 'Automatic Student Account Activation' ),
 				'',
 				false,
@@ -330,7 +330,7 @@ else
 			// @since 6.3 Create Student Account Default School.
 			echo '<tr><td>' . SelectInput(
 				Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ),
-				'values[CONFIG][CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL]',
+				'values[config][CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL]',
 				_( 'Default School' ),
 				$school_options
 			) . '</td></tr>';
@@ -349,7 +349,7 @@ else
 
 			echo '<tr><td>' . SelectInput(
 				Config( 'STUDENTS_EMAIL_FIELD' ),
-				'values[CONFIG][STUDENTS_EMAIL_FIELD]',
+				'values[config][STUDENTS_EMAIL_FIELD]',
 				_( 'Student email field' ),
 				$students_email_field_options,
 				'N/A'
@@ -363,7 +363,7 @@ else
 			// Failed login ban if >= X failed attempts within 10 minutes.
 			echo '<tr><td>' . TextInput(
 				Config( 'FAILED_LOGIN_LIMIT' ),
-				'values[CONFIG][FAILED_LOGIN_LIMIT]',
+				'values[config][FAILED_LOGIN_LIMIT]',
 				_( 'Failed Login Attempts Limit' ) .
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank to always allow' ) .
@@ -375,13 +375,13 @@ else
 			// @since 4.4.
 			echo '<tr><td>' . TextInput(
 				Config( 'PASSWORD_STRENGTH' ),
-				'values[CONFIG][PASSWORD_STRENGTH]',
+				'values[config][PASSWORD_STRENGTH]',
 				'',
 				'type=number maxlength=1 min=0 max=4 style="width:196px;"',
 				false
 			);
 
-			$password_strength_input_id = GetInputID( 'values[CONFIG][PASSWORD_STRENGTH]' );
+			$password_strength_input_id = GetInputID( 'values[config][PASSWORD_STRENGTH]' );
 
 			// Password strength bars, hang tight.
 			?>
@@ -423,7 +423,7 @@ else
 			// @since 5.3 Force password change on first login.
 			echo '<tr><td>' . CheckboxInput(
 				Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ),
-				'values[CONFIG][FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN]',
+				'values[config][FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN]',
 				_( 'Force Password Change on First Login' ),
 				'',
 				false,
@@ -452,7 +452,7 @@ else
 
 			echo '<tr><td>' . SelectInput(
 				Config( 'DISPLAY_NAME' ),
-				'values[CONFIG][DISPLAY_NAME]',
+				'values[config][DISPLAY_NAME]',
 				_( 'Display Name' ),
 				$display_name_options,
 				false
@@ -464,7 +464,7 @@ else
 			// School year over one/two calendar years format.
 			echo '<table class="cellpadding-5"><tr><td>' . CheckboxInput(
 				Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ),
-				'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]',
+				'values[config][SCHOOL_SYEAR_OVER_2_YEARS]',
 				_( 'School year over two calendar years' ),
 				'',
 				false,
@@ -485,7 +485,7 @@ else
 			// Currency.
 			echo '<tr><td><table><tr class="st"><td>' . TextInput(
 				Config( 'CURRENCY' ),
-				'values[CONFIG][CURRENCY]',
+				'values[config][CURRENCY]',
 				_( 'Currency Symbol' ),
 				'maxlength=8 size=3'
 			) . '</td>';
@@ -507,7 +507,7 @@ else
 
 			echo '<td>' . SelectInput(
 				$thousands_separator_value,
-				'values[CONFIG][THOUSANDS_SEPARATOR]',
+				'values[config][THOUSANDS_SEPARATOR]',
 				_( 'Thousands separator' ),
 				$thousands_separator_options,
 				false
@@ -520,7 +520,7 @@ else
 
 			echo '<td>' . SelectInput(
 				Config( 'DECIMAL_SEPARATOR' ),
-				'values[CONFIG][DECIMAL_SEPARATOR]',
+				'values[config][DECIMAL_SEPARATOR]',
 				_( 'Decimal separator' ),
 				$decimal_separator_options,
 				false
@@ -539,7 +539,7 @@ else
 
 			echo '<tr><td>' . SelectInput(
 				Config( 'COURSE_WIDGET_METHOD' ),
-				'values[CONFIG][COURSE_WIDGET_METHOD]',
+				'values[config][COURSE_WIDGET_METHOD]',
 				_( 'Course Widget' ),
 				$course_widget_options,
 				false
@@ -559,7 +559,7 @@ else
 			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
 				ParseMLField( $addresses_contacts_cat_title ) . '</legend><table>';
 
-			echo '<tr><td>' . CheckboxInput( Config( 'STUDENTS_USE_MAILING' ), 'values[CONFIG][STUDENTS_USE_MAILING]', _( 'Display Mailing Address' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
+			echo '<tr><td>' . CheckboxInput( Config( 'STUDENTS_USE_MAILING' ), 'values[config][STUDENTS_USE_MAILING]', _( 'Display Mailing Address' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
@@ -586,7 +586,7 @@ else
 				// Hide All schools config options if Administrator of 1 school only.
 				echo '<tr><td>' . CheckboxInput(
 					Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ),
-					'values[CONFIG][LIMIT_EXISTING_CONTACTS_ADDRESSES]',
+					'values[config][LIMIT_EXISTING_CONTACTS_ADDRESSES]',
 					_( 'Limit Existing Contacts & Addresses to current school' ),
 					'',
 					false,
@@ -696,7 +696,7 @@ else
 		{
 			echo '<table class="cellpadding-5"><tr><td>' . TextInput(
 				Config( 'ATTENDANCE_FULL_DAY_MINUTES' ),
-				'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',
+				'values[config][ATTENDANCE_FULL_DAY_MINUTES]',
 				_( 'Minutes in a Full School Day' ),
 				' type="number" min="0" max="999"'
 			) . '</td></tr>';

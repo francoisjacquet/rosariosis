@@ -65,7 +65,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 /**
  * Text Input
  *
- * @example TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required' )
+ * @example TextInput( Config( 'NAME' ), 'values[config][NAME]', _( 'Program Name' ), 'required' )
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
@@ -241,7 +241,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
  *
  * @since 5.5.2 Fix save first language in ML fields if not en_US.utf8.
  *
- * @example MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) )
+ * @example MLTextInput( Config( 'TITLE' ), 'values[config][TITLE]', _( 'Program Title' ) )
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title

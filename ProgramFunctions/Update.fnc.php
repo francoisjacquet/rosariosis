@@ -230,7 +230,7 @@ function Update()
 			$return = _update93();
 	}
 
-	// Update version in DB CONFIG table.
+	// Update version in DB config table.
 	Config( 'VERSION', ROSARIO_VERSION );
 
 	return $return;
@@ -265,7 +265,7 @@ function _isCallerUpdate( $callers )
 /**
  * Update to version 6.3
  *
- * 1. Add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table.
+ * 1. Add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to config table.
  *
  * Local function
  *
@@ -280,9 +280,9 @@ function _update63()
 	$return = true;
 
 	/**
-	 * 1. Add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table.
+	 * 1. Add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to config table.
 	 */
-	$default_school_added = DBGetOne( "SELECT 1 FROM CONFIG
+	$default_school_added = DBGetOne( "SELECT 1 FROM config
 		WHERE TITLE='CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL'" );
 
 	if ( ! $default_school_added )
@@ -817,7 +817,7 @@ function _update921()
 /**
  * Update to version 9.3
  *
- * 1. CONFIG table: update DISPLAY_NAME to use CONCAT() instead of pipes ||.
+ * 1. config table: update DISPLAY_NAME to use CONCAT() instead of pipes ||.
  *
  * Local function
  *
@@ -832,7 +832,7 @@ function _update93()
 	$return = true;
 
 	/**
-	 * 1. CONFIG table: update DISPLAY_NAME to use CONCAT() instead of pipes ||.
+	 * 1. config table: update DISPLAY_NAME to use CONCAT() instead of pipes ||.
 	 */
 	$display_names_update = [
 		"FIRST_NAME||' '||LAST_NAME" => "CONCAT(FIRST_NAME,' ',LAST_NAME)",

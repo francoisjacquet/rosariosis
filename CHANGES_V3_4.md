@@ -151,7 +151,7 @@ Changes in 4.7
 - Custom fields input maxlength: 50000 for textarea, 1000 for text in StudentsUsersInfo.fnc.php, Search.fnc.php, Registration.php
 - Set select, text, multiple, textarea columns type to text in Disciplineform.php, Referral.fnc.php
 - Remove GPA / MP List program in GPAMPList.php, Menu.php & rosariosis.sql
-- Add CLASS_RANK_CALCULATE_MPS to CONFIG table in Update.fnc.php & rosariosis.sql
+- Add CLASS_RANK_CALCULATE_MPS to config table in Update.fnc.php & rosariosis.sql
 - Add ClassRankMaybeCalculate(), ClassRankCalculateAJAX() & ClassRankCalculateAddMP() in ClassRank.inc.php
 - Automatic Class Rank calculation in EditReportCardGrades.php, GPARankList.php, InputFinalGrades.php, Transcripts.php
 - SQL performance: rewrite set_class_rank_mp() function in rosariosis.sql & Update.fnc.php
@@ -275,7 +275,7 @@ Changes in 4.4
 - Use PasswordInput() function in both General_Info.inc.php
 - Use PasswordInput() & remove Verifiy New Password in PasswordReset.php
 - JS Add zxcvbn (password strength estimator) in zxcvbn.js
-- Add PASSWORD_STRENGTH to CONFIG table in Update.fnc.php & rosariosis.sql
+- Add PASSWORD_STRENGTH to config table in Update.fnc.php & rosariosis.sql
 - Add Password Strength & strength bars to Security in Configuration.php
 - CSS bigger input (checkbox, select) size in stylesheet.css
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
@@ -336,7 +336,7 @@ Changes in 4.2
 - CSS TinyMCE Fullscreen above bottom menu & "Insert/Edit image" popup too large on mobile devices in stylesheet.css
 - Add MultipleCheckboxInput() function in Inputs.php & Referrals.php
 - Fix \_help gettext function so it works with add-on modules and plugins in Help_en.php
-- SQL CONFIG table: Change config_value column type to text in rosariosis.sql & Update.fnc.php
+- SQL config table: Change config_value column type to text in rosariosis.sql & Update.fnc.php
 - SQL fix more than one row returned by a subquery error in Food_Service/includes/Dashboard.inc.php
 - Fix standard Search form Grade Levels input: select in Search.fnc.php
 
@@ -438,7 +438,7 @@ Changes in 3.9
 - Add Grades program link header in Assignments.php
 - Fix SQL error no AMOUNT when Print after Save Payments in StudentPayments.php & StaffPayments.php
 - Translate Help_en.php help texts in locale/[code].utf8/LC_MESSAGES/help.po & help.mo
-- Fix #244: Add DISPLAY_NAME to CONFIG table for every school in Configuration.php, rosariosis.sql & Update.fnc.php, sponsored by Asian Hope
+- Fix #244: Add DISPLAY_NAME to config table for every school in Configuration.php, rosariosis.sql & Update.fnc.php, sponsored by Asian Hope
 - Default school year is 2018 in rosariosis.sql & config.inc.sample.php
 
 Changes in 3.8
@@ -486,7 +486,7 @@ Changes in 3.7
 --------------
 - RTL layout issues #214 in rtl.css
 - INSERT INTO case to Replace empty strings ('') with NULL values in database.inc.php
-- #218 Add DISPLAY_NAME to CONFIG table in rosariosis.sql & Update.fnc.php
+- #218 Add DISPLAY_NAME to config table in rosariosis.sql & Update.fnc.php
 - Fix #221 Delete Addresses & Contacts info does not delete student in Student.php & Address.inc.php
 - #218 Add DisplayNameSQL() & DisplayName() functions in GetStuList.fnc.php
 - #218 Add Display Name option in Configuration.php

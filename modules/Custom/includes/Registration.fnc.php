@@ -53,7 +53,7 @@ function RegistrationFormConfig()
 	];
 
 	// Save default.
-	DBQuery( "INSERT INTO CONFIG (CONFIG_VALUE,TITLE,SCHOOL_ID)
+	DBQuery( "INSERT INTO config (CONFIG_VALUE,TITLE,SCHOOL_ID)
 		VALUES('" . serialize( $default_values ) . "','REGISTRATION_FORM','0')" );
 
 	return $default_values;

@@ -1,7 +1,7 @@
 <?php
 
 $tables = [
-	'CONFIG' => _( 'School Configuration' ),
+	'config' => _( 'School Configuration' ),
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
@@ -18,7 +18,7 @@ foreach ( (array) $tables as $table => $name )
 	// Force School Configuration copy.
 	$force_checked = false;
 
-	if ( $table === 'CONFIG' )
+	if ( $table === 'config' )
 		$force_checked = true;
 
 	$table_list[] = '<label>' . ( ! $force_checked ?
@@ -123,11 +123,11 @@ function _rollover( $table )
 	switch ( $table )
 	{
 		//FJ copy School Configuration
-		case 'CONFIG':
+		case 'config':
 
-			DBQuery( "INSERT INTO CONFIG (SCHOOL_ID,TITLE,CONFIG_VALUE)
+			DBQuery( "INSERT INTO config (SCHOOL_ID,TITLE,CONFIG_VALUE)
 				SELECT '" . $id . "' AS SCHOOL_ID,TITLE,CONFIG_VALUE
-					FROM CONFIG
+					FROM config
 					WHERE SCHOOL_ID='" . UserSchool() . "';" );
 
 			DBQuery( "INSERT INTO program_config (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE)

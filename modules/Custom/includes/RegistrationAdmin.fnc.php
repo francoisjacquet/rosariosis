@@ -7,7 +7,7 @@
 
 /**
  * Save Registration Form Config
- * Save under CONFIG table in 'REGISTRATION_FORM'. Serialized array.
+ * Save under config table in 'REGISTRATION_FORM'. Serialized array.
  *
  * @param array $values Config values.
  *

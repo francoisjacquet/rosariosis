@@ -164,7 +164,7 @@ Changes in 6.3
 - SQL add Donate link in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 - HTML smaller size for 'Displaying %d through %d' in ListOutput.fnc.php
 - Create Student Account: Fix reload page on School change, no AJAX in General_Info.inc.php
-- SQL add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table in rosariosis.sql & Update.fnc.php
+- SQL add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to config table in rosariosis.sql & Update.fnc.php
 - Add Create Student Account Default School option in Configuration.php, index.php & Help_en.php
 - Translate "Default School" & help to French & Spanish in rosariosis.po & help.po
 - Fix Has Address Custom Field check in Export.php
@@ -292,7 +292,7 @@ Changes in 5.9
 - Moodle creates user password if left empty in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
 - Do not update Moodle user password in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
 - Hide Last Login on Create Account and Add screens in General_Info.inc.php
-- Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table in Update.fnc.php & rosariosis.sql
+- Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to config table in Update.fnc.php & rosariosis.sql
 - Automatic Student Account Activation in Configuration.php, Student.php & General_Info.inc.php
 - Automatic Moodle Student Account Creation in Moodle/functions.php & Moodle/getconfig.inc.php
 - Hide Permissions for "No Access" profile in General_Info.inc.php
@@ -304,7 +304,7 @@ Changes in 5.9
 - HTML add .br-after span to Course Periods + use DBGetOne() in Side.php
 - jQuery already loaded on first-login page, remove it in FirstLogin.fnc.php
 - CSS WPadmin pointer cursor for radio & checkbox input in stylesheet.css
-- Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to CONFIG (all schools, 0) in RemoveAccess.php, rosariosis.sql & Update.fnc.php
+- Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to config (all schools, 0) in RemoveAccess.php, rosariosis.sql & Update.fnc.php
 - Prevent PHP Fatal error if Kint debug d() function not loaded in Warehouse.php & Debug.fnc.php
 - Fix ML default value beginning with `|locale:` in ParseML.php
 
@@ -561,7 +561,7 @@ Changes in 5.3
 - Use Daily Attendance data for report table in AttendanceSummary.php
 - Place Attendance Summary program before Utilities separator in Custom/Menu.php
 - Translate "Remove Access" custom program to "Bloquer l'accès" in French in rosariosis.po & help.po
-- Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table in rosariosis.sql & Update.fnc.php
+- Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to config table in rosariosis.sql & Update.fnc.php
 - Add Force password change on first login option in Configuration.php
 - Force password change on first login in index.php & FirstLogin.fnc.php
 - Add help & translations for Password Strength & Force Password Change on First Login in Help_en.php, help.po & rosariosis.po

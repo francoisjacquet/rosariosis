@@ -22,7 +22,7 @@ Changes in 9.3
 - SQL add `_SQLUnixTimestamp()` to extract Unix timestamp or epoch from date in Grades.php & Schedule.php
 - Add case for MySQL: get next MP ID & set AUTO_INCREMENT+1 in EditHistoryMarkingPeriods.php
 - Display Name: SQL use CONCAT() instead of pipes || for MySQL compatibility in Configuration.php & GetStuList.fnc.php
-- CONFIG table: update DISPLAY_NAME to use CONCAT() instead of pipes || in Update.fnc.php
+- config table: update DISPLAY_NAME to use CONCAT() instead of pipes || in Update.fnc.php
 
 Changes in 9.2.2
 ----------------

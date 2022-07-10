@@ -122,7 +122,7 @@ function _update40beta()
 /**
  * Update to version 4.2
  *
- * 1. CONFIG table:
+ * 1. config table:
  * Change config_value column type to text
  * Was character varying(2550) which could prevent saving rich text with base64 images
  * in case there is an issue with the image upload.
@@ -140,7 +140,7 @@ function _update42beta()
 	$return = true;
 
 	/**
-	 * 1. CONFIG table:
+	 * 1. config table:
 	 * Change config_value column type to text
 	 * Was character varying(2550) which could prevent saving rich text with base64 images
 	 * in case there is an issue with the image upload.
@@ -266,7 +266,7 @@ function _update44beta()
 /**
  * Update to version 4.4
  *
- * 1. Add PASSWORD_STRENGTH to CONFIG table.
+ * 1. Add PASSWORD_STRENGTH to config table.
  *
  * Local function
  *
@@ -281,9 +281,9 @@ function _update44beta2()
 	$return = true;
 
 	/**
-	 * 1. Add PASSWORD_STRENGTH to CONFIG table.
+	 * 1. Add PASSWORD_STRENGTH to config table.
 	 */
-	$password_strength_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='PASSWORD_STRENGTH'" );
+	$password_strength_added = DBGet( "SELECT 1 FROM config WHERE TITLE='PASSWORD_STRENGTH'" );
 
 	if ( ! $password_strength_added )
 	{
@@ -472,7 +472,7 @@ function _update47beta()
 /**
  * Update to version 4.7
  *
- * 1. Add CLASS_RANK_CALCULATE_MPS to CONFIG table.
+ * 1. Add CLASS_RANK_CALCULATE_MPS to config table.
  * 2. SQL performance: rewrite set_class_rank_mp() function.
  * 3. SQL move calc_cum_gpa_mp() function into t_update_mp_stats() trigger.
  *
@@ -489,9 +489,9 @@ function _update47beta2()
 	$return = true;
 
 	/**
-	 * 1. Add CLASS_RANK_CALCULATE_MPS to CONFIG table.
+	 * 1. Add CLASS_RANK_CALCULATE_MPS to config table.
 	 */
-	$class_rank_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='CLASS_RANK_CALCULATE_MPS'" );
+	$class_rank_added = DBGet( "SELECT 1 FROM config WHERE TITLE='CLASS_RANK_CALCULATE_MPS'" );
 
 	if ( ! $class_rank_added )
 	{
@@ -1122,7 +1122,7 @@ function _update52beta()
 /**
  * Update to version 5.3
  *
- * 1. Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table.
+ * 1. Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to config table.
  *
  * Local function
  *
@@ -1137,9 +1137,9 @@ function _update53beta()
 	$return = true;
 
 	/**
-	 * 1. Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table.
+	 * 1. Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to config table.
 	 */
-	$force_poassword_change_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN'" );
+	$force_poassword_change_added = DBGet( "SELECT 1 FROM config WHERE TITLE='FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN'" );
 
 	if ( ! $force_poassword_change_added )
 	{
@@ -1687,7 +1687,7 @@ function _update59beta()
 /**
  * Update to version 5.9-beta2
  *
- * 1. Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table.
+ * 1. Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to config table.
  *
  * Local function
  *
@@ -1702,9 +1702,9 @@ function _update59beta2()
 	$return = true;
 
 	/**
-	 * 1. Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table.
+	 * 1. Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to config table.
 	 */
-	$automatic_activation_added = DBGetOne( "SELECT 1 FROM CONFIG
+	$automatic_activation_added = DBGetOne( "SELECT 1 FROM config
 		WHERE TITLE='CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION'" );
 
 	if ( ! $automatic_activation_added )
@@ -1719,7 +1719,7 @@ function _update59beta2()
 /**
  * Update to version 5.9
  *
- * 1. Move REMOVE_ACCESS_USERNAME_PREFIX_ADD to CONFIG table.
+ * 1. Move REMOVE_ACCESS_USERNAME_PREFIX_ADD to config table.
  *
  * Local function
  *
@@ -1734,14 +1734,14 @@ function _update59()
 	$return = true;
 
 	/**
-	 * 1. Move REMOVE_ACCESS_USERNAME_PREFIX_ADD to CONFIG table.
+	 * 1. Move REMOVE_ACCESS_USERNAME_PREFIX_ADD to config table.
 	 */
-	$username_prefix_add_added = DBGetOne( "SELECT 1 FROM CONFIG
+	$username_prefix_add_added = DBGetOne( "SELECT 1 FROM config
 		WHERE TITLE='REMOVE_ACCESS_USERNAME_PREFIX_ADD'" );
 
 	if ( ! $username_prefix_add_added )
 	{
-		// Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to CONFIG (all schools, 0).
+		// Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to config (all schools, 0).
 		$old_program_config_value = ProgramConfig( 'custom', 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
 
 		DBQuery( "INSERT INTO config VALUES (0, 'REMOVE_ACCESS_USERNAME_PREFIX_ADD', '" . $old_program_config_value . "');" );
