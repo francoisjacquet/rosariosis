@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						}
 						else
 						{
-							$sql = "UPDATE FOOD_SERVICE_MENUS SET ";
+							$sql = "UPDATE food_service_menus SET ";
 						}
 
 						foreach ( (array) $columns as $column => $value )
@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 								&& $_REQUEST['tab_id'] === 'new' )
 							{
 								$menu_title_exists = DBGetOne( "SELECT 1
-									FROM FOOD_SERVICE_MENUS
+									FROM food_service_menus
 									WHERE TITLE='" . $value . "'" );
 
 								// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						}
 						else
 						{
-							$sql = 'INSERT INTO FOOD_SERVICE_MENUS ';
+							$sql = 'INSERT INTO food_service_menus ';
 							$fields = 'SCHOOL_ID,';
 							$values = "'" . UserSchool() . "',";
 						}
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 									&& $_REQUEST['tab_id'] === 'new' )
 								{
 									$menu_title_exists = DBGetOne( "SELECT 1
-										FROM FOOD_SERVICE_MENUS
+										FROM food_service_menus
 										WHERE TITLE='" . $value . "'" );
 
 									// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
@@ -146,7 +146,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		$delete_sql .= "DELETE FROM food_service_categories
 			WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "';";
 
-		$delete_sql .= "DELETE FROM FOOD_SERVICE_MENUS
+		$delete_sql .= "DELETE FROM food_service_menus
 			WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -161,7 +161,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
+	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -253,7 +253,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = 'SELECT * FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
+		$sql = 'SELECT * FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
 
 		$functions = [
 			'TITLE' => '_makeTextInput',

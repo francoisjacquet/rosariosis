@@ -65,7 +65,7 @@ $transaction_items = [
 ];
 
 $menus_RET = DBGet( "SELECT TITLE
-	FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='" . UserSchool() . "'
+	FROM food_service_menus WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 
 // echo '<pre>'; var_dump($menus_RET); echo '</pre>';

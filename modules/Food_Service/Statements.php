@@ -65,7 +65,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 $types = [ 'DEPOSIT' => _( 'Deposit' ), 'CREDIT' => _( 'Credit' ), 'DEBIT' => _( 'Debit' ) ];
 
 $menus_RET = DBGet( "SELECT TITLE
-	FROM FOOD_SERVICE_MENUS
+	FROM food_service_menus
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 

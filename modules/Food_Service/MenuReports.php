@@ -11,7 +11,7 @@ $end_date = RequestedDate( 'end', DBDate(), 'set' );
 DrawHeader( ProgramTitle() );
 
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
-	FROM FOOD_SERVICE_MENUS
+	FROM food_service_menus
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
 

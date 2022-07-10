@@ -54,7 +54,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 
 $RET = DBGet( $sql, [], [ 'STAFF_ID', 'PERIOD_ID' ] );
 
-$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
+$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {
