@@ -249,7 +249,7 @@ if ( $_REQUEST['student_id']
 		$attendance_RET = DBGet( "SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,
 			ad.STATE_VALUE AS STATE_CODE," .
 			db_case( [ 'ad.STATE_VALUE', "'0.0'", "'A'", "'1.0'", "'P'", "'H'" ] ) . " AS SHORT_NAME
-			FROM ATTENDANCE_DAY ad
+			FROM attendance_day ad
 			WHERE ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 			AND ad.STUDENT_ID='" . UserStudentID() . "'", [], [ 'SCHOOL_DATE', 'PERIOD_ID' ] );
 	}
@@ -328,7 +328,7 @@ else
 		// @since 9.2.1 SQL use REPLACE() instead of to_char() for MySQL compatibility
 		$att_sql = "SELECT ad.STATE_VALUE AS STATE_CODE,
 			SCHOOL_DATE,CONCAT('_', REPLACE(CAST(ad.SCHOOL_DATE AS varchar(10)),'-','')) AS SHORT_DATE
-		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm
+		FROM attendance_day ad,STUDENT_ENROLLMENT ssm
 		WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 		AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)
 			AND '" . DBDate() . "'>=ssm.START_DATE)

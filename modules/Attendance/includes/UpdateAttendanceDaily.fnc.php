@@ -60,12 +60,12 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 	}
 
 	$current_RET = DBGet( "SELECT MINUTES_PRESENT,STATE_VALUE,COMMENT
-		FROM ATTENDANCE_DAY
+		FROM attendance_day
 		WHERE STUDENT_ID='" . (int) $student_id . "' AND SCHOOL_DATE='" . $date . "'" );
 
 	if ( empty( $current_RET ) )
 	{
-		DBQuery( "INSERT INTO ATTENDANCE_DAY (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT)
+		DBQuery( "INSERT INTO attendance_day (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT)
 			VALUES('" . UserSyear() . "','" . $student_id . "','" . $date . "','" . $total . "','" .
 			$length . "','" . GetCurrentMP( 'QTR', $date, false ) . "','" . $comment . "')" );
 
@@ -75,7 +75,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 	if ( $current_RET[1]['MINUTES_PRESENT'] != $total
 		|| $current_RET[1]['STATE_VALUE'] != $length )
 	{
-		DBQuery( "UPDATE ATTENDANCE_DAY
+		DBQuery( "UPDATE attendance_day
 			SET MINUTES_PRESENT='" . $total . "',STATE_VALUE='" . $length . "'" .
 			( $comment !== false ? ",COMMENT='" . $comment . "'" : '' ) . "
 			WHERE STUDENT_ID='" . (int) $student_id . "'
@@ -84,7 +84,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 	elseif ( $comment !== false
 		&& $current_RET[1]['COMMENT'] != $comment )
 	{
-		DBQuery( "UPDATE ATTENDANCE_DAY
+		DBQuery( "UPDATE attendance_day
 			SET COMMENT='" . $comment . "'
 			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND SCHOOL_DATE='" . $date . "'" );

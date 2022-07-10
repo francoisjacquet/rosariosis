@@ -457,8 +457,8 @@ else
 
 	if ( $_REQUEST['table'] == '0' )
 	{
-		$extra['SELECT'] .= ",(SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='" . $date . "') AS STATE_VALUE";
-		$extra['SELECT'] .= ",(SELECT COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='" . $date . "') AS DAILY_COMMENT";
+		$extra['SELECT'] .= ",(SELECT STATE_VALUE FROM attendance_day WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='" . $date . "') AS STATE_VALUE";
+		$extra['SELECT'] .= ",(SELECT COMMENT FROM attendance_day WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='" . $date . "') AS DAILY_COMMENT";
 		$extra['functions']['STATE_VALUE'] = '_makeStateValue';
 		$extra['functions']['DAILY_COMMENT'] = '_makeStateValue';
 

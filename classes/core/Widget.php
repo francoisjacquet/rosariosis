@@ -340,7 +340,7 @@ class Widget_absences implements Widget
 				AND '" . $_REQUEST['absences_high'] . "'";
 
 		$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE
-			FROM ATTENDANCE_DAY ad
+			FROM attendance_day ad
 			WHERE ssm.STUDENT_ID=ad.STUDENT_ID
 			AND ad.SYEAR=ssm.SYEAR
 			AND ad.MARKING_PERIOD_ID IN (" . GetChildrenMP( $_REQUEST['absences_term'], UserMP() ) . "))" .

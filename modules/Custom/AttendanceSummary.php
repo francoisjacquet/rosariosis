@@ -89,7 +89,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			extract(MONTH from ad.SCHOOL_DATE) AS MON,
 			extract(DAY from ad.SCHOOL_DATE) AS DAY,
 			ad.STATE_VALUE
-			FROM ATTENDANCE_DAY ad
+			FROM attendance_day ad
 			WHERE ad.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 			AND ad.SYEAR='" . UserSyear() . "'", [], [ 'MON', 'DAY' ] );
 		//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';

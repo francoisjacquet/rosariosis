@@ -1063,7 +1063,7 @@ function _getAttendanceDayRET( $st_list, $last_mp )
 
 		$extra['SELECT_ONLY'] = "ad.SCHOOL_DATE,ad.MARKING_PERIOD_ID,ad.STATE_VALUE,ssm.STUDENT_ID";
 
-		$extra['FROM'] = ",ATTENDANCE_DAY ad";
+		$extra['FROM'] = ",attendance_day ad";
 
 		$extra['WHERE'] .= " AND ad.STUDENT_ID=ssm.STUDENT_ID
 			AND ad.SYEAR=ssm.SYEAR

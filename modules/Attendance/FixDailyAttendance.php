@@ -35,7 +35,7 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 			// @since 7.5 Delete any attendance for this day & student prior to update.
 			// Fix case where calendar has changed and day is no longer a school day.
 			// Else, the daily attendance will be re-inserted below using UpdateAttendanceDaily().
-			DBQuery( "DELETE FROM ATTENDANCE_DAY
+			DBQuery( "DELETE FROM attendance_day
 				WHERE STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_DATE='" . date( 'Y-m-d', $i ) . "'" );

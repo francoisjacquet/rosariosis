@@ -48,7 +48,7 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 		$absences_RET = DBGet( "SELECT ad.SCHOOL_DATE,
 		SUM(CASE WHEN ad.STATE_VALUE='0.0' THEN 1 END) AS ABSENT,
 		SUM(CASE WHEN ad.STATE_VALUE='0.5' THEN 1 END) AS HALF_DAY
-		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm
+		FROM attendance_day ad,STUDENT_ENROLLMENT ssm
 		WHERE ad.SYEAR='" . UserSyear() . "'
 		AND ad.SYEAR=ssm.SYEAR
 		AND ad.STUDENT_ID=ssm.STUDENT_ID

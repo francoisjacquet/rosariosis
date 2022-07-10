@@ -356,7 +356,7 @@ function _makeStateValue( $value, $name )
 	global $THIS_RET, $date;
 
 	$value = DBGetOne( "SELECT STATE_VALUE
-		FROM ATTENDANCE_DAY
+		FROM attendance_day
 		WHERE STUDENT_ID='" . (int) $THIS_RET['STUDENT_ID'] . "'
 		AND SCHOOL_DATE='" . $date . "'" );
 

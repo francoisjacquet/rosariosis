@@ -90,7 +90,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$cal_days = 1;
 
 		$student_days_absent = DBGet( "SELECT ad.SCHOOL_DATE,ssm.GRADE_ID,COALESCE(sum(ad.STATE_VALUE-1)*-1,0) AS STATE_VALUE
-		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm,STUDENTS s" . $extra['FROM'] . "
+		FROM attendance_day ad,STUDENT_ENROLLMENT ssm,STUDENTS s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -158,7 +158,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['WHERE'] .= " GROUP BY ssm.GRADE_ID,ssm.CALENDAR_ID";
 
 		$student_days_absent = DBGet( "SELECT ssm.GRADE_ID,ssm.CALENDAR_ID,COALESCE(sum(ad.STATE_VALUE-1)*-1,0) AS STATE_VALUE
-		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm,STUDENTS s" . $extra['FROM'] . "
+		FROM attendance_day ad,STUDENT_ENROLLMENT ssm,STUDENTS s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'

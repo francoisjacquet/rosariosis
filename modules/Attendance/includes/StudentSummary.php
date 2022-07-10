@@ -143,7 +143,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 else
 {
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
-	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
+	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM attendance_day ad
 		WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
 
@@ -183,7 +183,7 @@ if ( $is_student_report )
 
 	$absences_RET = DBGet( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
-	FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,attendance_codes ac
+	FROM ATTENDANCE_PERIOD ap,attendance_day ad,attendance_codes ac
 	WHERE ap.STUDENT_ID=ad.STUDENT_ID
 	AND ap.SCHOOL_DATE=ad.SCHOOL_DATE
 	AND ap.ATTENDANCE_CODE=ac.ID
