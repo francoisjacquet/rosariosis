@@ -178,7 +178,7 @@ if ( ! empty( $_REQUEST['values'] )
 	}
 
 	$completed_RET = DBGet( "SELECT 'completed' AS COMPLETED
-		FROM ELIGIBILITY_COMPLETED
+		FROM eligibility_completed
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
@@ -187,7 +187,7 @@ if ( ! empty( $_REQUEST['values'] )
 	if ( empty( $completed_RET ) )
 	{
 		// SQL Insert eligibility completed once for All $school_period.
-		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
+		DBQuery( "INSERT INTO eligibility_completed (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
 			SELECT '" . User( 'STAFF_ID' ) . "' AS STAFF_ID,'" . DBDate() . "' AS SCHOOL_DATE,PERIOD_ID
 			FROM course_period_school_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
@@ -250,7 +250,7 @@ else
 	);
 
 	$completed_RET = DBGet( "SELECT 'completed' AS COMPLETED
-		FROM ELIGIBILITY_COMPLETED
+		FROM eligibility_completed
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'

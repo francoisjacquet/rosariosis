@@ -90,7 +90,7 @@ sp.PERIOD_ID = cp.PERIOD_ID
 AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
 AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
 ".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
-AND NOT EXISTS (SELECT '' FROM ELIGIBILITY_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
+AND NOT EXISTS (SELECT '' FROM eligibility_completed ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
 ";*/
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,
 	s.STAFF_ID,s.ROLLOVER_ID,cp.TITLE AS CP_TITLE
@@ -104,7 +104,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	AND s.PROFILE='teacher'" .
 	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	"AND NOT EXISTS (SELECT ''
-		FROM ELIGIBILITY_COMPLETED ac
+		FROM eligibility_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "')";
