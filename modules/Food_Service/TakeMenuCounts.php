@@ -162,7 +162,7 @@ DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . $date_n
 echo ErrorMessage( $note, 'note' );
 
 $meal_description = DBGetOne( "SELECT DESCRIPTION
-	FROM CALENDAR_EVENTS
+	FROM calendar_events
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND SCHOOL_DATE='" . $date . "'

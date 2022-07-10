@@ -80,7 +80,7 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 	&& AllowEdit() )
 {
 	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE
-	FROM CALENDAR_EVENTS
+	FROM calendar_events
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
@@ -93,19 +93,19 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 		{
 			if ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 			{
-				DBQuery( "UPDATE CALENDAR_EVENTS
+				DBQuery( "UPDATE calendar_events
 					SET DESCRIPTION='" . $description['text'] . $description['select'] . "'
 					WHERE ID='" . (int) $events_RET[$school_date][1]['ID'] . "'" );
 			}
 			else
 			{
-				DBQuery( "DELETE FROM CALENDAR_EVENTS
+				DBQuery( "DELETE FROM calendar_events
 					WHERE ID='" . (int) $events_RET[$school_date][1]['ID'] . "'" );
 			}
 		}
 		elseif ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 		{
-			DBQuery( "INSERT INTO CALENDAR_EVENTS (SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
+			DBQuery( "INSERT INTO calendar_events (SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
 				VALUES('" . UserSyear() . "','" .
 				UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
 				$description['text'] . issetVal( $description['select'], '' ) . "')" );
@@ -119,7 +119,7 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 if ( ! empty( $_REQUEST['submit']['print'] ) )
 {
 	$events_RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
-	FROM CALENDAR_EVENTS
+	FROM calendar_events
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
@@ -246,7 +246,7 @@ else
 	if ( AllowEdit() )
 	{
 		$description_RET = DBGet( "SELECT DISTINCT DESCRIPTION
-			FROM CALENDAR_EVENTS
+			FROM calendar_events
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
@@ -276,7 +276,7 @@ else
 	ORDER BY SCHOOL_DATE", [], [ 'SCHOOL_DATE' ] );
 
 	$events_RET = DBGet( "SELECT ID,TITLE,DESCRIPTION,SCHOOL_DATE
-	FROM CALENDAR_EVENTS
+	FROM calendar_events
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'

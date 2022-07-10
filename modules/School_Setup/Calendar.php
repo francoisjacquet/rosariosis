@@ -464,7 +464,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			// Update Event.
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
-				$sql = "UPDATE CALENDAR_EVENTS SET ";
+				$sql = "UPDATE calendar_events SET ";
 
 				foreach ( (array) $_REQUEST['values'] as $column => $value )
 				{
@@ -497,7 +497,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
  						);
 					}
 
-					$sql = "INSERT INTO CALENDAR_EVENTS ";
+					$sql = "INSERT INTO calendar_events ";
 
 					$fields = 'SYEAR,SCHOOL_ID,';
 
@@ -552,7 +552,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 	{
 		if ( DeletePrompt( _( 'Event' ), 'Delete', false ) )
 		{
-			DBQuery( "DELETE FROM CALENDAR_EVENTS
+			DBQuery( "DELETE FROM calendar_events
 				WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
 
 			//hook
@@ -577,7 +577,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
 				$RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
-					FROM CALENDAR_EVENTS
+					FROM calendar_events
 					WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
 
 				$title = $RET[1]['TITLE'];
@@ -759,7 +759,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	$functions = [ 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => 'makeTextarea' ];
 
 	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
-		FROM CALENDAR_EVENTS
+		FROM calendar_events
 		WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'", $functions );
@@ -1038,7 +1038,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// Get Events
 	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
-		FROM CALENDAR_EVENTS
+		FROM calendar_events
 		WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
 		AND '" . $last_day_month . "'
 		AND SYEAR='" . UserSyear() . "'
