@@ -271,7 +271,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		$categories_RET = DBGet( "SELECT CATEGORY_ID,TITLE
-			FROM FOOD_SERVICE_CATEGORIES
+			FROM food_service_categories
 			WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER" );
 
@@ -282,7 +282,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$categories_select += [ $category['CATEGORY_ID'] => $category['TITLE'] ];
 		}
 
-		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
+		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
 
 		$functions = [
 			'ITEM_ID' => 'makeSelectInput',

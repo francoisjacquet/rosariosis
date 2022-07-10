@@ -65,7 +65,7 @@ else
 }
 
 $categories_RET = DBGet( "SELECT MENU_ID,CATEGORY_ID,TITLE
-	FROM FOOD_SERVICE_CATEGORIES
+	FROM food_service_categories
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER", [], [ 'MENU_ID', 'CATEGORY_ID' ] );
 //FJ fix error Warning: key() expects parameter 1 to be array, null given
@@ -106,7 +106,7 @@ $items_RET = DBGet( "SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE IT
 FROM FOOD_SERVICE_MENU_ITEMS fsmi
 WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 AND CATEGORY_ID='" . (int) $_REQUEST['cat_id'] . "'
-ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER" );
+ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER" );
 
 echo '<br />';
 

@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					{
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = "UPDATE FOOD_SERVICE_CATEGORIES SET ";
+							$sql = "UPDATE food_service_categories SET ";
 						}
 						else
 						{
@@ -63,7 +63,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					{
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = 'INSERT INTO FOOD_SERVICE_CATEGORIES ';
+							$sql = 'INSERT INTO food_service_categories ';
 							$fields = 'MENU_ID,SCHOOL_ID,';
 							$values = "'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
 						}
@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 				SET CATEGORY_ID=NULL
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'" );
 
-			DBQuery( "DELETE FROM FOOD_SERVICE_CATEGORIES
+			DBQuery( "DELETE FROM food_service_categories
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 			// Unset modfunc & category ID & redirect URL.
@@ -143,7 +143,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		$delete_sql = "DELETE FROM FOOD_SERVICE_MENU_ITEMS
 			WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "';";
 
-		$delete_sql .= "DELETE FROM FOOD_SERVICE_CATEGORIES
+		$delete_sql .= "DELETE FROM food_service_categories
 			WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "';";
 
 		$delete_sql .= "DELETE FROM FOOD_SERVICE_MENUS
@@ -217,7 +217,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = 'SELECT * FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
+		$sql = 'SELECT * FROM food_service_categories WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
 
 		$functions = [
 			'TITLE' => '_makeTextInput',
