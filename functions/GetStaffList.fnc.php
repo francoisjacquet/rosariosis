@@ -65,7 +65,7 @@ function GetStaffList( &$extra = [] )
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 			FROM staff_fields cf,staff_field_categories sfc
 			WHERE ((SELECT VALUE
-				FROM PROGRAM_USER_CONFIG
+				FROM program_user_config
 				WHERE TITLE=cast(cf.ID AS TEXT)
 				AND PROGRAM='StaffFieldsView'
 				AND USER_ID='" . User('STAFF_ID') . "')='Y'" .

@@ -313,7 +313,7 @@ function Search( $type, $extra = null )
 					LIMIT 1)='Y'
 				AND cf.CATEGORY_ID=sfc.ID
 				AND NOT EXISTS(SELECT ''
-					FROM PROGRAM_USER_CONFIG
+					FROM program_user_config
 					WHERE PROGRAM='StaffFieldsSearch'
 					AND TITLE=cast(cf.ID AS TEXT)
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
@@ -333,7 +333,7 @@ function Search( $type, $extra = null )
 					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID
 					LIMIT 1)='Y'
 				AND (SELECT VALUE
-					FROM PROGRAM_USER_CONFIG
+					FROM program_user_config
 					WHERE TITLE=cast(cf.ID AS TEXT)
 					AND PROGRAM='StaffFieldsSearch'
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
@@ -352,7 +352,7 @@ function Search( $type, $extra = null )
 					AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y'
 				AND cf.CATEGORY_ID=sfc.ID
 				AND NOT exists(SELECT ''
-					FROM PROGRAM_USER_CONFIG
+					FROM program_user_config
 					WHERE PROGRAM='StudentFieldsSearch'
 					AND TITLE=cast(cf.ID AS TEXT)
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
@@ -371,7 +371,7 @@ function Search( $type, $extra = null )
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
 					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 				AND (SELECT VALUE
-					FROM PROGRAM_USER_CONFIG
+					FROM program_user_config
 					WHERE TITLE=cast(cf.ID AS TEXT)
 					AND PROGRAM='StudentFieldsSearch'
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'

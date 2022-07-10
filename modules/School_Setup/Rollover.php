@@ -295,7 +295,7 @@ function Rollover( $table, $mode = 'delete' )
 				$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
 					WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
-				$delete_sql .= "DELETE FROM PROGRAM_USER_CONFIG
+				$delete_sql .= "DELETE FROM program_user_config
 					WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
 				DBQuery( $delete_sql );
@@ -364,9 +364,9 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND STAFF_ID NOT IN(SELECT ROLLOVER_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
 
-			DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE)
+			DBQuery( "INSERT INTO program_user_config (USER_ID,PROGRAM,TITLE,VALUE)
 				SELECT s.STAFF_ID,puc.PROGRAM,puc.TITLE,puc.VALUE
-				FROM STAFF s,PROGRAM_USER_CONFIG puc
+				FROM STAFF s,program_user_config puc
 				WHERE puc.USER_ID=s.ROLLOVER_ID
 				AND s.SYEAR='" . $next_syear . "'" );
 
@@ -517,7 +517,7 @@ function Rollover( $table, $mode = 'delete' )
 				}
 			}
 
-			DBQuery( "UPDATE PROGRAM_USER_CONFIG puc
+			DBQuery( "UPDATE program_user_config puc
 				SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
 					FROM STAFF s
 					WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))

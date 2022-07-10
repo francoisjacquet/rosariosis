@@ -15,7 +15,7 @@ if ( User( 'PROFILE' ) === 'admin'
 	if ( ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) )
 	{
 		// Delete admin configuration (Staff ID = -1).
-		DBQuery( "DELETE FROM PROGRAM_USER_CONFIG
+		DBQuery( "DELETE FROM program_user_config
 			WHERE PROGRAM='Gradebook'
 			AND USER_ID='-1'" );
 

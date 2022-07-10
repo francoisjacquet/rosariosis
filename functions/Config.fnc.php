@@ -168,7 +168,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * @example $gradebook_config = ProgramUserConfig( 'Gradebook' );
  *
  * @see Preferences()
- * @see PROGRAM_USER_CONFIG table
+ * @see program_user_config table
  *
  * @since 2.9
  * @since 4.4 Add $values param to INSERT or UPDATE.
@@ -197,7 +197,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 	if ( ! isset( $program_config[ $program ][ $staff_id ] ) )
 	{
 		$config_RET = DBGet( "SELECT TITLE,VALUE
-			FROM PROGRAM_USER_CONFIG
+			FROM program_user_config
 			WHERE (USER_ID='" . (int) $staff_id . "' OR USER_ID='-1')
 			AND PROGRAM='" . $program . "'
 			ORDER BY USER_ID", [], [ 'TITLE' ] );
@@ -224,14 +224,14 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 			if ( ! array_key_exists( $title, (array) $program_config[ $program ][ $staff_id ] ) )
 			{
 				// Insert value (does not exist).
-				DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (VALUE,PROGRAM,TITLE,USER_ID)
+				DBQuery( "INSERT INTO program_user_config (VALUE,PROGRAM,TITLE,USER_ID)
 					VALUES('" . $value . "','" . $program . "','" . $title . "','" .
 					$staff_id . "')" );
 			}
 			elseif ( $value != DBEscapeString( $program_config[ $program ][ $staff_id ][ $title ] ) )
 			{
 				// Update value (different from current value).
-				DBQuery( "UPDATE PROGRAM_USER_CONFIG
+				DBQuery( "UPDATE program_user_config
 					SET VALUE='" . $value . "'
 					WHERE TITLE='" . $title . "'
 					AND PROGRAM='" . $program . "'

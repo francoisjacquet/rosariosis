@@ -114,7 +114,7 @@ function Preferences( $item, $program = 'Preferences' )
 		&& ! isset( $_ROSARIO['Preferences'][ $program ] ) )
 	{
 		$_ROSARIO['Preferences'][ $program ] = DBGet( "SELECT TITLE,VALUE
-			FROM PROGRAM_USER_CONFIG
+			FROM program_user_config
 			WHERE (USER_ID='" . User( 'STAFF_ID' ) . "' OR USER_ID='-1')
 			AND PROGRAM='" . $program . "'
 			ORDER BY USER_ID", [], [ 'TITLE' ] );

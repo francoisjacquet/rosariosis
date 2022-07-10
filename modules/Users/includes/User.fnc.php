@@ -17,7 +17,7 @@
  */
 function UserDeleteSQL( $staff_id )
 {
-	$delete_sql = "DELETE FROM PROGRAM_USER_CONFIG
+	$delete_sql = "DELETE FROM program_user_config
 		WHERE USER_ID='" . (int) $staff_id . "';";
 
 	$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS

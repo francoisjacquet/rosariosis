@@ -414,7 +414,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SCHOOL_ID='" . UserSchool() . "')
 	AND (CREATED_MP='" . UserMP() . "'
 		OR NOT EXISTS(SELECT USER_ID
-			FROM PROGRAM_USER_CONFIG
+			FROM program_user_config
 			WHERE TITLE='HIDE_PREVIOUS_ASSIGNMENT_TYPES'
 			AND VALUE='Y'
 			AND STAFF_ID=USER_ID))

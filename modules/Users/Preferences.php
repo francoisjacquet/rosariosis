@@ -111,7 +111,7 @@ echo ErrorMessage( $note, 'note' );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$current_RET = DBGet( "SELECT TITLE,VALUE,PROGRAM
-		FROM PROGRAM_USER_CONFIG
+		FROM program_user_config
 		WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 		AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView',
 			'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')",

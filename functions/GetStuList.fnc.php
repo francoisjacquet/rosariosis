@@ -116,7 +116,7 @@ function GetStuList( &$extra = [] )
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 			FROM custom_fields cf,student_field_categories sfc
 			WHERE ((SELECT VALUE
-				FROM PROGRAM_USER_CONFIG
+				FROM program_user_config
 				WHERE TITLE=cast(cf.ID AS TEXT)
 				AND PROGRAM='StudentFieldsView'
 				AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y'" .
@@ -127,13 +127,13 @@ function GetStuList( &$extra = [] )
 			ORDER BY sfc.SORT_ORDER,cf.SORT_ORDER,cf.TITLE" );
 
 		$view_address_RET = DBGetOne( "SELECT VALUE
-			FROM PROGRAM_USER_CONFIG
+			FROM program_user_config
 			WHERE PROGRAM='StudentFieldsView'
 			AND TITLE='ADDRESS'
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'" );
 
 		$view_other_RET = DBGet( "SELECT TITLE,VALUE
-			FROM PROGRAM_USER_CONFIG
+			FROM program_user_config
 			WHERE PROGRAM='StudentFieldsView'
 			AND TITLE IN ('USERNAME','CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'", [], [ 'TITLE' ] );

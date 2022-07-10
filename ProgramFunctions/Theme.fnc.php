@@ -43,7 +43,7 @@ function ThemeLiveUpdate( $new_theme, $old_theme, $default = true )
 		// Check if loaded stylesheet is the same as the new one.
 		// Get the value from DB as Preferences() value is overridden by THEME_FORCE!
 		$real_user_preferred_theme = DBGetOne( "SELECT VALUE
-			FROM PROGRAM_USER_CONFIG
+			FROM program_user_config
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 			AND PROGRAM='Preferences'
 			AND TITLE='THEME'" );
@@ -61,7 +61,7 @@ function ThemeLiveUpdate( $new_theme, $old_theme, $default = true )
 		&& Preferences( 'THEME' ) !== $new_theme )
 	{
 		// If not Forcing theme, update admin Preferred theme too.
-		DBQuery( "UPDATE PROGRAM_USER_CONFIG
+		DBQuery( "UPDATE program_user_config
 			SET VALUE='" . $new_theme . "'
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 			AND PROGRAM='Preferences'
