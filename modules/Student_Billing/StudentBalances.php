@@ -2,7 +2,7 @@
 
 DrawHeader( ProgramTitle() );
 
-$extra['SELECT'] = ',(COALESCE((SELECT SUM(f.AMOUNT) FROM billing_fees f WHERE f.STUDENT_ID=ssm.STUDENT_ID AND f.SYEAR=ssm.SYEAR),0)-COALESCE((SELECT SUM(p.AMOUNT) FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID=ssm.STUDENT_ID AND p.SYEAR=ssm.SYEAR),0)) AS BALANCE';
+$extra['SELECT'] = ',(COALESCE((SELECT SUM(f.AMOUNT) FROM billing_fees f WHERE f.STUDENT_ID=ssm.STUDENT_ID AND f.SYEAR=ssm.SYEAR),0)-COALESCE((SELECT SUM(p.AMOUNT) FROM billing_payments p WHERE p.STUDENT_ID=ssm.STUDENT_ID AND p.SYEAR=ssm.SYEAR),0)) AS BALANCE';
 
 $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ) ];
 

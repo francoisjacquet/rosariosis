@@ -22,7 +22,7 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE BILLING_PAYMENTS SET ";
+			$sql = "UPDATE billing_payments SET ";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -36,7 +36,7 @@ if ( ! empty( $_REQUEST['values'] )
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$sql = "INSERT INTO BILLING_PAYMENTS ";
+			$sql = "INSERT INTO billing_payments ";
 
 			$fields = 'STUDENT_ID,SYEAR,SCHOOL_ID,';
 			$values = "'" . UserStudentID() . "','" . UserSyear() . "','" . UserSchool() . "',";
@@ -99,7 +99,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Payment' ) ) )
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
-			FROM BILLING_PAYMENTS
+			FROM billing_payments
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )
@@ -109,7 +109,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			unlink( $file_attached );
 		}
 
-		DBQuery( "DELETE FROM BILLING_PAYMENTS
+		DBQuery( "DELETE FROM billing_payments
 			WHERE ID='" . (int) $_REQUEST['id'] . "'
 			OR REFUNDED_PAYMENT_ID='" . (int) $_REQUEST['id'] . "'" );
 
@@ -125,14 +125,14 @@ if ( $_REQUEST['modfunc'] === 'refund'
 	if ( DeletePrompt( _( 'Payment' ), _( 'Refund' ) ) )
 	{
 		$payment_RET = DBGet( "SELECT COMMENTS,AMOUNT
-			FROM BILLING_PAYMENTS
+			FROM billing_payments
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		$comments = $payment_RET[1]['COMMENTS'] ?
 			$payment_RET[1]['COMMENTS'] . ' &mdash; ' . _( 'Refund' ) :
 			_( 'Refund' );
 
-		DBQuery( "INSERT INTO BILLING_PAYMENTS (SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
+		DBQuery( "INSERT INTO billing_payments (SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
 			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
 			VALUES('" . UserSyear() . "','" .
 			UserSchool() . "','" .
@@ -165,14 +165,14 @@ if ( UserStudentID()
 
 	$refunded_payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
 		AMOUNT,PAYMENT_DATE,COMMENTS
-		FROM BILLING_PAYMENTS
+		FROM billing_payments
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND (REFUNDED_PAYMENT_ID IS NOT NULL)", $functions, [ 'REFUNDED_PAYMENT_ID' ] );
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
 		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT,FILE_ATTACHED
-		FROM BILLING_PAYMENTS
+		FROM billing_payments
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID", $functions );

@@ -1076,7 +1076,7 @@ class Widget_balance implements Widget
 
 		$extra['WHERE'] .= " AND (
 			coalesce((SELECT sum(p.AMOUNT)
-				FROM BILLING_PAYMENTS p
+				FROM billing_payments p
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
 				AND p.SYEAR=ssm.SYEAR),0) -
 			coalesce((SELECT sum(f.AMOUNT)

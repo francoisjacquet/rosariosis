@@ -257,7 +257,7 @@ if ( UserStudentID()
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
-			FROM BILLING_PAYMENTS p
+			FROM billing_payments p
 			WHERE p.STUDENT_ID='" . UserStudentID() . "'
 			AND p.SYEAR='" . UserSyear() . "'" );
 

@@ -89,7 +89,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	&& $RosarioModules['Student_Billing'] )
 {
 	$billing_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
-		FROM BILLING_PAYMENTS
+		FROM billing_payments
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'

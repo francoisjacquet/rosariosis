@@ -57,7 +57,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 
 		$payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
-			FROM BILLING_PAYMENTS
+			FROM billing_payments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH

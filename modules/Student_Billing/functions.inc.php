@@ -48,7 +48,7 @@ function _makePaymentsRemove( $value, $column )
 	if ( ! $refunded_payments_RET )
 	{
 		$refunded_payments_RET = DBGet( "SELECT p.REFUNDED_PAYMENT_ID
-			FROM BILLING_PAYMENTS p
+			FROM billing_payments p
 			WHERE p.STUDENT_ID='" . UserStudentID() . "'
 			AND (p.REFUNDED_PAYMENT_ID IS NOT NULL)
 			AND p.SYEAR='" . UserSyear() . "'
@@ -219,7 +219,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		AND SYEAR='" . UserSyear() . "'
 		AND (WAIVED_FEE_ID IS NULL OR WAIVED_FEE_ID='')
 		AND NOT EXISTS(SELECT 1
-			FROM BILLING_PAYMENTS
+			FROM billing_payments
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=bf.AMOUNT

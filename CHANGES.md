@@ -320,7 +320,7 @@ Changes in 8.3
 - Add File Attached to Staff Payments in StaffPayments.php & Accounting/functions.inc.php
 - Add File Attached to Payments in StudentPayments.php & Student_Billing/functions.inc.php
 - SQL accounting_payments table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
-- SQL BILLING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
+- SQL billing_payments table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add help note for student deletion & translate in Help_en.php & help.po
 - Add RosarioSIS URL to image path in MarkDownHTML.fnc.php
 - Fix SQL error invalid byte sequence for encoding "UTF8": 0xde 0x20 in Security.php

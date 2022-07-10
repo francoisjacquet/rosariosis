@@ -211,7 +211,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $RosarioModules['Student_Billing'] )
 	{
 		$student_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
-			FROM BILLING_PAYMENTS p
+			FROM billing_payments p
 			WHERE p.SYEAR='" . UserSyear() . "'
 			AND p.SCHOOL_ID='" . UserSchool() . "'" );
 

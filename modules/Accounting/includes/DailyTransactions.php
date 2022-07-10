@@ -200,7 +200,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$student_payments_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 
-	$student_payments_extra['FROM'] .= ',BILLING_PAYMENTS p';
+	$student_payments_extra['FROM'] .= ',billing_payments p';
 
 	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 

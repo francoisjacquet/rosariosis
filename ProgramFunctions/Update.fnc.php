@@ -424,7 +424,7 @@ function _update81()
  * Update to version 8.3
  *
  * 1. accounting_payments table: Add FILE_ATTACHED column.
- * 2. BILLING_PAYMENTS table: Add FILE_ATTACHED column.
+ * 2. billing_payments table: Add FILE_ATTACHED column.
  *
  * Local function
  *
@@ -452,7 +452,7 @@ function _update83()
 	}
 
 	/**
-	 * 2. BILLING_PAYMENTS table: Add FILE_ATTACHED column.
+	 * 2. billing_payments table: Add FILE_ATTACHED column.
 	 */
 	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
 		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='billing_payments')

@@ -392,7 +392,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		{
 			// Add Balance field to Advanced Report.
 			$extra['SELECT'] .= ",(coalesce((SELECT sum(p.AMOUNT)
-				FROM BILLING_PAYMENTS p
+				FROM billing_payments p
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
 				AND p.SYEAR=ssm.SYEAR), 0)
 				- coalesce((SELECT sum(f.AMOUNT)
@@ -409,7 +409,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( ! empty( $_REQUEST['fields']['SB_PAYMENTS'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT sum(p.AMOUNT)
-				FROM BILLING_PAYMENTS p
+				FROM billing_payments p
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
 				AND p.SYEAR=ssm.SYEAR), 0) AS SB_PAYMENTS";
 
