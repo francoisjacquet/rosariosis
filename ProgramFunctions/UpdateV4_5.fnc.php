@@ -700,7 +700,7 @@ function _update50beta()
 	 */
 	DBQuery( "ALTER TABLE STUDENT_REPORT_CARD_COMMENTS
 		ALTER COLUMN marking_period_id TYPE integer USING (marking_period_id::integer);
-		ALTER TABLE GRADES_COMPLETED
+		ALTER TABLE grades_completed
 		ALTER COLUMN marking_period_id TYPE integer USING (marking_period_id::integer);" );
 
 

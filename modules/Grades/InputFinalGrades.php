@@ -63,7 +63,7 @@ $current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCEN
 	AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'", [], [ 'STUDENT_ID' ] );
 
 $current_completed = count( (array) DBGet( "SELECT 1
-	FROM GRADES_COMPLETED
+	FROM grades_completed
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 	AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" ) );
@@ -950,13 +950,13 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( ! $current_completed )
 		{
-			DBQuery( "INSERT INTO GRADES_COMPLETED (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID)
+			DBQuery( "INSERT INTO grades_completed (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID)
 				values('" . User( 'STAFF_ID' ) . "','" . $_REQUEST['mp'] . "','" . $course_period_id . "')" );
 		}
 	}
 	elseif ( $current_completed )
 	{
-		DBQuery( "DELETE FROM GRADES_COMPLETED
+		DBQuery( "DELETE FROM grades_completed
 			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 			AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
@@ -1007,7 +1007,7 @@ if ( ! empty( $_REQUEST['values'] )
 	}
 
 	$current_completed = count( (array) DBGet( "SELECT 1
-		FROM GRADES_COMPLETED
+		FROM grades_completed
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 		AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" ) );
