@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		$transaction_id = DBLastInsertID();
 
 		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE
-			FROM FOOD_SERVICE_ITEMS
+			FROM food_service_items
 			WHERE SCHOOL_ID='" . UserSchool() . "'", [], [ 'SHORT_NAME' ] );
 
 		$item_id = 0;
@@ -141,7 +141,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		$functions = [ 'ICON' => 'makeIcon' ];
 
 		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT,
-			(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE SHORT_NAME=fsti.SHORT_NAME LIMIT 1) AS ICON
+			(SELECT ICON FROM food_service_items WHERE SHORT_NAME=fsti.SHORT_NAME LIMIT 1) AS ICON
 			FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
 			WHERE fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND fst.STUDENT_ID='" . UserStudentID() . "'
@@ -163,7 +163,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
 
 		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON
-		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
+		FROM food_service_items fsi,FOOD_SERVICE_MENU_ITEMS fsmi
 		WHERE fsmi.MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL

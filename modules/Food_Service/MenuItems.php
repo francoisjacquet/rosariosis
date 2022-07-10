@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					&& ! empty( $columns['SHORT_NAME'] ) )
 				{
 					// Fix SQL error when SHORT_NAME already in use.
-					$short_name_exists = DBGetOne( "SELECT 1 FROM FOOD_SERVICE_ITEMS
+					$short_name_exists = DBGetOne( "SELECT 1 FROM food_service_items
 						WHERE SCHOOL_ID='" . UserSchool() . "'
 						AND SHORT_NAME='" . $columns['SHORT_NAME'] . "'" );
 
@@ -68,7 +68,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						}
 						else
 						{
-							$sql = "UPDATE FOOD_SERVICE_ITEMS SET ";
+							$sql = "UPDATE food_service_items SET ";
 						}
 
 						$go = false;
@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					}
 					else
 					{
-						$sql = 'INSERT INTO FOOD_SERVICE_ITEMS ';
+						$sql = 'INSERT INTO food_service_items ';
 						$fields = 'SCHOOL_ID,';
 						$values = "'" . UserSchool() . "',";
 					}
@@ -187,7 +187,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		$delete_sql = "DELETE FROM FOOD_SERVICE_MENU_ITEMS
 			WHERE ITEM_ID='" . (int) $_REQUEST['item_id'] . "';";
 
-		$delete_sql .= "DELETE FROM FOOD_SERVICE_ITEMS
+		$delete_sql .= "DELETE FROM food_service_items
 			WHERE ITEM_ID='" . (int) $_REQUEST['item_id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -259,7 +259,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$items_RET = DBGet( "SELECT ITEM_ID,DESCRIPTION
-			FROM FOOD_SERVICE_ITEMS
+			FROM food_service_items
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER" );
 
@@ -282,7 +282,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$categories_select += [ $category['CATEGORY_ID'] => $category['TITLE'] ];
 		}
 
-		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
+		$sql = 'SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
 
 		$functions = [
 			'ITEM_ID' => 'makeSelectInput',
@@ -325,7 +325,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$icons_select = getFSIcons( $FS_IconsPath );
 
 		$sql = "SELECT *
-		FROM FOOD_SERVICE_ITEMS fsmi
+		FROM food_service_items fsmi
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER";
 

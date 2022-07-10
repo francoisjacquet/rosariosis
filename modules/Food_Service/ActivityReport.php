@@ -70,7 +70,7 @@ $menus_RET = DBGet( "SELECT TITLE
 
 // echo '<pre>'; var_dump($menus_RET); echo '</pre>';
 $items = DBGet( "SELECT SHORT_NAME,DESCRIPTION,0 AS COUNT
-	FROM FOOD_SERVICE_ITEMS
+	FROM food_service_items
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER", [], [ 'SHORT_NAME' ] );
 

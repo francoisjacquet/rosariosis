@@ -93,7 +93,7 @@ $users_columns = [
 ];
 
 $items_RET = DBGet( "SELECT SHORT_NAME,DESCRIPTION
-	FROM FOOD_SERVICE_ITEMS
+	FROM food_service_items
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 
