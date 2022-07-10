@@ -576,10 +576,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								$sep ) .
 							_( 'None' );
 						}
-
-						// CSS Comments size-1 & max-width.
-						$grades_RET[$i]['COMMENT'] = '<div class="size-1" style="max-width: 495px">' .
-							$grades_RET[$i]['COMMENT'] . '</div>';
 					}
 
 					$last_mp = $mp;
