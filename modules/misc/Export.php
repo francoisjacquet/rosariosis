@@ -396,7 +396,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
 				AND p.SYEAR=ssm.SYEAR), 0)
 				- coalesce((SELECT sum(f.AMOUNT)
-				FROM BILLING_FEES f
+				FROM billing_fees f
 				WHERE f.STUDENT_ID=ssm.STUDENT_ID
 				AND f.SYEAR=ssm.SYEAR), 0)) AS SB_BALANCE";
 
@@ -421,7 +421,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( ! empty( $_REQUEST['fields']['SB_FEES'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT sum(f.AMOUNT)
-				FROM BILLING_FEES f
+				FROM billing_fees f
 				WHERE f.STUDENT_ID=ssm.STUDENT_ID
 				AND f.SYEAR=ssm.SYEAR), 0) AS SB_FEES";
 

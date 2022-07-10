@@ -22,7 +22,7 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE BILLING_FEES SET ";
+			$sql = "UPDATE billing_fees SET ";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -36,7 +36,7 @@ if ( ! empty( $_REQUEST['values'] )
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO BILLING_FEES ";
+			$sql = "INSERT INTO billing_fees ";
 
 			$fields = 'STUDENT_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
 			$values = "'" . UserStudentID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
@@ -91,7 +91,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Fee' ) ) )
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
-			FROM BILLING_FEES
+			FROM billing_fees
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )
@@ -101,10 +101,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			unlink( $file_attached );
 		}
 
-		$delete_sql = "DELETE FROM BILLING_FEES
+		$delete_sql = "DELETE FROM billing_fees
 			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
-		$delete_sql .= "DELETE FROM BILLING_FEES
+		$delete_sql .= "DELETE FROM billing_fees
 			WHERE WAIVED_FEE_ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -120,10 +120,10 @@ if ( $_REQUEST['modfunc'] === 'waive'
 	if ( DeletePrompt( _( 'Fee' ), _( 'Waive' ) ) )
 	{
 		$fee_RET = DBGet( "SELECT TITLE,AMOUNT
-			FROM BILLING_FEES
+			FROM billing_fees
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
-		DBQuery( "INSERT INTO BILLING_FEES (SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
+		DBQuery( "INSERT INTO billing_fees (SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
 			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
 			VALUES ('" . UserSyear() . "','" .
 			UserSchool() . "','" .
@@ -157,14 +157,14 @@ if ( UserStudentID()
 
 	$waived_fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
 		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
-		FROM BILLING_FEES f
+		FROM billing_fees f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND f.WAIVED_FEE_ID IS NOT NULL", $functions, [ 'WAIVED_FEE_ID' ] );
 
 	$fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
 		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
-		FROM BILLING_FEES f
+		FROM billing_fees f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND (f.WAIVED_FEE_ID IS NULL OR f.WAIVED_FEE_ID='')

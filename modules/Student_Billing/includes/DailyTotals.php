@@ -30,7 +30,7 @@ $billing_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
 	AND '" . $end_date . "'" );
 
 $billing_fees = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
-	FROM BILLING_FEES f
+	FROM billing_fees f
 	WHERE  f.SYEAR='" . UserSyear() . "'
 	AND f.SCHOOL_ID='" . UserSchool() . "'
 	AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'

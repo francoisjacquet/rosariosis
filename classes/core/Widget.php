@@ -1080,7 +1080,7 @@ class Widget_balance implements Widget
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
 				AND p.SYEAR=ssm.SYEAR),0) -
 			coalesce((SELECT sum(f.AMOUNT)
-				FROM BILLING_FEES f
+				FROM billing_fees f
 				WHERE f.STUDENT_ID=ssm.STUDENT_ID
 				AND f.SYEAR=ssm.SYEAR),0))
 			BETWEEN '" . $_REQUEST['balance_low'] . "'

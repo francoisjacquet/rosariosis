@@ -179,7 +179,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$fees_extra['SELECT'] .= $name_col_sql . ",f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
-	$fees_extra['FROM'] .= ',BILLING_FEES f';
+	$fees_extra['FROM'] .= ',billing_fees f';
 
 	$fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 

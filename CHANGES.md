@@ -352,7 +352,7 @@ Changes in 8.1
 - Fix SQL error when Student / Staff ID is hacked / not an integer in URL in Current.php
 - SQL accounting_salaries table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add File Attached to Salaries in Salaries.php & Accounting/functions.inc.php
-- SQL BILLING_FEES table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
+- SQL billing_fees table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add File Attached to Fees in StudentFees.php & Student_Billing/functions.inc.php
 - Fix Student Widgets for Advanced Search exports in GetStaffList.fnc.php, GetStuList.fnc.php & Search.inc.php
 - Add Export fields list (form) & Export fields list + extra SQL (student list) action hooks in Export.php & Actions.php

@@ -8,7 +8,7 @@ function _makeFeesRemove( $value, $column )
 	if ( ! $waived_fees_RET )
 	{
 		$waived_fees_RET = DBGet( "SELECT f.WAIVED_FEE_ID
-			FROM BILLING_FEES f
+			FROM billing_fees f
 			WHERE f.STUDENT_ID='" . UserStudentID() . "'
 			AND f.WAIVED_FEE_ID IS NOT NULL
 			AND f.SYEAR='" . UserSyear() . "'
@@ -214,7 +214,7 @@ function _makePaymentsCommentsInput( $value, $name )
 	// Remove Fees having a Payment (same Amount & Comments (Title), after or on Assigned Date).
 	// Remove Waived Fees from list.
 	$fees_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
-		FROM BILLING_FEES bf
+		FROM billing_fees bf
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND (WAIVED_FEE_ID IS NULL OR WAIVED_FEE_ID='')
@@ -226,7 +226,7 @@ function _makePaymentsCommentsInput( $value, $name )
 			AND (COMMENTS=bf.TITLE OR COMMENTS LIKE '%' || bf.TITLE OR COMMENTS LIKE bf.TITLE || '%')
 			AND PAYMENT_DATE>=bf.ASSIGNED_DATE)
 		AND NOT EXISTS(SELECT 1
-			FROM BILLING_FEES
+			FROM billing_fees
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND WAIVED_FEE_ID=bf.ID)

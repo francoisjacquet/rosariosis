@@ -33,7 +33,7 @@ function StudentBillingPortalAlerts()
 
 	$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
 
-	$extra['FROM'] = ',BILLING_FEES bf ';
+	$extra['FROM'] = ',billing_fees bf ';
 
 	$extra['WHERE'] = " AND bf.STUDENT_ID=ssm.STUDENT_ID AND bf.SYEAR=ssm.SYEAR
 		AND bf.SCHOOL_ID=ssm.SCHOOL_ID AND

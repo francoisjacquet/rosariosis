@@ -96,7 +96,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 		AND '" . $end_date . "'" );
 
 	$billing_fees = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
-		FROM BILLING_FEES f
+		FROM billing_fees f
 		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'" );

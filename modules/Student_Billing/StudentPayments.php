@@ -269,7 +269,7 @@ if ( UserStudentID()
 	echo '<br />';
 
 	$fees_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
-		FROM BILLING_FEES f
+		FROM billing_fees f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'" );
 
