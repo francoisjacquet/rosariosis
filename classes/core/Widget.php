@@ -1370,7 +1370,7 @@ class Widget_discipline_fields implements Widget
 	private function _discipline_fields_search( $extra )
 	{
 		$categories_RET = DBGet( "SELECT f.ID,u.TITLE,f.DATA_TYPE,u.SELECT_OPTIONS
-			FROM DISCIPLINE_FIELDS f,discipline_field_usage u
+			FROM discipline_fields f,discipline_field_usage u
 			WHERE u.DISCIPLINE_FIELD_ID=f.ID
 			AND u.SYEAR='" . UserSyear() . "'
 			AND u.SCHOOL_ID='" . UserSchool() . "'
@@ -1476,7 +1476,7 @@ class Widget_discipline_fields implements Widget
 	function html()
 	{
 		$categories_RET = DBGet( "SELECT f.ID,u.TITLE,f.DATA_TYPE,u.SELECT_OPTIONS
-			FROM DISCIPLINE_FIELDS f,discipline_field_usage u
+			FROM discipline_fields f,discipline_field_usage u
 			WHERE u.DISCIPLINE_FIELD_ID=f.ID
 			AND u.SYEAR='" . UserSyear() . "'
 			AND u.SCHOOL_ID='" . UserSchool() . "'

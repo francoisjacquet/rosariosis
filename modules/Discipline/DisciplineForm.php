@@ -29,7 +29,7 @@ if ( ! empty( $_REQUEST['values'] )
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$sql = "INSERT INTO DISCIPLINE_FIELDS ";
+				$sql = "INSERT INTO discipline_fields ";
 
 				$fields = "COLUMN_NAME,";
 				$values = "'CATEGORY_',"; // ID is added to CATEGORY_ after INSERT, when we retrieve the ID...
@@ -58,7 +58,7 @@ if ( ! empty( $_REQUEST['values'] )
 				$id = DBLastInsertID();
 
 				// Update CATEGORY_ with ID now we have it.
-				DBQuery( "UPDATE DISCIPLINE_FIELDS
+				DBQuery( "UPDATE discipline_fields
 					SET COLUMN_NAME='CATEGORY_" . $id . "'
 					WHERE ID='" . (int) $id . "'" );
 
@@ -133,7 +133,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$id = issetVal( $_REQUEST['id'] );
 
-		$delete_sql = "DELETE FROM DISCIPLINE_FIELDS
+		$delete_sql = "DELETE FROM discipline_fields
 			WHERE ID='" . (int) $id . "';";
 
 		$delete_sql .= "DELETE FROM discipline_field_usage
@@ -171,7 +171,7 @@ if ( $_REQUEST['modfunc'] === 'add_usage'
 		SELECT '" . (int) $_REQUEST['id'] . "' AS DISCIPLINE_FIELD_ID,
 		'" . UserSyear() . "' AS SYEAR,'" . UserSchool() . "' AS SCHOOL_ID,TITLE,
 		NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER
-		FROM DISCIPLINE_FIELDS WHERE ID='" . (int) $_REQUEST['id'] . "'" );
+		FROM discipline_fields WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 	// Unset modfunc & ID & redirect URL.
 	RedirectURL( [ 'modfunc', 'id' ] );
@@ -185,7 +185,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$referrals_RET = DBGet(
 		"SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,
 		du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS
-		FROM DISCIPLINE_FIELDS df LEFT
+		FROM discipline_fields df LEFT
 		OUTER JOIN discipline_field_usage du
 		ON (du.DISCIPLINE_FIELD_ID=df.ID
 			AND du.SYEAR='" . UserSyear() . "'

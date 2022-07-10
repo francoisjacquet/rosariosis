@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc'] === 'search' )
 if ( ! empty( $_REQUEST['category_id'] ) )
 {
 	$category_RET = DBGet( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
-		FROM DISCIPLINE_FIELDS df,discipline_field_usage du
+		FROM discipline_fields df,discipline_field_usage du
 		WHERE df.ID='" . (int) $_REQUEST['category_id'] . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
 		AND du.SYEAR='" . UserSyear() . "'
@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
 	$categories_RET = DBGet( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS
-		FROM DISCIPLINE_FIELDS df,discipline_field_usage du
+		FROM discipline_fields df,discipline_field_usage du
 		WHERE df.DATA_TYPE NOT IN ('textarea','text','date')
 		AND du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'

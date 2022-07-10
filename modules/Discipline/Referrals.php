@@ -17,7 +17,7 @@ if ( ! empty( $_POST['values'] )
 	$go = 0;
 
 	$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
-		FROM DISCIPLINE_FIELDS df,discipline_field_usage du
+		FROM discipline_fields df,discipline_field_usage du
 		WHERE du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
@@ -93,7 +93,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 }
 
 $categories_RET = DBGet( "SELECT df.ID,du.TITLE
-	FROM DISCIPLINE_FIELDS df,discipline_field_usage du
+	FROM discipline_fields df,discipline_field_usage du
 	WHERE df.DATA_TYPE!='textarea'
 	AND du.SYEAR='" . UserSyear() . "'
 	AND du.SCHOOL_ID='" . UserSchool() . "'
@@ -180,7 +180,7 @@ if ( ! $_REQUEST['modfunc']
 		PopTable( 'header', _( 'Referral' ) );
 
 		$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
-			FROM DISCIPLINE_FIELDS df,discipline_field_usage du
+			FROM discipline_fields df,discipline_field_usage du
 			WHERE du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "'
 			AND du.DISCIPLINE_FIELD_ID=df.ID

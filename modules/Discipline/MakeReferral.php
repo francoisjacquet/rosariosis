@@ -32,7 +32,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$go = 0;
 
-			$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,discipline_field_usage du WHERE du.SYEAR='" . UserSyear() . "' AND du.SCHOOL_ID='" . UserSchool() . "' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER", [], [ 'ID' ] );
+			$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM discipline_fields df,discipline_field_usage du WHERE du.SYEAR='" . UserSyear() . "' AND du.SCHOOL_ID='" . UserSchool() . "' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER", [], [ 'ID' ] );
 
 			foreach ( (array) $_REQUEST['values'] as $column => $value )
 			{
@@ -249,7 +249,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</td></tr></table></td></tr>';
 
 		$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
-			FROM DISCIPLINE_FIELDS df,discipline_field_usage du
+			FROM discipline_fields df,discipline_field_usage du
 			WHERE du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "'
 			AND du.DISCIPLINE_FIELD_ID=df.ID
