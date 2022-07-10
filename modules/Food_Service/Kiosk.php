@@ -103,7 +103,7 @@ if ( isset( $categories_RET[$_REQUEST['menu_id']] ) )
 
 $items_RET = DBGet( "SELECT (SELECT DESCRIPTION FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS DESCRIPTION,
 	(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
-FROM FOOD_SERVICE_MENU_ITEMS fsmi
+FROM food_service_menu_items fsmi
 WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 AND CATEGORY_ID='" . (int) $_REQUEST['cat_id'] . "'
 ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER" );

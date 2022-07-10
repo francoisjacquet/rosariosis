@@ -127,7 +127,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Category' ) ) )
 		{
-			DBQuery( "UPDATE FOOD_SERVICE_MENU_ITEMS
+			DBQuery( "UPDATE food_service_menu_items
 				SET CATEGORY_ID=NULL
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'" );
 
@@ -140,7 +140,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Meal' ) ) )
 	{
-		$delete_sql = "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+		$delete_sql = "DELETE FROM food_service_menu_items
 			WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "';";
 
 		$delete_sql .= "DELETE FROM food_service_categories

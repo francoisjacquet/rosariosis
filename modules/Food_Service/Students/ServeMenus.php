@@ -163,7 +163,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
 
 		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON
-		FROM food_service_items fsi,FOOD_SERVICE_MENU_ITEMS fsmi
+		FROM food_service_items fsi,food_service_menu_items fsmi
 		WHERE fsmi.MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL

@@ -64,7 +64,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					{
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
+							$sql = "UPDATE food_service_menu_items SET ";
 						}
 						else
 						{
@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = 'INSERT INTO FOOD_SERVICE_MENU_ITEMS ';
+						$sql = 'INSERT INTO food_service_menu_items ';
 						$fields = 'MENU_ID,SCHOOL_ID,';
 						$values = "'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
 					}
@@ -174,7 +174,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Meal Item' ) ) )
 		{
-			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+			DBQuery( "DELETE FROM food_service_menu_items
 				WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
 				AND MENU_ITEM_ID='" . (int) $_REQUEST['menu_item_id'] . "'" );
 
@@ -184,7 +184,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Item' ) ) )
 	{
-		$delete_sql = "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+		$delete_sql = "DELETE FROM food_service_menu_items
 			WHERE ITEM_ID='" . (int) $_REQUEST['item_id'] . "';";
 
 		$delete_sql .= "DELETE FROM food_service_items
@@ -282,7 +282,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$categories_select += [ $category['CATEGORY_ID'] => $category['TITLE'] ];
 		}
 
-		$sql = 'SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
+		$sql = 'SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM food_service_menu_items fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
 
 		$functions = [
 			'ITEM_ID' => 'makeSelectInput',
