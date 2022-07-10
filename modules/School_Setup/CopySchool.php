@@ -7,7 +7,7 @@ $tables = [
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
-	'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ),
+	'eligibility_activities' => _( 'Eligibility Activities' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
 ];
 
@@ -235,7 +235,7 @@ function _rollover( $table )
 
 		break;
 
-		case 'ELIGIBILITY_ACTIVITIES':
+		case 'eligibility_activities':
 		case 'attendance_codes':
 
 			$table_properties = db_properties( $table );

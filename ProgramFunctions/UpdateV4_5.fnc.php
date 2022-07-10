@@ -331,7 +331,7 @@ function _update45beta2()
 /**
  * Update to version 4.6
  *
- * 1. ELIGIBILITY_ACTIVITIES table: Add COMMENT column.
+ * 1. eligibility_activities table: Add COMMENT column.
  *
  * Local function
  *
@@ -346,7 +346,7 @@ function _update46beta()
 	$return = true;
 
 	/**
-	 * 1. ELIGIBILITY_ACTIVITIES table: Add COMMENT column.
+	 * 1. eligibility_activities table: Add COMMENT column.
 	 */
 	$comment_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'eligibility_activities')

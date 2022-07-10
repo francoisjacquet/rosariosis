@@ -35,7 +35,7 @@ $no_school_tables = [ 'SCHOOLS' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'ST
 
 if ( $RosarioModules['Eligibility'] )
 {
-	$tables += [ 'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ) ];
+	$tables += [ 'eligibility_activities' => _( 'Eligibility Activities' ) ];
 }
 
 if ( $RosarioModules['Food_Service'] )
@@ -889,7 +889,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'ELIGIBILITY_ACTIVITIES':
+		case 'eligibility_activities':
 		case 'discipline_field_usage':
 
 			if ( $mode === 'delete' )

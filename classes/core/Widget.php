@@ -962,7 +962,7 @@ class Widget_activity implements Widget
 			AND sea.ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'";
 
 		$activity_title = DBGetOne( "SELECT TITLE
-			FROM ELIGIBILITY_ACTIVITIES
+			FROM eligibility_activities
 			WHERE ID='" . (int) $_REQUEST['activity_id'] . "'" );
 
 		if ( ! $extra['NoSearchTerms'] )
@@ -981,7 +981,7 @@ class Widget_activity implements Widget
 		if ( empty( $_REQUEST['search_modfunc'] ) )
 		{
 			$activities_RET = DBGet( "SELECT ID,TITLE
-				FROM ELIGIBILITY_ACTIVITIES
+				FROM eligibility_activities
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );
 		}

@@ -61,7 +61,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	PopTable( 'header', _( 'Add Activity' ) );
 
 	$activities_RET = DBGet( "SELECT ID,TITLE
-		FROM ELIGIBILITY_ACTIVITIES
+		FROM eligibility_activities
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

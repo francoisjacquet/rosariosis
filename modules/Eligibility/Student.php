@@ -111,7 +111,7 @@ if ( UserStudentID()
 	echo '</form>';
 
 	$RET = DBGet( "SELECT em.STUDENT_ID,em.ACTIVITY_ID,ea.TITLE,ea.START_DATE,ea.END_DATE
-	FROM ELIGIBILITY_ACTIVITIES ea,student_eligibility_activities em
+	FROM eligibility_activities ea,student_eligibility_activities em
 	WHERE em.SYEAR='" . UserSyear() . "'
 	AND em.STUDENT_ID='" . UserStudentID() . "'
 	AND em.SYEAR=ea.SYEAR
@@ -119,7 +119,7 @@ if ( UserStudentID()
 	ORDER BY ea.START_DATE", [ 'START_DATE' => 'ProperDate', 'END_DATE' => 'ProperDate' ] );
 
 	$activities_RET = DBGet( "SELECT ID,TITLE
-		FROM ELIGIBILITY_ACTIVITIES
+		FROM eligibility_activities
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

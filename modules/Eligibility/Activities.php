@@ -13,7 +13,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
+			$sql = "UPDATE eligibility_activities SET ";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		// New: check for Title
 		elseif ( $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO ELIGIBILITY_ACTIVITIES ";
+			$sql = "INSERT INTO eligibility_activities ";
 
 			$fields = 'SCHOOL_ID,SYEAR,';
 			$values = "'" . UserSchool() . "','" . UserSyear() . "',";
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Activity' ) ) )
 	{
-		DBQuery( "DELETE FROM ELIGIBILITY_ACTIVITIES
+		DBQuery( "DELETE FROM eligibility_activities
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 if ( ! $_REQUEST['modfunc'] )
 {
 	$sql = "SELECT ID,TITLE,START_DATE,END_DATE,COMMENT
-	FROM ELIGIBILITY_ACTIVITIES
+	FROM eligibility_activities
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY TITLE";
