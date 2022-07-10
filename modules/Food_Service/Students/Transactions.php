@@ -17,7 +17,7 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'SYEAR,SCHOOL_ID,ACCOUNT_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $account_id . "',
-				(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $account_id . "'),
+				(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID='" . (int) $account_id . "'),
 				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
 				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
 
@@ -39,7 +39,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 			DBQuery( $sql );
 
-			DBQuery( "UPDATE FOOD_SERVICE_ACCOUNTS
+			DBQuery( "UPDATE food_service_accounts
 				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 					FROM FOOD_SERVICE_TRANSACTION_ITEMS
 					WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
@@ -61,7 +61,7 @@ Widgets( 'fsa_barcode' );
 Widgets( 'fsa_account_id' );
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
-$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
 
 if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 {
@@ -81,7 +81,7 @@ if ( UserStudentID()
 {
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,
-	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
+	(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
 	AND fsa.STUDENT_ID=s.STUDENT_ID" );

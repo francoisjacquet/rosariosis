@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$extra['WHERE'] = "AND s.STUDENT_ID IN(" . $st_list . ")
 			AND fsa.STUDENT_ID=s.STUDENT_ID";
 
-		$extra['SELECT'] = ",fsa.ACCOUNT_ID,fsa.STATUS,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID LIMIT 1) AS BALANCE";
+		$extra['SELECT'] = ",fsa.ACCOUNT_ID,fsa.STATUS,(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID LIMIT 1) AS BALANCE";
 
 		if ( isset( $_REQUEST['year_end'] )
 			&& $_REQUEST['year_end'] === 'Y' )
@@ -229,7 +229,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! mb_strpos( $extra['FROM'], 'fsa' ) )
 	{
-		$extra['FROM'] .= ',FOOD_SERVICE_ACCOUNTS fsa';
+		$extra['FROM'] .= ',food_service_accounts fsa';
 		$extra['WHERE'] .= ' AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID';
 	}
 

@@ -32,7 +32,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$values = "'" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
 			UserSyear() . "','" . UserSchool() . "','" . $discount .
-			"',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
+			"',(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
 			"'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
 			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
 
@@ -86,7 +86,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			DBQuery( $sql );
 		}
 
-		DBQuery( "UPDATE FOOD_SERVICE_ACCOUNTS
+		DBQuery( "UPDATE food_service_accounts
 			SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 				FROM FOOD_SERVICE_TRANSACTION_ITEMS
 				WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
@@ -111,7 +111,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 {
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,
-	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
+	(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
 	AND fsa.STUDENT_ID=s.STUDENT_ID" );

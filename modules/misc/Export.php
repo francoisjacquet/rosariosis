@@ -372,7 +372,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( isset( $_REQUEST['fields']['FS_BALANCE'] ) && $_REQUEST['fields']['FS_BALANCE'] == 'Y' )
 		{
 			$extra['SELECT'] .= ',(SELECT fsa.BALANCE
-				FROM FOOD_SERVICE_ACCOUNTS fsa
+				FROM food_service_accounts fsa
 				WHERE fsa.ACCOUNT_ID=fssa.ACCOUNT_ID) AS FS_BALANCE';
 		}
 

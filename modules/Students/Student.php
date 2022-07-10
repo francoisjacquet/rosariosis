@@ -383,7 +383,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				// Create default food service account for this student.
 				// Associate with default food service account and assign other defaults.
-				DBQuery( "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID)
+				DBQuery( "INSERT INTO food_service_accounts (ACCOUNT_ID,BALANCE,TRANSACTION_ID)
 					VALUES('" . $student_id . "','0.00','0');
 					INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID)
 					VALUES('" . $student_id . "','','','" . $student_id . "')" );

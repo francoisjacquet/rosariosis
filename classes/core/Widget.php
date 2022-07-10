@@ -1881,7 +1881,7 @@ class Widget_fsa_balance implements Widget
 			$extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID';
 		}
 
-		$extra['FROM'] .= ",FOOD_SERVICE_ACCOUNTS fsa";
+		$extra['FROM'] .= ",food_service_accounts fsa";
 		$extra['WHERE'] .= " AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID
 			AND fsa.BALANCE" . ( empty( $_REQUEST['fsa_bal_ge'] ) ? '<' : '>=' ) .
 			"'" . round(  $_REQUEST['fsa_balance'], 2 ) . "'";

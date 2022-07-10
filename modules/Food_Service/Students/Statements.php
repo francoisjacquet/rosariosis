@@ -6,7 +6,7 @@ Widgets( 'fsa_barcode' );
 Widgets( 'fsa_account_id' );
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
-$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
 
 if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 {
@@ -23,7 +23,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 {
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,
-	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
+	(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
 	AND fsa.STUDENT_ID=s.STUDENT_ID" );

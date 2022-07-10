@@ -433,7 +433,7 @@ switch ( User( 'PROFILE' ) )
 			// warn if students with food service balances below minimum
 			$extra = [];
 			$extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
-			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+			$extra['FROM'] = ',food_service_accounts fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 			$extra['WHERE'] = " AND fssa.STUDENT_ID=s.STUDENT_ID
 				AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID
 				AND fssa.STATUS IS NULL
@@ -842,7 +842,7 @@ switch ( User( 'PROFILE' ) )
 			// Warn if students with low food service balances.
 			$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,fsa.BALANCE AS BALANCE,' .
 				(float) $FS_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'] . '-fsa.BALANCE AS DEPOSIT';
-			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+			$extra['FROM'] = ',food_service_accounts fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 			$extra['WHERE'] = " AND fssa.STUDENT_ID=s.STUDENT_ID
 				AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID
 				AND fssa.STATUS IS NULL
