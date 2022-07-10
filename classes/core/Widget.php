@@ -912,7 +912,7 @@ class Widget_eligibility implements Widget
 		$end_date = DBDate();
 
 		$extra['WHERE'] .= " AND (SELECT count(*)
-			FROM ELIGIBILITY e
+			FROM eligibility e
 			WHERE ssm.STUDENT_ID=e.STUDENT_ID
 			AND e.SYEAR=ssm.SYEAR
 			AND e.SCHOOL_DATE BETWEEN '" . $start_date . "'

@@ -39,7 +39,7 @@ $start_date = date( 'Y-m-d', time() - ( $today - $START_DAY ) * 60 * 60 * 24 );
 $end_date = date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
 
 $current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
-	FROM ELIGIBILITY
+	FROM eligibility
 	WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 	AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", [], [ 'STUDENT_ID' ] );
 
@@ -129,7 +129,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 
 			if ( ! empty( $current_RET[$student_id] ) )
 			{
-				$sql = "UPDATE ELIGIBILITY
+				$sql = "UPDATE eligibility
 					SET ELIGIBILITY_CODE='" . $code . "'
 					WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 					AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
@@ -137,14 +137,14 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			}
 			else
 			{
-				$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $code . "')";
+				$sql = "INSERT INTO eligibility (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $code . "')";
 			}
 
 			DBQuery( $sql );
 		}
 
 		$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
-			FROM ELIGIBILITY
+			FROM eligibility
 			WHERE SCHOOL_DATE
 			BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 			AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'", [], [ 'STUDENT_ID' ] );
@@ -162,7 +162,7 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( ! empty( $current_RET[$student_id] ) )
 		{
-			$sql = "UPDATE ELIGIBILITY
+			$sql = "UPDATE eligibility
 				SET ELIGIBILITY_CODE='" . $value . "'
 				WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
@@ -170,7 +170,7 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 		else
 		{
-			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE)
+			$sql = "INSERT INTO eligibility (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE)
 				values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $value . "')";
 		}
 
@@ -194,7 +194,7 @@ if ( ! empty( $_REQUEST['values'] )
 	}
 
 	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
-		FROM ELIGIBILITY
+		FROM eligibility
 		WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'", [], [ 'STUDENT_ID' ] );
 
