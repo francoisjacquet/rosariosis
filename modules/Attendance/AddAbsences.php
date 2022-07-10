@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$students_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
 		$current_RET = DBGet( "SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
-		FROM ATTENDANCE_PERIOD
+		FROM attendance_period
 		WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'
 		AND EXTRACT(YEAR FROM SCHOOL_DATE)='" . $_REQUEST['year'] . "'
 		AND PERIOD_ID IN (" . $periods_list . ")
@@ -113,7 +113,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					{
 						if ( empty( $current_RET[$student_id][$date][$period_id] ) )
 						{
-							$sql = "INSERT INTO ATTENDANCE_PERIOD
+							$sql = "INSERT INTO attendance_period
 							(STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
 							VALUES('" . $student_id . "','" . $date . "','" . $period_id . "','" .
 							$current_mp . "','" . $course_period_id . "','" . $_REQUEST['absence_code'] . "','" .
@@ -121,7 +121,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						}
 						else
 						{
-							$sql = "UPDATE ATTENDANCE_PERIOD
+							$sql = "UPDATE attendance_period
 							SET ATTENDANCE_CODE='" . $_REQUEST['absence_code'] . "',ATTENDANCE_REASON='" .
 							$_REQUEST['absence_reason'] . "',ADMIN='Y',COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 							WHERE STUDENT_ID='" . (int) $student_id . "'

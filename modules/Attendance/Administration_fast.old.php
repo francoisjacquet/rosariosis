@@ -13,7 +13,7 @@ else
 	$date = DBDate();
 }
 
-$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='" . $date . "'", [], [ 'STUDENT_ID', 'COURSE_PERIOD_ID' ] );
+$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM attendance_period WHERE SCHOOL_DATE='" . $date . "'", [], [ 'STUDENT_ID', 'COURSE_PERIOD_ID' ] );
 
 if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 {
@@ -23,7 +23,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 		{
 			if ( $current_RET[$student_id][$period] )
 			{
-				$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
+				$sql = "UPDATE attendance_period SET ADMIN='Y',";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -37,7 +37,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 			{
 				$period_id = DBGetOne( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . (int) $period . "'" );
 
-				$sql = "INSERT INTO ATTENDANCE_PERIOD ";
+				$sql = "INSERT INTO attendance_period ";
 
 				$fields = 'STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ADMIN,';
 				$values = "'" . $student_id . "','" . $date . "','" . $period_id . "','" . GetCurrentMP( 'QTR', $date ) . "','" . $period . "','Y',";
@@ -66,7 +66,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 		UpdateAttendanceDaily( $student_id, $date );
 	}
 
-	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='" . $date . "'", [], [ 'STUDENT_ID', 'COURSE_PERIOD_ID' ] );
+	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM attendance_period WHERE SCHOOL_DATE='" . $date . "'", [], [ 'STUDENT_ID', 'COURSE_PERIOD_ID' ] );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -107,7 +107,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 }
 else
 {
-	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM ATTENDANCE_PERIOD ap,attendance_codes ac WHERE ap.SCHOOL_DATE='" . $date . "' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ";
+	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM attendance_period ap,attendance_codes ac WHERE ap.SCHOOL_DATE='" . $date . "' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ";
 
 	if ( isset( $_REQUEST['codes'] )
 		&& ! empty( $_REQUEST['codes'] ) )

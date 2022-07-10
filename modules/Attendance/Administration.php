@@ -25,7 +25,7 @@ if ( $_REQUEST['table'] == '' )
 
 if ( $_REQUEST['table'] == '0' )
 {
-	$table = 'ATTENDANCE_PERIOD';
+	$table = 'attendance_period';
 	$extra_sql = '';
 }
 else

@@ -81,7 +81,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 											WHERE STUDENT_ID='" . (int) $student_id . "'
 											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
-										$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD
+										$delete_sql .= "DELETE FROM attendance_period
 											WHERE STUDENT_ID='" . (int) $student_id . "'
 											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 									}
@@ -103,7 +103,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							}
 							else
 							{
-								DBQuery( "DELETE FROM ATTENDANCE_PERIOD
+								DBQuery( "DELETE FROM attendance_period
 									WHERE STUDENT_ID='" . (int) $student_id . "'
 									AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'
 									AND SCHOOL_DATE>'" . $drop_date . "'" );

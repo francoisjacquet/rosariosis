@@ -444,7 +444,7 @@ class Widget_cp_absences implements Widget
 				AND '" . $_REQUEST['cp_absences_high'] . "'";
 
 		$extra['WHERE'] .= " AND (SELECT count(*)
-			FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+			FROM attendance_period ap,attendance_codes ac
 			WHERE ac.ID=ap.ATTENDANCE_CODE
 			AND ac.STATE_CODE='A'
 			AND ap.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" .

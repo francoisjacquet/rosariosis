@@ -54,12 +54,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( $_REQUEST['elements']['period_absences']=='Y')
 		//modif: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
 		$extra['SELECT'] .= ",rc_cp.DOES_ATTENDANCE,
-		(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+		(SELECT count(*) FROM attendance_period ap,attendance_codes ac
 		WHERE ac.ID=ap.ATTENDANCE_CODE
 		AND ac.STATE_CODE='A'
 		AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 		AND ap.STUDENT_ID=ssm.STUDENT_ID) AS YTD_ABSENCES,
-		(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+		(SELECT count(*) FROM attendance_period ap,attendance_codes ac
 		WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.STATE_CODE='A'
 		AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 		AND sg1.MARKING_PERIOD_ID=ap.MARKING_PERIOD_ID

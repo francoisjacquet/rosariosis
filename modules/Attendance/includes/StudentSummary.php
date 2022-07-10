@@ -111,7 +111,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 	}
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
-	$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+	$extra['SELECT'] .= ",(SELECT count(*) FROM attendance_period ap,attendance_codes ac
 		WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
 		AND ap.PERIOD_ID IN (" . $period_ids_list . ")
 		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
@@ -129,7 +129,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 	{
 		foreach ( (array) $codes_RET as $code )
 		{
-			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+			$extra['SELECT'] .= ",(SELECT count(*) FROM attendance_period ap,attendance_codes ac
 				WHERE ac.ID=ap.ATTENDANCE_CODE
 				AND ac.ID='" . (int) $code['ID'] . "'
 				AND ap.PERIOD_ID IN (" . $period_ids_list . ")
@@ -183,7 +183,7 @@ if ( $is_student_report )
 
 	$absences_RET = DBGet( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
-	FROM ATTENDANCE_PERIOD ap,attendance_day ad,attendance_codes ac
+	FROM attendance_period ap,attendance_day ad,attendance_codes ac
 	WHERE ap.STUDENT_ID=ad.STUDENT_ID
 	AND ap.SCHOOL_DATE=ad.SCHOOL_DATE
 	AND ap.ATTENDANCE_CODE=ac.ID

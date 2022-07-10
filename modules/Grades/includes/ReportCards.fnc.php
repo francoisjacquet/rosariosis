@@ -944,12 +944,12 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		{
 			// Period-by-period absences.
 			$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
-				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+				(SELECT count(*) FROM attendance_period ap,attendance_codes ac
 					WHERE ac.ID=ap.ATTENDANCE_CODE
 					AND ac.STATE_CODE='A'
 					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS YTD_ABSENCES,
-				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+				(SELECT count(*) FROM attendance_period ap,attendance_codes ac
 					WHERE ac.ID=ap.ATTENDANCE_CODE
 					AND ac.STATE_CODE='A'
 					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
@@ -1172,7 +1172,7 @@ function _getAttendanceRET( $st_list )
 		$extra['SELECT_ONLY'] = "ap.SCHOOL_DATE,ap.COURSE_PERIOD_ID,ac.ID AS ATTENDANCE_CODE,
 			ap.MARKING_PERIOD_ID,ssm.STUDENT_ID";
 
-		$extra['FROM'] = ",attendance_codes ac,ATTENDANCE_PERIOD ap";
+		$extra['FROM'] = ",attendance_codes ac,attendance_period ap";
 
 		$extra['WHERE'] .= " AND ac.ID=ap.ATTENDANCE_CODE
 			AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)

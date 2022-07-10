@@ -151,7 +151,7 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 	}
 
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
-		FROM ATTENDANCE_PERIOD ap,SCHOOL_PERIODS sp,attendance_codes ac
+		FROM attendance_period ap,SCHOOL_PERIODS sp,attendance_codes ac
 		WHERE ap.STUDENT_ID='" . (int) $student_id . "'
 		AND ap.SCHOOL_DATE='" . $date . "'
 		AND ap.PERIOD_ID=sp.PERIOD_ID

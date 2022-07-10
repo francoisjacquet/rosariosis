@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 								WHERE STUDENT_ID='" . UserStudentID() . "'
 								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
-							$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD
+							$delete_sql .= "DELETE FROM attendance_period
 								WHERE STUDENT_ID='" . UserStudentID() . "'
 								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				}
 				else
 				{
-					DBQuery( "DELETE FROM ATTENDANCE_PERIOD
+					DBQuery( "DELETE FROM attendance_period
 						WHERE STUDENT_ID='" . UserStudentID() . "'
 						AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 						AND (" . ( $columns['START_DATE'] ? "SCHOOL_DATE<'" . $columns['START_DATE'] . "'" : 'FALSE' ) .

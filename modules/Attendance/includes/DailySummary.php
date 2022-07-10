@@ -26,7 +26,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 	{
 		foreach ( (array) $values as $school_date => $columns)
 		{
-			$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
+			$sql = "UPDATE attendance_period SET ADMIN='Y',";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -232,7 +232,7 @@ if ( $_REQUEST['student_id']
 		$schedule_RET = DBGet( $sql );
 
 		$sql = "SELECT ap.SCHOOL_DATE,ap.PERIOD_ID,ac.SHORT_NAME,ac.STATE_CODE,ac.DEFAULT_CODE,ac.TITLE
-			FROM ATTENDANCE_PERIOD ap,attendance_codes ac
+			FROM attendance_period ap,attendance_codes ac
 			WHERE ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 			AND ap.ATTENDANCE_CODE=ac.ID
 			AND ap.STUDENT_ID='" . UserStudentID() . "'";
@@ -340,7 +340,7 @@ else
 	{
 		// @since 9.2.1 SQL use REPLACE() instead of to_char() for MySQL compatibility
 		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,CONCAT('_', REPLACE(CAST(ap.SCHOOL_DATE AS varchar(10)),'-','')) AS SHORT_DATE
-		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm
+		FROM attendance_period ap,STUDENT_ENROLLMENT ssm
 		WHERE ap.STUDENT_ID=ssm.STUDENT_ID
 		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND ap.PERIOD_ID='" . (int) $_REQUEST['period_id'] . "'

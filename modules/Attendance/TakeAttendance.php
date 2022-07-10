@@ -55,7 +55,7 @@ if ( ! isset( $_REQUEST['table'] )
 
 if ( $_REQUEST['table'] == '0' )
 {
-	$table = 'ATTENDANCE_PERIOD';
+	$table = 'attendance_period';
 }
 else
 {
