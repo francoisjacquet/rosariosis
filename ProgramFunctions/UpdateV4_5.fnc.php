@@ -990,7 +990,7 @@ function _update50beta()
  * 1. COURSE_PERIODS table:
  * Change title column type to text
  * Was character varying(255) which could prevent saving long Course Period titles
- * Needs to DROP COURSE_DETAILS view first to then recreate it.
+ * Needs to DROP course_details view first to then recreate it.
  *
  * Local function
  *
