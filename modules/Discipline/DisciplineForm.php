@@ -83,34 +83,34 @@ if ( ! empty( $_REQUEST['values'] )
 				switch ( $columns['DATA_TYPE'] )
 				{
 					case 'checkbox':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " VARCHAR(1)" );
+						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " VARCHAR(1)" );
 						break;
 
 					case 'text':
 					case 'multiple_radio':
 					case 'multiple_checkbox':
 					case 'select':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " TEXT" );
+						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " TEXT" );
 						break;
 
 					case 'numeric':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " NUMERIC(20,2)" );
+						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " NUMERIC(20,2)" );
 						break;
 
 					case 'date':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " DATE" );
+						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " DATE" );
 						break;
 
 					case 'textarea':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " TEXT" );
+						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " TEXT" );
 						$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 						break;
 				}
 
 				if ( $create_index )
 				{
-					DBQuery( "CREATE INDEX DISCIPLINE_REFERRALS_IND" . $id . "
-						ON DISCIPLINE_REFERRALS (CATEGORY_" . $id . ")" );
+					DBQuery( "CREATE INDEX discipline_referrals_IND" . $id . "
+						ON discipline_referrals (CATEGORY_" . $id . ")" );
 				}
 
 				DBQuery( $usage_sql );
@@ -143,7 +143,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		$column_name = DBEscapeIdentifier( 'CATEGORY_' . $id );
 
-		DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS
+		DBQuery( "ALTER TABLE discipline_referrals
 			DROP COLUMN " . $column_name );
 
 		// Unset modfunc & ID & redirect URL.

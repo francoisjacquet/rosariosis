@@ -19,7 +19,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		foreach ( $_REQUEST['st_arr'] as $student_id )
 		{
-			$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
+			$sql = "INSERT INTO discipline_referrals ";
 
 			$fields = "SYEAR,SCHOOL_ID,STUDENT_ID,";
 			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";

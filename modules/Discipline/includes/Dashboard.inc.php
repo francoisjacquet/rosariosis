@@ -47,7 +47,7 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 
 		$referrals_RET = DBGet( "SELECT CAST(ENTRY_DATE AS varchar(7)) AS YEAR_MONTH,
 		COUNT(ID) AS REFERRALS_NB
-		FROM DISCIPLINE_REFERRALS
+		FROM discipline_referrals
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		GROUP BY YEAR_MONTH

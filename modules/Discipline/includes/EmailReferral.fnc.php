@@ -100,7 +100,7 @@ function EmailReferralGetReferralSafe( $referral_id )
 	}
 
 	$referral_RET = DBGet( "SELECT *
-		FROM DISCIPLINE_REFERRALS
+		FROM discipline_referrals
 		WHERE ID='" . (int) $referral_id . "'" . $where );
 
 	return empty( $referral_RET[1] ) ? [] : $referral_RET[1];

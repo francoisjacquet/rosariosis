@@ -1123,7 +1123,7 @@ class Widget_reporter implements Widget
 		}
 
 		$extra['WHERE'] .= ' AND EXISTS(SELECT 1
-			FROM DISCIPLINE_REFERRALS dr
+			FROM discipline_referrals dr
 			WHERE dr.STUDENT_ID=ssm.STUDENT_ID
 			AND dr.SYEAR=ssm.SYEAR
 			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
@@ -1213,7 +1213,7 @@ class Widget_incident_date implements Widget
 				|| $discipline_entry_end )
 		{
 			$extra['WHERE'] .= ' AND EXISTS(SELECT 1
-				FROM DISCIPLINE_REFERRALS dr
+				FROM discipline_referrals dr
 				WHERE dr.STUDENT_ID=ssm.STUDENT_ID
 				AND dr.SYEAR=ssm.SYEAR
 				AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
@@ -1355,7 +1355,7 @@ class Widget_discipline_fields implements Widget
 		}
 
 		$extra['WHERE'] .= ' AND EXISTS(SELECT 1
-			FROM DISCIPLINE_REFERRALS dr
+			FROM discipline_referrals dr
 			WHERE dr.STUDENT_ID=ssm.STUDENT_ID
 			AND dr.SYEAR=ssm.SYEAR
 			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';

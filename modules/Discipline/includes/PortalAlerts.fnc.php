@@ -33,7 +33,7 @@ function DisciplinePortalAlerts()
 
 	$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
 
-	$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+	$extra['FROM'] = ',discipline_referrals dr ';
 
 	$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR
 		AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND

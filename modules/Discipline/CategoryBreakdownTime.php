@@ -121,7 +121,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 	$extra = [];
 
-	$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+	$extra['FROM'] = ',discipline_referrals dr ';
 
 	$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID
 		AND dr.SCHOOL_ID=ssm.SCHOOL_ID

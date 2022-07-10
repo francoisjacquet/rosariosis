@@ -12,7 +12,7 @@ AddRequestedDates( 'values', 'post' );
 if ( ! empty( $_POST['values'] )
 	&& AllowEdit() )
 {
-	$sql = "UPDATE DISCIPLINE_REFERRALS SET ";
+	$sql = "UPDATE discipline_referrals SET ";
 
 	$go = 0;
 
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Referral' ) ) )
 	{
-		DBQuery( "DELETE FROM DISCIPLINE_REFERRALS
+		DBQuery( "DELETE FROM discipline_referrals
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -106,9 +106,9 @@ Widgets( 'discipline_fields' );
 
 $extra['SELECT'] = ',dr.*';
 
-if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
+if ( mb_strpos( $extra['FROM'], 'discipline_referrals' ) === false )
 {
-	$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
+	$extra['FROM'] .= ',discipline_referrals dr ';
 	$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
 }
 
@@ -165,7 +165,7 @@ if ( ! $_REQUEST['modfunc']
 	}
 
 	$RET = DBGet( "SELECT *
-		FROM DISCIPLINE_REFERRALS
+		FROM discipline_referrals
 		WHERE ID='" . (int) $_REQUEST['referral_id'] . "'" . $where );
 
 	if ( ! empty( $RET ) )
