@@ -1,8 +1,12 @@
 <?php
 
 /**
- * @param $transaction_id
- * @param $type
+ * Delete Food Service Transaction
+ *
+ * @since 10.0 Use db_trans_*() functions
+ *
+ * @param $transaction_id  Transaction ID.
+ * @param $type           'student' or 'staff'.
  */
 function DeleteTransaction( $transaction_id, $type = 'student' )
 {
@@ -21,5 +25,9 @@ function DeleteTransaction( $transaction_id, $type = 'student' )
 		$sql4 = "DELETE FROM FOOD_SERVICE_TRANSACTIONS WHERE TRANSACTION_ID='" . (int) $transaction_id . "'";
 	}
 
-	DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; ' . $sql3 . '; ' . $sql4 . '; COMMIT' );
+	db_trans_start();
+
+	db_trans_query( $sql1 . '; ' . $sql2 . '; ' . $sql3 . '; ' . $sql4 . ';' );
+
+	db_trans_commit();
 }

@@ -38,8 +38,6 @@ if ( $_REQUEST['modfunc'] === 'delete'
 				$_REQUEST['type']
 			);
 
-			DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; ' . $sql3 . '; COMMIT' );
-
 			// Unset modfunc & transaction ID & item ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'transaction_id', 'item_id' ] );
 		}

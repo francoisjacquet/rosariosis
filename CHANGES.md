@@ -7,6 +7,7 @@ Changes in 10.0
 - Fix delete file attached in StudentFees.php
 - Use DBEscapeIdentifier() for reserved 'column' keyword in plugins/Moodle/
 - Avoid regression due to lowercase table names: Maintain compatibility with add-ons using rollover_after action hook & `$_REQUEST['tables']` in Rollover.php
+- Use db_trans_*() functions in DeleteTransaction.fnc.php & DeleteTransactionItem.fnc.php
 
 Changes in 9.3
 --------------
@@ -63,7 +64,7 @@ Changes in 9.1.1
 - Fix selected Subject lost on Comment Category delete in ReportCardComments.php
 - Fix Color Input was hidden in ReportCardComments.php
 - Fix use Course ID in session in MassRequests.php
-- Fix SQL error primary key exists on table FOOD_SERVICE_STAFF_ACCOUNTS in Rollover.php
+- Fix SQL error primary key exists on table food_service_staff_accounts in Rollover.php
 - Fix SQL error foreign key exists on tables GRADEBOOK_ASSIGNMENTS,GRADEBOOK_ASSIGNMENT_TYPES,SCHEDULE_REQUESTS in Rollover.php
 - Fix save State input value in Registration.fnc.php
 - Fix SchoolInfo() on user School Year update in School.php
