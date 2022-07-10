@@ -35,13 +35,13 @@ if ( ! empty( $_REQUEST['values'] )
 			( $_REQUEST['values']['TYPE'] == 'Debit' ? -$amount : $amount ) . "','" .
 			mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
 
-			$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (" . $fields . ") values (" . $values . ")";
+			$sql = "INSERT INTO food_service_staff_transaction_items (" . $fields . ") values (" . $values . ")";
 
 			DBQuery( $sql );
 
 			DBQuery( "UPDATE food_service_staff_accounts
 				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
-					FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS
+					FROM food_service_staff_transaction_items
 					WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
 				WHERE STAFF_ID='" . UserStaffID() . "'" );
 		}
@@ -94,7 +94,7 @@ if ( UserStaffID()
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE'] != '' )
 	{
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
-		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,food_service_staff_transaction_items fsti
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1

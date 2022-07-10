@@ -32,7 +32,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	{
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 		fst.SHORT_NAME,fst.STAFF_ID,
-		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+		(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 			db_case( [
 				'fst.STAFF_ID',
@@ -60,7 +60,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		foreach ( (array) $RET as $key => $value )
 		{
 			// get details of each transaction
-			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
+			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM food_service_staff_transaction_items WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
 
 			//FJ add translation
 
@@ -101,7 +101,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	else
 	{
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,
-		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+		(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 			db_case( [
 				'fst.STAFF_ID',

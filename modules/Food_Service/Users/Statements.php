@@ -66,7 +66,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['detailed_view'] == 'true' )
 		{
 			$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
-			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.STAFF_ID,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 				db_case( [
 					'fst.SELLER_ID',
@@ -90,7 +90,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 			foreach ( (array) $RET as $key => $value )
 			{
-				$tmpRET = DBGet( 'SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=\'' . $value['TRANSACTION_ID'] . '\'' );
+				$tmpRET = DBGet( 'SELECT TRANSACTION_ID AS TRANS_ID,* FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=\'' . $value['TRANSACTION_ID'] . '\'' );
 
 				foreach ( (array) $tmpRET as $RET_key => $RET_val )
 				{
@@ -126,7 +126,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		else
 		{
 			$RET = DBGet( "SELECT fst.TRANSACTION_ID,
-			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.STAFF_ID='" . UserStaffID() . "'

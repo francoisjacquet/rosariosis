@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			// @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
 			$last_deposit = DBGet( "SELECT
-			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			CAST(fst.TIMESTAMP AS varchar(10)) AS DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'

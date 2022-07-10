@@ -189,10 +189,10 @@ if ( 'sales' == $_REQUEST['type_select'] )
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
 	$RET = DBGet( "SELECT 'User' AS TYPE,fsti.SHORT_NAME,'' AS DISCOUNT,-sum((SELECT sum(AMOUNT)
-		FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS
+		FROM food_service_staff_transaction_items
 		WHERE TRANSACTION_ID=fsti.TRANSACTION_ID
 		AND SHORT_NAME=fsti.SHORT_NAME)) AS COUNT
-	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,food_service_staff_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
@@ -278,7 +278,7 @@ else
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
 
 	$RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,fsti.SHORT_NAME,count(*)
-	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,food_service_staff_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
