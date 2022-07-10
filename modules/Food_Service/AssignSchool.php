@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( $school_id )
 			{
-				DBQuery( "UPDATE FOOD_SERVICE_TRANSACTIONS SET SCHOOL_ID='" . (int) $school_id . "' WHERE TRANSACTION_ID='" . (int) $transaction_id . "'" );
+				DBQuery( "UPDATE food_service_transactions SET SCHOOL_ID='" . (int) $school_id . "' WHERE TRANSACTION_ID='" . (int) $transaction_id . "'" );
 			}
 		}
 	}
@@ -52,7 +52,7 @@ $students_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SYEAR," .
 		'NULL',
 		"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)",
 	] ) . " AS FULL_NAME,fst.ACCOUNT_ID AS STUDENTS,fst.SCHOOL_ID
-	FROM FOOD_SERVICE_TRANSACTIONS
+	FROM food_service_transactions
 	fst WHERE fst.SCHOOL_ID IS NULL", [ 'STUDENTS' => '_students', 'SCHOOL_ID' => '_make_school' ] );
 
 $staff_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,

@@ -54,9 +54,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 $extra['new'] = true;
 
 $extra['SELECT'] = ",fsa.ACCOUNT_ID,fst.BALANCE";
-//$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_TRANSACTIONS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID AND TIMESTAMP<date '".$date."'+1 ORDER BY TIMESTAMP DESC LIMIT 1) AS BALANCE";
-$extra['FROM'] = ",food_service_student_accounts fsa,FOOD_SERVICE_TRANSACTIONS fst";
-$extra['WHERE'] = " AND fsa.STUDENT_ID=ssm.STUDENT_ID AND fst.ACCOUNT_ID=fsa.ACCOUNT_ID AND fst.BALANCE>'0' AND fst.TRANSACTION_ID=(SELECT TRANSACTION_ID FROM FOOD_SERVICE_TRANSACTIONS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID AND TIMESTAMP<date '" . $date . "'+1 ORDER BY TIMESTAMP DESC LIMIT 1)";
+//$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_transactions WHERE ACCOUNT_ID=fsa.ACCOUNT_ID AND TIMESTAMP<date '".$date."'+1 ORDER BY TIMESTAMP DESC LIMIT 1) AS BALANCE";
+$extra['FROM'] = ",food_service_student_accounts fsa,food_service_transactions fst";
+$extra['WHERE'] = " AND fsa.STUDENT_ID=ssm.STUDENT_ID AND fst.ACCOUNT_ID=fsa.ACCOUNT_ID AND fst.BALANCE>'0' AND fst.TRANSACTION_ID=(SELECT TRANSACTION_ID FROM food_service_transactions WHERE ACCOUNT_ID=fsa.ACCOUNT_ID AND TIMESTAMP<date '" . $date . "'+1 ORDER BY TIMESTAMP DESC LIMIT 1)";
 $extra['functions'] = [ 'ACCOUNT_ID' => '_total' ];
 $extra['columns_before'] = [ 'ACCOUNT_ID' => _( 'Account ID' ) ];
 $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ) ];

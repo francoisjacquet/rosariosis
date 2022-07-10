@@ -21,7 +21,7 @@ if ( ! empty( $_REQUEST['values'] )
 				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
 				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
 
-			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+			$sql = "INSERT INTO food_service_transactions (" . $fields . ") values (" . $values . ")";
 
 			DBQuery( $sql );
 
@@ -103,7 +103,7 @@ if ( UserStudentID()
 	if ( $student['BALANCE'] != '' )
 	{
 		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
-		FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
+		FROM food_service_transactions fst,food_service_transaction_items fsti
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='" . UserStudentID() . "')

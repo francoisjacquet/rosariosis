@@ -157,7 +157,7 @@ GROUP BY ac.CALENDAR_ID", [ 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ] );
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $RET = DBGet( "SELECT 1 AS PARTICIPATED,'Student' AS TYPE,DISCOUNT
-FROM FOOD_SERVICE_TRANSACTIONS
+FROM food_service_transactions
 WHERE SYEAR='" . UserSyear() . "'
 AND SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 AND TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
@@ -181,7 +181,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 		FROM food_service_transaction_items
 		WHERE TRANSACTION_ID=fsti.TRANSACTION_ID
 		AND ITEM_ID=fsti.ITEM_ID)) AS COUNT
-	FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
+	FROM food_service_transactions fst,food_service_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
@@ -269,7 +269,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 else
 {
 	$RET = DBGet( "SELECT 'Student' AS TYPE,fst.DISCOUNT,fsti.SHORT_NAME,count(*)
-	FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
+	FROM food_service_transactions fst,food_service_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'

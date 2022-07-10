@@ -57,7 +57,7 @@ if ( UserStudentID()
 				'NULL',
 				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
 			] ) . " AS SELLER
-		FROM FOOD_SERVICE_TRANSACTIONS fst
+		FROM food_service_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
@@ -124,7 +124,7 @@ if ( UserStudentID()
 				'NULL',
 				"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)",
 			] ) . " AS FULL_NAME
-		FROM FOOD_SERVICE_TRANSACTIONS fst
+		FROM food_service_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "

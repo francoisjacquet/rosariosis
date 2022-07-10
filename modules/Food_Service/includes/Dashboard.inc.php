@@ -49,7 +49,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 		$meals_RET = DBGet( "SELECT
 			COUNT(DISTINCT STUDENT_ID) AS PARTICIPATED,
 			CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS varchar(10)) AS TRANSACTION_DATE
-			FROM FOOD_SERVICE_TRANSACTIONS
+			FROM food_service_transactions
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND STUDENT_ID IS NOT NULL

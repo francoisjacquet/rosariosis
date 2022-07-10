@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				WHERE CALENDAR_ID=ssm.CALENDAR_ID
 				AND SCHOOL_DATE>CURRENT_DATE) AS DAYS,
 			(SELECT -sum(fsti.AMOUNT)
-				FROM FOOD_SERVICE_TRANSACTIONS fst,food_service_transaction_items fsti
+				FROM food_service_transactions fst,food_service_transaction_items fsti
 				WHERE fst.SYEAR=ssm.SYEAR
 				AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 				AND fst.ACCOUNT_ID=fsa.ACCOUNT_ID
@@ -152,7 +152,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				FROM food_service_transaction_items
 				WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 				CAST(fst.TIMESTAMP AS varchar(10)) AS DATE
-			FROM FOOD_SERVICE_TRANSACTIONS fst
+			FROM food_service_transactions fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
