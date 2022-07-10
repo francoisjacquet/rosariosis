@@ -1,11 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 9.4
---------------
+Changes in 10.0
+---------------
 - SQL convert table names to lowercase, program wide
 - Fix delete file attached in StudentFees.php
 - Use DBEscapeIdentifier() for reserved 'column' keyword in plugins/Moodle/
+- Avoid regression due to lowercase table names: Maintain compatibility with add-ons using rollover_after action hook & `$_REQUEST['tables']` in Rollover.php
 
 Changes in 9.3
 --------------

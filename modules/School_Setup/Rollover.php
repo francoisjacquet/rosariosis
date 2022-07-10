@@ -170,6 +170,26 @@ if ( Prompt(
 					}
 				}
 
+				/**
+				 * Avoid regression due to lowercase table names:
+				 * Maintain compatibility with add-ons using rollover_after action hooks & $_REQUEST['tables']
+				 * to check if table rolled over:
+				 * Add uppercase table names to $_REQUEST['tables']
+				 *
+				 * @deprecated since 10.0
+				 */
+				if ( ! empty( $_REQUEST['tables'] ) )
+				{
+					$request_uppercase_tables = [];
+
+					foreach ( $_REQUEST['tables'] as $lowercase_table_name => $value )
+					{
+						$request_uppercase_tables[ mb_strtoupper( $lowercase_table_name ) ] = $value;
+					}
+
+					$_REQUEST['tables'] = array_merge( $_REQUEST['tables'], $request_uppercase_tables );
+				}
+
 				// @since 4.5 Rollover After action hook.
 				do_action( 'School_Setup/Rollover.php|rollover_after' );
 			}
