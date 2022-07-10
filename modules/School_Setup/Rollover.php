@@ -431,7 +431,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM ATTENDANCE_CODE_CATEGORIES
+				$delete_sql .= "DELETE FROM attendance_code_categories
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -440,9 +440,9 @@ function Rollover( $table, $mode = 'delete' )
 				break;
 			}
 
-			DBQuery( "INSERT INTO ATTENDANCE_CODE_CATEGORIES (SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,ROLLOVER_ID)
+			DBQuery( "INSERT INTO attendance_code_categories (SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,ROLLOVER_ID)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,SORT_ORDER,ID
-				FROM ATTENDANCE_CODE_CATEGORIES
+				FROM attendance_code_categories
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -450,7 +450,7 @@ function Rollover( $table, $mode = 'delete' )
 				STATE_CODE,DEFAULT_CODE,TABLE_NAME,SORT_ORDER)
 				SELECT c.SYEAR+1,c.SCHOOL_ID,c.TITLE,
 				c.SHORT_NAME,c.TYPE,c.STATE_CODE,c.DEFAULT_CODE," .
-				db_case( [ 'c.TABLE_NAME', "'0'", "'0'", '(SELECT ID FROM ATTENDANCE_CODE_CATEGORIES WHERE SCHOOL_ID=c.SCHOOL_ID AND ROLLOVER_ID=c.TABLE_NAME)' ] ) . ",c.SORT_ORDER
+				db_case( [ 'c.TABLE_NAME', "'0'", "'0'", '(SELECT ID FROM attendance_code_categories WHERE SCHOOL_ID=c.SCHOOL_ID AND ROLLOVER_ID=c.TABLE_NAME)' ] ) . ",c.SORT_ORDER
 				FROM ATTENDANCE_CODES c
 				WHERE c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'" );
@@ -649,7 +649,7 @@ function Rollover( $table, $mode = 'delete' )
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 			$categories_RET = DBGet( "SELECT ID,ROLLOVER_ID
-				FROM ATTENDANCE_CODE_CATEGORIES
+				FROM attendance_code_categories
 				WHERE SYEAR='" . $next_syear . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND ROLLOVER_ID IS NOT NULL" );

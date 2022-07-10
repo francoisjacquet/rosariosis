@@ -37,7 +37,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					}
 					else
 					{
-						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
+						$sql = "UPDATE attendance_code_categories SET ";
 					}
 
 					foreach ( (array) $columns as $column => $value )
@@ -61,7 +61,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					}
 					else
 					{
-						$sql = "INSERT INTO ATTENDANCE_CODE_CATEGORIES ";
+						$sql = "INSERT INTO attendance_code_categories ";
 						$fields = 'SCHOOL_ID,SYEAR,';
 						$values = "'" . UserSchool() . "','" . UserSyear() . "',";
 					}
@@ -112,7 +112,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Category' ) ) )
 	{
-		$delete_sql = "DELETE FROM ATTENDANCE_CODE_CATEGORIES
+		$delete_sql = "DELETE FROM attendance_code_categories
 			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 		$delete_sql .= "DELETE FROM ATTENDANCE_CODES
@@ -166,7 +166,7 @@ if ( ! $_REQUEST['modfunc'] )
 	] ];
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
-		FROM ATTENDANCE_CODE_CATEGORIES
+		FROM attendance_code_categories
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -233,7 +233,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$sql = "SELECT ID,TITLE,SORT_ORDER
-		FROM ATTENDANCE_CODE_CATEGORIES
+		FROM attendance_code_categories
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER,TITLE";

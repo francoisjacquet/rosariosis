@@ -11,7 +11,7 @@ $date = RequestedDate( 'date', DBDate(), 'set' );
 DrawHeader( ProgramTitle() );
 
 $categories_RET = DBGet( "SELECT ID,TITLE
-	FROM ATTENDANCE_CODE_CATEGORIES
+	FROM attendance_code_categories
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER,TITLE" );

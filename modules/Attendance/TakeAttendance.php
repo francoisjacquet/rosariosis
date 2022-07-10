@@ -22,7 +22,7 @@ $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' 
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	)>0
 	UNION SELECT ID,TITLE,1,SORT_ORDER
-	FROM ATTENDANCE_CODE_CATEGORIES
+	FROM attendance_code_categories
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND position(CONCAT(',', ID, ',') IN

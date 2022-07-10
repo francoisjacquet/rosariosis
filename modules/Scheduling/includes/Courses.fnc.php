@@ -93,9 +93,9 @@ function CoursePeriodAttendanceInput( $does_attendance, $array )
 
 	$i = 0;
 
-	$categories_RET = DBGet( "SELECT '0' AS ID,'" . _( 'Attendance' ) . "' AS TITLE
+	$categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE
 		UNION SELECT ID,TITLE
-		FROM ATTENDANCE_CODE_CATEGORIES
+		FROM attendance_code_categories
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

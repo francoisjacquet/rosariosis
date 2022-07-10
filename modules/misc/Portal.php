@@ -300,7 +300,7 @@ switch ( User( 'PROFILE' ) )
 			// Warn if missing attendances.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 			SELECT ID,TITLE,1,SORT_ORDER
-			FROM ATTENDANCE_CODE_CATEGORIES
+			FROM attendance_code_categories
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY 3,SORT_ORDER" );
@@ -587,7 +587,7 @@ switch ( User( 'PROFILE' ) )
 			// Warn if missing attendances.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 				SELECT ID,TITLE,1,SORT_ORDER
-				FROM ATTENDANCE_CODE_CATEGORIES
+				FROM attendance_code_categories
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY 3,SORT_ORDER" );
