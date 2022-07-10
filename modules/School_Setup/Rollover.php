@@ -45,7 +45,7 @@ if ( $RosarioModules['Food_Service'] )
 
 if ( $RosarioModules['Discipline'] )
 {
-	$tables += [ 'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) ];
+	$tables += [ 'discipline_field_usage' => _( 'Referral Form' ) ];
 }
 
 $table_list = '<table class="widefat center">';
@@ -870,7 +870,7 @@ function Rollover( $table, $mode = 'delete' )
 			break;
 
 		case 'ELIGIBILITY_ACTIVITIES':
-		case 'DISCIPLINE_FIELD_USAGE':
+		case 'discipline_field_usage':
 
 			if ( $mode === 'delete' )
 			{

@@ -14,7 +14,7 @@ if ( ! empty( $_REQUEST['values'] )
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE DISCIPLINE_FIELD_USAGE SET ";
+				$sql = "UPDATE discipline_field_usage SET ";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -62,7 +62,7 @@ if ( ! empty( $_REQUEST['values'] )
 					SET COLUMN_NAME='CATEGORY_" . $id . "'
 					WHERE ID='" . (int) $id . "'" );
 
-				$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
+				$usage_sql = "INSERT INTO discipline_field_usage ";
 
 				$fields = "DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
 				$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "',";
@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$delete_sql = "DELETE FROM DISCIPLINE_FIELDS
 			WHERE ID='" . (int) $id . "';";
 
-		$delete_sql .= "DELETE FROM DISCIPLINE_FIELD_USAGE
+		$delete_sql .= "DELETE FROM discipline_field_usage
 			WHERE DISCIPLINE_FIELD_ID='" . (int) $id . "';";
 
 		DBQuery( $delete_sql );
@@ -157,7 +157,7 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 	if ( DeletePrompt( _( 'Category' ), _( 'Don\'t use' ) ) )
 	{
 		$id = issetVal( $_REQUEST['id'] );
-		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='" . (int) $id . "'" );
+		DBQuery( "DELETE FROM discipline_field_usage WHERE ID='" . (int) $id . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );
@@ -167,7 +167,7 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 if ( $_REQUEST['modfunc'] === 'add_usage'
 	&& AllowEdit() )
 {
-	DBQuery( "INSERT INTO DISCIPLINE_FIELD_USAGE (DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER)
+	DBQuery( "INSERT INTO discipline_field_usage (DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER)
 		SELECT '" . (int) $_REQUEST['id'] . "' AS DISCIPLINE_FIELD_ID,
 		'" . UserSyear() . "' AS SYEAR,'" . UserSchool() . "' AS SCHOOL_ID,TITLE,
 		NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER
@@ -186,7 +186,7 @@ if ( ! $_REQUEST['modfunc'] )
 		"SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,
 		du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS
 		FROM DISCIPLINE_FIELDS df LEFT
-		OUTER JOIN DISCIPLINE_FIELD_USAGE du
+		OUTER JOIN discipline_field_usage du
 		ON (du.DISCIPLINE_FIELD_ID=df.ID
 			AND du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "')

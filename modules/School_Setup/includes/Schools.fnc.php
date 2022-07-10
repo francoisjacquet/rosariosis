@@ -39,7 +39,7 @@ function SchoolDeleteSQL( $school_id )
 
 	$delete_sql .= "DELETE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
-	$delete_sql .= "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE SCHOOL_ID='" . (int) $school_id . "';";
+	$delete_sql .= "DELETE FROM discipline_field_usage WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
 	$delete_sql .= "UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='" . (int) $school_id . "';";
 

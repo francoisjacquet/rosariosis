@@ -121,7 +121,7 @@ function EmailReferralFormatFields( $referral )
 	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	$categories_RET = DBGet( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
-		FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
+		FROM DISCIPLINE_FIELDS f,discipline_field_usage u
 		WHERE u.DISCIPLINE_FIELD_ID=f.ID
 		AND u.SCHOOL_ID='" . UserSchool() . "'
 		AND u.SYEAR='" . UserSyear() . "'
