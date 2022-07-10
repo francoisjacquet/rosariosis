@@ -132,7 +132,7 @@ $RET = DBGet( "SELECT 'Student' AS TYPE, fssa.DISCOUNT,count(1) AS DAYS,(SELECT 
 	FROM attendance_calendar
 	WHERE CALENDAR_ID=ac.CALENDAR_ID
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ELLIGIBLE
-FROM FOOD_SERVICE_STUDENT_ACCOUNTS fssa,STUDENT_ENROLLMENT ssm,attendance_calendar ac
+FROM food_service_student_accounts fssa,STUDENT_ENROLLMENT ssm,attendance_calendar ac
 WHERE ac.CALENDAR_ID=ssm.CALENDAR_ID
 AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND fssa.STATUS IS NULL

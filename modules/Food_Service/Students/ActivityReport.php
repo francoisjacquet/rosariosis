@@ -13,7 +13,7 @@ $extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_I
 
 if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 {
-	$extra['FROM'] = ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+	$extra['FROM'] = ",food_service_student_accounts fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
 

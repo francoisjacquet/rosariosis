@@ -346,7 +346,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			|| isset( $_REQUEST['fields']['FS_BARCODE'] ) && $_REQUEST['fields']['FS_BARCODE'] == 'Y'
 			|| isset( $_REQUEST['fields']['FS_BALANCE'] ) && $_REQUEST['fields']['FS_BALANCE'] == 'Y' ) )
 	{
-		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+		$extra['FROM'] .= ',food_service_student_accounts fssa';
 		$extra['WHERE'] .= ' AND fssa.STUDENT_ID=ssm.STUDENT_ID';
 
 		if ( isset( $_REQUEST['fields']['FS_ACCOUNT_ID'] ) && $_REQUEST['fields']['FS_ACCOUNT_ID'] == 'Y' )

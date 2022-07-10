@@ -53,7 +53,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND SCHOOL_DATE BETWEEN CURRENT_DATE-14 AND CURRENT_DATE-1) AS T_DAYS";
 		}
 
-		$extra['FROM'] = ",FOOD_SERVICE_STUDENT_ACCOUNTS fsa";
+		$extra['FROM'] = ",food_service_student_accounts fsa";
 
 		$students = GetStuList( $extra );
 
@@ -137,7 +137,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$teacher[1]['FULL_NAME'] : '';
 
 			$xstudents = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
-			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
+			FROM STUDENTS s,food_service_student_accounts fssa
 			WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND s.STUDENT_ID=fssa.STUDENT_ID
 			AND s.STUDENT_ID!='" . (int) $student['STUDENT_ID'] . "'
@@ -223,7 +223,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 	{
-		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+		$extra['FROM'] .= ',food_service_student_accounts fssa';
 		$extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID';
 	}
 

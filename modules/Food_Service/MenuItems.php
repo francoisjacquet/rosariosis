@@ -365,7 +365,7 @@ if ( ! $_REQUEST['modfunc'] )
 			if ( UserStudentID() )
 			{
 				$discount = DBGetOne( "SELECT DISCOUNT
-					FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+					FROM food_service_student_accounts
 					WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 				if ( $discount == 'Reduced' )

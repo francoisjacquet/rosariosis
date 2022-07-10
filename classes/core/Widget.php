@@ -1876,7 +1876,7 @@ class Widget_fsa_balance implements Widget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+			$extra['FROM'] .= ',food_service_student_accounts fssa';
 
 			$extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID';
 		}
@@ -1939,7 +1939,7 @@ class Widget_fsa_discount implements Widget
 
 		if ( ! mb_strpos($extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+			$extra['FROM'] .= ",food_service_student_accounts fssa";
 
 			$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 		}
@@ -1988,7 +1988,7 @@ class Widget_fsa_status implements Widget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+			$extra['FROM'] .= ",food_service_student_accounts fssa";
 
 			$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 		}
@@ -2048,7 +2048,7 @@ class Widget_fsa_barcode implements Widget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+			$extra['FROM'] .= ",food_service_student_accounts fssa";
 
 			$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 		}
@@ -2092,7 +2092,7 @@ class Widget_fsa_account_id implements Widget
 
 		if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 		{
-			$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+			$extra['FROM'] .= ",food_service_student_accounts fssa";
 
 			$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 		}

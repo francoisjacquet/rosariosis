@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		&& ! empty( $_SESSION['FSA_sale'] ) )
 	{
 		$student = DBGet( "SELECT ACCOUNT_ID,DISCOUNT
-			FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+			FROM food_service_student_accounts
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		$student = $student[1];
@@ -112,7 +112,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,
 	(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
-	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
+	FROM STUDENTS s,food_service_student_accounts fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
 	AND fsa.STUDENT_ID=s.STUDENT_ID" );
 

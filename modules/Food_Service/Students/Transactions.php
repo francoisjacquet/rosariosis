@@ -9,7 +9,7 @@ if ( ! empty( $_REQUEST['values'] )
 		&& AllowEdit() )
 	{
 		$account_id = DBGetOne( "SELECT ACCOUNT_ID
-			FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+			FROM food_service_student_accounts
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
@@ -65,7 +65,7 @@ $extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_I
 
 if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 {
-	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+	$extra['FROM'] .= ",food_service_student_accounts fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
 
@@ -82,7 +82,7 @@ if ( UserStudentID()
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
-	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
+	FROM STUDENTS s,food_service_student_accounts fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
 	AND fsa.STUDENT_ID=s.STUDENT_ID" );
 

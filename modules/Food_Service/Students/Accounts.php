@@ -14,14 +14,14 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			$question = _( 'Are you sure you want to assign that barcode?' );
 
 			$account_id = DBGetOne( "SELECT ACCOUNT_ID
-				FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+				FROM food_service_student_accounts
 				WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'
 				AND STUDENT_ID!='" . UserStudentID() . "'" );
 
 			if ( $account_id )
 			{
 				$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
-					FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
+					FROM STUDENTS s,food_service_student_accounts fssa
 					WHERE s.STUDENT_ID=fssa.STUDENT_ID
 					AND fssa.ACCOUNT_ID='" . (int) $account_id . "'" );
 
@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				|| ( (string) (int) $_REQUEST['food_service']['ACCOUNT_ID'] === $_REQUEST['food_service']['ACCOUNT_ID']
 					&& $_REQUEST['food_service']['ACCOUNT_ID'] > 0 ) )
 			{
-				$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
+				$sql = "UPDATE food_service_student_accounts SET ";
 
 				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
 				{
@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
-					DBQuery( "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
+					DBQuery( "UPDATE food_service_student_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 					DBQuery( "UPDATE food_service_staff_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 				}
 
@@ -102,7 +102,7 @@ $extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_I
 
 if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 {
-	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
+	$extra['FROM'] .= ",food_service_student_accounts fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
 
@@ -119,7 +119,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,
 		(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE
-		FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
+		FROM STUDENTS s,food_service_student_accounts fssa
 		WHERE s.STUDENT_ID='" . UserStudentID() . "'
 		AND fssa.STUDENT_ID=s.STUDENT_ID" );
 
@@ -127,7 +127,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	// Find other students associated with the same account.
 	$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
-	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
+	FROM STUDENTS s,food_service_student_accounts fssa
 	WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID
 	AND s.STUDENT_ID!='" . UserStudentID() . "'" .

@@ -207,7 +207,7 @@ echo '<div class="center">' . SubmitButton() . '</div>';
 echo '</td><td style="width:50%;">';
 
 $extra['SELECT'] .= ',fsa.BALANCE,fssa.STATUS';
-$extra['FROM'] .= ',food_service_accounts fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+$extra['FROM'] .= ',food_service_accounts fsa,food_service_student_accounts fssa';
 $extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NOT NULL';
 
 if ( ! $extra['functions'] )
