@@ -218,7 +218,7 @@ function DeleteDBFieldCategory( $table, $id )
  * @uses DrawHeader()
  * @uses MakeFieldType()
  *
- * @param  string $table                 DB Table name, without trailing / plural 'S'.
+ * @param  string $table                 DB Table name, without trailing / plural 's'.
  * @param  string $title                 Form Title.
  * @param  array  $RET                   Field or Field Category Data.
  * @param  array  $extra_category_fields Extra fields for Field Category.
@@ -342,7 +342,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 		if ( ! $new )
 		{
 			// Mab - allow changing between select and autos and text and exports.
-			if ( ( $table !== 'STAFF'
+			if ( ( $table !== 'staff'
 					|| $id < 200000000 ) // Don't change Email & Phone User Fields type.
 				&& in_array( $RET['TYPE'], [ 'select', 'autos', 'text', 'exports' ] ) )
 			{
@@ -408,7 +408,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 				$categories_options[ $type['ID'] ] = ParseMLField( $type['TITLE'] );
 			}
 
-			if ( $table !== 'STAFF'
+			if ( $table !== 'staff'
 				|| $id < 200000000 ) // Don't change Email & Phone User Fields category.
 			{
 				$header .= '<td>' . SelectInput(

@@ -153,7 +153,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	echo GetFieldsForm(
-		'SCHOOL',
+		'school',
 		$title,
 		$RET,
 		[]

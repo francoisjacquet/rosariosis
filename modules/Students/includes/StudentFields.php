@@ -277,7 +277,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	echo GetFieldsForm(
-		'STUDENT',
+		'student',
 		$title,
 		$RET,
 		issetVal( $extra_fields, [] )
