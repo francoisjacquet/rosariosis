@@ -134,7 +134,7 @@ if ( ! empty( $_POST['tables'] ) )
 					$sql .= 'COURSE_ID=NULL,';
 				}
 				elseif ( $column == 'FINAL_GRADE_PERCENT'
-					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+					&& $table == 'gradebook_assignment_types' )
 				{
 					// Fix PHP8.1 fatal error unsupported operand types: string / int
 					$value = ( (float) preg_replace( '/[^0-9.]/', '', $value ) ) / 100;
@@ -184,7 +184,7 @@ if ( ! empty( $_POST['tables'] ) )
 				$values = "'" . (int) $_REQUEST['assignment_type_id'] . "','" .
 				User( 'STAFF_ID' ) . "','" . UserMP() . "',";
 			}
-			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+			elseif ( $table == 'gradebook_assignment_types' )
 			{
 				$fields = "STAFF_ID,COURSE_ID,CREATED_MP,";
 
@@ -216,7 +216,7 @@ if ( ! empty( $_POST['tables'] ) )
 					$value = UserCoursePeriod();
 				}
 				elseif ( $column == 'FINAL_GRADE_PERCENT'
-					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+					&& $table == 'gradebook_assignment_types' )
 				{
 					// Fix PHP8.1 fatal error unsupported operand types: string / int
 					$value = ( (float) preg_replace( '/[^0-9.]/', '', $value ) ) / 100;
@@ -261,7 +261,7 @@ if ( ! empty( $_POST['tables'] ) )
 				{
 					$_REQUEST['assignment_id'] = $id;
 				}
-				elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+				elseif ( $table == 'gradebook_assignment_types' )
 				{
 					$_REQUEST['assignment_type_id'] = $id;
 				}
@@ -339,7 +339,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 		$assignment_course_title = DBGetOne( "SELECT c.TITLE
-			FROM GRADEBOOK_ASSIGNMENTS ga,courses c,GRADEBOOK_ASSIGNMENT_TYPES gat
+			FROM GRADEBOOK_ASSIGNMENTS ga,courses c,gradebook_assignment_types gat
 			WHERE c.COURSE_ID=gat.COURSE_ID
 			AND ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID" );
@@ -366,7 +366,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		$prompt_title = _( 'Assignment Type' );
 
 		$sql = "DELETE
-			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			FROM gradebook_assignment_types
 			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'";
 	}
 
@@ -459,7 +459,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
 		$assignment_type_sql = "SELECT ASSIGNMENT_TYPE_ID
-			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			FROM gradebook_assignment_types
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
@@ -504,7 +504,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// ASSIGNMENT TYPES.
 	$assignment_types_sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER
-		FROM GRADEBOOK_ASSIGNMENT_TYPES
+		FROM gradebook_assignment_types
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND COURSE_ID=(SELECT COURSE_ID
 			FROM course_periods
@@ -570,14 +570,14 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$assignment_type_sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
 		(SELECT sum(FINAL_GRADE_PERCENT)
-			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			FROM gradebook_assignment_types
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
 		$hide_previous_assignment_types_sql .
 		") AS TOTAL_PERCENT
-		FROM GRADEBOOK_ASSIGNMENT_TYPES at
+		FROM gradebook_assignment_types at
 		WHERE at.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'";
 
 		$RET = DBGet( $assignment_type_sql, [ 'FINAL_GRADE_PERCENT' => '_makePercent' ] );
@@ -628,7 +628,7 @@ if ( ! $_REQUEST['modfunc'] )
 	elseif ( $_REQUEST['assignment_type_id'] == 'new' )
 	{
 		$assignment_type_sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
-			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			FROM gradebook_assignment_types
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
@@ -806,7 +806,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( ! empty( $_REQUEST['assignment_type_id'] ) )
 	{
-		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES';
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=gradebook_assignment_types';
 
 		if ( $_REQUEST['assignment_type_id'] !== 'new' )
 		{

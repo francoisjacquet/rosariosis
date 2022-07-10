@@ -399,7 +399,7 @@ function GetAssignment( $assignment_id )
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
 		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS CATEGORY, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
-		FROM GRADEBOOK_ASSIGNMENTS ga,courses c,GRADEBOOK_ASSIGNMENT_TYPES gat
+		FROM GRADEBOOK_ASSIGNMENTS ga,courses c,gradebook_assignment_types gat
 		" . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . (int) $assignment_id . "'
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?

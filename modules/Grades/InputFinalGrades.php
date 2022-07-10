@@ -242,7 +242,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 				LEFT OUTER JOIN GRADEBOOK_GRADES gg ON
 				(gg.STUDENT_ID=s.STUDENT_ID
 					AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
-					AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
+					AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";
 
 			// Check Current date.
 			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID

@@ -37,7 +37,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						}
 						else
 						{
-							$sql = "UPDATE GRADEBOOK_ASSIGNMENT_TYPES SET ";
+							$sql = "UPDATE gradebook_assignment_types SET ";
 						}
 
 						foreach ( (array) $columns as $column => $value )
@@ -106,7 +106,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						}
 						else
 						{
-							$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENT_TYPES ';
+							$sql = 'INSERT INTO gradebook_assignment_types ';
 							$fields = 'STAFF_ID,COURSE_ID,';
 							$values = "'" . User( 'STAFF_ID' ) . "',(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
 						}
@@ -206,7 +206,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 			}
 
 			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['id'] . "';";
-			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['id'] . "';";
+			$delete_sql .= "DELETE FROM gradebook_assignment_types WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['id'] . "';";
 		}
 
 		DBQuery( $delete_sql );
@@ -218,7 +218,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
+	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM gradebook_assignment_types WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -303,7 +303,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE";
+		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM gradebook_assignment_types WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE";
 		$functions = [ 'TITLE' => '_makeTypeInput', 'SORT_ORDER' => '_makeTypeInput', 'COLOR' => '_makeColorInput' ];
 
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )

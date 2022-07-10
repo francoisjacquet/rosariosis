@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			" IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" :
 			"='" . UserMP() . "'" ) . ")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID),
-		GRADEBOOK_ASSIGNMENT_TYPES gt
+		gradebook_assignment_types gt
 		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 		AND gt.COURSE_ID='" . (int) $course_id . "'
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)

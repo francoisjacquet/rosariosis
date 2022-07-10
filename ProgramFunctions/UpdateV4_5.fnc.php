@@ -297,7 +297,7 @@ function _update44beta2()
 /**
  * Update to version 4.5
  *
- * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_MP column.
+ * 1. gradebook_assignment_types table: Add CREATED_MP column.
  *
  * Local function
  *
@@ -312,7 +312,7 @@ function _update45beta2()
 	$return = true;
 
 	/**
-	 * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_MP column.
+	 * 1. gradebook_assignment_types table: Add CREATED_MP column.
 	 */
 	$created_at_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignment_types')

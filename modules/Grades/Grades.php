@@ -54,7 +54,7 @@ elseif ( UserStudentID() )
 }
 
 $types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,COLOR
-FROM GRADEBOOK_ASSIGNMENT_TYPES gt
+FROM gradebook_assignment_types gt
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND (SELECT count(1) FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID=gt.STAFF_ID
@@ -283,7 +283,7 @@ if ( UserStudentID() )
 
 	if ( empty( $_REQUEST['type_id'] ) )
 	{
-		$extra['SELECT'] .= ',(SELECT TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID) AS TYPE_TITLE';
+		$extra['SELECT'] .= ',(SELECT TITLE FROM gradebook_assignment_types WHERE ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID) AS TYPE_TITLE';
 
 		$link['TYPE_TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'];
 
@@ -441,7 +441,7 @@ else
 				AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
 			LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID
 				AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
-				AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
+				AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";
 
 			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND gt.COURSE_ID=cp.COURSE_ID

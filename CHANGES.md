@@ -65,7 +65,7 @@ Changes in 9.1.1
 - Fix Color Input was hidden in ReportCardComments.php
 - Fix use Course ID in session in MassRequests.php
 - Fix SQL error primary key exists on table food_service_staff_accounts in Rollover.php
-- Fix SQL error foreign key exists on tables GRADEBOOK_ASSIGNMENTS,GRADEBOOK_ASSIGNMENT_TYPES,SCHEDULE_REQUESTS in Rollover.php
+- Fix SQL error foreign key exists on tables GRADEBOOK_ASSIGNMENTS,gradebook_assignment_types,SCHEDULE_REQUESTS in Rollover.php
 - Fix save State input value in Registration.fnc.php
 - Fix SchoolInfo() on user School Year update in School.php
 

@@ -61,7 +61,7 @@ foreach ( (array) $grades_RET as $grade )
 }
 
 $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
-	FROM GRADEBOOK_ASSIGNMENT_TYPES
+	FROM gradebook_assignment_types
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND COURSE_ID='" . (int) $course_id . "'
 	ORDER BY TITLE";
@@ -159,7 +159,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 				"'0'",
 				"(sum(gg.POINTS) * gt.FINAL_GRADE_PERCENT / sum(ga.POINTS))",
 			] ) . " AS PARTIAL_PERCENT,gt.FINAL_GRADE_PERCENT
-			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
+			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,gradebook_assignment_types gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
 			AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -205,7 +205,7 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 				"(sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ")
 					/ sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . "))",
 			] ) . " AS PARTIAL_PERCENT
-			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
+			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,gradebook_assignment_types gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_TYPE_ID='" . (int) $type_id . "'
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID

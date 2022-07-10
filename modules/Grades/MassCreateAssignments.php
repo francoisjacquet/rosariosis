@@ -73,7 +73,7 @@ if ( isset( $_POST['tables'] )
 
 			$values = "'" . UserMP() . "',";
 		}
-		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+		elseif ( $table === 'gradebook_assignment_types' )
 		{
 			if ( ! isset( $_REQUEST['c_arr'] )
 				|| ! is_array( $_REQUEST['c_arr'] ) )
@@ -127,7 +127,7 @@ if ( isset( $_POST['tables'] )
 				}
 			}
 			elseif ( $column == 'FINAL_GRADE_PERCENT'
-				&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+				&& $table == 'gradebook_assignment_types' )
 			{
 				// Fix PHP8.1 fatal error unsupported operand types: string / int
 				$value = ( (float) preg_replace( '/[^0-9.]/', '', $value ) ) / 100;
@@ -170,7 +170,7 @@ if ( isset( $_POST['tables'] )
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 				$cp_assignment_type = DBGetOne( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
-				FROM GRADEBOOK_ASSIGNMENT_TYPES
+				FROM gradebook_assignment_types
 				WHERE COURSE_ID=(SELECT COURSE_ID
 					FROM course_periods
 					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
@@ -196,7 +196,7 @@ if ( isset( $_POST['tables'] )
 					') values(' . mb_substr( $values_final, 0, -1 ) . ');';
 			}
 		}
-		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+		elseif ( $table === 'gradebook_assignment_types' )
 		{
 			foreach ( (array) $_REQUEST['c_arr'] as $c_id )
 			{
@@ -224,7 +224,7 @@ if ( isset( $_POST['tables'] )
 			{
 				$note[] = _( 'The Assignments were successfully created.' );
 			}
-			elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+			elseif ( $table === 'gradebook_assignment_types' )
 			{
 				$note[] = _( 'The Assignment Types were successfully created.' );
 			}
@@ -254,7 +254,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_type'] !== 'new' )
 	{
 		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID
-			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			FROM gradebook_assignment_types
 			WHERE COURSE_ID IN (SELECT COURSE_ID
 				FROM course_periods
 				WHERE SYEAR='" . UserSyear() . "'
@@ -356,7 +356,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['assignment_type'] === 'new' )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES' ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=gradebook_assignment_types' ) . '" method="POST">';
 
 		$submit_button = SubmitButton( _( 'Create Assignment Type for Selected Courses' ) );
 
@@ -407,7 +407,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// ASSIGNMENT TYPES.
 	// @since 4.5 Hide previous quarters assignment types.
 	$assignment_types_sql = "SELECT DISTINCT TRIM(TITLE) AS TITLE
-	FROM GRADEBOOK_ASSIGNMENT_TYPES
+	FROM gradebook_assignment_types
 	WHERE COURSE_ID IN (SELECT COURSE_ID
 		FROM course_periods
 		WHERE SYEAR='" . UserSyear() . "'
@@ -506,7 +506,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Limit course periods to the ones where the assignment type exists
 			// and to the ones in the current MP.
 			$course_periods_limit_sql = " AND cp.COURSE_PERIOD_ID IN (SELECT cp2.COURSE_PERIOD_ID
-				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, course_periods cp2
+				FROM gradebook_assignment_types gat, course_periods cp2
 				WHERE TRIM(gat.TITLE)='" . $_REQUEST['assignment_type'] . "'
 				AND gat.STAFF_ID=cp2.TEACHER_ID
 				AND gat.COURSE_ID IN (SELECT COURSE_ID
