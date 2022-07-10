@@ -556,7 +556,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp
+				$delete_sql .= "DELETE FROM course_period_school_periods cpsp
 					WHERE EXISTS (SELECT COURSE_PERIOD_ID
 						FROM COURSE_PERIODS cp
 						WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -664,8 +664,8 @@ function Rollover( $table, $mode = 'delete' )
 
 			//FJ multiple school periods for a course period
 			//FJ bugfix SQL bug more than one row returned by a subquery
-			// ROLL COURSE_PERIOD_SCHOOL_PERIODS
-			DBQuery( "INSERT INTO COURSE_PERIOD_SCHOOL_PERIODS
+			// ROLL course_period_school_periods
+			DBQuery( "INSERT INTO course_period_school_periods
 				(COURSE_PERIOD_ID,PERIOD_ID,DAYS)
 				SELECT (SELECT cp.COURSE_PERIOD_ID
 						FROM COURSE_PERIODS cp
@@ -678,7 +678,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND n.SCHOOL_ID='" . UserSchool() . "'
 						LIMIT 1),
 					DAYS
-				FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp
+				FROM course_period_school_periods cpsp, COURSE_PERIODS cp
 				WHERE cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
 				AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID" );

@@ -56,7 +56,7 @@ $sql_comma_separated_result = function( $column, $separator = ',' )
 $sections_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE AS COURSE,cp.COURSE_ID,
 	cp.TEACHER_ID,cp.ROOM,cp.TOTAL_SEATS AS SEATS,cp.MARKING_PERIOD_ID,
 	(SELECT " . $sql_comma_separated_result( 'sp.TITLE', ', ' ) . " AS PERIODS
-		FROM SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		FROM SCHOOL_PERIODS sp,course_period_school_periods cpsp
 		WHERE sp.SYEAR='" . UserSyear() . "'
 		AND cpsp.PERIOD_ID=sp.PERIOD_ID
 		AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID),

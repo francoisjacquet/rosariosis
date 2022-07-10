@@ -295,7 +295,7 @@ if ( UserStudentID()
 
 	/*//FJ multiple school periods for a course period
 	//$days_RET = DBGet( "SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
-	$days_RET = DBGet( "SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'" );
+	$days_RET = DBGet( "SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, course_period_school_periods cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'" );
 	if (count($days_RET)==1)
 	unset($columns['DAYS']);
 
@@ -400,7 +400,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		//FJ multiple school periods for a course period
 		$mp_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,
 			cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID
-			FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			FROM COURSE_PERIODS cp,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
@@ -440,7 +440,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		//if marking periods overlap and same period and same day then not okay
 		//$period_RET = DBGet( "SELECT cp.DAYS FROM SCHEDULE s,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)" );
 		$period_RET = DBGet( "SELECT cpsp.DAYS
-		FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		FROM SCHEDULE s,course_period_school_periods cpsp
 		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 		AND s.STUDENT_ID='" . UserStudentID() . "'
 		AND cpsp.PERIOD_ID='" . (int) $mp_RET[1]['PERIOD_ID'] . "'

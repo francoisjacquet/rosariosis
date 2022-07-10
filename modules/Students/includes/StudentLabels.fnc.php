@@ -262,7 +262,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 			// FJ multiple school periods for a course period.
 			// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
 			$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-			FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,course_period_school_periods cpsp
 			WHERE st.STAFF_ID=cp.TEACHER_ID
 			AND cpsp.PERIOD_id=p.PERIOD_ID
 			AND cp.DOES_ATTENDANCE IS NOT NULL
@@ -280,7 +280,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 		{
 			// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
 			$extra_select .= ",(SELECT cp.ROOM
-				FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+				FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,course_period_school_periods cpsp
 				WHERE cpsp.PERIOD_id=p.PERIOD_ID
 				AND cp.DOES_ATTENDANCE IS NOT NULL
 				AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID

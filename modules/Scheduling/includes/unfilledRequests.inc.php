@@ -12,8 +12,8 @@ function calcSeats()
 		( $THIS_RET['WITH_TEACHER_ID'] ? " AND TEACHER_ID='" . (int) $THIS_RET['WITH_TEACHER_ID'] . "'" : '' ) .
 		( $THIS_RET['NOT_TEACHER_ID'] ? " AND TEACHER_ID!='" . (int) $THIS_RET['NOT_TEACHER_ID'] . "'" : '' ) .
 		//FJ bugfix SQL error column "period_id" does not exist
-		( $THIS_RET['WITH_PERIOD_ID'] ? " AND '" . $THIS_RET['WITH_PERIOD_ID'] . "' IN(SELECT cpsp.PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) .
-		( $THIS_RET['NOT_PERIOD_ID'] ? " AND '" . $THIS_RET['NOT_PERIOD_ID'] . "' NOT IN(SELECT cpsp.PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) );
+		( $THIS_RET['WITH_PERIOD_ID'] ? " AND '" . $THIS_RET['WITH_PERIOD_ID'] . "' IN(SELECT cpsp.PERIOD_ID FROM course_period_school_periods cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) .
+		( $THIS_RET['NOT_PERIOD_ID'] ? " AND '" . $THIS_RET['NOT_PERIOD_ID'] . "' NOT IN(SELECT cpsp.PERIOD_ID FROM course_period_school_periods cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) );
 	//echo '<pre>'; var_dump($periods_RET); echo '</pre>';
 
 	$total_seats = $filled_seats = null;

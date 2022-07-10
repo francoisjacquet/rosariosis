@@ -105,7 +105,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 function AttendanceDailyTotalMinutes( $student_id, $date )
 {
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
-	FROM SCHEDULE s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar ac,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM SCHEDULE s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar ac,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND position(',0,' IN cp.DOES_ATTENDANCE)>0

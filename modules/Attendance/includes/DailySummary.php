@@ -98,7 +98,7 @@ if ( $_REQUEST['search_modfunc']
 			WHERE sp.SYEAR='" . UserSyear() . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
 			AND (SELECT count(1)
-				FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+				FROM COURSE_PERIODS cp,course_period_school_periods cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 				AND cpsp.PERIOD_ID=sp.PERIOD_ID
@@ -109,7 +109,7 @@ if ( $_REQUEST['search_modfunc']
 		else
 		{
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
-			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			AND sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -201,7 +201,7 @@ if ( $_REQUEST['student_id']
 			ORDER BY sp.SORT_ORDER
 			";*/
 		$sql = "SELECT cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
-			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND	s.COURSE_ID=c.COURSE_ID
 			AND s.COURSE_ID=cp.COURSE_ID

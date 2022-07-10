@@ -27,7 +27,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 {
 	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,
 		sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,cp.SHORT_NAME AS CP_SHORT_NAME
-		FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND cpsp.PERIOD_ID=sp.PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'

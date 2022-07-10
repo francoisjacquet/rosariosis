@@ -273,7 +273,7 @@ if ( ! empty( $_REQUEST['tables'] )
 		'COURSE_SUBJECTS' => 'SUBJECT_ID',
 		'COURSES' => 'COURSE_ID',
 		'COURSE_PERIODS' => 'COURSE_PERIOD_ID',
-		'COURSE_PERIOD_SCHOOL_PERIODS' => 'COURSE_PERIOD_SCHOOL_PERIODS_ID',
+		'course_period_school_periods' => 'COURSE_PERIOD_SCHOOL_PERIODS_ID',
 	];
 
 	if ( isset( $_REQUEST['tables']['parent_id'] ) )
@@ -284,17 +284,17 @@ if ( ! empty( $_REQUEST['tables'] )
 	}
 
 	// FJ bugfix SQL error invalid input syntax for type numeric
-	// when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
+	// when course_period_school_periods saved before COURSE_PERIODS, but why?
 
 	if ( $_REQUEST['course_period_id'] == 'new' )
 	{
 		foreach ( (array) $_REQUEST['tables'] as $table_name => $tables )
 		{
-			if ( $table_name === 'COURSE_PERIOD_SCHOOL_PERIODS' )
+			if ( $table_name === 'course_period_school_periods' )
 			{
 				unset( $_REQUEST['tables'][$table_name] );
 
-				// Push COURSE_PERIOD_SCHOOL_PERIODS after COURSE_PERIODS.
+				// Push course_period_school_periods after COURSE_PERIODS.
 				$_REQUEST['tables'][$table_name] = $tables;
 
 				break;
@@ -403,7 +403,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						//FJ multiple school period for a course period
 
-						if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS' )
+						if ( $table_name == 'course_period_school_periods' )
 						{
 							if ( ! empty( $columns['PERIOD_ID'] )
 								&& in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) ) //prevent repeat periods
@@ -439,7 +439,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							if ( empty( $columns['DAYS'] ) ) //delete school period
 							{
-								DBQuery( "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
+								DBQuery( "DELETE FROM course_period_school_periods
 									WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . (int) $id . "'" );
 
 								break; //no update
@@ -529,7 +529,7 @@ if ( ! empty( $_REQUEST['tables'] )
 						}
 
 						//FJ multiple school period for a course period
-						elseif ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS' )
+						elseif ( $table_name == 'course_period_school_periods' )
 						{
 							//FJ add new school period to existing course period
 
@@ -539,7 +539,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							}
 
 							$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
-								FROM COURSE_PERIOD_SCHOOL_PERIODS
+								FROM course_period_school_periods
 								WHERE " . $where['COURSE_PERIODS'] . "='" . (int) $_REQUEST['course_period_id'] . "'", [], [ 'PERIOD_ID' ] );
 
 							if ( in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) || in_array( $columns['PERIOD_ID'], array_keys( $other_school_p ) ) )
@@ -639,7 +639,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 					if ( $table_name == 'COURSE_PERIODS' )
 					{
-						break 2; // Skip COURSE_PERIOD_SCHOOL_PERIODS
+						break 2; // Skip course_period_school_periods
 					}
 				}
 			}
@@ -649,7 +649,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 				if ( $table_name == 'COURSE_PERIODS' )
 				{
-					break 2; // Skip COURSE_PERIOD_SCHOOL_PERIODS
+					break 2; // Skip course_period_school_periods
 				}
 			}
 		}
@@ -839,7 +839,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$title = $RET['TITLE'];
 
 				$RET2 = DBGet( "SELECT COURSE_PERIOD_SCHOOL_PERIODS_ID,PERIOD_ID,DAYS
-					FROM COURSE_PERIOD_SCHOOL_PERIODS
+					FROM course_period_school_periods
 					WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'
 					ORDER BY COURSE_PERIOD_SCHOOL_PERIODS_ID" );
 
@@ -1067,7 +1067,7 @@ if (  ( ! $_REQUEST['modfunc']
 				{
 					$header .= '<td>' . SelectInput(
 						issetVal( $school_period['PERIOD_ID'], '' ),
-						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
+						'tables[course_period_school_periods][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
 						_( 'Period' ),
 						$periods,
 						( $_REQUEST['course_period_id'] === 'new' ? false : 'N/A' )
@@ -1095,7 +1095,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 					$days_html .= '<td>' . CheckboxInput(
 						$value,
-						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']',
+						'tables[course_period_school_periods][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']',
 						$days_convert[$day],
 						'',
 						true,
@@ -1116,7 +1116,7 @@ if (  ( ! $_REQUEST['modfunc']
 				if ( $new == false )
 				{
 					// Fix Delete Period when days unchecked.
-					$days_html = '<input type="hidden" value="" name="tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']" />' . $days_html;
+					$days_html = '<input type="hidden" value="" name="tables[course_period_school_periods][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']" />' . $days_html;
 
 					$header .= InputDivOnclick(
 						'days' . $i,

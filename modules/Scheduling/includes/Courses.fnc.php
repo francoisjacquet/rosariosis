@@ -27,7 +27,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id, $course_period_id )
 
 	// Get school periods for Teacher course periods.
 	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS,cp.COURSE_PERIOD_ID
-		FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp,COURSE_PERIODS cp
+		FROM course_period_school_periods cpsp,COURSE_PERIODS cp
 		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
@@ -384,7 +384,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	}
 
 	$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
-		FROM COURSE_PERIOD_SCHOOL_PERIODS
+		FROM course_period_school_periods
 		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 		AND COURSE_PERIOD_SCHOOL_PERIODS_ID<>'" . (int) $cpsp_id . "'" );
 
@@ -429,7 +429,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	if ( $cpsp_id )
 	{
 		$school_period_title = DBGetOne( "SELECT sp.TITLE
-			FROM SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			FROM SCHOOL_PERIODS sp,course_period_school_periods cpsp
 			WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
 			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . (int) $cpsp_id . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
@@ -490,7 +490,7 @@ function CoursePeriodDeleteSQL( $course_period_id )
 	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
-	$delete_sql .= "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
+	$delete_sql .= "DELETE FROM course_period_school_periods
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM COURSE_PERIODS

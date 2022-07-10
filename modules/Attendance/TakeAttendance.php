@@ -74,7 +74,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	// FJ days numbered.
 	// FJ multiple school periods for a course period.
 	$course_RET = DBGet( "SELECT 1
-	FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID
@@ -105,7 +105,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 else
 {
 	$course_RET = DBGet( "SELECT 1
-	FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID

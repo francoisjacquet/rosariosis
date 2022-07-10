@@ -314,7 +314,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
-					STAFF st,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+					STAFF st,course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
@@ -358,7 +358,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
-					STAFF st, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+					STAFF st, course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
@@ -602,7 +602,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
-					COURSE_PERIOD_SCHOOL_PERIODS cpsp
+					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
@@ -645,7 +645,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
-					COURSE_PERIOD_SCHOOL_PERIODS cpsp
+					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID

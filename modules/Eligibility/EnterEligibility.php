@@ -2,7 +2,7 @@
 
 // @since 6.9 Set School Period per program.
 $school_period = DBGetOne( "SELECT PERIOD_ID
-	FROM COURSE_PERIOD_SCHOOL_PERIODS
+	FROM course_period_school_periods
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
@@ -189,7 +189,7 @@ if ( ! empty( $_REQUEST['values'] )
 		// SQL Insert eligibility completed once for All $school_period.
 		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
 			SELECT '" . User( 'STAFF_ID' ) . "' AS STAFF_ID,'" . DBDate() . "' AS SCHOOL_DATE,PERIOD_ID
-			FROM COURSE_PERIOD_SCHOOL_PERIODS
+			FROM course_period_school_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 	}
 

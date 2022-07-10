@@ -576,6 +576,10 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								$sep ) .
 							_( 'None' );
 						}
+
+						// CSS Comments size-1 & max-width.
+						$grades_RET[$i]['COMMENT'] = '<div class="size-1" style="max-width: 495px">' .
+							$grades_RET[$i]['COMMENT'] . '</div>';
 					}
 
 					$last_mp = $mp;
@@ -960,7 +964,7 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		// FJ multiple school periods for a course period.
 		//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,attendance_codes ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
 		$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,attendance_codes ac,COURSE_PERIODS rc_cp,
-			SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
+			SCHOOL_PERIODS sp,course_period_school_periods cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/

@@ -64,7 +64,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "') AS COMPLETED
-	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar acc,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar acc,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND	sp.PERIOD_ID=cpsp.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
 	AND cp.TEACHER_ID=s.STAFF_ID
@@ -105,7 +105,7 @@ else
 			AND ac.PERIOD_ID=sp.PERIOD_ID
 			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "') AS COMPLETED
 		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar acc,
-			COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND	sp.PERIOD_ID=cpsp.PERIOD_ID
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0

@@ -1079,7 +1079,7 @@ Changes in 2.1.1
 
 Changes in 2.1
 ----------------
-- SQL bugfix: skip COURSE_PERIOD_SCHOOL_PERIODS in Courses.php
+- SQL bugfix: skip course_period_school_periods in Courses.php
 - Add time and user to comments "comment thread" like
 - Display notice while recalculating daily attendance
 - Delete ReferralForm.php (use DisciplineForm.php instead)
@@ -1142,7 +1142,7 @@ Changes in 1.4.3
 ----------------
 - Fix attendance color codes in StudentSummary.php
 - Add Comment Codes tipmessage in FinalGrades.php
-- Fix COURSE_PERIOD_SCHOOL_PERIODS Rollover
+- Fix course_period_school_periods Rollover
 - Display grades according to GRADES_DOES_LETTER_PERCENT in StudentGrades.php
 - ROLL Gradebook Config's Final Grading Percentages
 - SQL bug: DOES_BREAKOFF grades displayed twice in Gradebook Config
@@ -1154,7 +1154,7 @@ Changes in 1.4.2
 ----------------
 - Security fixes: delete & save not accessible to non admins in
 	- AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php, Transactions.php, ActivityReport.php, ReferralForm.php, DisciplineForm.php, FinalGrades.php
-- SQL bugs: COURSE_PERIOD_SCHOOL_PERIODS, SCHOOLS, DISCIPLINE_CATEGORIES, program_config & COURSE_PERIODS Rollover
+- SQL bugs: course_period_school_periods, SCHOOLS, DISCIPLINE_CATEGORIES, program_config & COURSE_PERIODS Rollover
 - Bugfix UserCoursePeriod not set correctly in Grades.php
 
 Changes in 1.4.1

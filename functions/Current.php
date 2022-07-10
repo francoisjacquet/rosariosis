@@ -56,7 +56,7 @@ function UserPeriod()
 	}
 
 	return DBGetOne( "SELECT PERIOD_ID
-		FROM COURSE_PERIOD_SCHOOL_PERIODS
+		FROM course_period_school_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );;
 }
 
@@ -91,7 +91,7 @@ function UserCoursePeriodSchoolPeriod()
 	}
 
 	return DBGetOne( "SELECT COURSE_PERIOD_SCHOOL_PERIODS_ID
-		FROM COURSE_PERIOD_SCHOOL_PERIODS
+		FROM course_period_school_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
 		( UserPeriod() ? "AND PERIOD_ID='" . UserPeriod() . "'" : "" ) );
 }

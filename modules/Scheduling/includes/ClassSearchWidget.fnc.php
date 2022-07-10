@@ -189,7 +189,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 			$where .= " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period_id'] . "'
 				AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
-			$from .= ",COURSE_PERIOD_SCHOOL_PERIODS cpsp";
+			$from .= ",course_period_school_periods cpsp";
 		}
 
 		$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE

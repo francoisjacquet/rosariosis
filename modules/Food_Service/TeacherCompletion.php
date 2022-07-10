@@ -40,7 +40,7 @@ $period_select .= '</select>';
 
 // FJ multiple school periods for a course period.
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,s.STAFF_ID
-	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp, course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND	sp.PERIOD_ID = cpsp.PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID

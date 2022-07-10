@@ -135,7 +135,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	}
 
 	$schedule_table_RET = DBGet( "SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
-	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND cp.TEACHER_ID='" . UserStaffID() . "'
 	AND cp.SYEAR='" . UserSyear() . "'
