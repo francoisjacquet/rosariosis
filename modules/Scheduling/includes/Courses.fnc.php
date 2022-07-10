@@ -27,7 +27,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id, $course_period_id )
 
 	// Get school periods for Teacher course periods.
 	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS,cp.COURSE_PERIOD_ID
-		FROM course_period_school_periods cpsp,COURSE_PERIODS cp
+		FROM course_period_school_periods cpsp,course_periods cp
 		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
@@ -280,7 +280,7 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
 	{
 		$current = DBGet( "SELECT TEACHER_ID,MARKING_PERIOD_ID,
 			SHORT_NAME,TITLE
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
 	}
 
@@ -480,7 +480,7 @@ function CoursePeriodDeleteSQL( $course_period_id )
 {
 	$course_period_id = intval( $course_period_id );
 
-	$delete_sql = "UPDATE COURSE_PERIODS
+	$delete_sql = "UPDATE course_periods
 		SET PARENT_ID=NULL
 		WHERE PARENT_ID='" . (int) $course_period_id . "';";
 
@@ -493,7 +493,7 @@ function CoursePeriodDeleteSQL( $course_period_id )
 	$delete_sql .= "DELETE FROM course_period_school_periods
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
-	$delete_sql .= "DELETE FROM COURSE_PERIODS
+	$delete_sql .= "DELETE FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	return $delete_sql;
@@ -512,13 +512,13 @@ function CourseDeleteSQL( $course_id )
 {
 	$course_id = intval( $course_id );
 
-	$delete_sql = "UPDATE COURSE_PERIODS
+	$delete_sql = "UPDATE course_periods
 		SET PARENT_ID=NULL
 		WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_ID='" . (int) $course_id . "');";
 
-	$delete_sql .= "DELETE FROM COURSE_PERIODS
+	$delete_sql .= "DELETE FROM course_periods
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM SCHEDULE

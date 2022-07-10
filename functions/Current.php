@@ -302,7 +302,7 @@ function SetUserStudentID( $student_id )
 						AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 						ORDER BY START_DATE DESC
 						LIMIT 1))
-				JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+				JOIN course_periods cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 					AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 						OR cp.SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "'))
 				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID

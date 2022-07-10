@@ -23,7 +23,7 @@ Changes in 6.9.1
 
 Changes in 6.9
 --------------
-- SQL COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column in Update.fnc.php & rosariosis.sql
+- SQL course_periods table: Add SECONDARY_TEACHER_ID column in Update.fnc.php & rosariosis.sql
 - Add Secondary Teacher in Side.php, Current.php, GetStuList.fnc.php, DailySummary.php, Courses.php, Courses.fnc.php, ClassSearchWidget.fnc.php & Portal.php
 - Add Secondary Teacher: set User to main teacher in TakeAttendance.php, EnterEligibility.php, AnomalousGrades.php, Assignments.php, Configuration.php, GradebookBreakdown.php, Grades.php, InputFinalGrades.php & ProgressReports.php
 - Add UserImpersonateTeacher() function in User.fnc.php
@@ -648,7 +648,7 @@ Changes in 5.0.2
 Changes in 5.0.1
 ----------------
 - Fix SQL error foreign key on Course Period delete in Courses.php
-- SQL COURSE_PERIODS table: Change title column type to text in Update.fnc.php & rosariosis.sql
+- SQL course_periods table: Change title column type to text in Update.fnc.php & rosariosis.sql
 - Fix SQL error DROP course_details VIEW first to then recreate it in Update.fnc.php
 - Fix SQL error foreign keys: Process tables in reverse order in Rollover.php
 - Add delete mode to Rollover() to handle delete first in reverse, then inserts in Rollover.php

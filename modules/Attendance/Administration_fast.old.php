@@ -35,7 +35,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 			}
 			else
 			{
-				$period_id = DBGetOne( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . (int) $period . "'" );
+				$period_id = DBGetOne( "SELECT PERIOD_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . (int) $period . "'" );
 
 				$sql = "INSERT INTO attendance_period ";
 
@@ -86,7 +86,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 
 	$schedule_RET = DBGet( "SELECT s.STUDENT_ID,c.TITLE AS COURSE,cp.PERIOD_ID,cp.COURSE_PERIOD_ID,
 	p.TITLE AS PERIOD_TITLE,'' AS ATTENDANCE_CODE,'' AS ATTENDANCE_TEACHER_CODE,'' AS ATTENDANCE_REASON
-	FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p
+	FROM SCHEDULE s,COURSES c,course_periods cp,SCHOOL_PERIODS p
 	WHERE s.SYEAR='" . UserSyear() . "'
 	AND s.SCHOOL_ID='" . UserSchool() . "'
 	AND s.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date ) ) . ")
@@ -238,7 +238,7 @@ function _makeCodePulldown( $value, $title )
 	if ( ! isset( $current_schedule_RET[$THIS_RET['STUDENT_ID']] ) || ! is_array( $current_schedule_RET[$THIS_RET['STUDENT_ID']] ) )
 	{
 		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet( "SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID
-		FROM SCHEDULE s,COURSE_PERIODS cp
+		FROM SCHEDULE s,course_periods cp
 		WHERE s.STUDENT_ID='" . (int) $THIS_RET['STUDENT_ID'] . "'
 		AND s.SYEAR='" . UserSyear() . "'
 		AND s.SCHOOL_ID='" . UserSchool() . "'

@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 	$_RET = DBGet( "SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,
 		cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
 		(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
-		FROM COURSES c,COURSE_PERIODS cp
+		FROM COURSES c,course_periods cp
 		WHERE c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 		AND c.COURSE_ID=cp.COURSE_ID
 		AND c.SYEAR='" . UserSyear() . "'
@@ -195,9 +195,9 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 	|| isset( $_REQUEST['students'] ) && $_REQUEST['students'] === 'course_periods' )
 {
 	//FJ multiple school periods for a course period
-	//$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE");
+	//$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM course_periods cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE");
 	$RET = DBGet( "SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS
-		FROM COURSE_PERIODS cp
+		FROM course_periods cp
 		WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'

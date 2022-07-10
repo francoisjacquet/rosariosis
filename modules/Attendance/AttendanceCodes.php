@@ -120,12 +120,12 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 		DBQuery( $delete_sql );
 
-		DBQuery( "UPDATE COURSE_PERIODS
+		DBQuery( "UPDATE course_periods
 			SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,'," . (int) $_REQUEST['id'] . ",',',')
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 
-		DBQuery( "UPDATE COURSE_PERIODS
+		DBQuery( "UPDATE course_periods
 			SET DOES_ATTENDANCE=NULL
 			WHERE DOES_ATTENDANCE=','
 			AND SYEAR='" . UserSyear() . "'

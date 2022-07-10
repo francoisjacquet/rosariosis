@@ -6,7 +6,7 @@ function calcSeats()
 	global $THIS_RET;
 
 	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS
-	FROM COURSE_PERIODS cp
+	FROM course_periods cp
 	WHERE COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'
 	AND (GENDER_RESTRICTION='N' OR GENDER_RESTRICTION='" . mb_substr( $THIS_RET['CUSTOM_200000000'], 0, 1 ) . "')" .
 		( $THIS_RET['WITH_TEACHER_ID'] ? " AND TEACHER_ID='" . (int) $THIS_RET['WITH_TEACHER_ID'] . "'" : '' ) .

@@ -42,7 +42,7 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 	if ( ! isset( $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] ) )
 	{
 		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 	}
 

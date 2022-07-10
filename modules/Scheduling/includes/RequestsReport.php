@@ -29,7 +29,7 @@ if ( ! $is_include_inactive )
 
 $count_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE as COURSE_TITLE,sr.COURSE_ID,COUNT(*) AS COUNT,
 	(SELECT sum(TOTAL_SEATS)
-		FROM COURSE_PERIODS cp
+		FROM course_periods cp
 		WHERE cp.COURSE_ID=sr.COURSE_ID) AS SEATS,
 	(SELECT count(STUDENT_ID)
 		FROM SCHEDULE s

@@ -67,9 +67,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		//FJ multiple school periods for a course period
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
-		COURSE_PERIODS rc_cp,COURSES c,SCHOOL_PERIODS sp";*/
+		course_periods rc_cp,COURSES c,SCHOOL_PERIODS sp";*/
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,
-		COURSE_PERIODS rc_cp,COURSES c,SCHOOL_PERIODS sp,course_period_school_periods cpsp";
+		course_periods rc_cp,COURSES c,SCHOOL_PERIODS sp,course_period_school_periods cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND c.COURSE_ID = rc_cp.COURSE_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/

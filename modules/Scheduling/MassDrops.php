@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( $drop_date )
 			{
 				$course_mp = DBGetOne( "SELECT MARKING_PERIOD_ID
-					FROM COURSE_PERIODS
+					FROM course_periods
 					WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'
 					AND SYEAR='" . UserSyear() . "'" );
 
@@ -169,7 +169,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 				WHERE COURSE_ID='" . (int) $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 			$period_title = DBGetOne( "SELECT TITLE
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 			echo $course_title . '<br />' . $period_title . '<br /><br />';
@@ -259,7 +259,7 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 			WHERE COURSE_ID='" . (int) $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 		$period_title = DBGetOne( "SELECT TITLE
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = ' .

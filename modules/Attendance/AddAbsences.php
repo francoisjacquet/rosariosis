@@ -53,7 +53,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					// FJ days numbered.
 					// FJ multiple school periods for a course period.
 					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID
-					FROM SCHEDULE s,COURSE_PERIODS cp,attendance_calendar ac,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+					FROM SCHEDULE s,course_periods cp,attendance_calendar ac,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND ac.SCHOOL_DATE='" . $date . "'
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				else
 				{
 					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID
-						FROM SCHEDULE s,COURSE_PERIODS cp,attendance_calendar ac,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+						FROM SCHEDULE s,course_periods cp,attendance_calendar ac,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 						WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
 						AND ac.SCHOOL_DATE='" . $date . "'
 						AND ac.CALENDAR_ID=cp.CALENDAR_ID
@@ -179,12 +179,12 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<table class="cellpadding-5"><tr><td><table><tr>';
 
 		//FJ multiple school periods for a course period
-		//$periods_RET = DBGet( "SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER" );
+		//$periods_RET = DBGet( "SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM course_periods WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER" );
 		$periods_RET = DBGet( "SELECT COALESCE(SHORT_NAME,TITLE) AS SHORT_NAME,PERIOD_ID
 		FROM SCHOOL_PERIODS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND EXISTS (SELECT '' FROM course_period_school_periods cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0)
+		AND EXISTS (SELECT '' FROM course_period_school_periods cpsp, course_periods cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0)
 		ORDER BY SORT_ORDER,TITLE" );
 
 		$i = 0;

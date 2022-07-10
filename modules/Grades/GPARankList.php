@@ -52,7 +52,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	if ( empty( $_REQUEST['mp'] ) )
 	{
 	$_REQUEST['mp'] = $pro;
-	$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'",array(),array('STUDENT_ID'));
+	$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g,course_periods cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'",array(),array('STUDENT_ID'));
 	}
 	$pro_grading = true;
 	$pro_select .='<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' selected':'').">".GetMP($pro)."</option>";

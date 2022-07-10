@@ -57,7 +57,7 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		$cp_nb = DBGetOne( "SELECT COUNT(COURSE_PERIOD_ID) AS COURSE_PERIODS_NB
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND MARKING_PERIOD_ID IN(" . $all_qtr_mp . ")" );

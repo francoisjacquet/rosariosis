@@ -529,7 +529,7 @@ function StudentAssignmentsListOutput()
 			FROM STUDENT_ASSIGNMENTS sa
 			WHERE ga.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 			AND sa.STUDENT_ID=ss.STUDENT_ID) AS SUBMITTED
-		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, COURSES c, COURSE_PERIODS cp
+		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, COURSES c, course_periods cp
 		WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 		AND ss.SYEAR='" . UserSyear() . "'
 		AND ss.SCHOOL_ID='" . UserSchool() . "'

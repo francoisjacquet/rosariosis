@@ -132,7 +132,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			// @since 5.4 Is Parent or Student: display all Course Period Assignments.
 			$cp_RET = DBGet( "SELECT ss.COURSE_PERIOD_ID
-				FROM SCHEDULE ss,COURSE_PERIODS cp
+				FROM SCHEDULE ss,course_periods cp
 				WHERE ss.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 				AND ss.SYEAR='" . UserSyear() . "'
 				AND ss.START_DATE<'" . GetMP( UserMP(), 'END_DATE' ) . "'
@@ -151,7 +151,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		foreach ( $cp_RET as $cp_id => $cp )
 		{
 			$course_RET = DBGet( "SELECT c.TITLE,c.COURSE_ID,cp.TEACHER_ID
-				FROM COURSE_PERIODS cp,COURSES c
+				FROM course_periods cp,COURSES c
 				WHERE c.COURSE_ID=cp.COURSE_ID
 				AND cp.COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
 

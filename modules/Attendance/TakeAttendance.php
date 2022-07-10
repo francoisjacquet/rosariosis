@@ -18,7 +18,7 @@ $date = RequestedDate( 'date', DBDate(), 'set' );
 $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE,0,NULL AS SORT_ORDER
 	WHERE position(',0,' IN
 		(SELECT DOES_ATTENDANCE
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	)>0
 	UNION SELECT ID,TITLE,1,SORT_ORDER
@@ -27,13 +27,13 @@ $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' 
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND position(CONCAT(',', ID, ',') IN
 		(SELECT DOES_ATTENDANCE
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	)>0
 	ORDER BY 3,SORT_ORDER,TITLE" );
 
 $cp_title = DBGetOne( "SELECT TITLE
-	FROM COURSE_PERIODS
+	FROM course_periods
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 if ( empty( $categories_RET ) )
@@ -74,7 +74,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	// FJ days numbered.
 	// FJ multiple school periods for a course period.
 	$course_RET = DBGet( "SELECT 1
-	FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+	FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID
@@ -105,7 +105,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 else
 {
 	$course_RET = DBGet( "SELECT 1
-	FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, course_period_school_periods cpsp
+	FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp, course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID

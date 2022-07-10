@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				{
 					$course_period_RET = DBGet( "SELECT MARKING_PERIOD_ID,TOTAL_SEATS,
 						COURSE_PERIOD_ID,CALENDAR_ID
-						FROM COURSE_PERIODS
+						FROM course_periods
 						WHERE COURSE_PERIOD_ID='" . (int) $course_to_add['course_period_id'] . "'
 						AND SYEAR='" . UserSyear() . "'" );
 
@@ -224,7 +224,7 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 		$period_title = DBGetOne( "SELECT TITLE
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 		// Add course period if not already chosen...

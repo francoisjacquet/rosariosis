@@ -672,7 +672,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSES WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSES WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND \"column\"='course_id'" );
 
 				//COURSE_PERIOD_ID
-				$course_periods_RET = DBGet( "SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='" . $next_syear . "' AND cp.SCHOOL_ID='" . UserSchool() . "' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'" );
+				$course_periods_RET = DBGet( "SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM course_periods cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='" . $next_syear . "' AND cp.SCHOOL_ID='" . UserSchool() . "' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'" );
 
 				foreach ( (array) $course_periods_RET as $reset_course_period )
 				{
@@ -731,11 +731,11 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 						AND \"column\"='course_id'" );
 				}
 
-				// COURSE_PERIODS ROLLOVER.
+				// course_periods ROLLOVER.
 				global $rolled_course_period, $next_syear;
 
 				$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.TEACHER_ID
-					FROM COURSE_PERIODS cp,MOODLEXROSARIO mxc
+					FROM course_periods cp,MOODLEXROSARIO mxc
 					WHERE cp.SYEAR='" . $next_syear . "'
 					AND cp.SCHOOL_ID='" . UserSchool() . "'
 					AND cp.ROLLOVER_ID IS NOT NULL

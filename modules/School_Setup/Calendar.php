@@ -402,7 +402,7 @@ if ( User( 'PROFILE' ) !== 'admin'
 	&& UserCoursePeriod() )
 {
 	$calendar_id = DBGetOne( "SELECT CALENDAR_ID
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 	if ( $calendar_id )
@@ -601,7 +601,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 				FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 				WHERE (a.COURSE_ID=c.COURSE_ID
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
-						FROM COURSE_PERIODS cp
+						FROM course_periods cp
 						WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 				AND a.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 

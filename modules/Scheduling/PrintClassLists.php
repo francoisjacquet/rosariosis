@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$course_periods_RET = DBGet( "SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,
 	cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,
 	(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
-	FROM COURSE_PERIODS cp,COURSES c
+	FROM course_periods cp,COURSES c
 	WHERE c.COURSE_ID=cp.COURSE_ID
 	AND cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
 	ORDER BY TEACHER" );
@@ -53,7 +53,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{
 			// Prevent course period ID hacking.
-			$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
+			$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
 		}
 
 		$extra['WHERE'] .= " AND s.STUDENT_ID IN

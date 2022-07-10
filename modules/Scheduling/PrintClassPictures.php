@@ -12,9 +12,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
 
 	//FJ multiple school periods for a course period
-	//$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)" );
+	//$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM course_periods cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)" );
 	$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP
-		FROM COURSE_PERIODS cp
+		FROM course_periods cp
 		WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
 		ORDER BY cp.SHORT_NAME,cp.TITLE" );
 	//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$teachers_RET = DBGet( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID
 			FROM STAFF
 			WHERE STAFF_ID IN (SELECT TEACHER_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID IN (" . $cp_list . "))", [], [ 'STAFF_ID' ] );
 	}
 
@@ -94,7 +94,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( User( 'PROFILE' ) === 'teacher' )
 			{
 				// Prevent course period ID hacking.
-				$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
+				$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
 			}
 
 			$extra['WHERE'] .= " AND s.STUDENT_ID IN

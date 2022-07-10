@@ -169,7 +169,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		{
 			if ( $_REQUEST['w_course_period_id_which'] == 'course' )
 			{
-				$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "')";
+				$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "')";
 			}
 			else
 			{
@@ -193,7 +193,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		}
 
 		$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE
-			FROM COURSE_PERIODS cp" . $from . "
+			FROM course_periods cp" . $from . "
 			WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 			AND cp.SYEAR='" . UserSyear() . "'" . $where;
 	}
@@ -202,7 +202,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		// @since 6.9 Add Secondary Teacher.
 		// FJ multiple school periods for a course period.
 		$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE
-			FROM COURSE_PERIODS cp
+			FROM course_periods cp
 			WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 			AND cp.SYEAR='" . UserSyear() . "'
 			AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
@@ -212,7 +212,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 	{
 		// FJ multiple school periods for a course period.
 		$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE
-		FROM COURSE_PERIODS cp,SCHEDULE ss
+		FROM course_periods cp,SCHEDULE ss
 		WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 		AND ss.SYEAR='" . UserSyear() . "'

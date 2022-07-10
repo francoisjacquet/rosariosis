@@ -4,7 +4,7 @@ $date = RequestedDate( 'date', DBDate(), 'set' );
 
 DrawHeader( ProgramTitle() );
 
-$course_RET = DBGet( "SELECT DOES_FS_COUNTS,DAYS,CALENDAR_ID,MP,MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
+$course_RET = DBGet( "SELECT DOES_FS_COUNTS,DAYS,CALENDAR_ID,MP,MARKING_PERIOD_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 //echo '<pre>'; var_dump($course_RET); echo '</pre>';
 
 if ( ! trim( $course_RET[1]['DOES_FS_COUNTS'], ',' ) )

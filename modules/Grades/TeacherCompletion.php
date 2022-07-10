@@ -23,7 +23,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
 	AND sp.SYEAR='" . UserSyear() . "'
 	AND EXISTS (SELECT 1
-		FROM COURSE_PERIODS cp,course_period_school_periods cpsp
+		FROM course_periods cp,course_period_school_periods cpsp
 		WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
 		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
@@ -84,7 +84,7 @@ echo '</form>';
 //FJ multiple school periods for a course period
 /*$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
 (SELECT 'Y' FROM GRADES_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND ac.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AS COMPLETED
-FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp
+FROM STAFF s,course_periods cp,SCHOOL_PERIODS sp
 WHERE
 sp.PERIOD_ID = cp.PERIOD_ID AND cp.GRADE_SCALE_ID IS NOT NULL
 AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
@@ -98,7 +98,7 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.T
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
 		AND ac.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 		AND ac.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AS COMPLETED
-	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+	FROM STAFF s,course_periods cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND cp.GRADE_SCALE_ID IS NOT NULL

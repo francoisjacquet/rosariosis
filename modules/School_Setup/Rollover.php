@@ -543,7 +543,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE COURSE_ID IN(SELECT COURSE_ID FROM COURSES
 						WHERE SYEAR='" . $next_syear . "'
 						AND SCHOOL_ID='" . UserSchool() . "')
-					OR COURSE_PERIOD_ID IN(SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS
+					OR COURSE_PERIOD_ID IN(SELECT COURSE_PERIOD_ID FROM course_periods
 						WHERE SYEAR='" . $next_syear . "'
 						AND SCHOOL_ID='" . UserSchool() . "');";
 
@@ -558,12 +558,12 @@ function Rollover( $table, $mode = 'delete' )
 
 				$delete_sql .= "DELETE FROM course_period_school_periods cpsp
 					WHERE EXISTS (SELECT COURSE_PERIOD_ID
-						FROM COURSE_PERIODS cp
+						FROM course_periods cp
 						WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 						AND cp.SYEAR='" . $next_syear . "'
 						AND cp.SCHOOL_ID='" . UserSchool() . "');";
 
-				$delete_sql .= "DELETE FROM COURSE_PERIODS
+				$delete_sql .= "DELETE FROM course_periods
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -602,8 +602,8 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			// ROLL COURSE_PERIODS
-			DBQuery( "INSERT INTO COURSE_PERIODS (SYEAR,SCHOOL_ID,COURSE_ID,TITLE,
+			// ROLL course_periods
+			DBQuery( "INSERT INTO course_periods (SYEAR,SCHOOL_ID,COURSE_ID,TITLE,
 				SHORT_NAME,MP,MARKING_PERIOD_ID,TEACHER_ID,ROOM,TOTAL_SEATS,FILLED_SEATS,
 				DOES_ATTENDANCE,GRADE_SCALE_ID,DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,
 				GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,AVAILABILITY,PARENT_ID,
@@ -635,13 +635,13 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SCHOOL_ID=p.SCHOOL_ID
 					AND ROLLOVER_ID=p.CALENDAR_ID
 					LIMIT 1),COURSE_PERIOD_ID
-				FROM COURSE_PERIODS p
+				FROM course_periods p
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "UPDATE COURSE_PERIODS
+			DBQuery( "UPDATE course_periods
 				SET PARENT_ID=(SELECT cp.COURSE_PERIOD_ID
-					FROM COURSE_PERIODS cp
+					FROM course_periods cp
 					WHERE cp.ROLLOVER_ID=course_periods.PARENT_ID
 					LIMIT 1)
 				WHERE PARENT_ID IS NOT NULL
@@ -656,7 +656,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			foreach ( (array) $categories_RET as $value )
 			{
-				DBQuery( "UPDATE COURSE_PERIODS
+				DBQuery( "UPDATE course_periods
 					SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,'," . $value['ROLLOVER_ID'] . ",','," . $value['ID'] . ",')
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -668,7 +668,7 @@ function Rollover( $table, $mode = 'delete' )
 			DBQuery( "INSERT INTO course_period_school_periods
 				(COURSE_PERIOD_ID,PERIOD_ID,DAYS)
 				SELECT (SELECT cp.COURSE_PERIOD_ID
-						FROM COURSE_PERIODS cp
+						FROM course_periods cp
 						WHERE cpsp.COURSE_PERIOD_ID=cp.ROLLOVER_ID
 						LIMIT 1),
 					(SELECT n.PERIOD_ID
@@ -678,7 +678,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND n.SCHOOL_ID='" . UserSchool() . "'
 						LIMIT 1),
 					DAYS
-				FROM course_period_school_periods cpsp, COURSE_PERIODS cp
+				FROM course_period_school_periods cpsp, course_periods cp
 				WHERE cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
 				AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID" );

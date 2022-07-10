@@ -50,7 +50,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 		else
 		{
 			$staff_id = DBGetOne( "SELECT TEACHER_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 		}
 	}
@@ -61,7 +61,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	if ( ! isset( $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] ) )
 	{
 		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 	}
 

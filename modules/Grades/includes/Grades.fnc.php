@@ -166,7 +166,7 @@ function GetClassAveragePercent( $course_period_id, $marking_period_id )
 {
 	$extra['SELECT_ONLY'] = "sg1.GRADE_PERCENT";
 
-	$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,COURSE_PERIODS rc_cp";
+	$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,course_periods rc_cp";
 
 	$extra['WHERE'] = " AND sg1.MARKING_PERIOD_ID='" . (int) $marking_period_id . "'
 		AND rc_cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'

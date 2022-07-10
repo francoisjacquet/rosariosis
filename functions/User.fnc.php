@@ -202,7 +202,7 @@ function UserImpersonateTeacher( $teacher_id = 0 )
 	if ( ! $teacher_id )
 	{
 		$teacher_id = DBGetOne( "SELECT TEACHER_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 	}
 

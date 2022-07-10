@@ -37,7 +37,7 @@ if ( ! UserCoursePeriod() )
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
 $course_id = DBGetOne( "SELECT COURSE_ID
-	FROM COURSE_PERIODS
+	FROM course_periods
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 $_ROSARIO['allow_edit'] = true;
@@ -461,7 +461,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$assignment_type_sql = "SELECT ASSIGNMENT_TYPE_ID
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID=(SELECT COURSE_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" .
 			$hide_previous_assignment_types_sql;
@@ -485,7 +485,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE (COURSE_ID=(SELECT COURSE_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
@@ -507,7 +507,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM GRADEBOOK_ASSIGNMENT_TYPES
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND COURSE_ID=(SELECT COURSE_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" .
 		$hide_previous_assignment_types_sql .
 		" ORDER BY SORT_ORDER,TITLE";
@@ -572,7 +572,7 @@ if ( ! $_REQUEST['modfunc'] )
 		(SELECT sum(FINAL_GRADE_PERCENT)
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID=(SELECT COURSE_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
 		$hide_previous_assignment_types_sql .
@@ -592,14 +592,14 @@ if ( ! $_REQUEST['modfunc'] )
 			$assignment_type_has_assignments = DBGetOne( "SELECT 1
 				FROM GRADEBOOK_ASSIGNMENTS
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-				AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 			$assignment_type_assignments_warn_all_0_points = ! DBGetOne( "SELECT 1
 				FROM GRADEBOOK_ASSIGNMENTS
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-				AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND POINTS<>'0'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
@@ -630,7 +630,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$assignment_type_sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID=(SELECT COURSE_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
 			$hide_previous_assignment_types_sql;
@@ -942,7 +942,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$assn_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+		AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 		AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
 		ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );

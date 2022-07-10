@@ -341,7 +341,7 @@ function _update66()
 /**
  * Update to version 6.9
  *
- * 1. COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column.
+ * 1. course_periods table: Add SECONDARY_TEACHER_ID column.
  *
  * Local function
  *
@@ -356,7 +356,7 @@ function _update69beta()
 	$return = true;
 
 	/**
-	 * 1. COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column.
+	 * 1. course_periods table: Add SECONDARY_TEACHER_ID column.
 	 */
 	$secondary_teacher_id_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
 		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='course_periods')

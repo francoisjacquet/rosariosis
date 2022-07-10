@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 								{
 									$column = 'COURSE_PERIOD_ID';
 									$value = '';
-									$sql .= "COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
+									$sql .= "COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
 								}
 								else
 								{
@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						{
 							$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENT_TYPES ';
 							$fields = 'STAFF_ID,COURSE_ID,';
-							$values = "'" . User( 'STAFF_ID' ) . "',(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
+							$values = "'" . User( 'STAFF_ID' ) . "',(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
 						}
 
 						$go = false;
@@ -130,7 +130,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 									$column = 'COURSE_PERIOD_ID';
 									$value = '';
 									$fields .= "COURSE_ID,";
-									$values .= "(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
+									$values .= "(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
 								}
 								else
 								{
@@ -218,7 +218,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
+	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -258,7 +258,7 @@ if ( ! $_REQUEST['modfunc'] )
 		db_case( [ '(ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\'))', 'TRUE', "'Y'", 'NULL' ] ) . " AS ASSIGNED_ERROR," .
 		db_case( [ 'DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\')', 'TRUE', "'Y'", 'NULL' ] ) . " AS DUE_ERROR " .
 		"FROM GRADEBOOK_ASSIGNMENTS " .
-		"WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" . ( $_REQUEST['tab_id'] ? " AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['tab_id'] . "'" : '' ) .
+		"WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" . ( $_REQUEST['tab_id'] ? " AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['tab_id'] . "'" : '' ) .
 		" AND MARKING_PERIOD_ID='" . UserMP() . "' ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE";
 		$functions = [ 'TITLE' => '_makeAssnInput', 'POINTS' => '_makeAssnInput', 'ASSIGNED_DATE' => '_makeAssnInput', 'DUE_DATE' => '_makeAssnInput', 'COURSE_ID' => '_makeAssnInput', 'DESCRIPTION' => '_makeAssnInput', 'DEFAULT_POINTS' => '_makeAssnInput' ];
 
@@ -303,7 +303,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE";
+		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE";
 		$functions = [ 'TITLE' => '_makeTypeInput', 'SORT_ORDER' => '_makeTypeInput', 'COLOR' => '_makeColorInput' ];
 
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )

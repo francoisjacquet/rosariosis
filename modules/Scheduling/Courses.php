@@ -125,7 +125,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		// FJ http://centresis.org/forums/viewtopic.php?f=13&t=4112
 		$periods_RET = DBGet( "SELECT c.SUBJECT_ID,cp.COURSE_ID,cp.COURSE_PERIOD_ID,
 			cp.TITLE,cp.MP,cp.MARKING_PERIOD_ID,cp.CALENDAR_ID,cp.TOTAL_SEATS AS AVAILABLE_SEATS
-			FROM COURSE_PERIODS cp,COURSES c
+			FROM course_periods cp,COURSES c
 			WHERE cp.COURSE_ID=c.COURSE_ID
 			AND (UPPER(cp.TITLE) LIKE '%" . mb_strtoupper( $_REQUEST['search_term'] ) . "%'
 			OR UPPER(cp.SHORT_NAME)='" . mb_strtoupper( $_REQUEST['search_term'] ) . "')
@@ -272,19 +272,19 @@ if ( ! empty( $_REQUEST['tables'] )
 	$where = [
 		'COURSE_SUBJECTS' => 'SUBJECT_ID',
 		'COURSES' => 'COURSE_ID',
-		'COURSE_PERIODS' => 'COURSE_PERIOD_ID',
+		'course_periods' => 'COURSE_PERIOD_ID',
 		'course_period_school_periods' => 'COURSE_PERIOD_SCHOOL_PERIODS_ID',
 	];
 
 	if ( isset( $_REQUEST['tables']['parent_id'] ) )
 	{
-		$_REQUEST['tables']['COURSE_PERIODS'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
+		$_REQUEST['tables']['course_periods'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
 
 		unset( $_REQUEST['tables']['parent_id'] );
 	}
 
 	// FJ bugfix SQL error invalid input syntax for type numeric
-	// when course_period_school_periods saved before COURSE_PERIODS, but why?
+	// when course_period_school_periods saved before course_periods, but why?
 
 	if ( $_REQUEST['course_period_id'] == 'new' )
 	{
@@ -294,7 +294,7 @@ if ( ! empty( $_REQUEST['tables'] )
 			{
 				unset( $_REQUEST['tables'][$table_name] );
 
-				// Push course_period_school_periods after COURSE_PERIODS.
+				// Push course_period_school_periods after course_periods.
 				$_REQUEST['tables'][$table_name] = $tables;
 
 				break;
@@ -314,7 +314,7 @@ if ( ! empty( $_REQUEST['tables'] )
 			{
 				//FJ added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
 
-				if ( ! (  ( isset( $columns['TITLE'] ) && empty( $columns['TITLE'] ) ) || ( $table_name == 'COURSE_PERIODS' && (  ( isset( $columns['SHORT_NAME'] ) && empty( $columns['SHORT_NAME'] ) ) || ( isset( $columns['TEACHER_ID'] ) && empty( $columns['TEACHER_ID'] ) ) ) ) || ( mb_strpos( $id, 'new' ) !== false && ! empty( $columns['PERIOD_ID'] ) && ! isset( $columns['DAYS'] ) ) ) )
+				if ( ! (  ( isset( $columns['TITLE'] ) && empty( $columns['TITLE'] ) ) || ( $table_name == 'course_periods' && (  ( isset( $columns['SHORT_NAME'] ) && empty( $columns['SHORT_NAME'] ) ) || ( isset( $columns['TEACHER_ID'] ) && empty( $columns['TEACHER_ID'] ) ) ) ) || ( mb_strpos( $id, 'new' ) !== false && ! empty( $columns['PERIOD_ID'] ) && ! isset( $columns['DAYS'] ) ) ) )
 				{
 					if ( $table_name === 'COURSES'
 						&& $columns['DESCRIPTION'] )
@@ -372,10 +372,10 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						$sql = "UPDATE " . DBEscapeIdentifier( $table_name ) . " SET ";
 
-						if ( $table_name == 'COURSE_PERIODS' )
+						if ( $table_name == 'course_periods' )
 						{
 							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
-								FROM COURSE_PERIODS
+								FROM course_periods
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 							$base_title = CoursePeriodTitleGenerate( $id, $columns );
@@ -418,7 +418,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							);
 
 							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
-								FROM COURSE_PERIODS
+								FROM course_periods
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 							$base_title = mb_substr(
@@ -433,7 +433,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$title = $title_add . $base_title;
 
-							DBQuery( "UPDATE COURSE_PERIODS
+							DBQuery( "UPDATE course_periods
 								SET TITLE='" . $title . "'
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
@@ -470,7 +470,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							// Hook.
 							do_action( 'Scheduling/Courses.php|update_course' );
 						}
-						elseif ( $table_name === 'COURSE_PERIODS' )
+						elseif ( $table_name === 'course_periods' )
 						{
 							if ( isset( $columns['MARKING_PERIOD_ID'] )
 								&& $current_cp[1]['MARKING_PERIOD_ID'] !== $columns['MARKING_PERIOD_ID'] )
@@ -499,7 +499,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
 							$values = "'".$id."','".UserSchool()."','".UserSyear()."',";*/
 						}
-						elseif ( $table_name == 'COURSE_PERIODS' )
+						elseif ( $table_name == 'course_periods' )
 						{
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_ID,TITLE,FILLED_SEATS,';
 
@@ -540,7 +540,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
 								FROM course_period_school_periods
-								WHERE " . $where['COURSE_PERIODS'] . "='" . (int) $_REQUEST['course_period_id'] . "'", [], [ 'PERIOD_ID' ] );
+								WHERE " . $where['course_periods'] . "='" . (int) $_REQUEST['course_period_id'] . "'", [], [ 'PERIOD_ID' ] );
 
 							if ( in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) || in_array( $columns['PERIOD_ID'], array_keys( $other_school_p ) ) )
 							{
@@ -560,7 +560,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							);
 
 							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
-								FROM COURSE_PERIODS
+								FROM course_periods
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 							$base_title = mb_substr(
@@ -575,7 +575,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$title = $title_add . $base_title;
 
-							DBQuery( "UPDATE COURSE_PERIODS
+							DBQuery( "UPDATE course_periods
 								SET TITLE='" . $title . "'
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 						}
@@ -614,7 +614,7 @@ if ( ! empty( $_REQUEST['tables'] )
 								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course' );
 							}
-							elseif ( $table_name == 'COURSE_PERIODS' )
+							elseif ( $table_name == 'course_periods' )
 							{
 								$_REQUEST['course_period_id'] = $id;
 
@@ -622,7 +622,7 @@ if ( ! empty( $_REQUEST['tables'] )
 								{
 									$columns['PARENT_ID'] = $id;
 
-									DBQuery( "UPDATE COURSE_PERIODS
+									DBQuery( "UPDATE course_periods
 										SET PARENT_ID='" . (int) $id . "'
 										WHERE COURSE_PERIOD_ID='" . (int) $id . "'" );
 								}
@@ -637,7 +637,7 @@ if ( ! empty( $_REQUEST['tables'] )
 				{
 					$error[] = _( 'Please fill in the required fields' );
 
-					if ( $table_name == 'COURSE_PERIODS' )
+					if ( $table_name == 'course_periods' )
 					{
 						break 2; // Skip course_period_school_periods
 					}
@@ -647,7 +647,7 @@ if ( ! empty( $_REQUEST['tables'] )
 			{
 				$error[] = _( 'Please enter valid Numeric data.' );
 
-				if ( $table_name == 'COURSE_PERIODS' )
+				if ( $table_name == 'course_periods' )
 				{
 					break 2; // Skip course_period_school_periods
 				}
@@ -783,7 +783,7 @@ if (  ( ! $_REQUEST['modfunc']
 				if ( $_REQUEST['course_id'] !== 'new' )
 				{
 					$has_course_periods = DBGetOne( "SELECT 1
-						FROM COURSE_PERIODS
+						FROM course_periods
 						WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 					if ( ! $has_course_periods )
@@ -831,7 +831,7 @@ if (  ( ! $_REQUEST['modfunc']
 					SECONDARY_TEACHER_ID,CALENDAR_ID,ROOM,TOTAL_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,
 					DOES_HONOR_ROLL,DOES_CLASS_RANK,GENDER_RESTRICTION,
 					HOUSE_RESTRICTION,CREDITS,DOES_BREAKOFF
-					FROM COURSE_PERIODS
+					FROM course_periods
 					WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 				$RET = $RET[1];
@@ -891,7 +891,7 @@ if (  ( ! $_REQUEST['modfunc']
 			// FJ Moodle integrator.
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['SHORT_NAME'], '' ),
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SHORT_NAME]',
+				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][SHORT_NAME]',
 				_( 'Short Name' ),
 				'required maxlength=25',
 				empty( $_REQUEST['moodle_create_course_period'] )
@@ -921,7 +921,7 @@ if (  ( ! $_REQUEST['modfunc']
 			// FJ Moodle integrator.
 			$header .= '<td colspan="2">' . SelectInput(
 				issetVal( $RET['TEACHER_ID'], '' ),
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][TEACHER_ID]',
+				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][TEACHER_ID]',
 				_( 'Teacher' ),
 				$teachers,
 				empty( $_REQUEST['moodle_create_course_period'] ) ? 'N/A' : false,
@@ -943,7 +943,7 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				$header .= '<td colspan="2">' . SelectInput(
 					issetVal( $RET['SECONDARY_TEACHER_ID'], '' ),
-					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SECONDARY_TEACHER_ID]',
+					'tables[course_periods][' . $_REQUEST['course_period_id'] . '][SECONDARY_TEACHER_ID]',
 					_( 'Secondary Teacher' ),
 					$secondary_teachers
 				) . '</td>';
@@ -953,7 +953,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '<tr><td>' . TextInput(
 				issetVal( $RET['ROOM'], '' ),
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][ROOM]',
+				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][ROOM]',
 				_( 'Room' ),
 				'maxlength=10' .
 					( $_REQUEST['course_period_id'] === 'new' ? ' size="6"' : '' )
@@ -970,7 +970,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$periods[$period['PERIOD_ID']] = $period['TITLE'];
 			}
 
-			//$header .= '<td>' . SelectInput($RET['MP'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY' => 'Full Year','SEM' => 'Semester','QTR' => 'Marking Period')) . '</td>';
+			//$header .= '<td>' . SelectInput($RET['MP'],'tables[course_periods]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY' => 'Full Year','SEM' => 'Semester','QTR' => 'Marking Period')) . '</td>';
 			$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,SHORT_NAME," .
 				db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
 				FROM SCHOOL_MARKING_PERIODS
@@ -990,7 +990,7 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				$header .= '<td colspan="2">' . SelectInput(
 					issetVal( $RET['MARKING_PERIOD_ID'], '' ),
-					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
+					'tables[course_periods][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
 					_( 'Marking Period' ),
 					$options,
 					false,
@@ -1009,7 +1009,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['TOTAL_SEATS'], '' ),
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][TOTAL_SEATS]',
+				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][TOTAL_SEATS]',
 				_( 'Seats' ),
 				' type="number" step="1" min="0" max="9999"'
 			) . '</td>';
@@ -1194,7 +1194,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$cp_inputs = CoursePeriodOptionInputs(
 				$RET,
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . ']',
+				'tables[course_periods][' . $_REQUEST['course_period_id'] . ']',
 				$new
 			);
 
@@ -1268,7 +1268,7 @@ if (  ( ! $_REQUEST['modfunc']
 					&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 				{
 					$parent = DBGet( "SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE
-						FROM COURSE_PERIODS cp,COURSES c
+						FROM course_periods cp,COURSES c
 						WHERE c.COURSE_ID=cp.COURSE_ID
 						AND cp.COURSE_PERIOD_ID='" . (int) $RET['PARENT_ID'] . "'" );
 
@@ -1277,7 +1277,7 @@ if (  ( ! $_REQUEST['modfunc']
 				elseif ( $_REQUEST['course_period_id'] !== 'new' )
 				{
 					$children = DBGet( "SELECT COURSE_PERIOD_ID
-						FROM COURSE_PERIODS
+						FROM course_periods
 						WHERE PARENT_ID='" . (int) $_REQUEST['course_period_id'] . "'
 						AND COURSE_PERIOD_ID!='" . (int) $_REQUEST['course_period_id'] . "'" );
 
@@ -1587,11 +1587,11 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 
 			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet( "SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
+			//$periods_RET = DBGet( "SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM course_periods cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
 			$periods_RET = DBGet( "SELECT '" . $_REQUEST['subject_id'] . "' AS SUBJECT_ID,
 				COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,
 				TOTAL_SEATS AS AVAILABLE_SEATS
-				FROM COURSE_PERIODS cp
+				FROM course_periods cp
 				WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "' " .
 				( $_REQUEST['modfunc'] === 'choose_course'
 					&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' ?
@@ -1668,7 +1668,7 @@ if ( $_REQUEST['modname'] === 'Scheduling/Courses.php'
 	&& $_REQUEST['course_period_id'] )
 {
 	$course_title = DBGetOne( "SELECT TITLE
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 	$html_to_escape = $course_title .

@@ -60,7 +60,7 @@ function MyWidgets( $item )
 						AND COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "')";
 
 					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
-						FROM COURSE_PERIODS cp,COURSES c
+						FROM course_periods cp,COURSES c
 						WHERE c.COURSE_ID=cp.COURSE_ID
 						AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "'" );
 

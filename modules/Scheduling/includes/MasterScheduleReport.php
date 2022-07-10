@@ -9,7 +9,7 @@
  */
 
 //FJ multiple school periods for a course period
-/*$sections_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE AS COURSE,cp.COURSE_ID,cp.PERIOD_ID,cp.TEACHER_ID,cp.ROOM,cp.TOTAL_SEATS AS SEATS,cp.MARKING_PERIOD_ID FROM COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs WHERE cs.SUBJECT_ID=c.SUBJECT_ID AND cp.COURSE_ID=c.COURSE_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."'",array('PERIOD_ID' => 'GetPeriod','TEACHER_ID' => 'GetTeacher','MARKING_PERIOD_ID' => '_makeMP'),array('COURSE'));*/
+/*$sections_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE AS COURSE,cp.COURSE_ID,cp.PERIOD_ID,cp.TEACHER_ID,cp.ROOM,cp.TOTAL_SEATS AS SEATS,cp.MARKING_PERIOD_ID FROM course_periods cp,COURSES c,COURSE_SUBJECTS cs WHERE cs.SUBJECT_ID=c.SUBJECT_ID AND cp.COURSE_ID=c.COURSE_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."'",array('PERIOD_ID' => 'GetPeriod','TEACHER_ID' => 'GetTeacher','MARKING_PERIOD_ID' => '_makeMP'),array('COURSE'));*/
 
 // @since 7.8 Add Include Inactive Students checkbox.
 DrawHeader(
@@ -63,7 +63,7 @@ $sections_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE AS COURSE,cp.CO
 	(SELECT COUNT(STUDENT_ID)
 		FROM SCHEDULE
 		WHERE COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID" . $where_active_sql . ") AS STUDENTS
-FROM COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
+FROM course_periods cp,COURSES c,COURSE_SUBJECTS cs
 WHERE cs.SUBJECT_ID=c.SUBJECT_ID
 AND cp.COURSE_ID=c.COURSE_ID
 AND cp.SYEAR='" . UserSyear() . "'

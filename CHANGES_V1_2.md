@@ -1154,7 +1154,7 @@ Changes in 1.4.2
 ----------------
 - Security fixes: delete & save not accessible to non admins in
 	- AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php, Transactions.php, ActivityReport.php, ReferralForm.php, DisciplineForm.php, FinalGrades.php
-- SQL bugs: course_period_school_periods, SCHOOLS, DISCIPLINE_CATEGORIES, program_config & COURSE_PERIODS Rollover
+- SQL bugs: course_period_school_periods, SCHOOLS, DISCIPLINE_CATEGORIES, program_config & course_periods Rollover
 - Bugfix UserCoursePeriod not set correctly in Grades.php
 
 Changes in 1.4.1

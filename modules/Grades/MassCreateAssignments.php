@@ -85,7 +85,7 @@ if ( isset( $_POST['tables'] )
 				$c_list = "'" . implode( "','", $_REQUEST['c_arr'] ) . "'";
 
 				$assignment_courses_teachers_RET = DBGet( "SELECT DISTINCT COURSE_ID,TEACHER_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_ID IN (" . $c_list . ")", [], [ 'COURSE_ID' ] );
 			}
 
@@ -164,7 +164,7 @@ if ( isset( $_POST['tables'] )
 			foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
 			{
 				$cp_teacher = DBGetOne( "SELECT TEACHER_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -172,7 +172,7 @@ if ( isset( $_POST['tables'] )
 				$cp_assignment_type = DBGetOne( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
 				FROM GRADEBOOK_ASSIGNMENT_TYPES
 				WHERE COURSE_ID=(SELECT COURSE_ID
-					FROM COURSE_PERIODS
+					FROM course_periods
 					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
@@ -256,7 +256,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID IN (SELECT COURSE_ID
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "')
 			AND TRIM(TITLE)='" . $_REQUEST['assignment_type'] . "'" );
@@ -409,7 +409,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$assignment_types_sql = "SELECT DISTINCT TRIM(TITLE) AS TITLE
 	FROM GRADEBOOK_ASSIGNMENT_TYPES
 	WHERE COURSE_ID IN (SELECT COURSE_ID
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "')
 	AND (CREATED_MP='" . UserMP() . "'
@@ -487,7 +487,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND cs.SYEAR=c.SYEAR
 				AND cs.SUBJECT_ID=c.SUBJECT_ID
 				AND EXISTS(SELECT 1
-					FROM COURSE_PERIODS cp
+					FROM course_periods cp
 					WHERE cp.SCHOOL_ID=c.SCHOOL_ID
 					AND cp.SYEAR=c.SYEAR
 					AND cp.COURSE_ID=c.COURSE_ID)
@@ -506,11 +506,11 @@ if ( ! $_REQUEST['modfunc'] )
 			// Limit course periods to the ones where the assignment type exists
 			// and to the ones in the current MP.
 			$course_periods_limit_sql = " AND cp.COURSE_PERIOD_ID IN (SELECT cp2.COURSE_PERIOD_ID
-				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp2
+				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, course_periods cp2
 				WHERE TRIM(gat.TITLE)='" . $_REQUEST['assignment_type'] . "'
 				AND gat.STAFF_ID=cp2.TEACHER_ID
 				AND gat.COURSE_ID IN (SELECT COURSE_ID
-					FROM COURSE_PERIODS
+					FROM course_periods
 					WHERE SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "')
 				AND gat.COURSE_ID=cp2.COURSE_ID
@@ -527,7 +527,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Display the course periods list.
 			$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
 				c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
-				FROM COURSE_PERIODS cp, COURSES c, COURSE_SUBJECTS cs
+				FROM course_periods cp, COURSES c, COURSE_SUBJECTS cs
 				WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 				AND cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID=c.SCHOOL_ID

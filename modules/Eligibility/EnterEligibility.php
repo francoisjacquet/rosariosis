@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 	$course_period_id = UserCoursePeriod();
 
 	$course_id = DBGetOne( "SELECT COURSE_ID
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 	$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
@@ -223,7 +223,7 @@ $stu_RET = GetStuList( $extra );
 DrawHeader( ProgramTitle() );
 
 $cp_title = DBGetOne( "SELECT TITLE
-	FROM COURSE_PERIODS
+	FROM course_periods
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 if ( $cp_title )

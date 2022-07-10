@@ -987,7 +987,7 @@ function _update50beta()
 /**
  * Update to version 5.0.1
  *
- * 1. COURSE_PERIODS table:
+ * 1. course_periods table:
  * Change title column type to text
  * Was character varying(255) which could prevent saving long Course Period titles
  * Needs to DROP course_details view first to then recreate it.
@@ -1005,7 +1005,7 @@ function _update501()
 	$return = true;
 
 	/**
-	 * 1. COURSE_PERIODS table:
+	 * 1. course_periods table:
 	 * Change title column type to text
 	 * Was character varying(255) which could prevent saving long Course Period titles
 	 * Needs to DROP course_details VIEW first to then recreate it.

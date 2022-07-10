@@ -119,7 +119,7 @@ class Widget_course implements Widget
 				AND w_ss.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'";
 
 			$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
-				FROM COURSE_PERIODS cp,COURSES c
+				FROM course_periods cp,COURSES c
 				WHERE c.COURSE_ID=cp.COURSE_ID
 				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" );
 
@@ -166,7 +166,7 @@ class Widget_course implements Widget
 		// @since 7.4 Add Course Widget: select / Pull-Down.
 		$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,
 		c.COURSE_ID,cs.SUBJECT_ID,cs.TITLE AS SUBJECT_TITLE
-		FROM COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
+		FROM course_periods cp,COURSES c,COURSE_SUBJECTS cs
 		WHERE cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.COURSE_ID=c.COURSE_ID
@@ -843,7 +843,7 @@ class Widget_letter_grade implements Widget
 				( User( 'PROFILE' ) === 'teacher' ?
 				" AND rg.GRADE_SCALE_ID=
 					(SELECT GRADE_SCALE_ID
-						FROM COURSE_PERIODS
+						FROM course_periods
 						WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" :
 				'' ) .
 				" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER",

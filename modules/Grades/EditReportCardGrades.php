@@ -381,7 +381,7 @@ if ( UserStudentID() )
 
 			// MP has Course Periods?
 			$mp_has_course_periods = DBGet( "SELECT COUNT(COURSE_PERIOD_ID)
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -600,7 +600,7 @@ function _makeSelectInput( $value, $name )
 
 		// Get MP Course Periods.
 		$mp_course_periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,TITLE
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE SYEAR=(SELECT SYEAR
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "')

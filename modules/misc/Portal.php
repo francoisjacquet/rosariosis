@@ -313,7 +313,7 @@ switch ( User( 'PROFILE' ) )
 					// FJ multiple school periods for a course period.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
+					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,SCHOOLS s,
 					STAFF st,course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -357,7 +357,7 @@ switch ( User( 'PROFILE' ) )
 				{
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
+					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,SCHOOLS s,
 					STAFF st, course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -557,7 +557,7 @@ switch ( User( 'PROFILE' ) )
 			c.TITLE AS COURSE,a.MARKING_PERIOD_ID
 		FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
-		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 		AND a.DUE_DATE>=CURRENT_DATE
@@ -601,7 +601,7 @@ switch ( User( 'PROFILE' ) )
 					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
+					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,
 					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -644,7 +644,7 @@ switch ( User( 'PROFILE' ) )
 					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
+					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,
 					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -803,7 +803,7 @@ switch ( User( 'PROFILE' ) )
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
 			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 			WHERE (a.COURSE_ID=c.COURSE_ID
-			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
 			AND s.STUDENT_ID='" . UserStudentID() . "'
 			AND (s.END_DATE IS NULL OR s.END_DATE>=CURRENT_DATE)
@@ -929,7 +929,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(',0,' IN pp.PUBLISHED_PROFILES)>0
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, COURSE_PERIODS cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
+		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, course_periods cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
 		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
@@ -983,7 +983,7 @@ switch ( User( 'PROFILE' ) )
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
 			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 			WHERE (a.COURSE_ID=c.COURSE_ID
-			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
 			AND s.STUDENT_ID='" . UserStudentID() . "'
 			AND (s.END_DATE IS NULL OR s.END_DATE>=CURRENT_DATE)
@@ -1149,7 +1149,7 @@ function _redirectTakeAttendance()
 	// Get Course Period info.
 	// @since 6.9 Add Secondary Teacher.
 	$cp_RET = DBGet( "SELECT SCHOOL_ID,TEACHER_ID,SECONDARY_TEACHER_ID
-		FROM COURSE_PERIODS
+		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['period'] . "'
 		AND SYEAR='" . UserSyear() . "'
 		LIMIT 1" );

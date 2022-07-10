@@ -143,7 +143,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND (SELECT count(1)
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE SUBJECT_ID=COURSE_SUBJECTS.SUBJECT_ID
 				AND GRADE_SCALE_ID IS NOT NULL)>0
 			ORDER BY SORT_ORDER,TITLE", [], [ 'SUBJECT_ID' ] );
@@ -159,7 +159,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND (SELECT count(1)
-				FROM COURSE_PERIODS
+				FROM course_periods
 				WHERE COURSE_ID=COURSES.COURSE_ID
 				AND GRADE_SCALE_ID IS NOT NULL)>0
 			ORDER BY TITLE", [], [ 'COURSE_ID' ] );
@@ -219,7 +219,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$course_period_RET = DBGet( "SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID,COURSE_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'] )

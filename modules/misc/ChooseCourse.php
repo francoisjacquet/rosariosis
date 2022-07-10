@@ -9,7 +9,7 @@ if ( empty( $_REQUEST['course_period_id'] ) )
 else
 {
 	$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cs.TITLE AS SUBJECT_TITLE
-		FROM COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
+		FROM course_periods cp,COURSES c,COURSE_SUBJECTS cs
 		WHERE c.COURSE_ID=cp.COURSE_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'
 		AND c.SUBJECT_ID=cs.SUBJECT_ID

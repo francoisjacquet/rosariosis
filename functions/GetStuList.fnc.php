@@ -594,7 +594,7 @@ function GetStuList( &$extra = [] )
 							OR ss.END_DATE IS NULL))";
 			}
 
-			$sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND " .
+			$sql .= ") JOIN course_periods cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND " .
 				( isset( $extra['all_courses'] ) && $extra['all_courses'] === 'Y' ?
 					// @since 6.9 Add Secondary Teacher.
 					"(cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'

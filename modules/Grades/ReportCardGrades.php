@@ -151,7 +151,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$course_period_RET = DBGet( "SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID
-			FROM COURSE_PERIODS
+			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'] )

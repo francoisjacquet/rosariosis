@@ -31,7 +31,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 	FROM SCHOOL_PERIODS sp
 	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
 	AND sp.SYEAR='" . UserSyear() . "'
-	AND EXISTS (SELECT '' FROM COURSE_PERIODS
+	AND EXISTS (SELECT '' FROM course_periods
 		WHERE SYEAR=sp.SYEAR
 		AND PERIOD_ID=sp.PERIOD_ID
 		AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
@@ -64,7 +64,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "') AS COMPLETED
-	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar acc,course_period_school_periods cpsp
+	FROM STAFF s,course_periods cp,SCHOOL_PERIODS sp,attendance_calendar acc,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND	sp.PERIOD_ID=cpsp.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
 	AND cp.TEACHER_ID=s.STAFF_ID
@@ -104,7 +104,7 @@ else
 			AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
 			AND ac.PERIOD_ID=sp.PERIOD_ID
 			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "') AS COMPLETED
-		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar acc,
+		FROM STAFF s,course_periods cp,SCHOOL_PERIODS sp,attendance_calendar acc,
 			course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND	sp.PERIOD_ID=cpsp.PERIOD_ID

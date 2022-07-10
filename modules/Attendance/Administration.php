@@ -64,7 +64,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	// FJ days numbered.
 	// FJ multiple school periods for a course period.
 	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID
-	FROM SCHEDULE s,COURSE_PERIODS cp,course_period_school_periods cpsp
+	FROM SCHEDULE s,course_periods cp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.STUDENT_ID='__student_id__'
 	AND s.SYEAR='" . UserSyear() . "'
@@ -91,7 +91,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 else
 {
 	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID
-	FROM SCHEDULE s,COURSE_PERIODS cp, course_period_school_periods cpsp
+	FROM SCHEDULE s,course_periods cp, course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.STUDENT_ID='__student_id__'
 	AND s.SYEAR='" . UserSyear() . "'
@@ -217,7 +217,7 @@ $periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE
 FROM SCHOOL_PERIODS
 WHERE SCHOOL_ID='" . UserSchool() . "'
 AND SYEAR='" . UserSyear() . "'
-AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
+AND EXISTS (SELECT '' FROM course_periods WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
 ORDER BY SORT_ORDER" );
 
 $categories_RET = DBGet( "SELECT ID,TITLE
@@ -269,7 +269,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 			cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,s.STUDENT_ID AS ATTENDANCE_CODE,
 			s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,
 			s.STUDENT_ID AS COMMENT
-		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p,attendance_calendar ac, course_period_school_periods cpsp
+		FROM SCHEDULE s,COURSES c,course_periods cp,SCHOOL_PERIODS p,attendance_calendar ac, course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND s.SYEAR='" . UserSyear() . "'
 		AND s.SCHOOL_ID='" . UserSchool() . "'
@@ -303,7 +303,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		$schedule_RET = DBGet( "SELECT
 		s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
 		s.STUDENT_ID AS ATTENDANCE_CODE,s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS COMMENT
-		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p,attendance_calendar ac, course_period_school_periods cpsp
+		FROM SCHEDULE s,COURSES c,course_periods cp,SCHOOL_PERIODS p,attendance_calendar ac, course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
 		s.SYEAR='" . UserSyear() . "' AND s.SCHOOL_ID='" . UserSchool() . "'
 		AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
