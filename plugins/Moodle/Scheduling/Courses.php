@@ -23,7 +23,7 @@ function core_course_create_categories_object()
 
 	$name = $columns['TITLE'];
 
-	if ( $table_name == 'COURSE_SUBJECTS' )
+	if ( $table_name == 'course_subjects' )
 	{
 		// @since 5.8 Ability to set a Parent Category to Subjects. Used by Iomad plugin.
 		$parent = ! empty( $_REQUEST['MOODLE_COURSE_SUBJECT_PARENT_CATEGORY'] ) ?
@@ -87,7 +87,7 @@ function core_course_create_categories_response( $response )
 		return null;
 	}
 
-	if ( $table_name == 'COURSE_SUBJECTS' )
+	if ( $table_name == 'course_subjects' )
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
@@ -131,7 +131,7 @@ function core_course_update_categories_object()
 		$column = 'course_id';
 		$rosario_id = $_REQUEST['course_id'];
 	}
-	elseif ( $table_name == 'COURSE_SUBJECTS' )
+	elseif ( $table_name == 'course_subjects' )
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];

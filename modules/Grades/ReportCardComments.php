@@ -139,12 +139,12 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( User( 'PROFILE' ) === 'admin' )
 	{
 		$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
-			FROM COURSE_SUBJECTS
+			FROM course_subjects
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND (SELECT count(1)
 				FROM course_periods
-				WHERE SUBJECT_ID=COURSE_SUBJECTS.SUBJECT_ID
+				WHERE SUBJECT_ID=course_subjects.SUBJECT_ID
 				AND GRADE_SCALE_ID IS NOT NULL)>0
 			ORDER BY SORT_ORDER,TITLE", [], [ 'SUBJECT_ID' ] );
 
@@ -229,7 +229,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//FJ add subject areas
 		$courses_RET = DBGet( "SELECT TITLE,SUBJECT_ID,
-			(SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT
+			(SELECT TITLE FROM course_subjects WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT
 			FROM COURSES
 			WHERE COURSE_ID='" . (int) $course_period_RET[1]['COURSE_ID'] . "'" );
 

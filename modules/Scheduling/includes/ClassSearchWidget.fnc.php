@@ -79,7 +79,7 @@ function _classSearchWidgetFindCourse( $extra )
 	echo '</select></td></tr>';
 
 	$RET = DBGet( "SELECT SUBJECT_ID,TITLE
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		ORDER BY TITLE" );

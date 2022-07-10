@@ -194,7 +194,7 @@ function processRequest()
 
 	// $link['add']['html'] = array('COURSE_ID'=>_makeCourse('','COURSE_ID'),'WITH_TEACHER_ID'=>_makeTeacher('','WITH_TEACHER_ID'),'WITH_PERIOD_ID'=>_makePeriod('','WITH_PERIOD_ID'),'MARKING_PERIOD_ID'=>_makeMP('','MARKING_PERIOD_ID'));
 	$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

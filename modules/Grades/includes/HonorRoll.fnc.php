@@ -212,7 +212,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 	$subject_RET = DBGet( "SELECT TITLE
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
@@ -387,7 +387,7 @@ function HonorRollWidgets( $item )
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$subject_RET = DBGet( "SELECT TITLE
-						FROM COURSE_SUBJECTS
+						FROM course_subjects
 						WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND SYEAR='" . UserSyear() . "'" );
@@ -512,7 +512,7 @@ function HonorRollWidgets( $item )
 			}
 
 			$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
-				FROM COURSE_SUBJECTS
+				FROM course_subjects
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );
 

@@ -571,7 +571,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM COURSE_SUBJECTS
+				$delete_sql .= "DELETE FROM course_subjects
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -580,12 +580,12 @@ function Rollover( $table, $mode = 'delete' )
 				break;
 			}
 
-			// ROLL COURSE_SUBJECTS
-			DBQuery( "INSERT INTO COURSE_SUBJECTS (SYEAR,SCHOOL_ID,TITLE,SHORT_NAME,
+			// ROLL course_subjects
+			DBQuery( "INSERT INTO course_subjects (SYEAR,SCHOOL_ID,TITLE,SHORT_NAME,
 				SORT_ORDER,ROLLOVER_ID)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,
 				SHORT_NAME,SORT_ORDER,SUBJECT_ID
-				FROM COURSE_SUBJECTS
+				FROM course_subjects
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -594,7 +594,7 @@ function Rollover( $table, $mode = 'delete' )
 				SHORT_NAME,CREDIT_HOURS,DESCRIPTION,ROLLOVER_ID)
 				SELECT SYEAR+1,
 				(SELECT SUBJECT_ID
-					FROM COURSE_SUBJECTS s
+					FROM course_subjects s
 					WHERE s.SCHOOL_ID=c.SCHOOL_ID
 					AND s.ROLLOVER_ID=c.SUBJECT_ID
 					LIMIT 1),SCHOOL_ID,GRADE_LEVEL,TITLE,SHORT_NAME,

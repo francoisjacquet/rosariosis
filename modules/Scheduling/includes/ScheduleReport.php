@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] !== 'students' )
 if ( $_REQUEST['subject_id'] )
 {
 	$subject_RET = DBGet( "SELECT SUBJECT_ID
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
@@ -38,7 +38,7 @@ if ( $_REQUEST['subject_id'] )
 if ( $_REQUEST['subject_id'] )
 {
 	$subject_title = DBGetOne( "SELECT TITLE
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
 
 	$header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
@@ -82,7 +82,7 @@ echo '</form>';
 
 // SUBJECTS ----
 $subject_RET = DBGet( "SELECT s.SUBJECT_ID,s.TITLE
-	FROM COURSE_SUBJECTS s
+	FROM course_subjects s
 	WHERE s.SYEAR='" . UserSyear() . "'
 	AND s.SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY s.SORT_ORDER,s.TITLE" );

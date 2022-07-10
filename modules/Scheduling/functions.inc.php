@@ -24,7 +24,7 @@ function MyWidgets( $item )
 							WHERE SUBJECT_ID='" . (int) $_REQUEST['w_ly_subject_id'] . "'))";
 
 					$subject_title = DBGetOne( "SELECT TITLE
-						FROM COURSE_SUBJECTS
+						FROM course_subjects
 						WHERE SUBJECT_ID='" . (int) $_REQUEST['w_ly_subject_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )

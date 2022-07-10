@@ -666,7 +666,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			if ( ! empty( $_REQUEST['tables']['COURSES'] ) && $exists_RET['COURSES'][1]['COUNT'] )
 			{
 				//SUBJECT_ID
-				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSE_SUBJECTS WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='subject_id'" );
+				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT * FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='subject_id'" );
 
 				//COURSE_ID
 				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSES WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSES WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='course_id'" );
@@ -708,8 +708,8 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			if ( ! empty( $_REQUEST['tables']['COURSES'] ) )
 			{
-				// COURSE_SUBJECTS ROLLOVER.
-				$course_subjects_RET = DBGet( "SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='" . $next_syear . "' AND SCHOOL_ID='" . UserSchool() . "' AND ROLLOVER_ID IS NOT NULL" );
+				// course_subjects ROLLOVER.
+				$course_subjects_RET = DBGet( "SELECT SUBJECT_ID,ROLLOVER_ID FROM course_subjects WHERE SYEAR='" . $next_syear . "' AND SCHOOL_ID='" . UserSchool() . "' AND ROLLOVER_ID IS NOT NULL" );
 
 				foreach ( (array) $course_subjects_RET as $value )
 				{

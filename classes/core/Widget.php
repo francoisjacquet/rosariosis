@@ -77,7 +77,7 @@ class Widget_course implements Widget
 					AND SCHOOL_ID=ssm.SCHOOL_ID)";
 
 			$subject_title = DBGetOne( "SELECT TITLE
-				FROM COURSE_SUBJECTS
+				FROM course_subjects
 				WHERE SUBJECT_ID='" . (int) $_REQUEST['w_subject_id'] . "'" );
 
 			if ( ! $extra['NoSearchTerms'] )
@@ -166,7 +166,7 @@ class Widget_course implements Widget
 		// @since 7.4 Add Course Widget: select / Pull-Down.
 		$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,
 		c.COURSE_ID,cs.SUBJECT_ID,cs.TITLE AS SUBJECT_TITLE
-		FROM course_periods cp,COURSES c,COURSE_SUBJECTS cs
+		FROM course_periods cp,COURSES c,course_subjects cs
 		WHERE cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.COURSE_ID=c.COURSE_ID

@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$extra['SELECT'] .= ',' . $display_title_sql . ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
 
 	$extra['FROM'] = issetVal( $extra['FROM'], '' );
-	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,course_periods p_cp,COURSE_SUBJECTS cs ';
+	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,course_periods p_cp,course_subjects cs ';
 
 	$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR
 	AND sr.COURSE_ID=c.COURSE_ID
@@ -217,7 +217,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$schedule_table_sql = "SELECT cp.ROOM," . $display_title_sql . ",sp.TITLE AS SCHOOL_PERIOD,
 			cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
 			FROM course_periods cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,
-				course_period_school_periods cpsp,STUDENTS stu,SCHEDULE sr,STAFF sta,COURSE_SUBJECTS cs
+				course_period_school_periods cpsp,STUDENTS stu,SCHEDULE sr,STAFF sta,course_subjects cs
 			WHERE cp.COURSE_ID=c.COURSE_ID
 			AND c.SUBJECT_ID=cs.SUBJECT_ID
 			AND cp.SYEAR='" . UserSyear() . "'

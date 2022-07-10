@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc'] !== 'delete'
 	&& empty( $_REQUEST['subject_id'] ) )
 {
 	$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . ( $_REQUEST['modfunc'] === 'choose_course'
 		&& $_REQUEST['last_year'] === 'true' ?
@@ -101,7 +101,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		}
 
 		$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
-			FROM COURSE_SUBJECTS
+			FROM course_subjects
 			WHERE (UPPER(TITLE) LIKE '%" . mb_strtoupper( $_REQUEST['search_term'] ) . "%'
 			OR UPPER(SHORT_NAME)='" . mb_strtoupper( $_REQUEST['search_term'] ) . "')
 			AND SYEAR='" . ( $_REQUEST['modfunc'] === 'choose_course'
@@ -270,7 +270,7 @@ if ( ! empty( $_REQUEST['tables'] )
 	&& AllowEdit() )
 {
 	$where = [
-		'COURSE_SUBJECTS' => 'SUBJECT_ID',
+		'course_subjects' => 'SUBJECT_ID',
 		'COURSES' => 'COURSE_ID',
 		'course_periods' => 'COURSE_PERIOD_ID',
 		'course_period_school_periods' => 'COURSE_PERIOD_SCHOOL_PERIODS_ID',
@@ -460,7 +460,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						DBQuery( $sql );
 
-						if ( $table_name === 'COURSE_SUBJECTS' )
+						if ( $table_name === 'course_subjects' )
 						{
 							// Hook.
 							do_action( 'Scheduling/Courses.php|update_course_subject' );
@@ -487,7 +487,7 @@ if ( ! empty( $_REQUEST['tables'] )
 					{
 						$sql = "INSERT INTO " . DBEscapeIdentifier( $table_name ) . " ";
 
-						if ( $table_name == 'COURSE_SUBJECTS' )
+						if ( $table_name == 'course_subjects' )
 						{
 							$fields = 'SCHOOL_ID,SYEAR,';
 							$values = "'" . UserSchool() . "','" . UserSyear() . "',";
@@ -600,7 +600,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$id = DBLastInsertID();
 
-							if ( $table_name == 'COURSE_SUBJECTS' )
+							if ( $table_name == 'course_subjects' )
 							{
 								$_REQUEST['subject_id'] = $id;
 
@@ -684,7 +684,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$table = _( 'Subject' );
 
-		$delete_sql = "DELETE FROM COURSE_SUBJECTS
+		$delete_sql = "DELETE FROM course_subjects
 			WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "';";
 
 		$unset_get = 'subject_id';
@@ -726,7 +726,7 @@ if (  ( ! $_REQUEST['modfunc']
 		&& $_REQUEST['subject_id'] !== 'new' )
 	{
 		$subject_RET = DBGet( "SELECT SUBJECT_ID
-			FROM COURSE_SUBJECTS
+			FROM course_subjects
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
@@ -746,7 +746,7 @@ if (  ( ! $_REQUEST['modfunc']
 	echo ErrorMessage( $error );
 
 	$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
-		FROM COURSE_SUBJECTS
+		FROM course_subjects
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . ( $_REQUEST['modfunc'] == 'choose_course' && $_REQUEST['last_year'] == 'true' ?
 		UserSyear() - 1 :
@@ -1325,7 +1325,7 @@ if (  ( ! $_REQUEST['modfunc']
 			else
 			{
 				$RET = DBGet( "SELECT TITLE
-					FROM COURSE_SUBJECTS
+					FROM course_subjects
 					WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
 
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course' );
@@ -1383,7 +1383,7 @@ if (  ( ! $_REQUEST['modfunc']
 			if ( $_REQUEST['subject_id'] !== 'new' )
 			{
 				$RET = DBGet( "SELECT TITLE,SORT_ORDER
-					FROM COURSE_SUBJECTS
+					FROM course_subjects
 					WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
 
 				$RET = $RET[1];
@@ -1403,7 +1403,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['TITLE'] ),
-				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][TITLE]',
+				'tables[course_subjects][' . $_REQUEST['subject_id'] . '][TITLE]',
 				_( 'Title' ),
 				'required maxlength=100 size=20'
 			) . '</td>';
@@ -1413,7 +1413,7 @@ if (  ( ! $_REQUEST['modfunc']
 				// Hide Sort Order from non editing users.
 				$header .= '<td>' . TextInput(
 					issetVal( $RET['SORT_ORDER'] ),
-					'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
+					'tables[course_subjects][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
 					_( 'Sort Order' ),
 					' type="number" min="-9999" max="9999"'
 				) . '</td>';
