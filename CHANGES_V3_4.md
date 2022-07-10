@@ -59,7 +59,7 @@ Changes in 4.9
 --------------
 - Only display Categories having fields in AssignOtherInfo.php
 - Accessibility: add missing input label in AssignOtherInfo.php
-- PROGRAM_CONFIG table: Add Allow Teachers to edit gradebook grades for past quarters option in Update.fnc.php, rosariosis.sql & Configuration.php, sponsored by Santa Cecilia school
+- program_config table: Add Allow Teachers to edit gradebook grades for past quarters option in Update.fnc.php, rosariosis.sql & Configuration.php, sponsored by Santa Cecilia school
 - Accessibility: add missing input label in Widgets.fnc.php
 - Do not search custom Fields of the Files type in Search.fnc.php & Preferences.php
 - Move Course Period option inputs + Takes Attendance input to functions in Courses.php & Courses.fnc.php

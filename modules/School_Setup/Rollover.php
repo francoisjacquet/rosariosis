@@ -22,7 +22,7 @@ $tables = [
 	'STUDENT_ENROLLMENT' => _( 'Students' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
-	'PROGRAM_CONFIG' => _( 'School Configuration' ),
+	'program_config' => _( 'School Configuration' ),
 ];
 
 $tables_tooltip = [
@@ -943,18 +943,18 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'PROGRAM_CONFIG':
+		case 'program_config':
 
 			if ( $mode === 'delete' )
 			{
-				DBQuery( "DELETE FROM PROGRAM_CONFIG WHERE SYEAR='" . $next_syear . "'" );
+				DBQuery( "DELETE FROM program_config WHERE SYEAR='" . $next_syear . "'" );
 
 				break;
 			}
 
-			DBQuery( "INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE)
+			DBQuery( "INSERT INTO program_config (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE)
 				SELECT SYEAR+1,SCHOOL_ID,PROGRAM,TITLE,VALUE
-				FROM PROGRAM_CONFIG
+				FROM program_config
 				WHERE SYEAR='" . UserSyear() . "'" );
 
 			break;

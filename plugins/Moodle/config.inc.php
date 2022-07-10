@@ -23,10 +23,10 @@ if ( ! empty( $_REQUEST['save'] ) )
 		&& ! empty( $_POST['values'] )
 		&& AllowEdit() )
 	{
-		// Update PROGRAM_CONFIG table.
+		// Update program_config table.
 		$updated = $numeric_error = false;
 
-		foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $program => $columns )
+		foreach ( (array) $_REQUEST['values']['program_config'] as $program => $columns )
 		{
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -232,7 +232,7 @@ if ( empty( $_REQUEST['save'] )
 	// URL.
 	echo '<table><tr><td>' . TextInput(
 		ProgramConfig( 'moodle', 'MOODLE_URL' ),
-		'values[PROGRAM_CONFIG][moodle][MOODLE_URL]',
+		'values[program_config][moodle][MOODLE_URL]',
 		_( 'Moodle URL' ),
 		'size=29 placeholder=http://localhost/moodle'
 	) .	'</td></tr>';
@@ -250,7 +250,7 @@ if ( empty( $_REQUEST['save'] )
 	// Token.
 	echo '<tr><td>' . TextInput(
 		$token,
-		'values[PROGRAM_CONFIG][moodle][MOODLE_TOKEN]',
+		'values[program_config][moodle][MOODLE_TOKEN]',
 		_( 'Moodle Token' ),
 		'maxlength=32 size=29 placeholder=d6c51ea6ffd9857578722831bcb070e1'
 	) . '</td></tr>';
@@ -258,7 +258,7 @@ if ( empty( $_REQUEST['save'] )
 	// Parent Role ID.
 	echo '<tr><td>' . TextInput(
 		ProgramConfig( 'moodle', 'MOODLE_PARENT_ROLE_ID' ),
-		'values[PROGRAM_CONFIG][moodle][MOODLE_PARENT_ROLE_ID]',
+		'values[program_config][moodle][MOODLE_PARENT_ROLE_ID]',
 		_( 'Moodle Parent Role ID' ),
 		'maxlength=2 size=2 min=0 placeholder=10'
 	) . '</td></tr></table>';

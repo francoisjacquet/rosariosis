@@ -130,9 +130,9 @@ function _rollover( $table )
 					FROM CONFIG
 					WHERE SCHOOL_ID='" . UserSchool() . "';" );
 
-			DBQuery( "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE)
+			DBQuery( "INSERT INTO program_config (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE)
 				SELECT '" . $id . "' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE
-					FROM PROGRAM_CONFIG
+					FROM program_config
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "';" );
 

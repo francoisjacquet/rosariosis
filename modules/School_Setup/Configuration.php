@@ -97,9 +97,9 @@ else
 				$updated = true;
 			}
 
-			$_REQUEST['values']['PROGRAM_CONFIG'] = issetVal( $_REQUEST['values']['PROGRAM_CONFIG'] );
+			$_REQUEST['values']['program_config'] = issetVal( $_REQUEST['values']['program_config'] );
 
-			foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $program => $columns )
+			foreach ( (array) $_REQUEST['values']['program_config'] as $program => $columns )
 			{
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -563,7 +563,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
-				'values[PROGRAM_CONFIG][students][STUDENTS_USE_BUS]',
+				'values[program_config][students][STUDENTS_USE_BUS]',
 				_( 'Check Bus Pickup / Dropoff by default' ),
 				'',
 				false,
@@ -573,7 +573,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ),
-				'values[PROGRAM_CONFIG][students][STUDENTS_USE_CONTACT]',
+				'values[program_config][students][STUDENTS_USE_CONTACT]',
 				_( 'Enable Legacy Contact Information' ),
 				'',
 				false,
@@ -599,7 +599,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
-				'values[PROGRAM_CONFIG][students][STUDENTS_SEMESTER_COMMENTS]',
+				'values[program_config][students][STUDENTS_SEMESTER_COMMENTS]',
 				_( 'Use Semester Comments instead of Quarter Comments' ),
 				'',
 				false,
@@ -620,7 +620,7 @@ else
 
 			echo '<table class="cellpadding-5"><tr><td>' . SelectInput(
 				ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ),
-				'values[PROGRAM_CONFIG][grades][GRADES_DOES_LETTER_PERCENT]',
+				'values[program_config][grades][GRADES_DOES_LETTER_PERCENT]',
 				_( 'Grades' ),
 				$grades_options,
 				false
@@ -631,7 +631,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ),
-				'values[PROGRAM_CONFIG][grades][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',
+				'values[program_config][grades][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',
 				_( 'Hide grade comment except for attendance period courses' ),
 				'',
 				false,
@@ -641,7 +641,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_TEACHER_ALLOW_EDIT' ),
-				'values[PROGRAM_CONFIG][grades][GRADES_TEACHER_ALLOW_EDIT]',
+				'values[program_config][grades][GRADES_TEACHER_ALLOW_EDIT]',
 				_( 'Allow Teachers to edit grades after grade posting period' ),
 				'',
 				false,
@@ -656,7 +656,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT' ),
-				'values[PROGRAM_CONFIG][grades][GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT]',
+				'values[program_config][grades][GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT]',
 				_( 'Allow Teachers to edit gradebook grades for past quarters' ),
 				'',
 				false,
@@ -671,7 +671,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ),
-				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_STUDENTS_PARENTS]',
+				'values[program_config][grades][GRADES_DO_STATS_STUDENTS_PARENTS]',
 				_( 'Enable Anonymous Grade Statistics for Parents and Students' ),
 				'',
 				false,
@@ -681,7 +681,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ),
-				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_ADMIN_TEACHERS]',
+				'values[program_config][grades][GRADES_DO_STATS_ADMIN_TEACHERS]',
 				_( 'Enable Anonymous Grade Statistics for Administrators and Teachers' ),
 				'',
 				false,
@@ -703,7 +703,7 @@ else
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ),
-				'values[PROGRAM_CONFIG][attendance][ATTENDANCE_EDIT_DAYS_BEFORE]',
+				'values[program_config][attendance][ATTENDANCE_EDIT_DAYS_BEFORE]',
 				_( 'Number of days before the school date teachers can edit attendance' ) .
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank to always allow' ) .
@@ -713,7 +713,7 @@ else
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' ),
-				'values[PROGRAM_CONFIG][attendance][ATTENDANCE_EDIT_DAYS_AFTER]',
+				'values[program_config][attendance][ATTENDANCE_EDIT_DAYS_AFTER]',
 				_( 'Number of days after the school date teachers can edit attendance' ) .
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank to always allow' ) .
@@ -726,21 +726,21 @@ else
 		{
 			echo '<table class="cellpadding-5"><tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_WARNING' ),
-				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_WARNING]',
+				'values[program_config][food_service][FOOD_SERVICE_BALANCE_WARNING]',
 				_( 'Food Service Balance minimum amount for warning' ),
 				' type="number" step="0.01" max="999999999999" min="-999999999999" required'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM' ),
-				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_MINIMUM]',
+				'values[program_config][food_service][FOOD_SERVICE_BALANCE_MINIMUM]',
 				_( 'Food Service Balance minimum amount' ),
 				' type="number" step="0.01" max="999999999999" min="-999999999999" required'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_TARGET' ),
-				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_TARGET]',
+				'values[program_config][food_service][FOOD_SERVICE_BALANCE_TARGET]',
 				_( 'Food Service Balance target amount' ),
 				' type="number" step="0.01" max="999999999999" min="-999999999999" required'
 			) . '</td></tr></table>';

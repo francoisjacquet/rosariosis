@@ -304,7 +304,7 @@ Changes in 5.9
 - HTML add .br-after span to Course Periods + use DBGetOne() in Side.php
 - jQuery already loaded on first-login page, remove it in FirstLogin.fnc.php
 - CSS WPadmin pointer cursor for radio & checkbox input in stylesheet.css
-- Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from PROGRAM_CONFIG (per school) to CONFIG (all schools, 0) in RemoveAccess.php, rosariosis.sql & Update.fnc.php
+- Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to CONFIG (all schools, 0) in RemoveAccess.php, rosariosis.sql & Update.fnc.php
 - Prevent PHP Fatal error if Kint debug d() function not loaded in Warehouse.php & Debug.fnc.php
 - Fix ML default value beginning with `|locale:` in ParseML.php
 

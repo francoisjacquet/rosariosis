@@ -114,7 +114,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 	if ( ! isset( $_ROSARIO['ProgramConfig'][ (string) $program ] ) )
 	{
 		$_ROSARIO['ProgramConfig'] = DBGet( "SELECT PROGRAM,TITLE,VALUE
-			FROM PROGRAM_CONFIG
+			FROM program_config
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PROGRAM', 'TITLE' ] );
 	}
@@ -125,7 +125,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 		if ( ! isset( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['TITLE'] ) )
 		{
 			// Insert value (does not exist).
-			DBQuery( "INSERT INTO PROGRAM_CONFIG (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
+			DBQuery( "INSERT INTO program_config (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
 				VALUES('" . $value . "','" . $program . "','" . $item . "','" .
 				UserSchool() . "','" . UserSyear() . "')" );
 
@@ -134,7 +134,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 		elseif ( $value != DBEscapeString( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] ) )
 		{
 			// Update value (different from current value).
-			DBQuery( "UPDATE PROGRAM_CONFIG
+			DBQuery( "UPDATE program_config
 				SET VALUE='" . $value . "'
 				WHERE TITLE='" . $item . "'
 				AND SCHOOL_ID='" . UserSchool() . "'

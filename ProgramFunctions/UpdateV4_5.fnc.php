@@ -639,7 +639,7 @@ function _update47beta2()
 /**
  * Update to version 4.9
  *
- * 1. PROGRAM_CONFIG table: Add Allow Teachers to edit gradebook grades for past quarters option.
+ * 1. program_config table: Add Allow Teachers to edit gradebook grades for past quarters option.
  *
  * Local function
  *
@@ -654,14 +654,14 @@ function _update49beta()
 	$return = true;
 
 	/**
-	 * 1. PROGRAM_CONFIG table: Add Allow Teachers to edit gradebook grades for past quarters option.
+	 * 1. program_config table: Add Allow Teachers to edit gradebook grades for past quarters option.
 	 */
-	$config_option_exists = DBGet( "SELECT 1 FROM PROGRAM_CONFIG
+	$config_option_exists = DBGet( "SELECT 1 FROM program_config
 		WHERE TITLE='GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT';" );
 
 	if ( ! $config_option_exists )
 	{
-		DBQuery( "INSERT INTO PROGRAM_CONFIG (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
+		DBQuery( "INSERT INTO program_config (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
 			SELECT 'Y','grades','GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT',ID,SYEAR
 			FROM SCHOOLS;" );
 	}
@@ -1741,7 +1741,7 @@ function _update59()
 
 	if ( ! $username_prefix_add_added )
 	{
-		// Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from PROGRAM_CONFIG (per school) to CONFIG (all schools, 0).
+		// Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to CONFIG (all schools, 0).
 		$old_program_config_value = ProgramConfig( 'custom', 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
 
 		DBQuery( "INSERT INTO config VALUES (0, 'REMOVE_ACCESS_USERNAME_PREFIX_ADD', '" . $old_program_config_value . "');" );

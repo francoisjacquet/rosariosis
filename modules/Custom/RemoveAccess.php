@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
-		// @since 5.9 Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from PROGRAM_CONFIG (per school) to CONFIG (all schools, 0).
+		// @since 5.9 Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from program_config (per school) to CONFIG (all schools, 0).
 		$username_prefix_add = Config(
 			'REMOVE_ACCESS_USERNAME_PREFIX_ADD',
 			issetVal( $_REQUEST['username_prefix_add'] )

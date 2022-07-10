@@ -1154,7 +1154,7 @@ Changes in 1.4.2
 ----------------
 - Security fixes: delete & save not accessible to non admins in
 	- AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php, Transactions.php, ActivityReport.php, ReferralForm.php, DisciplineForm.php, FinalGrades.php
-- SQL bugs: COURSE_PERIOD_SCHOOL_PERIODS, SCHOOLS, DISCIPLINE_CATEGORIES, PROGRAM_CONFIG & COURSE_PERIODS Rollover
+- SQL bugs: COURSE_PERIOD_SCHOOL_PERIODS, SCHOOLS, DISCIPLINE_CATEGORIES, program_config & COURSE_PERIODS Rollover
 - Bugfix UserCoursePeriod not set correctly in Grades.php
 
 Changes in 1.4.1
@@ -1162,7 +1162,7 @@ Changes in 1.4.1
 - SQL: fix report_card_grades' grade_scale_id
 - Moodle errors fix in Rollover.php
 - take in account Search options in DuplicateAttendance.php
-- bugfix: grades PROGRAM_CONFIG (School Config)
+- bugfix: grades program_config (School Config)
 - SQL: add gp_scale value to Main grade scale
 - SQL: add reporting_gp_scale value to Default School
 - SQL bug: SYEAR=NULL in EditReportCardGrades.php
