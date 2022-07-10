@@ -63,7 +63,7 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 
 		$activity_students_RET = DBGet( "SELECT TITLE,
 		COUNT(sea.STUDENT_ID) AS STUDENTS_NB
-		FROM ELIGIBILITY_ACTIVITIES ea, STUDENT_ELIGIBILITY_ACTIVITIES sea
+		FROM ELIGIBILITY_ACTIVITIES ea, student_eligibility_activities sea
 		WHERE ea.SYEAR='" . UserSyear() . "'
 		AND ea.SCHOOL_ID='" . UserSchool() . "'
 		AND ea.START_DATE<=CURRENT_DATE

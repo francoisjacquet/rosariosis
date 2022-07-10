@@ -9,9 +9,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( ! empty( $_REQUEST['student'] ) )
 		{
 			// Fix bug add the same activity more than once.
-			// $current_RET = DBGet( "SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'",array(),array('STUDENT_ID'));
+			// $current_RET = DBGet( "SELECT STUDENT_ID FROM student_eligibility_activities WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'",array(),array('STUDENT_ID'));
 			$current_RET = DBGet( "SELECT STUDENT_ID
-				FROM STUDENT_ELIGIBILITY_ACTIVITIES
+				FROM student_eligibility_activities
 				WHERE ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'
 				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
@@ -22,7 +22,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				if ( empty( $current_RET[$student_id] ) )
 				{
-					$sql .= "INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (SYEAR,STUDENT_ID,ACTIVITY_ID)
+					$sql .= "INSERT INTO student_eligibility_activities (SYEAR,STUDENT_ID,ACTIVITY_ID)
 						VALUES('" . UserSyear() . "','" . $student_id . "','" . $_REQUEST['activity_id'] . "');";
 				}
 			}

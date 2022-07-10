@@ -14,7 +14,7 @@ if ( $_REQUEST['modfunc'] === 'add'
 {
 	// FJ fix bug add the same activity more than once.
 	$activity_RET = DBGet( "SELECT ACTIVITY_ID
-		FROM STUDENT_ELIGIBILITY_ACTIVITIES
+		FROM student_eligibility_activities
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND ACTIVITY_ID='" . (int) $_REQUEST['new_activity'] . "'
 		AND SYEAR='" . UserSyear() . "'" );
@@ -25,7 +25,7 @@ if ( $_REQUEST['modfunc'] === 'add'
 	}
 	else
 	{
-		DBQuery( "INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (STUDENT_ID,ACTIVITY_ID,SYEAR) values('" . UserStudentID() . "','" . $_REQUEST['new_activity'] . "','" . UserSyear() . "')" );
+		DBQuery( "INSERT INTO student_eligibility_activities (STUDENT_ID,ACTIVITY_ID,SYEAR) values('" . UserStudentID() . "','" . $_REQUEST['new_activity'] . "','" . UserSyear() . "')" );
 	}
 
 	// Unset modfunc & new activity & redirect URL.
@@ -38,7 +38,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Activity' ) ) )
 	{
-		DBQuery( "DELETE FROM STUDENT_ELIGIBILITY_ACTIVITIES
+		DBQuery( "DELETE FROM student_eligibility_activities
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'
 			AND SYEAR='" . UserSyear() . "'" );
@@ -111,7 +111,7 @@ if ( UserStudentID()
 	echo '</form>';
 
 	$RET = DBGet( "SELECT em.STUDENT_ID,em.ACTIVITY_ID,ea.TITLE,ea.START_DATE,ea.END_DATE
-	FROM ELIGIBILITY_ACTIVITIES ea,STUDENT_ELIGIBILITY_ACTIVITIES em
+	FROM ELIGIBILITY_ACTIVITIES ea,student_eligibility_activities em
 	WHERE em.SYEAR='" . UserSyear() . "'
 	AND em.STUDENT_ID='" . UserStudentID() . "'
 	AND em.SYEAR=ea.SYEAR

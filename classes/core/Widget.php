@@ -955,7 +955,7 @@ class Widget_activity implements Widget
 			return $extra;
 		}
 
-		$extra['FROM'] .= ",STUDENT_ELIGIBILITY_ACTIVITIES sea";
+		$extra['FROM'] .= ",student_eligibility_activities sea";
 
 		$extra['WHERE'] .= " AND sea.STUDENT_ID=s.STUDENT_ID
 			AND sea.SYEAR=ssm.SYEAR
