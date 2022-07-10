@@ -16,7 +16,7 @@
  * 3. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
  * 4. Update STUDENT_MP_COMMENTS table
  * 5. Create school_fields_seq Sequence
- * 6. Add STUDENT_ASSIGNMENTS table & SUBMISSION column to GRADEBOOK_ASSIGNMENTS table
+ * 6. Add STUDENT_ASSIGNMENTS table & SUBMISSION column to gradebook_assignments table
  *
  * Local function
  *
@@ -153,7 +153,7 @@ function _update29alpha()
 
 	/**
 	 * 6. Add STUDENT_ASSIGNMENTS table (& its composite primary key)
-	 * & add SUBMISSION column to GRADEBOOK_ASSIGNMENTS table
+	 * & add SUBMISSION column to gradebook_assignments table
 	 * & add StudentAssignments.php to PROFILE_EXCEPTIONS table.
 	 */
 	DBQuery( "CREATE TABLE IF NOT EXISTS student_assignments (

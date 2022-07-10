@@ -264,9 +264,9 @@ Changes in 4.4
 - Use Config() for UPDATE in FirstLogin.fnc.php, Update.fnc.php
 - Use ProgramConfig() for UPDATE in Configuration.php, EntryTimes.php, Moodle/config.inc.php
 - Use ProgramUserConfig() for UPDATE in Grades/Configuration.php, Preferences.php
-- GRADEBOOK_ASSIGNMENTS table: Add FILE column in rosariosis.sql & Update.fnc.php
-- GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text in rosariosis.sql & Update.fnc.php
-- GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
+- gradebook_assignments table: Add FILE column in rosariosis.sql & Update.fnc.php
+- gradebook_assignments table: Change DESCRIPTION column type to text in rosariosis.sql & Update.fnc.php
+- gradebook_assignments table: Convert DESCRIPTION values from MarkDown to HTML.
 - Change Description field for TinyMCE input in Assignments.php
 - Add UploadAssignmentTeacherFile function & Adapt function for Teachers in StudentAssignments.fnc.php
 - Add File Attached upload & download in Assignments.php

@@ -487,7 +487,7 @@ function CoursePeriodDeleteSQL( $course_period_id )
 	$delete_sql .= "DELETE FROM SCHEDULE
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
-	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS
+	$delete_sql .= "DELETE FROM gradebook_assignments
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM course_period_school_periods

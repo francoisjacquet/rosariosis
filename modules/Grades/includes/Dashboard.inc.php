@@ -89,7 +89,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			$assignments_RET = DBGet( "SELECT COUNT(ASSIGNMENT_ID) AS ASSIGNMENTS_NB,
 			" . $sql_comma_separated_result( 'ASSIGNMENT_ID' ) . " AS ASSIGNMENTS_LIST,
 			DUE_DATE
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "'
 			AND DUE_DATE IS NOT NULL
 			GROUP BY DUE_DATE

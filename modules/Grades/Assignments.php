@@ -105,7 +105,7 @@ if ( ! empty( $_POST['tables'] ) )
 
 			$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
 
-			//if ( ! $columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
+			//if ( ! $columns['COURSE_ID'] && $table=='gradebook_assignments')
 			//	$columns['COURSE_ID'] = 'N';
 
 			foreach ( (array) $columns as $column => $value )
@@ -121,13 +121,13 @@ if ( ! empty( $_POST['tables'] ) )
 				}
 				elseif ( $column == 'COURSE_ID'
 					&& $value == 'Y'
-					&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+					&& $table == 'gradebook_assignments' )
 				{
 					$value = $course_id;
 					$sql .= 'COURSE_PERIOD_ID=NULL,';
 				}
 				elseif ( $column == 'COURSE_ID'
-					&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+					&& $table == 'gradebook_assignments' )
 				{
 					$column = 'COURSE_PERIOD_ID';
 					$value = UserCoursePeriod();
@@ -149,7 +149,7 @@ if ( ! empty( $_POST['tables'] ) )
 				// FJ default points.
 				elseif ( $column == 'DEFAULT_POINTS'
 					&& $value == '*'
-					&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+					&& $table == 'gradebook_assignments' )
 				{
 					$value = '-1';
 				}
@@ -170,7 +170,7 @@ if ( ! empty( $_POST['tables'] ) )
 		{
 			$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
-			if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
+			if ( $table == 'gradebook_assignments' )
 			{
 				if ( ! empty( $columns['ASSIGNMENT_TYPE_ID'] ) )
 				{
@@ -231,7 +231,7 @@ if ( ! empty( $_POST['tables'] ) )
 				//FJ default points
 				elseif ( $column == 'DEFAULT_POINTS'
 					&& $value == '*'
-					&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+					&& $table == 'gradebook_assignments' )
 				{
 					$value = '-1';
 				}
@@ -257,7 +257,7 @@ if ( ! empty( $_POST['tables'] ) )
 			{
 				$id = DBLastInsertID();
 
-				if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
+				if ( $table == 'gradebook_assignments' )
 				{
 					$_REQUEST['assignment_id'] = $id;
 				}
@@ -280,7 +280,7 @@ if ( ! empty( $_POST['tables'] ) )
 				if ( $file )
 				{
 					$old_assignment_file = DBGetOne( "SELECT FILE
-						FROM GRADEBOOK_ASSIGNMENTS
+						FROM gradebook_assignments
 						WHERE ASSIGNMENT_ID='" . (int) $id . "'" );
 
 					if ( ! empty( $old_assignment_file )
@@ -290,13 +290,13 @@ if ( ! empty( $_POST['tables'] ) )
 						unlink( $old_assignment_file );
 					}
 
-					DBQuery( "UPDATE GRADEBOOK_ASSIGNMENTS
+					DBQuery( "UPDATE gradebook_assignments
 						SET FILE='" . $file . "'
 						WHERE ASSIGNMENT_ID='" . (int) $id . "';" );
 				}
 			}
 
-			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			if ( $table === 'gradebook_assignments' )
 			{
 				if ( $gradebook_assignment_update )
 				{
@@ -335,23 +335,23 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		}
 
 		$assignment_file = DBGetOne( "SELECT FILE
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 		$assignment_course_title = DBGetOne( "SELECT c.TITLE
-			FROM GRADEBOOK_ASSIGNMENTS ga,courses c,gradebook_assignment_types gat
+			FROM gradebook_assignments ga,courses c,gradebook_assignment_types gat
 			WHERE c.COURSE_ID=gat.COURSE_ID
 			AND ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID" );
 
 		$sql = "DELETE
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
 	}
 	else
 	{
 		$assignment_type_has_assignments = DBGet( "SELECT 1
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 		// Can't delete Assignment Type if has Assignments!
@@ -379,7 +379,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		if ( empty( $_REQUEST['assignment_id'] ) )
 		{
 			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID
-				FROM GRADEBOOK_ASSIGNMENTS
+				FROM gradebook_assignments
 				WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 			foreach ( (array) $assignments_RET as $assignment_id )
@@ -393,7 +393,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 				do_action( 'Grades/Assignments.php|delete_assignment' );
 			}
 
-			DBQuery( "DELETE FROM GRADEBOOK_ASSIGNMENTS
+			DBQuery( "DELETE FROM gradebook_assignments
 				WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 			// Unset assignment type ID & redirect URL.
@@ -483,7 +483,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// We have an Assignment ID but no type ID.
 		// Try to find it back.
 		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE (COURSE_ID=(SELECT COURSE_ID
 				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
@@ -522,7 +522,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$is_assignment = $_REQUEST['assignment_id'];
 
 		$assignment_type_has_assignments = DBGet( "SELECT 1
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 		// Can't delete Assignment Type if has Assignments!
@@ -555,7 +555,7 @@ if ( ! $_REQUEST['modfunc'] )
 		CASE WHEN DUE_DATE>(SELECT END_DATE+1
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS DUE_ERROR
-		FROM GRADEBOOK_ASSIGNMENTS
+		FROM gradebook_assignments
 		WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
 
 		$RET = DBGet( $sql );
@@ -590,14 +590,14 @@ if ( ! $_REQUEST['modfunc'] )
 			&& Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
 		{
 			$assignment_type_has_assignments = DBGetOne( "SELECT 1
-				FROM GRADEBOOK_ASSIGNMENTS
+				FROM gradebook_assignments
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 			$assignment_type_assignments_warn_all_0_points = ! DBGetOne( "SELECT 1
-				FROM GRADEBOOK_ASSIGNMENTS
+				FROM gradebook_assignments
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
@@ -650,7 +650,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
-		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENTS&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=gradebook_assignments&assignment_type_id=' . $_REQUEST['assignment_type_id'];
 
 		if ( $_REQUEST['assignment_id'] !== 'new' )
 		{
@@ -940,7 +940,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] !== 'new' && ! empty( $types_RET ) )
 	{
 		$assn_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
-		FROM GRADEBOOK_ASSIGNMENTS
+		FROM gradebook_assignments
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 		AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'

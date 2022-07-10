@@ -57,7 +57,7 @@ $types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,COLOR
 FROM gradebook_assignment_types gt
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-AND (SELECT count(1) FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID=gt.STAFF_ID
+AND (SELECT count(1) FROM gradebook_assignments WHERE STAFF_ID=gt.STAFF_ID
 AND ((COURSE_ID=gt.COURSE_ID AND STAFF_ID=gt.STAFF_ID) OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'
 AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
@@ -75,7 +75,7 @@ if ( $_REQUEST['type_id']
 $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,
 DUE_DATE,DEFAULT_POINTS," . _SQLUnixTimestamp( 'DUE_DATE' ) . " AS DUE_EPOCH,
 CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE
-FROM GRADEBOOK_ASSIGNMENTS
+FROM gradebook_assignments
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND ((COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['type_id'] ? "
@@ -113,7 +113,7 @@ if ( ! empty( $_REQUEST['values'] )
 	if ( UserStudentID() )
 	{
 		$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
-			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+			FROM GRADEBOOK_GRADES g,gradebook_assignments a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.STUDENT_ID='" . UserStudentID() . "'
@@ -127,7 +127,7 @@ if ( ! empty( $_REQUEST['values'] )
 	elseif ( $_REQUEST['assignment_id'] === 'all' )
 	{
 		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
-			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+			FROM GRADEBOOK_GRADES g,gradebook_assignments a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
@@ -263,7 +263,7 @@ if ( UserStudentID() )
 	];
 
 	$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
-	FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+	FROM GRADEBOOK_GRADES g,gradebook_assignments a
 	WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 	AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 	AND g.STUDENT_ID='" . UserStudentID() . "'
@@ -290,7 +290,7 @@ if ( UserStudentID() )
 		$link['TYPE_TITLE']['variables'] = [ 'type_id' => 'ASSIGNMENT_TYPE_ID' ];
 	}
 
-	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON
+	$extra['FROM'] = " JOIN gradebook_assignments ga ON
 	(ga.STAFF_ID=cp.TEACHER_ID
 	AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID)
 		OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)
@@ -351,7 +351,7 @@ else
 	if ( $_REQUEST['assignment_id'] == 'all' )
 	{
 		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
-			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+			FROM GRADEBOOK_GRADES g,gradebook_assignments a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
@@ -402,7 +402,7 @@ else
 			'" . $_REQUEST['assignment_id'] . "' AS PERCENT_GRADE,
 			'" . $_REQUEST['assignment_id'] . "' AS LETTER_GRADE,
 			'" . $_REQUEST['assignment_id'] . "' AS COMMENT,
-			(SELECT 'Y' FROM GRADEBOOK_ASSIGNMENTS ga
+			(SELECT 'Y' FROM gradebook_assignments ga
 				WHERE ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 				AND ga.SUBMISSION='Y') AS SUBMISSION,
 			'" . $_REQUEST['assignment_id'] . "' AS ASSIGNMENT_ID";
@@ -437,7 +437,7 @@ else
 				sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", "''", db_case( [ 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.DEFAULT_POINTS' ] ), 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,
 				sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", "''", db_case( [ 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.POINTS' ] ), 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
-			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
+			$extra['FROM'] = " JOIN gradebook_assignments ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
 				AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
 			LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID
 				AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID

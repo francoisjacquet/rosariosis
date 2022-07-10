@@ -28,7 +28,7 @@ if ( isset( $_POST['tables'] )
 				&& $columns['TITLE'] === '' )
 			|| ( isset( $columns['POINTS'] )
 				&& $columns['POINTS'] === '' )
-			|| ( $table === 'GRADEBOOK_ASSIGNMENTS'
+			|| ( $table === 'gradebook_assignments'
 				&& ! isset( $columns['TITLE'] ) ) )
 		{
 			$error[] = _( 'Please fill in the required fields' );
@@ -55,7 +55,7 @@ if ( isset( $_POST['tables'] )
 			$error[] = _( 'Please enter a valid Sort Order.' );
 		}*/
 
-		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+		if ( $table === 'gradebook_assignments' )
 		{
 			if ( ! isset( $_REQUEST['cp_arr'] )
 				|| ! is_array( $_REQUEST['cp_arr'] ) )
@@ -141,7 +141,7 @@ if ( isset( $_POST['tables'] )
 			//FJ default points
 			elseif ( $column == 'DEFAULT_POINTS'
 				&& $value == '*'
-				&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+				&& $table == 'gradebook_assignments' )
 			{
 				$value = '-1';
 			}
@@ -159,7 +159,7 @@ if ( isset( $_POST['tables'] )
 
 		$sql = '';
 
-		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+		if ( $table === 'gradebook_assignments' )
 		{
 			foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
 			{
@@ -220,7 +220,7 @@ if ( isset( $_POST['tables'] )
 		{
 			DBQuery( $sql );
 
-			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			if ( $table === 'gradebook_assignments' )
 			{
 				$note[] = _( 'The Assignments were successfully created.' );
 			}
@@ -229,7 +229,7 @@ if ( isset( $_POST['tables'] )
 				$note[] = _( 'The Assignment Types were successfully created.' );
 			}
 
-			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			if ( $table === 'gradebook_assignments' )
 			{
 				// TODO Hook.
 				// do_action( 'Grades/MassCreateAssignments.php|mass_create_assignments' );
@@ -271,7 +271,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['assignment_type']
 		&& $_REQUEST['assignment_type'] !== 'new' )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=GRADEBOOK_ASSIGNMENTS' ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=gradebook_assignments' ) . '" method="POST">';
 
 		$submit_button = SubmitButton( _( 'Create Assignment for Selected Course Periods' ) );
 

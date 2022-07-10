@@ -86,7 +86,7 @@ if ( UserStudentID()
 				$course_title = $course['TITLE'];
 				//echo $staff_id.'+'.$course_id.'+'.$course_period_id.'+'.$course_title.'|';
 				$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
-					FROM GRADEBOOK_ASSIGNMENTS
+					FROM gradebook_assignments
 					WHERE STAFF_ID='" . (int) $staff_id . "'
 					AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . (int) $course_period_id . "')
 					AND MARKING_PERIOD_ID='" . UserMP() . "'
@@ -128,7 +128,7 @@ if ( UserStudentID()
 					$sql .= " AND (CURRENT_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR CURRENT_DATE<=ssm.END_DATE))";
 				}
 
-				$sql .= ") JOIN GRADEBOOK_ASSIGNMENTS ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='" . UserMP() . "') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";
+				$sql .= ") JOIN gradebook_assignments ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='" . UserMP() . "') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";
 
 				$sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+" . round( $gradebook_config[$staff_id]['LATENCY'] ) . ") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 
@@ -348,7 +348,7 @@ if ( UserStudentID()
 				ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,
 				at.TITLE AS CATEGORY,at.COLOR AS ASSIGNMENT_TYPE_COLOR,ga.STAFF_ID,ga.FILE,
 				ga.COURSE_ID,'" . DBEscapeString( $course['COURSE_TITLE'] ) . "' AS COURSE_TITLE
-			FROM GRADEBOOK_ASSIGNMENTS ga
+			FROM gradebook_assignments ga
 			LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.COURSE_PERIOD_ID='" . (int) $course['COURSE_PERIOD_ID'] . "' AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.STUDENT_ID='" . UserStudentID() . "'),
 			gradebook_assignment_types at
 			WHERE (ga.COURSE_PERIOD_ID='" . (int) $course['COURSE_PERIOD_ID'] . "' OR ga.COURSE_ID='" . (int) $course['COURSE_ID'] . "' AND ga.STAFF_ID='" . (int) $staff_id . "')
@@ -373,7 +373,7 @@ if ( UserStudentID()
 					" . db_case( [ "sum(" . db_case( [ 'gg.POINTS', "'-1'", '0', '1' ] ) . ")", "'0'", "'0'", "sum(" . db_case( [ 'gg.POINTS', "'-1'", '0', 'gg.POINTS' ] ) . ") / sum(" . db_case( [ 'gg.POINTS', "'-1'", '0', '1' ] ) . ")" ] ) . " AS AVG,
 					sum(CASE WHEN gg.POINTS!='-1' AND gg.POINTS<=g.POINTS AND gg.STUDENT_ID!=g.STUDENT_ID THEN 1 ELSE 0 END) AS LOWER,
 					sum(CASE WHEN gg.POINTS!='-1' AND gg.POINTS>g.POINTS THEN 1 ELSE 0 END) AS HIGHER
-					FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga
+					FROM GRADEBOOK_GRADES gg,gradebook_assignments ga
 					LEFT OUTER JOIN GRADEBOOK_GRADES g ON (g.COURSE_PERIOD_ID='" . (int) $course['COURSE_PERIOD_ID'] . "' AND g.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND g.STUDENT_ID='" . UserStudentID() . "'),
 					gradebook_assignment_types at
 					WHERE (ga.COURSE_PERIOD_ID='" . (int) $course['COURSE_PERIOD_ID'] . "' OR ga.COURSE_ID='" . (int) $course['COURSE_ID'] . "' AND ga.STAFF_ID='" . (int) $staff_id . "')

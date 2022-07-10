@@ -69,7 +69,7 @@ $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
 $types_RET = DBGet( $sql );
 
 $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
-	FROM GRADEBOOK_ASSIGNMENTS
+	FROM gradebook_assignments
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND ((COURSE_ID='" . (int) $course_id . "'
 	AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
@@ -134,7 +134,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 	$current_RET = DBGet( "SELECT g.STUDENT_ID,
 		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ] ) . ") AS POINTS,
 		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ] ) . ") AS TOTAL_POINTS
-		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+		FROM GRADEBOOK_GRADES g,gradebook_assignments a
 		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
@@ -159,7 +159,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 				"'0'",
 				"(sum(gg.POINTS) * gt.FINAL_GRADE_PERCENT / sum(ga.POINTS))",
 			] ) . " AS PARTIAL_PERCENT,gt.FINAL_GRADE_PERCENT
-			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,gradebook_assignment_types gt
+			FROM GRADEBOOK_GRADES gg,gradebook_assignments ga,gradebook_assignment_types gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
 			AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -187,7 +187,7 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 	$current_RET = DBGet( "SELECT g.STUDENT_ID,
 		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ] ) . ") AS POINTS,
 		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ] ) . ") AS TOTAL_POINTS
-		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+		FROM GRADEBOOK_GRADES g,gradebook_assignments a
 		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
@@ -205,7 +205,7 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 				"(sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ")
 					/ sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . "))",
 			] ) . " AS PARTIAL_PERCENT
-			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,gradebook_assignment_types gt
+			FROM GRADEBOOK_GRADES gg,gradebook_assignments ga,gradebook_assignment_types gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_TYPE_ID='" . (int) $type_id . "'
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
@@ -227,7 +227,7 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 {
 	$total_points = DBGetOne( "SELECT POINTS
-		FROM GRADEBOOK_ASSIGNMENTS
+		FROM gradebook_assignments
 		WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 	$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID

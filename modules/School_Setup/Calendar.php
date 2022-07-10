@@ -598,7 +598,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			//FJ add assigned date
 			$RET = DBGet( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
 				a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE,a.SUBMISSION
-				FROM GRADEBOOK_ASSIGNMENTS a,courses c
+				FROM gradebook_assignments a,courses c
 				WHERE (a.COURSE_ID=c.COURSE_ID
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
 						FROM course_periods cp
@@ -1051,7 +1051,7 @@ if ( ! $_REQUEST['modfunc'] )
 		|| User( 'PROFILE' ) === 'student' )
 	{
 		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED
-			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s
+			FROM gradebook_assignments a,SCHEDULE s
 			WHERE (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
 			AND s.STUDENT_ID='" . UserStudentID() . "'
 			AND (a.DUE_DATE BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
@@ -1062,7 +1062,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,
 				CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED
-			FROM GRADEBOOK_ASSIGNMENTS a
+			FROM gradebook_assignments a
 			WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND a.DUE_DATE BETWEEN '" . $first_day_month . "' AND '" . $last_day_month . "'";
 	}

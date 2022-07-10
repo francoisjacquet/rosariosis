@@ -556,10 +556,10 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				// Fix SQL error foreign key exists on tables GRADEBOOK_ASSIGNMENTS,gradebook_assignment_types,SCHEDULE_REQUESTS
+				// Fix SQL error foreign key exists on tables gradebook_assignments,gradebook_assignment_types,SCHEDULE_REQUESTS
 				// Error happens when an Assignment,or a Schedule request
 				// was added for a rolled-over Course.
-				$delete_sql = "DELETE FROM GRADEBOOK_ASSIGNMENTS
+				$delete_sql = "DELETE FROM gradebook_assignments
 					WHERE COURSE_ID IN(SELECT COURSE_ID FROM courses
 						WHERE SYEAR='" . $next_syear . "'
 						AND SCHOOL_ID='" . UserSchool() . "')

@@ -234,7 +234,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" .
 			db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
-			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON
+			$extra['FROM'] = " JOIN gradebook_assignments ga ON
 				(((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 						OR ga.COURSE_ID=cp.COURSE_ID)
 						AND ga.STAFF_ID=cp.TEACHER_ID)

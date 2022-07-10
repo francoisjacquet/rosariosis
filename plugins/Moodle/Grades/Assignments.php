@@ -191,7 +191,7 @@ function core_calendar_delete_calendar_events_response( $response )
 		$assignment_id = $id;
 		//get the Gradebook Assignment columns needed by the core_calendar_create_calendar_events function
 		$gradebook_assignment = DBGet( "SELECT ASSIGNED_DATE,DUE_DATE,DESCRIPTION,TITLE
-			FROM GRADEBOOK_ASSIGNMENTS
+			FROM gradebook_assignments
 			WHERE ASSIGNMENT_ID='" . (int) $id . "'" );
 
 		$columns = $gradebook_assignment[1];

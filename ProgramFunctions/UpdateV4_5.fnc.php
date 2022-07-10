@@ -189,9 +189,9 @@ function _update43beta()
 /**
  * Update to version 4.4
  *
- * 1. GRADEBOOK_ASSIGNMENTS table: Add FILE column.
- * 2. GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text.
- * 3. GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
+ * 1. gradebook_assignments table: Add FILE column.
+ * 2. gradebook_assignments table: Change DESCRIPTION column type to text.
+ * 3. gradebook_assignments table: Convert DESCRIPTION values from MarkDown to HTML.
  *
  * Local function
  *
@@ -208,7 +208,7 @@ function _update44beta()
 	$return = true;
 
 	/**
-	 * 1. GRADEBOOK_ASSIGNMENTS table:
+	 * 1. gradebook_assignments table:
 	 * Add FILE column
 	 */
 	$file_column_exists = DBGet( "SELECT 1 FROM pg_attribute
@@ -222,7 +222,7 @@ function _update44beta()
 	}
 
 	/**
-	 * 2. GRADEBOOK_ASSIGNMENTS table:
+	 * 2. gradebook_assignments table:
 	 * Change DESCRIPTION column type to text
 	 * Was character varying(1000) which could prevent saving rich text with base64 images
 	 */
@@ -230,14 +230,14 @@ function _update44beta()
 		ALTER COLUMN description TYPE text;" );
 
 	/**
-	 * 3. GRADEBOOK_ASSIGNMENTS table:
+	 * 3. gradebook_assignments table:
 	 * Convert DESCRIPTION values from MarkDown to HTML.
 	 */
 	$assignments_RET = DBGet( "SELECT assignment_id,description
 		FROM gradebook_assignments
 		WHERE description IS NOT NULL;" );
 
-	$assignment_update_sql = "UPDATE GRADEBOOK_ASSIGNMENTS
+	$assignment_update_sql = "UPDATE gradebook_assignments
 		SET DESCRIPTION='%s'
 		WHERE ASSIGNMENT_ID='%d';";
 
