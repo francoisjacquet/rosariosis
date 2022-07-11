@@ -127,7 +127,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			// Assignments submissions.
 			$submissions_RET = DBGet( "SELECT " .
 			implode( ',', $sql_submissions ) .
-			" FROM STUDENT_ASSIGNMENTS
+			" FROM student_assignments
 			GROUP BY STUDENT_ID" );
 
 			foreach ( $assignments_RET as $assignments )

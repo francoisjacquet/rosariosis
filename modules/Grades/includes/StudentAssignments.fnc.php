@@ -128,7 +128,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	if ( $old_submission )
 	{
 		// Update.
-		$assignment_submission_sql = "UPDATE STUDENT_ASSIGNMENTS
+		$assignment_submission_sql = "UPDATE student_assignments
 			SET DATA='" . $data . "'
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND ASSIGNMENT_ID='" . (int) $assignment_id . "'";
@@ -143,7 +143,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		}
 
 		// Insert.
-		$assignment_submission_sql = "INSERT INTO STUDENT_ASSIGNMENTS
+		$assignment_submission_sql = "INSERT INTO student_assignments
 			(STUDENT_ID, ASSIGNMENT_ID, DATA)
 			VALUES ('" . UserStudentID() . "', '" . $assignment_id . "', '" . $data . "')";
 	}
@@ -429,7 +429,7 @@ function GetAssignmentSubmission( $assignment_id, $student_id )
 	}
 
 	$submission_sql = "SELECT DATA
-		FROM STUDENT_ASSIGNMENTS
+		FROM student_assignments
 		WHERE ASSIGNMENT_ID='" . (int) $assignment_id . "'
 		AND STUDENT_ID='" . (int) $student_id . "'";
 
@@ -526,7 +526,7 @@ function StudentAssignmentsListOutput()
 		ga.ASSIGNMENT_TYPE_ID,ga.TITLE,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS,ga.SUBMISSION,
 		c.TITLE AS COURSE_TITLE,
 		(SELECT 1
-			FROM STUDENT_ASSIGNMENTS sa
+			FROM student_assignments sa
 			WHERE ga.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 			AND sa.STUDENT_ID=ss.STUDENT_ID) AS SUBMITTED
 		FROM gradebook_assignments ga, schedule ss, courses c, course_periods cp

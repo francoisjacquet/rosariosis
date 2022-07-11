@@ -412,7 +412,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			}
 
 			// Delete Student Assignment Submissions.
-			DBQuery( "DELETE FROM STUDENT_ASSIGNMENTS
+			DBQuery( "DELETE FROM student_assignments
 				WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 			// Filename match = [course_title]_[assignment_ID]_*.

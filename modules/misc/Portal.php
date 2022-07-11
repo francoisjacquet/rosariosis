@@ -798,7 +798,7 @@ switch ( User( 'PROFILE' ) )
 				a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 				c.TITLE AS COURSE,a.SUBMISSION,a.MARKING_PERIOD_ID,
 				(SELECT 1
-				FROM STUDENT_ASSIGNMENTS sa
+				FROM student_assignments sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
 			FROM gradebook_assignments a,schedule s,courses c
@@ -978,7 +978,7 @@ switch ( User( 'PROFILE' ) )
 				a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 				c.TITLE AS COURSE,a.SUBMISSION,a.MARKING_PERIOD_ID,
 				(SELECT 1
-				FROM STUDENT_ASSIGNMENTS sa
+				FROM student_assignments sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
 			FROM gradebook_assignments a,schedule s,courses c
