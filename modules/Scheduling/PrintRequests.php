@@ -24,7 +24,7 @@ else
 	];
 
 	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
-	$extra['FROM'] .= ',courses c,SCHEDULE_REQUESTS srp';
+	$extra['FROM'] .= ',courses c,schedule_requests srp';
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
 
 //FJ add subject areas

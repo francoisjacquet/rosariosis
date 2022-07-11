@@ -332,7 +332,7 @@ if ( UserStudentID()
 		require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 
 		$extra['WHERE'] = " AND s.STUDENT_ID='" . UserStudentID() . "'";
-		$extra['FROM'] = ',SCHEDULE_REQUESTS sr,courses c';
+		$extra['FROM'] = ',schedule_requests sr,courses c';
 
 		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 			FROM custom_fields

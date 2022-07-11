@@ -524,7 +524,7 @@ function CourseDeleteSQL( $course_id )
 	$delete_sql .= "DELETE FROM SCHEDULE
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
-	$delete_sql .= "DELETE FROM SCHEDULE_REQUESTS
+	$delete_sql .= "DELETE FROM schedule_requests
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM gradebook_assignment_types

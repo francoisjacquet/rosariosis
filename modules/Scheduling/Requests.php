@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Request' ) ) )
 	{
-		DBQuery( "DELETE FROM SCHEDULE_REQUESTS
+		DBQuery( "DELETE FROM schedule_requests
 			WHERE REQUEST_ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -75,7 +75,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		foreach ( (array) $_REQUEST['values'] as $request_id => $columns )
 		{
-			$sql = "UPDATE SCHEDULE_REQUESTS SET ";
+			$sql = "UPDATE schedule_requests SET ";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -106,7 +106,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 			FROM courses
 			WHERE COURSE_ID='" . (int) $course_id . "'" );
 
-		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
+		DBQuery( "INSERT INTO schedule_requests (SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
 			SELECT '" .
 				UserSyear() . "','" .
 				UserSchool() . "','" .
@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 				$subject_id . "','" .
 				$course_id . "'
 			WHERE NOT EXISTS (SELECT COURSE_ID
-				FROM SCHEDULE_REQUESTS
+				FROM schedule_requests
 				WHERE SYEAR='" .UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND STUDENT_ID='" . UserStudentID() . "'
@@ -181,7 +181,7 @@ function processRequest()
 
 	$requests_RET = DBGet( "SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,
 		r.MARKING_PERIOD_ID,r.WITH_TEACHER_ID,r.NOT_TEACHER_ID,r.WITH_PERIOD_ID,r.NOT_PERIOD_ID
-		FROM SCHEDULE_REQUESTS r,courses c
+		FROM schedule_requests r,courses c
 		WHERE r.COURSE_ID=c.COURSE_ID
 		AND r.SYEAR='" . UserSyear() . "'
 		AND r.STUDENT_ID='" . UserStudentID() . "'", $functions );

@@ -260,7 +260,7 @@ class Widget_request implements Widget
 		if ( ! isset( $_REQUEST['missing_request_course'] )
 			|| ! $_REQUEST['missing_request_course'] )
 		{
-			$extra['FROM'] .= ",SCHEDULE_REQUESTS sr";
+			$extra['FROM'] .= ",schedule_requests sr";
 
 			$extra['WHERE'] .= " AND sr.STUDENT_ID=s.STUDENT_ID
 				AND sr.SYEAR=ssm.SYEAR
@@ -278,7 +278,7 @@ class Widget_request implements Widget
 		{
 			$extra['WHERE'] .= " AND NOT EXISTS
 				(SELECT '' FROM
-					SCHEDULE_REQUESTS sr
+					schedule_requests sr
 					WHERE sr.STUDENT_ID=ssm.STUDENT_ID
 					AND sr.SYEAR=ssm.SYEAR
 					AND sr.COURSE_ID='" . (int) $_REQUEST['request_course_id'] . "' ) ";

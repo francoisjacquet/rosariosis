@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( $course_exists )
 			{
 				$current_RET = DBGet( "SELECT STUDENT_ID
-					FROM SCHEDULE_REQUESTS
+					FROM schedule_requests
 					WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'
 					AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						continue;
 					}
 
-					$sql = "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,
+					$sql = "INSERT INTO schedule_requests (SYEAR,SCHOOL_ID,
 						STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,
 						NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
 						values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .

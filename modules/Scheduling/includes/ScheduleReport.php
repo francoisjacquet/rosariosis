@@ -135,7 +135,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 {
 	$_RET = DBGet( "SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,
 		cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
-		(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
+		(SELECT count(*) FROM schedule_requests sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
 		FROM courses c,course_periods cp
 		WHERE c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 		AND c.COURSE_ID=cp.COURSE_ID
@@ -325,7 +325,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 	{
 		$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
-			FROM SCHEDULE_REQUESTS sr,STUDENTS s,STUDENT_ENROLLMENT ssm
+			FROM schedule_requests sr,STUDENTS s,STUDENT_ENROLLMENT ssm
 			WHERE (('" . DBDate() . "' BETWEEN ssm.START_DATE
 			AND ssm.END_DATE OR ssm.END_DATE IS NULL))
 			AND s.STUDENT_ID=sr.STUDENT_ID
