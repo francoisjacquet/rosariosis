@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			AND COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'
 			AND MARKING_PERIOD_ID='" . (int) $_REQUEST['marking_period_id'] . "';";
 
-		$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+		$delete_sql .= "DELETE FROM student_report_card_comments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'
 			AND COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'

@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 								WHERE STUDENT_ID='" . UserStudentID() . "'
 								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
-							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+							$delete_sql .= "DELETE FROM student_report_card_comments
 								WHERE STUDENT_ID='" . UserStudentID() . "'
 								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 

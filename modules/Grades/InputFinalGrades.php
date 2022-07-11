@@ -136,7 +136,7 @@ if ( $_REQUEST['tab_id'] == '-1' )
 		ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 	$current_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
-		FROM STUDENT_REPORT_CARD_COMMENTS g,course_periods cp
+		FROM student_report_card_comments g,course_periods cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -162,7 +162,7 @@ elseif ( $_REQUEST['tab_id'] == '0' )
 		ORDER BY SORT_ORDER" );
 
 	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_COMMENTS g,course_periods cp
+		FROM student_report_card_comments g,course_periods cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -180,7 +180,7 @@ elseif ( ! empty( $_REQUEST['tab_id'] ) )
 		ORDER BY SORT_ORDER" );
 
 	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_COMMENTS g,course_periods cp
+		FROM student_report_card_comments g,course_periods cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -458,14 +458,14 @@ if ( $_REQUEST['modfunc'] === 'comments' )
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['prev_mp'] . "'", [], [ 'STUDENT_ID' ] );
 
 		$import_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_COMMENTS g
+		FROM student_report_card_comments g
 		WHERE g.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['prev_mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NOT NULL)", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 
 		//echo '<pre>'; var_dump($import_commentsA_RET); echo '</pre>';
 		$import_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
-		FROM STUDENT_REPORT_CARD_COMMENTS g
+		FROM student_report_card_comments g
 		WHERE g.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['prev_mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)", [], [ 'STUDENT_ID' ] );
@@ -788,7 +788,7 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					if ( $comment )
 					{
-						DBQuery( "UPDATE STUDENT_REPORT_CARD_COMMENTS
+						DBQuery( "UPDATE student_report_card_comments
 							SET COMMENT='" . $comment . "'
 							WHERE STUDENT_ID='" . (int) $student_id . "'
 							AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
@@ -797,7 +797,7 @@ if ( ! empty( $_REQUEST['values'] )
 					}
 					else
 					{
-						DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+						DBQuery( "DELETE FROM student_report_card_comments
 							WHERE STUDENT_ID='" . (int) $student_id . "'
 							AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 							AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -806,7 +806,7 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				elseif ( $comment )
 				{
-					DBQuery( "INSERT INTO STUDENT_REPORT_CARD_COMMENTS
+					DBQuery( "INSERT INTO student_report_card_comments
 					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID, COMMENT)
 					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $course_period_id . "','" . $_REQUEST['mp'] . "','" . $id . "','" . $comment . "')" );
 				}
@@ -917,7 +917,7 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					if ( $comment['REPORT_CARD_COMMENT_ID'] != $current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'] )
 					{
-						DBQuery( "UPDATE STUDENT_REPORT_CARD_COMMENTS
+						DBQuery( "UPDATE student_report_card_comments
 						SET REPORT_CARD_COMMENT_ID='" . (int) $comment['REPORT_CARD_COMMENT_ID'] . "'
 						WHERE STUDENT_ID='" . (int) $student_id . "'
 						AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
@@ -927,7 +927,7 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				else
 				{
-					DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+					DBQuery( "DELETE FROM student_report_card_comments
 					WHERE STUDENT_ID='" . (int) $student_id . "'
 					AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 					AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -936,7 +936,7 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 			elseif ( $comment['REPORT_CARD_COMMENT_ID'] )
 			{
-				DBQuery( "INSERT INTO STUDENT_REPORT_CARD_COMMENTS
+				DBQuery( "INSERT INTO student_report_card_comments
 					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID)
 					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $course_period_id . "','" . $_REQUEST['mp'] . "','" . $comment['REPORT_CARD_COMMENT_ID'] . "')" );
 			}
@@ -971,7 +971,7 @@ if ( ! empty( $_REQUEST['values'] )
 	if ( $_REQUEST['tab_id'] == '-1' )
 	{
 		$current_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
-		FROM STUDENT_REPORT_CARD_COMMENTS g,course_periods cp
+		FROM student_report_card_comments g,course_periods cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -990,7 +990,7 @@ if ( ! empty( $_REQUEST['values'] )
 	elseif ( $_REQUEST['tab_id'] == '0' )
 	{
 		$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_COMMENTS g,course_periods cp
+		FROM student_report_card_comments g,course_periods cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
@@ -999,7 +999,7 @@ if ( ! empty( $_REQUEST['values'] )
 	elseif ( ! empty( $_REQUEST['tab_id'] ) )
 	{
 		$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_COMMENTS g,course_periods cp
+		FROM student_report_card_comments g,course_periods cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'

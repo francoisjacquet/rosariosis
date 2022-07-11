@@ -698,7 +698,7 @@ function _update50beta()
 	/**
 	 * 0. Convert marking_period_id columns to integer.
 	 */
-	DBQuery( "ALTER TABLE STUDENT_REPORT_CARD_COMMENTS
+	DBQuery( "ALTER TABLE student_report_card_comments
 		ALTER COLUMN marking_period_id TYPE integer USING (marking_period_id::integer);
 		ALTER TABLE grades_completed
 		ALTER COLUMN marking_period_id TYPE integer USING (marking_period_id::integer);" );

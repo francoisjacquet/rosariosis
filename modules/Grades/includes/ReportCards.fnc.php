@@ -1247,7 +1247,7 @@ function GetReportCardsComments( $st_list, $mp_list )
 		FROM REPORT_CARD_COMMENTS
 		WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER2";
 
-	$extra['FROM'] = ",STUDENT_REPORT_CARD_COMMENTS sc";
+	$extra['FROM'] = ",student_report_card_comments sc";
 
 	// Get the comments of all MPs.
 	//$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID='".$last_mp."'";
