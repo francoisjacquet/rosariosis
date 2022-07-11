@@ -59,7 +59,7 @@ if ( $_REQUEST['table'] == '0' )
 }
 else
 {
-	$table = 'LUNCH_PERIOD';
+	$table = 'lunch_period';
 }
 
 $school_periods_select = SchoolPeriodsSelectInput(
@@ -208,7 +208,7 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,STUDENT_ID,ADMIN,CO
 	FROM " . DBEscapeIdentifier( $table ) . " t
 	WHERE SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" .
-	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" : '' );
+	( $table == 'lunch_period' ? " AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" : '' );
 
 $current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID' ] );
 
@@ -242,11 +242,11 @@ if ( ! empty( $_REQUEST['attendance'] )
 			$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) .
 			" (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,
 					ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT" .
-			( $table == 'LUNCH_PERIOD' ? ',TABLE_NAME' : '' ) . ")
+			( $table == 'lunch_period' ? ',TABLE_NAME' : '' ) . ")
 				values('" . $student_id . "','" . $date . "','" . $qtr_id . "','" . $_REQUEST['school_period'] .
 			"','" . UserCoursePeriod() . "','" . mb_substr( $value, 5 ) . "','" .
 			mb_substr( $value, 5 ) . "','" . $_REQUEST['comment'][$student_id] . "'" .
-				( $table == 'LUNCH_PERIOD' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
+				( $table == 'lunch_period' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
 		}
 
 		DBQuery( $sql );

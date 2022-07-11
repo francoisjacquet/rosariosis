@@ -30,7 +30,7 @@ if ( $_REQUEST['table'] == '0' )
 }
 else
 {
-	$table = 'LUNCH_PERIOD';
+	$table = 'lunch_period';
 	$extra_sql = " AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'";
 }
 
@@ -149,7 +149,7 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 				$fields = 'STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,ADMIN,COURSE_PERIOD_ID,';
 				$values = "'" . $student_id . "','" . $date . "','" . $period_id . "','" . $current_mp . "','Y','" . $current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID'] . "',";
 
-				if ( $table == 'LUNCH_PERIOD' )
+				if ( $table == 'lunch_period' )
 				{
 					$fields .= 'TABLE_NAME,';
 					$values .= "'" . $_REQUEST['table'] . "',";
