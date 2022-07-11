@@ -49,9 +49,9 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		$group = [ 'SCHOOL_ID' ];
 	}
 
-	/*$schedule_RET = DBGet( "SELECT cp.PERIOD_ID,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL FROM course_periods cp,courses c,SCHOOLS s WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".UserStaffID()."' AND cp.SYEAR='".UserSyear()."'".($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." AND s.ID=cp.SCHOOL_ID AND s.SYEAR=cp.SYEAR ORDER BY (SELECT SORT_ORDER FROM school_periods WHERE PERIOD_ID=cp.PERIOD_ID)",array('PERIOD_ID' => 'GetPeriod','MARKING_PERIOD_ID' => 'GetMP'),$group);*/
+	/*$schedule_RET = DBGet( "SELECT cp.PERIOD_ID,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL FROM course_periods cp,courses c,schools s WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".UserStaffID()."' AND cp.SYEAR='".UserSyear()."'".($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." AND s.ID=cp.SCHOOL_ID AND s.SYEAR=cp.SYEAR ORDER BY (SELECT SORT_ORDER FROM school_periods WHERE PERIOD_ID=cp.PERIOD_ID)",array('PERIOD_ID' => 'GetPeriod','MARKING_PERIOD_ID' => 'GetMP'),$group);*/
 	$schedule_RET = DBGet( "SELECT cp.TITLE AS COURSE_PERIOD,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL
-	FROM course_periods cp,courses c,SCHOOLS s
+	FROM course_periods cp,courses c,schools s
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND cp.TEACHER_ID='" . UserStaffID() . "'
 	AND cp.SYEAR='" . UserSyear() . "'" .
@@ -135,7 +135,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	}
 
 	$schedule_table_RET = DBGet( "SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
-	FROM course_periods cp,courses c,SCHOOLS s,school_periods sp,course_period_school_periods cpsp
+	FROM course_periods cp,courses c,schools s,school_periods sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND cp.TEACHER_ID='" . UserStaffID() . "'
 	AND cp.SYEAR='" . UserSyear() . "'

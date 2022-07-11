@@ -281,7 +281,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 		$students_data = _getTranscriptsStudents( $st_list, $syear );
 
-		$school_info = DBGet( "SELECT * FROM SCHOOLS
+		$school_info = DBGet( "SELECT * FROM schools
 			WHERE SYEAR='" . UserSyear() . "'
 			AND ID='" . (int) $school_id . "'" );
 

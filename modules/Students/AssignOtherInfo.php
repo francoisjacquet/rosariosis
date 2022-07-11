@@ -390,7 +390,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'</td></tr>';
 
 			$schools_RET = DBGet( "SELECT ID,TITLE
-				FROM SCHOOLS
+				FROM schools
 				WHERE ID!='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );
 

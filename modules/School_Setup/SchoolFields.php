@@ -91,7 +91,7 @@ if ( isset( $_POST['tables'] )
 
 						if ( $table === 'school_fields' )
 						{
-							AddDBField( 'SCHOOLS', $id, $columns['TYPE'] );
+							AddDBField( 'schools', $id, $columns['TYPE'] );
 
 							$_REQUEST['id'] = $id;
 						}
@@ -116,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		if ( DeletePrompt( _( 'School Field' ) ) )
 		{
-			DeleteDBField( 'SCHOOLS', $_REQUEST['id'] );
+			DeleteDBField( 'schools', $_REQUEST['id'] );
 
 			$_REQUEST['modfunc'] = false;
 

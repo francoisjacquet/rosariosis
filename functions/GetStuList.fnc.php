@@ -461,7 +461,7 @@ function GetStuList( &$extra = [] )
 				if ( $is_search_all_schools )
 				{
 					// School Title.
-					$sql .= ",(SELECT sch.TITLE FROM SCHOOLS sch
+					$sql .= ",(SELECT sch.TITLE FROM schools sch
 						WHERE ssm.SCHOOL_ID=sch.ID
 						AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 				}

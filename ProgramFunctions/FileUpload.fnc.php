@@ -341,7 +341,7 @@ function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = []
  *
  * @since 4.6
  *
- * @example FilesUploadUpdate( 'SCHOOLS', 'values',	$FileUploadsPath . 'Schools/' . UserSchool() . '/' );
+ * @example FilesUploadUpdate( 'schools', 'values',	$FileUploadsPath . 'Schools/' . UserSchool() . '/' );
  *
  * @uses FileUpload()
  *
@@ -398,7 +398,7 @@ function FilesUploadUpdate( $table, $request, $path )
 
 			$column = str_replace( $request, '', $input );
 
-			if ( $table === 'SCHOOLS' )
+			if ( $table === 'schools' )
 			{
 				$where_sql = "ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
 			}

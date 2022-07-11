@@ -39,7 +39,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	{
 		$unset_student = $unset_staff = true;
 
-		$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+		$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
 			WHERE SYEAR='" . UserSyear() . "'
 			AND ID='" . (int) $_REQUEST['school'] . "'" );
 
@@ -55,7 +55,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	elseif ( isset( $_REQUEST['syear'] )
 		&& $_REQUEST['syear'] != $old_syear )
 	{
-		$_SESSION['UserSyear'] = DBGetOne( "SELECT SYEAR FROM SCHOOLS
+		$_SESSION['UserSyear'] = DBGetOne( "SELECT SYEAR FROM schools
 			WHERE SYEAR='" . (int) $_REQUEST['syear'] . "'
 			AND ID='" . UserSchool() . "'" );
 
@@ -327,7 +327,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			$schools = mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 );
 
 			$schools_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
-				FROM SCHOOLS
+				FROM schools
 				WHERE SYEAR='" . UserSyear() . "'" .
 				( $schools ? " AND ID IN (" . $schools . ")" : '' ) .
 				" ORDER BY TITLE" );
@@ -360,7 +360,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 			$students_RET = DBGet( "SELECT sju.STUDENT_ID,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME,se.SCHOOL_ID
-				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se,SCHOOLS sch
+				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se,schools sch
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'
@@ -407,7 +407,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			if ( ! UserSchool() )
 			{
 				$schools_RET = DBGet( "SELECT ID,TITLE
-					FROM SCHOOLS
+					FROM schools
 					WHERE SYEAR='" . UserSyear() . "' LIMIT 1" );
 
 				$_SESSION['UserSchool'] = $schools_RET[1]['ID'];
@@ -419,7 +419,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 		if ( User( 'PROFILE' ) !== 'student' )
 		{
 			$sql = "SELECT sy.SYEAR
-				FROM SCHOOLS sy,STAFF s
+				FROM schools sy,STAFF s
 				WHERE sy.ID='" . UserSchool() . "'
 				AND s.SYEAR=sy.SYEAR
 				AND (s.SCHOOLS IS NULL OR position(CONCAT(',', sy.ID, ',') IN s.SCHOOLS)>0)
@@ -430,9 +430,9 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 		else
 		{
 			// FJ limit school years to the years the student was enrolled.
-			//$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";
+			//$sql = "SELECT DISTINCT sy.SYEAR FROM schools sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";
 			$sql = "SELECT DISTINCT sy.SYEAR
-				FROM SCHOOLS sy,STUDENT_ENROLLMENT s
+				FROM schools sy,STUDENT_ENROLLMENT s
 				WHERE s.SYEAR=sy.SYEAR
 				AND s.STUDENT_ID='" . UserStudentID() . "'";
 		}

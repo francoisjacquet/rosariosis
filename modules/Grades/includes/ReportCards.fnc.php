@@ -659,7 +659,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			if ( empty( $_REQUEST['_search_all_schools'] ) )
 			{
 				// School Title.
-				$extra2['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
+				$extra2['SELECT'] .= ",(SELECT sch.TITLE FROM schools sch
 					WHERE ssm.SCHOOL_ID=sch.ID
 					AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 			}

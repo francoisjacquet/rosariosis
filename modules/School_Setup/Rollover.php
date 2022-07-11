@@ -11,7 +11,7 @@ if ( AllowEdit( 'School_Setup/DatabaseBackup.php' ) )
 $next_syear = UserSyear() + 1;
 
 $tables = [
-	'SCHOOLS' => _( 'Schools' ),
+	'schools' => _( 'Schools' ),
 	'STAFF' => _( 'Users' ),
 	'school_periods' => _( 'School Periods' ),
 	'school_marking_periods' => _( 'Marking Periods' ),
@@ -31,7 +31,7 @@ $tables_tooltip = [
 	'report_card_comments' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
 
-$no_school_tables = [ 'SCHOOLS' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true ];
+$no_school_tables = [ 'schools' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true ];
 
 if ( $RosarioModules['Eligibility'] )
 {
@@ -125,12 +125,12 @@ if ( Prompt(
 	}
 
 	if ( isset( $_REQUEST['tables']['STUDENT_ENROLLMENT'] )
-		&& ! $exists_RET['SCHOOLS'][1]['COUNT']
-		&& ! isset( $_REQUEST['tables']['SCHOOLS'] ) )
+		&& ! $exists_RET['schools'][1]['COUNT']
+		&& ! isset( $_REQUEST['tables']['schools'] ) )
 	{
 		// Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment.
-		// Insert SCHOOLS first.
-		$_REQUEST['tables'] = array_merge( [ 'SCHOOLS' => 'Y' ], $_REQUEST['tables'] );
+		// Insert schools first.
+		$_REQUEST['tables'] = array_merge( [ 'schools' => 'Y' ], $_REQUEST['tables'] );
 	}
 
 	if ( ! ( isset( $_REQUEST['tables']['courses'] )
@@ -265,11 +265,11 @@ function Rollover( $table, $mode = 'delete' )
 
 	switch ( $table )
 	{
-		case 'SCHOOLS':
+		case 'schools':
 
 			if ( $mode === 'delete' )
 			{
-				$delete_schools_sql = "DELETE FROM SCHOOLS WHERE SYEAR='" . $next_syear . "'";
+				$delete_schools_sql = "DELETE FROM schools WHERE SYEAR='" . $next_syear . "'";
 
 				$can_delete = DBTransDryRun( $delete_schools_sql );
 
@@ -290,14 +290,14 @@ function Rollover( $table, $mode = 'delete' )
 				$school_custom .= ',CUSTOM_' . $field['ID'];
 			}
 
-			DBQuery( "INSERT INTO SCHOOLS (SYEAR,ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,
+			DBQuery( "INSERT INTO schools (SYEAR,ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,
 				PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,SHORT_NAME,REPORTING_GP_SCALE,
 				NUMBER_DAYS_ROTATION" . $school_custom . ")
 				SELECT SYEAR+1,ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,
 				SCHOOL_NUMBER,SHORT_NAME,REPORTING_GP_SCALE,NUMBER_DAYS_ROTATION" . $school_custom . "
-				FROM SCHOOLS
+				FROM schools
 				WHERE SYEAR='" . UserSyear() . "'
-				AND ID NOT IN(SELECT ID FROM SCHOOLS WHERE SYEAR='" . $next_syear . "')" );
+				AND ID NOT IN(SELECT ID FROM schools WHERE SYEAR='" . $next_syear . "')" );
 			break;
 
 		case 'STAFF':

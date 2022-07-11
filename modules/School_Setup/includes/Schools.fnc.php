@@ -55,7 +55,7 @@ function SchoolDeleteSQL( $school_id )
 		WHERE SCHOOL_ID='" . (int) $school_id . "'
 		AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL ) );";
 
-	$delete_sql .= "DELETE FROM SCHOOLS WHERE ID='" . (int) $school_id . "';";
+	$delete_sql .= "DELETE FROM schools WHERE ID='" . (int) $school_id . "';";
 
 	return $delete_sql;
 }

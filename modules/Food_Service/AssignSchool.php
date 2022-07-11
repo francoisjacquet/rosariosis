@@ -32,7 +32,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	RedirectURL( [ 'modfunc', 'staff', 'student' ] );
 }
 
-$schools_RET = DBGet( "SELECT ID,SYEAR,TITLE FROM SCHOOLS", [], [ 'SYEAR' ] );
+$schools_RET = DBGet( "SELECT ID,SYEAR,TITLE FROM schools", [], [ 'SYEAR' ] );
 //echo '<pre>'; var_dump($schools_RET); echo '</pre>';
 
 foreach ( (array) $schools_RET as $syear => $schools )

@@ -125,7 +125,7 @@ if ( ! empty( $_REQUEST['fields'] )
 
 $extra['SELECT'] .= ",ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,
 	(SELECT sch.SCHOOL_NUMBER
-		FROM SCHOOLS sch
+		FROM schools sch
 		WHERE ssm.SCHOOL_ID=sch.ID
 		AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_NUMBER"; // Fix PHP error removed s.*.
 
@@ -147,7 +147,7 @@ if ( ! empty( $_REQUEST['fields']['LAST_LOGIN'] ) )
 // School Title.
 if ( ! empty( $_REQUEST['fields']['SCHOOL_TITLE'] ) )
 {
-	$extra['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
+	$extra['SELECT'] .= ",(SELECT sch.TITLE FROM schools sch
 		WHERE ssm.SCHOOL_ID=sch.ID
 		AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 }

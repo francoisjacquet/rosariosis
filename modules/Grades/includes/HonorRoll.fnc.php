@@ -40,8 +40,8 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	AND sg.REPORT_CARD_GRADE_ID=rg.ID
 	AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))", 'true', 'NULL', "'Y'" ] ) . " AS HIGH_HONOR";
 
-	//$extra['SELECT'] .= ",(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL";
-	//$extra['SELECT'] .= ",(SELECT PRINCIPAL FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS PRINCIPAL";
+	//$extra['SELECT'] .= ",(SELECT TITLE FROM schools WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL";
+	//$extra['SELECT'] .= ",(SELECT PRINCIPAL FROM schools WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS PRINCIPAL";
 	//FJ multiple school periods for a course period
 	//$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . " FROM STAFF st,course_periods cp,school_periods p,schedule ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
 	$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "

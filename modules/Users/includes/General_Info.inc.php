@@ -315,7 +315,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	if ( $staff['PROFILE'] !== 'parent' )
 	{
 		$schools_RET = DBGet( "SELECT ID,TITLE
-			FROM SCHOOLS
+			FROM schools
 			WHERE SYEAR='" . UserSyear() . "'
 			ORDER BY TITLE" );
 

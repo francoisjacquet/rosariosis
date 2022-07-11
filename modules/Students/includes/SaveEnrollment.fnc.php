@@ -30,7 +30,7 @@ function SaveEnrollment()
 				if ( $enrollment_school_id != UserSchool() )
 				{
 					// @since 5.4 Update current school to enrollment school.
-					$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+					$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
 						WHERE SYEAR='" . UserSyear() . "'
 						AND ID='" . (int) $enrollment_school_id . "'" );
 				}

@@ -352,7 +352,7 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		// @since 6.0 Create Student Account: add school_id param to URL.
 		if ( ! empty( $_REQUEST['school_id'] ) )
 		{
-			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
 				WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 				AND ID='" . (int) $_REQUEST['school_id'] . "'" );
 		}
@@ -366,7 +366,7 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 			$sql_order_by = Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) ?
 				"ID='" . Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) . "' DESC,ID" : "ID";
 
-			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
 				WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 				ORDER BY " . $sql_order_by );
 		}

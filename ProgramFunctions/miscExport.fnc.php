@@ -42,7 +42,7 @@ function _makeNextSchool( $value, $column )
 	if ( ! $schools_RET )
 	{
 		$schools_RET = DBGet( "SELECT ID,TITLE
-			FROM SCHOOLS WHERE
+			FROM schools WHERE
 			SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 	}
 

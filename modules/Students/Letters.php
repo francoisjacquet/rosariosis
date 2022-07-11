@@ -96,7 +96,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( empty( $_REQUEST['_search_all_schools'] ) )
 	{
 		// School Title.
-		$extra['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
+		$extra['SELECT'] .= ",(SELECT sch.TITLE FROM schools sch
 			WHERE ssm.SCHOOL_ID=sch.ID
 			AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 	}

@@ -966,7 +966,7 @@ function _makeSchoolInput( $value, $column )
 		|| ! is_array( $schools ) )
 	{
 		$schools = DBGet( "SELECT ID,TITLE
-			FROM SCHOOLS
+			FROM schools
 			WHERE SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 	}
 

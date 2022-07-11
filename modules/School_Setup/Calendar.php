@@ -45,7 +45,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	// Get Calendars Info.
 	$title_RET = DBGet( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
 		(SELECT coalesce(SHORT_NAME,TITLE)
-			FROM SCHOOLS
+			FROM schools
 			WHERE SYEAR=ac.SYEAR
 			AND ID=ac.SCHOOL_ID) AS SCHOOL_TITLE,
 		(SELECT min(SCHOOL_DATE)

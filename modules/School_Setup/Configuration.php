@@ -318,7 +318,7 @@ else
 			$school_options = [];
 
 			$schools_RET = DBGet( "SELECT ID,TITLE
-				FROM SCHOOLS
+				FROM schools
 				WHERE SYEAR='" . UserSyear() . "'
 				ORDER BY ID" );
 

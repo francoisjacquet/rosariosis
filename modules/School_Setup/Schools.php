@@ -42,7 +42,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 			if ( ! $error )
 			{
-				$sql = "UPDATE SCHOOLS SET ";
+				$sql = "UPDATE schools SET ";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM school_fields
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				}
 
 				$uploaded = FilesUploadUpdate(
-					'SCHOOLS',
+					'schools',
 					'values',
 					$FileUploadsPath . 'Schools/' . UserSchool() . '/'
 				);
@@ -118,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 			// Set current school to one of the remaining schools.
 			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID
-				FROM SCHOOLS
+				FROM schools
 				WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" );
 
 			UpdateSchoolArray( UserSchool() );
@@ -142,7 +142,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $filename;
 
-		DBQuery( "UPDATE SCHOOLS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+		DBQuery( "UPDATE schools SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 			WHERE ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
@@ -164,7 +164,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$schooldata = DBGet( "SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,
 		SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION
-		FROM SCHOOLS
+		FROM schools
 		WHERE ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
@@ -342,7 +342,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$custom_RET = DBGet( "SELECT *
-		FROM SCHOOLS
+		FROM schools
 		WHERE ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
@@ -406,7 +406,7 @@ if ( ! $_REQUEST['modfunc'] )
 			case 'autos':
 
 				$sql_options = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-					FROM SCHOOLS s
+					FROM schools s
 					WHERE (s.SYEAR='" . UserSyear() . "' OR s.SYEAR='" . ( UserSyear() - 1 ) . "')
 					AND s.CUSTOM_" . $field['ID'] . " IS NOT NULL
 					AND s.CUSTOM_" . $field['ID'] . " != ''

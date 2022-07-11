@@ -1566,7 +1566,7 @@ class Widget_next_year implements Widget
 	function extra( $extra )
 	{
 		$schools_RET = DBGet( "SELECT ID,TITLE
-			FROM SCHOOLS
+			FROM schools
 			WHERE ID!='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
@@ -1611,7 +1611,7 @@ class Widget_next_year implements Widget
 		];
 
 		$schools_RET = DBGet( "SELECT ID,TITLE
-			FROM SCHOOLS
+			FROM schools
 			WHERE ID!='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 

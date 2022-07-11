@@ -8,7 +8,7 @@
 
 /**
  * Update School Array
- * Fill `$_SESSION['SchoolData']` session var with SCHOOLS data
+ * Fill `$_SESSION['SchoolData']` session var with schools data
  *
  * @example UpdateSchoolArray( UserSchool() );
  *
@@ -24,8 +24,8 @@ function UpdateSchoolArray( $school_id = null )
 	}
 
 	$_SESSION['SchoolData'] = DBGet( "SELECT *,
-		(SELECT COUNT(*) FROM SCHOOLS WHERE SYEAR = '" . UserSyear() . "') AS SCHOOLS_NB
-		FROM SCHOOLS
+		(SELECT COUNT(*) FROM schools WHERE SYEAR = '" . UserSyear() . "') AS SCHOOLS_NB
+		FROM schools
 		WHERE ID = '" . (int) $school_id . "'
 		AND SYEAR = '" . UserSyear() . "'" );
 
@@ -38,7 +38,7 @@ function UpdateSchoolArray( $school_id = null )
  *
  * @example DrawHeader( SchoolInfo( 'TITLE' ) );
  *
- * @param  string       $field SCHOOLS DB table field name (optional). Defaults to every School Fields.
+ * @param  string       $field schools DB table field name (optional). Defaults to every School Fields.
  *
  * @return string|array School Field or array with every School Fields
  */

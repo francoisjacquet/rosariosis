@@ -190,7 +190,7 @@ else
 	echo '<table class="create-account width-100p valign-top fixed-col"><tr class="st"><td>';
 
 	$schools_RET = DBGet( "SELECT ID,TITLE
-		FROM SCHOOLS
+		FROM schools
 		WHERE SYEAR='" . UserSyear() . "'
 		ORDER BY ID" );
 

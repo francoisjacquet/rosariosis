@@ -31,7 +31,7 @@ Changes in 2.9.14
 
 Changes in 2.9.13
 -----------------
-- Always use SchoolInfo() instead of querying SCHOOLS DB table, programwide
+- Always use SchoolInfo() instead of querying schools DB table, programwide
 - Unset current student after setting new current school in Schools.php & CopySchool.php
 - Check if Update() version < ROSARIO_VERSION in Update.fnc.php
 - Admin Schools restriction in Profiles.php, Exceptions.php, User.php & General_Info.inc.php (sponsored by Aptiris)
@@ -1154,7 +1154,7 @@ Changes in 1.4.2
 ----------------
 - Security fixes: delete & save not accessible to non admins in
 	- AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php, Transactions.php, ActivityReport.php, ReferralForm.php, DisciplineForm.php, FinalGrades.php
-- SQL bugs: course_period_school_periods, SCHOOLS, DISCIPLINE_CATEGORIES, program_config & course_periods Rollover
+- SQL bugs: course_period_school_periods, schools, DISCIPLINE_CATEGORIES, program_config & course_periods Rollover
 - Bugfix UserCoursePeriod not set correctly in Grades.php
 
 Changes in 1.4.1

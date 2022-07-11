@@ -58,10 +58,10 @@ if ( $go
 	&& ! empty( $_REQUEST['tables'] )
 	&& ! empty( $_REQUEST['title'] ) )
 {
-	DBQuery( "INSERT INTO SCHOOLS (SYEAR,TITLE,REPORTING_GP_SCALE)
+	DBQuery( "INSERT INTO schools (SYEAR,TITLE,REPORTING_GP_SCALE)
 		values('" . UserSyear() . "','" . $_REQUEST['title'] . "',
 		(SELECT REPORTING_GP_SCALE
-			FROM SCHOOLS
+			FROM schools
 			WHERE ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'))" );
 
