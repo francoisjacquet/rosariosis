@@ -162,7 +162,7 @@ function _substitutionsDBGetCustomFields( $table )
 		// Only get fields in categories which user profile can access.
 		$profile_category_sql = " AND (SELECT CAN_USE FROM " .
 		( User( 'PROFILE_ID' ) ?
-			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 		" AND MODNAME=CONCAT('" . ( $table === 'student' ? 'Students/Student.php' : 'Users/User.php' ) .
 		"&category_id=', f.CATEGORY_ID)

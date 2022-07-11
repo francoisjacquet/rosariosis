@@ -59,7 +59,7 @@ function AllowEdit( $modname = false )
 	if ( ! isset( $_ROSARIO['AllowEdit'] ) )
 	{
 		$from_where_sql = User( 'PROFILE_ID' ) ?
-			"FROM PROFILE_EXCEPTIONS
+			"FROM profile_exceptions
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"FROM STAFF_EXCEPTIONS
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
@@ -103,7 +103,7 @@ function AllowUse( $modname = false )
 	if ( ! isset( $_ROSARIO['AllowUse'] ) )
 	{
 		$from_where_sql = User( 'PROFILE_ID' ) != '' ? // Beware, '0' is student!
-			"FROM PROFILE_EXCEPTIONS
+			"FROM profile_exceptions
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"FROM STAFF_EXCEPTIONS
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";

@@ -490,7 +490,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE sfc.ID=cf.CATEGORY_ID
 			AND (SELECT CAN_USE FROM " .
 			( User( 'PROFILE_ID' ) ?
-			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 			" AND MODNAME=CONCAT('Students/Student.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
@@ -739,7 +739,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND (SELECT CAN_USE
 				FROM " .
 			( User( 'PROFILE_ID' ) ?
-			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 			" AND MODNAME=CONCAT('Users/User.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'

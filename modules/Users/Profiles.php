@@ -37,7 +37,7 @@ if ( isset( $_REQUEST['profile_id'] )
 if ( $_REQUEST['profile_id'] !== false )
 {
 	$exceptions_RET = DBGet( "SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT
-		FROM PROFILE_EXCEPTIONS
+		FROM profile_exceptions
 		WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	$xprofile = DBGetOne( "SELECT PROFILE
@@ -88,14 +88,14 @@ if ( $_REQUEST['modfunc'] === 'delete'
 					FROM STAFF
 					WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "');";
 
-			$delete_sql .= "DELETE FROM PROFILE_EXCEPTIONS
+			$delete_sql .= "DELETE FROM profile_exceptions
 				WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "';";
 
 			DBQuery( $delete_sql );
 
 			DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 				SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
-				FROM STAFF s,PROFILE_EXCEPTIONS e
+				FROM STAFF s,profile_exceptions e
 				WHERE s.PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'
 				AND s.PROFILE_ID=e.PROFILE_ID" );
 
@@ -167,14 +167,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 						&& ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
 							|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) ) )
 					{
-						DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME)
+						DBQuery( "INSERT INTO profile_exceptions (PROFILE_ID,MODNAME)
 							values('" . $_REQUEST['profile_id'] . "','" . $modname . "')" );
 					}
 					elseif ( ! empty( $exceptions_RET[$modname] )
 						&& empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
 						&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 					{
-						DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
+						DBQuery( "DELETE FROM profile_exceptions
 							WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'
 							AND MODNAME='" . $modname . "'" );
 					}
@@ -182,7 +182,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
 						|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 					{
-						$update = "UPDATE PROFILE_EXCEPTIONS SET ";
+						$update = "UPDATE profile_exceptions SET ";
 
 						if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] ) )
 						{
@@ -212,7 +212,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
-		FROM PROFILE_EXCEPTIONS
+		FROM profile_exceptions
 		WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	unset( $tmp_menu );

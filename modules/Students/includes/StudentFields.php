@@ -136,7 +136,7 @@ if ( isset( $_POST['tables'] )
 							// Add to profile or permissions of user creating it.
 							if ( User( 'PROFILE_ID' ) )
 							{
-								DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
+								DBQuery( "INSERT INTO profile_exceptions (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
 									values('" . User( 'PROFILE_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
 							}
 							else
@@ -185,7 +185,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DeleteDBFieldCategory( 'STUDENTS', $_REQUEST['category_id'] );
 
 			// Remove from profiles and permissions.
-			$delete_sql = "DELETE FROM PROFILE_EXCEPTIONS
+			$delete_sql = "DELETE FROM profile_exceptions
 				WHERE MODNAME='Students/Student.php&category_id=" . $_REQUEST['category_id'] . "';";
 
 			$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS

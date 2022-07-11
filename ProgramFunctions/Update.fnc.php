@@ -514,7 +514,7 @@ function _update84()
 /**
  * Update to version 8.5
  *
- * 1. PROFILE_EXCEPTIONS table: Add Admin Student Payments Delete restriction.
+ * 1. profile_exceptions table: Add Admin Student Payments Delete restriction.
  * 2. STAFF_EXCEPTIONS table: Add Admin Student Payments Delete restriction.
  *
  * Local function
@@ -530,7 +530,7 @@ function _update85()
 	$return = true;
 
 	/**
-	 * 1. PROFILE_EXCEPTIONS table
+	 * 1. profile_exceptions table
 	 * Add Admin Student Payments Delete restriction.
 	 */
 	DBQuery( "INSERT INTO profile_exceptions

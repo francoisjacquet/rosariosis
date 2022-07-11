@@ -1059,7 +1059,7 @@ Changes in 2.2
 - Add School Fields:
 	-created School_Setup/SchoolFields.php
 	-add program to School_Setup/Menu.php
-	-add program to PROFILE_EXCEPTIONS table
+	-add program to profile_exceptions table
 	-add school_fields table
 	-create INDEXes for school_fields table
 	-rollover School Fields

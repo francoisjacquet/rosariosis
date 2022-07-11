@@ -154,7 +154,7 @@ function _update29alpha()
 	/**
 	 * 6. Add STUDENT_ASSIGNMENTS table (& its composite primary key)
 	 * & add SUBMISSION column to gradebook_assignments table
-	 * & add StudentAssignments.php to PROFILE_EXCEPTIONS table.
+	 * & add StudentAssignments.php to profile_exceptions table.
 	 */
 	DBQuery( "CREATE TABLE IF NOT EXISTS student_assignments (
 		assignment_id numeric NOT NULL,

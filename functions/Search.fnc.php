@@ -307,7 +307,7 @@ function Search( $type, $extra = null )
 				FROM staff_field_categories sfc,staff_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) . "
 					AND MODNAME=CONCAT('Users/User.php&category_id=', sfc.ID)
 					LIMIT 1)='Y'
@@ -328,7 +328,7 @@ function Search( $type, $extra = null )
 				FROM staff_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
 					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID
 					LIMIT 1)='Y'
@@ -347,7 +347,7 @@ function Search( $type, $extra = null )
 				FROM student_field_categories sfc,custom_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
 					AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y'
 				AND cf.CATEGORY_ID=sfc.ID
@@ -367,7 +367,7 @@ function Search( $type, $extra = null )
 				FROM custom_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
 					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 				AND (SELECT VALUE

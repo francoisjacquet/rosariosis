@@ -65,7 +65,7 @@ else
 
 if ( User( 'PROFILE' ) !== 'admin' )
 {
-	$can_edit_from_where = " FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'";
+	$can_edit_from_where = " FROM profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'";
 
 	if ( ! User( 'PROFILE_ID' ) )
 	{
@@ -283,7 +283,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				DBQuery( "DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='" . UserStaffID() . "'" );
 				DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 					SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
-					FROM STAFF s,PROFILE_EXCEPTIONS e
+					FROM STAFF s,profile_exceptions e
 					WHERE s.STAFF_ID='" . UserStaffID() . "'
 					AND s.PROFILE_ID=e.PROFILE_ID" );
 			}
@@ -628,7 +628,7 @@ if (  ( UserStaffID()
 	if ( User( 'PROFILE_ID' ) )
 	{
 		$can_use_RET = DBGet( "SELECT MODNAME
-			FROM PROFILE_EXCEPTIONS
+			FROM profile_exceptions
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
 			AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 	}

@@ -290,7 +290,7 @@ Changes in 8.5
 --------------
 - Fix SQL error duplicate key value violates unique constraint "food_service_menus_title" in Menus.php
 - SQL add PRIMARY KEY to STAFF_EXCEPTIONS table in rosariosis.sql
-- SQL PROFILE_EXCEPTIONS & STAFF_EXCEPTIONS tables: Add Admin Student Payments Delete restriction in Update.fnc.php & rosariosis.sql
+- SQL profile_exceptions & STAFF_EXCEPTIONS tables: Add Admin Student Payments Delete restriction in Update.fnc.php & rosariosis.sql
 - Add Admin Student Payments Delete restriction in Profiles.php & Exceptions.php
 - Add Admin Student Payments Delete restriction in StudentPayments.php & Student_Billing/functions.inc.php
 - Fix SQL error numeric field overflow when entering percent > 100 in MassCreateAssignments.php

@@ -37,7 +37,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 	if ( User( 'PROFILE_ID' ) != '' )
 	{
 		$allow_use_sql = "SELECT MODNAME
-			FROM PROFILE_EXCEPTIONS
+			FROM profile_exceptions
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
 			AND CAN_USE='Y'";
 	}

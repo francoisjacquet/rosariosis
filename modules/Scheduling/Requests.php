@@ -30,7 +30,7 @@ DrawHeader( ProgramTitle() );
 if ( User( 'PROFILE' ) !== 'admin'
 	&& User( 'PROFILE' ) !== 'teacher' )
 {
-	$can_edit_from_where = " FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'";
+	$can_edit_from_where = " FROM profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'";
 
 	if ( User( 'PROFILE' ) !== 'student'
 		&& ! User( 'PROFILE_ID' ) )

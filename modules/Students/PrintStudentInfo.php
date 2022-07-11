@@ -292,7 +292,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( User( 'PROFILE_ID' ) )
 		{
 			$can_use_RET = DBGet( "SELECT MODNAME
-				FROM PROFILE_EXCEPTIONS
+				FROM profile_exceptions
 				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
 				AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 		}
