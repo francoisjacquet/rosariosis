@@ -7,18 +7,18 @@ if ( ( isset( $_POST['values'] )
 {
 	SaveData(
 		[
-			'STUDENT_MEDICAL_ALERTS' => "ID='__ID__'",
+			'student_medical_alerts' => "ID='__ID__'",
 			'STUDENT_MEDICAL' => "ID='__ID__'",
-			'STUDENT_MEDICAL_VISITS' => "ID='__ID__'",
+			'student_medical_visits' => "ID='__ID__'",
 			'fields' => [
 				'STUDENT_MEDICAL' => 'STUDENT_ID,',
-				'STUDENT_MEDICAL_ALERTS' => 'STUDENT_ID,',
-				'STUDENT_MEDICAL_VISITS' => 'STUDENT_ID,',
+				'student_medical_alerts' => 'STUDENT_ID,',
+				'student_medical_visits' => 'STUDENT_ID,',
 			],
 			'values' => [
 				'STUDENT_MEDICAL' => "'" . UserStudentID() . "',",
-				'STUDENT_MEDICAL_ALERTS' => "'" . UserStudentID() . "',",
-				'STUDENT_MEDICAL_VISITS' => "'" . UserStudentID() . "',",
+				'student_medical_alerts' => "'" . UserStudentID() . "',",
+				'student_medical_visits' => "'" . UserStudentID() . "',",
 			],
 		]
 	);
@@ -96,12 +96,12 @@ if ( ! $_REQUEST['modfunc'] )
 		[ 'search' => false, 'save' => false ]
 	);
 
-	$table = 'STUDENT_MEDICAL_ALERTS';
+	$table = 'student_medical_alerts';
 
 	$functions = [ 'TITLE' => '_makeComments' ];
 
 	$med_RET = DBGet( "SELECT ID,TITLE
-		FROM STUDENT_MEDICAL_ALERTS
+		FROM student_medical_alerts
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		ORDER BY ID", $functions );
 
@@ -111,7 +111,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&category_id=' . $_REQUEST['category_id'] .
-		'&modfunc=delete_medical&table=STUDENT_MEDICAL_ALERTS&title=' . _( 'Medical Alert' );
+		'&modfunc=delete_medical&table=student_medical_alerts&title=' . _( 'Medical Alert' );
 
 	$link['remove']['variables'] = [ 'id' => 'ID' ];
 
@@ -128,7 +128,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( User( 'PROFILE' ) === 'admin'
 		|| User( 'PROFILE' ) === 'teacher' )
 	{
-		$table = 'STUDENT_MEDICAL_VISITS';
+		$table = 'student_medical_visits';
 
 		$functions = [
 			'SCHOOL_DATE' => '_makeDate',
@@ -140,7 +140,7 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 
 		$med_RET = DBGet( "SELECT ID,SCHOOL_DATE,TIME_IN,TIME_OUT,REASON,RESULT,COMMENTS
-			FROM STUDENT_MEDICAL_VISITS
+			FROM student_medical_visits
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			ORDER BY SCHOOL_DATE", $functions );
 
@@ -164,7 +164,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&category_id=' . $_REQUEST['category_id'] .
-			'&modfunc=delete_medical&table=STUDENT_MEDICAL_VISITS&title=' . _( 'Nurse Visit' );
+			'&modfunc=delete_medical&table=student_medical_visits&title=' . _( 'Nurse Visit' );
 
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
 
