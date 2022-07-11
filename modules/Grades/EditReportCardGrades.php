@@ -90,7 +90,7 @@ if ( UserStudentID() )
 
 					// FJ fix bug SQL SYEAR=NULL.
 					$syear = DBGetOne( "SELECT SYEAR
-						FROM MARKING_PERIODS
+						FROM marking_periods
 						WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'" );
 
 					$fields = 'SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
@@ -312,7 +312,7 @@ if ( UserStudentID() )
 			$syear = UserSyear();
 
 			$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,SYEAR,TITLE,POST_END_DATE
-				FROM MARKING_PERIODS
+				FROM marking_periods
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR BETWEEN '" . sprintf( '%d', $syear - 5 ) . "' AND '" . $syear . "'
 				ORDER BY POST_END_DATE DESC" );

@@ -161,7 +161,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 		}
 
 		$mp_types = DBGet( "SELECT DISTINCT MP_TYPE
-			FROM MARKING_PERIODS
+			FROM marking_periods
 			WHERE NOT MP_TYPE IS NULL
 			AND SCHOOL_ID='" . UserSchool() . "'", [], [] );
 

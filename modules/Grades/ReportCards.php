@@ -111,7 +111,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// SYear & Semester MPs only, including History MPs.
 		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM MARKING_PERIODS
+			FROM marking_periods
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND MP_TYPE IN ('semester','year','quarter')
 			AND DOES_GRADES='Y'" );

@@ -500,7 +500,7 @@ function _update47beta2()
 		foreach ( (array) $schools_RET as $school )
 		{
 			$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
-				FROM MARKING_PERIODS
+				FROM marking_periods
 				WHERE SCHOOL_ID='" . $school['ID'] . "'", [], [ 'MARKING_PERIOD_ID' ] );
 
 			$mps = array_keys( $mps_RET );
