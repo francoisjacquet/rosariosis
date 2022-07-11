@@ -1754,8 +1754,8 @@ function _update59()
 /**
  * Update to version 5.9.1
  *
- * 1. TRANSCRIPT_GRADES view:
- * SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view.
+ * 1. transcript_grades view:
+ * SQL Fix School Base Grading Scale for Historical Grades in transcript_grades view.
  *
  * Local function
  *
@@ -1770,8 +1770,8 @@ function _update591()
 	$return = true;
 
 	/**
-	 * 1. TRANSCRIPT_GRADES view:
-	 * SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view.
+	 * 1. transcript_grades view:
+	 * SQL Fix School Base Grading Scale for Historical Grades in transcript_grades view.
 	 */
 	$sql_drop_view = "DROP VIEW transcript_grades;";
 

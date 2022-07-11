@@ -561,7 +561,7 @@ function _update85()
 /**
  * Update to version 8.7
  *
- * 1. Fix SQL TRANSCRIPT_GRADES view, grades were duplicated for each school year
+ * 1. Fix SQL transcript_grades view, grades were duplicated for each school year
  *
  * Local function
  *
@@ -575,7 +575,7 @@ function _update87()
 
 	$return = true;
 
-	// 1. Fix SQL TRANSCRIPT_GRADES view, grades were duplicated for each school year.
+	// 1. Fix SQL transcript_grades view, grades were duplicated for each school year.
 	DBQuery( "CREATE OR REPLACE VIEW transcript_grades AS
 		SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
 		mp.short_name,mp.parent_id,mp.grandparent_id,
@@ -622,9 +622,9 @@ function _update87()
 /**
  * Update to version 9.2
  *
- * 1. Drop TRANSCRIPT_GRADES view, so we can alter student_report_card_grades table
+ * 1. Drop transcript_grades view, so we can alter student_report_card_grades table
  * 2. SQL student_report_card_grades table: convert MARKING_PERIOD_ID column to integer
- * 3. Recreate TRANSCRIPT_GRADES view
+ * 3. Recreate transcript_grades view
  *
  * Local function
  *
@@ -638,14 +638,14 @@ function _update92()
 
 	$return = true;
 
-	// 1. Drop TRANSCRIPT_GRADES view, so we can alter student_report_card_grades table
+	// 1. Drop transcript_grades view, so we can alter student_report_card_grades table
 	DBQuery( "DROP VIEW transcript_grades;" );
 
 	// 2. SQL student_report_card_grades table: convert MARKING_PERIOD_ID column to integer
 	DBQuery( "ALTER TABLE student_report_card_grades
 	ALTER marking_period_id TYPE integer USING marking_period_id::integer;" );
 
-	// 3. Recreate TRANSCRIPT_GRADES view
+	// 3. Recreate transcript_grades view
 	DBQuery( "CREATE VIEW transcript_grades AS
 	SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
 	mp.short_name,mp.parent_id,mp.grandparent_id,

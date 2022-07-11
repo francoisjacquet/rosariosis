@@ -39,7 +39,7 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 		else
 		{
 			$cumulative_gpa = DBGetOne( "SELECT CUM_WEIGHTED_GPA
-				FROM TRANSCRIPT_GRADES
+				FROM transcript_grades
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND MARKING_PERIOD_ID='" . (int) $mp . "'" );
 
@@ -76,7 +76,7 @@ function GetClassRankRow( $student_id, $mp_array )
 
 	$class_rank_RET = DBGet( "SELECT MARKING_PERIOD_ID,
 		CLASS_SIZE,CUM_RANK
-		FROM TRANSCRIPT_GRADES
+		FROM transcript_grades
 		WHERE SYEAR='" . UserSyear() . "'
 		AND MARKING_PERIOD_ID IN(" . $mp_list . ")
 		AND STUDENT_ID='" . (int) $student_id . "'" );

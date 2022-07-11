@@ -1614,7 +1614,7 @@ function GetReportCardMinMaxGrades( $course_periods )
 			// @since 8.8 Add Min. and Max. GPA to Last row.
 			$min_max_grades[$cp_list][$mp_list]['-1'] = DBGet( "SELECT '-1' AS COURSE_PERIOD_ID,MARKING_PERIOD_ID,
 				MIN(CUM_WEIGHTED_GPA) AS GRADE_MIN,MAX(CUM_WEIGHTED_GPA) AS GRADE_MAX
-				FROM TRANSCRIPT_GRADES
+				FROM transcript_grades
 				WHERE SYEAR='" . UserSyear() . "'
 				AND MARKING_PERIOD_ID IN(" . $mp_list . ")
 				AND STUDENT_ID IN(SELECT STUDENT_ID

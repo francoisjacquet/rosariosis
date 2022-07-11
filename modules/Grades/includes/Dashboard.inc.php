@@ -51,7 +51,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 
 		$gpa_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
 		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA
-		FROM TRANSCRIPT_GRADES
+		FROM transcript_grades
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
@@ -160,7 +160,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		$gpa_gradelevel_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
 		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA,
 		GRADE_LEVEL_SHORT
-		FROM TRANSCRIPT_GRADES
+		FROM transcript_grades
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
