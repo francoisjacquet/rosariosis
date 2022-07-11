@@ -11,12 +11,12 @@ if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
 
 if ( AllowEdit()
 	&& isset( $_POST['values'] )
-	&& trim( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] ) !== '' )
+	&& trim( $_POST['values']['student_mp_comments'][ UserStudentID() ]['COMMENT'] ) !== '' )
 {
 	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	// Sanitize MarkDown.
-	$comment = SanitizeMarkDown( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] );
+	$comment = SanitizeMarkDown( $_POST['values']['student_mp_comments'][ UserStudentID() ]['COMMENT'] );
 
 	if ( $comment )
 	{
@@ -28,7 +28,7 @@ if ( AllowEdit()
 		] ];
 
 		$existing_comment = DBGetOne( "SELECT COMMENT
-			FROM STUDENT_MP_COMMENTS
+			FROM student_mp_comments
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'" );
@@ -41,7 +41,7 @@ if ( AllowEdit()
 		else
 		{
 			// Insert empty comment (SaveData wont INSERT unless $id == 'new').
-			DBQuery( "INSERT INTO STUDENT_MP_COMMENTS
+			DBQuery( "INSERT INTO student_mp_comments
 				(STUDENT_ID, SYEAR, MARKING_PERIOD_ID, COMMENT)
 				VALUES ('" . UserStudentID() . "',
 				'" . UserSyear() . "',
@@ -49,18 +49,18 @@ if ( AllowEdit()
 				'')" );
 		}
 
-		$_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] = DBEscapeString( serialize( $comment ) );
+		$_REQUEST['values']['student_mp_comments'][ UserStudentID() ]['COMMENT'] = DBEscapeString( serialize( $comment ) );
 
 		SaveData(
 			[
-				'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
+				'student_mp_comments' => "STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'",
 				'fields' => [
-					'STUDENT_MP_COMMENTS' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
+					'student_mp_comments' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
 				],
 				'values' => [
-					'STUDENT_MP_COMMENTS' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
+					'student_mp_comments' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
 				]
 			],
 			[ 'COMMENT' => _( 'Comment' ) ]
@@ -75,7 +75,7 @@ if ( ! $_REQUEST['modfunc'] )
 		<tr><td>
 			<?php echo TextAreaInput(
 				'',
-				'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
+				'values[student_mp_comments][' . UserStudentID() . '][COMMENT]',
 				GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ),
 				'rows="6"' . ( AllowEdit() ? '' : ' readonly' ),
 				false
@@ -84,7 +84,7 @@ if ( ! $_REQUEST['modfunc'] )
 		<tr><td id="student-comments">
 	<?php
 	$comments = DBGetOne( "SELECT COMMENT
-		FROM STUDENT_MP_COMMENTS
+		FROM student_mp_comments
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'" );

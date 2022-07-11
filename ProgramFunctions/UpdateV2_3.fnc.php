@@ -14,7 +14,7 @@
  * 1. Add VERSION to config table
  * 2. Add STUDENTS_EMAIL_FIELD to config table.
  * 3. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
- * 4. Update STUDENT_MP_COMMENTS table
+ * 4. Update student_mp_comments table
  * 5. Create school_fields_seq Sequence
  * 6. Add student_assignments table & SUBMISSION column to gradebook_assignments table
  *
@@ -69,7 +69,7 @@ function _update29alpha()
 
 
 	/**
-	 * 4. Update STUDENT_MP_COMMENTS table
+	 * 4. Update student_mp_comments table
 	 *
 	 * WARNING: no Downgrade possible!
 	 *
@@ -84,7 +84,7 @@ function _update29alpha()
 	 * )
 	 */
 	$comments_RET = DBGet( "SELECT SYEAR, MARKING_PERIOD_ID, STUDENT_ID, COMMENT
-		FROM STUDENT_MP_COMMENTS
+		FROM student_mp_comments
 		WHERE COMMENT IS NOT NULL
 		AND COMMENT!=''" );
 
@@ -118,7 +118,7 @@ function _update29alpha()
 
 			$ser_coms = DBEscapeString( serialize( array_reverse( $ser_coms ) ) );
 
-			$SQL_updt_coms .= "UPDATE STUDENT_MP_COMMENTS
+			$SQL_updt_coms .= "UPDATE student_mp_comments
 				SET COMMENT='" . $ser_coms . "'
 				WHERE SYEAR='" . $comment['SYEAR'] . "'
 				AND MARKING_PERIOD_ID='" . $comment['MARKING_PERIOD_ID'] . "'
