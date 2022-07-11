@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				SET PROFILE='" . $profile_to . "'
 				WHERE PROFILE='" . $profile_from . "'
 				AND STAFF_ID IN(SELECT STAFF_ID
-					FROM STUDENTS_JOIN_USERS
+					FROM students_join_users
 					WHERE STUDENT_ID IN (" . $st_list . "))
 				AND SYEAR='" . UserSyear() . "'" );
 		}

@@ -165,7 +165,7 @@ function SetUserStaffID( $staff_id )
 					WHERE s.SYEAR='" . UserSyear() . "'
 					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
 					AND (s.PROFILE='parent' AND exists(SELECT 1
-						FROM STUDENTS_JOIN_USERS _sju,student_enrollment _sem,schedule _ss
+						FROM students_join_users _sju,student_enrollment _sem,schedule _ss
 						WHERE _sju.STAFF_ID=s.STAFF_ID
 						AND _sem.STUDENT_ID=_sju.STUDENT_ID
 						AND _sem.SYEAR='" . UserSyear() . "'
@@ -274,7 +274,7 @@ function SetUserStudentID( $student_id )
 
 			// Get parent's related students.
 			$is_related_student = DBGet( "SELECT 1
-				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,student_enrollment se
+				FROM STUDENTS s,students_join_users sju,student_enrollment se
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'

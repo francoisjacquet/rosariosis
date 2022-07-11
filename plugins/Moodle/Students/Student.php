@@ -349,7 +349,7 @@ function core_role_assign_roles_object()
 	$student_id = UserStudentID();
 	$userid = (int) DBGetOne( "SELECT moodle_id
 		FROM moodlexrosario
-		WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS
+		WHERE rosario_id=(SELECT STAFF_ID FROM students_join_users
 			WHERE STUDENT_ID='" . (int) $student_id . "' LIMIT 1)
 		AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
 

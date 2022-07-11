@@ -82,7 +82,7 @@ function RegistrationSiblingRegistered()
 	{
 		// Find already registered (has address) student related to same parent.
 		return (int) DBGetOne( "SELECT sju.STUDENT_ID
-			FROM STUDENTS_JOIN_USERS sju,students_join_address sja
+			FROM students_join_users sju,students_join_address sja
 			WHERE sju.STAFF_ID='" . UserStaffID() . "'
 			AND sju.STUDENT_ID<>'" . UserStudentID() . "'
 			AND sja.STUDENT_ID=sju.STUDENT_ID" );

@@ -10,14 +10,14 @@ if ( $_REQUEST['modfunc'] === 'save'
 		&& is_array( $_REQUEST['staff'] ) )
 	{
 		$current_RET = DBGet( "SELECT STAFF_ID
-			FROM STUDENTS_JOIN_USERS
+			FROM students_join_users
 			WHERE STUDENT_ID='" . UserStudentID() . "'", [], [ 'STAFF_ID' ] );
 
 		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
 			if ( empty( $current_RET[$staff_id] ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
+				DBQuery( "INSERT INTO students_join_users (STAFF_ID,STUDENT_ID)
 					VALUES('" . $staff_id . "','" . UserStudentID() . "')" );
 
 				//hook
@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	if ( DeletePrompt( _( 'student from that user' ), _( 'remove access to' ) )
 		&& ! empty( $_REQUEST['staff_id_remove'] ) )
 	{
-		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
+		DBQuery( "DELETE FROM students_join_users
 			WHERE STAFF_ID='" . (int) $_REQUEST['staff_id_remove'] . "'
 			AND STUDENT_ID='" . UserStudentID() . "'" );
 
@@ -61,7 +61,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,staff st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
+	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM students_join_users u,staff st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
 	$extra['columns_after'] = [ 'ASSOCIATED' => '# ' . _( 'Associated' ) ];
 
 	if ( ! UserStudentID() )
@@ -82,7 +82,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$current_RET = DBGet( "SELECT u.STAFF_ID,
 			" . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.LAST_LOGIN
-			FROM STUDENTS_JOIN_USERS u,staff s
+			FROM students_join_users u,staff s
 			WHERE s.STAFF_ID=u.STAFF_ID
 			AND u.STUDENT_ID='" . UserStudentID() . "'
 			AND s.SYEAR='" . UserSyear() . "'", [ 'LAST_LOGIN' => 'makeLogin' ] );

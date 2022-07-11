@@ -143,7 +143,7 @@ if ( ! $_REQUEST['modfunc']
 	if ( User( 'PROFILE' ) === 'parent' )
 	{
 		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID
-			FROM STUDENTS_JOIN_USERS
+			FROM students_join_users
 			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "')";
 	}
 	elseif ( User( 'PROFILE' ) === 'student' )

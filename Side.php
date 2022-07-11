@@ -360,7 +360,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 			$students_RET = DBGet( "SELECT sju.STUDENT_ID,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME,se.SCHOOL_ID
-				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,student_enrollment se,schools sch
+				FROM STUDENTS s,students_join_users sju,student_enrollment se,schools sch
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'

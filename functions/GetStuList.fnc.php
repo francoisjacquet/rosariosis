@@ -631,7 +631,7 @@ function GetStuList( &$extra = [] )
 				AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL OR '" . $extra['DATE'] . "'<=ssm.END_DATE))
 				AND s.STUDENT_ID" . ( ! empty( $extra['ASSOCIATED'] ) ?
-					" IN (SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . (int) $extra['ASSOCIATED'] . "')" :
+					" IN (SELECT STUDENT_ID FROM students_join_users WHERE STAFF_ID='" . (int) $extra['ASSOCIATED'] . "')" :
 					"='" . UserStudentID() . "'" );
 
 		break;

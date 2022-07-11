@@ -309,7 +309,7 @@ function Rollover( $table, $mode = 'delete' )
 							WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 							AND SYEAR='" . $next_syear . "');";
 
-				$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
+				$delete_sql .= "DELETE FROM students_join_users
 					WHERE STAFF_ID IN (SELECT STAFF_ID FROM staff WHERE SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM staff_exceptions
@@ -396,9 +396,9 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE USER_ID=ROLLOVER_ID
 				AND SYEAR='" . $next_syear . "'" );
 
-			DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID)
+			DBQuery( "INSERT INTO students_join_users (STUDENT_ID,STAFF_ID)
 				SELECT j.STUDENT_ID,s.STAFF_ID
-				FROM staff s,STUDENTS_JOIN_USERS j
+				FROM staff s,students_join_users j
 				WHERE j.STAFF_ID=s.ROLLOVER_ID
 				AND s.SYEAR='" . $next_syear . "'" );
 

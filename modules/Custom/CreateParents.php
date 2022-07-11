@@ -263,7 +263,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				// Fix SQL error, check if student not already associated!
 				$parent_associated_to_student_RET = DBGet( "SELECT 1
-					FROM STUDENTS_JOIN_USERS
+					FROM students_join_users
 					WHERE STAFF_ID='" . (int) $id . "'
 					AND STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'" );
 
@@ -271,7 +271,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					&& ! $parent_associated_to_student_RET )
 				{
 					// Join user to student.
-					DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
+					DBQuery( "INSERT INTO students_join_users (STAFF_ID,STUDENT_ID)
 						VALUES ('" . $id . "','" . $student['STUDENT_ID'] . "')" );
 
 					// Hook.
@@ -418,7 +418,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		AND SYEAR=ssm.SYEAR
 		LIMIT 1) AS STAFF_ID";
 	$extra['SELECT'] .= ",(SELECT 1
-		FROM STUDENTS_JOIN_USERS sju,staff st
+		FROM students_join_users sju,staff st
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
 		AND st.STAFF_ID=sju.STAFF_ID
 		AND st.SYEAR='" . UserSyear() . "'

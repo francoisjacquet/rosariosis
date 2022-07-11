@@ -63,7 +63,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			DBQuery( "UPDATE staff SET PASSWORD='" . $password_encrypted . "' WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 			$students_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
-			FROM STUDENTS s,student_enrollment sse,STUDENTS_JOIN_USERS sju
+			FROM STUDENTS s,student_enrollment sse,students_join_users sju
 			WHERE sju.STAFF_ID='" . (int) $staff_id . "'
 			AND s.STUDENT_ID=sju.STUDENT_ID
 			AND sse.STUDENT_ID=sju.STUDENT_ID
@@ -180,7 +180,7 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX,s.USERNAME,s.EMAIL";
 
-	$extra['SELECT'] .= ",(SELECT COUNT(st.STUDENT_ID) FROM STUDENTS st,student_enrollment sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='" . UserSyear() . "' AND sse.END_DATE IS NULL) AS ASSOCIATED";
+	$extra['SELECT'] .= ",(SELECT COUNT(st.STUDENT_ID) FROM STUDENTS st,student_enrollment sse,students_join_users sju WHERE sju.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='" . UserSyear() . "' AND sse.END_DATE IS NULL) AS ASSOCIATED";
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
 

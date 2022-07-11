@@ -50,7 +50,7 @@ function SchoolDeleteSQL( $school_id )
 	$delete_sql .= "DELETE FROM program_config WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
 	// Fix SQL error when Parent have students enrolled in deleted school.
-	$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID IN(SELECT STUDENT_ID
+	$delete_sql .= "DELETE FROM students_join_users WHERE STUDENT_ID IN(SELECT STUDENT_ID
 		FROM student_enrollment
 		WHERE SCHOOL_ID='" . (int) $school_id . "'
 		AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL ) );";

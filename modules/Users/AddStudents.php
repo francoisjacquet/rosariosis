@@ -10,14 +10,14 @@ if ( $_REQUEST['modfunc'] === 'save'
 		&& is_array( $_REQUEST['student'] ) )
 	{
 		$current_RET = DBGet( "SELECT STUDENT_ID
-			FROM STUDENTS_JOIN_USERS
+			FROM students_join_users
 			WHERE STAFF_ID='" . UserStaffID() . "'", [], [ 'STUDENT_ID' ] );
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
 			if ( empty( $current_RET[$student_id] ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID)
+				DBQuery( "INSERT INTO students_join_users (STUDENT_ID,STAFF_ID)
 					VALUES('" . $student_id . "','" . UserStaffID() . "')" );
 
 				//hook
@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	if ( DeletePrompt( _( 'student from that user' ), _( 'remove access to' ) )
 		&& ! empty( $_REQUEST['student_id_remove'] ) )
 	{
-		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
+		DBQuery( "DELETE FROM students_join_users
 			WHERE STUDENT_ID='" . (int) $_REQUEST['student_id_remove'] . "'
 			AND STAFF_ID='" . UserStaffID() . "'" );
 
@@ -78,7 +78,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		// FJ add # Associated students.
 		$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID)
-		FROM STUDENTS_JOIN_USERS u,student_enrollment ssm
+		FROM students_join_users u,student_enrollment ssm
 		WHERE u.STAFF_ID=s.STAFF_ID
 		AND ssm.STUDENT_ID=u.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -105,7 +105,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// SQL fix only display enrolled students.
 		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,ssm.SCHOOL_ID
-			FROM STUDENTS_JOIN_USERS u,STUDENTS s,student_enrollment ssm
+			FROM students_join_users u,STUDENTS s,student_enrollment ssm
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'
 			AND ssm.STUDENT_ID=u.STUDENT_ID

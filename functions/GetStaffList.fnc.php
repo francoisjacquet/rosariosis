@@ -148,7 +148,7 @@ function GetStaffList( &$extra = [] )
 		$extra['WHERE'] .= " AND (s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			OR s.PROFILE='parent'
 			AND exists(SELECT ''
-				FROM STUDENTS_JOIN_USERS _sju,student_enrollment _sem,schedule _ss
+				FROM students_join_users _sju,student_enrollment _sem,schedule _ss
 				WHERE _sju.STAFF_ID=s.STAFF_ID
 				AND _sem.STUDENT_ID=_sju.STUDENT_ID
 				AND _sem.SYEAR='" . UserSyear() . "'
@@ -344,7 +344,7 @@ function appendStaffSQL( $sql, $extra = [] )
 			{
 				// @since 4.8 Search Parents by Student Grade Level.
 				$sql .= " AND s.STAFF_ID IN(SELECT _sju.STAFF_ID
-					FROM STUDENTS_JOIN_USERS _sju,student_enrollment _sem
+					FROM students_join_users _sju,student_enrollment _sem
 					WHERE _sem.STUDENT_ID=_sju.STUDENT_ID
 					AND _sem.SYEAR='" . UserSyear() . "'
 					AND _sem.GRADE_ID='" . (int) $_REQUEST['student_grade_level'] . "'";
