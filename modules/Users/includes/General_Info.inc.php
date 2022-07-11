@@ -263,7 +263,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		if ( $_REQUEST['staff_id'] !== 'new' )
 		{
 			$permissions_RET = DBGet( "SELECT ID,TITLE
-				FROM USER_PROFILES
+				FROM user_profiles
 				WHERE PROFILE='" . $staff['PROFILE'] . "'
 				ORDER BY ID" );
 

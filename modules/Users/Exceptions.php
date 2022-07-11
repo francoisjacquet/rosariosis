@@ -417,7 +417,7 @@ if ( UserStaffID()
 	else
 	{
 		$profile_title = DBGetOne( "SELECT TITLE
-		FROM USER_PROFILES
+		FROM user_profiles
 		WHERE ID='" . (int) $staff_RET[1]['PROFILE_ID'] . "'" );
 
 		echo '<br />';

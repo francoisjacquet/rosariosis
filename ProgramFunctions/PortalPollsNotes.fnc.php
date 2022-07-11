@@ -396,7 +396,7 @@ function makePublishing( $value, $name )
 
 	if ( is_null( $profiles ) )
 	{
-		$profiles_RET = DBGet( "SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID" );
+		$profiles_RET = DBGet( "SELECT ID,TITLE FROM user_profiles ORDER BY ID" );
 
 		//add Profiles with Custom permissions to profiles list
 		$profiles = array_merge( [

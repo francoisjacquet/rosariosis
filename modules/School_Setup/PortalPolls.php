@@ -7,7 +7,7 @@ DrawHeader( ProgramTitle() );
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-$profiles_RET = DBGet( "SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID" );
+$profiles_RET = DBGet( "SELECT ID,TITLE FROM user_profiles ORDER BY ID" );
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& (  ( $_REQUEST['profiles']

@@ -41,7 +41,7 @@ if ( $_REQUEST['profile_id'] !== false )
 		WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	$xprofile = DBGetOne( "SELECT PROFILE
-		FROM USER_PROFILES
+		FROM user_profiles
 		WHERE ID='" . (int) $_REQUEST['profile_id'] . "'" );
 
 	if ( $xprofile === 'student' )
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$_REQUEST['profile_id'] = (int) $_REQUEST['profile_id'];
 
 		$profile_RET = DBGet( "SELECT TITLE
-			FROM USER_PROFILES
+			FROM user_profiles
 			WHERE ID='" . (int) $_REQUEST['profile_id'] . "'" );
 	}
 	else // bad profile ID
@@ -80,7 +80,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		if ( $go )
 		{
-			$delete_sql = "DELETE FROM USER_PROFILES
+			$delete_sql = "DELETE FROM user_profiles
 				WHERE ID='" . (int) $_REQUEST['profile_id'] . "';";
 
 			$delete_sql .= "DELETE FROM staff_exceptions
@@ -246,7 +246,7 @@ if ( $_REQUEST['modfunc']
 		$xprofile = 'parent';
 	}
 
-	DBQuery( "INSERT INTO USER_PROFILES (TITLE,PROFILE)
+	DBQuery( "INSERT INTO user_profiles (TITLE,PROFILE)
 		values('" . $_REQUEST['new_profile_title'] . "','" . $xprofile . "')" );
 
 	$id = DBLastInsertID();
@@ -266,8 +266,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 	echo '<table class="widefat">';
 
-	//$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES" );
-	$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID",
+	//$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM user_profiles" );
+	$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM user_profiles ORDER BY ID",
 		[],
 		[ 'PROFILE', 'ID' ]
 	);

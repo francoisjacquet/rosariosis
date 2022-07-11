@@ -395,7 +395,7 @@ function makeProfile( $value, $column = 'PROFILE' )
 	if ( empty( $profiles_RET ) )
 	{
 		$profiles_RET = DBGet( "SELECT ID,PROFILE,TITLE
-			FROM USER_PROFILES", [], [ 'ID' ] );
+			FROM user_profiles", [], [ 'ID' ] );
 	}
 
 	$return = $value;
