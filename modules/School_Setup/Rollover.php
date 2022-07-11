@@ -18,7 +18,7 @@ $tables = [
 	'attendance_calendars' => _( 'Calendars' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
 	'courses' => _( 'Courses' ),
-	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
+	'student_enrollment_codes' => _( 'Student Enrollment Codes' ),
 	'STUDENT_ENROLLMENT' => _( 'Students' ),
 	'report_card_grades' => _( 'Report Card Grade Codes' ),
 	'report_card_comments' => _( 'Report Card Comment Codes' ),
@@ -31,7 +31,7 @@ $tables_tooltip = [
 	'report_card_comments' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
 
-$no_school_tables = [ 'schools' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'staff' => true ];
+$no_school_tables = [ 'schools' => true, 'student_enrollment_codes' => true, 'staff' => true ];
 
 if ( $RosarioModules['Eligibility'] )
 {
@@ -730,7 +730,7 @@ function Rollover( $table, $mode = 'delete' )
 						LIMIT 1),
 					'" . $next_start_date . "' AS START_DATE,NULL AS END_DATE,
 					(SELECT ID
-						FROM STUDENT_ENROLLMENT_CODES
+						FROM student_enrollment_codes
 						WHERE SYEAR=e.SYEAR+1
 						AND TYPE='Add'
 						AND DEFAULT_CODE='Y'
@@ -758,7 +758,7 @@ function Rollover( $table, $mode = 'delete' )
 					STUDENT_ID,GRADE_ID,'" . $next_start_date . "' AS START_DATE,
 					NULL AS END_DATE,
 					(SELECT ID
-						FROM STUDENT_ENROLLMENT_CODES
+						FROM student_enrollment_codes
 						WHERE SYEAR=e.SYEAR+1
 						AND TYPE='Add'
 						AND DEFAULT_CODE='Y'
@@ -793,7 +793,7 @@ function Rollover( $table, $mode = 'delete' )
 						LIMIT 1),
 					'" . $next_start_date . "' AS START_DATE,NULL AS END_DATE,
 					(SELECT ID
-						FROM STUDENT_ENROLLMENT_CODES
+						FROM student_enrollment_codes
 						WHERE SYEAR=e.SYEAR+1
 						AND TYPE='Add'
 						AND DEFAULT_CODE='Y'
@@ -921,7 +921,7 @@ function Rollover( $table, $mode = 'delete' )
 			break;
 
 		// DOESN'T HAVE A SCHOOL_ID
-		case 'STUDENT_ENROLLMENT_CODES':
+		case 'student_enrollment_codes':
 
 			if ( $mode === 'delete' )
 			{

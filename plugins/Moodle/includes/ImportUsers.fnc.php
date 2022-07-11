@@ -272,7 +272,7 @@ function MoodleUsersStudentEnrollmentForm()
 	) . '</td></tr>';
 
 	$enrollment_codes_RET = DBGet( "SELECT ID,TITLE AS TITLE
-		FROM STUDENT_ENROLLMENT_CODES
+		FROM student_enrollment_codes
 		WHERE SYEAR='" . UserSyear() . "'
 		AND TYPE='Add'
 		ORDER BY SORT_ORDER" );

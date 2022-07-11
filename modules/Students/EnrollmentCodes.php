@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE STUDENT_ENROLLMENT_CODES SET ";
+				$sql = "UPDATE student_enrollment_codes SET ";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$sql = "INSERT INTO STUDENT_ENROLLMENT_CODES ";
+				$sql = "INSERT INTO student_enrollment_codes ";
 
 				$fields = 'SYEAR,';
 				$values = "'" . UserSyear() . "',";
@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Enrollment Code' ) ) )
 	{
-		DBQuery( "DELETE FROM STUDENT_ENROLLMENT_CODES
+		DBQuery( "DELETE FROM student_enrollment_codes
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 // Check we have 1 and only one Rollover default code.
 $rollover_default_RET = DBGet( "SELECT ID
-	FROM STUDENT_ENROLLMENT_CODES
+	FROM student_enrollment_codes
 	WHERE SYEAR='" . UserSyear() . "'
 	AND TYPE='Add'
 	AND DEFAULT_CODE='Y'" );
@@ -98,7 +98,7 @@ echo ErrorMessage( $warning, 'warning' );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER
-		FROM STUDENT_ENROLLMENT_CODES
+		FROM student_enrollment_codes
 		WHERE SYEAR='" . UserSyear() . "'
 		ORDER BY SORT_ORDER,TITLE", [
 			'TITLE' => '_makeTextInput',

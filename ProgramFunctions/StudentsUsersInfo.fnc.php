@@ -810,7 +810,7 @@ function _makeStartInput( $value, $column )
 	if ( ! $add_codes )
 	{
 		$options_RET = DBGet( "SELECT ID,TITLE AS TITLE
-			FROM STUDENT_ENROLLMENT_CODES
+			FROM student_enrollment_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND TYPE='Add'
 			ORDER BY SORT_ORDER" );
@@ -893,7 +893,7 @@ function _makeEndInput( $value, $column )
 	if ( ! $drop_codes )
 	{
 		$options_RET = DBGet( "SELECT ID,TITLE AS TITLE
-			FROM STUDENT_ENROLLMENT_CODES
+			FROM student_enrollment_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND TYPE='Drop'
 			ORDER BY SORT_ORDER" );
