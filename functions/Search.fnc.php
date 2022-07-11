@@ -150,7 +150,7 @@ function Search( $type, $extra = null )
 
 			// Grade Level.
 			$grade_levels_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
-				FROM SCHOOL_GRADELEVELS
+				FROM school_gradelevels
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" );
 
@@ -264,7 +264,7 @@ function Search( $type, $extra = null )
 
 			// @since 4.8 Search Parents by Student Grade Level.
 			$grade_levels_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
-				FROM SCHOOL_GRADELEVELS
+				FROM school_gradelevels
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" );
 

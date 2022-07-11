@@ -358,7 +358,7 @@ function appendStaffSQL( $sql, $extra = [] )
 				$sql .= ")";
 
 				$student_grade_level = DBGetOne( "SELECT TITLE
-					FROM SCHOOL_GRADELEVELS
+					FROM school_gradelevels
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND ID='" . (int) $_REQUEST['student_grade_level'] . "'" );
 

@@ -222,7 +222,7 @@ else
 
 		// Grade Levels for ALL schools.
 		$gradelevels_RET = DBGet( "SELECT ID,TITLE
-			FROM SCHOOL_GRADELEVELS
+			FROM school_gradelevels
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SCHOOL_ID,SORT_ORDER" );
 

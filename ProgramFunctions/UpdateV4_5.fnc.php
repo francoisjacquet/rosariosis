@@ -1564,7 +1564,7 @@ function _update57()
 /**
  * Update to version 5.8-beta5
  *
- * 1. SCHOOL_GRADELEVELS table:
+ * 1. school_gradelevels table:
  * Change short_name column type to character varying(3)
  * Was character varying(2). Now allows French elementary grade levels.
  *
@@ -1581,7 +1581,7 @@ function _update58beta5()
 	$return = true;
 
 	/**
-	 * 1. SCHOOL_GRADELEVELS table:
+	 * 1. school_gradelevels table:
 	 * Change short_name column type to character varying(3)
 	 * Was character varying(2). Now allows French elementary grade levels.
 	 *

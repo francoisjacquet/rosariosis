@@ -665,7 +665,7 @@ function GetStuList( &$extra = [] )
 
 		if ( Preferences( 'SORT' ) === 'Grade' )
 		{
-			$sql .= '(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID),';
+			$sql .= '(SELECT SORT_ORDER FROM school_gradelevels WHERE ID=ssm.GRADE_ID),';
 		}
 
 		// It would be easier to sort on full_name but postgres sometimes yields strange results.

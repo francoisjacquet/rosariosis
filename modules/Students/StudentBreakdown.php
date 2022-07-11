@@ -45,7 +45,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		$fields_RET[1]['OPTIONS'] = [];
 
 		$grade_levels_RET = DBGet( "SELECT TITLE
-			FROM SCHOOL_GRADELEVELS
+			FROM school_gradelevels
 			WHERE SCHOOL_ID='" . UserSchool() . "'" );
 
 		foreach ( (array) $grade_levels_RET as $grade_level )
@@ -99,7 +99,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		if ( $_REQUEST['field_id'] === 'grade_level' )
 		{
 			$extra['SELECT_ONLY'] .= ",COALESCE((SELECT TITLE
-				FROM SCHOOL_GRADELEVELS
+				FROM school_gradelevels
 				WHERE ID=" . $field_column . "),'*BLANK*') AS TITLE ";
 		}
 		else

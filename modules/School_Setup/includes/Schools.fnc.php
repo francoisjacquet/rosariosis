@@ -19,7 +19,7 @@ function SchoolDeleteSQL( $school_id )
 {
 	$school_id = intval( $school_id );
 
-	$delete_sql = "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . (int) $school_id . "';";
+	$delete_sql = "DELETE FROM school_gradelevels WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
 	$delete_sql .= "DELETE FROM attendance_calendar WHERE SCHOOL_ID='" . (int) $school_id . "';";
 

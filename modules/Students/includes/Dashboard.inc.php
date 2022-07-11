@@ -46,7 +46,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 		$students_RET = DBGet( "SELECT
 		sgl.SHORT_NAME AS GRADELEVEL,
 		SUM(CASE WHEN se.GRADE_ID=sgl.ID THEN 1 END) AS STUDENTS_NB
-		FROM STUDENT_ENROLLMENT se, SCHOOL_GRADELEVELS sgl
+		FROM STUDENT_ENROLLMENT se, school_gradelevels sgl
 		WHERE se.SYEAR='" . UserSyear() . "'
 		AND se.SCHOOL_ID='" . UserSchool() . "'
 		AND (CURRENT_DATE>=se.START_DATE

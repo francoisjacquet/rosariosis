@@ -14,7 +14,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE SCHOOL_GRADELEVELS SET ";
+				$sql = "UPDATE school_gradelevels SET ";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			elseif ( $columns['TITLE']
 				&& $columns['SHORT_NAME'] )
 			{
-				$sql = "INSERT INTO SCHOOL_GRADELEVELS ";
+				$sql = "INSERT INTO school_gradelevels ";
 
 				$fields = 'SCHOOL_ID,';
 				$values = "'" . UserSchool() . "',";
@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Grade Level' ) ) )
 	{
-		DBQuery( "DELETE FROM SCHOOL_GRADELEVELS WHERE ID='" . (int) $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM school_gradelevels WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );
@@ -87,7 +87,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE se.GRADE_ID=sg.ID
 			AND se.SCHOOL_ID='" . UserSchool() . "'
 			LIMIT 1) AS REMOVE
-		FROM SCHOOL_GRADELEVELS sg
+		FROM school_gradelevels sg
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER",
 		[
@@ -203,7 +203,7 @@ function _makeGradeInput( $value, $name )
 	if ( ! $grades )
 	{
 		$grades_RET = DBGet( "SELECT ID,TITLE
-			FROM SCHOOL_GRADELEVELS
+			FROM school_gradelevels
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER" );
 

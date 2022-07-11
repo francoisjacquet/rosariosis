@@ -29,7 +29,7 @@ function GetGrade( $grade, $column = 'TITLE' )
 	if ( ! $grades )
 	{
 		$grades = DBGet( "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID
-			FROM SCHOOL_GRADELEVELS", [], [ 'ID' ] );
+			FROM school_gradelevels", [], [ 'ID' ] );
 	}
 
 	if ( ! isset( $grades[ $grade ] ) )

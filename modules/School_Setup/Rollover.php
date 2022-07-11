@@ -725,7 +725,7 @@ function Rollover( $table, $mode = 'delete' )
 					DROP_CODE,CALENDAR_ID,NEXT_SCHOOL,LAST_SCHOOL)
 				SELECT SYEAR+1,SCHOOL_ID,STUDENT_ID,
 					(SELECT NEXT_GRADE_ID
-						FROM SCHOOL_GRADELEVELS g
+						FROM school_gradelevels g
 						WHERE g.ID=e.GRADE_ID
 						LIMIT 1),
 					'" . $next_start_date . "' AS START_DATE,NULL AS END_DATE,
@@ -746,7 +746,7 @@ function Rollover( $table, $mode = 'delete' )
 					AND '" . DBDate() . "'>=e.START_DATE )
 				AND e.NEXT_SCHOOL='" . UserSchool() . "'
 				AND (SELECT NEXT_GRADE_ID
-					FROM SCHOOL_GRADELEVELS g
+					FROM school_gradelevels g
 					WHERE g.ID=e.GRADE_ID
 					LIMIT 1) IS NOT NULL" );
 
@@ -782,9 +782,9 @@ function Rollover( $table, $mode = 'delete' )
 				SELECT SYEAR+1,
 					NEXT_SCHOOL,STUDENT_ID,
 					(SELECT g.ID
-						FROM SCHOOL_GRADELEVELS g
+						FROM school_gradelevels g
 						WHERE (g.TITLE=(SELECT g2.TITLE
-								FROM SCHOOL_GRADELEVELS g2
+								FROM school_gradelevels g2
 								WHERE g2.SCHOOL_ID=e.SCHOOL_ID
 								AND g2.ID=e.GRADE_ID)
 							OR g.SORT_ORDER=1)

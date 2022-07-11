@@ -75,7 +75,7 @@ foreach ( (array) $calendars_RET as $calendar )
 }
 
 $gradelevels_RET = DBGet( "SELECT ID,TITLE
-	FROM SCHOOL_GRADELEVELS
+	FROM school_gradelevels
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 

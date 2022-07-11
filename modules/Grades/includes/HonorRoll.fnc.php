@@ -26,7 +26,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	// SELECT s.* Custom Fields for Substitutions.
 	$extra['SELECT'] = ",s.*";
 
-	$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
+	$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM school_gradelevels WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
 	$extra['SELECT'] .= "," . db_case( [ "exists(SELECT rg.GPA_VALUE
 	FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
@@ -217,7 +217,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
-	$extra['SELECT'] = ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
+	$extra['SELECT'] = ",(SELECT SORT_ORDER FROM school_gradelevels WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
 	$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 	FROM STAFF st,course_periods cp,schedule ss
