@@ -78,7 +78,7 @@ $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER", [], [ 'ID' ] );
 
 $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
-	FROM REPORT_CARD_COMMENT_CATEGORIES rc
+	FROM report_card_comment_categories rc
 	WHERE rc.COURSE_ID='" . (int) $course_id . "'
 	AND (SELECT count(1)
 		FROM REPORT_CARD_COMMENTS

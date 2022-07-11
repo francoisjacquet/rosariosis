@@ -855,7 +855,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				$delete_sql = "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
+				$delete_sql = "DELETE FROM report_card_comment_categories
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -868,12 +868,12 @@ function Rollover( $table, $mode = 'delete' )
 				break;
 			}
 
-			DBQuery( "INSERT INTO REPORT_CARD_COMMENT_CATEGORIES (SYEAR,SCHOOL_ID,TITLE,
+			DBQuery( "INSERT INTO report_card_comment_categories (SYEAR,SCHOOL_ID,TITLE,
 				SORT_ORDER,COURSE_ID,ROLLOVER_ID)
 				SELECT SYEAR+1,
 				SCHOOL_ID,TITLE,SORT_ORDER," .
 				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM courses WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . ",ID
-				FROM REPORT_CARD_COMMENT_CATEGORIES rc
+				FROM report_card_comment_categories rc
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -882,7 +882,7 @@ function Rollover( $table, $mode = 'delete' )
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,
 				SORT_ORDER," .
 				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM courses WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . "," .
-				db_case( [ 'CATEGORY_ID', "''", 'NULL', "(SELECT ID FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ROLLOVER_ID=rc.CATEGORY_ID)" ] ) . ",SCALE_ID
+				db_case( [ 'CATEGORY_ID', "''", 'NULL', "(SELECT ID FROM report_card_comment_categories WHERE ROLLOVER_ID=rc.CATEGORY_ID)" ] ) . ",SCALE_ID
 				FROM REPORT_CARD_COMMENTS rc
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );

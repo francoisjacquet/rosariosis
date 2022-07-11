@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( $_REQUEST['tab_id'] === 'new' )
 			{
-				$table = 'REPORT_CARD_COMMENT_CATEGORIES';
+				$table = 'report_card_comment_categories';
 			}
 			else
 			{
@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			$delete_sql = "DELETE FROM REPORT_CARD_COMMENTS
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['id'] . "';";
 
-			$delete_sql .= "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
+			$delete_sql .= "DELETE FROM report_card_comment_categories
 				WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 			DBQuery( $delete_sql );
@@ -242,7 +242,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,
 	(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT
-	FROM REPORT_CARD_COMMENT_CATEGORIES rc
+	FROM report_card_comment_categories rc
 	WHERE rc.COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 	UNION
 	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
@@ -282,7 +282,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id'] == 'new' )
 	{
 		$sql = "SELECT *
-			FROM REPORT_CARD_COMMENT_CATEGORIES
+			FROM report_card_comment_categories
 			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
