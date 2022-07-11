@@ -37,7 +37,7 @@ function MailingLabel( $address_id )
 		coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,
 		coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE
 		FROM address a JOIN students_join_address sja ON (a.ADDRESS_ID=sja.ADDRESS_ID)
-		LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sjp.ADDRESS_ID=sja.ADDRESS_ID
+		LEFT OUTER JOIN students_join_people sjp ON (sjp.ADDRESS_ID=sja.ADDRESS_ID
 			AND sjp.STUDENT_ID=sja.STUDENT_ID
 			AND (sjp.CUSTODY='Y' OR sja.RESIDENCE IS NULL))
 		LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)

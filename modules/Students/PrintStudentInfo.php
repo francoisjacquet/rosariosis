@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
 						A.MAIL_ZIPCODE,sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,
 						sja.BUS_DROPOFF," . db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . "AS SORT_ORDER" . $address_custom .
-						" FROM address a,students_join_address sja,STUDENTS_JOIN_PEOPLE sjp
+						" FROM address a,students_join_address sja,students_join_people sjp
 						WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 						AND sja.STUDENT_ID='" . UserStudentID() . "'
 						AND a.ADDRESS_ID=sjp.ADDRESS_ID
@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						" FROM address a,students_join_address sja
 						WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 						AND sja.STUDENT_ID='" . UserStudentID() . "'
-						AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp
+						AND NOT EXISTS (SELECT '' FROM students_join_people sjp
 							WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 							AND sjp.ADDRESS_ID=a.ADDRESS_ID)
 						ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" );
@@ -144,7 +144,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 							$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,
 							p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,
 							sjp.STUDENT_RELATION" . $people_custom . "
-							FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
+							FROM PEOPLE p,students_join_people sjp
 							WHERE p.PERSON_ID=sjp.PERSON_ID
 							AND sjp.STUDENT_ID='" . UserStudentID() . "'
 							AND sjp.ADDRESS_ID='" . (int) $address['ADDRESS_ID'] . "'" );

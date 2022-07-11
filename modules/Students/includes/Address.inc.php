@@ -25,11 +25,11 @@ if ( ! empty( $_POST['values'] )
 				DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID)
 					values('" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
 
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE
+				DBQuery( "INSERT INTO students_join_people
 					(STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 					SELECT DISTINCT ON (PERSON_ID) '" . UserStudentID() . "',PERSON_ID,
 					ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
-					FROM STUDENTS_JOIN_PEOPLE
+					FROM students_join_people
 					WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 		}
@@ -38,14 +38,14 @@ if ( ! empty( $_POST['values'] )
 			$_REQUEST['person_id'] = $_REQUEST['values']['EXISTING']['person_id'];
 
 			if ( ! DBGetOne( "SELECT 1
-				FROM STUDENTS_JOIN_PEOPLE
+				FROM students_join_people
 				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+				DBQuery( "INSERT INTO students_join_people (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 					SELECT DISTINCT ON (PERSON_ID) '" . UserStudentID() . "',PERSON_ID,
 					'" . $_REQUEST['address_id'] . "',CUSTODY,EMERGENCY,STUDENT_RELATION
-					FROM STUDENTS_JOIN_PEOPLE
+					FROM students_join_people
 					WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 				if ( $_REQUEST['address_id'] == '0'
@@ -233,8 +233,8 @@ if ( ! empty( $_POST['values'] )
 
 				$id = DBLastInsertID();
 
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY)
-					values('" . $id . "','" . UserStudentID() . "','" . $_REQUEST['address_id'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY'] . "')" );
+				DBQuery( "INSERT INTO students_join_people (PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY)
+					values('" . $id . "','" . UserStudentID() . "','" . $_REQUEST['address_id'] . "','" . $_REQUEST['values']['students_join_people']['CUSTODY'] . "','" . $_REQUEST['values']['students_join_people']['EMERGENCY'] . "')" );
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
@@ -297,12 +297,12 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
-	if ( ! empty( $_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] )
+	if ( ! empty( $_REQUEST['values']['students_join_people'] )
 		&& $_REQUEST['person_id'] !== 'new' )
 	{
-		$sql = "UPDATE STUDENTS_JOIN_PEOPLE SET ";
+		$sql = "UPDATE students_join_people SET ";
 
-		foreach ( (array) $_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column => $value )
+		foreach ( (array) $_REQUEST['values']['students_join_people'] as $column => $value )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
@@ -352,13 +352,13 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 	{
 		if ( DeletePrompt( _( 'Contact' ) ) )
 		{
-			DBQuery( "DELETE FROM STUDENTS_JOIN_PEOPLE
+			DBQuery( "DELETE FROM students_join_people
 				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
 				AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" );
 
 			if ( ! DBGetOne( "SELECT 1
-				FROM STUDENTS_JOIN_PEOPLE
+				FROM students_join_people
 				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" ) )
 			{
 				$delete_sql = "DELETE FROM PEOPLE WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
@@ -369,7 +369,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 
 			if ( $_REQUEST['address_id'] == '0'
 				&& ! DBGetOne( "SELECT 1
-					FROM STUDENTS_JOIN_PEOPLE
+					FROM students_join_people
 					WHERE ADDRESS_ID='0'
 					AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
@@ -386,13 +386,13 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 	{
 		if ( DeletePrompt( _( 'Address' ) ) )
 		{
-			DBQuery( "UPDATE STUDENTS_JOIN_PEOPLE
+			DBQuery( "UPDATE students_join_people
 				SET ADDRESS_ID='0'
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 
 			if ( ! DBGetOne( "SELECT 1
-				FROM STUDENTS_JOIN_PEOPLE
+				FROM students_join_people
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND ADDRESS_ID='0'" )
 				&& DBGetOne( "SELECT 1
@@ -434,7 +434,7 @@ if ( ! $_REQUEST['modfunc'] )
 		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
 		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
 		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . "AS SORT_ORDER
-	FROM address a,students_join_address sja,STUDENTS_JOIN_PEOPLE sjp
+	FROM address a,students_join_address sja,students_join_people sjp
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND a.ADDRESS_ID=sjp.ADDRESS_ID
@@ -448,7 +448,7 @@ if ( ! $_REQUEST['modfunc'] )
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND NOT EXISTS (SELECT ''
-		FROM STUDENTS_JOIN_PEOPLE sjp
+		FROM students_join_people sjp
 		WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 		AND sjp.ADDRESS_ID=a.ADDRESS_ID)
 	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION", [], [ 'ADDRESS_ID' ] );
@@ -685,7 +685,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 				sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
-				FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
+				FROM PEOPLE p,students_join_people sjp
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND sjp.STUDENT_ID='" . UserStudentID() . "'
 				AND sjp.ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
@@ -744,7 +744,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$xstudents = DBGet( "SELECT s.STUDENT_ID,
 					" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 					STUDENT_RELATION,CUSTODY,EMERGENCY
-					FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp
+					FROM STUDENTS s,students_join_people sjp
 					WHERE s.STUDENT_ID=sjp.STUDENT_ID
 					AND sjp.PERSON_ID='" . (int) $contact['PERSON_ID'] . "'
 					AND sjp.STUDENT_ID!='" . UserStudentID() . "'" );
@@ -1139,7 +1139,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				$relation_options = _makeAutoSelect(
 					'STUDENT_RELATION',
-					'STUDENTS_JOIN_PEOPLE',
+					'students_join_people',
 					issetVal( $this_contact['STUDENT_RELATION'] ),
 					[]
 				);
@@ -1177,13 +1177,13 @@ if ( ! $_REQUEST['modfunc'] )
 						FormatInputTitle( _( 'Name' ), $id )
 					);
 
-					echo '<tr><td colspan="2">' . _makeAutoSelectInputX( $this_contact['STUDENT_RELATION'], 'STUDENT_RELATION', 'STUDENTS_JOIN_PEOPLE', _( 'Relation' ), $relation_options ) . '</td>';
+					echo '<tr><td colspan="2">' . _makeAutoSelectInputX( $this_contact['STUDENT_RELATION'], 'STUDENT_RELATION', 'students_join_people', _( 'Relation' ), $relation_options ) . '</td>';
 
 					// Custody.
 					echo '<tr><td>' . button( 'gavel', '', '', 'bigger' ) . '</td><td>' .
 					CheckboxInput(
 						$this_contact['CUSTODY'],
-						'values[STUDENTS_JOIN_PEOPLE][CUSTODY]',
+						'values[students_join_people][CUSTODY]',
 						_( 'Custody' ),
 						'',
 						false,
@@ -1195,7 +1195,7 @@ if ( ! $_REQUEST['modfunc'] )
 					echo '<tr><td>' . button( 'emergency', '', '', 'bigger' ) . '</td><td>' .
 					CheckboxInput(
 						$this_contact['EMERGENCY'],
-						'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]',
+						'values[students_join_people][EMERGENCY]',
 						_( 'Emergency' ),
 						'',
 						false,
@@ -1344,7 +1344,7 @@ if ( ! $_REQUEST['modfunc'] )
 					_makeAutoSelectInputX(
 						'',
 						'STUDENT_RELATION',
-						'STUDENTS_JOIN_PEOPLE',
+						'students_join_people',
 						_( 'Relation' ),
 						$relation_options
 					) . '</td></tr>';
@@ -1353,7 +1353,7 @@ if ( ! $_REQUEST['modfunc'] )
 					echo '<tr><td>' . button( 'gavel', '', '', 'bigger' ) . ' ' .
 					CheckboxInput(
 						'',
-						'values[STUDENTS_JOIN_PEOPLE][CUSTODY]',
+						'values[students_join_people][CUSTODY]',
 						_( 'Custody' ),
 						'',
 						true
@@ -1363,7 +1363,7 @@ if ( ! $_REQUEST['modfunc'] )
 					echo '<tr><td>' . button( 'emergency', '', '', 'bigger' ) . ' ' .
 					CheckboxInput(
 						issetVal( $this_contact['EMERGENCY'] ),
-						'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]',
+						'values[students_join_people][EMERGENCY]',
 						_( 'Emergency' ),
 						'',
 						true
@@ -1427,18 +1427,18 @@ if ( ! $_REQUEST['modfunc'] )
 				{
 					// Limit Existing Contacts to current school.
 					$limit_current_school_sql = " AND p.PERSON_ID IN (SELECT sjp.PERSON_ID
-						FROM STUDENTS_JOIN_PEOPLE sjp, STUDENT_ENROLLMENT se
+						FROM students_join_people sjp, STUDENT_ENROLLMENT se
 						WHERE sjp.STUDENT_ID=se.STUDENT_ID
 						AND se.SCHOOL_ID='" . UserSchool() . "')";
 				}
 
 				$people_RET = DBGet( "SELECT DISTINCT p.PERSON_ID,
 					p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
-					FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
+					FROM PEOPLE p,students_join_people sjp
 					WHERE sjp.PERSON_ID=p.PERSON_ID
 					AND sjp.ADDRESS_ID" . ( $_REQUEST['address_id'] != '0' ? '!=' : '=' ) . "'0'
 					AND p.PERSON_ID NOT IN (SELECT PERSON_ID
-						FROM STUDENTS_JOIN_PEOPLE
+						FROM students_join_people
 						WHERE STUDENT_ID='" . UserStudentID() . "')" .
 					$limit_current_school_sql .
 					" ORDER BY LAST_NAME,FIRST_NAME" );
@@ -1542,7 +1542,7 @@ function _makePeopleInput( $value, $column, $title = '' )
 
 	$div = $_REQUEST['person_id'] == 'new';
 
-	$table = $column == 'STUDENT_RELATION' ? 'STUDENTS_JOIN_PEOPLE' : 'PEOPLE';
+	$table = $column == 'STUDENT_RELATION' ? 'students_join_people' : 'PEOPLE';
 
 	return TextInput(
 		$value,
@@ -1567,7 +1567,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 	// Tables white list, prevent hacking.
 	$tables_white_list = [
 		'address',
-		'STUDENTS_JOIN_PEOPLE',
+		'students_join_people',
 		'people_join_contacts',
 	];
 
@@ -1662,7 +1662,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
  *
  * @param  string  $value  Input value.
  * @param  string  $column Column.
- * @param  string  $table  DB table (address or people_join_contacts or STUDENTS_JOIN_PEOPLE).
+ * @param  string  $table  DB table (address or people_join_contacts or students_join_people).
  * @param  string  $title  Input title.
  * @param  array   $select Select options.
  * @param  string  $id     ID. Optional. Defaults to ''.

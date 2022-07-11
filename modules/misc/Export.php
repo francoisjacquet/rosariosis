@@ -118,7 +118,7 @@ if ( ! empty( $_REQUEST['fields'] )
 		/*if ( $_REQUEST['relation']!='')
 		{*/
 			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
-			/*$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
+			/*$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM students_join_people sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
 		}*/
 	}
 }
@@ -799,7 +799,7 @@ else
 				&& $field == 'PARENTS' )
 			{
 				$relations_RET = DBGet( "SELECT DISTINCT STUDENT_RELATION
-					FROM STUDENTS_JOIN_PEOPLE
+					FROM students_join_people
 					ORDER BY STUDENT_RELATION" );
 
 				$select = '<select id="relation"><option value="">' . _( 'N/A' );

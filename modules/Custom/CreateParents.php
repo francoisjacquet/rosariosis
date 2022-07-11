@@ -473,7 +473,7 @@ function _makeChooseCheckbox( $value, $column )
 	if ( empty( $THIS_RET['STAFF_ID'] ) )
 	{
 		$has_parents = DBGet( "SELECT 1
-			FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
+			FROM students_join_people sjp,PEOPLE p
 			WHERE p.PERSON_ID=sjp.PERSON_ID
 			AND sjp.STUDENT_ID='" . (int) $value . "'
 			AND sjp.ADDRESS_ID='" . (int) $THIS_RET['ADDRESS_ID'] . "'
@@ -509,7 +509,7 @@ function _makeContactSelect( $value, $column )
 	{
 		$RET = DBGet( "SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,
 			p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
-		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
+		FROM students_join_people sjp,PEOPLE p
 		WHERE p.PERSON_ID=sjp.PERSON_ID
 		AND sjp.STUDENT_ID='" . (int) $value . "'
 		AND sjp.ADDRESS_ID='" . (int) $THIS_RET['ADDRESS_ID'] . "'

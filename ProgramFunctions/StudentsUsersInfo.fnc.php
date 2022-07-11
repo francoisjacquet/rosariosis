@@ -247,7 +247,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		elseif ( $request === 'values[PEOPLE]' )
 		{
 			$options_SQL = "SELECT DISTINCT p.CUSTOM_" . $field['ID'] . ",upper(p.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp,STUDENTS s,STUDENT_ENROLLMENT sse
+				FROM PEOPLE p,students_join_people sjp,STUDENTS s,STUDENT_ENROLLMENT sse
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND s.STUDENT_ID=sjp.STUDENT_ID
 				AND sse.STUDENT_ID=s.STUDENT_ID

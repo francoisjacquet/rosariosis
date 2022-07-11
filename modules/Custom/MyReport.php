@@ -59,7 +59,7 @@ if ( ! $_REQUEST['modfunc'] )
 			LEFT OUTER JOIN address adr
 				ON (adr.ADDRESS_ID=sja.ADDRESS_ID)";
 
-		$extra['FROM'] .= " LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp
+		$extra['FROM'] .= " LEFT OUTER JOIN students_join_people sjp
 				ON (sjp.STUDENT_ID=ssm.STUDENT_ID AND sjp.ADDRESS_ID=adr.ADDRESS_ID)
 			LEFT OUTER JOIN PEOPLE p
 				ON (p.PERSON_ID=sjp.PERSON_ID)";

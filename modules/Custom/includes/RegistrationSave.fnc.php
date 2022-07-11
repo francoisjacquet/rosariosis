@@ -143,7 +143,7 @@ function RegistrationSaveSibling( $config, $values, $student_id )
 function RegistrationSaveSiblingContacts( $student_id )
 {
 	$contacts_RET = DBGet( "SELECT PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
-		FROM STUDENTS_JOIN_PEOPLE
+		FROM students_join_people
 		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	foreach ( (array) $contacts_RET as $contact )
@@ -152,7 +152,7 @@ function RegistrationSaveSiblingContacts( $student_id )
 			$contact['PERSON_ID'] . "','" . $contact['ADDRESS_ID'] . "','" . $contact['CUSTODY'] . "','" .
 			$contact['EMERGENCY'] . "','" . $contact['STUDENT_RELATION'] . "'";
 
-		DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+		DBQuery( "INSERT INTO students_join_people (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 			VALUES(" . $sql_values . ")" );
 	}
 }
@@ -373,7 +373,7 @@ function RegistrationSaveJoinContact( $contact_id, $address_id, $config )
 		$contact_id . "','" . $address_id . "','" . issetVal( $config['custody'] ) . "','" .
 		issetVal( $config['emergency'] ) . "','" . $config['relation'] . "'";
 
-	DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+	DBQuery( "INSERT INTO students_join_people (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 		VALUES(" . $sql_values . ")" );
 
 	return true;
