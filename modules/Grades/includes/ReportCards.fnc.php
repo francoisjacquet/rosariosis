@@ -958,8 +958,8 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		}
 
 		// FJ multiple school periods for a course period.
-		//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,attendance_codes ac,course_periods rc_cp,SCHOOL_PERIODS sp";
-		$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,attendance_codes ac,course_periods rc_cp,
+		//$extra['FROM'] .= ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,SCHOOL_PERIODS sp";
+		$extra['FROM'] = ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,
 			SCHOOL_PERIODS sp,course_period_school_periods cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
@@ -1602,7 +1602,7 @@ function GetReportCardMinMaxGrades( $course_periods )
 		// Get Min. Max. Grades for each CP, and each MP.
 		$min_max_grades[$cp_list][$mp_list] = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,
 			MIN(GRADE_PERCENT) AS GRADE_MIN,MAX(GRADE_PERCENT) AS GRADE_MAX
-			FROM STUDENT_REPORT_CARD_GRADES
+			FROM student_report_card_grades
 			WHERE SYEAR='" . UserSyear() . "'
 			AND COURSE_PERIOD_ID IN(" . $cp_list . ")
 			AND MARKING_PERIOD_ID IN(" . $mp_list . ")
@@ -1618,7 +1618,7 @@ function GetReportCardMinMaxGrades( $course_periods )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND MARKING_PERIOD_ID IN(" . $mp_list . ")
 				AND STUDENT_ID IN(SELECT STUDENT_ID
-					FROM STUDENT_REPORT_CARD_GRADES
+					FROM student_report_card_grades
 					WHERE SYEAR='" . UserSyear() . "'
 					AND COURSE_PERIOD_ID IN(" . $cp_list . ")
 					AND MARKING_PERIOD_ID IN(" . $mp_list . "))

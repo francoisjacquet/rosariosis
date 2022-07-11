@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 											WHERE STUDENT_ID='" . (int) $student_id . "'
 											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
-										$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_GRADES
+										$delete_sql .= "DELETE FROM student_report_card_grades
 											WHERE STUDENT_ID='" . (int) $student_id . "'
 											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 

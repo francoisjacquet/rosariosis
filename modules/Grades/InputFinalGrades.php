@@ -57,7 +57,7 @@ $course_id = $course_RET[1]['COURSE_ID'];
 
 $current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,
 	g.REPORT_CARD_COMMENT_ID,g.COMMENT
-	FROM STUDENT_REPORT_CARD_GRADES g,course_periods cp
+	FROM student_report_card_grades g,course_periods cp
 	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 	AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 	AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'", [], [ 'STUDENT_ID' ] );
@@ -378,7 +378,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			$mps = mb_substr( $mps, 0, -1 );
 
 			$percents_RET = DBGet( "SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID
-				FROM STUDENT_REPORT_CARD_GRADES
+				FROM student_report_card_grades
 				WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 				AND MARKING_PERIOD_ID IN (" . $mps . ")", [], [ 'STUDENT_ID' ] );
 
@@ -428,7 +428,7 @@ if ( $_REQUEST['modfunc'] === 'grades' )
 		require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 
 		$import_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT
-			FROM STUDENT_REPORT_CARD_GRADES g,course_periods cp
+			FROM student_report_card_grades g,course_periods cp
 			WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 			AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 			AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['prev_mp'] . "'", [], [ 'STUDENT_ID' ] );
@@ -453,7 +453,7 @@ if ( $_REQUEST['modfunc'] === 'comments' )
 	if ( ! empty( $_REQUEST['prev_mp'] ) )
 	{
 		$import_comments_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_GRADES g
+		FROM student_report_card_grades g
 		WHERE g.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['prev_mp'] . "'", [], [ 'STUDENT_ID' ] );
 
@@ -657,7 +657,7 @@ if ( ! empty( $_REQUEST['values'] )
 				// Reset Class Rank based on current CP Does Class Rank parameter.
 				$sql .= ",CLASS_RANK='" . $course_RET[1]['CLASS_RANK'] . "'";
 
-				$sql = "UPDATE STUDENT_REPORT_CARD_GRADES
+				$sql = "UPDATE student_report_card_grades
 					SET " . $sql . "
 					WHERE STUDENT_ID='" . (int) $student_id . "'
 					AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
@@ -738,7 +738,7 @@ if ( ! empty( $_REQUEST['values'] )
 			//FJ fix bug SQL ID=NULL
 			//FJ add CLASS_RANK
 			//FJ add Credit Hours
-			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES (SYEAR,SCHOOL_ID,STUDENT_ID,
+			$sql = "INSERT INTO student_report_card_grades (SYEAR,SCHOOL_ID,STUDENT_ID,
 			COURSE_PERIOD_ID,MARKING_PERIOD_ID,REPORT_CARD_GRADE_ID,GRADE_PERCENT,COMMENT,
 			GRADE_LETTER,WEIGHTED_GP,UNWEIGHTED_GP,GP_SCALE,COURSE_TITLE,CREDIT_ATTEMPTED,
 			CREDIT_EARNED,CLASS_RANK,CREDIT_HOURS)
@@ -762,7 +762,7 @@ if ( ! empty( $_REQUEST['values'] )
 			DBQuery( $sql );
 		}
 
-		//DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'");
+		//DBQuery("DELETE FROM student_report_card_grades WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'");
 
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		{
@@ -964,7 +964,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 	$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,
 		g.REPORT_CARD_COMMENT_ID,g.COMMENT
-		FROM STUDENT_REPORT_CARD_GRADES g
+		FROM student_report_card_grades g
 		WHERE g.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'", [], [ 'STUDENT_ID' ] );
 

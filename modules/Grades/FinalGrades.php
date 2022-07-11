@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'Final Grade' ) ) )
 	{
-		$delete_sql = "DELETE FROM STUDENT_REPORT_CARD_GRADES
+		$delete_sql = "DELETE FROM student_report_card_grades
 			WHERE SYEAR='" . UserSyear() . "'
 			AND STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'
 			AND COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'
@@ -66,9 +66,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";*/
 
 		//FJ multiple school periods for a course period
-		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
+		/*$extra['FROM'] .= ",student_report_card_grades sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
 		course_periods rc_cp,courses c,SCHOOL_PERIODS sp";*/
-		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,
+		/*$extra['FROM'] .= ",student_report_card_grades sg1,
 		course_periods rc_cp,courses c,SCHOOL_PERIODS sp,course_period_school_periods cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")

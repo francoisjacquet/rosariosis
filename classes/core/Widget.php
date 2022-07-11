@@ -771,7 +771,7 @@ class Widget_letter_grade implements Widget
 		$extra['WHERE'] .= " AND " . ( isset( $_REQUEST['letter_grade_exclude'] )
 			&& $_REQUEST['letter_grade_exclude'] == 'Y' ? 'NOT ' : '' ) . "EXISTS
 			(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg3
+				FROM student_report_card_grades sg3
 				WHERE sg3.STUDENT_ID=ssm.STUDENT_ID
 				AND sg3.SYEAR=ssm.SYEAR
 				AND sg3.REPORT_CARD_GRADE_ID IN (" . mb_substr( $letter_grades, 1 ) . ")

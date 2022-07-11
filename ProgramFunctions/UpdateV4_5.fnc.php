@@ -1483,7 +1483,7 @@ function _update542()
  * 0. REPORT_CARD_GRADES table: Cut titles > 5 chars.
  * 1. REPORT_CARD_GRADES table: Change title column type to character varying(5)
  * Was text which could prevent saving letter grades > 5 chars
- * @see STUDENT_REPORT_CARD_GRADES letter_grade column.
+ * @see student_report_card_grades letter_grade column.
  *
  * Local function
  *
@@ -1506,7 +1506,7 @@ function _update55beta3()
 	/**
 	 * 1. REPORT_CARD_GRADES table: Change title column type to character varying(5)
 	 * Was text which could prevent saving letter grades > 5 chars
-	 * @see STUDENT_REPORT_CARD_GRADES letter_grade column.
+	 * @see student_report_card_grades letter_grade column.
 	 */
 	DBQuery( "ALTER TABLE REPORT_CARD_GRADES
 		ALTER COLUMN title TYPE character varying(5);" );

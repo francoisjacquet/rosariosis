@@ -69,7 +69,7 @@ if ( UserStudentID() )
 			{
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE STUDENT_REPORT_CARD_GRADES SET ";
+					$sql = "UPDATE student_report_card_grades SET ";
 
 					foreach ( (array) $columns as $column => $value )
 					{
@@ -86,7 +86,7 @@ if ( UserStudentID() )
 				// New: check for Title.
 				elseif ( $columns['COURSE_TITLE'] )
 				{
-					$sql = 'INSERT INTO STUDENT_REPORT_CARD_GRADES ';
+					$sql = 'INSERT INTO student_report_card_grades ';
 
 					// FJ fix bug SQL SYEAR=NULL.
 					$syear = DBGetOne( "SELECT SYEAR
@@ -166,7 +166,7 @@ if ( UserStudentID() )
 	{
 		if ( DeletePrompt( _( 'Student Grade' ) ) )
 		{
-			DBQuery( "DELETE FROM STUDENT_REPORT_CARD_GRADES
+			DBQuery( "DELETE FROM student_report_card_grades
 				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			if ( $mp_id )
@@ -465,7 +465,7 @@ if ( UserStudentID() )
 			// $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
 
 			$student_grades_RET = DBGet( "SELECT *
-				FROM STUDENT_REPORT_CARD_GRADES
+				FROM student_report_card_grades
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND MARKING_PERIOD_ID='" . (int) $mp_id . "'
 				ORDER BY ID", $functions );
