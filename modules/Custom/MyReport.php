@@ -199,7 +199,7 @@ function _makeTV( $value, $column )
 		&& $THIS_RET['PERSON_ID'] !== $person_id )
 	{
 		$person_RET = DBGet( "SELECT TITLE,VALUE
-			FROM PEOPLE_JOIN_CONTACTS
+			FROM people_join_contacts
 			WHERE PERSON_ID='" . (int) $THIS_RET['PERSON_ID'] . "'
 			LIMIT 10" );
 

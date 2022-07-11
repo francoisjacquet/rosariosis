@@ -196,7 +196,7 @@ function GetStuList( &$extra = [] )
 
 			$extra2['FROM'] = ',address a,students_join_address sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
-				LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
+				LEFT OUTER JOIN people_join_contacts pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
 
 			$extra2['WHERE'] = ' AND a.ADDRESS_ID=sja.ADDRESS_ID
 				AND sja.STUDENT_ID=ssm.STUDENT_ID
@@ -257,7 +257,7 @@ function GetStuList( &$extra = [] )
 				$extra2['FROM'] .= ',students_join_address sja
 					LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 					LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
-					LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
+					LEFT OUTER JOIN people_join_contacts pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
 
 				$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID
 					AND sja.STUDENT_ID=ssm.STUDENT_ID

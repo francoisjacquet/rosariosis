@@ -7,7 +7,7 @@ $person_RET = DBGet( "SELECT *
 	AND sjp.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'" );
 
 $contacts_RET = DBGet( "SELECT TITLE,VALUE
-	FROM PEOPLE_JOIN_CONTACTS
+	FROM people_join_contacts
 	WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 $fields_RET = DBGet( "SELECT pf.ID,pf.TITLE

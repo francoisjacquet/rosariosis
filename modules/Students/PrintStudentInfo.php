@@ -160,7 +160,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 									' &nbsp;</b><br />';
 
 								$info_RET = DBGet( "SELECT ID,TITLE,VALUE
-								FROM PEOPLE_JOIN_CONTACTS
+								FROM people_join_contacts
 								WHERE PERSON_ID='" . (int) $contact['PERSON_ID'] . "'" );
 
 								echo '<table>';

@@ -251,13 +251,13 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
-	if ( ! empty( $_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] ) )
+	if ( ! empty( $_REQUEST['values']['people_join_contacts'] ) )
 	{
-		foreach ( (array) $_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id => $values )
+		foreach ( (array) $_REQUEST['values']['people_join_contacts'] as $id => $values )
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE PEOPLE_JOIN_CONTACTS SET ";
+				$sql = "UPDATE people_join_contacts SET ";
 
 				foreach ( (array) $values as $column => $value )
 				{
@@ -270,7 +270,7 @@ if ( ! empty( $_POST['values'] )
 			elseif ( $info_apd
 				|| ( $values['TITLE'] && $values['VALUE'] ) )
 			{
-				$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
+				$sql = "INSERT INTO people_join_contacts ";
 
 				$fields = 'PERSON_ID,';
 				$vals = "'" . $_REQUEST['person_id'] . "',";
@@ -341,7 +341,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 	{
 		if ( DeletePrompt( _( 'Contact Information' ) ) )
 		{
-			DBQuery( "DELETE FROM PEOPLE_JOIN_CONTACTS
+			DBQuery( "DELETE FROM people_join_contacts
 				WHERE ID='" . (int) $_REQUEST['contact_id'] . "'" );
 
 			// Unset modfunc & contact ID redirect URL.
@@ -362,7 +362,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" ) )
 			{
 				$delete_sql = "DELETE FROM PEOPLE WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
-				$delete_sql .= "DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
+				$delete_sql .= "DELETE FROM people_join_contacts WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
 
 				DBQuery( $delete_sql );
 			}
@@ -1204,12 +1204,12 @@ if ( ! $_REQUEST['modfunc'] )
 					) . '</td></tr>';
 
 					$info_RET = DBGet( "SELECT ID,TITLE,VALUE
-						FROM PEOPLE_JOIN_CONTACTS
+						FROM people_join_contacts
 						WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 					$info_options = _makeAutoSelect(
 						'TITLE',
-						'PEOPLE_JOIN_CONTACTS',
+						'people_join_contacts',
 						$info_RET,
 						[]
 					);
@@ -1239,7 +1239,7 @@ if ( ! $_REQUEST['modfunc'] )
 						{
 							echo TextInput(
 								$info['VALUE'],
-								'values[PEOPLE_JOIN_CONTACTS][' . $info['ID'] . '][VALUE]',
+								'values[people_join_contacts][' . $info['ID'] . '][VALUE]',
 								$info['TITLE']
 							);
 						}
@@ -1249,7 +1249,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 							$info_html = TextInput(
 								$info['VALUE'],
-								'values[PEOPLE_JOIN_CONTACTS][' . $info['ID'] . '][VALUE]',
+								'values[people_join_contacts][' . $info['ID'] . '][VALUE]',
 								'',
 								'',
 								false
@@ -1260,7 +1260,7 @@ if ( ! $_REQUEST['modfunc'] )
 								$info_html .= _makeAutoSelectInputX(
 									$info['TITLE'],
 									'TITLE',
-									'PEOPLE_JOIN_CONTACTS',
+									'people_join_contacts',
 									'',
 									$info_options,
 									$info['ID'],
@@ -1271,7 +1271,7 @@ if ( ! $_REQUEST['modfunc'] )
 							{
 								$info_html .= TextInput(
 									$info['TITLE'],
-									'values[PEOPLE_JOIN_CONTACTS][' . $info['ID'] . '][TITLE]',
+									'values[people_join_contacts][' . $info['ID'] . '][TITLE]',
 									'',
 									'',
 									false
@@ -1300,20 +1300,20 @@ if ( ! $_REQUEST['modfunc'] )
 						echo '<tr><td>' . button( 'add' ) . '</td><td>' .
 						TextInput(
 							'',
-							'values[PEOPLE_JOIN_CONTACTS][new][VALUE]',
+							'values[people_join_contacts][new][VALUE]',
 							_( 'Value' ),
 							'maxlength=100'
 						) . '<br />' . ( $info_apd && count( (array) $info_options ) > 1 ?
 							SelectInput(
 								'',
-								'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
+								'values[people_join_contacts][new][TITLE]',
 								_( 'Description' ),
 								$info_options,
 								'N/A'
 							) :
 							TextInput(
 								'',
-								'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
+								'values[people_join_contacts][new][TITLE]',
 								_( 'Description' ),
 								'maxlength=100'
 							) ) . '</td></tr>';
@@ -1568,7 +1568,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 	$tables_white_list = [
 		'address',
 		'STUDENTS_JOIN_PEOPLE',
-		'PEOPLE_JOIN_CONTACTS',
+		'people_join_contacts',
 	];
 
 	if ( ! in_array( $table, $tables_white_list ) )
@@ -1662,7 +1662,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
  *
  * @param  string  $value  Input value.
  * @param  string  $column Column.
- * @param  string  $table  DB table (address or PEOPLE_JOIN_CONTACTS or STUDENTS_JOIN_PEOPLE).
+ * @param  string  $table  DB table (address or people_join_contacts or STUDENTS_JOIN_PEOPLE).
  * @param  string  $title  Input title.
  * @param  array   $select Select options.
  * @param  string  $id     ID. Optional. Defaults to ''.

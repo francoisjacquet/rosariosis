@@ -450,7 +450,7 @@ function RegistrationSaveContactInfo( $contact_id, $config, $values )
 		if ( ! empty( $value )
 			|| $value == '0' )
 		{
-			$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
+			$sql = "INSERT INTO people_join_contacts ";
 
 			$fields = 'PERSON_ID,TITLE,VALUE,';
 

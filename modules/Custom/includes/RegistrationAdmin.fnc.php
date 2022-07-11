@@ -345,7 +345,7 @@ function RegistrationAdminContactAddress( $name, $address )
 function RegistrationAdminContactInfo( $name, $info )
 {
 	$options_RET = DBGet( "SELECT DISTINCT TITLE,upper(TITLE) AS SORT_KEY
-		FROM PEOPLE_JOIN_CONTACTS
+		FROM people_join_contacts
 		ORDER BY SORT_KEY" );
 
 	$info_options = [];
