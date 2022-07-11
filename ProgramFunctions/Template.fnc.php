@@ -43,7 +43,7 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
 	}
 
 	$template_RET = DBGet( "SELECT TEMPLATE,STAFF_ID
-		FROM TEMPLATES
+		FROM templates
 		WHERE MODNAME='" . $modname . "'
 		AND STAFF_ID IN(0" . $staff_id_sql . ")", [], [ 'STAFF_ID' ] );
 
@@ -89,7 +89,7 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 	}
 
 	$is_template_update = DBGet( "SELECT STAFF_ID
-		FROM TEMPLATES
+		FROM templates
 		WHERE MODNAME='" . $modname . "'
 		AND STAFF_ID IN(0,'" . $staff_id . "')", [], [ 'STAFF_ID' ] );
 
@@ -102,14 +102,14 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 	if ( ! isset( $is_template_update[ $staff_id ] ) )
 	{
 		// Default template only, insert user template.
-		DBQuery( "INSERT INTO TEMPLATES (MODNAME,STAFF_ID,TEMPLATE)
+		DBQuery( "INSERT INTO templates (MODNAME,STAFF_ID,TEMPLATE)
 			VALUES('" . $modname . "','" . $staff_id . "',
 			'" . $template . "')" );
 	}
 	else
 	{
 		// Update user template.
-		DBQuery( "UPDATE TEMPLATES
+		DBQuery( "UPDATE templates
 			SET TEMPLATE='" . $template . "'
 			WHERE MODNAME='" . $modname . "'
 			AND STAFF_ID='" . (int) $staff_id . "'" );
