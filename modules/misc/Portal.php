@@ -217,7 +217,7 @@ switch ( User( 'PROFILE' ) )
 
 		//FJ Portal Polls
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
-		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st
+		FROM portal_polls pp,SCHOOLS s,STAFF st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
@@ -497,7 +497,7 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Polls.
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
-		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st
+		FROM portal_polls pp,SCHOOLS s,STAFF st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
@@ -737,7 +737,7 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Polls.
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
-		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st
+		FROM portal_polls pp,SCHOOLS s,STAFF st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
@@ -921,7 +921,7 @@ switch ( User( 'PROFILE' ) )
 		// FJ Portal Polls.
 		// FJ Portal Polls add students teacher.
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,pp.TITLE,'options' AS OPTIONS,pp.ID
-		FROM PORTAL_POLLS pp,SCHOOLS s
+		FROM portal_polls pp,SCHOOLS s
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)

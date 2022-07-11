@@ -20,7 +20,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 {
 	// Get poll:
 	$poll_RET = DBGet( "SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES
-		FROM PORTAL_POLLS
+		FROM portal_polls
 		WHERE ID='" . (int) $poll_id . "'" );
 
 	$poll_questions_RET = DBGet( "SELECT ID, QUESTION, OPTIONS, VOTES
@@ -49,10 +49,10 @@ function PortalPollsVote( $poll_id, $votes_array )
 	$poll_questions_updated = PortalPollsSaveVotes( $poll_questions_RET, $votes_array );
 
 	// Submit query.
-	DBQuery( "UPDATE PORTAL_POLLS
+	DBQuery( "UPDATE portal_polls
 		SET EXCLUDED_USERS='" . $excluded_users . "',
 		VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END
-			FROM PORTAL_POLLS
+			FROM portal_polls
 			WHERE ID='" . (int) $poll_id . "')
 		WHERE ID='" . (int) $poll_id . "'" );
 
@@ -148,7 +148,7 @@ function PortalPollsDisplay( $value, $name )
 
 	// Get poll:
 	$poll_RET = DBGet( "SELECT EXCLUDED_USERS,VOTES_NUMBER,DISPLAY_VOTES
-		FROM PORTAL_POLLS
+		FROM portal_polls
 		WHERE ID='" . (int) $poll_id . "'" );
 
 	require_once 'ProgramFunctions/Linkify.fnc.php';

@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit() )
 {
 	$polls_RET = DBGet( "SELECT ID
-		FROM PORTAL_POLLS
+		FROM portal_polls
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
@@ -67,7 +67,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE PORTAL_POLLS SET ";
+				$sql = "UPDATE portal_polls SET ";
 				$sql_question = "UPDATE portal_poll_questions SET ";
 
 				$sql_questions = [];
@@ -142,7 +142,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				',' . $_REQUEST['values']['new']['PUBLISHED_PROFILES'] :
 				'';
 
-				$sql = "INSERT INTO PORTAL_POLLS ";
+				$sql = "INSERT INTO portal_polls ";
 				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
 				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
@@ -231,7 +231,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Poll' ) ) )
 	{
-		$delete_sql = "DELETE FROM PORTAL_POLLS WHERE ID='" . (int) $_REQUEST['id'] . "';";
+		$delete_sql = "DELETE FROM portal_polls WHERE ID='" . (int) $_REQUEST['id'] . "';";
 		$delete_sql .= "DELETE FROM portal_poll_questions WHERE PORTAL_POLL_ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -246,7 +246,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$questions_RET = DBGet( "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE
-		FROM portal_poll_questions ppq,PORTAL_POLLS pp
+		FROM portal_poll_questions ppq,portal_polls pp
 		WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 		AND pp.SYEAR='" . UserSyear() . "'
 		AND pp.ID=ppq.PORTAL_POLL_ID
@@ -256,7 +256,7 @@ if ( ! $_REQUEST['modfunc'] )
 		"SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_portal_poll_questions' AS OPTIONS,
 			pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,
 			CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
-			FROM PORTAL_POLLS pp
+			FROM portal_polls pp
 			WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 			AND pp.SYEAR='" . UserSyear() . "'
 			ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",
@@ -483,7 +483,7 @@ function _makePollVotes( $value, $name )
 		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM portal_poll_questions WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'" );
 
 		$display_votes = DBGetOne( "SELECT DISPLAY_VOTES
-			FROM PORTAL_POLLS
+			FROM portal_polls
 			WHERE ID='" . (int) $poll_id . "'" );
 
 		$checkbox = CheckboxInput(
