@@ -61,7 +61,7 @@ function AllowEdit( $modname = false )
 		$from_where_sql = User( 'PROFILE_ID' ) ?
 			"FROM profile_exceptions
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-			"FROM STAFF_EXCEPTIONS
+			"FROM staff_exceptions
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 
 		$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME " .
@@ -105,7 +105,7 @@ function AllowUse( $modname = false )
 		$from_where_sql = User( 'PROFILE_ID' ) != '' ? // Beware, '0' is student!
 			"FROM profile_exceptions
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-			"FROM STAFF_EXCEPTIONS
+			"FROM staff_exceptions
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 
 		$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME " . $from_where_sql .

@@ -83,7 +83,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$delete_sql = "DELETE FROM USER_PROFILES
 				WHERE ID='" . (int) $_REQUEST['profile_id'] . "';";
 
-			$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
+			$delete_sql .= "DELETE FROM staff_exceptions
 				WHERE USER_ID IN (SELECT STAFF_ID
 					FROM STAFF
 					WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "');";
@@ -93,7 +93,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 			DBQuery( $delete_sql );
 
-			DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+			DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 				SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
 				FROM STAFF s,profile_exceptions e
 				WHERE s.PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'

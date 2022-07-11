@@ -20,7 +20,7 @@ function UserDeleteSQL( $staff_id )
 	$delete_sql = "DELETE FROM program_user_config
 		WHERE USER_ID='" . (int) $staff_id . "';";
 
-	$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
+	$delete_sql .= "DELETE FROM staff_exceptions
 		WHERE USER_ID='" . (int) $staff_id . "';";
 
 	$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS

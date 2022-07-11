@@ -299,7 +299,7 @@ if ( ! $_REQUEST['modfunc'] )
 		else
 		{
 			$can_use_RET = DBGet( "SELECT MODNAME
-				FROM STAFF_EXCEPTIONS
+				FROM staff_exceptions
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 				AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 		}

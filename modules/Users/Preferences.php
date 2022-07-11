@@ -491,7 +491,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND (SELECT CAN_USE FROM " .
 			( User( 'PROFILE_ID' ) ?
 			"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
+			"staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 			" AND MODNAME=CONCAT('Students/Student.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'
@@ -740,7 +740,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM " .
 			( User( 'PROFILE_ID' ) ?
 			"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
+			"staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 			" AND MODNAME=CONCAT('Users/User.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'

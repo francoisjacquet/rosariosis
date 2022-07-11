@@ -163,7 +163,7 @@ function _substitutionsDBGetCustomFields( $table )
 		$profile_category_sql = " AND (SELECT CAN_USE FROM " .
 		( User( 'PROFILE_ID' ) ?
 			"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
+			"staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 		" AND MODNAME=CONCAT('" . ( $table === 'student' ? 'Students/Student.php' : 'Users/User.php' ) .
 		"&category_id=', f.CATEGORY_ID)
 		LIMIT 1)='Y'";

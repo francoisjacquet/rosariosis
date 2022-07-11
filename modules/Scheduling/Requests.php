@@ -35,7 +35,7 @@ if ( User( 'PROFILE' ) !== 'admin'
 	if ( User( 'PROFILE' ) !== 'student'
 		&& ! User( 'PROFILE_ID' ) )
 	{
-		$can_edit_from_where = " FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
+		$can_edit_from_where = " FROM staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 	}
 
 	$can_edit_RET = DBGet( "SELECT MODNAME " . $can_edit_from_where .

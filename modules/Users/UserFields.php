@@ -150,7 +150,7 @@ if ( isset( $_POST['tables'] )
 							}
 							else
 							{
-								DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+								DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 									values('" . User( 'STAFF_ID' ) . "','Users/User.php&category_id=" . $id . "','Y','Y')" );
 							}
 
@@ -196,7 +196,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$delete_sql = "DELETE FROM profile_exceptions
 				WHERE MODNAME='Users/User.php&category_id=" . $_REQUEST['category_id'] . "';";
 
-			$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
+			$delete_sql .= "DELETE FROM staff_exceptions
 				WHERE MODNAME='Users/User.php&category_id=" . $_REQUEST['category_id'] . "';";
 
 			DBQuery( $delete_sql );

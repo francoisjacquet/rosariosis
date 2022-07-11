@@ -45,7 +45,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 	else
 	{
 		$allow_use_sql = "SELECT MODNAME
-			FROM STAFF_EXCEPTIONS
+			FROM staff_exceptions
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 			AND CAN_USE='Y'";
 	}

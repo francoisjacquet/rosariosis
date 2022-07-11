@@ -69,7 +69,7 @@ if ( User( 'PROFILE' ) !== 'admin' )
 
 	if ( ! User( 'PROFILE_ID' ) )
 	{
-		$can_edit_from_where = " FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
+		$can_edit_from_where = " FROM staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 	}
 
 	$can_edit_RET = DBGet( "SELECT MODNAME " . $can_edit_from_where .
@@ -276,12 +276,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! empty( $_REQUEST['staff']['PROFILE_ID'] ) )
 			{
-				DBQuery( "DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='" . UserStaffID() . "'" );
+				DBQuery( "DELETE FROM staff_exceptions WHERE USER_ID='" . UserStaffID() . "'" );
 			}
 			elseif ( isset( $_REQUEST['staff']['PROFILE_ID'] ) && $profile_RET[1]['PROFILE_ID'] )
 			{
-				DBQuery( "DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='" . UserStaffID() . "'" );
-				DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+				DBQuery( "DELETE FROM staff_exceptions WHERE USER_ID='" . UserStaffID() . "'" );
+				DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 					SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
 					FROM STAFF s,profile_exceptions e
 					WHERE s.STAFF_ID='" . UserStaffID() . "'
@@ -635,7 +635,7 @@ if (  ( UserStaffID()
 	else
 	{
 		$can_use_RET = DBGet( "SELECT MODNAME
-			FROM STAFF_EXCEPTIONS
+			FROM staff_exceptions
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 			AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 	}

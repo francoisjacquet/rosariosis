@@ -46,7 +46,7 @@ $xprofile = DBGetOne( "SELECT PROFILE
 	WHERE STAFF_ID='" . (int) $user_id . "'" );
 
 $exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
-	FROM STAFF_EXCEPTIONS
+	FROM staff_exceptions
 	WHERE USER_ID='" . (int) $user_id . "'", [], [ 'MODNAME' ] );
 
 if ( $_REQUEST['modfunc'] === 'update'
@@ -104,14 +104,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 					&& ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
 						|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) ) )
 				{
-					DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME)
+					DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME)
 						VALUES('" . $user_id . "','" . $modname . "')" );
 				}
 				elseif ( ! empty( $exceptions_RET[$modname] )
 					&& empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
 					&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 				{
-					DBQuery( "DELETE FROM STAFF_EXCEPTIONS
+					DBQuery( "DELETE FROM staff_exceptions
 						WHERE USER_ID='" . (int) $user_id . "'
 						AND MODNAME='" . $modname . "'" );
 				}
@@ -119,7 +119,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
 					|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 				{
-					$update = "UPDATE STAFF_EXCEPTIONS SET ";
+					$update = "UPDATE staff_exceptions SET ";
 
 					if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] ) )
 					{
@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
-		FROM STAFF_EXCEPTIONS
+		FROM staff_exceptions
 		WHERE USER_ID='" . (int) $user_id . "'", [], [ 'MODNAME' ] );
 
 	unset( $tmp_menu );
