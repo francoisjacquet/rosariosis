@@ -109,7 +109,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$comments_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,cs.TITLE AS SCALE_TITLE
 			FROM REPORT_CARD_COMMENTS c
 			LEFT OUTER JOIN report_card_comment_categories cc ON (cc.SYEAR=c.SYEAR AND cc.SCHOOL_ID=c.SCHOOL_ID AND cc.ID=c.CATEGORY_ID)
-			LEFT OUTER JOIN REPORT_CARD_COMMENT_CODE_SCALES cs ON (cs.SCHOOL_ID=c.SCHOOL_ID AND cs.ID=c.SCALE_ID)
+			LEFT OUTER JOIN report_card_comment_code_scales cs ON (cs.SCHOOL_ID=c.SCHOOL_ID AND cs.ID=c.SCALE_ID)
 			WHERE c.SCHOOL_ID='" . UserSchool() . "'
 			AND c.SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
@@ -399,7 +399,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				//FJ limit comment scales to the ones used in students' courses
 				$students_comment_scales_RET = DBGet( "SELECT cs.ID
-				FROM REPORT_CARD_COMMENT_CODE_SCALES cs
+				FROM report_card_comment_code_scales cs
 				WHERE cs.ID IN
 					(SELECT c.SCALE_ID
 					FROM REPORT_CARD_COMMENTS c
@@ -415,7 +415,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				if ( ! empty( $students_comment_scales ) )
 				{
 					$comment_codes_RET = DBGet( "SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
-					FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
+					FROM REPORT_CARD_COMMENT_CODES cc, report_card_comment_code_scales cs
 					WHERE cs.ID IN (" . implode( ',', $students_comment_scales ) . ")
 					AND cs.ID=cc.SCALE_ID
 					ORDER BY cs.SORT_ORDER", [], [ 'SCALE_ID' ] );
@@ -446,7 +446,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				//FJ add Course-specific comments tipmessage
 				$commentsA_RET = DBGet( "SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
-				FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc, courses co, REPORT_CARD_COMMENT_CODE_SCALES cs
+				FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc, courses co, report_card_comment_code_scales cs
 				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")))
 				AND c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'

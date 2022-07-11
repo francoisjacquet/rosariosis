@@ -25,7 +25,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					}
 					else
 					{
-						$sql = "UPDATE REPORT_CARD_COMMENT_CODE_SCALES SET ";
+						$sql = "UPDATE report_card_comment_code_scales SET ";
 					}
 
 					foreach ( (array) $columns as $column => $value )
@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					}
 					else
 					{
-						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODE_SCALES ';
+						$sql = 'INSERT INTO report_card_comment_code_scales ';
 						$fields = 'SCHOOL_ID,';
 						$values = "'" . UserSchool() . "',";
 					}
@@ -115,7 +115,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		$delete_sql = "DELETE FROM REPORT_CARD_COMMENT_CODES
 			WHERE SCALE_ID='" . (int) $_REQUEST['id'] . "';";
 
-		$delete_sql .= "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
+		$delete_sql .= "DELETE FROM report_card_comment_code_scales
 			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -131,7 +131,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$comment_scales_RET = DBGet( "SELECT ID,TITLE
-		FROM REPORT_CARD_COMMENT_CODE_SCALES
+		FROM report_card_comment_code_scales
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
 
@@ -216,7 +216,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$sql = 'SELECT *
-		FROM REPORT_CARD_COMMENT_CODE_SCALES
+		FROM report_card_comment_code_scales
 		WHERE SCHOOL_ID=\'' . UserSchool() . '\'
 		ORDER BY SORT_ORDER,ID';
 

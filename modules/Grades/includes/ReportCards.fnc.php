@@ -330,7 +330,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 				cs.TITLE AS SCALE_TITLE
 			FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc,
-				REPORT_CARD_COMMENT_CODE_SCALES cs
+				report_card_comment_code_scales cs
 			WHERE c.SCHOOL_ID='" . UserSchool() . "'
 			AND c.SYEAR='" . UserSyear() . "'
 			AND c.COURSE_ID IS NOT NULL
@@ -1287,10 +1287,10 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 	if ( ! $comment_codes_RET )
 	{
 		// Limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS.
-		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
+		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, report_card_comment_code_scales cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
 			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
-		FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
+		FROM REPORT_CARD_COMMENT_CODES cc, report_card_comment_code_scales cs
 		WHERE cc.SCHOOL_ID='" . UserSchool() . "'
 		AND cs.ID=cc.SCALE_ID
 		AND cc.SCALE_ID IN (SELECT DISTINCT c.SCALE_ID
@@ -1302,7 +1302,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 	}
 
 	$student_comment_scales_RET = DBGet( "SELECT cs.ID
-	FROM REPORT_CARD_COMMENT_CODE_SCALES cs
+	FROM report_card_comment_code_scales cs
 	WHERE cs.ID IN
 		(SELECT c.SCALE_ID
 		FROM REPORT_CARD_COMMENTS c
@@ -1450,7 +1450,7 @@ function GetReportCardCourseSpecificComments( $student_id, $comments_array )
 		$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 			cs.TITLE AS SCALE_TITLE
 		FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc,
-			REPORT_CARD_COMMENT_CODE_SCALES cs
+			report_card_comment_code_scales cs
 		WHERE c.SCHOOL_ID='" . UserSchool() . "'
 		AND c.SYEAR='" . UserSyear() . "'
 		AND c.COURSE_ID IS NOT NULL

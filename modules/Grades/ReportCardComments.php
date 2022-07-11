@@ -355,7 +355,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$codes_RET = DBGet( "SELECT ID,TITLE
-			FROM REPORT_CARD_COMMENT_CODE_SCALES
+			FROM report_card_comment_code_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER,TITLE" );
 
