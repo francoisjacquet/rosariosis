@@ -228,7 +228,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			// Check username unicity.
 			$existing_username = DBGet( "SELECT 'exists'
-				FROM STAFF
+				FROM staff
 				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND STAFF_ID!='" . UserStaffID() . "'
@@ -248,7 +248,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			do_action( 'Users/User.php|update_user_checks' );
 
 			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME
-				FROM STAFF
+				FROM staff
 				WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 			if ( isset( $_REQUEST['staff']['PROFILE'] )
@@ -283,14 +283,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 				DBQuery( "DELETE FROM staff_exceptions WHERE USER_ID='" . UserStaffID() . "'" );
 				DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 					SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
-					FROM STAFF s,profile_exceptions e
+					FROM staff s,profile_exceptions e
 					WHERE s.STAFF_ID='" . UserStaffID() . "'
 					AND s.PROFILE_ID=e.PROFILE_ID" );
 			}
 
 			if ( ! $error )
 			{
-				$sql = "UPDATE STAFF SET ";
+				$sql = "UPDATE staff SET ";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM staff_fields
@@ -367,7 +367,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! $error )
 			{
-				$sql = "INSERT INTO STAFF ";
+				$sql = "INSERT INTO staff ";
 				$fields = 'SYEAR,';
 				$values = "'" . UserSyear() . "',";
 
@@ -427,7 +427,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			&& ! empty( $_FILES ) )
 		{
 			$uploaded = FilesUploadUpdate(
-				'STAFF',
+				'staff',
 				'staff',
 				$FileUploadsPath . 'User/' . UserStaffID() . '/'
 			);
@@ -599,7 +599,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $filename;
 
-		DBQuery( "UPDATE STAFF
+		DBQuery( "UPDATE staff
 			SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 			WHERE STAFF_ID='" . UserStaffID() . "'" );
 
@@ -654,7 +654,7 @@ if (  ( UserStaffID()
 			s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
 			s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.EMAIL,
 			s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
-			FROM STAFF s
+			FROM staff s
 			WHERE s.STAFF_ID='" . UserStaffID() . "'";
 
 			$staff = DBGet( $sql );
@@ -707,7 +707,7 @@ if (  ( UserStaffID()
 		do_action( 'Users/User.php|header' );
 
 		$profile = DBGetOne( "SELECT PROFILE
-			FROM STAFF WHERE
+			FROM staff WHERE
 			STAFF_ID='" . UserStaffID() . "'" );
 
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE

@@ -56,7 +56,7 @@ $students_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SYEAR," .
 	fst WHERE fst.SCHOOL_ID IS NULL", [ 'STUDENTS' => '_students', 'SCHOOL_ID' => '_make_school' ] );
 
 $staff_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,
-	(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID) AS FULL_NAME,fst.SCHOOL_ID
+	(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.STAFF_ID) AS FULL_NAME,fst.SCHOOL_ID
 	FROM food_service_staff_transactions fst
 	WHERE fst.SCHOOL_ID IS NULL", [ 'SCHOOL_ID' => '_make_staff_school' ] );
 

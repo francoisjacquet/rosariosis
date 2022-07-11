@@ -102,7 +102,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( ! empty( $homeroom ) )
 			{
 				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
-				FROM STAFF s,schedule sch,course_periods cp,courses c,course_subjects cs
+				FROM staff s,schedule sch,course_periods cp,courses c,course_subjects cs
 				WHERE s.STAFF_ID=cp.TEACHER_ID
 				AND sch.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 				AND cp.COURSE_ID=sch.COURSE_ID
@@ -116,11 +116,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				//FJ multiple school periods for a course period
 				/*$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . "  AS FULL_NAME,cs.TITLE
-				FROM STAFF s,schedule sch,course_periods cp,courses c,course_subjects cs,school_periods sp
+				FROM staff s,schedule sch,course_periods cp,courses c,course_subjects cs,school_periods sp
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND sp.PERIOD_ID=cp.PERIOD_ID AND sp.ATTENDANCE='Y' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'" );*/
 				// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
 				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
-				FROM STAFF s,schedule sch,course_periods cp,courses c,course_subjects cs,school_periods sp,course_period_school_periods cpsp
+				FROM staff s,schedule sch,course_periods cp,courses c,course_subjects cs,school_periods sp,course_period_school_periods cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND cp.DOES_ATTENDANCE IS NOT NULL
 				AND s.STAFF_ID=cp.TEACHER_ID

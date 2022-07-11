@@ -35,7 +35,7 @@ if ( ! $_REQUEST['modfunc']
 	(SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
 	(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
 	(SELECT BARCODE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
-	FROM STAFF s
+	FROM staff s
 	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 	$staff = $staff[1];
 

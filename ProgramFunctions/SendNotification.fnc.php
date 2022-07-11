@@ -88,7 +88,7 @@ function SendNotificationCreateUserAccount( $staff_id, $to = '' )
 	}
 
 	$user_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message = sprintf(
@@ -127,7 +127,7 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 		return false;
 	}
 
-	$is_admin_profile = DBGetOne( "SELECT 1 FROM STAFF
+	$is_admin_profile = DBGetOne( "SELECT 1 FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PROFILE='admin'" );
 
@@ -137,7 +137,7 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 	}
 
 	$admin_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message = sprintf(
@@ -240,7 +240,7 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 
 	if ( empty( $to ) )
 	{
-		$to = DBGetOne( "SELECT EMAIL FROM STAFF
+		$to = DBGetOne( "SELECT EMAIL FROM staff
 			WHERE STAFF_ID='" . (int) $staff_id . "'" );
 	}
 
@@ -250,11 +250,11 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 		return false;
 	}
 
-	$is_no_access_profile = DBGetOne( "SELECT 1 FROM STAFF
+	$is_no_access_profile = DBGetOne( "SELECT 1 FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PROFILE='none'" );
 
-	$is_password_set = DBGetOne( "SELECT 1 FROM STAFF
+	$is_password_set = DBGetOne( "SELECT 1 FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PASSWORD IS NOT NULL" );
 
@@ -277,7 +277,7 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
 	$staff_username = DBGetOne( "SELECT USERNAME
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $staff_username;
@@ -378,7 +378,7 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 
 	if ( empty( $to ) )
 	{
-		$to = DBGetOne( "SELECT EMAIL FROM STAFF
+		$to = DBGetOne( "SELECT EMAIL FROM staff
 			WHERE STAFF_ID='" . (int) $staff_id . "'" );
 	}
 
@@ -388,11 +388,11 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 		return false;
 	}
 
-	$is_no_access_profile = DBGetOne( "SELECT 1 FROM STAFF
+	$is_no_access_profile = DBGetOne( "SELECT 1 FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PROFILE='none'" );
 
-	$is_password_set = DBGetOne( "SELECT 1 FROM STAFF
+	$is_password_set = DBGetOne( "SELECT 1 FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PASSWORD IS NOT NULL" );
 
@@ -407,7 +407,7 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
 	$staff_username = DBGetOne( "SELECT USERNAME
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $staff_username;

@@ -20,7 +20,7 @@ if ( ! $is_program_modfunc_pdf )
 if ( UserStaffID() )
 {
 	$profile = DBGetOne( "SELECT PROFILE
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( $profile !== 'teacher' )

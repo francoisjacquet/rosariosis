@@ -112,7 +112,7 @@ else
 			else
 			{
 				// OK, we can connect to database & config table exists.
-				$result = @pg_exec( $connection, "SELECT * FROM STAFF WHERE SYEAR='" . $DefaultSyear . "'" );
+				$result = @pg_exec( $connection, "SELECT * FROM staff WHERE SYEAR='" . $DefaultSyear . "'" );
 
 				if ( ! pg_fetch_all( $result ) )
 				{

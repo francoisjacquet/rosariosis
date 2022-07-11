@@ -27,7 +27,7 @@ if ( isset( $_POST['email'] )
 	{
 		// SQL Handle case when multiple users have same email: order by Failed Login.
 		$user_RET = DBGet( "SELECT STAFF_ID AS ID,EMAIL,USERNAME,'staff' AS USER_TYPE
-			FROM STAFF
+			FROM staff
 			WHERE LOWER(EMAIL)=LOWER('" . $_REQUEST['email'] . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "'
 			ORDER BY FAILED_LOGIN IS NULL,FAILED_LOGIN DESC
@@ -125,7 +125,7 @@ if ( isset( $_REQUEST['h'] )
 	// Select Staff where last login > now.
 	$staff_RET = DBGet( "SELECT STAFF_ID AS ID, USERNAME, PASSWORD, EMAIL,
 		" . DisplayNameSQL() . " AS FULL_NAME, LAST_LOGIN, PROFILE_ID
-		FROM STAFF
+		FROM staff
 		WHERE LAST_LOGIN > CURRENT_TIMESTAMP
 		AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
@@ -221,7 +221,7 @@ if ( isset( $_REQUEST['h'] )
 				if ( $user_type === 'staff' )
 				{
 					// Update password.
-					DBQuery( "UPDATE STAFF SET PASSWORD='" .
+					DBQuery( "UPDATE staff SET PASSWORD='" .
 						encrypt_password( $new_password ) . "'
 						WHERE STAFF_ID='" . (int) $user_id . "'
 						AND SYEAR='" . Config( 'SYEAR' ) . "'" );
@@ -314,7 +314,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		// Get Staff email, password.
 		$staff_RET = DBGet( "SELECT USERNAME, PASSWORD,
 			" . DisplayNameSQL() . " AS FULL_NAME
-			FROM STAFF
+			FROM staff
 			WHERE STAFF_ID='" . (int) $user_id . "'
 			AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
@@ -379,7 +379,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	if ( $user_type === 'staff' )
 	{
 		// Update Last login = now + 2 hours.
-		DBQuery( "UPDATE STAFF
+		DBQuery( "UPDATE staff
 			SET LAST_LOGIN='" . $last_login . "'
 			WHERE STAFF_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hour'.
 	}
@@ -497,7 +497,7 @@ function _notifyServerAdminPasswordReset( $user_id )
 	}
 
 	$staff_RET = DBGet( "SELECT USERNAME," . DisplayNameSQL() . " AS FULL_NAME,PROFILE
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . (int) $user_id . "'
 		AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 

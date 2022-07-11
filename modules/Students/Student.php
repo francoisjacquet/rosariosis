@@ -199,7 +199,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			// Check username unicity.
 			$existing_username = DBGet( "SELECT 'exists'
-				FROM STAFF
+				FROM staff
 				WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
 				AND SYEAR='" . UserSyear() . "'
 				UNION SELECT 'exists'

@@ -54,7 +54,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		(SELECT max(SCHOOL_DATE)
 			FROM attendance_calendar
 			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS END_DATE
-		FROM attendance_calendars ac,STAFF s
+		FROM attendance_calendars ac,staff s
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (s.SCHOOLS IS NULL OR position(CONCAT(',', ac.SCHOOL_ID, ',') IN s.SCHOOLS)>0)

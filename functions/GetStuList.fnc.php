@@ -1016,7 +1016,7 @@ function makeParents( $student_id, $column )
  *
  * @param string $value  Value.
  * @param string $column Column.
- * @param string $table  'auto'|'STAFF' (optional). Defaults to 'auto'.
+ * @param string $table  'auto'|'staff' (optional). Defaults to 'auto'.
  */
 function DeCodeds( $value, $column, $table = 'auto' )
 {
@@ -1311,7 +1311,7 @@ function appendSQL( $sql, $extra = [] )
  * @since 6.9.1 Add multiple type case.
  *
  * @param string  $field_type Field type.
- * @param string  $table      'auto'|'STAFF' (optional). Defaults to 'auto'.
+ * @param string  $table      'auto'|'staff' (optional). Defaults to 'auto'.
  *
  * @return string             Make function name or empty if type not found.
  */
@@ -1330,7 +1330,7 @@ function makeFieldTypeFunction( $field_type, $table = 'auto' )
 		case 'codeds':
 		case 'exports':
 
-			if ( $table === 'STAFF' )
+			if ( $table === 'staff' )
 			{
 				return 'StaffDecodeds';
 			}

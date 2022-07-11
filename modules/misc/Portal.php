@@ -184,9 +184,9 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID||',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID||',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
-		FROM portal_notes pn,schools s,STAFF st
+		FROM portal_notes pn,schools s,staff st
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
 		AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL)
@@ -217,7 +217,7 @@ switch ( User( 'PROFILE' ) )
 
 		//FJ Portal Polls
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
-		FROM portal_polls pp,schools s,STAFF st
+		FROM portal_polls pp,schools s,staff st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
@@ -241,7 +241,7 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,s.TITLE AS SCHOOL
-		FROM calendar_events ce,schools s,STAFF st
+		FROM calendar_events ce,schools s,staff st
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
 		AND CURRENT_DATE+11
 		AND ce.SYEAR='" . UserSyear() . "'
@@ -314,7 +314,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,course_periods cp,school_periods sp,schools s,
-					STAFF st,course_period_school_periods cpsp
+					staff st,course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM schedule se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
@@ -358,7 +358,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,course_periods cp,school_periods sp,schools s,
-					STAFF st, course_period_school_periods cpsp
+					staff st, course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM schedule se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
@@ -416,7 +416,7 @@ switch ( User( 'PROFILE' ) )
 				(SELECT BALANCE
 					FROM food_service_staff_accounts
 					WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
-				FROM STAFF s
+				FROM staff s
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 
 			$staff = $staff[1];
@@ -468,9 +468,9 @@ switch ( User( 'PROFILE' ) )
 	case 'teacher':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 		//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
-		FROM portal_notes pn,schools s,STAFF st
+		FROM portal_notes pn,schools s,staff st
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
 		AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL)
@@ -497,7 +497,7 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Polls.
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
-		FROM portal_polls pp,schools s,STAFF st
+		FROM portal_polls pp,schools s,staff st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
@@ -527,7 +527,7 @@ switch ( User( 'PROFILE' ) )
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
 		AND CURRENT_DATE+11
 		AND ce.SYEAR='" . UserSyear() . "'
-		AND position(CONCAT(',', ce.SCHOOL_ID, ',') IN (SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'))>0
+		AND position(CONCAT(',', ce.SCHOOL_ID, ',') IN (SELECT SCHOOLS FROM staff WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'))>0
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
 		ORDER BY ce.SCHOOL_DATE,s.TITLE", [
@@ -693,7 +693,7 @@ switch ( User( 'PROFILE' ) )
 			// warn if negative food service balance
 			$staff = DBGet( "SELECT (SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
 				(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
-				FROM STAFF s
+				FROM staff s
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			$staff = $staff[1];
 
@@ -708,9 +708,9 @@ switch ( User( 'PROFILE' ) )
 	case 'parent':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM portal_notes pn,schools s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
-		FROM portal_notes pn,schools s,STAFF st
+		FROM portal_notes pn,schools s,staff st
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
 		AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL)
@@ -737,7 +737,7 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Polls.
 		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
-		FROM portal_polls pp,schools s,STAFF st
+		FROM portal_polls pp,schools s,staff st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
@@ -878,7 +878,7 @@ switch ( User( 'PROFILE' ) )
 			// Warn if negative food service balance.
 			$staff = DBGet( "SELECT (SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
 				(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
-				FROM STAFF s
+				FROM staff s
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			$staff = $staff[1];
 

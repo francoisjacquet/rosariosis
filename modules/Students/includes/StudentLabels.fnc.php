@@ -30,7 +30,7 @@ if ( ! function_exists( 'GetStudentLabelsFormHTML' ) )
 				&& ! empty( $_REQUEST['w_course_period_id'] ) )
 			{
 				$course_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
-				FROM STAFF s,course_periods cp
+				FROM staff s,course_periods cp
 				WHERE s.STAFF_ID=cp.TEACHER_ID
 				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" );
 
@@ -242,7 +242,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 			if ( ! empty( $_REQUEST['teacher'] ) )
 			{
 				$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-				FROM STAFF st,course_periods cp
+				FROM staff st,course_periods cp
 				WHERE st.STAFF_ID=cp.TEACHER_ID
 				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 			}
@@ -262,7 +262,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 			// FJ multiple school periods for a course period.
 			// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
 			$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-			FROM STAFF st,course_periods cp,school_periods p,schedule ss,course_period_school_periods cpsp
+			FROM staff st,course_periods cp,school_periods p,schedule ss,course_period_school_periods cpsp
 			WHERE st.STAFF_ID=cp.TEACHER_ID
 			AND cpsp.PERIOD_id=p.PERIOD_ID
 			AND cp.DOES_ATTENDANCE IS NOT NULL
@@ -313,7 +313,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraNonAdmin' ) )
 		if ( ! empty( $_REQUEST['teacher'] ) )
 		{
 			$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . " AS FULL_NAME
-				FROM STAFF st,course_periods cp
+				FROM staff st,course_periods cp
 				WHERE st.STAFF_ID=cp.TEACHER_ID
 				AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
 		}

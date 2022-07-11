@@ -285,7 +285,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				//3) verify the users have not been rolled yet:
 				$users_rolled = false;
 
-				if ( count( DBGet( "SELECT 'ROLLED' FROM STAFF WHERE SYEAR='" . ( UserSyear() + 1 ) . "'" ) ) )
+				if ( count( DBGet( "SELECT 'ROLLED' FROM staff WHERE SYEAR='" . ( UserSyear() + 1 ) . "'" ) ) )
 				{
 					$users_rolled = true;
 				}
@@ -685,9 +685,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			}
 
 			//reset STAFF_ID to pre-rollover values
-			elseif ( ! empty( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] )
+			elseif ( ! empty( $_REQUEST['tables']['staff'] ) && $exists_RET['staff'][1]['COUNT'] )
 			{
-				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM STAFF WHERE STAFF_ID=ROSARIO_ID) WHERE exists(SELECT * FROM STAFF WHERE STAFF_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
+				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM staff WHERE STAFF_ID=ROSARIO_ID) WHERE exists(SELECT * FROM staff WHERE STAFF_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
 			}
 
 			break;
@@ -695,10 +695,10 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Rollover.php|rollover_after':
 			$next_syear = UserSyear() + 1;
 
-			if ( ! empty( $_REQUEST['tables']['STAFF'] ) )
+			if ( ! empty( $_REQUEST['tables']['staff'] ) )
 			{
 				// STAFF ROLLOVER.
-				$staff_RET = DBGet( "SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='" . $next_syear . "' AND ROLLOVER_ID IS NOT NULL" );
+				$staff_RET = DBGet( "SELECT STAFF_ID,ROLLOVER_ID FROM staff WHERE SYEAR='" . $next_syear . "' AND ROLLOVER_ID IS NOT NULL" );
 
 				foreach ( (array) $staff_RET as $value )
 				{

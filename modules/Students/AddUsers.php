@@ -61,7 +61,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
+	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,staff st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
 	$extra['columns_after'] = [ 'ASSOCIATED' => '# ' . _( 'Associated' ) ];
 
 	if ( ! UserStudentID() )
@@ -82,7 +82,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$current_RET = DBGet( "SELECT u.STAFF_ID,
 			" . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.LAST_LOGIN
-			FROM STUDENTS_JOIN_USERS u,STAFF s
+			FROM STUDENTS_JOIN_USERS u,staff s
 			WHERE s.STAFF_ID=u.STAFF_ID
 			AND u.STUDENT_ID='" . UserStudentID() . "'
 			AND s.SYEAR='" . UserSyear() . "'", [ 'LAST_LOGIN' => 'makeLogin' ] );

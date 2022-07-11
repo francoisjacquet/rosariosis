@@ -4,7 +4,7 @@
 //core_user_create_users function
 function core_user_get_users_object()
 {
-	$username = DBGetOne( "SELECT USERNAME FROM STAFF
+	$username = DBGetOne( "SELECT USERNAME FROM staff
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 

@@ -94,7 +94,7 @@ function GetStaffList( &$extra = [] )
 			}
 			else
 			{
-				$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
+				$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'staff' );
 			}
 
 			$extra['columns_after'][ $field_key ] = $field['TITLE'];
@@ -135,7 +135,7 @@ function GetStaffList( &$extra = [] )
 				}
 				else
 				{
-					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
+					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'staff' );
 				}
 			}
 
@@ -170,7 +170,7 @@ function GetStaffList( &$extra = [] )
 
 	$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS " . $extra['SELECT'] .
-			" FROM STAFF s " . $extra['FROM'] .
+			" FROM staff s " . $extra['FROM'] .
 			" WHERE	s.SYEAR='" . UserSyear() . "'";
 
 	if ( ! isset( $_REQUEST['_search_all_schools'] )
@@ -467,5 +467,5 @@ function makeLogin( $value, $column = 'LAST_LOGIN' )
  */
 function StaffDeCodeds( $value, $column )
 {
-	return DeCodeds( $value, $column, 'STAFF' );
+	return DeCodeds( $value, $column, 'staff' );
 }

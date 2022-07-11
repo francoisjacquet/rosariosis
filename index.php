@@ -112,7 +112,7 @@ elseif ( isset( $_POST['USERNAME'] )
 
 	// Lookup for user $username in DB.
 	$login_RET = DBGet( "SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD
-	FROM STAFF
+	FROM staff
 	WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 	AND UPPER(USERNAME)=UPPER('" . $username . "')" );
 
@@ -257,7 +257,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	// Failed login.
 	else
 	{
-		DBQuery( "UPDATE STAFF
+		DBQuery( "UPDATE staff
 			SET FAILED_LOGIN=" . db_case( [ 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ] ) . "
 			WHERE UPPER(USERNAME)=UPPER('" . $username . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "';
@@ -314,7 +314,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( $login_status === 'Y'
 		&& User( 'STAFF_ID' ) )
 	{
-		DBQuery( "UPDATE STAFF
+		DBQuery( "UPDATE staff
 			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
 			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 	}

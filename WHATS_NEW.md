@@ -283,7 +283,7 @@ New in 5.9
 
 **Breaking Changes**:
 - Move Email & Phone Staff Fields to custom fields
-- SQL Rename PHONE column to CUSTOM_200000001 in STAFF table
+- SQL Rename PHONE column to CUSTOM_200000001 in staff table
 
 Please upgrade the following add-ons:
 - [Staff and Parents Import](https://www.rosariosis.org/modules/staff-parents-import/) module to version 1.3

@@ -147,7 +147,7 @@ $RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,count(1) AS DAYS,(SELECT cou
 	FROM attendance_calendar
 	WHERE CALENDAR_ID=ac.CALENDAR_ID
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ELLIGIBLE
-FROM food_service_staff_accounts fssa,STAFF s,attendance_calendar ac
+FROM food_service_staff_accounts fssa,staff s,attendance_calendar ac
 WHERE ac.CALENDAR_ID=(SELECT CALENDAR_ID FROM attendance_calendars WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND DEFAULT_CALENDAR='Y')
 AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND fssa.STATUS IS NULL

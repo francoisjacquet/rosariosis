@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			&& $_REQUEST['w_course_period_id'] )
 		{
 			$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-			FROM STAFF st,course_periods cp
+			FROM staff st,course_periods cp
 			WHERE st.STAFF_ID=cp.TEACHER_ID
 			AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 
@@ -52,10 +52,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 		else
 		{
 			//FJ multiple school periods for a course period
-			//$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "  FROM STAFF st,course_periods cp,school_periods p,schedule ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
+			//$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "  FROM staff st,course_periods cp,school_periods p,schedule ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
 			// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
 			$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-			FROM STAFF st,course_periods cp,school_periods p,schedule ss,course_period_school_periods cpsp
+			FROM staff st,course_periods cp,school_periods p,schedule ss,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND st.STAFF_ID=cp.TEACHER_ID
 			AND cpsp.PERIOD_id=p.PERIOD_ID
@@ -86,7 +86,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	else
 	{
 		$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-		FROM STAFF st,course_periods cp
+		FROM staff st,course_periods cp
 		WHERE st.STAFF_ID=cp.TEACHER_ID
 		AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
 

@@ -414,7 +414,7 @@ function FilesUploadUpdate( $table, $request, $path )
 			{
 				$where_sql = "PERSON_ID='" . (int) $_REQUEST['person_id'] . "'";
 			}
-			elseif ( $table === 'STAFF' )
+			elseif ( $table === 'staff' )
 			{
 				$where_sql = "STAFF_ID='" . UserStaffID() . "'";
 			}

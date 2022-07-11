@@ -72,7 +72,7 @@ DrawHeader( $mp_select );
 echo '</form>';
 
 $grouped_sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
-	FROM student_report_card_grades g,STAFF s,course_periods cp
+	FROM student_report_card_grades g,staff s,course_periods cp
 	WHERE g.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID
 	AND cp.SYEAR=s.SYEAR

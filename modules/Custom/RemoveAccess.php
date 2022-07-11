@@ -44,7 +44,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			$profile_to = $accessfunc === 'grant' ? 'parent' : 'none';
 
-			DBQuery( "UPDATE STAFF
+			DBQuery( "UPDATE staff
 				SET PROFILE='" . $profile_to . "'
 				WHERE PROFILE='" . $profile_from . "'
 				AND STAFF_ID IN(SELECT STAFF_ID

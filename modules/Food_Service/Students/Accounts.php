@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				if ( $account_id )
 				{
 					$staff_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-						FROM STAFF
+						FROM staff
 						WHERE STAFF_ID='" . (int) $account_id . "'" );
 
 					$message = sprintf(

@@ -199,7 +199,7 @@ if ( ! $_REQUEST['modfunc']
 
 		$users_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME,
 			EMAIL,PROFILE
-			FROM STAFF
+			FROM staff
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOLS LIKE '%," . UserSchool() . ",%'
 			AND PROFILE IN ('admin','teacher')

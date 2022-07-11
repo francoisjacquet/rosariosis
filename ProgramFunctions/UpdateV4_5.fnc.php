@@ -372,7 +372,7 @@ function _update46beta()
  * address_fields, custom_fields, people_fields, school_fields & staff_fields tables
  *
  * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
- * ADDRESS, STUDENTS, people, schools & STAFF tables
+ * ADDRESS, STUDENTS, people, schools & staff tables
  *
  * Local function
  *
@@ -416,7 +416,7 @@ function _update47beta()
 
 	/**
 	 * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
-	 * ADDRESS, STUDENTS, people, schools & STAFF tables
+	 * ADDRESS, STUDENTS, people, schools & staff tables
 	 */
 	$types = "'select','autos','exports','multiple','text','textarea'";
 
@@ -1606,7 +1606,7 @@ function _update58beta5()
  * Add Email & Phone to Staff Fields.
  * Eventually translate Field Title to Spanish or French.
  *
- * 2. STAFF table:
+ * 2. staff table:
  * Move Email & Phone Staff Fields to custom fields.
  * Rename phone columns to custom_200000001.
  * Change type to character varying(255) for email (was character varying(100))
@@ -1660,7 +1660,7 @@ function _update59beta()
 	}
 
 	/**
-	 * 2. STAFF table:
+	 * 2. staff table:
 	 * Move Email & Phone Staff Fields to custom fields.
 	 * Rename phone columns to custom_200000001.
 	 * Change type to character varying(255) for email (was character varying(100))

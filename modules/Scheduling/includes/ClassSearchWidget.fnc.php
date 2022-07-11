@@ -61,7 +61,7 @@ function _classSearchWidgetFindCourse( $extra )
 	echo '<table>';
 
 	$RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
-		FROM STAFF
+		FROM staff
 		WHERE PROFILE='teacher'
 		AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 		AND SYEAR='" . UserSyear() . "'

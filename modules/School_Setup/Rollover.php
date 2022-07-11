@@ -12,7 +12,7 @@ $next_syear = UserSyear() + 1;
 
 $tables = [
 	'schools' => _( 'Schools' ),
-	'STAFF' => _( 'Users' ),
+	'staff' => _( 'Users' ),
 	'school_periods' => _( 'School Periods' ),
 	'school_marking_periods' => _( 'Marking Periods' ),
 	'attendance_calendars' => _( 'Calendars' ),
@@ -31,7 +31,7 @@ $tables_tooltip = [
 	'report_card_comments' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
 
-$no_school_tables = [ 'schools' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true ];
+$no_school_tables = [ 'schools' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'staff' => true ];
 
 if ( $RosarioModules['Eligibility'] )
 {
@@ -62,9 +62,9 @@ foreach ( (array) $tables as $table => $name )
 	else
 	{
 		$exists_RET['food_service_staff_accounts'] = DBGet( "SELECT count(*) AS COUNT
-			FROM STAFF
+			FROM staff
 			WHERE SYEAR='" . $next_syear . "'
-			AND exists(SELECT * FROM food_service_staff_accounts WHERE STAFF_ID=STAFF.STAFF_ID)" );
+			AND exists(SELECT * FROM food_service_staff_accounts WHERE STAFF_ID=staff.STAFF_ID)" );
 	}
 
 	$input_title = $name;
@@ -134,7 +134,7 @@ if ( Prompt(
 	}
 
 	if ( ! ( isset( $_REQUEST['tables']['courses'] )
-		&& ( ( ! isset( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] < 1 )
+		&& ( ( ! isset( $_REQUEST['tables']['staff'] ) && $exists_RET['staff'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['school_periods'] ) && $exists_RET['school_periods'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['school_marking_periods'] ) && $exists_RET['school_marking_periods'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
@@ -300,27 +300,27 @@ function Rollover( $table, $mode = 'delete' )
 				AND ID NOT IN(SELECT ID FROM schools WHERE SYEAR='" . $next_syear . "')" );
 			break;
 
-		case 'STAFF':
+		case 'staff':
 
 			if ( $mode === 'delete' )
 			{
 				$delete_sql = "DELETE FROM food_service_staff_accounts
-						WHERE exists(SELECT * FROM STAFF
+						WHERE exists(SELECT * FROM staff
 							WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 							AND SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
-					WHERE STAFF_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
+					WHERE STAFF_ID IN (SELECT STAFF_ID FROM staff WHERE SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM staff_exceptions
-					WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
+					WHERE USER_ID IN (SELECT STAFF_ID FROM staff WHERE SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM program_user_config
-					WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
+					WHERE USER_ID IN (SELECT STAFF_ID FROM staff WHERE SYEAR='" . $next_syear . "');";
 
 				DBQuery( $delete_sql );
 
-				$delete_staff_sql = "DELETE FROM STAFF WHERE SYEAR='" . $next_syear . "';";
+				$delete_staff_sql = "DELETE FROM staff WHERE SYEAR='" . $next_syear . "';";
 
 				$can_delete = DBTransDryRun( $delete_staff_sql );
 
@@ -350,17 +350,17 @@ function Rollover( $table, $mode = 'delete' )
 			{
 				DBQuery( "UPDATE food_service_staff_accounts
 					SET STAFF_ID=(SELECT ROLLOVER_ID
-						FROM STAFF
+						FROM staff
 						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 						LIMIT 1)
-					WHERE exists(SELECT * FROM STAFF
+					WHERE exists(SELECT * FROM staff
 						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 						AND ROLLOVER_ID IS NOT NULL
 						AND SYEAR='" . $next_syear . "')" );
 			}
 
 			// Roll Users again: update users which could not be deleted.
-			DBQuery( "UPDATE STAFF SET
+			DBQuery( "UPDATE staff SET
 				CURRENT_SCHOOL_ID=s.CURRENT_SCHOOL_ID,TITLE=s.TITLE,FIRST_NAME=s.FIRST_NAME,
 				LAST_NAME=s.LAST_NAME,MIDDLE_NAME=s.MIDDLE_NAME,NAME_SUFFIX=s.NAME_SUFFIX,
 				USERNAME=s.USERNAME,PASSWORD=s.PASSWORD,EMAIL=s.EMAIL,
@@ -369,36 +369,36 @@ function Rollover( $table, $mode = 'delete' )
 				FROM (SELECT STAFF_ID,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
 					LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,PROFILE,
 					HOMEROOM,LAST_LOGIN,SCHOOLS,PROFILE_ID
-					FROM STAFF
+					FROM staff
 					WHERE SYEAR='" . UserSyear() . "') s
 				WHERE SYEAR='" . $next_syear . "'
 				AND ROLLOVER_ID=s.STAFF_ID" );
 
-			DBQuery( "INSERT INTO STAFF (SYEAR,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
+			DBQuery( "INSERT INTO staff (SYEAR,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
 				LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,PROFILE,
 				HOMEROOM,LAST_LOGIN,SCHOOLS,PROFILE_ID,ROLLOVER_ID" . $user_custom . ")
 				SELECT SYEAR+1,CURRENT_SCHOOL_ID,TITLE,
 				FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,
 				PROFILE,HOMEROOM,NULL,SCHOOLS,PROFILE_ID,STAFF_ID" . $user_custom . "
-				FROM STAFF
+				FROM staff
 				WHERE SYEAR='" . UserSyear() . "'
-				AND STAFF_ID NOT IN(SELECT ROLLOVER_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
+				AND STAFF_ID NOT IN(SELECT ROLLOVER_ID FROM staff WHERE SYEAR='" . $next_syear . "')" );
 
 			DBQuery( "INSERT INTO program_user_config (USER_ID,PROGRAM,TITLE,VALUE)
 				SELECT s.STAFF_ID,puc.PROGRAM,puc.TITLE,puc.VALUE
-				FROM STAFF s,program_user_config puc
+				FROM staff s,program_user_config puc
 				WHERE puc.USER_ID=s.ROLLOVER_ID
 				AND s.SYEAR='" . $next_syear . "'" );
 
 			DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 				SELECT STAFF_ID,MODNAME,CAN_USE,CAN_EDIT
-				FROM STAFF,staff_exceptions
+				FROM staff,staff_exceptions
 				WHERE USER_ID=ROLLOVER_ID
 				AND SYEAR='" . $next_syear . "'" );
 
 			DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID)
 				SELECT j.STUDENT_ID,s.STAFF_ID
-				FROM STAFF s,STUDENTS_JOIN_USERS j
+				FROM staff s,STUDENTS_JOIN_USERS j
 				WHERE j.STAFF_ID=s.ROLLOVER_ID
 				AND s.SYEAR='" . $next_syear . "'" );
 
@@ -539,12 +539,12 @@ function Rollover( $table, $mode = 'delete' )
 
 			DBQuery( "UPDATE program_user_config puc
 				SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
-					FROM STAFF s
+					FROM staff s
 					WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
 					AND puc.PROGRAM='Gradebook'
 					AND puc.USER_ID=s.STAFF_ID
 					AND s.SYEAR='" . $next_syear . "')
-				FROM STAFF s
+				FROM staff s
 				WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
 				AND puc.PROGRAM='Gradebook'
 				AND puc.USER_ID=s.STAFF_ID
@@ -641,7 +641,7 @@ function Rollover( $table, $mode = 'delete' )
 					AND n.ROLLOVER_ID=p.MARKING_PERIOD_ID
 					LIMIT 1),
 				(SELECT STAFF_ID
-					FROM STAFF n
+					FROM staff n
 					WHERE n.ROLLOVER_ID=p.TEACHER_ID
 					LIMIT 1),ROOM,TOTAL_SEATS,0 AS FILLED_SEATS,
 				DOES_ATTENDANCE,(SELECT ID
@@ -951,13 +951,13 @@ function Rollover( $table, $mode = 'delete' )
 		case 'food_service_staff_accounts':
 
 			DBQuery( "UPDATE food_service_staff_accounts fs1
-				SET STAFF_ID=(SELECT STAFF_ID FROM STAFF WHERE ROLLOVER_ID=fs1.STAFF_ID)
+				SET STAFF_ID=(SELECT STAFF_ID FROM staff WHERE ROLLOVER_ID=fs1.STAFF_ID)
 				WHERE exists(SELECT *
-					FROM STAFF
+					FROM staff
 					WHERE ROLLOVER_ID=fs1.STAFF_ID
 					AND SYEAR='" . $next_syear . "')
 				AND NOT EXISTS(SELECT 1
-					FROM food_service_staff_accounts fs2,STAFF st
+					FROM food_service_staff_accounts fs2,staff st
 					WHERE fs2.STAFF_ID=st.STAFF_ID
 					AND st.SYEAR='" . $next_syear . "')" );
 

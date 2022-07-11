@@ -27,7 +27,7 @@ if ( ! empty( $_REQUEST['values'] )
 			else
 			{
 				$password = DBGetOne( "SELECT PASSWORD
-					FROM STAFF
+					FROM staff
 					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 					AND SYEAR='" . UserSyear() . "'" );
 			}
@@ -46,7 +46,7 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				else
 				{
-					DBQuery( "UPDATE STAFF
+					DBQuery( "UPDATE staff
 						SET PASSWORD='" . encrypt_password( $new_password ) . "'
 						WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 						AND SYEAR='" . UserSyear() . "'" );

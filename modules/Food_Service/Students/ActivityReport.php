@@ -55,7 +55,7 @@ if ( UserStudentID()
 				'fst.SELLER_ID',
 				"''",
 				'NULL',
-				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
+				"(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.SELLER_ID)",
 			] ) . " AS SELLER
 		FROM food_service_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
@@ -160,7 +160,7 @@ if ( UserStudentID()
 	$type_select .= '</select></label>';
 
 	$staff_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
-		FROM STAFF
+		FROM staff
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
 		AND PROFILE='admin'

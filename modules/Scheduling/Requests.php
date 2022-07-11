@@ -250,7 +250,7 @@ function _makeTeacher( $value, $column )
 
 	$teachers_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		s.STAFF_ID AS TEACHER_ID
-		FROM STAFF s,course_periods cp
+		FROM staff s,course_periods cp
 		WHERE s.STAFF_ID=cp.TEACHER_ID
 		AND cp.COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'" );
 

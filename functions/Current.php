@@ -161,7 +161,7 @@ function SetUserStaffID( $staff_id )
 			{
 				// Get teacher's related parents, include parents of inactive students.
 				$is_related_parent = DBGet( "SELECT 1
-					FROM STAFF s
+					FROM staff s
 					WHERE s.SYEAR='" . UserSyear() . "'
 					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
 					AND (s.PROFILE='parent' AND exists(SELECT 1
@@ -185,7 +185,7 @@ function SetUserStaffID( $staff_id )
 
 			// Check $staff_id is in current Year.
 			$admin_schools = DBGetOne( "SELECT SCHOOLS
-				FROM STAFF
+				FROM staff
 				WHERE STAFF_ID='" . (int) $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" );
 

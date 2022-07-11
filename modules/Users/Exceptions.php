@@ -27,7 +27,7 @@ if ( ! isset( $menu ) )
 if ( UserStaffID() )
 {
 	$profile = DBGet( "SELECT PROFILE_ID,PROFILE
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( $profile[1]['PROFILE_ID'] || $profile[1]['PROFILE'] == 'none' )
@@ -42,7 +42,7 @@ Search( 'staff_id', $extra );
 $user_id = UserStaffID();
 
 $xprofile = DBGetOne( "SELECT PROFILE
-	FROM STAFF
+	FROM staff
 	WHERE STAFF_ID='" . (int) $user_id . "'" );
 
 $exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
@@ -161,7 +161,7 @@ if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
 	$staff_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,PROFILE,PROFILE_ID
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( ! $staff_RET[1]['PROFILE_ID'] )

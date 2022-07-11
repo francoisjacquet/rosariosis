@@ -267,7 +267,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		elseif ( $request === 'staff' )
 		{
 			$options_SQL = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM STAFF s
+				FROM staff s
 				WHERE (s.SYEAR='" . UserSyear() . "' OR s.SYEAR='" . ( UserSyear() - 1 ) . "')
 				AND s.CUSTOM_" . $field['ID'] . " IS NOT NULL
 				ORDER BY SORT_KEY";

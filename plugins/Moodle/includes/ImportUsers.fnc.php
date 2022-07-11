@@ -338,7 +338,7 @@ function MoodleUserImportStudent( $user )
 
 	// Check username unicity.
 	$existing_username = DBGet( "SELECT 'exists'
-		FROM STAFF
+		FROM staff
 		WHERE USERNAME='" . $username . "'
 		AND SYEAR='" . UserSyear() . "'
 		UNION SELECT 'exists'
@@ -449,7 +449,7 @@ function MoodleUserImportUser( $user, $profile )
 
 	// Check username unicity.
 	$existing_username = DBGet( "SELECT 'exists'
-		FROM STAFF
+		FROM staff
 		WHERE USERNAME='" . $username . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND STAFF_ID!='" . UserStaffID() . "'
@@ -487,7 +487,7 @@ function MoodleUserImportUser( $user, $profile )
 		$profile_id = '3';
 	}
 
-	$sql = "INSERT INTO STAFF ";
+	$sql = "INSERT INTO staff ";
 	$fields = 'SYEAR,LAST_NAME,FIRST_NAME,USERNAME,PROFILE,PROFILE_ID';
 	$values = "'" . UserSyear() . "','" . $user['firstname'] . "','" . $user['lastname'] . "','" .
 		$username . "','" . $profile . "','" . $profile_id . "'";

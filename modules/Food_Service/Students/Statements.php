@@ -119,7 +119,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 					'fst.SELLER_ID',
 					"''",
 					'NULL',
-					"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
+					"(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.SELLER_ID)",
 				] ) . " AS SELLER
 			FROM food_service_transactions fst
 			WHERE fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'

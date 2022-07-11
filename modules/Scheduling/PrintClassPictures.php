@@ -22,7 +22,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	if ( $_REQUEST['include_teacher'] == 'Y' )
 	{
 		$teachers_RET = DBGet( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID
-			FROM STAFF
+			FROM staff
 			WHERE STAFF_ID IN (SELECT TEACHER_ID
 				FROM course_periods
 				WHERE COURSE_PERIOD_ID IN (" . $cp_list . "))", [], [ 'STAFF_ID' ] );

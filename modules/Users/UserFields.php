@@ -136,7 +136,7 @@ if ( isset( $_POST['tables'] )
 
 						if ( $table === 'staff_fields' )
 						{
-							AddDBField( 'STAFF', $id, $columns['TYPE'] );
+							AddDBField( 'staff', $id, $columns['TYPE'] );
 
 							$_REQUEST['id'] = $id;
 						}
@@ -179,7 +179,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		if ( DeletePrompt( _( 'User Field' ) ) )
 		{
-			DeleteDBField( 'STAFF', $_REQUEST['id'] );
+			DeleteDBField( 'staff', $_REQUEST['id'] );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -190,7 +190,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		if ( DeletePrompt( _( 'User Field Category' ) . ' ' .
 				_( 'and all fields in the category' ) ) )
 		{
-			DeleteDBFieldCategory( 'STAFF', $_REQUEST['category_id'] );
+			DeleteDBFieldCategory( 'staff', $_REQUEST['category_id'] );
 
 			// Remove from profiles and permissions.
 			$delete_sql = "DELETE FROM profile_exceptions
@@ -332,7 +332,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	echo GetFieldsForm(
-		'STAFF',
+		'staff',
 		$title,
 		$RET,
 		issetVal( $extra_fields, [] )

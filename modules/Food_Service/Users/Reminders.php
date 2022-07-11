@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$staffs = DBGet( "SELECT s.FIRST_NAME," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,fsa.STATUS,fsa.BALANCE,s.STAFF_ID
-			FROM STAFF s,food_service_staff_accounts fsa
+			FROM staff s,food_service_staff_accounts fsa
 			WHERE s.STAFF_ID IN (" . $st_list . ")
 			AND fsa.STAFF_ID=s.STAFF_ID
 			AND s.SYEAR='" . UserSyear() . "'" );

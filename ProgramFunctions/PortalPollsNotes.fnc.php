@@ -437,7 +437,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	// Portal Polls add students teacher.
 	// @since 9.2.1 SQL replace use of STRPOS() with LIKE, compatible with MySQL.
 	$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
-	FROM STAFF
+	FROM staff
 	WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 	AND SYEAR='" . UserSyear() . "'
 	AND PROFILE='teacher'

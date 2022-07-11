@@ -217,7 +217,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$schedule_table_sql = "SELECT cp.ROOM," . $display_title_sql . ",sp.TITLE AS SCHOOL_PERIOD,
 			cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
 			FROM course_periods cp,courses c,schools s,school_periods sp,
-				course_period_school_periods cpsp,STUDENTS stu,schedule sr,STAFF sta,course_subjects cs
+				course_period_school_periods cpsp,STUDENTS stu,schedule sr,staff sta,course_subjects cs
 			WHERE cp.COURSE_ID=c.COURSE_ID
 			AND c.SUBJECT_ID=cs.SUBJECT_ID
 			AND cp.SYEAR='" . UserSyear() . "'

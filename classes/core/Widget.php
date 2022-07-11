@@ -1133,7 +1133,7 @@ class Widget_reporter implements Widget
 		if ( ! $extra['NoSearchTerms'] )
 		{
 			$reporter_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-				FROM STAFF
+				FROM staff
 				WHERE SYEAR='" . UserSyear() . "'
 				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 				AND (PROFILE='admin' OR PROFILE='teacher')
@@ -1150,7 +1150,7 @@ class Widget_reporter implements Widget
 	function html()
 	{
 		$users_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
-			FROM STAFF
+			FROM staff
 			WHERE SYEAR='" . UserSyear() . "'
 			AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 			AND (PROFILE='admin' OR PROFILE='teacher')

@@ -15,7 +15,7 @@
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['User']
  *
- * @param  string $item     User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student.
+ * @param  string $item     User info item; see staff table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student.
  *
  * @return string User info value
  */
@@ -44,10 +44,10 @@ function User( $item )
 		{
 			$sql = "SELECT STAFF_ID,USERNAME," . DisplayNameSQL() . " AS NAME,
 				PROFILE,PROFILE_ID,SCHOOLS,CURRENT_SCHOOL_ID,EMAIL,SYEAR,LAST_LOGIN
-				FROM STAFF
+				FROM staff
 				WHERE SYEAR='" . UserSyear() . "'
 				AND USERNAME=(SELECT USERNAME
-					FROM STAFF
+					FROM staff
 					WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 					AND STAFF_ID='" . (int) $_SESSION['STAFF_ID'] . "')";
 

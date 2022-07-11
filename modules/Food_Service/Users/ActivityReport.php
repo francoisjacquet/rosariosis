@@ -38,13 +38,13 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 				'fst.STAFF_ID',
 				"''",
 				'NULL',
-				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)",
+				"(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.STAFF_ID)",
 			] ) . " AS FULL_NAME," .
 			db_case( [
 				'fst.SELLER_ID',
 				"''",
 				'NULL',
-				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
+				"(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.SELLER_ID)",
 			] ) . " AS SELLER
 		FROM food_service_staff_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
@@ -107,7 +107,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 				'fst.STAFF_ID',
 				"''",
 				'NULL',
-				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)",
+				"(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.STAFF_ID)",
 			] ) . " AS FULL_NAME
 		FROM food_service_staff_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'
@@ -142,7 +142,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	$type_select .= '</select></span>';
 
 	$staff_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
-		FROM STAFF
+		FROM staff
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
 		AND PROFILE='admin'

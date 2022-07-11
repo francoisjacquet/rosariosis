@@ -596,7 +596,7 @@ function Search( $type, $extra = null )
 						else // Staff.
 						{
 							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS KEY
-								FROM STAFF s WHERE s.SYEAR='" . UserSyear() . "'
+								FROM staff s WHERE s.SYEAR='" . UserSyear() . "'
 								AND s." . $col_name . " IS NOT NULL
 								AND s." . $col_name . " != ''
 								ORDER BY KEY";

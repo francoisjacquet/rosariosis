@@ -21,7 +21,7 @@ $configuration_link = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUES
 
 $multiple_schools_admin_has_1_school = SchoolInfo( 'SCHOOLS_NB' ) > 1
 	&& DBGetOne( "SELECT SCHOOLS
-		FROM STAFF
+		FROM staff
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOLS='," . UserSchool() . ",';" );

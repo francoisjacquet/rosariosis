@@ -43,7 +43,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 			WHERE SYEAR='" . UserSyear() . "'
 			AND ID='" . (int) $_REQUEST['school'] . "'" );
 
-		DBQuery( "UPDATE STAFF
+		DBQuery( "UPDATE staff
 			SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
 			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 
@@ -75,24 +75,24 @@ if ( isset( $_REQUEST['sidefunc'] )
 			if ( $old_syear == UserSyear() - 1 )
 			{
 				$new_staff_id = DBGetOne( "SELECT STAFF_ID
-					FROM STAFF
+					FROM staff
 					WHERE ROLLOVER_ID='" . UserStaffID() . "'" );
 			}
 			// Search User in previous SchoolYear.
 			elseif ( $old_syear == UserSyear() + 1 )
 			{
 				$new_staff_id = DBGetOne( "SELECT ROLLOVER_ID AS STAFF_ID
-					FROM STAFF WHERE
+					FROM staff WHERE
 					STAFF_ID='" . UserStaffID() . "'" );
 			}
 			// More than 1 year difference, search User by USERNAME... (could have changed).
 			else
 			{
 				$new_staff_id = DBGetOne( "SELECT STAFF_ID
-					FROM STAFF
+					FROM staff
 					WHERE USERNAME=
 						(SELECT USERNAME
-							FROM STAFF
+							FROM staff
 							WHERE STAFF_ID='" . UserStaffID() . "')
 					AND SYEAR='" . UserSyear() . "'" );
 			}
@@ -337,7 +337,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			{
 				$_SESSION['UserSchool'] = $schools_RET[1]['ID'];
 
-				DBQuery( "UPDATE STAFF
+				DBQuery( "UPDATE staff
 					SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
 					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			} ?>
@@ -419,12 +419,12 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 		if ( User( 'PROFILE' ) !== 'student' )
 		{
 			$sql = "SELECT sy.SYEAR
-				FROM schools sy,STAFF s
+				FROM schools sy,staff s
 				WHERE sy.ID='" . UserSchool() . "'
 				AND s.SYEAR=sy.SYEAR
 				AND (s.SCHOOLS IS NULL OR position(CONCAT(',', sy.ID, ',') IN s.SCHOOLS)>0)
 				AND s.USERNAME=(SELECT USERNAME
-					FROM STAFF
+					FROM staff
 					WHERE STAFF_ID='" . (int) $_SESSION['STAFF_ID'] . "')";
 		}
 		else
@@ -633,7 +633,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
 		$current_user_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-			FROM STAFF
+			FROM staff
 			WHERE STAFF_ID='" . UserStaffID() . "'" ); ?>
 
 		<div class="current-person <?php echo ( UserStaffID() == User( 'STAFF_ID' ) ? 'self' : 'staff' ); ?>">

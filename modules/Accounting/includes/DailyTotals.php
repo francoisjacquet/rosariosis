@@ -64,7 +64,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
 	$staffpayroll_payments = DBGetOne( "SELECT sum(p.AMOUNT) AS AMOUNT
-		FROM accounting_payments p, STAFF s
+		FROM accounting_payments p, staff s
 		WHERE p.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=p.SYEAR
 		AND p.SCHOOL_ID='" . UserSchool() . "'
@@ -74,7 +74,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		AND p.SYEAR=s.SYEAR" );
 
 	$staffpayroll_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
-		FROM accounting_salaries f, STAFF s
+		FROM accounting_salaries f, staff s
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=f.SYEAR
 		AND f.SCHOOL_ID='" . UserSchool() . "'

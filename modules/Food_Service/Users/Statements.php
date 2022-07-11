@@ -22,7 +22,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		(SELECT STAFF_ID FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 		(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
-		FROM STAFF s
+		FROM staff s
 		WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 
 	$staff = $staff[1];
@@ -72,7 +72,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 					'fst.SELLER_ID',
 					"''",
 					'NULL',
-					"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
+					"(SELECT " . DisplayNameSQL() . " FROM staff WHERE STAFF_ID=fst.SELLER_ID)",
 				] ) . " AS SELLER
 			FROM food_service_staff_transactions fst
 			WHERE fst.STAFF_ID='" . UserStaffID() . "'

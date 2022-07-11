@@ -108,11 +108,11 @@ if ( ! $_REQUEST['modfunc'] )
 				else
 				{
 					$staff_name[ $id ] = DBGetOne( "SELECT " . DisplayNameSQL() . " AS NAME
-						FROM STAFF
+						FROM staff
 						WHERE SYEAR='" . UserSyear() . "'
 						AND USERNAME=(
 							SELECT USERNAME
-							FROM STAFF
+							FROM staff
 							WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 							AND STAFF_ID='" . (int) $id . "'
 						)" );

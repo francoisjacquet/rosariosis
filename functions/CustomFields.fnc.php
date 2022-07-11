@@ -69,7 +69,7 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 	{
 		$fields = ParseMLArray( DBGet( "SELECT TITLE,CONCAT('CUSTOM_', ID) AS COLUMN,
 			TYPE,SELECT_OPTIONS
-			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS",
+			FROM " . ( $type === 'staff' ? 'staff' : 'custom' ) . "_fields",
 			[], [ 'COLUMN' ] ), 'TITLE' );
 
 		if ( $type !== 'staff' )

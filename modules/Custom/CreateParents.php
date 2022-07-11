@@ -134,7 +134,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$extra['SELECT'] = ",trim(lower(" . $email_column . ")) AS EMAIL";
 		$extra['SELECT'] .= ",(SELECT STAFF_ID
-			FROM STAFF
+			FROM staff
 			WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
 			AND PROFILE='parent'
 			AND SYEAR=ssm.SYEAR
@@ -163,7 +163,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$tmp_username = $username = $students[1]['EMAIL'];
 
 					$username_exists_sql = "SELECT STAFF_ID
-						FROM STAFF
+						FROM staff
 						WHERE upper(USERNAME)=upper('" . $username . "')
 						AND SYEAR='" . UserSyear() . "'";
 
@@ -175,7 +175,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					{
 						// Fix infinite loop when username already exists.
 						$username_exists_sql = "SELECT STAFF_ID
-							FROM STAFF
+							FROM staff
 							WHERE upper(USERNAME)=upper('" . $username . "')
 							AND SYEAR='" . UserSyear() . "'";
 
@@ -198,7 +198,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					{
 						$password_encrypted = encrypt_password( $password );
 
-						$sql = "INSERT INTO STAFF (SYEAR,PROFILE,PROFILE_ID,
+						$sql = "INSERT INTO staff (SYEAR,PROFILE,PROFILE_ID,
 							FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values (
 							'" . UserSyear() . "','parent','" . $profile_id . "',
 							'" . DBEscapeString( $user['FIRST_NAME'] ) . "',
@@ -216,7 +216,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						do_action( 'Custom/CreateParents.php|create_user' );
 
 						$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,USERNAME
-							FROM STAFF
+							FROM staff
 							WHERE STAFF_ID='" . (int) $id . "'" );
 					}
 					else
@@ -242,7 +242,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				$id = $students[1]['STAFF_ID'];
 
 				$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,USERNAME
-					FROM STAFF
+					FROM staff
 					WHERE STAFF_ID='" . (int) $id . "'" );
 
 				$account = 'old';
@@ -412,13 +412,13 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,trim(lower(" . $email_column . ")) AS EMAIL,s.STUDENT_ID AS CONTACT";
 	$extra['SELECT'] .= ",(SELECT STAFF_ID
-		FROM STAFF
+		FROM staff
 		WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
 		AND PROFILE='parent'
 		AND SYEAR=ssm.SYEAR
 		LIMIT 1) AS STAFF_ID";
 	$extra['SELECT'] .= ",(SELECT 1
-		FROM STUDENTS_JOIN_USERS sju,STAFF st
+		FROM STUDENTS_JOIN_USERS sju,staff st
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
 		AND st.STAFF_ID=sju.STAFF_ID
 		AND st.SYEAR='" . UserSyear() . "'
@@ -519,7 +519,7 @@ function _makeContactSelect( $value, $column )
 	{
 		$RET = DBGet( "SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,
 			FIRST_NAME,LAST_NAME,MIDDLE_NAME
-			FROM STAFF WHERE
+			FROM staff WHERE
 			STAFF_ID='" . (int) $THIS_RET['STAFF_ID'] . "'" );
 	}
 
