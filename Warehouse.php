@@ -533,7 +533,11 @@ function Warehouse( $mode )
 				if ( isPopup() ):
 				?>
 				<script>if(window == top  && (!window.opener)) window.location.href = "Modules.php?modname=misc/Portal.php";</script>
-				<?php else: ?>
+					<?php // @since 10.0 Close popup if no UserSchool in session, happens on login redirect.
+					if ( ! UserSchool() ) : ?>
+					<script>window.close();</script>
+					<?php endif;
+				else: ?>
 <div id="wrap">
 	<footer id="footer" class="mod">
 		<?php require_once 'Bottom.php'; // Include Bottom menu. ?>

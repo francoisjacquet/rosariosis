@@ -8,6 +8,7 @@ Changes in 10.0
 - Use DBEscapeIdentifier() for reserved 'column' keyword in plugins/Moodle/
 - Avoid regression due to lowercase table names: Maintain compatibility with add-ons using rollover_after action hook & `$_REQUEST['tables']` in Rollover.php
 - Use db_trans_*() functions in DeleteTransaction.fnc.php & DeleteTransactionItem.fnc.php
+- Close popup if no UserSchool in session, happens on login redirect in Warehouse.php
 
 Changes in 9.3
 --------------
