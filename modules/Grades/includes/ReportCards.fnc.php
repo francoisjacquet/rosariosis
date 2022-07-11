@@ -1287,10 +1287,10 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 	if ( ! $comment_codes_RET )
 	{
 		// Limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS.
-		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, report_card_comment_code_scales cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
+		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM report_card_comment_codes cc, report_card_comment_code_scales cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
 			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
-		FROM REPORT_CARD_COMMENT_CODES cc, report_card_comment_code_scales cs
+		FROM report_card_comment_codes cc, report_card_comment_code_scales cs
 		WHERE cc.SCHOOL_ID='" . UserSchool() . "'
 		AND cs.ID=cc.SCALE_ID
 		AND cc.SCALE_ID IN (SELECT DISTINCT c.SCALE_ID

@@ -108,7 +108,7 @@ if ( ! isset( $_REQUEST['tab_id'] )
 }
 
 $comment_codes_RET = DBGet( "SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT
-	FROM REPORT_CARD_COMMENT_CODES
+	FROM report_card_comment_codes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER,ID", [], [ 'SCALE_ID' ] );
 

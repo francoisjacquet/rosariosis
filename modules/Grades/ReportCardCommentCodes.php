@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = "UPDATE REPORT_CARD_COMMENT_CODES SET ";
+						$sql = "UPDATE report_card_comment_codes SET ";
 					}
 					else
 					{
@@ -50,7 +50,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODES ';
+						$sql = 'INSERT INTO report_card_comment_codes ';
 						$fields = 'SCHOOL_ID,SCALE_ID,';
 						$values = "'" . UserSchool() . "','" . $_REQUEST['tab_id'] . "',";
 					}
@@ -99,7 +99,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
+			DBQuery( "DELETE FROM report_card_comment_codes
 				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
@@ -112,7 +112,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			SET SCALE_ID=NULL
 			WHERE SCALE_ID='" . (int) $_REQUEST['id'] . "'" );
 
-		$delete_sql = "DELETE FROM REPORT_CARD_COMMENT_CODES
+		$delete_sql = "DELETE FROM report_card_comment_codes
 			WHERE SCALE_ID='" . (int) $_REQUEST['id'] . "';";
 
 		$delete_sql .= "DELETE FROM report_card_comment_code_scales
@@ -166,7 +166,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$sql = "SELECT *
-		FROM REPORT_CARD_COMMENT_CODES
+		FROM report_card_comment_codes
 		WHERE SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER,ID";

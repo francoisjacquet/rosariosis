@@ -415,7 +415,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				if ( ! empty( $students_comment_scales ) )
 				{
 					$comment_codes_RET = DBGet( "SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
-					FROM REPORT_CARD_COMMENT_CODES cc, report_card_comment_code_scales cs
+					FROM report_card_comment_codes cc, report_card_comment_code_scales cs
 					WHERE cs.ID IN (" . implode( ',', $students_comment_scales ) . ")
 					AND cs.ID=cc.SCALE_ID
 					ORDER BY cs.SORT_ORDER", [], [ 'SCALE_ID' ] );
