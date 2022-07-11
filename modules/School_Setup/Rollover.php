@@ -20,7 +20,7 @@ $tables = [
 	'courses' => _( 'Courses' ),
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
 	'STUDENT_ENROLLMENT' => _( 'Students' ),
-	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
+	'report_card_grades' => _( 'Report Card Grade Codes' ),
 	'report_card_comments' => _( 'Report Card Comment Codes' ),
 	'program_config' => _( 'School Configuration' ),
 ];
@@ -138,7 +138,7 @@ if ( Prompt(
 			|| ( ! isset( $_REQUEST['tables']['SCHOOL_PERIODS'] ) && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['school_marking_periods'] ) && $exists_RET['school_marking_periods'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['REPORT_CARD_GRADES'] ) && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
+			|| ( ! isset( $_REQUEST['tables']['report_card_grades'] ) && $exists_RET['report_card_grades'][1]['COUNT'] < 1 ) ) ) )
 	{
 		if ( ! ( isset( $_REQUEST['tables']['report_card_comments'] )
 			&&  ( ! isset( $_REQUEST['tables']['courses'] )
@@ -813,7 +813,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'REPORT_CARD_GRADES':
+		case 'report_card_grades':
 
 			if ( $mode === 'delete' )
 			{
@@ -821,7 +821,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM REPORT_CARD_GRADES
+				$delete_sql .= "DELETE FROM report_card_grades
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -838,14 +838,14 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "INSERT INTO REPORT_CARD_GRADES (SYEAR,SCHOOL_ID,TITLE,COMMENT,BREAK_OFF,
+			DBQuery( "INSERT INTO report_card_grades (SYEAR,SCHOOL_ID,TITLE,COMMENT,BREAK_OFF,
 				GPA_VALUE,GRADE_SCALE_ID,SORT_ORDER)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,
 				COMMENT,BREAK_OFF,GPA_VALUE,(SELECT ID
 					FROM report_card_grade_scales
 					WHERE ROLLOVER_ID=GRADE_SCALE_ID
 					AND SCHOOL_ID=report_card_grades.SCHOOL_ID),SORT_ORDER
-				FROM REPORT_CARD_GRADES
+				FROM report_card_grades
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 

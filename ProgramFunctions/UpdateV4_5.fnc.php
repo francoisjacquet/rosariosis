@@ -1480,8 +1480,8 @@ function _update542()
 /**
  * Update to version 5.5
  *
- * 0. REPORT_CARD_GRADES table: Cut titles > 5 chars.
- * 1. REPORT_CARD_GRADES table: Change title column type to character varying(5)
+ * 0. report_card_grades table: Cut titles > 5 chars.
+ * 1. report_card_grades table: Change title column type to character varying(5)
  * Was text which could prevent saving letter grades > 5 chars
  * @see student_report_card_grades letter_grade column.
  *
@@ -1498,17 +1498,17 @@ function _update55beta3()
 	$return = true;
 
 	/**
-	 * 0. REPORT_CARD_GRADES table: Cut titles > 5 chars.
+	 * 0. report_card_grades table: Cut titles > 5 chars.
 	 */
-	DBQuery( "UPDATE REPORT_CARD_GRADES
+	DBQuery( "UPDATE report_card_grades
 		SET TITLE=SUBSTRING(TITLE FROM 1 FOR 5);" );
 
 	/**
-	 * 1. REPORT_CARD_GRADES table: Change title column type to character varying(5)
+	 * 1. report_card_grades table: Change title column type to character varying(5)
 	 * Was text which could prevent saving letter grades > 5 chars
 	 * @see student_report_card_grades letter_grade column.
 	 */
-	DBQuery( "ALTER TABLE REPORT_CARD_GRADES
+	DBQuery( "ALTER TABLE report_card_grades
 		ALTER COLUMN title TYPE character varying(5);" );
 
 	return $return;

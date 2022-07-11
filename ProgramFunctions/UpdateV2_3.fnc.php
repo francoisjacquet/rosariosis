@@ -512,7 +512,7 @@ function _update30()
  * Update to version 3.1
  *
  * Fix SQL error when entering (Unweighted) GPA Value > 99.99
- * 1. REPORT_CARD_GRADES table:
+ * 1. report_card_grades table:
  * Change gpa_value & unweighted_gp columns type to numeric
  *
  * 2. report_card_grade_scales table:
@@ -535,7 +535,7 @@ function _update31()
 	$return = true;
 
 	/**
-	 * 1. REPORT_CARD_GRADES table:
+	 * 1. report_card_grades table:
 	 * Change gpa_value & unweighted_gp columns type to numeric
 	 * Was numeric(4,2) which would prevent to enter values like 100.
 	 */

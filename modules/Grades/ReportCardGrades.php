@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = "UPDATE REPORT_CARD_GRADES SET ";
+						$sql = "UPDATE report_card_grades SET ";
 					}
 
 					foreach ( (array) $columns as $column => $value )
@@ -49,7 +49,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = 'INSERT INTO REPORT_CARD_GRADES ';
+						$sql = 'INSERT INTO report_card_grades ';
 						$fields = 'SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
 						$values = "'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['tab_id'] . "',";
 					}
@@ -98,7 +98,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Report Card Grade' ) ) )
 		{
-			DBQuery( "DELETE FROM REPORT_CARD_GRADES
+			DBQuery( "DELETE FROM report_card_grades
 				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
@@ -107,7 +107,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 	{
-		$delete_sql = "DELETE FROM REPORT_CARD_GRADES
+		$delete_sql = "DELETE FROM report_card_grades
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['id'] . "';";
 
 		$delete_sql .= "DELETE FROM report_card_grade_scales
@@ -184,7 +184,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = "SELECT * FROM REPORT_CARD_GRADES
+		$sql = "SELECT * FROM report_card_grades
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'

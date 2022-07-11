@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 	$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
-		FROM REPORT_CARD_GRADES
+		FROM report_card_grades
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 

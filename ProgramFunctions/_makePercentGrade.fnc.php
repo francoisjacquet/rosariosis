@@ -53,7 +53,7 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 	if ( ! isset( $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] ) )
 	{
 		$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] = DBGet( "SELECT TITLE,ID,BREAK_OFF
-			FROM REPORT_CARD_GRADES
+			FROM report_card_grades
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID='" . (int) $grade_scale_id . "'

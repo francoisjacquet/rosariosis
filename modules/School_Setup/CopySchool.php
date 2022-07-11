@@ -5,7 +5,7 @@ $tables = [
 	'school_marking_periods' => _( 'Marking Periods' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
-	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
+	'report_card_grades' => _( 'Report Card Grade Codes' ),
 	'report_card_comments' => _( 'Report Card Comment Codes' ),
 	'eligibility_activities' => _( 'Eligibility Activities' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
@@ -196,7 +196,7 @@ function _rollover( $table )
 
 		break;
 
-		case 'REPORT_CARD_GRADES':
+		case 'report_card_grades':
 
 			DBQuery( "INSERT INTO report_card_grade_scales (SYEAR,SCHOOL_ID,TITLE,COMMENT,
 					HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ROLLOVER_ID,GP_SCALE,GP_PASSING_VALUE,HRS_GPA_VALUE)
@@ -207,7 +207,7 @@ function _rollover( $table )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "INSERT INTO REPORT_CARD_GRADES (SYEAR,SCHOOL_ID,TITLE,COMMENT,BREAK_OFF,
+			DBQuery( "INSERT INTO report_card_grades (SYEAR,SCHOOL_ID,TITLE,COMMENT,BREAK_OFF,
 					GPA_VALUE,GRADE_SCALE_ID,SORT_ORDER)
 				SELECT SYEAR,
 					'" . $id . "',TITLE,COMMENT,BREAK_OFF,GPA_VALUE,
@@ -216,7 +216,7 @@ function _rollover( $table )
 						WHERE ROLLOVER_ID=report_card_grades.GRADE_SCALE_ID
 						AND SCHOOL_ID='" . (int) $id . "'),
 					SORT_ORDER
-				FROM REPORT_CARD_GRADES
+				FROM report_card_grades
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 

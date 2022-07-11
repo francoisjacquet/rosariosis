@@ -29,7 +29,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
 	$extra['SELECT'] .= "," . db_case( [ "exists(SELECT rg.GPA_VALUE
-	FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+	FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 	WHERE sg.STUDENT_ID=s.STUDENT_ID
 	AND cp.SYEAR=ssm.SYEAR
 	AND sg.SYEAR=ssm.SYEAR
@@ -373,7 +373,7 @@ function HonorRollWidgets( $item )
 				AND c.SUBJECT_ID='".$_REQUEST['subject_id']."')";
 
 				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+				FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR
@@ -403,7 +403,7 @@ function HonorRollWidgets( $item )
 				&& ! empty( $_REQUEST['high_honor_roll'] ) )
 			{
 				$extra['SELECT'] .= ",".db_case(["exists(SELECT rg.GPA_VALUE
-				FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+				FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR
@@ -424,7 +424,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y')";
 
 				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+				FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR
@@ -455,7 +455,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y')";
 
 				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+				FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR
@@ -467,7 +467,7 @@ function HonorRollWidgets( $item )
 				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))";
 
 				$extra['WHERE'] .= " AND exists(SELECT ''
-				FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+				FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR
@@ -494,7 +494,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y')";
 
 				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM student_report_card_grades sg,course_periods cp,REPORT_CARD_GRADES rg
+				FROM student_report_card_grades sg,course_periods cp,report_card_grades rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
 				AND sg.SYEAR=ssm.SYEAR

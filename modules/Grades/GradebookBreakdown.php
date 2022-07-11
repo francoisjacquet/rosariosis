@@ -45,9 +45,9 @@ $grade_scale_id = $course_id[1]['GRADE_SCALE_ID'];
 $course_id = $course_id[1]['COURSE_ID'];
 
 //FJ fix error column scale_id doesnt exist
-//$grades_RET = DBGet( "SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
+//$grades_RET = DBGet( "SELECT ID,TITLE FROM report_card_grades WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
 $grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
-	FROM REPORT_CARD_GRADES
+	FROM report_card_grades
 	WHERE GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'

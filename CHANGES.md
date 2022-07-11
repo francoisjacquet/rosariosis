@@ -57,7 +57,7 @@ Changes in 9.2.1
 Changes in 9.2
 --------------
 - Fix SQL error invalid input syntax for integer in Administration.php
-- SQL STUDENT_REPORT_CARD_GRADES table: convert MARKING_PERIOD_ID column to integer in Update.fnc.php, rosariosis.sql, EditReportCardGrades.php, FinalGrades.php & ReportCards.fnc.php
+- SQL student_report_card_grades table: convert MARKING_PERIOD_ID column to integer in Update.fnc.php, rosariosis.sql, EditReportCardGrades.php, FinalGrades.php & ReportCards.fnc.php
 
 Changes in 9.1.1
 ----------------

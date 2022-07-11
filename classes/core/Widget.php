@@ -740,7 +740,7 @@ class Widget_letter_grade implements Widget
 			' ' . _( 'Report Card Grade' ) . ': </b>';
 
 		$letter_grades_RET = DBGet( "SELECT ID,TITLE
-			FROM REPORT_CARD_GRADES
+			FROM report_card_grades
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
@@ -836,7 +836,7 @@ class Widget_letter_grade implements Widget
 		if ( empty( $_REQUEST['search_modfunc'] ) )
 		{
 			$letter_grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID,rs.TITLE AS SCALE_TITLE
-				FROM REPORT_CARD_GRADES rg,report_card_grade_scales rs
+				FROM report_card_grades rg,report_card_grade_scales rs
 				WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 				AND rg.SYEAR='" . UserSyear() . "'
 				AND rs.ID=rg.GRADE_SCALE_ID" .
