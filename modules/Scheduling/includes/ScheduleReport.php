@@ -343,7 +343,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 		}
 
 		$sql .= "AND NOT EXISTS (SELECT ''
-			FROM SCHEDULE ss
+			FROM schedule ss
 			WHERE ss.COURSE_ID=sr.COURSE_ID
 			AND ss.STUDENT_ID=sr.STUDENT_ID
 			AND ('" . DBDate() . "' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL))";
@@ -352,7 +352,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 	{
 		$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
-			FROM SCHEDULE ss,STUDENTS s,STUDENT_ENROLLMENT ssm
+			FROM schedule ss,STUDENTS s,STUDENT_ENROLLMENT ssm
 			WHERE ('" . DBDate() . "' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL)
 			AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL))
 			AND s.STUDENT_ID=ss.STUDENT_ID
@@ -449,7 +449,7 @@ function calcSeats1( $period, &$total_seats, &$filled_seats )
 		}
 
 		$seats = DBGet( "SELECT max((SELECT count(1)
-			FROM SCHEDULE ss
+			FROM schedule ss
 			JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
 			WHERE ss.COURSE_PERIOD_ID='" . (int) $period['COURSE_PERIOD_ID'] . "'
 			AND (ss.MARKING_PERIOD_ID='" . (int) $mp . "'

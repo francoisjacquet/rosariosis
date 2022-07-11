@@ -88,10 +88,10 @@ if ( $confirm_ok )
 	if ( ! empty( $_REQUEST['delete'] )
 		&& ! empty( $requests_RET ) )
 	{
-		DBQuery( "DELETE FROM SCHEDULE
+		DBQuery( "DELETE FROM schedule
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)" );
+			AND (SCHEDULER_LOCK!='Y' OR scheduleR_LOCK IS NULL)" );
 	}
 
 	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID
@@ -109,7 +109,7 @@ if ( $confirm_ok )
 	}
 
 	$count = DBGet( "SELECT COUNT(*) AS COUNT
-		FROM SCHEDULE
+		FROM schedule
 		WHERE SCHOOL_ID='" . UserSchool() . "'" );
 
 	//FJ multiple school periods for a course period
@@ -144,13 +144,13 @@ if ( $confirm_ok )
 
 	// GET FILLED/LOCKED REQUESTS
 	//FJ multiple school periods for a course period
-	/*$sql = "SELECT s.STUDENT_ID,r.REQUEST_ID,s.COURSE_PERIOD_ID,cp.PARENT_ID,s.COURSE_ID,cp.PERIOD_ID FROM schedule_requests r,SCHEDULE s,course_periods cp WHERE
+	/*$sql = "SELECT s.STUDENT_ID,r.REQUEST_ID,s.COURSE_PERIOD_ID,cp.PARENT_ID,s.COURSE_ID,cp.PERIOD_ID FROM schedule_requests r,schedule s,course_periods cp WHERE
 	s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PARENT_ID=cp.COURSE_PERIOD_ID AND
 	r.SYEAR='".UserSyear()."' AND r.SCHOOL_ID='".UserSchool()."' AND s.SYEAR=r.SYEAR AND s.SCHOOL_ID=r.SCHOOL_ID
 	AND s.COURSE_ID=r.COURSE_ID AND r.STUDENT_ID = s.STUDENT_ID
 	AND ('".DBDate()."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";*/
 	$sql = "SELECT s.STUDENT_ID,r.REQUEST_ID,s.COURSE_PERIOD_ID,cp.PARENT_ID,s.COURSE_ID,cpsp.PERIOD_ID
-	FROM schedule_requests r,SCHEDULE s,course_periods cp,course_period_school_periods cpsp
+	FROM schedule_requests r,schedule s,course_periods cp,course_period_school_periods cpsp
 	WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.PARENT_ID=cp.COURSE_PERIOD_ID
@@ -313,7 +313,7 @@ if ( $confirm_ok )
 					if ( empty( $locked_RET[$student_id][$course_period['REQUEST_ID']] )
 						&& ! ( in_array( $course_period['COURSE_PERIOD_ID'], $course_periods_temp ) ) )
 					{
-						db_trans_query( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
+						db_trans_query( "INSERT INTO schedule (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
 							VALUES('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
 							$date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] .
 							"','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
@@ -326,7 +326,7 @@ if ( $confirm_ok )
 						$bad_locked++;
 					}
 
-					//	db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
+					//	db_trans_query($connection,"INSERT INTO schedule (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
 
 					//FJ multiple school periods for a course period
 					$course_periods_temp[] = $course_period['COURSE_PERIOD_ID'];

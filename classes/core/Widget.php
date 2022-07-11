@@ -66,7 +66,7 @@ class Widget_course implements Widget
 		if ( $_REQUEST['w_course_period_id_which'] === 'subject' )
 		{
 			$extra['WHERE'] .= " EXISTS(SELECT 1
-				FROM SCHEDULE w_ss
+				FROM schedule w_ss
 				WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 				AND w_ss.SYEAR=ssm.SYEAR
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
@@ -91,7 +91,7 @@ class Widget_course implements Widget
 		elseif ( $_REQUEST['w_course_period_id_which'] === 'course' )
 		{
 			$extra['WHERE'] .= " EXISTS(SELECT 1
-				FROM SCHEDULE w_ss
+				FROM schedule w_ss
 				WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 				AND w_ss.SYEAR=ssm.SYEAR
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
@@ -112,7 +112,7 @@ class Widget_course implements Widget
 		else
 		{
 			$extra['WHERE'] .= " EXISTS(SELECT 1
-				FROM SCHEDULE w_ss
+				FROM schedule w_ss
 				WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 				AND w_ss.SYEAR=ssm.SYEAR
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID

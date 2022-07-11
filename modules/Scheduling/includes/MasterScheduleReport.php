@@ -61,7 +61,7 @@ $sections_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE AS COURSE,cp.CO
 		AND cpsp.PERIOD_ID=sp.PERIOD_ID
 		AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID),
 	(SELECT COUNT(STUDENT_ID)
-		FROM SCHEDULE
+		FROM schedule
 		WHERE COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID" . $where_active_sql . ") AS STUDENTS
 FROM course_periods cp,courses c,course_subjects cs
 WHERE cs.SUBJECT_ID=c.SUBJECT_ID

@@ -148,7 +148,7 @@ function GetStaffList( &$extra = [] )
 		$extra['WHERE'] .= " AND (s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			OR s.PROFILE='parent'
 			AND exists(SELECT ''
-				FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss
+				FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,schedule _ss
 				WHERE _sju.STAFF_ID=s.STAFF_ID
 				AND _sem.STUDENT_ID=_sju.STUDENT_ID
 				AND _sem.SYEAR='" . UserSyear() . "'

@@ -88,7 +88,7 @@ function EmailReferralGetReferralSafe( $referral_id )
 
 	if ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID FROM SCHEDULE
+		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID FROM schedule
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND '" . DBDate() . "'>=START_DATE
 		AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)

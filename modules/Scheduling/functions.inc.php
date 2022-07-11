@@ -17,7 +17,7 @@ function MyWidgets( $item )
 
 				if ( $_REQUEST['w_ly_course_period_id_which'] === 'subject' )
 				{
-					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
+					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM schedule
 						WHERE STUDENT_ID=ssm.STUDENT_ID
 						AND COURSE_ID IN(SELECT COURSE_ID
 							FROM courses
@@ -37,7 +37,7 @@ function MyWidgets( $item )
 				// Course.
 				elseif ( $_REQUEST['w_ly_course_period_id_which'] === 'course' )
 				{
-					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
+					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM schedule
 						WHERE STUDENT_ID=ssm.STUDENT_ID
 						AND COURSE_ID='" . (int) $_REQUEST['w_ly_course_id'] . "')";
 
@@ -55,7 +55,7 @@ function MyWidgets( $item )
 				// Course Period.
 				else
 				{
-					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
+					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM schedule
 						WHERE STUDENT_ID=ssm.STUDENT_ID
 						AND COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "')";
 

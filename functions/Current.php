@@ -165,7 +165,7 @@ function SetUserStaffID( $staff_id )
 					WHERE s.SYEAR='" . UserSyear() . "'
 					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
 					AND (s.PROFILE='parent' AND exists(SELECT 1
-						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss
+						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,schedule _ss
 						WHERE _sju.STAFF_ID=s.STAFF_ID
 						AND _sem.STUDENT_ID=_sju.STUDENT_ID
 						AND _sem.SYEAR='" . UserSyear() . "'
@@ -294,9 +294,9 @@ function SetUserStudentID( $student_id )
 			// Get teacher's related students, include inactive students.
 			$is_related_student = DBGet( "SELECT 1
 				FROM STUDENTS s
-				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID
+				JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID
 					AND ss.SYEAR='" . UserSyear() . "'
-					AND ss.START_DATE=(SELECT START_DATE FROM SCHEDULE
+					AND ss.START_DATE=(SELECT START_DATE FROM schedule
 						WHERE STUDENT_ID=s.STUDENT_ID
 						AND SYEAR=ss.SYEAR
 						AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID

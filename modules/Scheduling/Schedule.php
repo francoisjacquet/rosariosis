@@ -55,7 +55,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 	{
 		foreach ( (array) $start_dates as $start_date => $columns )
 		{
-			$sql = "UPDATE SCHEDULE SET ";
+			$sql = "UPDATE schedule SET ";
 
 			if ( isset( $columns['MARKING_PERIOD_ID'] ) )
 			{
@@ -82,7 +82,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 			if ( ! empty( $columns['START_DATE'] ) || ! empty( $columns['END_DATE'] ) )
 			{
 				$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
-				FROM SCHEDULE
+				FROM schedule
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 				AND END_DATE<START_DATE" );
@@ -122,7 +122,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 						}
 
 						// Else simply delete schedule entry.
-						DBQuery( "DELETE FROM SCHEDULE
+						DBQuery( "DELETE FROM schedule
 							WHERE STUDENT_ID='" . UserStudentID() . "'
 							AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 
@@ -227,7 +227,7 @@ if ( UserStudentID()
 	cp.PERIOD_ID,cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
 	c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,
 	s.STUDENT_ID,ROOM,DAYS,SCHEDULER_LOCK
-	FROM SCHEDULE s,courses c,course_periods cp,SCHOOL_PERIODS sp
+	FROM schedule s,courses c,course_periods cp,SCHOOL_PERIODS sp
 	WHERE
 	s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 	AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID
@@ -241,7 +241,7 @@ if ( UserStudentID()
 		" . _SQLUnixTimestamp( 's.END_DATE' ) . " AS END_EPOCH,
 		cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
 		c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,s.STUDENT_ID,ROOM,SCHEDULER_LOCK
-		FROM SCHEDULE s,courses c,course_periods cp
+		FROM schedule s,courses c,course_periods cp
 		WHERE s.COURSE_ID=c.COURSE_ID
 		AND s.COURSE_ID=cp.COURSE_ID
 		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
@@ -347,7 +347,7 @@ if ( UserStudentID()
 			$extra['SELECT'] = ',\'None\' AS CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM course_periods cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(\'None\',1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
 		}
 
-		$extra['WHERE'] .= ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM SCHEDULE s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
+		$extra['WHERE'] .= ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM schedule s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
 		$extra['functions'] = [ 'WITH_TEACHER_ID' => '_makeRequestTeacher', 'WITH_PERIOD_ID' => '_makeRequestPeriod' ];
 
 		$columns = [
@@ -425,7 +425,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		// the course being scheduled has start date of $date but no end date by default, and scheduled into the course marking period by default
 		// if marking periods overlap and dates overlap (already scheduled course does not end or ends after $date) then not okay
 		$current_RET = DBGet( "SELECT COURSE_PERIOD_ID
-			FROM SCHEDULE
+			FROM schedule
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 			AND MARKING_PERIOD_ID IN (" . $mps . ")
@@ -438,9 +438,9 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		//FJ multiple school periods for a course period
 		//if marking periods overlap and same period and same day then not okay
-		//$period_RET = DBGet( "SELECT cp.DAYS FROM SCHEDULE s,course_periods cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)" );
+		//$period_RET = DBGet( "SELECT cp.DAYS FROM schedule s,course_periods cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)" );
 		$period_RET = DBGet( "SELECT cpsp.DAYS
-		FROM SCHEDULE s,course_period_school_periods cpsp
+		FROM schedule s,course_period_school_periods cpsp
 		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 		AND s.STUDENT_ID='" . UserStudentID() . "'
 		AND cpsp.PERIOD_ID='" . (int) $mp_RET[1]['PERIOD_ID'] . "'
@@ -476,7 +476,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		if ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'warning' ) ) )
 		{
-			DBQuery( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
+			DBQuery( "INSERT INTO schedule (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
 				VALUES('" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "','" .
 				$date . "','" . $_REQUEST['course_id'] . "','" . $_REQUEST['course_period_id'] . "','" .
 				$mp_RET[1]['MP'] . "','" . $mp_RET[1]['MARKING_PERIOD_ID'] . "')" );

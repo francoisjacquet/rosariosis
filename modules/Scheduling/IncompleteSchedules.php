@@ -27,8 +27,8 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	Widgets( 'request' );
 	$extra['SELECT'] .= ',sp.PERIOD_ID';
 	//FJ multiple school periods for a course period
-	//$extra['FROM'] .= ',SCHOOL_PERIODS sp,SCHEDULE ss,course_periods cp';
-	$extra['FROM'] .= ',SCHOOL_PERIODS sp,SCHEDULE ss,course_periods cp,course_period_school_periods cpsp';
+	//$extra['FROM'] .= ',SCHOOL_PERIODS sp,schedule ss,course_periods cp';
+	$extra['FROM'] .= ',SCHOOL_PERIODS sp,schedule ss,course_periods cp,course_period_school_periods cpsp';
 	/*$extra['WHERE'] .= ' AND (\''.DBDate().'\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',UserMP()).') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID ';*/
 	$extra['WHERE'] .= ' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND (\'' . DBDate() . '\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN (' . GetAllMP( 'QTR', UserMP() ) . ') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=sp.PERIOD_ID ';
 	//if (UserStudentID())

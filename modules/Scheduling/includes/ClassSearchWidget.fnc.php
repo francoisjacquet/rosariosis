@@ -212,7 +212,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 	{
 		// FJ multiple school periods for a course period.
 		$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE
-		FROM course_periods cp,SCHEDULE ss
+		FROM course_periods cp,schedule ss
 		WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 		AND ss.SYEAR='" . UserSyear() . "'

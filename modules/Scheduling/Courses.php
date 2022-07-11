@@ -766,7 +766,7 @@ if (  ( ! $_REQUEST['modfunc']
 				if ( $_REQUEST['course_period_id'] !== 'new' )
 				{
 					$has_student_enrolled = DBGetOne( "SELECT 1
-						FROM SCHEDULE
+						FROM schedule
 						WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -1818,7 +1818,7 @@ function _updateSchedulesCPMP( $cp_id, $mp_id )
 
 	// Update Schedules for CP where MP is of greater type
 	// than the new course period marking period.
-	$update = DBQuery( "UPDATE SCHEDULE SET
+	$update = DBQuery( "UPDATE schedule SET
 		MP='" . $cp_mp . "',
 		MARKING_PERIOD_ID='" . (int) $mp_id . "'
 		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'

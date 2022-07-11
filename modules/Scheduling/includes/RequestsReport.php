@@ -32,7 +32,7 @@ $count_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE as COURSE_TITLE,sr
 		FROM course_periods cp
 		WHERE cp.COURSE_ID=sr.COURSE_ID) AS SEATS,
 	(SELECT count(STUDENT_ID)
-		FROM SCHEDULE s
+		FROM schedule s
 		WHERE s.COURSE_ID=sr.COURSE_ID" . $where_active_sql . ") AS STUDENTS
 	FROM schedule_requests sr,courses c,course_subjects cs
 	WHERE cs.SUBJECT_ID=c.SUBJECT_ID

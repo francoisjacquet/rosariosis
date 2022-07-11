@@ -1307,7 +1307,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 		(SELECT c.SCALE_ID
 		FROM report_card_comments c
 		WHERE (c.COURSE_ID IN(SELECT COURSE_ID
-			FROM SCHEDULE
+			FROM schedule
 			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND COURSE_PERIOD_ID IN(" . $course_periods_list . "))
 			OR c.COURSE_ID=0)

@@ -163,7 +163,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	{
 		// If current student and MP or Course Period were updated.
 		$is_student_scheduled = DBGetOne( "SELECT 'SCHEDULED'
-			FROM SCHEDULE
+			FROM schedule
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND '" . DBDate() . "'>=START_DATE

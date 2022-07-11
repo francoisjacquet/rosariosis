@@ -403,7 +403,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				WHERE cs.ID IN
 					(SELECT c.SCALE_ID
 					FROM report_card_comments c
-					WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")) OR c.COURSE_ID=0)
+					WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM schedule WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")) OR c.COURSE_ID=0)
 					AND c.SCHOOL_ID=cs.SCHOOL_ID
 					AND c.SYEAR='" . UserSyear() . "')
 				AND cs.SCHOOL_ID='" . UserSchool() . "'", [], [ 'ID' ] );
@@ -447,7 +447,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				//FJ add Course-specific comments tipmessage
 				$commentsA_RET = DBGet( "SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
 				FROM report_card_comments c, report_card_comment_categories cc, courses co, report_card_comment_code_scales cs
-				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")))
+				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM schedule WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")))
 				AND c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'
 				AND c.CATEGORY_ID=cc.ID

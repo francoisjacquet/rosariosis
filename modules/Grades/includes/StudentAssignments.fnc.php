@@ -382,7 +382,7 @@ function GetAssignment( $assignment_id )
 	}
 	elseif ( UserStudentID() )
 	{
-		$where_user = ",SCHEDULE ss WHERE ss.STUDENT_ID='" . UserStudentID() . "'
+		$where_user = ",schedule ss WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 			AND ss.SYEAR='" . UserSyear() . "'
 			AND ss.SCHOOL_ID='" . UserSchool() . "'
 			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
@@ -529,7 +529,7 @@ function StudentAssignmentsListOutput()
 			FROM STUDENT_ASSIGNMENTS sa
 			WHERE ga.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 			AND sa.STUDENT_ID=ss.STUDENT_ID) AS SUBMITTED
-		FROM gradebook_assignments ga, SCHEDULE ss, courses c, course_periods cp
+		FROM gradebook_assignments ga, schedule ss, courses c, course_periods cp
 		WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 		AND ss.SYEAR='" . UserSyear() . "'
 		AND ss.SCHOOL_ID='" . UserSchool() . "'

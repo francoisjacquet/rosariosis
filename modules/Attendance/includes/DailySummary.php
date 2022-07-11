@@ -191,7 +191,7 @@ if ( $_REQUEST['student_id']
 		/*$sql = "SELECT
 				cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cp.PERIOD_ID
 			FROM
-				SCHEDULE s,courses c,course_periods cp,SCHOOL_PERIODS sp
+				schedule s,courses c,course_periods cp,SCHOOL_PERIODS sp
 			WHERE
 				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
@@ -201,7 +201,7 @@ if ( $_REQUEST['student_id']
 			ORDER BY sp.SORT_ORDER
 			";*/
 		$sql = "SELECT cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
-			FROM SCHEDULE s,courses c,course_periods cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+			FROM schedule s,courses c,course_periods cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND	s.COURSE_ID=c.COURSE_ID
 			AND s.COURSE_ID=cp.COURSE_ID

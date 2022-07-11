@@ -316,7 +316,7 @@ switch ( User( 'PROFILE' ) )
 					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,SCHOOLS s,
 					STAFF st,course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
-						FROM SCHEDULE se
+						FROM schedule se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
 						AND se.SYEAR='" . UserSyear() . "'
 						AND acc.SCHOOL_DATE>=se.START_DATE
@@ -360,7 +360,7 @@ switch ( User( 'PROFILE' ) )
 					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,SCHOOLS s,
 					STAFF st, course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
-						FROM SCHEDULE se
+						FROM schedule se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
 						AND se.SYEAR='" . UserSyear() . "'
 						AND acc.SCHOOL_DATE>=se.START_DATE
@@ -604,7 +604,7 @@ switch ( User( 'PROFILE' ) )
 					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,
 					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
-						FROM SCHEDULE se
+						FROM schedule se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
 						AND se.SYEAR='" . UserSyear() . "'
 						AND acc.SCHOOL_DATE>=se.START_DATE
@@ -647,7 +647,7 @@ switch ( User( 'PROFILE' ) )
 					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,
 					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
-						FROM SCHEDULE se
+						FROM schedule se
 						WHERE cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
 						AND se.SYEAR='" . UserSyear() . "'
 						AND acc.SCHOOL_DATE>=se.START_DATE
@@ -801,7 +801,7 @@ switch ( User( 'PROFILE' ) )
 				FROM STUDENT_ASSIGNMENTS sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-			FROM gradebook_assignments a,SCHEDULE s,courses c
+			FROM gradebook_assignments a,schedule s,courses c
 			WHERE (a.COURSE_ID=c.COURSE_ID
 			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
@@ -929,7 +929,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(',0,' IN pp.PUBLISHED_PROFILES)>0
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, course_periods cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
+		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM schedule sch, course_periods cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
 		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
@@ -981,7 +981,7 @@ switch ( User( 'PROFILE' ) )
 				FROM STUDENT_ASSIGNMENTS sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-			FROM gradebook_assignments a,SCHEDULE s,courses c
+			FROM gradebook_assignments a,schedule s,courses c
 			WHERE (a.COURSE_ID=c.COURSE_ID
 			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)

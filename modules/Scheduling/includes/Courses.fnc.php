@@ -484,7 +484,7 @@ function CoursePeriodDeleteSQL( $course_period_id )
 		SET PARENT_ID=NULL
 		WHERE PARENT_ID='" . (int) $course_period_id . "';";
 
-	$delete_sql .= "DELETE FROM SCHEDULE
+	$delete_sql .= "DELETE FROM schedule
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM gradebook_assignments
@@ -521,7 +521,7 @@ function CourseDeleteSQL( $course_id )
 	$delete_sql .= "DELETE FROM course_periods
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
-	$delete_sql .= "DELETE FROM SCHEDULE
+	$delete_sql .= "DELETE FROM schedule
 		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM schedule_requests

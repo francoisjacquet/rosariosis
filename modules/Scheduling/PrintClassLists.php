@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$extra['WHERE'] .= " AND s.STUDENT_ID IN
 		(SELECT STUDENT_ID
-		FROM SCHEDULE
+		FROM schedule
 		WHERE COURSE_PERIOD_ID='" . (int) $course_period['COURSE_PERIOD_ID'] . "'";
 
 		if ( $is_include_inactive )

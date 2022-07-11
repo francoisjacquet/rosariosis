@@ -66,7 +66,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 							$mp_table = GetMP( $_REQUEST['marking_period_id'], 'MP' );
 
 							$current_RET = DBGet( "SELECT STUDENT_ID
-								FROM SCHEDULE
+								FROM schedule
 								WHERE COURSE_PERIOD_ID='" . (int) $course_to_add['course_period_id'] . "'
 								AND SYEAR='" . UserSyear() . "'
 								AND (('" . $start_date . "'	BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 									continue;
 								}
 
-								DBQuery( "INSERT INTO SCHEDULE
+								DBQuery( "INSERT INTO schedule
 									(SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,
 										MARKING_PERIOD_ID,START_DATE)
 									values('" . UserSyear() . "','" . UserSchool() . "',

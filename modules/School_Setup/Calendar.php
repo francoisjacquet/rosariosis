@@ -1051,7 +1051,7 @@ if ( ! $_REQUEST['modfunc'] )
 		|| User( 'PROFILE' ) === 'student' )
 	{
 		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED
-			FROM gradebook_assignments a,SCHEDULE s
+			FROM gradebook_assignments a,schedule s
 			WHERE (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
 			AND s.STUDENT_ID='" . UserStudentID() . "'
 			AND (a.DUE_DATE BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)

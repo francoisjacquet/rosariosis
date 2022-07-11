@@ -574,13 +574,13 @@ function GetStuList( &$extra = [] )
 			}
 
 			// FROM.
-			$sql .= " FROM STUDENTS s JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
+			$sql .= " FROM STUDENTS s JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
 			if ( $is_include_inactive )
 			{
 				// Include Inactive Students: scheduled.
 				$sql .= " AND ss.START_DATE=(SELECT START_DATE
-					FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID
+					FROM schedule WHERE STUDENT_ID=s.STUDENT_ID
 					AND SYEAR=ss.SYEAR
 					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 					ORDER BY START_DATE DESC LIMIT 1)";

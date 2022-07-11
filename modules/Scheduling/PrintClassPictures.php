@@ -63,14 +63,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			// Prevent course period ID hacking.
 			$extra['WHERE'] = " AND '" . UserStudentID() . "' IN
 			(SELECT STUDENT_ID
-			FROM SCHEDULE
+			FROM schedule
 			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 			AND '" . DBDate() . "'>=START_DATE
 			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)
 			AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
 			// Limit to UserCoursePeriod().
-			$extra['FROM'] = "JOIN SCHEDULE ss ON (ss.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+			$extra['FROM'] = "JOIN schedule ss ON (ss.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 				AND s.STUDENT_ID=ss.STUDENT_ID)";
 
 			// Do NOT use GetStuList() otherwise limited to UserStudentID().
@@ -99,7 +99,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$extra['WHERE'] .= " AND s.STUDENT_ID IN
 			(SELECT STUDENT_ID
-			FROM SCHEDULE
+			FROM schedule
 			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'";
 
 			if ( $is_include_inactive )

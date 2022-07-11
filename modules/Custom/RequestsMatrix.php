@@ -6,7 +6,7 @@ c.TITLE AS COURSE_TITLE,cp.PERIOD_ID,
 (cp.TOTAL_SEATS-cp.FILLED_SEATS) AS OPEN_SEATS,s.STUDENT_ID AS SCHEDULED
 FROM schedule_requests r,
 courses c,SCHOOL_PERIODS sp,
-course_periods cp LEFT OUTER JOIN SCHEDULE s ON
+course_periods cp LEFT OUTER JOIN schedule s ON
 (s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."')
 WHERE
 r.SYEAR='".UserSyear()."' AND r.SCHOOL_ID='".UserSchool()."'
@@ -19,7 +19,7 @@ $requests_RET = DBGet( "SELECT r.COURSE_ID AS CRS,r.COURSE_ID,cp.COURSE_PERIOD_I
 c.TITLE AS COURSE_TITLE,cp.PERIOD_ID,
 (cp.TOTAL_SEATS-cp.FILLED_SEATS) AS OPEN_SEATS,s.STUDENT_ID AS SCHEDULED
 FROM schedule_requests r,courses c,SCHOOL_PERIODS sp,course_period_school_periods cpsp,course_periods cp
-LEFT OUTER JOIN SCHEDULE s ON (s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='" . UserStudentID() . "')
+LEFT OUTER JOIN schedule s ON (s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='" . UserStudentID() . "')
 WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 AND r.SYEAR='" . UserSyear() . "'
 AND r.SCHOOL_ID='" . UserSchool() . "'
