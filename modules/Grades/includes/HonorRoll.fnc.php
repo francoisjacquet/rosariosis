@@ -38,7 +38,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	AND cp.DOES_HONOR_ROLL='Y'
 	AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 	AND sg.REPORT_CARD_GRADE_ID=rg.ID
-	AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))", 'true', 'NULL', "'Y'" ] ) . " AS HIGH_HONOR";
+	AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))", 'true', 'NULL', "'Y'" ] ) . " AS HIGH_HONOR";
 
 	//$extra['SELECT'] .= ",(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL";
 	//$extra['SELECT'] .= ",(SELECT PRINCIPAL FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS PRINCIPAL";
@@ -382,7 +382,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HRS_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
+				AND rg.GPA_VALUE<(SELECT HRS_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -412,7 +412,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'".button('check')."'"])." AS HIGH_HONOR";
+				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'".button('check')."'"])." AS HIGH_HONOR";
 
 				$extra['WHERE'] .=  " AND exists(SELECT ''
 				FROM STUDENT_REPORT_CARD_GRADES sg,course_periods cp
@@ -433,7 +433,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
+				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))";
 
 				$extra['columns_after']['HIGH_HONOR'] = _( 'High Honor' );
 
@@ -464,7 +464,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
+				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))";
 
 				$extra['WHERE'] .= " AND exists(SELECT ''
 				FROM STUDENT_REPORT_CARD_GRADES sg,course_periods cp,REPORT_CARD_GRADES rg
@@ -476,7 +476,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
+				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -503,7 +503,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
+				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM report_card_grade_scales WHERE ID=rg.GRADE_SCALE_ID))";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{

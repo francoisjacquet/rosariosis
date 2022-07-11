@@ -173,7 +173,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	$inputs[] = CoursePeriodAttendanceInput( issetVal( $course_period_RET['DOES_ATTENDANCE'], '' ), $array );
 
 	$options_RET = DBGet( "SELECT TITLE,ID
-		FROM REPORT_CARD_GRADE_SCALES
+		FROM report_card_grade_scales
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

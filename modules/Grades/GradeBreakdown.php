@@ -84,7 +84,7 @@ $grouped_sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 $grouped_RET = DBGet( $grouped_sql, [], [ 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ] );
 
 $grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
-	FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
+	FROM REPORT_CARD_GRADES rg,report_card_grade_scales rs
 	WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 	AND rg.SYEAR='" . UserSyear() . "'
 	AND rs.ID=rg.GRADE_SCALE_ID

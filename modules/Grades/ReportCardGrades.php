@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			{
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
+					$sql = "UPDATE report_card_grade_scales SET ";
 
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
@@ -55,7 +55,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					}
 					else
 					{
-						$sql = 'INSERT INTO REPORT_CARD_GRADE_SCALES ';
+						$sql = 'INSERT INTO report_card_grade_scales ';
 						$fields = 'SCHOOL_ID,SYEAR,';
 						$values = "'" . UserSchool() . "','" . UserSyear() . "',";
 					}
@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		$delete_sql = "DELETE FROM REPORT_CARD_GRADES
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['id'] . "';";
 
-		$delete_sql .= "DELETE FROM REPORT_CARD_GRADE_SCALES
+		$delete_sql .= "DELETE FROM report_card_grade_scales
 			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
@@ -128,7 +128,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( User( 'PROFILE' ) === 'admin' )
 	{
 		$grade_scales_RET = DBGet( "SELECT ID,TITLE
-			FROM REPORT_CARD_GRADE_SCALES
+			FROM report_card_grade_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY SORT_ORDER", [], [ 'ID' ] );
@@ -160,7 +160,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		$grade_scales_RET = DBGet( "SELECT ID,TITLE
-			FROM REPORT_CARD_GRADE_SCALES
+			FROM report_card_grade_scales
 			WHERE ID='" . (int) $course_period_RET[1]['GRADE_SCALE_ID'] . "'", [], [ 'ID' ] );
 
 		if ( $course_period_RET[1]['DOES_BREAKOFF'] == 'Y' )
@@ -237,7 +237,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = "SELECT * FROM REPORT_CARD_GRADE_SCALES
+		$sql = "SELECT * FROM report_card_grade_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY SORT_ORDER,ID";

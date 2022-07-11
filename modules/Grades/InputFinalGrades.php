@@ -70,7 +70,7 @@ $current_completed = count( (array) DBGet( "SELECT 1
 
 $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 	rcg.UNWEIGHTED_GP,gs.GP_SCALE,gs.GP_PASSING_VALUE
-	FROM REPORT_CARD_GRADES rcg, REPORT_CARD_GRADE_SCALES gs
+	FROM REPORT_CARD_GRADES rcg, report_card_grade_scales gs
 	WHERE rcg.grade_scale_id = gs.id
 	AND rcg.SYEAR='" . UserSyear() . "'
 	AND rcg.SCHOOL_ID='" . UserSchool() . "'

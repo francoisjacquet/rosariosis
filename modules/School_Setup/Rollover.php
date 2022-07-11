@@ -645,7 +645,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE n.ROLLOVER_ID=p.TEACHER_ID
 					LIMIT 1),ROOM,TOTAL_SEATS,0 AS FILLED_SEATS,
 				DOES_ATTENDANCE,(SELECT ID
-					FROM REPORT_CARD_GRADE_SCALES
+					FROM report_card_grade_scales
 					WHERE SCHOOL_ID=p.SCHOOL_ID
 					AND ROLLOVER_ID=p.GRADE_SCALE_ID
 					LIMIT 1),DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,
@@ -817,7 +817,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				$delete_sql = "DELETE FROM REPORT_CARD_GRADE_SCALES
+				$delete_sql = "DELETE FROM report_card_grade_scales
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -830,11 +830,11 @@ function Rollover( $table, $mode = 'delete' )
 				break;
 			}
 
-			DBQuery( "INSERT INTO REPORT_CARD_GRADE_SCALES (SYEAR,SCHOOL_ID,TITLE,COMMENT,
+			DBQuery( "INSERT INTO report_card_grade_scales (SYEAR,SCHOOL_ID,TITLE,COMMENT,
 				HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ROLLOVER_ID,GP_SCALE,HRS_GPA_VALUE,GP_PASSING_VALUE)
 				SELECT SYEAR+1,SCHOOL_ID,
 				TITLE,COMMENT,HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ID,GP_SCALE,HRS_GPA_VALUE,GP_PASSING_VALUE
-				FROM REPORT_CARD_GRADE_SCALES
+				FROM report_card_grade_scales
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -842,7 +842,7 @@ function Rollover( $table, $mode = 'delete' )
 				GPA_VALUE,GRADE_SCALE_ID,SORT_ORDER)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,
 				COMMENT,BREAK_OFF,GPA_VALUE,(SELECT ID
-					FROM REPORT_CARD_GRADE_SCALES
+					FROM report_card_grade_scales
 					WHERE ROLLOVER_ID=GRADE_SCALE_ID
 					AND SCHOOL_ID=report_card_grades.SCHOOL_ID),SORT_ORDER
 				FROM REPORT_CARD_GRADES

@@ -198,12 +198,12 @@ function _rollover( $table )
 
 		case 'REPORT_CARD_GRADES':
 
-			DBQuery( "INSERT INTO REPORT_CARD_GRADE_SCALES (SYEAR,SCHOOL_ID,TITLE,COMMENT,
+			DBQuery( "INSERT INTO report_card_grade_scales (SYEAR,SCHOOL_ID,TITLE,COMMENT,
 					HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ROLLOVER_ID,GP_SCALE,GP_PASSING_VALUE,HRS_GPA_VALUE)
 				SELECT SYEAR,
 					'" . $id . "',TITLE,COMMENT,HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ID,
 					GP_SCALE,GP_PASSING_VALUE,HRS_GPA_VALUE
-				FROM REPORT_CARD_GRADE_SCALES
+				FROM report_card_grade_scales
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -212,7 +212,7 @@ function _rollover( $table )
 				SELECT SYEAR,
 					'" . $id . "',TITLE,COMMENT,BREAK_OFF,GPA_VALUE,
 					(SELECT ID
-						FROM REPORT_CARD_GRADE_SCALES
+						FROM report_card_grade_scales
 						WHERE ROLLOVER_ID=report_card_grades.GRADE_SCALE_ID
 						AND SCHOOL_ID='" . (int) $id . "'),
 					SORT_ORDER

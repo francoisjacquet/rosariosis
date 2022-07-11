@@ -201,7 +201,7 @@ function _update29alpha()
 /**
  * Update to version 2.9.2
  *
- * 1. Add GP_PASSING_VALUE to REPORT_CARD_GRADE_SCALES table
+ * 1. Add GP_PASSING_VALUE to report_card_grade_scales table
  *
  * Local function
  *
@@ -217,7 +217,7 @@ function _update292()
 
 
 	/**
-	 * 1. Add GP_PASSING_VALUE to REPORT_CARD_GRADE_SCALES table
+	 * 1. Add GP_PASSING_VALUE to report_card_grade_scales table
 	 * & Set minimum passing grade to '0' for already present scales.
 	 */
 	$gppassingvalue_column_exists = DBGet( "SELECT 1 FROM pg_attribute
@@ -515,7 +515,7 @@ function _update30()
  * 1. REPORT_CARD_GRADES table:
  * Change gpa_value & unweighted_gp columns type to numeric
  *
- * 2. REPORT_CARD_GRADE_SCALES table:
+ * 2. report_card_grade_scales table:
  * Change hhr_gpa_value & hr_gpa_value & hrs_gpa_value columns type to numeric
  * Was numeric(4,2) which would prevent to enter values like 100 (or above).
  *
@@ -546,7 +546,7 @@ function _update31()
 		ALTER COLUMN unweighted_gp TYPE numeric;" );
 
 	/**
-	 * 2. REPORT_CARD_GRADE_SCALES table:
+	 * 2. report_card_grade_scales table:
 	 * Change hhr_gpa_value & hr_gpa_value & hrs_gpa_value columns type to numeric
 	 * Was numeric(4,2) which would prevent to enter values like 100 (or above).
 	 */
