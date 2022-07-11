@@ -24,7 +24,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 		WHERE ID='" . (int) $poll_id . "'" );
 
 	$poll_questions_RET = DBGet( "SELECT ID, QUESTION, OPTIONS, VOTES
-		FROM PORTAL_POLL_QUESTIONS
+		FROM portal_poll_questions
 		WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'
 		ORDER BY ID" );
 
@@ -67,7 +67,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 
 /**
  * function called by PortalPollsVote()
- * save Votes to PORTAL_POLL_QUESTIONS table
+ * save Votes to portal_poll_questions table
  *
  * @return $poll_questions_RET array updated with Votes
  */
@@ -125,7 +125,7 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 		$voted_array[$question['ID']] = implode( '||', $voted_array[$question['ID']] );
 
 		// Submit query.
-		DBQuery( "UPDATE PORTAL_POLL_QUESTIONS
+		DBQuery( "UPDATE portal_poll_questions
 			SET VOTES='" . $voted_array[$question['ID']] . "'
 			WHERE ID='" . (int) $question['ID'] . "'" );
 
@@ -154,7 +154,7 @@ function PortalPollsDisplay( $value, $name )
 	require_once 'ProgramFunctions/Linkify.fnc.php';
 
 	$poll_questions_RET = DBGet( "SELECT ID,QUESTION,OPTIONS,TYPE,VOTES
-		FROM PORTAL_POLL_QUESTIONS
+		FROM portal_poll_questions
 		WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'
 		ORDER BY ID", [ 'OPTIONS' => 'Linkify' ] );
 

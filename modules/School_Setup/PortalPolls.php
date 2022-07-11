@@ -68,7 +68,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( $id !== 'new' )
 			{
 				$sql = "UPDATE PORTAL_POLLS SET ";
-				$sql_question = "UPDATE PORTAL_POLL_QUESTIONS SET ";
+				$sql_question = "UPDATE portal_poll_questions SET ";
 
 				$sql_questions = [];
 				$id_questions = [];
@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
 				$go = 0;
-				$sql_question = "INSERT INTO PORTAL_POLL_QUESTIONS ";
+				$sql_question = "INSERT INTO portal_poll_questions ";
 				$sql_questions = [];
 
 				foreach ( (array) $columns as $column => $value )
@@ -232,7 +232,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Poll' ) ) )
 	{
 		$delete_sql = "DELETE FROM PORTAL_POLLS WHERE ID='" . (int) $_REQUEST['id'] . "';";
-		$delete_sql .= "DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . (int) $_REQUEST['id'] . "';";
+		$delete_sql .= "DELETE FROM portal_poll_questions WHERE PORTAL_POLL_ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
 
@@ -246,14 +246,14 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$questions_RET = DBGet( "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE
-		FROM PORTAL_POLL_QUESTIONS ppq,PORTAL_POLLS pp
+		FROM portal_poll_questions ppq,PORTAL_POLLS pp
 		WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 		AND pp.SYEAR='" . UserSyear() . "'
 		AND pp.ID=ppq.PORTAL_POLL_ID
 		ORDER BY ppq.ID", [ 'OPTIONS' => '_makeOptionsInput' ] );
 
 	$polls_RET = DBGet(
-		"SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS,
+		"SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_portal_poll_questions' AS OPTIONS,
 			pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,
 			CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
 			FROM PORTAL_POLLS pp
@@ -480,7 +480,7 @@ function _makePollVotes( $value, $name )
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$poll_id = $THIS_RET['ID'];
-		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'" );
+		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM portal_poll_questions WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'" );
 
 		$display_votes = DBGetOne( "SELECT DISPLAY_VOTES
 			FROM PORTAL_POLLS
