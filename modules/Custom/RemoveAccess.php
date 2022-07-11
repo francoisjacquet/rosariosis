@@ -25,13 +25,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		$update_sql = "UPDATE STUDENTS
+		$update_sql = "UPDATE students
 			SET USERNAME=CONCAT('" . $username_prefix_add . "', USERNAME)
 			WHERE STUDENT_ID IN (" . $st_list . ")";
 
 		if ( $accessfunc === 'grant' )
 		{
-			$update_sql = "UPDATE STUDENTS
+			$update_sql = "UPDATE students
 				SET USERNAME=REPLACE(USERNAME,'" . $username_prefix_add . "','')
 				WHERE STUDENT_ID IN (" . $st_list . ")";
 		}

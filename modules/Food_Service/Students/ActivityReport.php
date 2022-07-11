@@ -49,7 +49,7 @@ if ( UserStudentID()
 				'fst.STUDENT_ID',
 				"''",
 				'NULL',
-				"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)",
+				"(SELECT " . DisplayNameSQL() . " FROM students WHERE STUDENT_ID=fst.STUDENT_ID)",
 			] ) . " AS FULL_NAME," .
 			db_case( [
 				'fst.SELLER_ID',
@@ -122,7 +122,7 @@ if ( UserStudentID()
 				'fst.STUDENT_ID',
 				"''",
 				'NULL',
-				"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)",
+				"(SELECT " . DisplayNameSQL() . " FROM students WHERE STUDENT_ID=fst.STUDENT_ID)",
 			] ) . " AS FULL_NAME
 		FROM food_service_transactions fst
 		WHERE SYEAR='" . UserSyear() . "'

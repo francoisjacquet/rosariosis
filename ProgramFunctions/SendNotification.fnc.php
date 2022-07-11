@@ -35,7 +35,7 @@ function SendNotificationCreateStudentAccount( $student_id, $to = '' )
 	}
 
 	$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$message = _( 'New student account was created for %s (%d) (inactive).' );
@@ -178,7 +178,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 		$student_email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
 			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
 
-		$to = DBGetOne( "SELECT " . $student_email_field . " FROM STUDENTS
+		$to = DBGetOne( "SELECT " . $student_email_field . " FROM students
 			WHERE STUDENT_ID='" . (int) $student_id . "'" );
 	}
 
@@ -188,7 +188,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 		return false;
 	}
 
-	$is_password_set = DBGetOne( "SELECT 1 FROM STUDENTS
+	$is_password_set = DBGetOne( "SELECT 1 FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND PASSWORD IS NOT NULL" );
 
@@ -210,7 +210,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
 	$student_username = DBGetOne( "SELECT USERNAME
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $student_username;
@@ -317,7 +317,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 		$student_email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
 			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
 
-		$to = DBGetOne( "SELECT " . $student_email_field . " FROM STUDENTS
+		$to = DBGetOne( "SELECT " . $student_email_field . " FROM students
 			WHERE STUDENT_ID='" . (int) $student_id . "'" );
 	}
 
@@ -327,7 +327,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 		return false;
 	}
 
-	$is_password_set = DBGetOne( "SELECT 1 FROM STUDENTS
+	$is_password_set = DBGetOne( "SELECT 1 FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND PASSWORD IS NOT NULL" );
 
@@ -341,7 +341,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
 	$student_username = DBGetOne( "SELECT USERNAME
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $student_username;

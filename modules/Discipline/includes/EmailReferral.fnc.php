@@ -48,7 +48,7 @@ function EmailReferral( $referral_id, $emails )
 	}
 
 	$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $referral['STUDENT_ID'] . "'" );
 
 	$student = _( 'Student' ) . ': ' . $student_full_name . ' (' . $referral['STUDENT_ID'] . ')';

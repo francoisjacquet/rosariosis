@@ -402,7 +402,7 @@ function FilesUploadUpdate( $table, $request, $path )
 			{
 				$where_sql = "ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
 			}
-			elseif ( $table === 'STUDENTS' )
+			elseif ( $table === 'students' )
 			{
 				$where_sql = "STUDENT_ID='" . UserStudentID() . "'";
 			}

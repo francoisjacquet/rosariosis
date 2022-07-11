@@ -21,7 +21,7 @@ if ( ! empty( $_REQUEST['values'] )
 			if ( User( 'PROFILE' ) === 'student' )
 			{
 				$password = DBGetOne( "SELECT PASSWORD
-					FROM STUDENTS
+					FROM students
 					WHERE STUDENT_ID='" . UserStudentID() . "'" );
 			}
 			else
@@ -40,7 +40,7 @@ if ( ! empty( $_REQUEST['values'] )
 			{
 				if ( User( 'PROFILE' ) === 'student' )
 				{
-					DBQuery( "UPDATE STUDENTS
+					DBQuery( "UPDATE students
 						SET PASSWORD='" . encrypt_password( $new_password ) . "'
 						WHERE STUDENT_ID='" . UserStudentID() . "'" );
 				}

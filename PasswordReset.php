@@ -55,7 +55,7 @@ if ( isset( $_POST['email'] )
 				// SQL Handle case when multiple users have same email: order by Failed Login.
 				$user_RET = DBGet( "SELECT s.STUDENT_ID AS ID,s.USERNAME,'student' AS USER_TYPE,
 					s." . $custom_field . " AS EMAIL
-					FROM STUDENTS s,student_enrollment ssm
+					FROM students s,student_enrollment ssm
 					WHERE LOWER(s." . $custom_field . ")=LOWER('" . $_REQUEST['email'] . "')
 					AND s.STUDENT_ID=ssm.STUDENT_ID
 					AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
@@ -153,7 +153,7 @@ if ( isset( $_REQUEST['h'] )
 			$student_RET = DBGet( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
 				s." . $custom_field . " AS EMAIL,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME, s.LAST_LOGIN
-				FROM STUDENTS s, student_enrollment se
+				FROM students s, student_enrollment se
 				WHERE s.LAST_LOGIN > CURRENT_TIMESTAMP
 				AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 				AND se.STUDENT_ID=s.STUDENT_ID
@@ -235,7 +235,7 @@ if ( isset( $_REQUEST['h'] )
 				elseif ( $user_type === 'student' )
 				{
 					// Update password.
-					DBQuery( "UPDATE STUDENTS SET PASSWORD='" .
+					DBQuery( "UPDATE students SET PASSWORD='" .
 						encrypt_password( $new_password ) . "'
 						WHERE STUDENT_ID='" . (int) $user_id . "'" );
 				}
@@ -329,7 +329,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		// Get Student username, password, name.
 		$student_RET = DBGet( "SELECT USERNAME,PASSWORD,
 			" . DisplayNameSQL( 's' ) . " AS FULL_NAME
-			FROM STUDENTS s,student_enrollment ssm
+			FROM students s,student_enrollment ssm
 			WHERE s.STUDENT_ID='" . (int) $user_id . "'
 			AND s.STUDENT_ID=ssm.STUDENT_ID
 			AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
@@ -386,7 +386,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	elseif ( $user_type === 'student' )
 	{
 		// Update Last login = now + 2 hours.
-		DBQuery( "UPDATE STUDENTS
+		DBQuery( "UPDATE students
 			SET LAST_LOGIN='" . $last_login . "'
 			WHERE STUDENT_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hour'.
 	}

@@ -185,7 +185,7 @@ function RegistrationSaveStudent( $config, $values )
 	// Textarea fields MarkDown sanitize.
 	$values = FilterCustomFieldsMarkdown( 'custom_fields', 'students' );
 
-	$sql = "UPDATE STUDENTS SET ";
+	$sql = "UPDATE students SET ";
 
 	$go = false;
 

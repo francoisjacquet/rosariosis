@@ -186,7 +186,7 @@ if ( UserStudentID() )
 	if ( ! $_REQUEST['modfunc'] )
 	{
 		$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-			FROM STUDENTS
+			FROM students
 			WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 		$student = $student_RET[1];

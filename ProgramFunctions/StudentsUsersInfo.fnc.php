@@ -236,7 +236,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		if ( $request === 'values[ADDRESS]' )
 		{
 			$options_SQL = "SELECT DISTINCT a.CUSTOM_" . $field['ID'] . ",upper(a.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM address a,students_join_address sja,STUDENTS s,student_enrollment sse
+				FROM address a,students_join_address sja,students s,student_enrollment sse
 				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 				AND s.STUDENT_ID=sja.STUDENT_ID
 				AND sse.STUDENT_ID=s.STUDENT_ID
@@ -247,7 +247,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		elseif ( $request === 'values[people]' )
 		{
 			$options_SQL = "SELECT DISTINCT p.CUSTOM_" . $field['ID'] . ",upper(p.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM people p,students_join_people sjp,STUDENTS s,student_enrollment sse
+				FROM people p,students_join_people sjp,students s,student_enrollment sse
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND s.STUDENT_ID=sjp.STUDENT_ID
 				AND sse.STUDENT_ID=s.STUDENT_ID
@@ -258,7 +258,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		elseif ( $request === 'students' )
 		{
 			$options_SQL = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM STUDENTS s,student_enrollment sse
+				FROM students s,student_enrollment sse
 				WHERE sse.STUDENT_ID=s.STUDENT_ID
 				AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
 				AND s.CUSTOM_" . $field['ID'] . " IS NOT NULL

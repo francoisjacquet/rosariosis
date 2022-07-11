@@ -1543,7 +1543,7 @@ function _getReportCardCommentPersonalizations( $student_id )
 	}
 
 	$student_RET = DBGet( "SELECT CUSTOM_200000000 AS GENDER,FIRST_NAME
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	// Gender field.

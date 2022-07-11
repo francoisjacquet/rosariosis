@@ -105,7 +105,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// SQL fix only display enrolled students.
 		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,ssm.SCHOOL_ID
-			FROM students_join_users u,STUDENTS s,student_enrollment ssm
+			FROM students_join_users u,students s,student_enrollment ssm
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'
 			AND ssm.STUDENT_ID=u.STUDENT_ID

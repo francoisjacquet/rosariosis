@@ -137,7 +137,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$teacher[1]['FULL_NAME'] : '';
 
 			$xstudents = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
-			FROM STUDENTS s,food_service_student_accounts fssa
+			FROM students s,food_service_student_accounts fssa
 			WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND s.STUDENT_ID=fssa.STUDENT_ID
 			AND s.STUDENT_ID!='" . (int) $student['STUDENT_ID'] . "'

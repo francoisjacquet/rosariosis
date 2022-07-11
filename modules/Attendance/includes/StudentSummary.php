@@ -176,7 +176,7 @@ if ( User( 'PROFILE' ) === 'student'
 if ( $is_student_report )
 {
 	$full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	DrawHeader( $full_name, AttendanceCodesTipMessage() );

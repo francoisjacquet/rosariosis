@@ -201,7 +201,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				// Optimization: Student Full Name.
 				$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
-					FROM STUDENTS s
+					FROM students s
 					WHERE s.STUDENT_ID='" . (int) $student_id . "'
 					LIMIT 1" );
 

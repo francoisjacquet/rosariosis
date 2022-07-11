@@ -360,7 +360,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 			$students_RET = DBGet( "SELECT sju.STUDENT_ID,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME,se.SCHOOL_ID
-				FROM STUDENTS s,students_join_users sju,student_enrollment se,schools sch
+				FROM students s,students_join_users sju,student_enrollment se,schools sch
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'
@@ -609,7 +609,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
 		$current_student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-			FROM STUDENTS
+			FROM students
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ); ?>
 
 		<div class="current-person student">

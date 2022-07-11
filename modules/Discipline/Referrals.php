@@ -189,7 +189,7 @@ if ( ! $_REQUEST['modfunc']
 		echo '<table class="width-100p">';
 
 		$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-			FROM STUDENTS
+			FROM students
 			WHERE STUDENT_ID='" . (int) $RET['STUDENT_ID'] . "'" );
 
 		echo '<tr><td>' . NoInput(

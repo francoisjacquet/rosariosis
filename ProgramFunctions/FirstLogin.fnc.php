@@ -39,7 +39,7 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 			}
 			else
 			{
-				DBQuery( "UPDATE STUDENTS
+				DBQuery( "UPDATE students
 					SET PASSWORD='" . $new_password . "',LAST_LOGIN=CURRENT_TIMESTAMP
 					WHERE STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'" );
 			}

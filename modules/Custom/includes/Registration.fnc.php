@@ -98,12 +98,12 @@ function RegistrationSiblingRegistered()
 
 	// Find already registered (has address) student having same email address.
 	$student_id = (int) DBGetOne( "SELECT s.STUDENT_ID
-		FROM STUDENTS s,students_join_address sja
+		FROM students s,students_join_address sja
 		WHERE s.STUDENT_ID<>'" . UserStudentID() . "'
 		AND sja.STUDENT_ID=s.STUDENT_ID
 		AND s." . DBEscapeIdentifier( $email_field ) . " IS NOT NULL
 		AND LOWER(s." . DBEscapeIdentifier( $email_field ) . ")=(SELECT LOWER(" . DBEscapeIdentifier( $email_field ) . ")
-			FROM STUDENTS
+			FROM students
 			WHERE STUDENT_ID='" . UserStudentID() . "')" );
 
 	return $student_id;
@@ -134,7 +134,7 @@ function RegistrationSiblingUseContactsAddress( $student_id )
 	$js = ob_get_clean();
 
 	$sibling_name = DBGetOne( "SELECT " . DisplayNameSQL() . "
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$sibling_id_input = '<input type="hidden" name="sibling_id" value="' . AttrEscape( $student_id ) . '" />';
@@ -449,7 +449,7 @@ function RegistrationStudent( $student )
 	if ( ! empty( $student['fields'] ) )
 	{
 		$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-			FROM STUDENTS
+			FROM students
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		echo '<br /><fieldset><legend>' . sprintf( _( 'Information about %s' ), $student_name ) . '</legend>';

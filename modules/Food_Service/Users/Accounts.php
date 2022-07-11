@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					if ( $account_id )
 					{
 						$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
-							FROM STUDENTS s,food_service_student_accounts fssa
+							FROM students s,food_service_student_accounts fssa
 							WHERE s.STUDENT_ID=fssa.STUDENT_ID
 							AND fssa.ACCOUNT_ID='" . (int) $account_id . "'" );
 

@@ -233,7 +233,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				AND SYEAR='" . UserSyear() . "'
 				AND STAFF_ID!='" . UserStaffID() . "'
 				UNION SELECT 'exists'
-				FROM STUDENTS
+				FROM students
 				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'" );
 
 			if ( ! empty( $existing_username ) )

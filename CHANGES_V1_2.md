@@ -1024,7 +1024,7 @@ Changes in 2.2.4
 - Escape apostrophe in Inputs values
 - Responsive Eligibility Student screen
 - Ethnicity, Gender, Social Security & Birthdate fields and type tests
-- Remove STUDENTS table fields in Reports/Students.php
+- Remove students table fields in Reports/Students.php
 - Update spanish & french translations
 - Insert GP_SCALE when Percent grade added 1st time
 

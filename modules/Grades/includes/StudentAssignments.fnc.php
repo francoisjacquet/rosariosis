@@ -76,7 +76,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	if ( isset( $_FILES['submission_file'] ) )
 	{
 		$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS NAME
-			FROM STUDENTS
+			FROM students
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.

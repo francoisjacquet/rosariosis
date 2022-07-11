@@ -203,7 +203,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
 				AND SYEAR='" . UserSyear() . "'
 				UNION SELECT 'exists'
-				FROM STUDENTS
+				FROM students
 				WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
 				AND STUDENT_ID!='" . UserStudentID() . "'" );
 
@@ -246,7 +246,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! empty( $_REQUEST['students'] ) && ! $error )
 			{
-				$sql = "UPDATE STUDENTS SET ";
+				$sql = "UPDATE students SET ";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM custom_fields
@@ -312,7 +312,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					&& ( $student_id = (int) $_REQUEST['assign_student_id'] ) > 0 )
 				{
 					if ( DBGetOne( "SELECT STUDENT_ID
-						FROM STUDENTS
+						FROM students
 						WHERE STUDENT_ID='" . (int) $student_id . "'" ) )
 					{
 						$error[] = sprintf( _( 'That %s ID is already taken. Please select a different one.' ), Config( 'NAME' ) );
@@ -337,11 +337,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$student_id = DBSeqNextID( $DatabaseType === 'mysql' ? 'students' : 'students_student_id_seq' );
 					}
 					while ( DBGetOne( "SELECT STUDENT_ID
-						FROM STUDENTS
+						FROM students
 						WHERE STUDENT_ID='" . (int) $student_id . "'" ) );
 				}
 
-				$sql = "INSERT INTO STUDENTS ";
+				$sql = "INSERT INTO students ";
 				$fields = 'STUDENT_ID,';
 				$values = "'" . $student_id . "',";
 
@@ -402,7 +402,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			&& ! empty( $_FILES ) )
 		{
 			$uploaded = FilesUploadUpdate(
-				'STUDENTS',
+				'students',
 				'students',
 				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
 			);
@@ -622,7 +622,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		{
 			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $filename;
 
-			DBQuery( "UPDATE STUDENTS
+			DBQuery( "UPDATE students
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE STUDENT_ID='" . UserStudentID() . "'" );
 		}
@@ -697,7 +697,7 @@ if (  ( UserStudentID()
 				AND STUDENT_ID=s.STUDENT_ID
 				ORDER BY START_DATE DESC,END_DATE DESC
 				LIMIT 1) AS ENROLLMENT_ID
-			FROM STUDENTS s
+			FROM students s
 			WHERE s.STUDENT_ID='" . UserStudentID() . "'";
 
 			$student = DBGet( $sql );

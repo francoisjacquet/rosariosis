@@ -104,7 +104,7 @@ if ( UserStudentID()
 				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,
 				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,
 				gt.FINAL_GRADE_PERCENT,sum(CASE WHEN gg.POINTS IS NULL AND ga.POINTS>0 THEN 1 ELSE 0 END) AS UNGRADED
-				FROM STUDENTS s
+				FROM students s
 				JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
 				if ( $_REQUEST['include_inactive'] == 'Y' )

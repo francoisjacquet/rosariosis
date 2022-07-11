@@ -129,7 +129,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		// Lookup for student $username in DB.
 		$student_RET = DBGet( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,
 			s.FAILED_LOGIN,s.PASSWORD,se.START_DATE
-			FROM STUDENTS s,student_enrollment se
+			FROM students s,student_enrollment se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND CURRENT_DATE>=se.START_DATE
@@ -146,7 +146,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			// Student may be inactive or not verified, see below for corresponding errors.
 			$student_RET = DBGet( "SELECT s.USERNAME,s.STUDENT_ID,
 				s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE,s.PASSWORD
-			FROM STUDENTS s,student_enrollment se
+			FROM students s,student_enrollment se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)
@@ -261,7 +261,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			SET FAILED_LOGIN=" . db_case( [ 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ] ) . "
 			WHERE UPPER(USERNAME)=UPPER('" . $username . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "';
-			UPDATE STUDENTS
+			UPDATE students
 			SET FAILED_LOGIN=" . db_case( [ 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ] ) . "
 			WHERE UPPER(USERNAME)=UPPER('" . $username . "')" );
 
@@ -320,7 +320,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	}
 	elseif ( $login_status === 'Y' )
 	{
-		DBQuery( "UPDATE STUDENTS
+		DBQuery( "UPDATE students
 			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
 			WHERE STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'" );
 	}

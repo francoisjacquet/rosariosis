@@ -485,7 +485,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Find other students associated with this address.
 			$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
-			FROM STUDENTS s,students_join_address sja
+			FROM students s,students_join_address sja
 			WHERE s.STUDENT_ID=sja.STUDENT_ID
 			AND sja.ADDRESS_ID='" . (int) $address_id . "'
 			AND sja.STUDENT_ID!='" . UserStudentID() . "'" );
@@ -744,7 +744,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$xstudents = DBGet( "SELECT s.STUDENT_ID,
 					" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 					STUDENT_RELATION,CUSTODY,EMERGENCY
-					FROM STUDENTS s,students_join_people sjp
+					FROM students s,students_join_people sjp
 					WHERE s.STUDENT_ID=sjp.STUDENT_ID
 					AND sjp.PERSON_ID='" . (int) $contact['PERSON_ID'] . "'
 					AND sjp.STUDENT_ID!='" . UserStudentID() . "'" );

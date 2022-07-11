@@ -17,7 +17,7 @@ $value = [];
 if ( UserStudentID() )
 {
 	$custom_RET = DBGet( "SELECT *
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	$value = $custom_RET[1];

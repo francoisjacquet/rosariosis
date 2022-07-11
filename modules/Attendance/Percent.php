@@ -90,7 +90,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$cal_days = 1;
 
 		$student_days_absent = DBGet( "SELECT ad.SCHOOL_DATE,ssm.GRADE_ID,COALESCE(sum(ad.STATE_VALUE-1)*-1,0) AS STATE_VALUE
-		FROM attendance_day ad,student_enrollment ssm,STUDENTS s" . $extra['FROM'] . "
+		FROM attendance_day ad,student_enrollment ssm,students s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -102,7 +102,7 @@ if ( ! $_REQUEST['modfunc'] )
 		GROUP BY ad.SCHOOL_DATE,ssm.GRADE_ID", [ '' ], [ 'SCHOOL_DATE', 'GRADE_ID' ] );
 
 		$student_days_possible = DBGet( "SELECT ac.SCHOOL_DATE,ssm.GRADE_ID,'' AS DAYS_POSSIBLE,count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
-		FROM student_enrollment ssm,attendance_calendar ac,STUDENTS s" . $extra['FROM'] . "
+		FROM student_enrollment ssm,attendance_calendar ac,students s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ac.SYEAR=ssm.SYEAR
@@ -158,7 +158,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['WHERE'] .= " GROUP BY ssm.GRADE_ID,ssm.CALENDAR_ID";
 
 		$student_days_absent = DBGet( "SELECT ssm.GRADE_ID,ssm.CALENDAR_ID,COALESCE(sum(ad.STATE_VALUE-1)*-1,0) AS STATE_VALUE
-		FROM attendance_day ad,student_enrollment ssm,STUDENTS s" . $extra['FROM'] . "
+		FROM attendance_day ad,student_enrollment ssm,students s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -170,7 +170,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$student_days_possible = DBGet( "SELECT ssm.GRADE_ID,ssm.CALENDAR_ID,'' AS DAYS_POSSIBLE,
 			count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,
 			'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
-		FROM student_enrollment ssm,attendance_calendar ac,STUDENTS s" . $extra['FROM'] . "
+		FROM student_enrollment ssm,attendance_calendar ac,students s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ac.SYEAR=ssm.SYEAR

@@ -123,7 +123,7 @@ else
 				require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 				$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-					FROM STUDENTS
+					FROM students
 					WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 				$message = sprintf(

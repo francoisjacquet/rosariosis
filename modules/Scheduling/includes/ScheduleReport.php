@@ -325,7 +325,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 	{
 		$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
-			FROM schedule_requests sr,STUDENTS s,student_enrollment ssm
+			FROM schedule_requests sr,students s,student_enrollment ssm
 			WHERE (('" . DBDate() . "' BETWEEN ssm.START_DATE
 			AND ssm.END_DATE OR ssm.END_DATE IS NULL))
 			AND s.STUDENT_ID=sr.STUDENT_ID
@@ -352,7 +352,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 	{
 		$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
-			FROM schedule ss,STUDENTS s,student_enrollment ssm
+			FROM schedule ss,students s,student_enrollment ssm
 			WHERE ('" . DBDate() . "' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL)
 			AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL))
 			AND s.STUDENT_ID=ss.STUDENT_ID

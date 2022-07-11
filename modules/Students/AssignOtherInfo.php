@@ -162,7 +162,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		if ( $values_count && $students_count )
 		{
-			DBQuery( 'UPDATE STUDENTS
+			DBQuery( 'UPDATE students
 				SET ' . mb_substr( $update, 1 ) . '
 				WHERE STUDENT_ID IN (' . mb_substr( $students, 1 ) . ')' );
 		}
@@ -335,7 +335,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				// Get autos pull-down edited options.
 				$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
-					FROM STUDENTS s,student_enrollment sse
+					FROM students s,student_enrollment sse
 					WHERE sse.STUDENT_ID=s.STUDENT_ID
 					AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
 					AND s." . $col_name . " IS NOT NULL

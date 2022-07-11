@@ -490,7 +490,7 @@ function GetStuList( &$extra = [] )
 			}
 
 			// FROM.
-			$sql .= " FROM STUDENTS s JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
+			$sql .= " FROM students s JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
 
 			if ( $is_include_inactive )
 			{
@@ -574,7 +574,7 @@ function GetStuList( &$extra = [] )
 			}
 
 			// FROM.
-			$sql .= " FROM STUDENTS s JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
+			$sql .= " FROM students s JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
 			if ( $is_include_inactive )
 			{
@@ -625,7 +625,7 @@ function GetStuList( &$extra = [] )
 		case 'student':
 
 			// FROM.
-			$sql .= " FROM STUDENTS s JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+			$sql .= " FROM students s JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 				AND ssm.SYEAR='" . UserSyear() . "'
 				AND ssm.SCHOOL_ID='" . UserSchool() . "'
 				AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
@@ -1361,7 +1361,7 @@ function makeFieldTypeFunction( $field_type, $table = 'auto' )
  * @since 3.7
  * @since 9.3 SQL use CONCAT() instead of pipes || for MySQL compatibility
  *
- * @example "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME FROM STUDENTS s"
+ * @example "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME FROM students s"
  *
  * @uses Config DISPLAY_NAME option.
  *

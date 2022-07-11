@@ -274,7 +274,7 @@ function SetUserStudentID( $student_id )
 
 			// Get parent's related students.
 			$is_related_student = DBGet( "SELECT 1
-				FROM STUDENTS s,students_join_users sju,student_enrollment se
+				FROM students s,students_join_users sju,student_enrollment se
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'
@@ -293,7 +293,7 @@ function SetUserStudentID( $student_id )
 			// @since 6.9 Add Secondary Teacher.
 			// Get teacher's related students, include inactive students.
 			$is_related_student = DBGet( "SELECT 1
-				FROM STUDENTS s
+				FROM students s
 				JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID
 					AND ss.SYEAR='" . UserSyear() . "'
 					AND ss.START_DATE=(SELECT START_DATE FROM schedule

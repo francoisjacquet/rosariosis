@@ -342,7 +342,7 @@ function MoodleUserImportStudent( $user )
 		WHERE USERNAME='" . $username . "'
 		AND SYEAR='" . UserSyear() . "'
 		UNION SELECT 'exists'
-		FROM STUDENTS
+		FROM students
 		WHERE USERNAME='" . $username . "'
 		AND STUDENT_ID!='" . UserStudentID() . "'" );
 
@@ -359,7 +359,7 @@ function MoodleUserImportStudent( $user )
 		$student_id = DBSeqNextID( $DatabaseType === 'mysql' ? 'students' : 'students_student_id_seq' );
 	}
 	while ( DBGetOne( "SELECT STUDENT_ID
-		FROM STUDENTS
+		FROM students
 		WHERE STUDENT_ID='" . (int) $student_id . "'" ) );
 
 	if ( ! isset( $user['firstname'] ) )
@@ -372,7 +372,7 @@ function MoodleUserImportStudent( $user )
 		$user['lastname'] = $names[1];
 	}
 
-	$sql = "INSERT INTO STUDENTS ";
+	$sql = "INSERT INTO students ";
 	$fields = 'STUDENT_ID,LAST_NAME,FIRST_NAME,USERNAME';
 	$values = "'" . $student_id . "','" . $user['firstname'] . "','" . $user['lastname'] . "','" . $username . "'";
 
@@ -454,7 +454,7 @@ function MoodleUserImportUser( $user, $profile )
 		AND SYEAR='" . UserSyear() . "'
 		AND STAFF_ID!='" . UserStaffID() . "'
 		UNION SELECT 'exists'
-		FROM STUDENTS
+		FROM students
 		WHERE USERNAME='" . $username . "'" );
 
 	if ( $existing_username )

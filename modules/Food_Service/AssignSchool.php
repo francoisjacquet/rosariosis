@@ -50,7 +50,7 @@ $students_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SYEAR," .
 		'fst.STUDENT_ID',
 		"''",
 		'NULL',
-		"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)",
+		"(SELECT " . DisplayNameSQL() . " FROM students WHERE STUDENT_ID=fst.STUDENT_ID)",
 	] ) . " AS FULL_NAME,fst.ACCOUNT_ID AS STUDENTS,fst.SCHOOL_ID
 	FROM food_service_transactions
 	fst WHERE fst.SCHOOL_ID IS NULL", [ 'STUDENTS' => '_students', 'SCHOOL_ID' => '_make_school' ] );
@@ -79,7 +79,7 @@ echo '</form>';
  */
 function _students( $value, $column )
 {
-	$RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . "  AS FULL_NAME FROM STUDENTS s,food_service_student_accounts fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='" . (int) $value . "'" );
+	$RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . "  AS FULL_NAME FROM students s,food_service_student_accounts fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='" . (int) $value . "'" );
 
 	foreach ( (array) $RET as $student )
 	{
