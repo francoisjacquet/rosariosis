@@ -83,7 +83,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$grades_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID,
 		(SELECT 1
-			FROM STUDENT_ENROLLMENT se
+			FROM student_enrollment se
 			WHERE se.GRADE_ID=sg.ID
 			AND se.SCHOOL_ID='" . UserSchool() . "'
 			LIMIT 1) AS REMOVE

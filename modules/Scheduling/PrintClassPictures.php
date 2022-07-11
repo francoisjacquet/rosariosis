@@ -76,7 +76,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			// Do NOT use GetStuList() otherwise limited to UserStudentID().
 			$RET = DBGet( "SELECT s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME
 				FROM STUDENTS s
-				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+				JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 					AND ssm.SYEAR='" . UserSyear() . "'
 					AND ssm.SCHOOL_ID='" . UserSchool() . "'
 					AND ('" . DBDate() . "'>=ssm.START_DATE

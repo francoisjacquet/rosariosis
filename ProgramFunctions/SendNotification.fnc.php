@@ -42,7 +42,7 @@ function SendNotificationCreateStudentAccount( $student_id, $to = '' )
 
 	// Student was Inactive and is enrolled as of today, in Default School Year: Account Activation.
 	$student_account_activated = DBGetOne( "SELECT 1
-		FROM STUDENT_ENROLLMENT
+		FROM student_enrollment
 		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND SYEAR='" . Config( 'SYEAR' ) . "'
 		AND START_DATE IS NOT NULL

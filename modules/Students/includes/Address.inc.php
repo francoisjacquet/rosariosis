@@ -1099,7 +1099,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				// Limit Existing Addresses to current school.
 				$limit_current_school_sql = " AND ADDRESS_ID IN (SELECT sja.ADDRESS_ID
-					FROM students_join_address sja, STUDENT_ENROLLMENT se
+					FROM students_join_address sja, student_enrollment se
 					WHERE sja.STUDENT_ID=se.STUDENT_ID
 					AND se.SCHOOL_ID='" . UserSchool() . "')";
 			}
@@ -1427,7 +1427,7 @@ if ( ! $_REQUEST['modfunc'] )
 				{
 					// Limit Existing Contacts to current school.
 					$limit_current_school_sql = " AND p.PERSON_ID IN (SELECT sjp.PERSON_ID
-						FROM students_join_people sjp, STUDENT_ENROLLMENT se
+						FROM students_join_people sjp, student_enrollment se
 						WHERE sjp.STUDENT_ID=se.STUDENT_ID
 						AND se.SCHOOL_ID='" . UserSchool() . "')";
 				}
@@ -1602,7 +1602,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 		{
 			// Limit Existing Addresses to current school.
 			$limit_current_school_sql = " WHERE ADDRESS_ID IN (SELECT sja.ADDRESS_ID
-				FROM students_join_address sja, STUDENT_ENROLLMENT se
+				FROM students_join_address sja, student_enrollment se
 				WHERE sja.STUDENT_ID=se.STUDENT_ID
 				AND se.SCHOOL_ID='" . UserSchool() . "')";
 		}

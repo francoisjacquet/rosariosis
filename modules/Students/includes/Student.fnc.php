@@ -28,7 +28,7 @@ function StudentDeleteSQL( $student_id )
 	$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
 		WHERE STUDENT_ID='" . (int) $student_id . "';";
 
-	$delete_sql .= "DELETE FROM STUDENT_ENROLLMENT
+	$delete_sql .= "DELETE FROM student_enrollment
 		WHERE STUDENT_ID='" . (int) $student_id . "';";
 
 	$delete_sql .= "DELETE FROM food_service_accounts

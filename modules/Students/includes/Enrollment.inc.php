@@ -11,7 +11,7 @@ unset( $THIS_RET );
 
 $enrollment_RET = DBGet( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,
 		e.END_DATE AS END,e.SCHOOL_ID,e.NEXT_SCHOOL,e.CALENDAR_ID,e.GRADE_ID
-	FROM STUDENT_ENROLLMENT e
+	FROM student_enrollment e
 	WHERE e.STUDENT_ID='" . UserStudentID() . "'
 	AND e.SYEAR='" . UserSyear() . "'
 	ORDER BY e.START_DATE", $functions );
@@ -113,7 +113,7 @@ echo '<table class="enrollment width-100p valign-top fixed-col"><tr class="st"><
 
 echo SelectInput(
 	$gradelevel_id,
-	'values[STUDENT_ENROLLMENT][' . $id . '][GRADE_ID]',
+	'values[student_enrollment][' . $id . '][GRADE_ID]',
 	_( 'Grade Level' ),
 	$gradelevel_options,
 	false,
@@ -125,7 +125,7 @@ echo '</td><td>';
 
 echo SelectInput(
 	$calendar,
-	'values[STUDENT_ENROLLMENT][' . $id . '][CALENDAR_ID]',
+	'values[student_enrollment][' . $id . '][CALENDAR_ID]',
 	_( 'Calendar' ),
 	$calendar_options,
 	false,
@@ -137,7 +137,7 @@ echo '</td><td>';
 
 echo SelectInput(
 	$next_school,
-	'values[STUDENT_ENROLLMENT][' . $id . '][NEXT_SCHOOL]',
+	'values[student_enrollment][' . $id . '][NEXT_SCHOOL]',
 	_( 'Rolling / Retention Options' ),
 	$next_school_options,
 	false,

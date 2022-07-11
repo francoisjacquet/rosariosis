@@ -159,8 +159,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			// Check if trying to hack enrollment.
 
-			if ( isset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'] )
-				|| count( (array) $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 2 )
+			if ( isset( $_REQUEST['month_values']['student_enrollment'] )
+				|| count( (array) $_REQUEST['values']['student_enrollment'] ) > 2 )
 			{
 				require_once 'ProgramFunctions/HackingLog.fnc.php';
 
@@ -168,21 +168,21 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 
 			if ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
-				&& ! empty( $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID'] ) )
+				&& ! empty( $_REQUEST['values']['student_enrollment']['new']['GRADE_ID'] ) )
 			{
 				// @since 5.9 Automatic Student Account Activation.
 				// Enroll student on the same day (even if it is before first school day).
 				list(
-					$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'],
-					$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'],
-					$_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE']
+					$_REQUEST['year_values']['student_enrollment']['new']['START_DATE'],
+					$_REQUEST['month_values']['student_enrollment']['new']['START_DATE'],
+					$_REQUEST['day_values']['student_enrollment']['new']['START_DATE']
 				) = explode( '-', DBDate() );
 
 				// Enroll student with default Rolling / Retention Options (Next grade at current school).
-				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['NEXT_SCHOOL'] = UserSchool();
+				$_REQUEST['values']['student_enrollment']['new']['NEXT_SCHOOL'] = UserSchool();
 
 				// Enroll student in Default Calendar.
-				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['CALENDAR_ID'] = DBGetOne( "SELECT CALENDAR_ID
+				$_REQUEST['values']['student_enrollment']['new']['CALENDAR_ID'] = DBGetOne( "SELECT CALENDAR_ID
 					FROM attendance_calendars
 					WHERE SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
@@ -223,7 +223,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( ! empty( $_REQUEST['values'] ) && ! $error )
 			{
 				$old_enrollment_RET = DBGet( "SELECT GRADE_ID,START_DATE,END_DATE
-					FROM STUDENT_ENROLLMENT
+					FROM student_enrollment
 					WHERE STUDENT_ID='" . UserStudentID() . "'
 					AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
@@ -235,7 +235,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					// Student was Inactive and is enrolled as of today, in Default School Year: Account Activation.
 					$student_account_activated = DBGetOne( "SELECT 1
-						FROM STUDENT_ENROLLMENT
+						FROM student_enrollment
 						WHERE STUDENT_ID='" . UserStudentID() . "'
 						AND SYEAR='" . Config( 'SYEAR' ) . "'
 						AND START_DATE IS NOT NULL
@@ -692,7 +692,7 @@ if (  ( UserStudentID()
 			s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
 			s.USERNAME,s.PASSWORD,s.LAST_LOGIN,
 			(SELECT ID
-				FROM STUDENT_ENROLLMENT
+				FROM student_enrollment
 				WHERE SYEAR='" . UserSyear() . "'
 				AND STUDENT_ID=s.STUDENT_ID
 				ORDER BY START_DATE DESC,END_DATE DESC
@@ -704,7 +704,7 @@ if (  ( UserStudentID()
 			$student = $student[1];
 
 			$school = DBGet( "SELECT SCHOOL_ID,GRADE_ID
-				FROM STUDENT_ENROLLMENT
+				FROM student_enrollment
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND ('" . DBDate() . "' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)" );

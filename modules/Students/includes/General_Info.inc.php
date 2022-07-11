@@ -207,7 +207,7 @@ else
 	// Add School select input.
 	echo SelectInput(
 		UserSchool(),
-		'values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',
+		'values[student_enrollment][new][SCHOOL_ID]',
 		_( 'School' ),
 		$school_options,
 		false,
@@ -236,7 +236,7 @@ else
 		// Add Grade Level select input.
 		echo SelectInput(
 			'',
-			'values[STUDENT_ENROLLMENT][new][GRADE_ID]',
+			'values[student_enrollment][new][GRADE_ID]',
 			_( 'Grade Level' ),
 			$gradelevel_options,
 			'N/A',

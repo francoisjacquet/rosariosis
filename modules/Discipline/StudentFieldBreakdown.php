@@ -105,7 +105,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		{
 			// add values found in current year
 			$options_RET = DBGet( "SELECT DISTINCT " . $field_column . ",upper(" . $field_column . ") AS KEY
-				FROM STUDENTS s,STUDENT_ENROLLMENT sse
+				FROM STUDENTS s,student_enrollment sse
 				WHERE sse.STUDENT_ID=s.STUDENT_ID
 				AND (sse.SYEAR='" . UserSyear() . "')
 				AND " . $field_column . " IS NOT NULL

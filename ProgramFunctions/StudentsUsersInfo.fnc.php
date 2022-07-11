@@ -236,7 +236,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		if ( $request === 'values[ADDRESS]' )
 		{
 			$options_SQL = "SELECT DISTINCT a.CUSTOM_" . $field['ID'] . ",upper(a.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM address a,students_join_address sja,STUDENTS s,STUDENT_ENROLLMENT sse
+				FROM address a,students_join_address sja,STUDENTS s,student_enrollment sse
 				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 				AND s.STUDENT_ID=sja.STUDENT_ID
 				AND sse.STUDENT_ID=s.STUDENT_ID
@@ -247,7 +247,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		elseif ( $request === 'values[people]' )
 		{
 			$options_SQL = "SELECT DISTINCT p.CUSTOM_" . $field['ID'] . ",upper(p.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM people p,students_join_people sjp,STUDENTS s,STUDENT_ENROLLMENT sse
+				FROM people p,students_join_people sjp,STUDENTS s,student_enrollment sse
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND s.STUDENT_ID=sjp.STUDENT_ID
 				AND sse.STUDENT_ID=s.STUDENT_ID
@@ -258,7 +258,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		elseif ( $request === 'students' )
 		{
 			$options_SQL = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM STUDENTS s,STUDENT_ENROLLMENT sse
+				FROM STUDENTS s,student_enrollment sse
 				WHERE sse.STUDENT_ID=s.STUDENT_ID
 				AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
 				AND s.CUSTOM_" . $field['ID'] . " IS NOT NULL
@@ -841,14 +841,14 @@ function _makeStartInput( $value, $column )
 	$return = '<div class="nobr">' . $add .
 		DateInput(
 			$value,
-			'values[STUDENT_ENROLLMENT][' . $id . '][' . $column . ']',
+			'values[student_enrollment][' . $id . '][' . $column . ']',
 			'',
 			$div,
 			! empty( $na )
 		) . ' - ' .
 		SelectInput(
 			issetVal( $THIS_RET['ENROLLMENT_CODE'] ),
-			'values[STUDENT_ENROLLMENT][' . $id . '][ENROLLMENT_CODE]',
+			'values[student_enrollment][' . $id . '][ENROLLMENT_CODE]',
 			'',
 			$add_codes,
 			$na,
@@ -917,11 +917,11 @@ function _makeEndInput( $value, $column )
 	$return = '<div class="nobr">' .
 		DateInput(
 			$value,
-			'values[STUDENT_ENROLLMENT][' . $id . '][' . $column . ']'
+			'values[student_enrollment][' . $id . '][' . $column . ']'
 		) . ' - ' .
 		SelectInput(
 			$THIS_RET['DROP_CODE'],
-			'values[STUDENT_ENROLLMENT][' . $id . '][DROP_CODE]',
+			'values[student_enrollment][' . $id . '][DROP_CODE]',
 			'',
 			$drop_codes,
 			'N/A',
@@ -987,7 +987,7 @@ function _makeSchoolInput( $value, $column )
 
 			return SelectInput(
 				$value,
-				'values[STUDENT_ENROLLMENT][' . $id . '][SCHOOL_ID]',
+				'values[student_enrollment][' . $id . '][SCHOOL_ID]',
 				'',
 				$options
 			);
@@ -995,7 +995,7 @@ function _makeSchoolInput( $value, $column )
 
 		return SelectInput(
 			UserSchool(),
-			'values[STUDENT_ENROLLMENT][' . $id . '][SCHOOL_ID]',
+			'values[student_enrollment][' . $id . '][SCHOOL_ID]',
 			'',
 			$options,
 			false,
@@ -1005,7 +1005,7 @@ function _makeSchoolInput( $value, $column )
 	}
 
 	// FJ save new Student's Enrollment in Enrollment.inc.php.
-	return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="' . AttrEscape( UserSchool() ) . '" />' .
+	return '<input type="hidden" name="values[student_enrollment][new][SCHOOL_ID]" value="' . AttrEscape( UserSchool() ) . '" />' .
 		$schools[ UserSchool() ][1]['TITLE'];
 }
 

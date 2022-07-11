@@ -37,7 +37,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	AND s.STUDENT_ID=fssa.STUDENT_ID
 	AND s.STUDENT_ID!='" . UserStudentID() . "'
 	AND exists(SELECT ''
-		FROM STUDENT_ENROLLMENT
+		FROM student_enrollment
 		WHERE STUDENT_ID=s.STUDENT_ID
 		AND SYEAR='" . UserSyear() . "'
 		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );

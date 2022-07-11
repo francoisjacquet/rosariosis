@@ -285,7 +285,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 					AND xse.STUDENT_ID=s.STUDENT_ID
 					LIMIT 1) as drop_short';
 
-        	$extra['FROM'] .= ',STUDENT_ENROLLMENT xse';
+        	$extra['FROM'] .= ',student_enrollment xse';
 
 			$extra['WHERE'] .= " AND xse.STUDENT_ID=s.STUDENT_ID AND xse.SYEAR='" . UserSyear() . "'";
 

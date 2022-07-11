@@ -19,7 +19,7 @@ $tables = [
 	'attendance_codes' => _( 'Attendance Codes' ),
 	'courses' => _( 'Courses' ),
 	'student_enrollment_codes' => _( 'Student Enrollment Codes' ),
-	'STUDENT_ENROLLMENT' => _( 'Students' ),
+	'student_enrollment' => _( 'Students' ),
 	'report_card_grades' => _( 'Report Card Grade Codes' ),
 	'report_card_comments' => _( 'Report Card Comment Codes' ),
 	'program_config' => _( 'School Configuration' ),
@@ -27,7 +27,7 @@ $tables = [
 
 $tables_tooltip = [
 	'courses' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
-	'STUDENT_ENROLLMENT' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
+	'student_enrollment' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
 	'report_card_comments' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
 
@@ -124,7 +124,7 @@ if ( Prompt(
 		$_REQUEST['tables']['courses'] = 'Y';
 	}
 
-	if ( isset( $_REQUEST['tables']['STUDENT_ENROLLMENT'] )
+	if ( isset( $_REQUEST['tables']['student_enrollment'] )
 		&& ! $exists_RET['schools'][1]['COUNT']
 		&& ! isset( $_REQUEST['tables']['schools'] ) )
 	{
@@ -705,11 +705,11 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'STUDENT_ENROLLMENT':
+		case 'student_enrollment':
 
 			if ( $mode === 'delete' )
 			{
-				DBQuery( "DELETE FROM STUDENT_ENROLLMENT
+				DBQuery( "DELETE FROM student_enrollment
 					WHERE SYEAR='" . $next_syear . "'
 					AND LAST_SCHOOL='" . UserSchool() . "'" );
 
@@ -720,7 +720,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			// ROLL STUDENTS TO NEXT GRADE.
 			// FJ do NOT roll students where next grade is NULL.
-			DBQuery( "INSERT INTO STUDENT_ENROLLMENT
+			DBQuery( "INSERT INTO student_enrollment
 				(SYEAR,SCHOOL_ID,STUDENT_ID,GRADE_ID,START_DATE,END_DATE,ENROLLMENT_CODE,
 					DROP_CODE,CALENDAR_ID,NEXT_SCHOOL,LAST_SCHOOL)
 				SELECT SYEAR+1,SCHOOL_ID,STUDENT_ID,
@@ -739,7 +739,7 @@ function Rollover( $table, $mode = 'delete' )
 						FROM attendance_calendars
 						WHERE ROLLOVER_ID=e.CALENDAR_ID
 						LIMIT 1),SCHOOL_ID,SCHOOL_ID
-				FROM STUDENT_ENROLLMENT e
+				FROM student_enrollment e
 				WHERE e.SYEAR='" . UserSyear() . "'
 				AND e.SCHOOL_ID='" . UserSchool() . "'
 				AND ( ('" . DBDate() . "' BETWEEN e.START_DATE AND e.END_DATE OR e.END_DATE IS NULL)
@@ -751,7 +751,7 @@ function Rollover( $table, $mode = 'delete' )
 					LIMIT 1) IS NOT NULL" );
 
 			// ROLL STUDENTS WHO ARE TO BE RETAINED.
-			DBQuery( "INSERT INTO STUDENT_ENROLLMENT
+			DBQuery( "INSERT INTO student_enrollment
 				(SYEAR,SCHOOL_ID,STUDENT_ID,GRADE_ID,START_DATE,END_DATE,ENROLLMENT_CODE,
 					DROP_CODE,CALENDAR_ID,NEXT_SCHOOL,LAST_SCHOOL)
 				SELECT SYEAR+1,SCHOOL_ID,
@@ -767,7 +767,7 @@ function Rollover( $table, $mode = 'delete' )
 						FROM attendance_calendars
 						WHERE ROLLOVER_ID=e.CALENDAR_ID
 						LIMIT 1),SCHOOL_ID,SCHOOL_ID
-				FROM STUDENT_ENROLLMENT e
+				FROM student_enrollment e
 				WHERE e.SYEAR='" . UserSyear() . "'
 				AND e.SCHOOL_ID='" . UserSchool() . "'
 				AND ( ('" . DBDate() . "' BETWEEN e.START_DATE AND e.END_DATE OR e.END_DATE IS NULL)
@@ -776,7 +776,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			// ROLL STUDENTS TO NEXT SCHOOL.
 			// @since 6.4 SQL Roll students to next school: match Grade Level on Title.
-			DBQuery( "INSERT INTO STUDENT_ENROLLMENT
+			DBQuery( "INSERT INTO student_enrollment
 				(SYEAR,SCHOOL_ID,STUDENT_ID,GRADE_ID,START_DATE,END_DATE,ENROLLMENT_CODE,
 					DROP_CODE,CALENDAR_ID,NEXT_SCHOOL,LAST_SCHOOL)
 				SELECT SYEAR+1,
@@ -804,7 +804,7 @@ function Rollover( $table, $mode = 'delete' )
 						AND SYEAR=e.SYEAR+1
 						AND DEFAULT_CALENDAR='Y'
 						LIMIT 1),NEXT_SCHOOL,SCHOOL_ID
-				FROM STUDENT_ENROLLMENT e
+				FROM student_enrollment e
 				WHERE e.SYEAR='" . UserSyear() . "'
 				AND e.SCHOOL_ID='" . UserSchool() . "'
 				AND ( ('" . DBDate() . "' BETWEEN e.START_DATE AND e.END_DATE OR e.END_DATE IS NULL)

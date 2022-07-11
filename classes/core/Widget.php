@@ -1828,7 +1828,7 @@ class Widget_rolled implements Widget
 
 		$extra['WHERE'] .= " AND " . ( $_REQUEST['rolled'] == 'Y' ? '' : 'NOT ' ) . "exists
 			(SELECT ''
-				FROM STUDENT_ENROLLMENT
+				FROM student_enrollment
 				WHERE STUDENT_ID=ssm.STUDENT_ID
 				AND SYEAR<ssm.SYEAR)";
 

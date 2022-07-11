@@ -129,7 +129,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		// Lookup for student $username in DB.
 		$student_RET = DBGet( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,
 			s.FAILED_LOGIN,s.PASSWORD,se.START_DATE
-			FROM STUDENTS s,STUDENT_ENROLLMENT se
+			FROM STUDENTS s,student_enrollment se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND CURRENT_DATE>=se.START_DATE
@@ -146,7 +146,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			// Student may be inactive or not verified, see below for corresponding errors.
 			$student_RET = DBGet( "SELECT s.USERNAME,s.STUDENT_ID,
 				s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE,s.PASSWORD
-			FROM STUDENTS s,STUDENT_ENROLLMENT se
+			FROM STUDENTS s,student_enrollment se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)

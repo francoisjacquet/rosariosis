@@ -75,7 +75,7 @@ if ( $confirm_ok )
 	}
 
 	$sql = "SELECT r.REQUEST_ID,r.STUDENT_ID" . $sql_gender . ",r.SUBJECT_ID,r.COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID,(SELECT COUNT(*) FROM course_periods cp2 WHERE cp2.COURSE_ID=r.COURSE_ID) AS SECTIONS
-	FROM schedule_requests r,STUDENTS s,STUDENT_ENROLLMENT ssm
+	FROM schedule_requests r,STUDENTS s,student_enrollment ssm
 	WHERE s.STUDENT_ID=ssm.STUDENT_ID AND ssm.SYEAR=r.SYEAR
 	AND ('" . $start_date . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)
 	AND s.STUDENT_ID=r.STUDENT_ID

@@ -407,7 +407,7 @@ function MoodleUserImportStudent( $user )
  */
 function MoodleUserEnrollStudent( $student_id )
 {
-	$sql = "INSERT INTO STUDENT_ENROLLMENT ";
+	$sql = "INSERT INTO student_enrollment ";
 
 	$fields = 'SYEAR,SCHOOL_ID,STUDENT_ID,';
 

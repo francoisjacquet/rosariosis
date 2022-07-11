@@ -88,10 +88,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			if ( ! empty( $grade_id ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT
+				DBQuery( "UPDATE student_enrollment
 					SET GRADE_ID='" . (int) $grade_id . "'
 					WHERE ID=(SELECT ID
-						FROM STUDENT_ENROLLMENT
+						FROM student_enrollment
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND STUDENT_ID='" . (int) $student_id . "'
@@ -100,10 +100,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			if ( isset( $next_school ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT
+				DBQuery( "UPDATE student_enrollment
 					SET NEXT_SCHOOL='" . $next_school . "'
 					WHERE ID=(SELECT ID
-						FROM STUDENT_ENROLLMENT
+						FROM student_enrollment
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND STUDENT_ID='" . (int) $student_id . "'
@@ -112,9 +112,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			if ( ! empty( $calendar ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT
+				DBQuery( "UPDATE student_enrollment
 					SET CALENDAR_ID='" . (int) $calendar . "'
-					WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT
+					WHERE ID=(SELECT ID FROM student_enrollment
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND STUDENT_ID='" . (int) $student_id . "'
@@ -125,7 +125,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				//FJ check if student already enrolled on that date when updating START_DATE
 				$found_RET = DBGet( "SELECT ID
-					FROM STUDENT_ENROLLMENT
+					FROM student_enrollment
 					WHERE STUDENT_ID='" . (int) $student_id . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" );
@@ -136,10 +136,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 				}
 				else
 				{
-					DBQuery( "UPDATE STUDENT_ENROLLMENT
+					DBQuery( "UPDATE student_enrollment
 						SET START_DATE='" . $start_date . "'
 						WHERE ID=(SELECT ID
-							FROM STUDENT_ENROLLMENT
+							FROM student_enrollment
 							WHERE SYEAR='" . UserSyear() . "'
 							AND SCHOOL_ID='" . UserSchool() . "'
 							AND STUDENT_ID='" . (int) $student_id . "'
@@ -149,10 +149,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			if ( ! empty( $enrollment_code ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT
+				DBQuery( "UPDATE student_enrollment
 					SET ENROLLMENT_CODE='" . $enrollment_code . "'
 					WHERE ID=(SELECT ID
-						FROM STUDENT_ENROLLMENT
+						FROM student_enrollment
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND STUDENT_ID='" . (int) $student_id . "'
@@ -335,7 +335,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				// Get autos pull-down edited options.
 				$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
-					FROM STUDENTS s,STUDENT_ENROLLMENT sse
+					FROM STUDENTS s,student_enrollment sse
 					WHERE sse.STUDENT_ID=s.STUDENT_ID
 					AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
 					AND s." . $col_name . " IS NOT NULL

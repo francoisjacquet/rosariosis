@@ -490,14 +490,14 @@ function GetStuList( &$extra = [] )
 			}
 
 			// FROM.
-			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
+			$sql .= " FROM STUDENTS s JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
 
 			if ( $is_include_inactive )
 			{
 				// Include Inactive Students: enrollment.
-				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
+				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM student_enrollment WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
 				$sql .= " AND ssm.ID=( SELECT ID
-					FROM STUDENT_ENROLLMENT
+					FROM student_enrollment
 					WHERE STUDENT_ID=ssm.STUDENT_ID
 					AND SYEAR='" . UserSyear() . "'
 					ORDER BY SYEAR DESC,START_DATE DESC
@@ -600,14 +600,14 @@ function GetStuList( &$extra = [] )
 					"(cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 						OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')" :
 					"cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) . ")
-				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+				JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 					AND ssm.SYEAR=ss.SYEAR
 					AND ssm.SCHOOL_ID='" . UserSchool() . "'";
 
 			// Include Inactive Students: enrollment.
 			if ( $is_include_inactive )
 			{
-				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT
+				$sql .= " AND ssm.ID=(SELECT ID FROM student_enrollment
 					WHERE STUDENT_ID=ssm.STUDENT_ID
 					AND SYEAR=ssm.SYEAR
 					ORDER BY START_DATE DESC LIMIT 1)";
@@ -625,7 +625,7 @@ function GetStuList( &$extra = [] )
 		case 'student':
 
 			// FROM.
-			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+			$sql .= " FROM STUDENTS s JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 				AND ssm.SYEAR='" . UserSyear() . "'
 				AND ssm.SCHOOL_ID='" . UserSchool() . "'
 				AND ('" . $extra['DATE'] . "'>=ssm.START_DATE

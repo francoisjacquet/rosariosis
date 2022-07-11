@@ -180,7 +180,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		// Delete school only if has NO students enrolled in all school years.
 		$has_students_enrolled = DBGetOne( "SELECT 1 AS ENROLLED
-			FROM STUDENT_ENROLLMENT
+			FROM student_enrollment
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL )" );
 

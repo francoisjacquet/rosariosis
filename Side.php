@@ -113,7 +113,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 			&& UserStudentID() )
 		{
 			$is_student_enrolled_sql = "SELECT 'ENROLLED'
-				FROM STUDENT_ENROLLMENT
+				FROM student_enrollment
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND STUDENT_ID='" . UserStudentID() . "'";
@@ -360,7 +360,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 			$students_RET = DBGet( "SELECT sju.STUDENT_ID,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME,se.SCHOOL_ID
-				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se,schools sch
+				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,student_enrollment se,schools sch
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'
@@ -430,9 +430,9 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 		else
 		{
 			// FJ limit school years to the years the student was enrolled.
-			//$sql = "SELECT DISTINCT sy.SYEAR FROM schools sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";
+			//$sql = "SELECT DISTINCT sy.SYEAR FROM schools sy,student_enrollment s WHERE s.SYEAR=sy.SYEAR";
 			$sql = "SELECT DISTINCT sy.SYEAR
-				FROM schools sy,STUDENT_ENROLLMENT s
+				FROM schools sy,student_enrollment s
 				WHERE s.SYEAR=sy.SYEAR
 				AND s.STUDENT_ID='" . UserStudentID() . "'";
 		}

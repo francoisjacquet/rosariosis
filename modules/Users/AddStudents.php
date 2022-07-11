@@ -78,7 +78,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		// FJ add # Associated students.
 		$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID)
-		FROM STUDENTS_JOIN_USERS u,STUDENT_ENROLLMENT ssm
+		FROM STUDENTS_JOIN_USERS u,student_enrollment ssm
 		WHERE u.STAFF_ID=s.STAFF_ID
 		AND ssm.STUDENT_ID=u.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -105,7 +105,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// SQL fix only display enrolled students.
 		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,ssm.SCHOOL_ID
-			FROM STUDENTS_JOIN_USERS u,STUDENTS s,STUDENT_ENROLLMENT ssm
+			FROM STUDENTS_JOIN_USERS u,STUDENTS s,student_enrollment ssm
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'
 			AND ssm.STUDENT_ID=u.STUDENT_ID

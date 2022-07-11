@@ -19,7 +19,7 @@ function calcSeats0( $period, $date = '' )
 
 	$filled_seats = DBGetOne( "SELECT
 		max((SELECT count(1)
-		FROM schedule ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
+		FROM schedule ss JOIN student_enrollment sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
 		WHERE ss.COURSE_PERIOD_ID='" . (int) $period['COURSE_PERIOD_ID'] . "'
 		AND (ss.MARKING_PERIOD_ID='" . (int) $mp . "' OR ss.MARKING_PERIOD_ID IN (" . $all_mp . "))
 		AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE))

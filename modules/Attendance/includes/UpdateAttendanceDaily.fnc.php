@@ -36,7 +36,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND CALENDAR_ID=(SELECT CALENDAR_ID
-			FROM STUDENT_ENROLLMENT
+			FROM student_enrollment
 			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'

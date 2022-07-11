@@ -165,7 +165,7 @@ function SetUserStaffID( $staff_id )
 					WHERE s.SYEAR='" . UserSyear() . "'
 					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
 					AND (s.PROFILE='parent' AND exists(SELECT 1
-						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,schedule _ss
+						FROM STUDENTS_JOIN_USERS _sju,student_enrollment _sem,schedule _ss
 						WHERE _sju.STAFF_ID=s.STAFF_ID
 						AND _sem.STUDENT_ID=_sju.STUDENT_ID
 						AND _sem.SYEAR='" . UserSyear() . "'
@@ -274,7 +274,7 @@ function SetUserStudentID( $student_id )
 
 			// Get parent's related students.
 			$is_related_student = DBGet( "SELECT 1
-				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
+				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,student_enrollment se
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'
@@ -305,11 +305,11 @@ function SetUserStudentID( $student_id )
 				JOIN course_periods cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 					AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 						OR cp.SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "'))
-				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+				JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 					AND ssm.SYEAR=ss.SYEAR
 					AND ssm.SCHOOL_ID='" . UserSchool() . "'
 					AND ssm.ID=(SELECT ID
-						FROM STUDENT_ENROLLMENT
+						FROM student_enrollment
 						WHERE STUDENT_ID=ssm.STUDENT_ID
 						AND SYEAR=ssm.SYEAR
 						ORDER BY START_DATE DESC
@@ -326,7 +326,7 @@ function SetUserStudentID( $student_id )
 
 			// Check $student_id is in current Year & School.
 			$is_admin_student = DBGet( "SELECT 1
-				FROM STUDENT_ENROLLMENT
+				FROM student_enrollment
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );

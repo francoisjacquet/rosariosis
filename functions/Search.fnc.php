@@ -586,7 +586,7 @@ function Search( $type, $extra = null )
 						if ( mb_strpos( $type, 'student' ) !== false )
 						{
 							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
-								FROM STUDENTS s,STUDENT_ENROLLMENT sse
+								FROM STUDENTS s,student_enrollment sse
 								WHERE sse.STUDENT_ID=s.STUDENT_ID
 								AND sse.SYEAR='" . UserSyear() . "'
 								AND s." . $col_name . " IS NOT NULL
