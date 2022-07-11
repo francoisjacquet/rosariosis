@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			}
 			else
 			{
-				$table = 'REPORT_CARD_COMMENTS';
+				$table = 'report_card_comments';
 			}
 
 			foreach ( (array) $_REQUEST['values'] as $id => $columns )
@@ -101,7 +101,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Report Card Comment Category' ) ) )
 		{
-			$delete_sql = "DELETE FROM REPORT_CARD_COMMENTS
+			$delete_sql = "DELETE FROM report_card_comments
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['id'] . "';";
 
 			$delete_sql .= "DELETE FROM report_card_comment_categories
@@ -117,7 +117,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+			DBQuery( "DELETE FROM report_card_comments
 				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
@@ -126,7 +126,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Report Card Comment' ) ) )
 	{
-		DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+		DBQuery( "DELETE FROM report_card_comments
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -241,13 +241,13 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,
-	(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT
+	(SELECT count(1) FROM report_card_comments WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT
 	FROM report_card_comment_categories rc
 	WHERE rc.COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 	UNION
-	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
+	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
 	UNION
-	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
+	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
 	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
 
 	if ( ! isset( $_REQUEST['tab_id'] )
@@ -322,7 +322,7 @@ if ( ! $_REQUEST['modfunc'] )
 	elseif ( $_REQUEST['tab_id'] == '-1' )
 	{
 		$sql = "SELECT *
-		FROM REPORT_CARD_COMMENTS
+		FROM report_card_comments
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID IS NULL
@@ -382,7 +382,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			// need to be more specific since course_id=0 is not unique
 			$sql = "SELECT *
-			FROM REPORT_CARD_COMMENTS
+			FROM report_card_comments
 			WHERE COURSE_ID='0'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -391,7 +391,7 @@ if ( ! $_REQUEST['modfunc'] )
 		else
 		{
 			$sql = "SELECT *
-			FROM REPORT_CARD_COMMENTS
+			FROM report_card_comments
 			WHERE CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER,TITLE";
 

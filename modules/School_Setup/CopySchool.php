@@ -6,7 +6,7 @@ $tables = [
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
-	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
+	'report_card_comments' => _( 'Report Card Comment Codes' ),
 	'eligibility_activities' => _( 'Eligibility Activities' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
 ];
@@ -222,13 +222,13 @@ function _rollover( $table )
 
 		break;
 
-		case 'REPORT_CARD_COMMENTS':
+		case 'report_card_comments':
 
-			DBQuery( "INSERT INTO REPORT_CARD_COMMENTS (SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,
+			DBQuery( "INSERT INTO report_card_comments (SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,
 					CATEGORY_ID,COURSE_ID)
 				SELECT SYEAR,
 					'" . $id . "',TITLE,SORT_ORDER,NULL,NULL
-				FROM REPORT_CARD_COMMENTS
+				FROM report_card_comments
 				WHERE COURSE_ID IS NULL
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );

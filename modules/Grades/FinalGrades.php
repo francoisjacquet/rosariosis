@@ -104,17 +104,17 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( isset( $_REQUEST['elements']['comments'] )
 			&& $_REQUEST['elements']['comments'] == 'Y' )
 		{
-			//$comments_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'",array(),array('ID'));
+			//$comments_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'",array(),array('ID'));
 			//FJ get color for Course specific categories & get comment scale
 			$comments_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,cs.TITLE AS SCALE_TITLE
-			FROM REPORT_CARD_COMMENTS c
+			FROM report_card_comments c
 			LEFT OUTER JOIN report_card_comment_categories cc ON (cc.SYEAR=c.SYEAR AND cc.SCHOOL_ID=c.SCHOOL_ID AND cc.ID=c.CATEGORY_ID)
 			LEFT OUTER JOIN report_card_comment_code_scales cs ON (cs.SCHOOL_ID=c.SCHOOL_ID AND cs.ID=c.SCALE_ID)
 			WHERE c.SCHOOL_ID='" . UserSchool() . "'
 			AND c.SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
 			//FJ add columns for All Courses comments
-			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
+			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
 		}
 
 		if ( ! empty( $RET ) )
@@ -362,7 +362,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				&& $_REQUEST['elements']['comments'] == 'Y' )
 			{
 				$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-					FROM REPORT_CARD_COMMENTS
+					FROM report_card_comments
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND COURSE_ID IS NULL
@@ -402,7 +402,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				FROM report_card_comment_code_scales cs
 				WHERE cs.ID IN
 					(SELECT c.SCALE_ID
-					FROM REPORT_CARD_COMMENTS c
+					FROM report_card_comments c
 					WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")) OR c.COURSE_ID=0)
 					AND c.SCHOOL_ID=cs.SCHOOL_ID
 					AND c.SYEAR='" . UserSyear() . "')
@@ -446,7 +446,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				//FJ add Course-specific comments tipmessage
 				$commentsA_RET = DBGet( "SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
-				FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc, courses co, report_card_comment_code_scales cs
+				FROM report_card_comments c, report_card_comment_categories cc, courses co, report_card_comment_code_scales cs
 				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")))
 				AND c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'

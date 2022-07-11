@@ -318,7 +318,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$comments_RET = GetReportCardsComments( $st_list, $mp_list );
 
 			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-			FROM REPORT_CARD_COMMENTS
+			FROM report_card_comments
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND COURSE_ID IS NOT NULL
@@ -326,10 +326,10 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
 
 			// FJ get color for Course specific categories & get comment scale.
-			//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
+			//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
 			$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 				cs.TITLE AS SCALE_TITLE
-			FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc,
+			FROM report_card_comments c, report_card_comment_categories cc,
 				report_card_comment_code_scales cs
 			WHERE c.SCHOOL_ID='" . UserSchool() . "'
 			AND c.SYEAR='" . UserSyear() . "'
@@ -344,7 +344,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			ORDER BY c.SORT_ORDER,c.ID", [], [ 'ID' ] );
 
 			$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-			FROM REPORT_CARD_COMMENTS
+			FROM report_card_comments
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND COURSE_ID IS NULL", [], [ 'ID' ] );
@@ -1241,10 +1241,10 @@ function GetReportCardsComments( $st_list, $mp_list )
 	$extra['SELECT_ONLY'] = "s.STUDENT_ID,sc.COURSE_PERIOD_ID,sc.MARKING_PERIOD_ID,
 	sc.REPORT_CARD_COMMENT_ID,sc.COMMENT,
 	(SELECT SORT_ORDER
-		FROM REPORT_CARD_COMMENTS
+		FROM report_card_comments
 		WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER,
 	(SELECT COALESCE(SCALE_ID, 0)
-		FROM REPORT_CARD_COMMENTS
+		FROM report_card_comments
 		WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER2";
 
 	$extra['FROM'] = ",student_report_card_comments sc";
@@ -1286,7 +1286,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 
 	if ( ! $comment_codes_RET )
 	{
-		// Limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS.
+		// Limit code scales to the ones in current SYEAR in report_card_comments.
 		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM report_card_comment_codes cc, report_card_comment_code_scales cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
 			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
@@ -1294,7 +1294,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 		WHERE cc.SCHOOL_ID='" . UserSchool() . "'
 		AND cs.ID=cc.SCALE_ID
 		AND cc.SCALE_ID IN (SELECT DISTINCT c.SCALE_ID
-			FROM REPORT_CARD_COMMENTS c
+			FROM report_card_comments c
 			WHERE c.SYEAR='" . UserSyear() . "'
 			AND c.SCHOOL_ID=cc.SCHOOL_ID
 			AND c.SCALE_ID IS NOT NULL)
@@ -1305,7 +1305,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 	FROM report_card_comment_code_scales cs
 	WHERE cs.ID IN
 		(SELECT c.SCALE_ID
-		FROM REPORT_CARD_COMMENTS c
+		FROM report_card_comments c
 		WHERE (c.COURSE_ID IN(SELECT COURSE_ID
 			FROM SCHEDULE
 			WHERE STUDENT_ID='" . (int) $student_id . "'
@@ -1379,7 +1379,7 @@ function GetReportCardGeneralComments( $student_id, $comments_array )
 	if ( ! $commentsB_RET )
 	{
 		$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-		FROM REPORT_CARD_COMMENTS
+		FROM report_card_comments
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID IS NULL", [], [ 'ID' ] );
@@ -1446,10 +1446,10 @@ function GetReportCardCourseSpecificComments( $student_id, $comments_array )
 	if ( ! $commentsA_RET )
 	{
 		// Get color for Course specific categories & get comment scale.
-		//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
+		//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
 		$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 			cs.TITLE AS SCALE_TITLE
-		FROM REPORT_CARD_COMMENTS c, report_card_comment_categories cc,
+		FROM report_card_comments c, report_card_comment_categories cc,
 			report_card_comment_code_scales cs
 		WHERE c.SCHOOL_ID='" . UserSchool() . "'
 		AND c.SYEAR='" . UserSyear() . "'

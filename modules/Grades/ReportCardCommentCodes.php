@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 	{
-		DBQuery( "UPDATE REPORT_CARD_COMMENTS
+		DBQuery( "UPDATE report_card_comments
 			SET SCALE_ID=NULL
 			WHERE SCALE_ID='" . (int) $_REQUEST['id'] . "'" );
 

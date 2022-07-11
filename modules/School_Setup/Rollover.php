@@ -21,14 +21,14 @@ $tables = [
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
 	'STUDENT_ENROLLMENT' => _( 'Students' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
-	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
+	'report_card_comments' => _( 'Report Card Comment Codes' ),
 	'program_config' => _( 'School Configuration' ),
 ];
 
 $tables_tooltip = [
 	'courses' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
 	'STUDENT_ENROLLMENT' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
-	'REPORT_CARD_COMMENTS' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
+	'report_card_comments' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
 
 $no_school_tables = [ 'SCHOOLS' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true ];
@@ -109,11 +109,11 @@ if ( Prompt(
 ) )
 {
 	if ( isset( $_REQUEST['tables']['courses'] )
-		&& $exists_RET['REPORT_CARD_COMMENTS'][1]['COUNT']
-		&& ! $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
+		&& $exists_RET['report_card_comments'][1]['COUNT']
+		&& ! $_REQUEST['tables']['report_card_comments'] )
 	{
 		// Fix SQL error foreign keys: Roll again Report Card Comment Codes when rolling Courses.
-		$_REQUEST['tables']['REPORT_CARD_COMMENTS'] = 'Y';
+		$_REQUEST['tables']['report_card_comments'] = 'Y';
 	}
 
 	if ( isset( $_REQUEST['tables']['school_marking_periods'] )
@@ -140,7 +140,7 @@ if ( Prompt(
 			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['REPORT_CARD_GRADES'] ) && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
 	{
-		if ( ! ( isset( $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
+		if ( ! ( isset( $_REQUEST['tables']['report_card_comments'] )
 			&&  ( ! isset( $_REQUEST['tables']['courses'] )
 				&& $exists_RET['courses'][1]['COUNT'] < 1 ) ) )
 		{
@@ -851,7 +851,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'REPORT_CARD_COMMENTS':
+		case 'report_card_comments':
 
 			if ( $mode === 'delete' )
 			{
@@ -859,7 +859,7 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM REPORT_CARD_COMMENTS
+				$delete_sql .= "DELETE FROM report_card_comments
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
@@ -877,13 +877,13 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "INSERT INTO REPORT_CARD_COMMENTS (SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,
+			DBQuery( "INSERT INTO report_card_comments (SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,
 				COURSE_ID,CATEGORY_ID,SCALE_ID)
 				SELECT SYEAR+1,SCHOOL_ID,TITLE,
 				SORT_ORDER," .
 				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM courses WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . "," .
 				db_case( [ 'CATEGORY_ID', "''", 'NULL', "(SELECT ID FROM report_card_comment_categories WHERE ROLLOVER_ID=rc.CATEGORY_ID)" ] ) . ",SCALE_ID
-				FROM REPORT_CARD_COMMENTS rc
+				FROM report_card_comments rc
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
