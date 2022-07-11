@@ -341,21 +341,21 @@ if ( ! empty( $grades ) )
 }
 
 $year = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
-	FROM SCHOOL_MARKING_PERIODS
+	FROM school_marking_periods
 	WHERE MP='FY'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 
 $semesters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
-	FROM SCHOOL_MARKING_PERIODS
+	FROM school_marking_periods
 	WHERE MP='SEM'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 
 $quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
-	FROM SCHOOL_MARKING_PERIODS
+	FROM school_marking_periods
 	WHERE MP='QTR'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'

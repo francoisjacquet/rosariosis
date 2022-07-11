@@ -602,7 +602,7 @@ function _makeSelectInput( $value, $name )
 		$mp_course_periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,TITLE
 			FROM course_periods
 			WHERE SYEAR=(SELECT SYEAR
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID IS NOT NULL

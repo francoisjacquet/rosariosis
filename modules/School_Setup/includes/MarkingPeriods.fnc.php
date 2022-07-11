@@ -26,33 +26,33 @@ function MarkingPeriodDeleteSQL( $mp_id, $mp_term )
 	{
 		case 'FY':
 
-			$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS
+			$delete_sql .= "DELETE FROM school_marking_periods
 				WHERE PARENT_ID IN
 					(SELECT MARKING_PERIOD_ID
-						FROM SCHOOL_MARKING_PERIODS
+						FROM school_marking_periods
 						WHERE PARENT_ID IN
 							(SELECT MARKING_PERIOD_ID
-								FROM SCHOOL_MARKING_PERIODS
+								FROM school_marking_periods
 								WHERE PARENT_ID='" . (int) $mp_id . "'));";
 
 		case 'SEM':
 
-			$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS
+			$delete_sql .= "DELETE FROM school_marking_periods
 				WHERE PARENT_ID IN
 					(SELECT MARKING_PERIOD_ID
-						FROM SCHOOL_MARKING_PERIODS
+						FROM school_marking_periods
 						WHERE PARENT_ID='" . (int) $mp_id . "');";
 
 		case 'QTR':
 
-			$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS
+			$delete_sql .= "DELETE FROM school_marking_periods
 				WHERE PARENT_ID='" . (int) $mp_id . "';";
 
 		case 'PRO':
 		break;
 	}
 
-	$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS
+	$delete_sql .= "DELETE FROM school_marking_periods
 		WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "';";
 
 	return $delete_sql;

@@ -2,7 +2,7 @@
 
 $tables = [
 	'config' => _( 'School Configuration' ),
-	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
+	'school_marking_periods' => _( 'Marking Periods' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
@@ -173,21 +173,21 @@ function _rollover( $table )
 
 		break;
 
-		case 'SCHOOL_MARKING_PERIODS':
+		case 'school_marking_periods':
 
-			DBQuery( "INSERT INTO SCHOOL_MARKING_PERIODS (PARENT_ID,SYEAR,MP,
+			DBQuery( "INSERT INTO school_marking_periods (PARENT_ID,SYEAR,MP,
 					SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,POST_START_DATE,
 					POST_END_DATE,DOES_GRADES,DOES_COMMENTS,ROLLOVER_ID)
 				SELECT PARENT_ID,SYEAR,MP,
 					'" . $id . "' AS SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,
 					POST_START_DATE,POST_END_DATE,DOES_GRADES,DOES_COMMENTS,MARKING_PERIOD_ID
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "UPDATE SCHOOL_MARKING_PERIODS
+			DBQuery( "UPDATE school_marking_periods
 				SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
-					FROM SCHOOL_MARKING_PERIODS mp
+					FROM school_marking_periods mp
 					WHERE mp.SYEAR=school_marking_periods.SYEAR
 					AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
 					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID)

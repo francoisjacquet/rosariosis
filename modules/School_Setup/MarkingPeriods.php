@@ -67,7 +67,7 @@ if ( ! empty( $_POST['tables'] )
 
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE SCHOOL_MARKING_PERIODS SET ";
+			$sql = "UPDATE school_marking_periods SET ";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -90,7 +90,7 @@ if ( ! empty( $_POST['tables'] )
 
 					//FJ verify END_DATE > START_DATE
 					$mp_dates_RET = DBGet( "SELECT START_DATE, END_DATE, POST_START_DATE, POST_END_DATE
-						FROM SCHOOL_MARKING_PERIODS
+						FROM school_marking_periods
 						WHERE MARKING_PERIOD_ID='" . (int) $id . "'" );
 
 					$start_date = ! empty( $columns['START_DATE'] ) ?
@@ -139,7 +139,7 @@ if ( ! empty( $_POST['tables'] )
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO SCHOOL_MARKING_PERIODS ";
+			$sql = "INSERT INTO school_marking_periods ";
 
 			$fields = "MP,SYEAR,SCHOOL_ID,";
 
@@ -215,7 +215,7 @@ if ( ! empty( $_POST['tables'] )
 
 		// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
 		$dates_RET = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='" . $_REQUEST['mp_term'] . "'
 			AND ( true=false" .
 			( ! empty( $columns['START_DATE'] ) ? " OR '" . $columns['START_DATE'] .
@@ -232,7 +232,7 @@ if ( ! empty( $_POST['tables'] )
 				AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
 
 		$posting_RET = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='" . $_REQUEST['mp_term'] . "'
 			AND ( true=false" .
 			( ! empty( $columns['POST_START_DATE'] ) ? " OR '" . $columns['POST_START_DATE'] .
@@ -341,7 +341,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		// Check marking period ID is valid for current school & syear!
 		$marking_period_RET = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND MARKING_PERIOD_ID='" . (int) $_REQUEST['marking_period_id'] . "'" );
@@ -394,7 +394,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$RET = DBGet( "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_COMMENTS,
 				START_DATE,END_DATE,POST_START_DATE,POST_END_DATE
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MARKING_PERIOD_ID='" . (int) $_REQUEST['marking_period_id'] . "'" );
 
 		$RET = $RET[1];
@@ -419,7 +419,7 @@ if ( ! $_REQUEST['modfunc'] )
 			&& $_REQUEST['mp_term'] !== 'PRO' )
 		{
 			$not_single_mp_RET = DBGet( "SELECT COUNT( MARKING_PERIOD_ID ) > 1 AS NOT_SINGLE_MP
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MP='" . $_REQUEST['mp_term'] . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -592,7 +592,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// FY
 	$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='FY'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
@@ -644,7 +644,7 @@ if ( ! $_REQUEST['modfunc'] )
 		|| $_REQUEST['mp_term'] === 'PRO' )
 	{
 		$sem_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='SEM'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
@@ -695,7 +695,7 @@ if ( ! $_REQUEST['modfunc'] )
 			|| $_REQUEST['mp_term'] === 'PRO' )
 		{
 			$qtr_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MP='QTR'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
@@ -746,7 +746,7 @@ if ( ! $_REQUEST['modfunc'] )
 				|| $_REQUEST['mp_term'] === 'PRO' )
 			{
 				$pro_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE MP='PRO'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'

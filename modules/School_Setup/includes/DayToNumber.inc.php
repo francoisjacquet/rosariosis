@@ -41,7 +41,7 @@ function dayToNumber( $date, $calendar_id = 0 )
 
 	// Quarter start date.
 	$begin_quarter_date = DBGetOne( "SELECT START_DATE
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE START_DATE<='" . $date . "'
 		AND END_DATE>='" . $date . "'
 		AND MP='QTR'

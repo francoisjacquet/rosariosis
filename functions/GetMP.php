@@ -34,7 +34,7 @@ function GetMP( $mp_id, $column = 'TITLE' )
 	{
 		$_ROSARIO['GetMP'] = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,
 			POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'MARKING_PERIOD_ID' ] );
 	}
@@ -55,7 +55,7 @@ function GetMP( $mp_id, $column = 'TITLE' )
 function GetFullYearMP()
 {
 	return DBGetOne( "SELECT MARKING_PERIOD_ID
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='FY'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -96,17 +96,17 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		$fy = GetFullYearMP();
 
 		$sem_SQL = "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS s
+			FROM school_marking_periods s
 			WHERE MP='SEM'
 			AND NOT EXISTS (SELECT ''
-				FROM SCHOOL_MARKING_PERIODS q
+				FROM school_marking_periods q
 				WHERE q.MP='QTR'
 				AND q.PARENT_ID=s.MARKING_PERIOD_ID)
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'";
 
 		$qtr_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'";
@@ -232,7 +232,7 @@ function GetParentMP( $mp, $marking_period_id )
 			case 'QTR':
 
 				$parent_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE MP='PRO'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'";
@@ -242,7 +242,7 @@ function GetParentMP( $mp, $marking_period_id )
 			case 'SEM':
 
 				$parent_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE MP='QTR'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'";
@@ -252,7 +252,7 @@ function GetParentMP( $mp, $marking_period_id )
 			case 'FY':
 
 				$parent_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE MP='SEM'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'";
@@ -302,7 +302,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 		|| ! isset( $children_mp[ $mp ] ) )
 	{
 		$qtr_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'";
@@ -359,7 +359,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 			case 'PRO':
 
 				$pro_RET = DBGet( "SELECT MARKING_PERIOD_ID,PARENT_ID
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE MP='PRO'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PARENT_ID' ] );
@@ -405,7 +405,7 @@ function GetCurrentMP( $mp, $date, $error = true )
 		|| ! isset( $current_mp[ $date ][ $mp ] ) )
 	{
 		$current_mp[ $date ][ $mp ] = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='" . $mp . "'
 			AND '" . $date . "' BETWEEN START_DATE AND END_DATE
 			AND SYEAR='" . UserSyear() . "'

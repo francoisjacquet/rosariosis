@@ -122,7 +122,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 				WHERE SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				UNION SELECT DISTINCT SYEAR
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SYEAR DESC" );

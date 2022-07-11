@@ -176,7 +176,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		// Get the title instead of the short marking period name.
 		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'

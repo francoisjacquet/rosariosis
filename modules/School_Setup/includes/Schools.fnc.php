@@ -29,7 +29,7 @@ function SchoolDeleteSQL( $school_id )
 
 	$delete_sql .= "DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
-	$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='" . (int) $school_id . "';";
+	$delete_sql .= "DELETE FROM school_marking_periods WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
 	$delete_sql .= "DELETE FROM eligibility_activities WHERE SCHOOL_ID='" . (int) $school_id . "';";
 

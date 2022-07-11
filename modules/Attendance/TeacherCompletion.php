@@ -84,7 +84,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 			FROM attendance_calendar
 			WHERE SCHOOL_DATE<=acc.SCHOOL_DATE
 			AND SCHOOL_DATE>=(SELECT START_DATE
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE START_DATE<=acc.SCHOOL_DATE
 				AND END_DATE>=acc.SCHOOL_DATE
 				AND MP='QTR'

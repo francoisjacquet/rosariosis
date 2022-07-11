@@ -35,7 +35,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	&& AllowEdit() )
 {
 	$fy_RET = DBGet( "SELECT START_DATE,END_DATE
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='FY'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );

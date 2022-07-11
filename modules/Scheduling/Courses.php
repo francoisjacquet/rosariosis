@@ -137,7 +137,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 			( $_REQUEST['modfunc'] === 'choose_course'
 				&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' ?
 				" AND '" . $date . "'<=(SELECT END_DATE
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE SYEAR=cp.SYEAR
 					AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)" :
 				'' ) . "
@@ -973,7 +973,7 @@ if (  ( ! $_REQUEST['modfunc']
 			//$header .= '<td>' . SelectInput($RET['MP'],'tables[course_periods]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY' => 'Full Year','SEM' => 'Semester','QTR' => 'Marking Period')) . '</td>';
 			$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,SHORT_NAME," .
 				db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
@@ -1587,7 +1587,7 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 
 			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet( "SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM course_periods cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
+			//$periods_RET = DBGet( "SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM course_periods cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM school_marking_periods WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
 			$periods_RET = DBGet( "SELECT '" . $_REQUEST['subject_id'] . "' AS SUBJECT_ID,
 				COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,
 				TOTAL_SEATS AS AVAILABLE_SEATS
@@ -1596,7 +1596,7 @@ if (  ( ! $_REQUEST['modfunc']
 				( $_REQUEST['modfunc'] === 'choose_course'
 					&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' ?
 					" AND '" . $date . "'<=(SELECT END_DATE
-						FROM SCHOOL_MARKING_PERIODS
+						FROM school_marking_periods
 						WHERE SYEAR=cp.SYEAR
 						AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)" :
 					'' ) . "

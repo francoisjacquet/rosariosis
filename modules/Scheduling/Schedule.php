@@ -611,14 +611,14 @@ function _makeMPSelect( $mp_id, $name )
 	if ( empty( $_ROSARIO['_makeMPSelect'] ) )
 	{
 		$semesters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='SEM'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER" );
 
 		$quarters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -641,7 +641,7 @@ function _makeMPSelect( $mp_id, $name )
 		}
 
 		$quarters_indexed_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'

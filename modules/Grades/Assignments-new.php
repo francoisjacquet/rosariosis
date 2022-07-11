@@ -255,8 +255,8 @@ if ( ! $_REQUEST['modfunc'] )
 		//FJ default points
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,ASSIGNMENT_TYPE_ID,DEFAULT_POINTS," .
 		db_case( [ '(DUE_DATE<ASSIGNED_DATE)', 'TRUE', "'Y'", 'NULL' ] ) . " AS DATE_ERROR," .
-		db_case( [ '(ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\'))', 'TRUE', "'Y'", 'NULL' ] ) . " AS ASSIGNED_ERROR," .
-		db_case( [ 'DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\')', 'TRUE', "'Y'", 'NULL' ] ) . " AS DUE_ERROR " .
+		db_case( [ '(ASSIGNED_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\'))', 'TRUE', "'Y'", 'NULL' ] ) . " AS ASSIGNED_ERROR," .
+		db_case( [ 'DUE_DATE>(SELECT END_DATE+1 FROM school_marking_periods WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\')', 'TRUE', "'Y'", 'NULL' ] ) . " AS DUE_ERROR " .
 		"FROM gradebook_assignments " .
 		"WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" . ( $_REQUEST['tab_id'] ? " AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['tab_id'] . "'" : '' ) .
 		" AND MARKING_PERIOD_ID='" . UserMP() . "' ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE";

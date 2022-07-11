@@ -454,7 +454,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 		<?php // MarkingPeriod SELECT.
 		$RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'

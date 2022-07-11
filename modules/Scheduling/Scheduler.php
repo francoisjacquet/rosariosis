@@ -137,7 +137,7 @@ if ( $confirm_ok )
 	$cp_course_RET = DBGet( $sql, [], [ 'COURSE' ] );
 
 	$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='QTR'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PARENT_ID', 'MARKING_PERIOD_ID' ] );

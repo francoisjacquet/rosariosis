@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						FROM attendance_calendar
 						WHERE SCHOOL_DATE<=ac.SCHOOL_DATE
 						AND SCHOOL_DATE>=(SELECT START_DATE
-							FROM SCHOOL_MARKING_PERIODS
+							FROM school_marking_periods
 							WHERE START_DATE<=ac.SCHOOL_DATE
 							AND END_DATE>=ac.SCHOOL_DATE
 							AND MP='QTR'

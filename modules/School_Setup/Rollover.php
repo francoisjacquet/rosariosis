@@ -14,7 +14,7 @@ $tables = [
 	'SCHOOLS' => _( 'Schools' ),
 	'STAFF' => _( 'Users' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
-	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
+	'school_marking_periods' => _( 'Marking Periods' ),
 	'attendance_calendars' => _( 'Calendars' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
 	'courses' => _( 'Courses' ),
@@ -116,7 +116,7 @@ if ( Prompt(
 		$_REQUEST['tables']['REPORT_CARD_COMMENTS'] = 'Y';
 	}
 
-	if ( isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] )
+	if ( isset( $_REQUEST['tables']['school_marking_periods'] )
 		&& $exists_RET['courses'][1]['COUNT']
 		&& ! isset( $_REQUEST['tables']['courses'] ) )
 	{
@@ -136,7 +136,7 @@ if ( Prompt(
 	if ( ! ( isset( $_REQUEST['tables']['courses'] )
 		&& ( ( ! isset( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['SCHOOL_PERIODS'] ) && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] ) && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['school_marking_periods'] ) && $exists_RET['school_marking_periods'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['REPORT_CARD_GRADES'] ) && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
 	{
@@ -477,30 +477,30 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'SCHOOL_MARKING_PERIODS':
+		case 'school_marking_periods':
 
 			if ( $mode === 'delete' )
 			{
-				DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS
+				DBQuery( "DELETE FROM school_marking_periods
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "'" );
 
 				break;
 			}
 
-			DBQuery( "INSERT INTO SCHOOL_MARKING_PERIODS (PARENT_ID,SYEAR,MP,
+			DBQuery( "INSERT INTO school_marking_periods (PARENT_ID,SYEAR,MP,
 				SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,POST_START_DATE,
 				POST_END_DATE,DOES_GRADES,DOES_COMMENTS,ROLLOVER_ID)
 				SELECT PARENT_ID,SYEAR+1,MP,
 				SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE+365,END_DATE+365,
 				POST_START_DATE+365,POST_END_DATE+365,DOES_GRADES,DOES_COMMENTS,MARKING_PERIOD_ID
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "UPDATE SCHOOL_MARKING_PERIODS
+			DBQuery( "UPDATE school_marking_periods
 				SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
-					FROM SCHOOL_MARKING_PERIODS mp
+					FROM school_marking_periods mp
 					WHERE mp.SYEAR=school_marking_periods.SYEAR
 					AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
 					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID
@@ -512,7 +512,7 @@ function Rollover( $table, $mode = 'delete' )
 			$db_case_array = [ 'puc.TITLE' ];
 
 			$mp_next = DBGet( "SELECT MARKING_PERIOD_ID,ROLLOVER_ID,MP
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE (MP='QTR' OR MP='SEM')
 				AND SYEAR='" . $next_syear . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
@@ -635,7 +635,7 @@ function Rollover( $table, $mode = 'delete' )
 					AND c.ROLLOVER_ID=p.COURSE_ID
 					LIMIT 1),TITLE,SHORT_NAME,MP,
 				(SELECT MARKING_PERIOD_ID
-					FROM SCHOOL_MARKING_PERIODS n
+					FROM school_marking_periods n
 					WHERE n.MP=p.MP
 					AND n.SCHOOL_ID=p.SCHOOL_ID
 					AND n.ROLLOVER_ID=p.MARKING_PERIOD_ID

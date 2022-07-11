@@ -251,7 +251,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 					OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 					AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE)
 					OR CURRENT_DATE>(SELECT END_DATE
-						FROM SCHOOL_MARKING_PERIODS
+						FROM school_marking_periods
 						WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 
 			// Check Student enrollment.
@@ -266,14 +266,14 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			{
 				// FJ: limit Assignments to the ones due during the Progress Period.
 				$extra['WHERE'] .= " AND ((ga.ASSIGNED_DATE IS NULL OR (SELECT END_DATE
-					FROM SCHOOL_MARKING_PERIODS
+					FROM school_marking_periods
 					WHERE MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "')>=ga.ASSIGNED_DATE)
 					AND (ga.DUE_DATE IS NULL
 						OR (SELECT END_DATE
-							FROM SCHOOL_MARKING_PERIODS
+							FROM school_marking_periods
 							WHERE MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "')>=ga.DUE_DATE
 						AND (SELECT START_DATE
-							FROM SCHOOL_MARKING_PERIODS
+							FROM school_marking_periods
 							WHERE MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "')<=ga.DUE_DATE))";
 			}
 
@@ -334,12 +334,12 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			if ( GetMP( $_REQUEST['mp'], 'MP' ) == 'SEM' )
 			{
 				$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MP='QTR'
 				AND PARENT_ID='" . (int) $_REQUEST['mp'] . "'
 				UNION
 				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MP='SEM'
 				AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'" );
 				$prefix = 'SEM-';
@@ -347,19 +347,19 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			else
 			{
 				$mp_RET = DBGet( "SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES
-				FROM SCHOOL_MARKING_PERIODS q,SCHOOL_MARKING_PERIODS s
+				FROM school_marking_periods q,school_marking_periods s
 				WHERE q.MP='QTR'
 				AND s.MP='SEM'
 				AND q.PARENT_ID=s.MARKING_PERIOD_ID
 				AND s.PARENT_ID='" . (int) $_REQUEST['mp'] . "'
 				UNION
 				SELECT MARKING_PERIOD_ID,DOES_GRADES
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MP='SEM'
 				AND PARENT_ID='" . (int) $_REQUEST['mp'] . "'
 				UNION
 				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES
-				FROM SCHOOL_MARKING_PERIODS
+				FROM school_marking_periods
 				WHERE MP='FY'
 				AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'" );
 				$prefix = 'FY-';
@@ -1090,7 +1090,7 @@ if ( User( 'PROFILE' ) === 'teacher'
 	&& mb_strpos( $_REQUEST['modname'], 'TeacherPrograms' ) === false )
 {
 	$is_after_grade_post_start_date = DBGetOne( "SELECT 1
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 		AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE)" );
 
@@ -1238,7 +1238,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			'&modfunc=gradebook&mp=' . $_REQUEST['mp'] ) . '">' . _( 'Get Gradebook Grades.' ) . '</a>';
 
 		$prev_mp = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,START_DATE
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE MP='" . GetMP( $_REQUEST['mp'], 'MP' ) . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'

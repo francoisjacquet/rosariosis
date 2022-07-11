@@ -27,7 +27,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		// Preload GetMP cache with all schools.
 		$_ROSARIO['GetMP'] = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,
 			MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE SYEAR='" . UserSyear() . "'",
 			[],
 			[ 'MARKING_PERIOD_ID' ]

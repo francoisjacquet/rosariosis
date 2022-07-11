@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		// New: check for Title.
 		elseif ( $columns['NAME'] )
 		{
-			// Note: we get next ID from SCHOOL_MARKING_PERIODS table's MARKING_PERIOD_ID column.
+			// Note: we get next ID from school_marking_periods table's MARKING_PERIOD_ID column.
 			// Will fail for MySQL (returns 0).
 			$mp_id = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' );
 
@@ -35,8 +35,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				// @since 9.3 Add MySQL support
 				$mp_id = DBSeqNextID( 'school_marking_periods' );
 
-				// Manually set AUTO_INCREMENT+1 as we do not INSERT into SCHOOL_MARKING_PERIODS table here.
-				DBQuery( "ALTER TABLE SCHOOL_MARKING_PERIODS
+				// Manually set AUTO_INCREMENT+1 as we do not INSERT into school_marking_periods table here.
+				DBQuery( "ALTER TABLE school_marking_periods
 					AUTO_INCREMENT=" . (int) ( $mp_id + 1 ) );
 			}
 

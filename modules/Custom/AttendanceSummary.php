@@ -147,7 +147,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$abs_tot = $pos_tot = 0;
 
 		$FY_dates = DBGet( "SELECT START_DATE,END_DATE
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='FY'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );

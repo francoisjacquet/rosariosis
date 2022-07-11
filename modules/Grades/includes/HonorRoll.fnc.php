@@ -19,7 +19,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 
 	$mp_RET = DBGet( "SELECT TITLE,END_DATE
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='QTR'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
@@ -207,7 +207,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 
 	$mp_RET = DBGet( "SELECT TITLE,END_DATE
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='QTR'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 

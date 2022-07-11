@@ -18,11 +18,11 @@
  */
 function GetSyear( $date )
 {
-	//$RET = DBGet( "SELECT SYEAR FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND '".$date."' BETWEEN START_DATE AND END_DATE" );
+	//$RET = DBGet( "SELECT SYEAR FROM school_marking_periods WHERE MP='FY' AND '".$date."' BETWEEN START_DATE AND END_DATE" );
 
 	// Get greatest SYEAR where START_DATE <= $date.
 	return DBGetOne( "SELECT max(SYEAR) AS SYEAR
-		FROM SCHOOL_MARKING_PERIODS
+		FROM school_marking_periods
 		WHERE MP='FY'
 		AND START_DATE<='" . $date . "'" );
 }

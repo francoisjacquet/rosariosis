@@ -193,7 +193,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
 			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
-			FROM SCHOOL_MARKING_PERIODS
+			FROM school_marking_periods
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
