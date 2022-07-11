@@ -2151,7 +2151,7 @@ class Widget_medical_date implements Widget
 				'Physical' : 'Immunization';
 
 			$extra['WHERE'] .= " AND s.STUDENT_ID IN(SELECT STUDENT_ID
-				FROM STUDENT_MEDICAL
+				FROM student_medical
 				WHERE TYPE='" . $medical_type . "' ";
 
 			$medical_type_label = $medical_type === 'Physical' ?

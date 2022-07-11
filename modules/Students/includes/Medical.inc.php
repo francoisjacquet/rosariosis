@@ -8,15 +8,15 @@ if ( ( isset( $_POST['values'] )
 	SaveData(
 		[
 			'student_medical_alerts' => "ID='__ID__'",
-			'STUDENT_MEDICAL' => "ID='__ID__'",
+			'student_medical' => "ID='__ID__'",
 			'student_medical_visits' => "ID='__ID__'",
 			'fields' => [
-				'STUDENT_MEDICAL' => 'STUDENT_ID,',
+				'student_medical' => 'STUDENT_ID,',
 				'student_medical_alerts' => 'STUDENT_ID,',
 				'student_medical_visits' => 'STUDENT_ID,',
 			],
 			'values' => [
-				'STUDENT_MEDICAL' => "'" . UserStudentID() . "',",
+				'student_medical' => "'" . UserStudentID() . "',",
 				'student_medical_alerts' => "'" . UserStudentID() . "',",
 				'student_medical_visits' => "'" . UserStudentID() . "',",
 			],
@@ -55,7 +55,7 @@ if ( ! $_REQUEST['modfunc'] )
 		PopTable( 'footer' );
 	}
 
-	$table = 'STUDENT_MEDICAL';
+	$table = 'student_medical';
 
 	$functions = [
 		'TYPE' => '_makeType',
@@ -64,7 +64,7 @@ if ( ! $_REQUEST['modfunc'] )
 	];
 
 	$med_RET = DBGet( "SELECT ID,TYPE,MEDICAL_DATE,COMMENTS
-		FROM STUDENT_MEDICAL
+		FROM student_medical
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		ORDER BY MEDICAL_DATE,TYPE", $functions );
 
@@ -82,7 +82,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&category_id=' . $_REQUEST['category_id'] .
-		'&modfunc=delete_medical&table=STUDENT_MEDICAL&title=' . _( 'Immunization or Physical' );
+		'&modfunc=delete_medical&table=student_medical&title=' . _( 'Immunization or Physical' );
 
 	$link['remove']['variables'] = [ 'id' => 'ID' ];
 

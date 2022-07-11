@@ -669,7 +669,7 @@ function _makeType( $value, $column )
 
 	return SelectInput(
 		$value,
-		'values[STUDENT_MEDICAL][' . $THIS_RET['ID'] . '][TYPE]',
+		'values[student_medical][' . $THIS_RET['ID'] . '][TYPE]',
 		'',
 		[ 'Immunization' => _( 'Immunization' ), 'Physical' => _( 'Physical' ) ]
 	);
