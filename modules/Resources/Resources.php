@@ -12,7 +12,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE RESOURCES SET ";
+				$sql = "UPDATE resources SET ";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$sql = "INSERT INTO RESOURCES ";
+				$sql = "INSERT INTO resources ";
 
 				$fields = 'SCHOOL_ID,';
 				$values = "'" . UserSchool() . "',";
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Resource' ) ) )
 	{
-		DBQuery( "DELETE FROM RESOURCES
+		DBQuery( "DELETE FROM resources
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 if ( ! $_REQUEST['modfunc'] )
 {
 	$resources_RET = DBGet( "SELECT ID,TITLE,LINK
-		FROM RESOURCES
+		FROM resources
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY ID", [ 'TITLE' => '_makeTextInput', 'LINK' => '_makeLink' ] );
 
