@@ -21,8 +21,8 @@ if ( UserStudentID() )
 		&& $_REQUEST['new_sms']
 		&& DeletePrompt( _( 'Marking Period' ) ) )
 	{
-		//DBQuery("DELETE FROM STUDENT_MP_STATS WHERE student_id = $student_id and marking_period_id = $mp_id");
-		DBQuery( "DELETE FROM STUDENT_MP_STATS
+		//DBQuery("DELETE FROM student_mp_stats WHERE student_id = $student_id and marking_period_id = $mp_id");
+		DBQuery( "DELETE FROM student_mp_stats
 			WHERE student_id='" . $student_id . "'
 			AND marking_period_id='" . (int) $_REQUEST['new_sms'] . "'" );
 
@@ -39,13 +39,13 @@ if ( UserStudentID() )
 		{
 			// FJ fix SQL bug when marking period already exist.
 			$sms_RET = DBGet( "SELECT *
-				FROM STUDENT_MP_STATS
+				FROM student_mp_stats
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND MARKING_PERIOD_ID='" . (int) $_REQUEST['new_sms'] . "'" );
 
 			if ( empty( $sms_RET ) )
 			{
-				DBQuery( "INSERT INTO STUDENT_MP_STATS (STUDENT_ID,MARKING_PERIOD_ID)
+				DBQuery( "INSERT INTO student_mp_stats (STUDENT_ID,MARKING_PERIOD_ID)
 					VALUES ('" . $student_id . "','" . $_REQUEST['new_sms'] . "')" );
 			}
 
@@ -55,7 +55,7 @@ if ( UserStudentID() )
 		if ( ! empty( $_REQUEST['SMS_GRADE_LEVEL'] )
 			&& $mp_id )
 		{
-			DBQuery( "UPDATE STUDENT_MP_STATS
+			DBQuery( "UPDATE student_mp_stats
 				SET GRADE_LEVEL_SHORT='" . $_REQUEST['SMS_GRADE_LEVEL'] . "'
 				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'
 				AND STUDENT_ID='" . (int) $student_id . "'" );

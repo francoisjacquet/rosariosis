@@ -83,7 +83,7 @@ BEGIN
   SELECT * INTO oldrec FROM student_mp_stats WHERE student_id = s_id and marking_period_id = mp_id;
 
   IF FOUND THEN
-    UPDATE STUDENT_MP_STATS SET
+    UPDATE student_mp_stats SET
         sum_weighted_factors = rcg.sum_weighted_factors,
         sum_unweighted_factors = rcg.sum_unweighted_factors,
         cr_weighted_factors = rcg.cr_weighted,
@@ -105,7 +105,7 @@ BEGIN
     WHERE student_id = s_id and marking_period_id = mp_id;
     RETURN 1;
   ELSE
-    INSERT INTO STUDENT_MP_STATS (student_id, marking_period_id, sum_weighted_factors, sum_unweighted_factors, grade_level_short, cr_weighted_factors, cr_unweighted_factors, gp_credits, cr_credits)
+    INSERT INTO student_mp_stats (student_id, marking_period_id, sum_weighted_factors, sum_unweighted_factors, grade_level_short, cr_weighted_factors, cr_unweighted_factors, gp_credits, cr_credits)
         select
             srcg.student_id,
             srcg.marking_period_id,

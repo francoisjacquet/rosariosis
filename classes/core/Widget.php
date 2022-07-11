@@ -545,9 +545,9 @@ class Widget_gpa implements Widget
 			$extra['columns_after']['CUM_UNWEIGHTED_FACTOR'] = _( 'Unweighted GPA' );
 		}
 
-		if ( mb_strpos( $extra['FROM'], 'STUDENT_MP_STATS sms' ) === false )
+		if ( mb_strpos( $extra['FROM'], 'student_mp_stats sms' ) === false )
 		{
-			$extra['FROM'] .= ",STUDENT_MP_STATS sms";
+			$extra['FROM'] .= ",student_mp_stats sms";
 
 			$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID
 				AND sms.MARKING_PERIOD_ID='" . (int) $_REQUEST['gpa_term'] . "'";
@@ -640,9 +640,9 @@ class Widget_class_rank implements Widget
 			$_REQUEST['class_rank_low'] = $temp;
 		}
 
-		if ( mb_strpos( $extra['FROM'], 'STUDENT_MP_STATS sms' ) === false )
+		if ( mb_strpos( $extra['FROM'], 'student_mp_stats sms' ) === false )
 		{
-			$extra['FROM'] .= ",STUDENT_MP_STATS sms";
+			$extra['FROM'] .= ",student_mp_stats sms";
 
 			$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID
 				AND sms.MARKING_PERIOD_ID='" . (int) $_REQUEST['class_rank_term'] . "'";

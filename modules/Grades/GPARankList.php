@@ -116,9 +116,9 @@ $extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 //$extra['SELECT'] .= ',sgc.GPA,sgc.WEIGHTED_GPA,sgc.CLASS_RANK';
 $extra['SELECT'] .= ',sms.cum_weighted_factor, sms.cum_unweighted_factor, sms.cum_rank';
 
-if ( mb_strpos( $extra['FROM'], 'STUDENT_MP_STATS sms' ) === false )
+if ( mb_strpos( $extra['FROM'], 'student_mp_stats sms' ) === false )
 {
-	$extra['FROM'] .= ',STUDENT_MP_STATS sms';
+	$extra['FROM'] .= ',student_mp_stats sms';
 	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'";
 }
 
