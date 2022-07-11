@@ -144,7 +144,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 							$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,
 							p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,
 							sjp.STUDENT_RELATION" . $people_custom . "
-							FROM PEOPLE p,students_join_people sjp
+							FROM people p,students_join_people sjp
 							WHERE p.PERSON_ID=sjp.PERSON_ID
 							AND sjp.STUDENT_ID='" . UserStudentID() . "'
 							AND sjp.ADDRESS_ID='" . (int) $address['ADDRESS_ID'] . "'" );

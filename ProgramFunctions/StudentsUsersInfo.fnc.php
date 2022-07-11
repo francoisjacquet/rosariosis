@@ -17,7 +17,7 @@
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string          Text Input
  */
@@ -79,7 +79,7 @@ function _makeTextInput( $column, $name, $request )
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string          Date Input
  */
@@ -125,7 +125,7 @@ function _makeDateInput( $column, $name, $request )
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string          Select Input
  */
@@ -189,7 +189,7 @@ function _makeSelectInput( $column, $name, $request )
  *
  * @param  string $column      Field column.
  * @param  string $name        Field name.
- * @param  string $request     students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request     students|staff|values[people]|values[ADDRESS].
  * @param  array  $options_RET Options array (optional).
  *
  * @return string          Auto Select Input
@@ -244,10 +244,10 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 				AND a.CUSTOM_" . $field['ID'] . " IS NOT NULL
 				ORDER BY SORT_KEY";
 		}
-		elseif ( $request === 'values[PEOPLE]' )
+		elseif ( $request === 'values[people]' )
 		{
 			$options_SQL = "SELECT DISTINCT p.CUSTOM_" . $field['ID'] . ",upper(p.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
-				FROM PEOPLE p,students_join_people sjp,STUDENTS s,STUDENT_ENROLLMENT sse
+				FROM people p,students_join_people sjp,STUDENTS s,STUDENT_ENROLLMENT sse
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND s.STUDENT_ID=sjp.STUDENT_ID
 				AND sse.STUDENT_ID=s.STUDENT_ID
@@ -343,7 +343,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string          Checkbox Input
  */
@@ -388,7 +388,7 @@ function _makeCheckboxInput( $column, $name, $request )
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string          Textarea Input
  */
@@ -430,7 +430,7 @@ function _makeTextAreaInput( $column, $name, $request )
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string          Files Input
  */
@@ -524,7 +524,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
  *
  * @param  string $column  Field column.
  * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return string Multiple Input
  */
@@ -1014,7 +1014,7 @@ function _makeSchoolInput( $value, $column )
  * Is New Student / User / People / Address?
  * Local function
  *
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $request students|staff|values[people]|values[ADDRESS].
  *
  * @return boolean true if new, else false
  */
@@ -1034,7 +1034,7 @@ function _isNew( $request )
 
 		break;
 
-		case 'values[PEOPLE]':
+		case 'values[people]':
 
 			$request_key = 'person_id';
 

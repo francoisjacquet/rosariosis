@@ -157,17 +157,17 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
-	if ( ! empty( $_REQUEST['values']['PEOPLE'] ) )
+	if ( ! empty( $_REQUEST['values']['people'] ) )
 	{
 		// FJ other fields required.
-		$required_error = CheckRequiredCustomFields( 'people_fields', $_REQUEST['values']['PEOPLE'] );
+		$required_error = CheckRequiredCustomFields( 'people_fields', $_REQUEST['values']['people'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values']['PEOPLE'] = FilterCustomFieldsMarkdown( 'people_fields', 'values', 'PEOPLE' );
+		$_REQUEST['values']['people'] = FilterCustomFieldsMarkdown( 'people_fields', 'values', 'people' );
 
 		if ( $_REQUEST['person_id'] !== 'new' )
 		{
-			$sql = "UPDATE PEOPLE SET ";
+			$sql = "UPDATE people SET ";
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM people_fields
@@ -175,7 +175,7 @@ if ( ! empty( $_POST['values'] )
 
 			$go = 0;
 
-			foreach ( (array) $_REQUEST['values']['PEOPLE'] as $column => $value )
+			foreach ( (array) $_REQUEST['values']['people'] as $column => $value )
 			{
 				if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
 				{
@@ -202,14 +202,14 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$sql = "INSERT INTO PEOPLE ";
+			$sql = "INSERT INTO people ";
 
 			$fields = '';
 			$values = '';
 
 			$go = 0;
 
-			foreach ( (array) $_REQUEST['values']['PEOPLE'] as $column => $value )
+			foreach ( (array) $_REQUEST['values']['people'] as $column => $value )
 			{
 				if ( is_array( $value ) )
 				{
@@ -361,7 +361,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 				FROM students_join_people
 				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" ) )
 			{
-				$delete_sql = "DELETE FROM PEOPLE WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
+				$delete_sql = "DELETE FROM people WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
 				$delete_sql .= "DELETE FROM people_join_contacts WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
 
 				DBQuery( $delete_sql );
@@ -685,7 +685,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 				sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
-				FROM PEOPLE p,students_join_people sjp
+				FROM people p,students_join_people sjp
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND sjp.STUDENT_ID='" . UserStudentID() . "'
 				AND sjp.ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
@@ -1384,7 +1384,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 					if ( $_REQUEST['person_id'] !== 'new' )
 					{
-						$value = DBGet( "SELECT * FROM PEOPLE WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
+						$value = DBGet( "SELECT * FROM people WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 						$value = $value[1];
 					}
 					else
@@ -1392,7 +1392,7 @@ if ( ! $_REQUEST['modfunc'] )
 						$value = [];
 					}
 
-					$request = 'values[PEOPLE]';
+					$request = 'values[people]';
 					echo '<table>';
 
 					foreach ( (array) $categories_RET as $fields_RET )
@@ -1434,7 +1434,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				$people_RET = DBGet( "SELECT DISTINCT p.PERSON_ID,
 					p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
-					FROM PEOPLE p,students_join_people sjp
+					FROM people p,students_join_people sjp
 					WHERE sjp.PERSON_ID=p.PERSON_ID
 					AND sjp.ADDRESS_ID" . ( $_REQUEST['address_id'] != '0' ? '!=' : '=' ) . "'0'
 					AND p.PERSON_ID NOT IN (SELECT PERSON_ID
@@ -1542,7 +1542,7 @@ function _makePeopleInput( $value, $column, $title = '' )
 
 	$div = $_REQUEST['person_id'] == 'new';
 
-	$table = $column == 'STUDENT_RELATION' ? 'students_join_people' : 'PEOPLE';
+	$table = $column == 'STUDENT_RELATION' ? 'students_join_people' : 'people';
 
 	return TextInput(
 		$value,

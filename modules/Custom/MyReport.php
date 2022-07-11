@@ -61,7 +61,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['FROM'] .= " LEFT OUTER JOIN students_join_people sjp
 				ON (sjp.STUDENT_ID=ssm.STUDENT_ID AND sjp.ADDRESS_ID=adr.ADDRESS_ID)
-			LEFT OUTER JOIN PEOPLE p
+			LEFT OUTER JOIN people p
 				ON (p.PERSON_ID=sjp.PERSON_ID)";
 
 		//$extra['WHERE'] = " AND (adr.ADDRESS_ID IS NULL OR adr.ADDRESS_ID=sja.ADDRESS_ID)";

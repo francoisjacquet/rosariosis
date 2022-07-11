@@ -410,7 +410,7 @@ function FilesUploadUpdate( $table, $request, $path )
 			{
 				$where_sql = "ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'";
 			}
-			elseif ( $table === 'PEOPLE' )
+			elseif ( $table === 'people' )
 			{
 				$where_sql = "PERSON_ID='" . (int) $_REQUEST['person_id'] . "'";
 			}

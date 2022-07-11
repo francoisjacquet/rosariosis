@@ -1,7 +1,7 @@
 <?php
 
 $person_RET = DBGet( "SELECT *
-	FROM PEOPLE p,students_join_people sjp
+	FROM people p,students_join_people sjp
 	WHERE p.PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
 	AND sjp.PERSON_ID=p.PERSON_ID
 	AND sjp.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'" );

@@ -410,8 +410,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( ! empty( $_REQUEST['person_id'] ) )
 			{
 				$uploaded = FilesUploadUpdate(
-					'PEOPLE',
-					'valuesPEOPLE',
+					'people',
+					'valuespeople',
 					$FileUploadsPath . 'Contact/' . $_REQUEST['person_id'] . '/'
 				);
 			}
@@ -606,7 +606,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		{
 			$file = $FileUploadsPath . 'People/' . $_REQUEST['person_id'] . '/' . $filename;
 
-			DBQuery( "UPDATE PEOPLE
+			DBQuery( "UPDATE people
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 		}

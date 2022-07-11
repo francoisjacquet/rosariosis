@@ -105,7 +105,7 @@ if ( isset( $_POST['tables'] )
 
 						if ( $table === 'people_fields' )
 						{
-							AddDBField( 'PEOPLE', $id, $columns['TYPE'] );
+							AddDBField( 'people', $id, $columns['TYPE'] );
 
 							$_REQUEST['id'] = $id;
 						}
@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		if ( DeletePrompt( _( 'Contact Field' ) ) )
 		{
-			DeleteDBField( 'PEOPLE', $_REQUEST['id'] );
+			DeleteDBField( 'people', $_REQUEST['id'] );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		if ( DeletePrompt( _( 'Contact Field Category' ) . ' ' .
 				_( 'and all fields in the category' ) ) )
 		{
-			DeleteDBFieldCategory( 'PEOPLE', $_REQUEST['category_id'] );
+			DeleteDBFieldCategory( 'people', $_REQUEST['category_id'] );
 
 			// Unset modfunc & category ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'category_id' ] );

@@ -372,7 +372,7 @@ function _update46beta()
  * address_fields, custom_fields, people_fields, school_fields & staff_fields tables
  *
  * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
- * ADDRESS, STUDENTS, PEOPLE, SCHOOLS & STAFF tables
+ * ADDRESS, STUDENTS, people, SCHOOLS & STAFF tables
  *
  * Local function
  *
@@ -416,7 +416,7 @@ function _update47beta()
 
 	/**
 	 * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
-	 * ADDRESS, STUDENTS, PEOPLE, SCHOOLS & STAFF tables
+	 * ADDRESS, STUDENTS, people, SCHOOLS & STAFF tables
 	 */
 	$types = "'select','autos','exports','multiple','text','textarea'";
 
@@ -440,7 +440,7 @@ function _update47beta()
 
 	foreach ( (array) $fields_column_RET as $field_column )
 	{
-		$sql_fields_column_type .= "ALTER TABLE PEOPLE
+		$sql_fields_column_type .= "ALTER TABLE people
 			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
 	}
 

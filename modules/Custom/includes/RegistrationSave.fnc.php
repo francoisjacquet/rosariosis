@@ -395,7 +395,7 @@ function RegistrationSaveContactNameFields( $config, $values )
 		return 0;
 	}
 
-	$sql = "INSERT INTO PEOPLE ";
+	$sql = "INSERT INTO people ";
 
 	$fields = 'LAST_NAME,FIRST_NAME,MIDDLE_NAME,';
 
