@@ -96,7 +96,7 @@ function _classSearchWidgetFindCourse( $extra )
 	echo '</select></td></tr>';
 
 	$RET = DBGet( "SELECT PERIOD_ID,TITLE
-		FROM SCHOOL_PERIODS
+		FROM school_periods
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER" );

@@ -214,10 +214,10 @@ $codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE
 	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 
 $periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE
-FROM SCHOOL_PERIODS
+FROM school_periods
 WHERE SCHOOL_ID='" . UserSchool() . "'
 AND SYEAR='" . UserSyear() . "'
-AND EXISTS (SELECT '' FROM course_periods WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
+AND EXISTS (SELECT '' FROM course_periods WHERE PERIOD_ID=school_periods.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
 ORDER BY SORT_ORDER" );
 
 $categories_RET = DBGet( "SELECT ID,TITLE
@@ -269,7 +269,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 			cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,s.STUDENT_ID AS ATTENDANCE_CODE,
 			s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,
 			s.STUDENT_ID AS COMMENT
-		FROM schedule s,courses c,course_periods cp,SCHOOL_PERIODS p,attendance_calendar ac, course_period_school_periods cpsp
+		FROM schedule s,courses c,course_periods cp,school_periods p,attendance_calendar ac, course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND s.SYEAR='" . UserSyear() . "'
 		AND s.SCHOOL_ID='" . UserSchool() . "'
@@ -303,7 +303,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		$schedule_RET = DBGet( "SELECT
 		s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
 		s.STUDENT_ID AS ATTENDANCE_CODE,s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS COMMENT
-		FROM schedule s,courses c,course_periods cp,SCHOOL_PERIODS p,attendance_calendar ac, course_period_school_periods cpsp
+		FROM schedule s,courses c,course_periods cp,school_periods p,attendance_calendar ac, course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
 		s.SYEAR='" . UserSyear() . "' AND s.SCHOOL_ID='" . UserSchool() . "'
 		AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")

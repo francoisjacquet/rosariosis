@@ -313,7 +313,7 @@ switch ( User( 'PROFILE' ) )
 					// FJ multiple school periods for a course period.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,SCHOOLS s,
+					FROM attendance_calendar acc,course_periods cp,school_periods sp,SCHOOLS s,
 					STAFF st,course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM schedule se
@@ -357,7 +357,7 @@ switch ( User( 'PROFILE' ) )
 				{
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,SCHOOLS s,
+					FROM attendance_calendar acc,course_periods cp,school_periods sp,SCHOOLS s,
 					STAFF st, course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM schedule se
@@ -601,7 +601,7 @@ switch ( User( 'PROFILE' ) )
 					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,
+					FROM attendance_calendar acc,course_periods cp,school_periods sp,
 					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM schedule se
@@ -644,7 +644,7 @@ switch ( User( 'PROFILE' ) )
 					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM attendance_calendar acc,course_periods cp,SCHOOL_PERIODS sp,
+					FROM attendance_calendar acc,course_periods cp,school_periods sp,
 					course_period_school_periods cpsp
 					WHERE EXISTS(SELECT 1
 						FROM schedule se

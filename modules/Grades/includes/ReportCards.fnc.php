@@ -958,9 +958,9 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		}
 
 		// FJ multiple school periods for a course period.
-		//$extra['FROM'] .= ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,SCHOOL_PERIODS sp";
+		//$extra['FROM'] .= ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,school_periods sp";
 		$extra['FROM'] = ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,
-			SCHOOL_PERIODS sp,course_period_school_periods cpsp";
+			school_periods sp,course_period_school_periods cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/

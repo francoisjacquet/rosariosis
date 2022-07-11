@@ -36,7 +36,7 @@ else
 }
 
 $periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
-	FROM SCHOOL_PERIODS
+	FROM school_periods
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	ORDER BY SORT_ORDER" );
@@ -84,7 +84,7 @@ echo '</form>';
 
 //FJ multiple school periods for a course period
 /*$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID
-FROM STAFF s,course_periods cp,SCHOOL_PERIODS sp
+FROM STAFF s,course_periods cp,school_periods sp
 WHERE
 sp.PERIOD_ID = cp.PERIOD_ID
 AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
@@ -94,7 +94,7 @@ AND NOT EXISTS (SELECT '' FROM eligibility_completed ac WHERE ac.STAFF_ID=cp.TEA
 ";*/
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,
 	s.STAFF_ID,s.ROLLOVER_ID,cp.TITLE AS CP_TITLE
-	FROM STAFF s,course_periods cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+	FROM STAFF s,course_periods cp,school_periods sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID

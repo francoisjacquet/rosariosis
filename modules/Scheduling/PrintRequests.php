@@ -141,7 +141,7 @@ function _getPeriod( $period_id )
 	if ( empty( $periods_RET ) )
 	{
 		$periods_RET = DBGet( "SELECT TITLE,PERIOD_ID
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE SYEAR='" . UserSyear() . "'", [], [ 'PERIOD_ID' ] );
 	}
 

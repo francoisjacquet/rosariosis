@@ -3,7 +3,7 @@
 $tables = [
 	'config' => _( 'School Configuration' ),
 	'school_marking_periods' => _( 'Marking Periods' ),
-	'SCHOOL_PERIODS' => _( 'School Periods' ),
+	'school_periods' => _( 'School Periods' ),
 	'school_gradelevels' => _( 'Grade Levels' ),
 	'report_card_grades' => _( 'Report Card Grade Codes' ),
 	'report_card_comments' => _( 'Report Card Comment Codes' ),
@@ -138,13 +138,13 @@ function _rollover( $table )
 
 		break;
 
-		case 'SCHOOL_PERIODS':
+		case 'school_periods':
 
-			DBQuery( "INSERT INTO SCHOOL_PERIODS (SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,
+			DBQuery( "INSERT INTO school_periods (SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,
 					SHORT_NAME,LENGTH,ATTENDANCE)
 				SELECT SYEAR,
 					'" . $id . "' AS SCHOOL_ID,SORT_ORDER,TITLE,SHORT_NAME,LENGTH,ATTENDANCE
-					FROM SCHOOL_PERIODS
+					FROM school_periods
 					WHERE SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'" );
 

@@ -223,7 +223,7 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 	{
 		// Get Blocks
 		$blocks_RET = DBGet( "SELECT DISTINCT BLOCK
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND BLOCK IS NOT NULL

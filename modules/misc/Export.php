@@ -221,7 +221,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		$fields_list['PERIOD_ATTENDANCE'] = _( 'Teacher' );
 
 		$periods_RET = DBGet( "SELECT TITLE,PERIOD_ID
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE SYEAR='".UserSyear()."'
 			AND SCHOOL_ID='".UserSchool()."'
 			ORDER BY SORT_ORDER" );
@@ -303,9 +303,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	if ( ! empty( $_REQUEST['fields']['PERIOD_ATTENDANCE'] ) )
 	{
 		//FJ multiple school periods for a course period
-		//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,schedule ss,course_periods cp,SCHOOL_PERIODS p WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
+		//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,schedule ss,course_periods cp,school_periods p WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
 		$extra['SELECT'] .= ',(SELECT CONCAT(st.FIRST_NAME, \' \', st.LAST_NAME, \' - \', coalesce(cp.ROOM,\' \'))
-		FROM STAFF st,schedule ss,course_periods cp,SCHOOL_PERIODS p,course_period_school_periods cpsp
+		FROM STAFF st,schedule ss,course_periods cp,school_periods p,course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND ss.STUDENT_ID=ssm.STUDENT_ID
 		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
@@ -681,7 +681,7 @@ else
 		$fields_list['Scheduling']['PERIOD_ATTENDANCE'] = _( 'Attendance Period Teacher' ) . ' - ' . _( 'Room' );
 
 		$periods_RET = DBGet( "SELECT TITLE,PERIOD_ID
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE SYEAR='".UserSyear()."'
 			AND SCHOOL_ID='".UserSchool()."'
 			ORDER BY SORT_ORDER" );

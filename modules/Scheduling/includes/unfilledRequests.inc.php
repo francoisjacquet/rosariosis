@@ -82,7 +82,7 @@ function _getPeriod( $period_id )
 
 	if ( empty( $periods_RET ) )
 	{
-		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='" . UserSyear() . "'";
+		$sql = "SELECT TITLE, PERIOD_ID FROM school_periods WHERE SYEAR='" . UserSyear() . "'";
 		$periods_RET = DBGet( $sql, [], [ 'PERIOD_ID' ] );
 	}
 

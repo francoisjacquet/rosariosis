@@ -393,7 +393,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	foreach ( $other_school_p as $school_p )
 	{
 		$school_p_title = DBGetOne( "SELECT TITLE
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE PERIOD_ID='" . (int) $school_p['PERIOD_ID'] . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
@@ -429,7 +429,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	if ( $cpsp_id )
 	{
 		$school_period_title = DBGetOne( "SELECT sp.TITLE
-			FROM SCHOOL_PERIODS sp,course_period_school_periods cpsp
+			FROM school_periods sp,course_period_school_periods cpsp
 			WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
 			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . (int) $cpsp_id . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
@@ -438,7 +438,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	else
 	{
 		$school_period_title = DBGetOne( "SELECT TITLE
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE PERIOD_ID='" . (int) $columns['PERIOD_ID'] . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );

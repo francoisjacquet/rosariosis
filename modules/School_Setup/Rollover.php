@@ -13,7 +13,7 @@ $next_syear = UserSyear() + 1;
 $tables = [
 	'SCHOOLS' => _( 'Schools' ),
 	'STAFF' => _( 'Users' ),
-	'SCHOOL_PERIODS' => _( 'School Periods' ),
+	'school_periods' => _( 'School Periods' ),
 	'school_marking_periods' => _( 'Marking Periods' ),
 	'attendance_calendars' => _( 'Calendars' ),
 	'attendance_codes' => _( 'Attendance Codes' ),
@@ -135,7 +135,7 @@ if ( Prompt(
 
 	if ( ! ( isset( $_REQUEST['tables']['courses'] )
 		&& ( ( ! isset( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['SCHOOL_PERIODS'] ) && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['school_periods'] ) && $exists_RET['school_periods'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['school_marking_periods'] ) && $exists_RET['school_marking_periods'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
 			|| ( ! isset( $_REQUEST['tables']['report_card_grades'] ) && $exists_RET['report_card_grades'][1]['COUNT'] < 1 ) ) ) )
@@ -404,21 +404,21 @@ function Rollover( $table, $mode = 'delete' )
 
 			break;
 
-		case 'SCHOOL_PERIODS':
+		case 'school_periods':
 
 			if ( $mode === 'delete' )
 			{
-				DBQuery( "DELETE FROM SCHOOL_PERIODS
+				DBQuery( "DELETE FROM school_periods
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . $next_syear . "'" );
 
 				break;
 			}
 
-			DBQuery( "INSERT INTO SCHOOL_PERIODS (SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,
+			DBQuery( "INSERT INTO school_periods (SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,
 				SHORT_NAME,LENGTH,ATTENDANCE,ROLLOVER_ID)
 				SELECT SYEAR+1,SCHOOL_ID,SORT_ORDER,TITLE,
-				SHORT_NAME,LENGTH,ATTENDANCE,PERIOD_ID FROM SCHOOL_PERIODS
+				SHORT_NAME,LENGTH,ATTENDANCE,PERIOD_ID FROM school_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -692,7 +692,7 @@ function Rollover( $table, $mode = 'delete' )
 						WHERE cpsp.COURSE_PERIOD_ID=cp.ROLLOVER_ID
 						LIMIT 1),
 					(SELECT n.PERIOD_ID
-						FROM SCHOOL_PERIODS n
+						FROM school_periods n
 						WHERE n.ROLLOVER_ID=cpsp.PERIOD_ID
 						AND n.SYEAR='" . $next_syear . "'
 						AND n.SCHOOL_ID='" . UserSchool() . "'

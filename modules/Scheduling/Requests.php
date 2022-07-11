@@ -289,9 +289,9 @@ function _makePeriod( $value, $column )
 	global $THIS_RET;
 
 	// FJ multiple school periods for a course period.
-	// $periods_RET = DBGet( "SELECT p.TITLE,p.PERIOD_ID FROM SCHOOL_PERIODS p,course_periods cp WHERE p.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'" );
+	// $periods_RET = DBGet( "SELECT p.TITLE,p.PERIOD_ID FROM school_periods p,course_periods cp WHERE p.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'" );
 	$periods_RET = DBGet( "SELECT p.TITLE,p.PERIOD_ID
-		FROM SCHOOL_PERIODS p,course_periods cp,course_period_school_periods cpsp
+		FROM school_periods p,course_periods cp,course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND p.PERIOD_ID=cpsp.PERIOD_ID
 		AND cp.COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'" );

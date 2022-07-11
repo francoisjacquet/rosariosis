@@ -92,9 +92,9 @@ if ( $_REQUEST['search_modfunc']
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM course_periods WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER" );
+			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM school_periods sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM course_periods WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER" );
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
-			FROM SCHOOL_PERIODS sp
+			FROM school_periods sp
 			WHERE sp.SYEAR='" . UserSyear() . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
 			AND (SELECT count(1)
@@ -109,7 +109,7 @@ if ( $_REQUEST['search_modfunc']
 		else
 		{
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
-			FROM SCHOOL_PERIODS sp,course_periods cp, course_period_school_periods cpsp
+			FROM school_periods sp,course_periods cp, course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			AND sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -191,7 +191,7 @@ if ( $_REQUEST['student_id']
 		/*$sql = "SELECT
 				cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cp.PERIOD_ID
 			FROM
-				schedule s,courses c,course_periods cp,SCHOOL_PERIODS sp
+				schedule s,courses c,course_periods cp,school_periods sp
 			WHERE
 				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
@@ -201,7 +201,7 @@ if ( $_REQUEST['student_id']
 			ORDER BY sp.SORT_ORDER
 			";*/
 		$sql = "SELECT cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
-			FROM schedule s,courses c,course_periods cp,SCHOOL_PERIODS sp,course_period_school_periods cpsp
+			FROM schedule s,courses c,course_periods cp,school_periods sp,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND	s.COURSE_ID=c.COURSE_ID
 			AND s.COURSE_ID=cp.COURSE_ID

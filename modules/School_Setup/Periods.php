@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE SCHOOL_PERIODS SET ";
+					$sql = "UPDATE school_periods SET ";
 
 					foreach ( (array) $columns as $column => $value )
 					{
@@ -57,7 +57,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				// New: check for Title.
 				elseif ( $columns['TITLE'] )
 				{
-					$sql = "INSERT INTO SCHOOL_PERIODS ";
+					$sql = "INSERT INTO school_periods ";
 
 					$fields = 'SCHOOL_ID,SYEAR,';
 					$values = "'" . UserSchool() . "','" . UserSyear() . "',";
@@ -96,7 +96,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Period' ) ) )
 	{
-		DBQuery( "DELETE FROM SCHOOL_PERIODS
+		DBQuery( "DELETE FROM school_periods
 			WHERE PERIOD_ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect.
@@ -118,7 +118,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND cp.SYEAR='" . UserSyear() . "'
 			AND cp.SCHOOL_ID='" . UserSchool() . "'
 			LIMIT 1) AS REMOVE
-		FROM SCHOOL_PERIODS sp
+		FROM school_periods sp
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER,TITLE",

@@ -29,7 +29,7 @@ if ( $_REQUEST['search_modfunc']
 	if ( ! UserStudentID() && ! $_REQUEST['student_id'] )
 	{
 		$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
-		FROM SCHOOL_PERIODS sp
+		FROM school_periods sp
 		WHERE sp.SYEAR='" . UserSyear() . "'
 		AND sp.SCHOOL_ID='" . UserSchool() . "'
 		AND EXISTS (SELECT ''
@@ -90,7 +90,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 		else
 		{
 			$period_ids_RET = DBGet( "SELECT PERIOD_ID
-				FROM SCHOOL_PERIODS
+				FROM school_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" );
@@ -225,9 +225,9 @@ if ( $is_student_report )
 	}
 
 	//FJ multiple school periods for a course period
-	//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,schedule s,course_periods cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER" );
+	//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM school_periods sp,schedule s,course_periods cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER" );
 	$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
-	FROM SCHOOL_PERIODS sp,schedule s,course_periods cp,course_period_school_periods cpsp
+	FROM school_periods sp,schedule s,course_periods cp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.SCHOOL_ID='" . UserSchool() . "'
 	AND sp.SYEAR='" . UserSyear() . "'

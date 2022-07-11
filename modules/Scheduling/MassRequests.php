@@ -121,7 +121,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			<tr class="st"><td><label><select name="with_period_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 		$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
-			FROM SCHOOL_PERIODS
+			FROM school_periods
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY SORT_ORDER" );
