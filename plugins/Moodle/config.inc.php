@@ -86,7 +86,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 	// Users auth='manual'.
 	$users = MoodleUsersList( 'auth', 'manual' );
 
-	// Filter users confirmed=true, suspended=false, and id not exists in MOODLEXROSARIO table.
+	// Filter users confirmed=true, suspended=false, and id not exists in moodlexrosario table.
 	$users_filtered = MoodleUsersFilter( $users );
 
 	if ( ! empty( $_REQUEST['values'] ) )

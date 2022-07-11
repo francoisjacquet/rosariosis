@@ -54,7 +54,7 @@ function MoodleUsersList( $key, $value )
 
 /**
  * Filter Moodle Users
- * Users where confirmed=true, suspended=false, and id not exists in MOODLEXROSARIO table.
+ * Users where confirmed=true, suspended=false, and id not exists in moodlexrosario table.
  *
  * @since 5.9
  *
@@ -67,7 +67,7 @@ function MoodleUsersFilter( $users )
 	$filtered_users = [];
 
 	$moodlexrosario_user_ids_RET = DBGet( "SELECT MOODLE_ID
-		FROM MOODLEXROSARIO
+		FROM moodlexrosario
 		WHERE " . DBEscapeIdentifier( 'COLUMN' ) . "='student_id'
 		OR " . DBEscapeIdentifier( 'COLUMN' ) . "='staff_id'", [], [ 'MOODLE_ID' ] );
 
@@ -391,7 +391,7 @@ function MoodleUserImportStudent( $user )
 	$sql .= '(' . $fields . ') values(' . $values . ')';
 	DBQuery( $sql );
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('student_id','" . $student_id . "'," . $user['id'] . ")" );
 
 	return $student_id;
@@ -509,7 +509,7 @@ function MoodleUserImportUser( $user, $profile )
 
 	$staff_id = DBLastInsertID();
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
+	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
 		VALUES('staff_id','" . $staff_id . "'," . $user['id'] . ")" );
 
 	return $staff_id;

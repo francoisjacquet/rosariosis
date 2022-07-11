@@ -91,7 +91,7 @@ function core_user_create_users_response( $response )
 		return null;
 	}
 
-	DBQuery( "INSERT INTO MOODLEXROSARIO (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
+	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
 		VALUES('staff_id', '" . $id . "', " . $response[0]['id'] . ")" );
 
 	return null;
