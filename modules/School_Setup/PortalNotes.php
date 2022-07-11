@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			&& $_POST['values'] ) )
 	&& AllowEdit() )
 {
-	$notes_RET = DBGet( "SELECT ID FROM PORTAL_NOTES WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
+	$notes_RET = DBGet( "SELECT ID FROM portal_notes WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
 
 	foreach ( (array) $notes_RET as $note_id )
 	{
@@ -72,7 +72,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE PORTAL_NOTES SET ";
+				$sql = "UPDATE portal_notes SET ";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -116,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				',' . $_REQUEST['values']['new']['PUBLISHED_PROFILES'] :
 				'';
 
-				$sql = "INSERT INTO PORTAL_NOTES ";
+				$sql = "INSERT INTO portal_notes ";
 
 				//FJ file attached to portal notes
 				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
@@ -186,7 +186,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		// FJ file attached to portal notes.
 		$file_to_remove = DBGetOne( "SELECT FILE_ATTACHED
-			FROM PORTAL_NOTES
+			FROM portal_notes
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( $file_to_remove
@@ -195,7 +195,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			unlink( $file_to_remove );
 		}
 
-		DBQuery( "DELETE FROM PORTAL_NOTES WHERE ID='" . (int) $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM portal_notes WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		//hook
 		do_action( 'School_Setup/PortalNotes.php|delete_portal_note' );
@@ -212,7 +212,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// File attached to portal notes.
 	$notes_RET = DBGet( "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
 		CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
-	FROM PORTAL_NOTES
+	FROM portal_notes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC", [
