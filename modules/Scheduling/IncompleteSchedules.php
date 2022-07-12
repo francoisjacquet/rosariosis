@@ -21,28 +21,27 @@ if ( ! empty( $period_select ) )
 	echo '</form>';
 }
 
+Widgets( 'course' );
+Widgets( 'request' );
+
 if ( $_REQUEST['search_modfunc'] === 'list' )
 {
-	Widgets( 'course' );
-	Widgets( 'request' );
-	$extra['SELECT'] .= ',sp.PERIOD_ID';
+	$extra2 = $extra;
+
+	$extra2['SELECT'] .= ',sp.PERIOD_ID';
 	//FJ multiple school periods for a course period
 	//$extra['FROM'] .= ',school_periods sp,schedule ss,course_periods cp';
-	$extra['FROM'] .= ',school_periods sp,schedule ss,course_periods cp,course_period_school_periods cpsp';
+	$extra2['FROM'] .= ',school_periods sp,schedule ss,course_periods cp,course_period_school_periods cpsp';
 	/*$extra['WHERE'] .= ' AND (\''.DBDate().'\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',UserMP()).') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID ';*/
-	$extra['WHERE'] .= ' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND (\'' . DBDate() . '\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN (' . GetAllMP( 'QTR', UserMP() ) . ') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=sp.PERIOD_ID ';
+	$extra2['WHERE'] .= ' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND (\'' . DBDate() . '\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN (' . GetAllMP( 'QTR', UserMP() ) . ') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=sp.PERIOD_ID ';
 	//if (UserStudentID())
 	//	$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."' ";
-	$extra['group'] = [ 'STUDENT_ID', 'PERIOD_ID' ];
+	$extra2['group'] = [ 'STUDENT_ID', 'PERIOD_ID' ];
 
-	$schedule_RET = GetStuList( $extra );
-	unset( $extra );
-	unset( $_ROSARIO['Widgets'] );
+	$schedule_RET = GetStuList( $extra2 );
 }
 
 $extra['new'] = true;
-Widgets( 'course' );
-Widgets( 'request' );
 
 foreach ( (array) $periods_RET as $period )
 {
@@ -64,6 +63,11 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 }
 else
 {
+	if ( ! empty( $_ROSARIO['SearchTerms'] ) )
+	{
+		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
+	}
+
 	$students_RET = GetStuList( $extra );
 	$bad_students[0] = [];
 
