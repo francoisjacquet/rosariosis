@@ -15,6 +15,7 @@ Changes in 10.0
 - HTML Link is selected: bold in ScheduleReport.php
 - Display Period title if no short name set in IncompleteSchedules.php
 - Fix Widget search & add Search Terms header in IncompleteSchedules.php
+- Add Schedule link & photo tooltip to Student name in Scheduling/AddDrop.php
 
 Changes in 9.3
 --------------
