@@ -91,6 +91,12 @@ else
 	{
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
 		$link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
+
+		if ( isset( $_REQUEST['_search_all_schools'] )
+			&& $_REQUEST['_search_all_schools'] === 'Y' )
+		{
+			$link['FULL_NAME']['variables']['school_id'] = 'SCHOOL_ID';
+		}
 	}
 	else
 	{
