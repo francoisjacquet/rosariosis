@@ -74,7 +74,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 							foreach ( (array) $_REQUEST['student'] as $student_id )
 							{
-								if ( $current_RET[ $student_id ] )
+								if ( ! empty( $current_RET[ $student_id ] ) )
 								{
 									continue;
 								}
