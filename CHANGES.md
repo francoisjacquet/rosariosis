@@ -13,6 +13,7 @@ Changes in 10.0
 - Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
 - Remove semicolon before "With" & "On" values in PrintRequests.php
 - HTML Link is selected: bold in ScheduleReport.php
+- Display Period title if no short name set in IncompleteSchedules.php
 
 Changes in 9.3
 --------------

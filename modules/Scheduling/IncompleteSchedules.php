@@ -53,7 +53,7 @@ foreach ( (array) $periods_RET as $period )
 	// Use Period Short Name to gain space.
 	$period_column_label = $period['SHORT_NAME'] ? $period['SHORT_NAME'] : $period['TITLE'];
 
-	$extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period['SHORT_NAME'];
+	$extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period_column_label;
 
 	$extra['functions']['PERIOD_' . $period['PERIOD_ID']] = '_preparePeriods';
 }
