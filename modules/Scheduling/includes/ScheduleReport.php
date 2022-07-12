@@ -64,9 +64,27 @@ if ( $_REQUEST['subject_id'] )
 		$header .= ' &rsaquo; <a href="' . URLEscape( $course_link_url ) . '">' .
 			$course_RET[1]['TITLE'] . '</a>';
 
+		$list_students = _( 'List Students' );
+
+		if ( ! empty( $_REQUEST['students'] )
+			&& empty( $_REQUEST['unscheduled'] ) )
+		{
+			// HTML Link is selected: bold.
+			$list_students = '<b>' . $list_students . '</b>';
+		}
+
+		$list_unscheduled_students = _( 'List Unscheduled Students' );
+
+		if ( ! empty( $_REQUEST['students'] )
+			&& ! empty( $_REQUEST['unscheduled'] ) )
+		{
+			// HTML Link is selected: bold.
+			$list_unscheduled_students = '<b>' . $list_unscheduled_students . '</b>';
+		}
+
 		$header2 = '<a href="' . URLEscape( $course_link_url . '&students=' . $location ) . '">' .
-		_( 'List Students' ) . '</a> | <a href="' . URLEscape( $course_link_url .
-		'&unscheduled=true&students=' . $location ) . '">' . _( 'List Unscheduled Students' ) . '</a>';
+		$list_students . '</a> | <a href="' . URLEscape( $course_link_url .
+		'&unscheduled=true&students=' . $location ) . '">' . $list_unscheduled_students . '</a>';
 
 		DrawHeader( $header );
 

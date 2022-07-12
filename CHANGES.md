@@ -12,6 +12,7 @@ Changes in 10.0
 - SQL order Grade Levels in StudentBreakdown.php
 - Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
 - Remove semicolon before "With" & "On" values in PrintRequests.php
+- HTML Link is selected: bold in ScheduleReport.php
 
 Changes in 9.3
 --------------
