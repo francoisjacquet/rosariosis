@@ -444,7 +444,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 								break; //no update
 							}
-							else
+							elseif ( ! empty( $columns['PERIOD_ID'] ) )
 							{
 								$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 							}
