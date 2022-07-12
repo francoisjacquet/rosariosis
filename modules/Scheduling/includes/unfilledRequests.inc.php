@@ -58,7 +58,8 @@ function _makeRequestTeacher( $value, $column )
 {
 	global $THIS_RET;
 
-	return ( $value ? _( 'With' ) . ': ' . GetTeacher( $value ) : '' ) . ( $THIS_RET['NOT_TEACHER_ID'] ? ( $value ? ' &ndash; ' : '' ) . _( 'Without' ) . ': ' . GetTeacher( $THIS_RET['NOT_TEACHER_ID'] ) : '' );
+	return ( $value ? _( 'With' ) . '&nbsp;' . GetTeacher( $value ) : '' ) .
+		( $THIS_RET['NOT_TEACHER_ID'] ? ( $value ? ' &mdash; ' : '' ) . _( 'Without' ) . '&nbsp;' . GetTeacher( $THIS_RET['NOT_TEACHER_ID'] ) : '' );
 }
 
 /**
@@ -69,7 +70,8 @@ function _makeRequestPeriod( $value, $column )
 {
 	global $THIS_RET;
 
-	return ( $value ? _( 'On' ) . ': ' . _getPeriod( $value ) : '' ) . ( $THIS_RET['NOT_PERIOD_ID'] ? ( $value ? ' &ndash; ' : '' ) . _( 'Not on' ) . ': ' . _getPeriod( $THIS_RET['NOT_PERIOD_ID'] ) : '' );
+	return ( $value ? _( 'On' ) . '&nbsp;' . _getPeriod( $value ) : '' ) .
+		( $THIS_RET['NOT_PERIOD_ID'] ? ( $value ? ' &mdash; ' : '' ) . _( 'Not on' ) . '&nbsp;' . _getPeriod( $THIS_RET['NOT_PERIOD_ID'] ) : '' );
 }
 
 /**
