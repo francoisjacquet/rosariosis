@@ -363,7 +363,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Click the "Create Parent Accounts for the Selected Students" button.' ) . '</p>';
 
-	$help['Custom/Registration.php'] = '<p>' . _help( '<i>Registration</i> lets you configure the Registration program\'s form and preview how it will display for Parents or Students.' ) . '</p>
+	$help['Custom/Registration.php'] = '<p>' . _help( '<i>Registration</i> lets you configure the Registration program\'s form and preview how it will be displayed to Parents or Students.' ) . '</p>
 
 	<p>' . _help( 'The <i>Registration</i> program is a convenient way to allow Students or Parents to self register their information once their Student account is activated.' ) . '</p>
 
