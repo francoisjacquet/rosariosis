@@ -10,6 +10,7 @@ Changes in 10.0
 - Use db_trans_*() functions in DeleteTransaction.fnc.php & DeleteTransactionItem.fnc.php
 - Close popup if no UserSchool in session, happens on login redirect in Warehouse.php
 - SQL order Grade Levels in StudentBreakdown.php
+- Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
 
 Changes in 9.3
 --------------
