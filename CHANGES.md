@@ -9,6 +9,7 @@ Changes in 10.0
 - Avoid regression due to lowercase table names: Maintain compatibility with add-ons using rollover_after action hook & `$_REQUEST['tables']` in Rollover.php
 - Use db_trans_*() functions in DeleteTransaction.fnc.php & DeleteTransactionItem.fnc.php
 - Close popup if no UserSchool in session, happens on login redirect in Warehouse.php
+- SQL order Grade Levels in StudentBreakdown.php
 
 Changes in 9.3
 --------------

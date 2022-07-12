@@ -46,7 +46,8 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 		$grade_levels_RET = DBGet( "SELECT TITLE
 			FROM school_gradelevels
-			WHERE SCHOOL_ID='" . UserSchool() . "'" );
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $grade_levels_RET as $grade_level )
 		{
