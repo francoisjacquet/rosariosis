@@ -35,11 +35,17 @@ else
 	$end_date = date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
 }
 
-$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE,COALESCE(SHORT_NAME,TITLE) AS SHORT_TITLE
-	FROM school_periods
-	WHERE SCHOOL_ID='" . UserSchool() . "'
-	AND SYEAR='" . UserSyear() . "'
-	ORDER BY SORT_ORDER,TITLE" );
+$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TITLE) AS SHORT_TITLE
+	FROM school_periods sp
+	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
+	AND sp.SYEAR='" . UserSyear() . "'
+	AND EXISTS (SELECT 1
+		FROM course_periods cp,course_period_school_periods cpsp
+		WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
+		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND cp.SYEAR='" . UserSyear() . "')
+	ORDER BY sp.SORT_ORDER,sp.TITLE" );
 
 $period_select = '<select name="period" id="period"><option value="">' . _( 'All' ) . '</option>';
 
