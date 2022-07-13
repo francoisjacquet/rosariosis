@@ -26,7 +26,22 @@ if ( User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'teacher' )
 	$_REQUEST['search_modfunc'] = 'list';
 }
 
-Search( 'staff_id', $extra );
+// Fix SQL error table name "sam" specified more than once
+$extra2 = $extra;
+
+if ( $_REQUEST['search_modfunc'] === 'list' )
+{
+	// Call GetStaffList() only so we calculate the $total.
+	GetStaffList( $extra );
+}
+
+// @since 10.0 Add Total sum of balances.
+$extra2['link']['add']['html'] = [
+	'FULL_NAME' => '<b>' . _( 'Total' ) . '</b>',
+	'BALANCE' => '<b>' . Currency( ( isset( $total ) ? $total * -1 : 0 ) ) . '</b>',
+];
+
+Search( 'staff_id', $extra2 );
 
 /**
  * @param $value
@@ -34,5 +49,14 @@ Search( 'staff_id', $extra );
  */
 function _makeCurrency( $value, $column )
 {
+	global $total;
+
+	if ( ! isset( $total ) )
+	{
+		$total = 0;
+	}
+
+	$total += (float) $value;
+
 	return Currency( $value * -1 );
 }
