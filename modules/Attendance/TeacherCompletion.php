@@ -35,7 +35,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		WHERE SYEAR=sp.SYEAR
 		AND PERIOD_ID=sp.PERIOD_ID
 		AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
-	ORDER BY sp.SORT_ORDER", [], [ 'PERIOD_ID' ] );
+	ORDER BY sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
 $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>" . _( 'All' ) . "</option>";
 

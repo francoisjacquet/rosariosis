@@ -28,7 +28,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.SYEAR='" . UserSyear() . "')
-	ORDER BY sp.SORT_ORDER", [], [ 'PERIOD_ID' ] );
+	ORDER BY sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
 $period_select = '<select name="period" id="period" onchange="ajaxPostForm(this.form,true);">
 	<option value="">' . _( 'All' ) . '</option>';

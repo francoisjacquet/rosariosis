@@ -19,6 +19,7 @@ Changes in 10.0
 - HTML add a11y-hidden label to select in GPARankList.php
 - Fix unset requested dates in MassCreateAssignments.php & Assignments.php
 - Add User photo tooltip in Grades/TeacherCompletion.php
+- SQL order by Period title in TeacherCompletion.php
 
 Changes in 9.3
 --------------
