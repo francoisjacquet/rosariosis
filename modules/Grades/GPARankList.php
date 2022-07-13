@@ -89,7 +89,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="' . $PHP_tmp_SELF . '" method="POST">';
 
-	$mp_select = '<select name="mp" id="mp" onchange="ajaxPostForm(this.form,true);">';
+	$mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
 
 	foreach ( (array) $mps_RET as $mp )
 	{
@@ -100,7 +100,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 	$mp_select .= '</select>
-		<label for="mp" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
+		<label for="mp-select" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
 	DrawHeader( $mp_select );
 
