@@ -20,6 +20,7 @@ Changes in 10.0
 - Fix unset requested dates in MassCreateAssignments.php & Assignments.php
 - Add User photo tooltip in Grades/TeacherCompletion.php
 - SQL order by Period title in TeacherCompletion.php
+- Use Period's Short Name when > 10 columns in the list in TeacherCompletion.php
 
 Changes in 9.3
 --------------

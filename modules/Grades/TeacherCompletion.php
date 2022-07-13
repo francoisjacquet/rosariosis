@@ -18,7 +18,7 @@ if ( empty( $_REQUEST['mp'] )
 	$_REQUEST['mp'] = UserMP();
 }
 
-$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
+$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TITLE) AS SHORT_TITLE
 	FROM school_periods sp
 	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
 	AND sp.SYEAR='" . UserSyear() . "'
@@ -92,7 +92,8 @@ AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE
 ".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
 ORDER BY FULL_NAME";*/
 
-$RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
+$RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
+	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
 	(SELECT 'Y'
 		FROM grades_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
@@ -146,9 +147,17 @@ if ( empty( $_REQUEST['period'] ) )
 
 	$columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
 
+	$period_title_column = 'TITLE';
+
+	if ( count( $periods_RET ) > 10 )
+	{
+		// Use Period's Short Name when > 10 columns in the list.
+		$period_title_column = 'SHORT_TITLE';
+	}
+
 	foreach ( (array) $periods_RET as $id => $period )
 	{
-		$columns[$id] = $period[1]['TITLE'];
+		$columns[$id] = $period[1][$period_title_column];
 	}
 
 	ListOutput( $staff_RET, $columns, 'Teacher who enters grades', 'Teachers who enter grades' );
