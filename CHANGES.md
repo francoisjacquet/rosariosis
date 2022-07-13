@@ -16,7 +16,7 @@ Changes in 10.0
 - Display Period title if no short name set in IncompleteSchedules.php
 - Fix Widget search & add Search Terms header in IncompleteSchedules.php
 - Add Schedule link & photo tooltip to Student name in Scheduling/AddDrop.php
-- HTML add a11y-hidden label to select in GPARankList.php
+- HTML add a11y-hidden label to select in GPARankList.php & Attendance/TeacherCompletion.php
 - Fix unset requested dates in MassCreateAssignments.php & Assignments.php
 - Add User photo tooltip in Grades/TeacherCompletion.php
 - SQL order by Period title in TeacherCompletion.php

@@ -16,8 +16,8 @@ $categories_RET = DBGet( "SELECT ID,TITLE
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER,TITLE" );
 
-$category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'" .
-	( $_REQUEST['table'] == '0' ? ' selected' : '' ) . ">" . _( 'Attendance' ) . "</option>";
+$category_select = '<select name="table" onChange="ajaxPostForm(this.form,true);"><option value="0"' .
+	( $_REQUEST['table'] == '0' ? ' selected' : '' ) . '>' . _( 'Attendance' ) . '</option>';
 
 foreach ( (array) $categories_RET as $category )
 {
@@ -25,7 +25,7 @@ foreach ( (array) $categories_RET as $category )
 		( ( $_REQUEST['table'] == $category['ID'] ) ? ' selected' : '' ) . ">" . $category['TITLE'] . "</option>";
 }
 
-$category_select .= "</select>";
+$category_select .= '</select>';
 
 $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 	FROM school_periods sp
@@ -37,17 +37,19 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
 	ORDER BY sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
-$period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>" . _( 'All' ) . "</option>";
+$period_select = '<select name="period" id="period" onChange="ajaxPostForm(this.form,true);">
+	<option value="">' . _( 'All' ) .'</option>';
 
 foreach ( (array) $periods_RET as $id => $period )
 {
-	$period_select .= '<option value="' . AttrEscape( $id ) . '"' . ( ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . ">" . $period[1]['TITLE'] . "</option>";
+	$period_select .= '<option value="' . AttrEscape( $id ) . '"' . ( ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . ">" . $period[1]['TITLE'] . '</option>';
 }
 
-$period_select .= "</select>";
+$period_select .= '</select>
+	<label for="period" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
-DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . ' - ' . $period_select );
+DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . ' &mdash; ' . $period_select );
 DrawHeader( '', $category_select );
 echo '</form>';
 
