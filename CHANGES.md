@@ -25,8 +25,8 @@ Changes in 10.0
 - Add note on save in EntryTimes.php
 - PHP8.1 Deprecated: trim(): Passing null to parameter in EmailReferral.fnc.php & CategoryBreakdown.php
 - Add Total sum of balances in StaffBalances.php
-- Fix French translation for "Waiver" in rosariosis.po
-- Force title & action to lowercase for French locale in Prompts.php
+- Fix French translation for "Waiver" & "Refund" in rosariosis.po
+- Force title & action to lowercase in Prompts.php
 
 Changes in 9.3
 --------------
