@@ -115,7 +115,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "')";
 
-$RET = DBGet( $sql, [], [ 'STAFF_ID', 'PERIOD_ID' ] );
+$RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID', 'PERIOD_ID' ] );
 
 $i = 0;
 
@@ -124,11 +124,8 @@ $staff_RET = [];
 foreach ( (array) $RET as $staff_id => $periods )
 {
 	$i++;
-	$staff_RET[$i]['FULL_NAME'] = MakeUserPhotoTipMessage(
-		$periods[key( $periods )][1]['STAFF_ID'],
-		$periods[key( $periods )][1]['FULL_NAME'],
-		$periods[key( $periods )][1]['ROLLOVER_ID']
-	);
+
+	$staff_RET[$i]['FULL_NAME'] = $periods[key( $periods )][1]['FULL_NAME'];
 
 	if ( empty( $_REQUEST['period'] ) )
 	{
