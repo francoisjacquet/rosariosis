@@ -18,6 +18,7 @@ Changes in 10.0
 - Add Schedule link & photo tooltip to Student name in Scheduling/AddDrop.php
 - HTML add a11y-hidden label to select in GPARankList.php
 - Fix unset requested dates in MassCreateAssignments.php & Assignments.php
+- Add User photo tooltip in Grades/TeacherCompletion.php
 
 Changes in 9.3
 --------------
