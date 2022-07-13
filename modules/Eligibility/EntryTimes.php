@@ -25,7 +25,11 @@ if ( AllowEdit()
 			ProgramConfig( 'eligibility', $title, $value );
 		}
 	}
+
+	$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
 }
+
+echo ErrorMessage( $note, 'note' );
 
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY.
 $eligibility_config = ProgramConfig( 'eligibility' );

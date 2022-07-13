@@ -22,6 +22,7 @@ Changes in 10.0
 - SQL order by Period title in TeacherCompletion.php
 - Use Period's Short Name when > 10 columns in the list in TeacherCompletion.php
 - Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
+- Add note on save in EntryTimes.php
 
 Changes in 9.3
 --------------
