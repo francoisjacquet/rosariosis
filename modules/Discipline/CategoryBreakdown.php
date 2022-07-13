@@ -121,7 +121,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 		foreach ( (array) $referrals_RET as $referral )
 		{
-			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
+			$referral['TITLE'] = explode( "||", trim( (string) $referral['TITLE'], '|' ) );
 
 			foreach ( (array) $referral['TITLE'] as $option )
 			{

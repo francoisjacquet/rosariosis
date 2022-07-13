@@ -158,7 +158,7 @@ function EmailReferralFormatFields( $referral )
 
 		if ( $data_type === 'multiple_checkbox' )
 		{
-			$referral_fields[] = $title_txt . str_replace( '||', ', ', mb_substr( $referral[ $column ], 2, -2 ) );
+			$referral_fields[] = $title_txt . str_replace( '||', ', ', mb_substr( (string) $referral[ $column ], 2, -2 ) );
 
 			continue;
 		}
