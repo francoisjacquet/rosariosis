@@ -35,7 +35,7 @@ else
 	$end_date = date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
 }
 
-$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
+$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE,COALESCE(SHORT_NAME,TITLE) AS SHORT_TITLE
 	FROM school_periods
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
@@ -153,11 +153,19 @@ foreach ( (array) $RET as $staff_id => $periods )
 
 $columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
 
+$period_title_column = 'TITLE';
+
+if ( count( $periods_RET ) > 10 )
+{
+	// Use Period's Short Name when > 10 columns in the list.
+	$period_title_column = 'SHORT_TITLE';
+}
+
 if ( empty( $_REQUEST['period'] ) )
 {
 	foreach ( (array) $periods_RET as $period )
 	{
-		$columns[$period['PERIOD_ID']] = $period['TITLE'];
+		$columns[$period['PERIOD_ID']] = $period[$period_title_column];
 	}
 }
 
