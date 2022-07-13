@@ -20,6 +20,8 @@
  */
 function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = true )
 {
+	global $locale;
+
 	// Display prompt.
 	if ( empty( $_REQUEST['delete_ok'] )
 		&& empty( $_REQUEST['delete_cancel'] ) )
@@ -30,6 +32,14 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 			$action = _( 'Delete' );
 		}
 
+		if ( mb_strpos( $locale, 'fr' ) === 0 )
+		{
+			// Force title & action to lowercase for French locale.
+			$title = mb_strtolower( $title );
+
+			$action = mb_strtolower( $action );
+		}
+
 		echo '<br />';
 
 		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
@@ -38,7 +48,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 
 		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, [ 'delete_cancel' => true ] );
 
-		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' '. $action : '' ) );
+		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' ' . $action : '' ) );
 
 		echo '<br /><div class="center">' . button( 'warning', '', '', 'bigger' ) .
 			'<h4>' . sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ) . '</h4>
