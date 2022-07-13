@@ -5,6 +5,11 @@ require_once 'modules/Grades/includes/ClassRank.inc.php';
 
 DrawHeader( ProgramTitle() );
 
+if ( empty( $_REQUEST['mp'] ) )
+{
+	$_REQUEST['mp'] = UserMP();
+}
+
 // Get all the mp's associated with the current mp
 $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 FROM school_marking_periods
@@ -79,11 +84,6 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	$mps_select .= $pro_select;
 
 	$mps_select .= '</select>';*/
-
-	if ( empty( $_REQUEST['mp'] ) )
-	{
-		$_REQUEST['mp'] = UserMP();
-	}
 
 	//bjj keeping search terms
 	$PHP_tmp_SELF = PreparePHP_SELF();
