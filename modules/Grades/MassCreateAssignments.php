@@ -237,8 +237,8 @@ if ( isset( $_POST['tables'] )
 		}
 	}
 
-	// Unset tables & redirect URL.
-	RedirectURL( 'tables' );
+	// Unset tables + related dates + CP array & redirect URL.
+	RedirectURL( [ 'tables', 'day_tables', 'month_tables', 'year_tables', 'cp_arr' ] );
 }
 
 echo ErrorMessage( $error );

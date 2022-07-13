@@ -312,8 +312,8 @@ if ( ! empty( $_POST['tables'] ) )
 		}
 	}
 
-	// Unset tables & redirect URL.
-	RedirectURL( [ 'tables' ] );
+	// Unset tables + related dates & redirect URL.
+	RedirectURL( [ 'tables', 'day_tables', 'month_tables', 'year_tables' ] );
 }
 
 // DELETE

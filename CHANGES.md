@@ -17,6 +17,7 @@ Changes in 10.0
 - Fix Widget search & add Search Terms header in IncompleteSchedules.php
 - Add Schedule link & photo tooltip to Student name in Scheduling/AddDrop.php
 - HTML add a11y-hidden label to select in GPARankList.php
+- Fix unset requested dates in MassCreateAssignments.php & Assignments.php
 
 Changes in 9.3
 --------------
