@@ -45,7 +45,7 @@ foreach ( (array) $periods_RET as $id => $period )
 $period_select .= '</select>
 	<label for="period" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
 
-$mp_select = '<select name="mp" id="mp" onchange="ajaxPostForm(this.form,true);">';
+$mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
 
 if ( $pros != '' )
 {
@@ -75,7 +75,7 @@ if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 }
 
 $mp_select .= '</select>
-	<label for="mp" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
+	<label for="mp-select" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 DrawHeader( $mp_select . ' &mdash; ' . $period_select );
