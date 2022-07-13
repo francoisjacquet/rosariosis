@@ -213,12 +213,17 @@ $codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE
 	AND SYEAR='" . UserSyear() . "'
 	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 
-$periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE
-FROM school_periods
-WHERE SCHOOL_ID='" . UserSchool() . "'
-AND SYEAR='" . UserSyear() . "'
-AND EXISTS (SELECT '' FROM course_periods WHERE PERIOD_ID=school_periods.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
-ORDER BY SORT_ORDER" );
+$periods_RET = DBGet( "SELECT sp.PERIOD_ID,COALESCE(sp.SHORT_NAME,sp.TITLE) AS SHORT_NAME,sp.TITLE
+	FROM school_periods sp
+	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
+	AND sp.SYEAR='" . UserSyear() . "'
+	AND EXISTS (SELECT '' FROM course_periods cp,course_period_school_periods cpsp
+		WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
+		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND cp.SYEAR='" . UserSyear() . "'
+		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0)
+	ORDER BY sp.SORT_ORDER,sp.TITLE" );
 
 $categories_RET = DBGet( "SELECT ID,TITLE
 	FROM attendance_code_categories
