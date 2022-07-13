@@ -39,7 +39,7 @@ $periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
 	FROM school_periods
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER,TITLE" );
 
 $period_select = '<select name="period" id="period"><option value="">' . _( 'All' ) . '</option>';
 
