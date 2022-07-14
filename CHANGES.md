@@ -18,7 +18,7 @@ Changes in 10.0
 - Add Schedule link & photo tooltip to Student name in Scheduling/AddDrop.php
 - HTML add a11y-hidden label to select in GPARankList.php & Attendance/TeacherCompletion.php
 - Fix unset requested dates in MassCreateAssignments.php & Assignments.php
-- Add User photo tooltip in Grades/TeacherCompletion.php
+- Add User / Student photo tooltip in Grades/TeacherCompletion.php & EnterEligibility.php
 - SQL order by Period title in TeacherCompletion.php
 - Use Period's Short Name when > 10 columns in the list in TeacherCompletion.php
 - Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php

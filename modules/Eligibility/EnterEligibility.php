@@ -205,6 +205,7 @@ $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 $extra['SELECT'] .= ",'' AS PASSING,'' AS BORDERLINE,'' AS FAILING,'' AS INCOMPLETE";
 
 $extra['functions'] = [
+	'FULL_NAME' => 'makePhotoTipMessage',
 	'PASSING' => 'makeRadio',
 	'BORDERLINE' => 'makeRadio',
 	'FAILING' => 'makeRadio',
