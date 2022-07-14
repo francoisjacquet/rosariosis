@@ -367,7 +367,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 				$module_title = _( str_replace( '_', ' ', $modcat ) );
 			}
 
-			echo '<h3 style="margin-bottom: 7px;"><span class="module-icon ' . $modcat . '"></span> ' . $module_title . '</h3>';
+			echo '<h3 class="dashboard-module-title"><span class="module-icon ' . $modcat . '"></span> ' . $module_title . '</h3>';
 
 			echo '<table class="widefat fixed-col"><tr><th class="align-right"><label>' . _( 'Can Use' ) . ' ' .
 				( AllowEdit() ?

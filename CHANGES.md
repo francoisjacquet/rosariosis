@@ -27,6 +27,7 @@ Changes in 10.0
 - Add Total sum of balances in StaffBalances.php
 - Fix French translation for "Waiver" & "Refund" in rosariosis.po
 - Force title & action to lowercase in Prompts.php
+- HTML use .dashboard-module-title CSS class for module titles in Profiles.php & Exceptions.php
 
 Changes in 9.3
 --------------
