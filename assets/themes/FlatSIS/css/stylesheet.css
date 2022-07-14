@@ -104,6 +104,11 @@ select {
 	max-width: 217px;
 }
 
+#search label {
+	max-width: 217px;
+	display: inline-block;
+}
+
 #search #general_table select {
 	width: 100%;
 }

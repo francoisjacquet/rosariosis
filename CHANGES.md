@@ -28,6 +28,7 @@ Changes in 10.0
 - Fix French translation for "Waiver" & "Refund" in rosariosis.po
 - Force title & action to lowercase in Prompts.php
 - HTML use .dashboard-module-title CSS class for module titles in Profiles.php & Exceptions.php
+- CSS set input label max-width on Search form in stylesheet.css
 
 Changes in 9.3
 --------------
