@@ -140,13 +140,21 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 		}
 		else
 		{
-			echo '<tr class="center"><td colspan="3"><b class="sizep2">' . SchoolInfo( 'TITLE' ) . '</b></td></tr>';
+			echo '<tr class="center"><td colspan="3"><h3>' . SchoolInfo( 'TITLE' ) . '</h3></td></tr>';
 		}
 	}
 
-	echo '<tr class="center"><td>' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . '</td>
-		<td><b class="sizep2">' . ProperDate( date( 'Y-m-d', mktime( 0, 0, 0, $_REQUEST['month'], 1, $_REQUEST['year'] ) ) ) . '</b></td>
-		<td>' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . '</td></tr></table>';
+	$menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
+
+	// Remove dummy day from proper date.
+	$proper_month_year = ucfirst( strftime_compat(
+		trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
+		strtotime( $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-28' )
+	) );
+
+	echo '<tr class="center"><td>' . $menu_title . '</td>
+		<td><h3>' . $proper_month_year . '</h3></td>
+		<td>' . $menu_title . '</td></tr></table>';
 
 	echo '<table id="calendar" class="width-100p valign-top"><thead><tr class="center">';
 
@@ -178,6 +186,15 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 
 		$day_classes = '';
 
+		if ( ! empty( $events_RET[$date] ) )
+		{
+			$day_classes .= ' full';
+		}
+		else
+		{
+			$day_classes .= ' no-school';
+		}
+
 		// Thursdays, Fridays, Saturdays.
 
 		if (  ( $i + 1 ) % 7 === 0
@@ -195,15 +212,13 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 
 		$day_number_classes = 'number';
 
-		// Bold class
-
-		if ( ! empty( $events_RET[$date] )
-			|| ! empty( $assignments_RET[$date] ) )
+		// Bold class.
+		if ( ! empty( $events_RET[$date] ) )
 		{
 			$day_number_classes .= ' bold';
 		}
 
-		echo '<td class="calendar-day' . AttrEscape( $day_classes ) . '" style="background-color:' . ( ! empty( $events_RET[$date] ) ? '#ffaaaa;' : '#fff' ) . '">
+		echo '<td class="calendar-day' . AttrEscape( $day_classes ) . '">
 			<table class="' . AttrEscape( $day_inner_classes ) . '">
 				<tr><td class="' . AttrEscape( $day_number_classes ) . '">' . $i . '</td></tr>';
 
@@ -213,7 +228,7 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 		{
 			foreach ( (array) $events_RET[$date] as $event )
 			{
-				if ( $event['TITLE'] != $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] )
+				if ( $event['TITLE'] != $menu_title )
 				{
 					echo '<i>' . $event['TITLE'] . '</i><br />';
 				}
