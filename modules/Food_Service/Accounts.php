@@ -1,6 +1,6 @@
 <?php
 
-if ( ! $_SESSION['FSA_type'] )
+if ( empty( $_SESSION['FSA_type'] ) )
 {
 	$_SESSION['FSA_type'] = 'student';
 }

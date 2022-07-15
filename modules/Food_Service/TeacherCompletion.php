@@ -58,7 +58,7 @@ $menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM food_service_menus WHERE SCHOOL_I
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {
-	if ( ! $_SESSION['FSA_menu_id'] )
+	if ( empty( $_SESSION['FSA_menu_id'] ) )
 	{
 		if ( ! empty( $menus_RET ) )
 		{
