@@ -1503,7 +1503,7 @@ if (  ( ! $_REQUEST['modfunc']
 	}
 	else
 	{
-		$link['add']['link'] = '"Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=new"';
+		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=new';
 	}
 
 	echo '<div class="st">';
@@ -1559,7 +1559,7 @@ if (  ( ! $_REQUEST['modfunc']
 		}
 		else
 		{
-			$link['add']['link'] = '"Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=new"';
+			$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=new';
 		}
 
 		echo '<div class="st">';
@@ -1635,7 +1635,7 @@ if (  ( ! $_REQUEST['modfunc']
 				}
 				else
 				{
-					$link['add']['link'] = '"Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&course_period_id=new"';
+					$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&course_period_id=new';
 				}
 			}
 

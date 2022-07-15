@@ -30,6 +30,7 @@ Changes in 10.0
 - HTML use .dashboard-module-title CSS class for module titles in Profiles.php & Exceptions.php
 - CSS set input label max-width on Search form in stylesheet.css
 - JS new default popup size: 1200x450 in warehouse.js
+- Use URLEscape() for add button link when appropriate in ListOutput.fnc.php
 
 Changes in 9.3
 --------------
