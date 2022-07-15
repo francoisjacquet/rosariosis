@@ -175,7 +175,8 @@ Calendar.setup = function (params) {
 		var dateFmt = params.dayField ? params.ifFormat : params.daFormat;
 		var mustCreate = false;
 		var cal = window.calendar;
-		var currentFieldDate = params.dayField.value && params.monthField.value && params.yearField.value ?
+		// @since 10.0 FJ set Calendar date to current fields date.
+		var currentFieldDate = params.dayField && params.dayField.value && params.monthField && params.monthField.value && params.yearField && params.yearField.value ?
 			params.yearField.value + '-' + params.monthField.value + '-' + params.dayField.value : null;
 		if (!(cal && params.cache)) {
 			window.calendar = cal = new Calendar(params.firstDay,
