@@ -58,7 +58,7 @@ function popups() {
 
 	this.open = function(url, params) {
 		if (!params)
-			params = 'scrollbars=yes,resizable=yes,width=800,height=400';
+			params = 'scrollbars=yes,resizable=yes,width=1200,height=450';
 
 		this.childs.push(window.open(url, '', params));
 	};
