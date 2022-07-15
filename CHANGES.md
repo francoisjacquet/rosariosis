@@ -33,6 +33,7 @@ Changes in 10.0
 - Use URLEscape() for add button link when appropriate in ListOutput.fnc.php
 - JS set Calendar date to current fields date in warehouse.js & calendar-setup.js
 - HTML add label to select in ActivityReport.php
+- Use Currency() function instead of number_format() in TransactionsReport.php
 
 Changes in 9.3
 --------------

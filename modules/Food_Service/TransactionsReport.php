@@ -89,8 +89,8 @@ foreach ( (array) $types as $user => $trans )
 			$TMP_types[] = [
 				'TYPE' => ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ),
 				'TRANSACTION' => $types_rows[$tran],
-				'TOTAL' => '<b>' . number_format( $total, 2 ) . '</b>'
-			] + array_map( 'format', $value );
+				'TOTAL' => '<b>' . Currency( $total ) . '</b>'
+			] + array_map( 'Currency', $value );
 		}
 	}
 
@@ -99,7 +99,7 @@ foreach ( (array) $types as $user => $trans )
 	$TMP_types[] = [
 		'TYPE' => '<b>' . ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ) . '</b>',
 		'TRANSACTION' => '<b>' . _( 'Totals' ) . '</b>',
-		'TOTAL' => '<b>' . number_format( $total, 2 ) . '</b>'
+		'TOTAL' => '<b>' . Currency( $total ) . '</b>'
 	] + array_map( 'bold_format', $types_totals[$user] );
 
 	unset( $TMP_types[0] );
@@ -142,25 +142,9 @@ ListOutput(
 /**
  * @param $item
  */
-function format( $item )
-{
-	return number_format( $item, 2 );
-}
-
-/**
- * @param $item
- */
-function bold( $item )
-{
-	return '<b>' . $item . '</b>';
-}
-
-/**
- * @param $item
- */
 function bold_format( $item )
 {
-	return '<b>' . number_format( $item, 2 ) . '</b>';
+	return '<b>' . Currency( $item ) . '</b>';
 }
 
 /**
