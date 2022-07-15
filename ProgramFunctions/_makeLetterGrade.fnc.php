@@ -73,7 +73,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 
 	// If Teacher Grade Scale.
 	if ( $does_breakoff === 'Y'
-		&& $gradebook_config )
+		&& ! empty( $gradebook_config['ROUNDING'] ) )
 	{
 		if ( $gradebook_config['ROUNDING'] === 'UP' )
 		{
@@ -114,7 +114,8 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	{
 		foreach ( (array) $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] as $grade )
 		{
-			if ( is_numeric( $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] )
+			if ( isset( $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] )
+				&& is_numeric( $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] )
 				&& $percent >= $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] )
 			{
 				// FJ use Report Card Grades comments.
