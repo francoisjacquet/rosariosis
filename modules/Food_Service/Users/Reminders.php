@@ -140,9 +140,9 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 	$extra['columns_after'] = [
 		'BALANCE' => _( 'Balance' ),
 		'STATUS' => _( 'Status' ),
-		'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning,
+		'WARNING' => _( 'Warning' ) . ' &lt;' . $warning,
 		'NEGATIVE' => _( 'Negative' ),
-		'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum,
+		'MINIMUM' => _( 'Minimum' ) . ' ' . $minimum,
 	];
 
 	Search( 'staff_id', $extra );

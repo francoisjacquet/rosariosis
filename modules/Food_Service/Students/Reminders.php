@@ -243,9 +243,9 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['columns_after'] = [
 		'BALANCE' => _( 'Balance' ),
 		'STATUS' => _( 'Status' ),
-		'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning,
+		'WARNING' => _( 'Warning' ) . ' &lt;' . $warning,
 		'NEGATIVE' => _( 'Negative' ),
-		'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum,
+		'MINIMUM' => _( 'Minimum' ) . ' ' . $minimum,
 	];
 
 	Search( 'student_id', $extra );

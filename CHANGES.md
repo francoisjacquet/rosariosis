@@ -34,6 +34,7 @@ Changes in 10.0
 - JS set Calendar date to current fields date in warehouse.js & calendar-setup.js
 - HTML add label to select in ActivityReport.php
 - Use Currency() function instead of number_format() in TransactionsReport.php
+- HTML remove line-break in Warning/Minimum columns in Reminders.php
 
 Changes in 9.3
 --------------
