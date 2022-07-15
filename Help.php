@@ -81,10 +81,6 @@ foreach ( (array) $help as $program => $value ) :
 				}
 
 				DrawHeader( $modcat_title );
-			?>
-			<hr />
-
-		<?php
 		endif;
 
 		if ( $modcat != 'Custom' )
