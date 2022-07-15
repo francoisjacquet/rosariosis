@@ -281,6 +281,8 @@ if ( UserStudentID()
 
 	$link['add']['title'] = _( 'Add a Course' );
 
+	$link['add']['first'] = 10; // Number of rows before add link moves to top.
+
 	$columns = [
 		'TITLE' => _( 'Course' ),
 		'PERIOD_PULLDOWN' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
