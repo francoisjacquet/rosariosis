@@ -93,7 +93,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
 			$proper_month_year = ucfirst( strftime_compat(
 				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
-				strtotime( $year_month . '-29' )
+				strtotime( $year_month . '-28' )
 			) );
 
 			$month_balance = 0;

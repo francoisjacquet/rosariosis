@@ -71,7 +71,7 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 			// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
 			$proper_month_year = ucfirst( strftime_compat(
 				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
-				strtotime( $referrals['YEAR_MONTH'] . '-29' )
+				strtotime( $referrals['YEAR_MONTH'] . '-28' )
 			) );
 
 			// Referrals by month.
