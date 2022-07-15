@@ -211,7 +211,8 @@ var JSCalendarSetup = function() {
 			ifFormat: "%d-%b-%y",
 			button: el.id,
 			align: "Tl",
-			singleClick: true
+			singleClick: true,
+			cache: true
 		});
 	});
 }

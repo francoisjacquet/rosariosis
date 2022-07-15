@@ -31,6 +31,7 @@ Changes in 10.0
 - CSS set input label max-width on Search form in stylesheet.css
 - JS new default popup size: 1200x450 in warehouse.js
 - Use URLEscape() for add button link when appropriate in ListOutput.fnc.php
+- JS set Calendar date to current fields date in warehouse.js & calendar-setup.js
 
 Changes in 9.3
 --------------

@@ -175,6 +175,8 @@ Calendar.setup = function (params) {
 		var dateFmt = params.dayField ? params.ifFormat : params.daFormat;
 		var mustCreate = false;
 		var cal = window.calendar;
+		var currentFieldDate = params.dayField.value && params.monthField.value && params.yearField.value ?
+			params.yearField.value + '-' + params.monthField.value + '-' + params.dayField.value : null;
 		if (!(cal && params.cache)) {
 			window.calendar = cal = new Calendar(params.firstDay,
 							     params.date,
@@ -185,8 +187,6 @@ Calendar.setup = function (params) {
 			cal.weekNumbers = params.weekNumbers;
 			mustCreate = true;
 		} else {
-			if (params.date)
-				cal.setDate(params.date);
 			cal.hide();
 		}
 		cal.showsOtherMonths = params.showOthers;
@@ -203,7 +203,11 @@ Calendar.setup = function (params) {
 			cal.showAtElement(params.button || params.displayArea || params.dayField, params.align);
 		else
 			cal.showAt(params.position[0], params.position[1]);
-		calendar.setDate(new Date());
+		if (currentFieldDate || params.date) {
+			cal.setDate(new Date(currentFieldDate ? currentFieldDate : params.date));
+		} else {
+			cal.setDate(new Date());
+		}
 		return false;
 	};
 };
