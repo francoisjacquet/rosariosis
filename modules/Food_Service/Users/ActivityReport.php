@@ -132,14 +132,14 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		$link = $group = [];
 	}
 
-	$type_select = '<span class="nobr">' . _( 'Type' ) . ' <select name="type_select"><option value="">' . _( 'Not Specified' ) . '</option>';
+	$type_select = '<label>' . _( 'Type' ) . ' <select name="type_select"><option value="">' . _( 'Not Specified' ) . '</option>';
 
 	foreach ( (array) $types as $short_name => $type )
 	{
 		$type_select .= '<option value="' . AttrEscape( $short_name ) . '"' . ( $_REQUEST['type_select'] == $short_name ? ' selected' : '' ) . '>' . $type['DESCRIPTION'] . '</option>';
 	}
 
-	$type_select .= '</select></span>';
+	$type_select .= '</select></label>';
 
 	$staff_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 		FROM staff
@@ -148,7 +148,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		AND PROFILE='admin'
 		ORDER BY LAST_NAME" );
 
-	$staff_select = '<span class="nobr">' . _( 'User' ) . ' <select name=staff_select><option value="">' . _( 'Not Specified' ) . '</option>';
+	$staff_select = '<label>' . _( 'User' ) . ' <select name=staff_select><option value="">' . _( 'Not Specified' ) . '</option>';
 
 	foreach ( (array) $staff_RET as $staff )
 	{
@@ -157,15 +157,15 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			$staff['FULL_NAME'] . '</option>';
 	}
 
-	$staff_select .= '</select></span>';
+	$staff_select .= '</select></label>';
 
 	$PHP_tmp_SELF = PreparePHP_SELF();
 
 	echo '<form action="' . $PHP_tmp_SELF . '" method="GET">';
 
 	DrawHeader(
-		PrepareDate( $date, '_date' ) . ' - ' . $type_select . ' - ' .
-		$staff_select . ' ' . SubmitButton( _( 'Go' ) ) );
+		PrepareDate( $date, '_date' ) . ' &mdash; ' . $type_select . ' &mdash; ' .
+		$staff_select . SubmitButton( _( 'Go' ) ) );
 
 	DrawHeader( CheckBoxOnclick( 'by_name', _( 'Sort by Name' ) ) );
 

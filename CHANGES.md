@@ -32,6 +32,7 @@ Changes in 10.0
 - JS new default popup size: 1200x450 in warehouse.js
 - Use URLEscape() for add button link when appropriate in ListOutput.fnc.php
 - JS set Calendar date to current fields date in warehouse.js & calendar-setup.js
+- HTML add label to select in ActivityReport.php
 
 Changes in 9.3
 --------------
