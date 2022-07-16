@@ -37,6 +37,7 @@ Changes in 10.0
 - HTML remove line-break in Warning/Minimum columns in Reminders.php
 - HTML CSS make Daily Menus calendar coherent with School Calendar in DailyMenus.php
 - Fix dummy day (year month date) set to 28 for February in Dashboard.inc.php
+- Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
 
 Changes in 9.3
 --------------
