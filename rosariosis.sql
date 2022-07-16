@@ -339,8 +339,6 @@ CREATE TABLE staff (
 );
 
 
-
-
 --
 -- Name: school_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -367,8 +365,6 @@ CREATE TABLE school_marking_periods (
 );
 
 
-
-
 --
 -- Name: courses; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -388,8 +384,6 @@ CREATE TABLE courses (
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -429,8 +423,6 @@ CREATE TABLE course_periods (
 );
 
 
-
-
 --
 -- Name: access_log; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -446,8 +438,6 @@ CREATE TABLE access_log (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -467,8 +457,6 @@ CREATE TABLE accounting_incomes (
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -492,8 +480,6 @@ CREATE TABLE accounting_salaries (
 );
 
 
-
-
 --
 -- Name: accounting_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -511,8 +497,6 @@ CREATE TABLE accounting_payments (
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -538,8 +522,6 @@ CREATE TABLE address (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -594,8 +576,6 @@ CREATE TABLE attendance_calendar (
 );
 
 
-
-
 --
 -- Name: attendance_calendars; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -611,8 +591,6 @@ CREATE TABLE attendance_calendars (
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -668,8 +646,6 @@ CREATE TABLE attendance_completed (
 );
 
 
-
-
 --
 -- Name: attendance_day; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -686,8 +662,6 @@ CREATE TABLE attendance_day (
     updated_at timestamp,
     PRIMARY KEY (student_id, school_date)
 );
-
-
 
 
 --
@@ -709,8 +683,6 @@ CREATE TABLE attendance_period (
     updated_at timestamp,
     PRIMARY KEY (student_id, school_date, period_id)
 );
-
-
 
 
 --
@@ -786,16 +758,12 @@ CREATE TABLE config (
 );
 
 
-
-
 --
 -- Name: course_details; Type: VIEW; Schema: public; Owner: rosariosis
 --
 
 CREATE VIEW course_details AS
     SELECT cp.school_id, cp.syear, cp.marking_period_id, c.subject_id, cp.course_id, cp.course_period_id, cp.teacher_id, c.title AS course_title, cp.title AS cp_title, cp.grade_scale_id, cp.mp, cp.credits FROM course_periods cp, courses c WHERE (cp.course_id = c.course_id);
-
-
 
 
 --
@@ -811,8 +779,6 @@ CREATE TABLE course_period_school_periods (
     updated_at timestamp,
     UNIQUE (course_period_id, period_id)
 );
-
-
 
 
 --
@@ -831,8 +797,6 @@ CREATE TABLE course_subjects (
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -926,8 +890,6 @@ CREATE TABLE eligibility (
 );
 
 
-
-
 --
 -- Name: eligibility_activities; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -971,8 +933,6 @@ CREATE TABLE food_service_accounts (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -1056,8 +1016,6 @@ CREATE TABLE food_service_staff_accounts (
 );
 
 
-
-
 --
 -- Name: food_service_staff_transaction_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1072,8 +1030,6 @@ CREATE TABLE food_service_staff_transaction_items (
     updated_at timestamp,
     PRIMARY KEY (item_id, transaction_id)
 );
-
-
 
 
 --
@@ -1111,8 +1067,6 @@ CREATE TABLE food_service_student_accounts (
 );
 
 
-
-
 --
 -- Name: food_service_transaction_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1128,8 +1082,6 @@ CREATE TABLE food_service_transaction_items (
     updated_at timestamp,
     PRIMARY KEY (item_id, transaction_id)
 );
-
-
 
 
 --
@@ -1213,8 +1165,6 @@ CREATE TABLE gradebook_grades (
 );
 
 
-
-
 --
 -- Name: grades_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1228,8 +1178,6 @@ CREATE TABLE grades_completed (
     updated_at timestamp,
     PRIMARY KEY (staff_id, marking_period_id, course_period_id)
 );
-
-
 
 
 --
@@ -1254,8 +1202,6 @@ CREATE TABLE lunch_period (
 );
 
 
-
-
 --
 -- Name: history_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1274,7 +1220,6 @@ CREATE TABLE history_marking_periods (
 );
 
 
-
 --
 -- Name: marking_periods; Type: VIEW; Schema: public; Owner: rosariosis
 --
@@ -1282,8 +1227,6 @@ CREATE TABLE history_marking_periods (
 CREATE VIEW marking_periods AS
     SELECT school_marking_periods.marking_period_id, 'Rosario'::text AS mp_source, school_marking_periods.syear, school_marking_periods.school_id, CASE WHEN ((school_marking_periods.mp)::text = 'FY'::text) THEN 'year'::text WHEN ((school_marking_periods.mp)::text = 'SEM'::text) THEN 'semester'::text WHEN ((school_marking_periods.mp)::text = 'QTR'::text) THEN 'quarter'::text ELSE NULL::text END AS mp_type, school_marking_periods.title, school_marking_periods.short_name, school_marking_periods.sort_order, CASE WHEN (school_marking_periods.parent_id > (0)::numeric) THEN school_marking_periods.parent_id ELSE ((-1))::numeric END AS parent_id, CASE WHEN ((SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) > (0)::numeric) THEN (SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) ELSE ((-1))::numeric END AS grandparent_id, school_marking_periods.start_date, school_marking_periods.end_date, school_marking_periods.post_start_date, school_marking_periods.post_end_date, school_marking_periods.does_grades, school_marking_periods.does_comments FROM school_marking_periods
     UNION SELECT history_marking_periods.marking_period_id, 'History'::text AS mp_source, history_marking_periods.syear, history_marking_periods.school_id, history_marking_periods.mp_type, history_marking_periods.name AS title, history_marking_periods.short_name, NULL::numeric AS sort_order, history_marking_periods.parent_id, (-1) AS grandparent_id, NULL::date AS start_date, history_marking_periods.post_end_date AS end_date, NULL::date AS post_start_date, history_marking_periods.post_end_date, 'Y'::varchar AS does_grades, NULL::varchar AS does_comments FROM history_marking_periods;
-
-
 
 
 --
@@ -1300,8 +1243,6 @@ CREATE TABLE moodlexrosario (
 );
 
 
-
-
 --
 -- Name: people; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1314,8 +1255,6 @@ CREATE TABLE people (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -1444,8 +1383,6 @@ CREATE TABLE profile_exceptions (
 );
 
 
-
-
 --
 -- Name: program_config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1462,8 +1399,6 @@ CREATE TABLE program_config (
 );
 
 
-
-
 --
 -- Name: program_user_config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1477,8 +1412,6 @@ CREATE TABLE program_user_config (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -1634,8 +1567,6 @@ CREATE TABLE schedule (
 );
 
 
-
-
 --
 -- Name: schedule_requests; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1674,8 +1605,6 @@ CREATE TABLE school_fields (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -1717,10 +1646,6 @@ CREATE TABLE school_periods (
 );
 
 
-
-
-
-
 --
 -- Name: staff_exceptions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1734,8 +1659,6 @@ CREATE TABLE staff_exceptions (
     updated_at timestamp,
     PRIMARY KEY (user_id, modname)
 );
-
-
 
 
 --
@@ -1802,8 +1725,6 @@ CREATE TABLE student_eligibility_activities (
 );
 
 
-
-
 --
 -- Name: student_enrollment_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1849,8 +1770,6 @@ CREATE TABLE student_medical (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
 
 
 --
@@ -1899,8 +1818,6 @@ CREATE TABLE student_mp_comments (
 );
 
 
-
-
 --
 -- Name: student_mp_stats; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1934,8 +1851,6 @@ CREATE TABLE student_mp_stats (
 );
 
 
-
-
 --
 -- Name: student_report_card_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -1953,8 +1868,6 @@ CREATE TABLE student_report_card_comments (
     PRIMARY KEY (syear, student_id, course_period_id, marking_period_id, report_card_comment_id),
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -1989,10 +1902,6 @@ CREATE TABLE student_report_card_grades (
 );
 
 
-
-
-
-
 --
 -- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -2014,8 +1923,6 @@ CREATE TABLE student_enrollment (
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
-
-
 
 
 --
@@ -2080,8 +1987,6 @@ CREATE TABLE students_join_users (
 );
 
 
-
-
 --
 -- Name: templates; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -2094,8 +1999,6 @@ CREATE TABLE templates (
     updated_at timestamp,
     PRIMARY KEY (modname, staff_id)
 );
-
-
 
 
 --
@@ -2144,8 +2047,6 @@ CREATE VIEW transcript_grades AS
     ORDER BY srcg.course_period_id;
 
 
-
-
 --
 -- Name: user_profiles; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
@@ -2164,7 +2065,6 @@ CREATE TABLE user_profiles (
 --
 
 INSERT INTO schools VALUES (2022, NEXTVAL('schools_id_seq'), 'Default School', '500 S. Street St.', 'Springfield', 'IL', '62704', NULL, 'Mr. Principal', 'www.rosariosis.org', NULL, NULL, 4, NULL);
-
 
 
 --
