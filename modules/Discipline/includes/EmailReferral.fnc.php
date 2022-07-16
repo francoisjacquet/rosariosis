@@ -58,7 +58,7 @@ function EmailReferral( $referral_id, $emails )
 	$reporter = _( 'Reporter' ) . ': ' . GetTeacher( $referral['STAFF_ID'] );
 
 	// Email Subject.
-	$subject = _( 'New discipline incident' ) . ' - ' . $student . ' - ' . $date;
+	$subject = _( 'New discipline incident' ) . ' - ' . $student_full_name . ' - ' . strip_tags( ProperDate( $referral['ENTRY_DATE'] ) );
 
 	// Email Message.
 	$message = $student . "\n" . $reporter . "\n" . $date . "\n\n" . implode( "\n", $referral_fields );
