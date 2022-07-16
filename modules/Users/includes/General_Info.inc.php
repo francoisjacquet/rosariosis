@@ -209,13 +209,12 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		'none' => _( 'No Access' ),
 	];
 
-	$admin_user_profile_restriction = false;
+	$admin_user_profile_restriction = User( 'PROFILE' ) === 'admin'
+		&& AllowEdit()
+		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' );
 
 	// User Profile restrictions.
-
-	if ( User( 'PROFILE' ) === 'admin'
-		&& AllowEdit()
-		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' ) )
+	if ( $admin_user_profile_restriction )
 	{
 		if ( $_REQUEST['staff_id'] !== 'new' )
 		{
@@ -231,8 +230,6 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 				'none' => _( 'No Access' ),
 			];
 		}
-
-		$admin_user_profile_restriction = true;
 	}
 
 	$non_admin_user_profile_restriction = User( 'PROFILE' ) !== 'admin' && AllowEdit();
@@ -323,19 +320,15 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 		if ( $schools_RET )
 		{
-			$admin_schools_restriction = false;
+			$admin_schools_restriction = ( User( 'PROFILE' ) !== 'admin' && AllowEdit() )
+				|| ( User( 'PROFILE' ) === 'admin' && AllowEdit()
+					&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) );
 
 			// Admin Schools restriction.
-			if ( ( User( 'PROFILE' ) !== 'admin'
-					&& AllowEdit() )
-				|| ( User( 'PROFILE' ) === 'admin'
-					&& AllowEdit()
-					&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) ) )
+			if ( $admin_schools_restriction )
 			{
 				// Temporarily deactivate AllowEdit.
 				$_ROSARIO['allow_edit'] = false;
-
-				$admin_schools_restriction = true;
 			}
 
 			$i = 0;
@@ -407,7 +400,6 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			}
 
 			// Admin Schools restriction.
-
 			if ( $admin_schools_restriction )
 			{
 				// Reactivate AllowEdit.
