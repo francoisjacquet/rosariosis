@@ -342,8 +342,6 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 	{
 		PopTable( 'header', _( 'Permissions' ) );
 
-		echo '';
-
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
 			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : [];
@@ -408,10 +406,28 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 					$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
 					$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
+					$user_profiles_admin_restriction = $xprofile === 'admin'
+						&& $_REQUEST['profile_id'] === User( 'PROFILE_ID' )
+						&& $file === 'Users/Profiles.php'
+						&& AllowEdit();
+
+					if ( $user_profiles_admin_restriction )
+					{
+						// @since 10.0 Prevent admin from removing own access to User Profiles program.
+						$_ROSARIO['allow_edit'] = false;
+
+						// POST disabled checkbox: retain checked values using hidden fields.
+						echo '<input type="hidden" name="can_use[' .
+							str_replace( '.', '_', $file ) . ']" value="true" />';
+
+						echo '<input type="hidden" name="can_edit[' .
+							str_replace( '.', '_', $file ) . ']" value="true" />';
+					}
+
 					echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 					str_replace( '.', '_', $file ) . ']" value="true"' .
 						( $can_use === 'Y' ? ' checked' : '' ) .
-						( AllowEdit() ? '' : ' disabled' ) . '></td>';
+						( AllowEdit() ? '' : ' disabled' ) . ' /></td>';
 
 					if ( $xprofile === 'admin'
 						|| ( $xprofile !== 'teacher'
@@ -425,6 +441,12 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 					else
 					{
 						echo '<td>&nbsp;</td>';
+					}
+
+					if ( $user_profiles_admin_restriction )
+					{
+						// @since 10.0 Prevent admin from removing own access to User Profiles program.
+						$_ROSARIO['allow_edit'] = true;
 					}
 
 					echo '<td>' . $title . '</td></tr>';
