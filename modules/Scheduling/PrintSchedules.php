@@ -254,7 +254,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		if ( ! $schedule_table_RET )
 		{
-			$error[] = sprintf( _( 'No %s were found.' ), ngettext( 'Course Period', 'Course Periods', 0 ) );
+			$error[] = sprintf(
+				_( 'No %s were found.' ),
+				mb_strtolower( ngettext( 'Course Period', 'Course Periods', 0 ) )
+			);
 
 			echo ErrorMessage( $error );
 		}

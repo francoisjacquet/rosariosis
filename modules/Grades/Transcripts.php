@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			BackPrompt(
 				sprintf(
 					_( 'No %s were found.' ),
-					ngettext( 'Grade', 'Grades', 0 )
+					mb_strtolower( ngettext( 'Grade', 'Grades', 0 ) )
 				)
 			);
 		}

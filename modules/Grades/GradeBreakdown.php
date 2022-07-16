@@ -191,5 +191,8 @@ if ( $grouped_RET )
 }
 else
 {
-	echo '<br /><div class="center"><b>' . sprintf( _( 'No %s were found.' ), ngettext( 'Teacher', 'Teachers', 0 ) ) . '</div></b>';
+	echo '<br /><div class="center"><b>' . sprintf(
+		_( 'No %s were found.' ),
+		mb_strtolower( ngettext( 'Teacher', 'Teachers', 0 ) )
+	) . '</div></b>';
 }

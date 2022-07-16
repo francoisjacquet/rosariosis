@@ -40,6 +40,7 @@ Changes in 10.0
 - Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
 - Shorten Referral email subject in EmailReferral.fnc.php
 - Use plural wise ngettext() for "No %s were found." in FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
+- Force result text to lowercase for "No %s were found." in ListOutput.fnc.php, FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 
 Changes in 9.3
 --------------

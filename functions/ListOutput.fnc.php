@@ -319,10 +319,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( $display_count > 0 )
 			{
+				$result_text = ngettext( $singular, $plural, $display_count );
+
 				echo '<span class="size-1">' . sprintf(
 					ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
 					$display_count,
-					ngettext( $singular, $plural, $display_count )
+					mb_strtolower( $result_text )
 				) . '</span>';
 			}
 
@@ -336,14 +338,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			&& ( $result_count == 0
 				|| $display_count == 0 ) )
 		{
+			$result_text = ngettext(
+				( $singular === '.' ? _( 'Result' ) : $singular ),
+				( $plural === '.' ? _( 'Results' ) : $plural ),
+				0
+			);
+
 			// No results message. Default to "Results".
 			echo '<b class="size-1">' . sprintf(
 				_( 'No %s were found.' ),
-				ngettext(
-					( $singular === '.' ? _( 'Result' ) : $singular ),
-					( $plural === '.' ? _( 'Results' ) : $plural ),
-					0
-				)
+				mb_strtolower( $result_text )
 			) . '</b>';
 
 			$has_count_text = true;
