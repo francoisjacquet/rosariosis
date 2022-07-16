@@ -44,6 +44,7 @@ Changes in 10.0
 - Prevent admin from removing own access to User Profiles program in Profiles.php
 - SQL change modname column type from text to varchar(255) to match with MySQL key index limitation in rosariosis.sql
 - SQL change program column type from text to varchar(100) NOT NULL to match with MySQL index limitation in rosariosis.sql
+- Rename YEAR_MONTH column alias to YEAR_MONTH_DATE: reserved keyword in MySQL in Dashboard.inc.php
 
 Changes in 9.3
 --------------

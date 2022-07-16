@@ -45,17 +45,17 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 	{
 		$referrals_nb = 0;
 
-		$referrals_RET = DBGet( "SELECT CAST(ENTRY_DATE AS varchar(7)) AS YEAR_MONTH,
+		$referrals_RET = DBGet( "SELECT CAST(ENTRY_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
 		COUNT(ID) AS REFERRALS_NB
 		FROM discipline_referrals
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		GROUP BY YEAR_MONTH
-		ORDER BY YEAR_MONTH DESC
+		GROUP BY YEAR_MONTH_DATE
+		ORDER BY YEAR_MONTH_DATE DESC
 		LIMIT 10" );
 
 		if ( ! empty( $referrals_RET[1] )
-			&& $referrals_RET[1]['YEAR_MONTH'] === date( 'Y-m' ) )
+			&& $referrals_RET[1]['YEAR_MONTH_DATE'] === date( 'Y-m' ) )
 		{
 			// Referrals this month.
 			$referrals_nb = (int) $referrals_RET[1]['REFERRALS_NB'];
@@ -71,7 +71,7 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 			// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
 			$proper_month_year = ucfirst( strftime_compat(
 				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
-				strtotime( $referrals['YEAR_MONTH'] . '-28' )
+				strtotime( $referrals['YEAR_MONTH_DATE'] . '-28' )
 			) );
 
 			// Referrals by month.

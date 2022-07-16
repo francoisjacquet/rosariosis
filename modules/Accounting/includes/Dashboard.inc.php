@@ -45,41 +45,41 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	{
 		$general_balance = 0;
 
-		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
+		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS varchar(10)),1,7) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_INCOMES
 			FROM accounting_incomes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			GROUP BY YEAR_MONTH
-			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", [], [ 'YEAR_MONTH' ] );
+			GROUP BY YEAR_MONTH_DATE
+			ORDER BY YEAR_MONTH_DATE DESC
+			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$expenses_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
+		$expenses_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
 			SUM(CASE WHEN STAFF_ID IS NULL THEN AMOUNT END) AS TOTAL_EXPENSES
 			FROM accounting_payments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			GROUP BY YEAR_MONTH
-			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", [], [ 'YEAR_MONTH' ] );
+			GROUP BY YEAR_MONTH_DATE
+			ORDER BY YEAR_MONTH_DATE DESC
+			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$staff_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
+		$staff_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
 			SUM(CASE WHEN STAFF_ID IS NOT NULL THEN AMOUNT END) AS TOTAL_STAFF
 			FROM accounting_payments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			GROUP BY YEAR_MONTH
-			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", [], [ 'YEAR_MONTH' ] );
+			GROUP BY YEAR_MONTH_DATE
+			ORDER BY YEAR_MONTH_DATE DESC
+			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$student_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
+		$student_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_STUDENT_PAYMENTS
 			FROM billing_payments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			GROUP BY YEAR_MONTH
-			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", [], [ 'YEAR_MONTH' ] );
+			GROUP BY YEAR_MONTH_DATE
+			ORDER BY YEAR_MONTH_DATE DESC
+			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
 		$accounting_RET = array_replace_recursive( $incomes_RET, $expenses_RET, $staff_payments_RET, $student_payments_RET );
 
