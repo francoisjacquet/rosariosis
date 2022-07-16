@@ -191,5 +191,5 @@ if ( $grouped_RET )
 }
 else
 {
-	echo '<br /><div class="center"><b>' . sprintf( _( 'No %s were found.' ), _( 'Teacher' ) ) . '</div></b>';
+	echo '<br /><div class="center"><b>' . sprintf( _( 'No %s were found.' ), ngettext( 'Teacher', 'Teachers', 0 ) ) . '</div></b>';
 }

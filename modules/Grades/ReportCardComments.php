@@ -180,7 +180,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( empty( $subjects_RET ) )
 		{
-			$subject_select .= '<option value="">' . sprintf( _( 'No %s were found.' ), _( 'Courses' ) ) . '</option>';
+			$subject_select .= '<option value="">' . sprintf( _( 'No %s were found.' ), ngettext( 'Course', 'Courses', 0 ) ) . '</option>';
 		}
 		else
 		{
@@ -204,7 +204,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( empty( $courses_RET ) )
 		{
-			$course_select .= '<option value="">' . sprintf( _( 'No %s were found.' ), _( 'Courses' ) ) . '</option>';
+			$course_select .= '<option value="">' . sprintf( _( 'No %s were found.' ), ngettext( 'Course', 'Courses', 0 ) ) . '</option>';
 		}
 		else
 		{

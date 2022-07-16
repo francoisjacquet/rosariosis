@@ -50,7 +50,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			BackPrompt(
 				sprintf(
 					_( 'No %s were found.' ),
-					_( 'Final Grades' )
+					ngettext( 'Final Grade', 'Final Grades', 0 )
 				)
 			);
 		}

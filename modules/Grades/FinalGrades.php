@@ -500,7 +500,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$error[] = sprintf(
 				_( 'No %s were found.' ),
-				_( 'Grades' )
+				ngettext( 'Grade', 'Grades', 0 )
 			);
 
 			unset( $extra );

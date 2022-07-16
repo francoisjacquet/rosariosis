@@ -39,6 +39,7 @@ Changes in 10.0
 - Fix dummy day (year month date) set to 28 for February in Dashboard.inc.php
 - Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
 - Shorten Referral email subject in EmailReferral.fnc.php
+- Use plural wise ngettext() for "No %s were found." in FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 
 Changes in 9.3
 --------------
