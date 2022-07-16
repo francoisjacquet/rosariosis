@@ -42,6 +42,7 @@ Changes in 10.0
 - Use plural wise ngettext() for "No %s were found." in FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 - Force result text to lowercase for "No %s were found." in ListOutput.fnc.php, FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 - Prevent admin from removing own access to User Profiles program in Profiles.php
+- SQL change modname column type from text to varchar(255) to match with MySQL key index limitation in rosariosis.sql
 
 Changes in 9.3
 --------------
