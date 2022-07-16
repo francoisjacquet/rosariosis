@@ -1390,7 +1390,7 @@ CREATE TABLE profile_exceptions (
 CREATE TABLE program_config (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    program text,
+    program varchar(100) NOT NULL,
     title varchar(100) NOT NULL,
     value text,
     created_at timestamp DEFAULT current_timestamp,
@@ -1405,7 +1405,7 @@ CREATE TABLE program_config (
 
 CREATE TABLE program_user_config (
     user_id integer NOT NULL,
-    program text,
+    program varchar(100) NOT NULL,
     title varchar(100) NOT NULL,
     value text,
     school_id integer, -- Can be NULL.
