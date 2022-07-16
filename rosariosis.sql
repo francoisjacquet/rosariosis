@@ -2026,15 +2026,6 @@ CREATE VIEW enroll_grade AS
     SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
 
 
-
-
---
--- Name: VIEW enroll_grade; Type: COMMENT; Schema: public; Owner: rosariosis
---
-
-COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
-
-
 --
 -- Name: students_join_address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
