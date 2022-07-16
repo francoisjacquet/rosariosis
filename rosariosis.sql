@@ -2155,7 +2155,7 @@ INSERT INTO address VALUES (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, N
 -- Data for Name: attendance_calendars; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO attendance_calendars VALUES (NEXTVAL('attendance_calendars_calendar_id_seq'), 'Main', 2022, 1, 'Y', NULL);
+INSERT INTO attendance_calendars VALUES (1, 'Main', 2022, NEXTVAL('attendance_calendars_calendar_id_seq'), 'Y', NULL);
 
 
 --
