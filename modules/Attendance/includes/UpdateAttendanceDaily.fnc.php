@@ -96,6 +96,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
  * Attendance Daily Calculate Total Minutes
  *
  * @since 5.3
+ * @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL
  *
  * @param int    $student_id Student ID.
  * @param string $date       School Day.
@@ -104,6 +105,8 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
  */
 function AttendanceDailyTotalMinutes( $student_id, $date )
 {
+	global $DatabaseType;
+
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
 	FROM schedule s,course_periods cp,school_periods sp,attendance_calendar ac,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -139,7 +142,9 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 	}
 	else
 	{
-		$total_sql .= " AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('" . $date . "' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0";
+		$total_sql .= " AND position(substring('UMTWHFS' FROM cast(" .
+		( $DatabaseType === 'mysql' ? "DAYOFWEEK(" : "extract(DOW FROM " ) .
+		"cast('" . $date . "' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0";
 	}
 
 	$total = DBGetOne( $total_sql );

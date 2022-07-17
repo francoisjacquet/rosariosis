@@ -355,6 +355,7 @@ switch ( User( 'PROFILE' ) )
 				}
 				else
 				{
+					// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,course_periods cp,school_periods sp,schools s,
@@ -375,7 +376,9 @@ switch ( User( 'PROFILE' ) )
 					AND acc.SCHOOL_DATE<'" . DBDate() . "'
 					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM school_marking_periods WHERE (MP<>'PRO') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
-					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
+					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(" .
+					( $DatabaseType === 'mysql' ? "DAYOFWEEK(" : "extract(DOW FROM " ) .
+					"acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
 						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID
@@ -642,6 +645,7 @@ switch ( User( 'PROFILE' ) )
 				else
 				{
 					// @since 6.9 Add Secondary Teacher.
+					// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,course_periods cp,school_periods sp,
@@ -661,7 +665,9 @@ switch ( User( 'PROFILE' ) )
 						OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')
 					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM school_marking_periods WHERE (MP<>'PRO') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
-					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
+					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(" .
+					( $DatabaseType === 'mysql' ? "DAYOFWEEK(" : "extract(DOW FROM " ) .
+					"acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
 						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID

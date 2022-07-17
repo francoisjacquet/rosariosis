@@ -286,7 +286,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 					WHERE CALENDAR_ID='" . (int) $calendar_id . "'
 					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'" .
 					( $weekdays_list ?
-						" OR extract(DOW FROM SCHOOL_DATE) NOT IN (" . $weekdays_list . ")" : '' ) .
+						" OR " . ( $DatabaseType === 'mysql' ? "DAYOFWEEK(" : "extract(DOW FROM " ) .
+						"SCHOOL_DATE) NOT IN (" . $weekdays_list . ")" : '' ) .
 					")" );
 
 				if ( $minutes != '999' )
@@ -305,13 +306,15 @@ if ( $_REQUEST['modfunc'] === 'create'
 				}
 
 				// Insert Days.
+				// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL
 				$create_calendar_sql = "INSERT INTO attendance_calendar
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 					(SELECT '" . UserSyear() . "','" . UserSchool() . "',SCHOOL_DATE," . $minutes . ",'" . $calendar_id . "'
 						FROM attendance_calendar
 						WHERE CALENDAR_ID='" . (int) $_REQUEST['copy_id'] . "'" .
 						( $weekdays_list ?
-							" AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")" : '' );
+							" AND " . ( $DatabaseType === 'mysql' ? "DAYOFWEEK(" : "extract(DOW FROM " ) .
+							"SCHOOL_DATE) IN (" . $weekdays_list . ")" : '' );
 
 				if ( $date_min && $date_max )
 				{

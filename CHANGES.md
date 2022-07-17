@@ -45,6 +45,7 @@ Changes in 10.0
 - SQL change modname column type from text to varchar(255) to match with MySQL key index limitation in rosariosis.sql
 - SQL change program column type from text to varchar(100) NOT NULL to match with MySQL index limitation in rosariosis.sql
 - Rename YEAR_MONTH column alias to YEAR_MONTH_DATE: reserved keyword in MySQL in Dashboard.inc.php
+- SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL, program wide
 
 Changes in 9.3
 --------------
