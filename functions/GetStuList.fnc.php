@@ -117,7 +117,7 @@ function GetStuList( &$extra = [] )
 			FROM custom_fields cf,student_field_categories sfc
 			WHERE ((SELECT VALUE
 				FROM program_user_config
-				WHERE TITLE=cast(cf.ID AS TEXT)
+				WHERE TITLE=cast(cf.ID AS VARCHAR(10))
 				AND PROGRAM='StudentFieldsView'
 				AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y'" .
 				( ! empty( $extra['student_fields']['view'] ) ?

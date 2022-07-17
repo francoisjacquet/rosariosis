@@ -315,7 +315,7 @@ function Search( $type, $extra = null )
 				AND NOT EXISTS(SELECT ''
 					FROM program_user_config
 					WHERE PROGRAM='StaffFieldsSearch'
-					AND TITLE=cast(cf.ID AS TEXT)
+					AND TITLE=cast(cf.ID AS VARCHAR(10))
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					AND VALUE='Y')
 				AND cf.TYPE<>'files'
@@ -334,7 +334,7 @@ function Search( $type, $extra = null )
 					LIMIT 1)='Y'
 				AND (SELECT VALUE
 					FROM program_user_config
-					WHERE TITLE=cast(cf.ID AS TEXT)
+					WHERE TITLE=cast(cf.ID AS VARCHAR(10))
 					AND PROGRAM='StaffFieldsSearch'
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					LIMIT 1)='Y'
@@ -354,7 +354,7 @@ function Search( $type, $extra = null )
 				AND NOT exists(SELECT ''
 					FROM program_user_config
 					WHERE PROGRAM='StudentFieldsSearch'
-					AND TITLE=cast(cf.ID AS TEXT)
+					AND TITLE=cast(cf.ID AS VARCHAR(10))
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					AND VALUE='Y')
 				AND cf.TYPE<>'files'
@@ -372,7 +372,7 @@ function Search( $type, $extra = null )
 					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 				AND (SELECT VALUE
 					FROM program_user_config
-					WHERE TITLE=cast(cf.ID AS TEXT)
+					WHERE TITLE=cast(cf.ID AS VARCHAR(10))
 					AND PROGRAM='StudentFieldsSearch'
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					LIMIT 1)='Y'
