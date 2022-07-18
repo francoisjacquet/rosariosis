@@ -1209,7 +1209,7 @@ function appendSQL( $sql, $extra = [] )
 		&& $_REQUEST['last'] !== '' )
 	{
 		$last_name = [
-			'COLUMN' => 'LAST_NAME',
+			'COLUMN_NAME' => 'LAST_NAME',
 			'VALUE' => $_REQUEST['last'],
 			'TITLE' => _( 'Last Name' ),
 			'TYPE' => 'text',
@@ -1224,7 +1224,7 @@ function appendSQL( $sql, $extra = [] )
 		&& $_REQUEST['first'] !== '' )
 	{
 		$first_name = [
-			'COLUMN' => 'FIRST_NAME',
+			'COLUMN_NAME' => 'FIRST_NAME',
 			'VALUE' => $_REQUEST['first'],
 			'TITLE' => _( 'First Name' ),
 			'TYPE' => 'text',

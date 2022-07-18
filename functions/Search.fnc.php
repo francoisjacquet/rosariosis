@@ -679,6 +679,7 @@ function Search( $type, $extra = null )
  * Also sets $_ROSARIO['SearchTerms'] to display search term
  *
  * @since 3.0
+ * @since 10.0 SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility
  *
  * @see appendSQL(), appendStaffSQL() & CustomFields() for use cases.
  *
@@ -686,13 +687,13 @@ function Search( $type, $extra = null )
  * @example $return .= SearchField( $first_name, 'student', $extra );
  *
  * Searching "Attendance Start" date >= to value, use PART => 'begin':
- * @example $sql .= SearchField( array( 'COLUMN' => 'ENROLLED_BEGIN', 'VALUE' => '2017-02-15', 'TYPE' => 'date', 'PART' => 'begin', 'TITLE' => _( 'Attendance Start' ) ), 'student', $extra );
+ * @example $sql .= SearchField( [ 'COLUMN_NAME' => 'ENROLLED_BEGIN', 'VALUE' => '2017-02-15', 'TYPE' => 'date', 'PART' => 'begin', 'TITLE' => _( 'Attendance Start' ) ], 'student', $extra );
  * Same applies for numeric fields.
  * PART can be 'begin' (greater than or equal) or 'end' (lower than or equal), defaults to equal.
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['SearchTerms']
  *
- * @param  array  $field  Field data: must include COLUMN|VALUE|TYPE|TITLE, may include SELECT_OPTIONS|PART.
+ * @param  array  $field  Field data: must include COLUMN_NAME|VALUE|TYPE|TITLE, may include SELECT_OPTIONS|PART.
  * @param  string $type   student|staff (optional).
  * @param  array  $extra  disable search terms: array( 'NoSearchTerms' => true ) (optional).
  *
@@ -716,7 +717,9 @@ function SearchField( $field, $type = 'student', $extra = [] )
 		$_ROSARIO['SearchTerms'] .= '<b>' . $field['TITLE'] . ':</b> ';
 	}
 
-	$column = $field['COLUMN'];
+	// @since 10.0 SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility
+	// Keep backward compatibility with COLUMN.
+	$column = isset( $field['COLUMN'] ) ? $field['COLUMN'] : $field['COLUMN_NAME'];
 
 	$sql_col = 's.' . DBEscapeIdentifier( $column );
 

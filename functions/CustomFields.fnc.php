@@ -16,6 +16,7 @@
  * @uses SearchField()
  *
  * @since 8.8 Fix PHP Fatal error Unsupported operand types in Teacher Programs: do not search Students List, unset!
+ * @since 10.0 SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility
  *
  * @param  string $location part of the SQL statement (always 'where').
  * @param  string $type     student|staff (optional).
@@ -67,17 +68,17 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 		|| ! empty( $cust_end )
 		|| ! empty( $_REQUEST['cust_null'] ) )
 	{
-		$fields = ParseMLArray( DBGet( "SELECT TITLE,CONCAT('CUSTOM_', ID) AS COLUMN,
+		$fields = ParseMLArray( DBGet( "SELECT TITLE,CONCAT('CUSTOM_', ID) AS COLUMN_NAME,
 			TYPE,SELECT_OPTIONS
 			FROM " . ( $type === 'staff' ? 'staff' : 'custom' ) . "_fields",
-			[], [ 'COLUMN' ] ), 'TITLE' );
+			[], [ 'COLUMN_NAME' ] ), 'TITLE' );
 
 		if ( $type !== 'staff' )
 		{
 			// Student Fields: search Username.
 			$fields['USERNAME'][1] = [
 				'TITLE' => _( 'Username' ),
-				'COLUMN' => 'USERNAME',
+				'COLUMN_NAME' => 'USERNAME',
 				'TYPE' => 'text',
 				'SELECT_OPTIONS' => null,
 			];
@@ -92,7 +93,7 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 			// @since 5.9 Move Email & Phone Staff Fields to custom fields.
 			$column = 'CUSTOM_200000000';
 
-			$fields[ $column ][1]['COLUMN'] = 'EMAIL';
+			$fields[ $column ][1]['COLUMN_NAME'] = 'EMAIL';
 		}
 
 		if ( ! isset( $fields[ $column ] ) )

@@ -283,7 +283,7 @@ function appendStaffSQL( $sql, $extra = [] )
 		&& $_REQUEST['staff_last'] !== '' )
 	{
 		$last_name = [
-			'COLUMN' => 'LAST_NAME',
+			'COLUMN_NAME' => 'LAST_NAME',
 			'VALUE' => $_REQUEST['staff_last'],
 			'TITLE' => _( 'Last Name' ),
 			'TYPE' => 'text',
@@ -298,7 +298,7 @@ function appendStaffSQL( $sql, $extra = [] )
 		&& $_REQUEST['staff_first'] !== '' )
 	{
 		$first_name = [
-			'COLUMN' => 'FIRST_NAME',
+			'COLUMN_NAME' => 'FIRST_NAME',
 			'VALUE' => $_REQUEST['staff_first'],
 			'TITLE' => _( 'First Name' ),
 			'TYPE' => 'text',
@@ -373,7 +373,7 @@ function appendStaffSQL( $sql, $extra = [] )
 		&& $_REQUEST['username'] !== '' )
 	{
 		$username = [
-			'COLUMN' => 'USERNAME',
+			'COLUMN_NAME' => 'USERNAME',
 			'VALUE' => $_REQUEST['username'],
 			'TITLE' => _( 'Username' ),
 			'TYPE' => 'text',
