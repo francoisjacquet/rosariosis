@@ -144,29 +144,29 @@ UPDATE report_card_grades
 SET title='3.0', gpa_value=3.0, break_off=30, comment='Médiocre'
 WHERE id=15;
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '2.5', 16, 2.5, 25, 'Insuffisant', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, '2.5', 16, 2.5, 25, 'Insuffisant', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '2.0', 17, 2.0, 20, 'Insuffisant', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, '2.0', 17, 2.0, 20, 'Insuffisant', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '1.5', 18, 1.5, 15, 'Insuffisant', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, '1.5', 18, 1.5, 15, 'Insuffisant', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '1.0', 19, 1.0, 10, 'Insuffisant', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, '1.0', 19, 1.0, 10, 'Insuffisant', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '0.5', 20, 0.5, 5, 'Insuffisant', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, '0.5', 20, 0.5, 5, 'Insuffisant', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '0.0', 21, 0.0, 0, 'Insuffisant', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, '0.0', 21, 0.0, 0, 'Insuffisant', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'I', 22, 0.0, 0, 'Incomplet', 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, 'I', 22, 0.0, 0, 'Incomplet', 1, NULL);
 
-INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'N/D', 23, NULL, 0.0, NULL, 1, NULL);
+INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, 'N/D', 23, NULL, 0.0, NULL, 1, NULL);
 
 
 --
@@ -380,7 +380,7 @@ SET title='Common Name|fr_FR.utf8:Surnom'
 WHERE id=200000002;
 
 UPDATE custom_fields
-SET title='Identification Number|fr_FR.utf8:Numero d''identification'
+SET title='Identification Number|fr_FR.utf8:Numéro d''identification'
 WHERE id=200000003;
 
 UPDATE custom_fields
