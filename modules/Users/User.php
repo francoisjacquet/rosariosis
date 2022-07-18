@@ -712,7 +712,7 @@ if (  ( UserStaffID()
 
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 			FROM staff_field_categories
-			WHERE " . ( $profile ? mb_strtoupper( $profile ) . '=\'Y\'' : 'ID=\'1\'' ) . "
+			WHERE " . ( $profile ? DBEscapeIdentifier( $profile ) . "='Y'" : "ID='1'" ) . "
 			ORDER BY SORT_ORDER,TITLE" );
 
 		foreach ( (array) $categories_RET as $category )
