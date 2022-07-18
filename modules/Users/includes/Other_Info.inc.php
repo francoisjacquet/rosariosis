@@ -16,8 +16,7 @@ $value = [];
 
 if ( UserStaffID() )
 {
-	$custom_RET = DBGet( "SELECT * FROM
-		STAFF
+	$custom_RET = DBGet( "SELECT * FROM staff
 		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	$value = $custom_RET[1];

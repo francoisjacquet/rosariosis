@@ -416,7 +416,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 				FROM students_join_address
 				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" ) )
 			{
-				DBQuery( "DELETE FROM ADDRESS
+				DBQuery( "DELETE FROM address
 					WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 
@@ -1105,7 +1105,7 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 
 			$addresses_RET = DBGet( "SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE
-				FROM ADDRESS
+				FROM address
 				WHERE ADDRESS_ID!='0'
 				AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID
 					FROM students_join_address
