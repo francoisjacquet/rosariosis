@@ -46,7 +46,7 @@ Changes in 10.0
 - SQL change program column type from text to varchar(100) NOT NULL to match with MySQL index limitation in rosariosis.sql
 - SQL change schools column type from text to varchar(150) to match with MySQL index limitation in rosariosis.sql
 - Rename YEAR_MONTH column alias to YEAR_MONTH_DATE: reserved keyword in MySQL in Dashboard.inc.php
-- SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL, program wide
+- SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL, program wide
 - SQL cast custom_fields ID as VARCHAR(10) instead of TEXT for MySQL compatibility in GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility in CustomFields.fnc.php, GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL remove use of nextval in rosariosis_fr.sql
