@@ -42,7 +42,7 @@ Changes in 10.0
 - Use plural wise ngettext() for "No %s were found." in FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 - Force result text to lowercase for "No %s were found." in ListOutput.fnc.php, FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 - Prevent admin from removing own access to User Profiles program in Profiles.php
-- SQL change modname column type from text to varchar(255) to match with MySQL key index limitation in rosariosis.sql
+- SQL change modname column type from text to varchar(150) to match with MySQL key index limitation in rosariosis.sql
 - SQL change program column type from text to varchar(100) NOT NULL to match with MySQL index limitation in rosariosis.sql
 - Rename YEAR_MONTH column alias to YEAR_MONTH_DATE: reserved keyword in MySQL in Dashboard.inc.php
 - SQL use DAYOFWEEK() for MySQL or extract(DOW) for PostrgeSQL, program wide
