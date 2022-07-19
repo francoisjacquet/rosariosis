@@ -49,6 +49,7 @@ Changes in 10.0
 - SQL cast custom_fields ID as VARCHAR(10) instead of TEXT for MySQL compatibility in GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility in CustomFields.fnc.php, GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL remove use of nextval in rosariosis_fr.sql
+- Rename $pg_dumpPath configuration variable to $DatabaseDumpPath in config.inc.sample.php & DatabaseBackup.php
 
 Changes in 9.3
 --------------

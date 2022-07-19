@@ -34,12 +34,17 @@ $DatabasePort = '5432';
  */
 
 /**
- * Full path to the PostrgeSQL database dump utility for this server
+ * Full path to the database dump utility for this server
  *
+ * pg_dump for PostgreSQL
  * @example /usr/bin/pg_dump
  * @example C:/Progra~1/PostgreSQL/bin/pg_dump.exe
+ *
+ * mysqldump for MySQL
+ * @example /usr/bin/mysqldump
+ * @example C:/wamp/bin/mysql/mysql[version]/mysqldump.exe
  */
-$pg_dumpPath = '';
+$DatabaseDumpPath = '';
 
 /**
  * Full path to wkhtmltopdf binary file

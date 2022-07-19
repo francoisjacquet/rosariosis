@@ -8,22 +8,23 @@ if ( $_REQUEST['modfunc'] !== 'backup' )
 if ( $_REQUEST['modfunc'] === 'backup'
 	&& isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
-	// FJ code inspired by phpPgAdmin.
-	putenv( 'PGHOST=' . $DatabaseServer );
-	putenv( 'PGPORT=' . $DatabasePort );
-	putenv( 'PGDATABASE=' . $DatabaseName );
-	putenv( 'PGUSER=' . $DatabaseUsername );
-	putenv( 'PGPASSWORD=' . $DatabasePassword );
+	if ( ! empty( $pg_dumpPath )
+		&& empty( $DatabaseDumpPath )
+		&& $DatabaseType === 'postgresql' )
+	{
+		// @since 10.0 Rename $pg_dumpPath configuration variable to $DatabaseDumpPath
+		$DatabaseDumpPath = $pg_dumpPath;
+	}
 
-	$exe = escapeShellCmd( $pg_dumpPath );
+	$exe = escapeshellcmd( $DatabaseDumpPath );
 
-	// Obtain the pg_dump version number and check if the path is good.
+	// Obtain the dump utility version number and check if the path is good.
 	$version = [];
 	preg_match( "/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec( $exe . " --version" ), $version );
 
 	if ( empty( $version ) )
 	{
-		$error[] = sprintf( 'The path to the database dump utility specified in the configuration file (config.inc.php) is wrong! (%s)', $pg_dumpPath );
+		$error[] = sprintf( 'The path to the database dump utility specified in the configuration file (config.inc.php) is wrong! (%s)', $DatabaseDumpPath );
 
 		ErrorMessage( $error, 'fatal' );
 	}
