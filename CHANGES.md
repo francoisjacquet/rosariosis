@@ -50,6 +50,7 @@ Changes in 10.0
 - SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility in CustomFields.fnc.php, GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL remove use of nextval in rosariosis_fr.sql
 - Rename $pg_dumpPath configuration variable to $DatabaseDumpPath in config.inc.sample.php & DatabaseBackup.php
+- Build command for executing mysqldump in DatabaseBackup.php
 
 Changes in 9.3
 --------------

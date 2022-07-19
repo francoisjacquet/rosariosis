@@ -46,8 +46,31 @@ if ( $_REQUEST['modfunc'] === 'backup'
 	header( $header );
 	header( "Content-Transfer-Encoding: binary" );
 
-	// Build command for executing pg_dump. '--inserts' means dump data as INSERT commands (rather than COPY).
-	$cmd = $exe . ' --inserts';
+	if ( $DatabaseType === 'postgresql' )
+	{
+		// Code inspired by phpPgAdmin.
+		putenv( 'PGHOST=' . $DatabaseServer );
+		putenv( 'PGDATABASE=' . $DatabaseName );
+		putenv( 'PGUSER=' . $DatabaseUsername );
+		putenv( 'PGPASSWORD=' . $DatabasePassword );
+
+		if ( ! empty( $DatabasePort ) )
+		{
+			putenv( 'PGPORT=' . $DatabasePort );
+		}
+
+		// Build command for executing pg_dump. '--inserts' means dump data as INSERT commands (rather than COPY).
+		$cmd = $exe . ' --inserts';
+	}
+	else
+	{
+		// @since 10.0 Build command for executing mysqldump.
+		$cmd = $exe . ' --user=' . escapeshellarg( $DatabaseUsername ) .
+			' --password=' . escapeshellarg( $DatabasePassword ) .
+			' --host=' . escapeshellarg( $DatabaseServer ) .
+			( ! empty( $DatabasePort ) ? ' --port=' . escapeshellarg( $DatabasePort ) : '' ) .
+			' ' . escapeshellarg( $DatabaseName );
+	}
 
 	// Execute command and return the output to the screen.
 	passthru( $cmd );
