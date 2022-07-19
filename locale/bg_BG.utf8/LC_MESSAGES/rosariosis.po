@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-21 18:05+0200\n"
-"PO-Revision-Date: 2022-01-01 19:28+0100\n"
+"PO-Revision-Date: 2022-07-19 19:23+0200\n"
 "Last-Translator: marto12\n"
 "Language-Team: \n"
 "Language: bg_BG\n"
@@ -6898,7 +6898,7 @@ msgstr "Деактивиране"
 #: modules/School_Setup/includes/Modules.inc.php:103
 #: modules/School_Setup/includes/Modules.inc.php:136
 #: modules/School_Setup/includes/Modules.inc.php:149
-msgid "Incomplete or inexistant module."
+msgid "Incomplete or nonexistent module."
 msgstr "Непълен или несъществуващ модул."
 
 #: modules/School_Setup/includes/Modules.inc.php:204
@@ -6928,7 +6928,7 @@ msgstr[1] "добавки"
 #: modules/School_Setup/includes/Plugins.inc.php:95
 #: modules/School_Setup/includes/Plugins.inc.php:128
 #: modules/School_Setup/includes/Plugins.inc.php:141
-msgid "Incomplete or inexistant plugin."
+msgid "Incomplete or nonexistent plugin."
 msgstr "Непълна или несъществуваща добавка."
 
 #: modules/Student_Billing/DailyTotals.php:45

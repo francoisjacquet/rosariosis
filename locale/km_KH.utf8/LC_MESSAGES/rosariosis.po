@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-14 16:02-0500\n"
-"PO-Revision-Date: 2022-01-01 19:31+0100\n"
+"PO-Revision-Date: 2022-07-19 19:24+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: km\n"
@@ -74,42 +74,36 @@ msgid "Logout"
 msgstr "ចាក់ចេញពីគណនី"
 
 # 'user_profiles' table
-#: Help.php:45 functions/GetStaffList.fnc.php:244 functions/GetStaffList.fnc.php:294 functions/Search.fnc.php:232 modules/School_Setup/AccessLog.php:192 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:255
-#: modules/Users/UserFields.php:252 modules/Users/includes/General_Info.inc.php:166
+#: Help.php:45 functions/GetStaffList.fnc.php:244 functions/GetStaffList.fnc.php:294 functions/Search.fnc.php:232 modules/School_Setup/AccessLog.php:192 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:255 modules/Users/UserFields.php:252 modules/Users/includes/General_Info.inc.php:166
 msgid "Administrator"
 msgstr "អ្នកគ្រប់គ្រង"
 
 # #-#-#-#-#  database.pot (PACKAGE VERSION)  #-#-#-#-#
 # 'user_profiles' table
-#: Help.php:50 functions/GetStaffList.fnc.php:245 functions/GetStaffList.fnc.php:253 functions/GetStaffList.fnc.php:296 functions/Search.fnc.php:233 functions/Search.fnc.php:242 modules/Attendance/TeacherCompletion.php:125
-#: modules/Attendance/TeacherCompletion.php:150 modules/Eligibility/TeacherCompletion.php:168 modules/Food_Service/Students/Reminders.php:186 modules/Grades/FinalGrades.php:123 modules/Grades/GradeBreakdown.php:187 modules/Grades/HonorRoll.php:164
-#: modules/Grades/HonorRollSubject.php:96 modules/Grades/StudentGrades.php:55 modules/Grades/TeacherCompletion.php:89 modules/Grades/TeacherCompletion.php:110 modules/Grades/includes/ReportCards.fnc.php:43
-#: modules/Grades/includes/ReportCards.fnc.php:350 modules/Grades/includes/StudentAssignments.fnc.php:269 modules/Grades/includes/StudentAssignments.fnc.php:522 modules/Scheduling/Courses.php:677 modules/Scheduling/MassRequests.php:69
-#: modules/Scheduling/MassRequests.php:88 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintClassLists.php:135 modules/Scheduling/PrintClassPictures.php:213 modules/Scheduling/PrintSchedules.php:33
-#: modules/Scheduling/Requests.php:193 modules/Scheduling/Schedule.php:235 modules/Scheduling/Schedule.php:287 modules/Scheduling/ScheduleReport.php:246 modules/Scheduling/UnfilledRequests.php:47 modules/School_Setup/AccessLog.php:193
-#: modules/School_Setup/Calendar.php:703 modules/Students/StudentLabels.php:86 modules/Students/StudentLabels.php:171 modules/Students/StudentLabels.php:182 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:256
-#: modules/Users/UserFields.php:261 modules/Users/includes/General_Info.inc.php:167 modules/Users/includes/General_Info.inc.php:188 modules/misc/Export.php:197 modules/misc/Export.php:206 modules/misc/Export.php:594 modules/misc/Portal.php:216
-#: modules/misc/Portal.php:403 modules/misc/Portal.php:520 modules/misc/Portal.php:657
+#: Help.php:50 functions/GetStaffList.fnc.php:245 functions/GetStaffList.fnc.php:253 functions/GetStaffList.fnc.php:296 functions/Search.fnc.php:233 functions/Search.fnc.php:242 modules/Attendance/TeacherCompletion.php:125 modules/Attendance/TeacherCompletion.php:150
+#: modules/Eligibility/TeacherCompletion.php:168 modules/Food_Service/Students/Reminders.php:186 modules/Grades/FinalGrades.php:123 modules/Grades/GradeBreakdown.php:187 modules/Grades/HonorRoll.php:164 modules/Grades/HonorRollSubject.php:96 modules/Grades/StudentGrades.php:55
+#: modules/Grades/TeacherCompletion.php:89 modules/Grades/TeacherCompletion.php:110 modules/Grades/includes/ReportCards.fnc.php:43 modules/Grades/includes/ReportCards.fnc.php:350 modules/Grades/includes/StudentAssignments.fnc.php:269 modules/Grades/includes/StudentAssignments.fnc.php:522
+#: modules/Scheduling/Courses.php:677 modules/Scheduling/MassRequests.php:69 modules/Scheduling/MassRequests.php:88 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintClassLists.php:135 modules/Scheduling/PrintClassPictures.php:213 modules/Scheduling/PrintSchedules.php:33
+#: modules/Scheduling/Requests.php:193 modules/Scheduling/Schedule.php:235 modules/Scheduling/Schedule.php:287 modules/Scheduling/ScheduleReport.php:246 modules/Scheduling/UnfilledRequests.php:47 modules/School_Setup/AccessLog.php:193 modules/School_Setup/Calendar.php:703
+#: modules/Students/StudentLabels.php:86 modules/Students/StudentLabels.php:171 modules/Students/StudentLabels.php:182 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:256 modules/Users/UserFields.php:261 modules/Users/includes/General_Info.inc.php:167
+#: modules/Users/includes/General_Info.inc.php:188 modules/misc/Export.php:197 modules/misc/Export.php:206 modules/misc/Export.php:594 modules/misc/Portal.php:216 modules/misc/Portal.php:403 modules/misc/Portal.php:520 modules/misc/Portal.php:657
 msgid "Teacher"
 msgstr "គ្រូ"
 
 # 'user_profiles' table
-#: Help.php:55 functions/GetStaffList.fnc.php:246 functions/GetStaffList.fnc.php:254 functions/GetStaffList.fnc.php:298 functions/Search.fnc.php:234 functions/Search.fnc.php:243 modules/Custom/CreateParents.php:234
-#: modules/Custom/NotifyParents.php:87 modules/Custom/Registration.php:191 modules/School_Setup/AccessLog.php:194 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:257 modules/Users/UserFields.php:270
-#: modules/Users/includes/General_Info.inc.php:168 modules/Users/includes/General_Info.inc.php:189
+#: Help.php:55 functions/GetStaffList.fnc.php:246 functions/GetStaffList.fnc.php:254 functions/GetStaffList.fnc.php:298 functions/Search.fnc.php:234 functions/Search.fnc.php:243 modules/Custom/CreateParents.php:234 modules/Custom/NotifyParents.php:87 modules/Custom/Registration.php:191
+#: modules/School_Setup/AccessLog.php:194 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:257 modules/Users/UserFields.php:270 modules/Users/includes/General_Info.inc.php:168 modules/Users/includes/General_Info.inc.php:189
 msgid "Parent"
 msgstr "ឪពុកម្តាយ"
 
 # 'user_profiles' table
-#: Help.php:60 Side.php:390 modules/Accounting/DailyTransactions.php:187 modules/Attendance/DuplicateAttendance.php:239 modules/Attendance/TakeAttendance.php:253 modules/Attendance/TakeAttendance.php:264 modules/Custom/CreateParents.php:234
-#: modules/Custom/MyReport.php:98 modules/Custom/MyReport.php:177 modules/Discipline/MakeReferral.php:184 modules/Discipline/Referrals.php:189 modules/Discipline/includes/EmailReferral.fnc.php:53 modules/Eligibility/EnterEligibility.php:150
-#: modules/Eligibility/EnterEligibility.php:151 modules/Eligibility/StudentList.php:104 modules/Eligibility/StudentList.php:112 modules/Food_Service/Accounts.php:19 modules/Food_Service/ActivityReport.php:42 modules/Food_Service/AssignSchool.php:42
-#: modules/Food_Service/BalanceReport.php:52 modules/Food_Service/MenuReports.php:162 modules/Food_Service/Reminders.php:17 modules/Food_Service/ServeMenus.php:37 modules/Food_Service/Statements.php:64
-#: modules/Food_Service/Students/ActivityReport.php:60 modules/Food_Service/Students/ActivityReport.php:97 modules/Food_Service/Students/Statements.php:39 modules/Food_Service/Students/Statements.php:96 modules/Food_Service/TakeMenuCounts.php:201
-#: modules/Food_Service/Transactions.php:27 modules/Food_Service/TransactionsReport.php:92 modules/Grades/FinalGrades.php:119 modules/Grades/Grades.php:298 modules/Grades/Grades.php:520 modules/Grades/InputFinalGrades.php:1012
-#: modules/Grades/InputFinalGrades.php:1059 modules/Scheduling/AddDrop.php:60 modules/Scheduling/IncompleteSchedules.php:70 modules/Scheduling/ScheduleReport.php:351 modules/Scheduling/ScheduleReport.php:366
-#: modules/Scheduling/ScheduleReport.php:369 modules/School_Setup/AccessLog.php:191 modules/Student_Billing/DailyTransactions.php:73 modules/Students/AddDrop.php:56 modules/Students/Search.inc.php:211 modules/Students/Search.inc.php:274
-#: modules/Users/AddStudents.php:98 modules/misc/Export.php:456 modules/misc/Portal.php:243 modules/misc/Portal.php:550
+#: Help.php:60 Side.php:390 modules/Accounting/DailyTransactions.php:187 modules/Attendance/DuplicateAttendance.php:239 modules/Attendance/TakeAttendance.php:253 modules/Attendance/TakeAttendance.php:264 modules/Custom/CreateParents.php:234 modules/Custom/MyReport.php:98 modules/Custom/MyReport.php:177
+#: modules/Discipline/MakeReferral.php:184 modules/Discipline/Referrals.php:189 modules/Discipline/includes/EmailReferral.fnc.php:53 modules/Eligibility/EnterEligibility.php:150 modules/Eligibility/EnterEligibility.php:151 modules/Eligibility/StudentList.php:104 modules/Eligibility/StudentList.php:112
+#: modules/Food_Service/Accounts.php:19 modules/Food_Service/ActivityReport.php:42 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/BalanceReport.php:52 modules/Food_Service/MenuReports.php:162 modules/Food_Service/Reminders.php:17 modules/Food_Service/ServeMenus.php:37
+#: modules/Food_Service/Statements.php:64 modules/Food_Service/Students/ActivityReport.php:60 modules/Food_Service/Students/ActivityReport.php:97 modules/Food_Service/Students/Statements.php:39 modules/Food_Service/Students/Statements.php:96 modules/Food_Service/TakeMenuCounts.php:201
+#: modules/Food_Service/Transactions.php:27 modules/Food_Service/TransactionsReport.php:92 modules/Grades/FinalGrades.php:119 modules/Grades/Grades.php:298 modules/Grades/Grades.php:520 modules/Grades/InputFinalGrades.php:1012 modules/Grades/InputFinalGrades.php:1059 modules/Scheduling/AddDrop.php:60
+#: modules/Scheduling/IncompleteSchedules.php:70 modules/Scheduling/ScheduleReport.php:351 modules/Scheduling/ScheduleReport.php:366 modules/Scheduling/ScheduleReport.php:369 modules/School_Setup/AccessLog.php:191 modules/Student_Billing/DailyTransactions.php:73 modules/Students/AddDrop.php:56
+#: modules/Students/Search.inc.php:211 modules/Students/Search.inc.php:274 modules/Users/AddStudents.php:98 modules/misc/Export.php:456 modules/misc/Portal.php:243 modules/misc/Portal.php:550
 msgid "Student"
 msgstr "សិស្ស"
 
@@ -140,8 +134,8 @@ msgstr "សិស្សមិនអាចធ្វើការកំណត់ល
 msgid "Forgot your password?"
 msgstr "ភ្លេចលេងសំងាត់របស់អក្ន?"
 
-#: PasswordReset.php:304 ProgramFunctions/StudentsUsersInfo.fnc.php:49 modules/Custom/CreateParents.php:234 modules/Custom/CreateParents.php:295 modules/Custom/CreateParents.php:311 modules/Custom/NotifyParents.php:87
-#: modules/Custom/NotifyParents.php:138 modules/Custom/NotifyParents.php:159 modules/Students/includes/General_Info.inc.php:118
+#: PasswordReset.php:304 ProgramFunctions/StudentsUsersInfo.fnc.php:49 modules/Custom/CreateParents.php:234 modules/Custom/CreateParents.php:295 modules/Custom/CreateParents.php:311 modules/Custom/NotifyParents.php:87 modules/Custom/NotifyParents.php:138 modules/Custom/NotifyParents.php:159
+#: modules/Students/includes/General_Info.inc.php:118
 msgid "Email"
 msgstr "អីម៉ែល"
 
@@ -173,8 +167,8 @@ msgstr "លេងសំងាត់ថ្មី"
 msgid "Verify New Password"
 msgstr "ផ្ទៀង​ផ្ទាតលេងសំងាត់ថ្មី់"
 
-#: PasswordReset.php:463 ProgramFunctions/PortalPollsNotes.fnc.php:277 modules/Discipline/MakeReferral.php:429 modules/Scheduling/PrintClassLists.php:167 modules/Scheduling/PrintClassPictures.php:247 modules/Students/Search.inc.php:76
-#: modules/Students/Search.inc.php:148 modules/Students_Import/StudentsImport.php:151 modules/Users/Search.inc.php:64
+#: PasswordReset.php:463 ProgramFunctions/PortalPollsNotes.fnc.php:277 modules/Discipline/MakeReferral.php:429 modules/Scheduling/PrintClassLists.php:167 modules/Scheduling/PrintClassPictures.php:247 modules/Students/Search.inc.php:76 modules/Students/Search.inc.php:148
+#: modules/Students_Import/StudentsImport.php:151 modules/Users/Search.inc.php:64
 msgid "Submit"
 msgstr "បញ្ញូន"
 
@@ -182,33 +176,28 @@ msgstr "បញ្ញូន"
 msgid "Right Click to Save Image As..."
 msgstr "ចុញម៉ៅខាងស្តាំដើម្បីរក្សាទុករូបភាពជា..."
 
-#: ProgramFunctions/Fields.fnc.php:309 functions/Buttons.php:55 functions/Prompts.php:32 modules/Accounting/functions.inc.php:8 modules/Attendance/DuplicateAttendance.php:203 modules/Attendance/DuplicateAttendance.php:370
-#: modules/Discipline/DisciplineForm.php:289 modules/Grades/Assignments.php:388 modules/Scheduling/Courses.php:590 modules/School_Setup/Calendar.php:581 modules/School_Setup/Calendar.php:717 modules/School_Setup/MarkingPeriods.php:433
-#: modules/School_Setup/Schools.php:145 modules/School_Setup/Schools.php:205 modules/School_Setup/includes/Modules.inc.php:254 modules/School_Setup/includes/Plugins.inc.php:244 modules/Student_Billing/functions.inc.php:13
-#: modules/Student_Billing/functions.inc.php:26 modules/Users/User.php:507 plugins/Paypal_Registration/config.inc.php:453
+#: ProgramFunctions/Fields.fnc.php:309 functions/Buttons.php:55 functions/Prompts.php:32 modules/Accounting/functions.inc.php:8 modules/Attendance/DuplicateAttendance.php:203 modules/Attendance/DuplicateAttendance.php:370 modules/Discipline/DisciplineForm.php:289 modules/Grades/Assignments.php:388
+#: modules/Scheduling/Courses.php:590 modules/School_Setup/Calendar.php:581 modules/School_Setup/Calendar.php:717 modules/School_Setup/MarkingPeriods.php:433 modules/School_Setup/Schools.php:145 modules/School_Setup/Schools.php:205 modules/School_Setup/includes/Modules.inc.php:254
+#: modules/School_Setup/includes/Plugins.inc.php:244 modules/Student_Billing/functions.inc.php:13 modules/Student_Billing/functions.inc.php:26 modules/Users/User.php:507 plugins/Paypal_Registration/config.inc.php:453
 msgid "Delete"
 msgstr "លុប"
 
-#: ProgramFunctions/Fields.fnc.php:314 modules/Accounting/Expenses.php:135 modules/Accounting/Expenses.php:144 modules/Accounting/Incomes.php:130 modules/Accounting/Incomes.php:141 modules/Accounting/Salaries.php:114
-#: modules/Accounting/Salaries.php:123 modules/Accounting/StaffPayments.php:142 modules/Accounting/StaffPayments.php:151 modules/Attendance/AttendanceCodes.php:166 modules/Attendance/AttendanceCodes.php:174 modules/Attendance/TakeAttendance.php:247
-#: modules/Attendance/TakeAttendance.php:266 modules/Custom/Registration.php:717 modules/Discipline/DisciplineForm.php:182 modules/Discipline/DisciplineForm.php:185 modules/Discipline/Referrals.php:169 modules/Discipline/Referrals.php:414
-#: modules/Eligibility/Activities.php:108 modules/Eligibility/Activities.php:110 modules/Eligibility/EnterEligibility.php:148 modules/Eligibility/EnterEligibility.php:152 modules/Eligibility/EntryTimes.php:84
-#: modules/Food_Service/AssignSchool.php:41 modules/Food_Service/AssignSchool.php:46 modules/Food_Service/DailyMenus.php:239 modules/Food_Service/DailyMenus.php:261 modules/Food_Service/MenuItems.php:228 modules/Food_Service/MenuItems.php:243
-#: modules/Food_Service/Menus.php:213 modules/Food_Service/Menus.php:224 modules/Food_Service/Students/Accounts.php:107 modules/Food_Service/Students/Accounts.php:172 modules/Food_Service/Students/Transactions.php:73
-#: modules/Food_Service/Students/Transactions.php:123 modules/Food_Service/TakeMenuCounts.php:149 modules/Food_Service/TakeMenuCounts.php:187 modules/Food_Service/Users/Accounts.php:126 modules/Food_Service/Users/Accounts.php:170
-#: modules/Food_Service/Users/Transactions.php:66 modules/Food_Service/Users/Transactions.php:117 modules/Grades/Assignments-new.php:282 modules/Grades/Assignments-new.php:293 modules/Grades/Assignments.php:474 modules/Grades/Assignments.php:576
-#: modules/Grades/Configuration.php:32 modules/Grades/Configuration.php:217 modules/Grades/EditHistoryMarkingPeriods.php:83 modules/Grades/EditHistoryMarkingPeriods.php:121 modules/Grades/EditReportCardGrades.php:206
-#: modules/Grades/EditReportCardGrades.php:326 modules/Grades/Grades.php:491 modules/Grades/Grades.php:522 modules/Grades/InputFinalGrades.php:970 modules/Grades/InputFinalGrades.php:1061 modules/Grades/ReportCardCommentCodes.php:165
-#: modules/Grades/ReportCardCommentCodes.php:175 modules/Grades/ReportCardComments.php:281 modules/Grades/ReportCardComments.php:296 modules/Grades/ReportCardGrades.php:246 modules/Grades/ReportCardGrades.php:261 modules/Resources/Resources.php:79
-#: modules/Resources/Resources.php:82 modules/Scheduling/Courses.php:644 modules/Scheduling/Courses.php:1067 modules/Scheduling/Courses.php:1126 modules/Scheduling/Requests.php:220 modules/Scheduling/Requests.php:240
-#: modules/Scheduling/Schedule.php:145 modules/Scheduling/Schedule.php:261 modules/Scheduling/new_Requests.php:51 modules/Scheduling/new_Requests.php:56 modules/School_Inventory/SchoolInventory.php:444
-#: modules/School_Inventory/SchoolInventory.php:504 modules/School_Setup/Calendar.php:1305 modules/School_Setup/Configuration.php:152 modules/School_Setup/Configuration.php:445 modules/School_Setup/GradeLevels.php:84
-#: modules/School_Setup/GradeLevels.php:87 modules/School_Setup/MarkingPeriods.php:439 modules/School_Setup/Periods.php:152 modules/School_Setup/Periods.php:156 modules/School_Setup/PortalNotes.php:282 modules/School_Setup/PortalNotes.php:286
-#: modules/School_Setup/PortalPolls.php:221 modules/School_Setup/PortalPolls.php:225 modules/School_Setup/Schools.php:23 modules/School_Setup/Schools.php:205 modules/School_Setup/Schools.php:560 modules/Student_Billing/StudentFees.php:153
-#: modules/Student_Billing/StudentFees.php:164 modules/Student_Billing/StudentPayments.php:183 modules/Student_Billing/StudentPayments.php:194 modules/Students/AssignOtherInfo.php:139 modules/Students/AssignOtherInfo.php:379
-#: modules/Students/EnrollmentCodes.php:101 modules/Students/EnrollmentCodes.php:104 modules/Students/Student.php:460 modules/Students/Student.php:515 modules/Users/Exceptions.php:131 modules/Users/Exceptions.php:312
-#: modules/Users/Preferences.php:139 modules/Users/Preferences.php:861 modules/Users/Profiles.php:225 modules/Users/Profiles.php:456 modules/Users/User.php:520 modules/Users/User.php:585 plugins/Moodle/config.inc.php:57
-#: plugins/Moodle/config.inc.php:121
+#: ProgramFunctions/Fields.fnc.php:314 modules/Accounting/Expenses.php:135 modules/Accounting/Expenses.php:144 modules/Accounting/Incomes.php:130 modules/Accounting/Incomes.php:141 modules/Accounting/Salaries.php:114 modules/Accounting/Salaries.php:123 modules/Accounting/StaffPayments.php:142
+#: modules/Accounting/StaffPayments.php:151 modules/Attendance/AttendanceCodes.php:166 modules/Attendance/AttendanceCodes.php:174 modules/Attendance/TakeAttendance.php:247 modules/Attendance/TakeAttendance.php:266 modules/Custom/Registration.php:717 modules/Discipline/DisciplineForm.php:182
+#: modules/Discipline/DisciplineForm.php:185 modules/Discipline/Referrals.php:169 modules/Discipline/Referrals.php:414 modules/Eligibility/Activities.php:108 modules/Eligibility/Activities.php:110 modules/Eligibility/EnterEligibility.php:148 modules/Eligibility/EnterEligibility.php:152
+#: modules/Eligibility/EntryTimes.php:84 modules/Food_Service/AssignSchool.php:41 modules/Food_Service/AssignSchool.php:46 modules/Food_Service/DailyMenus.php:239 modules/Food_Service/DailyMenus.php:261 modules/Food_Service/MenuItems.php:228 modules/Food_Service/MenuItems.php:243
+#: modules/Food_Service/Menus.php:213 modules/Food_Service/Menus.php:224 modules/Food_Service/Students/Accounts.php:107 modules/Food_Service/Students/Accounts.php:172 modules/Food_Service/Students/Transactions.php:73 modules/Food_Service/Students/Transactions.php:123
+#: modules/Food_Service/TakeMenuCounts.php:149 modules/Food_Service/TakeMenuCounts.php:187 modules/Food_Service/Users/Accounts.php:126 modules/Food_Service/Users/Accounts.php:170 modules/Food_Service/Users/Transactions.php:66 modules/Food_Service/Users/Transactions.php:117
+#: modules/Grades/Assignments-new.php:282 modules/Grades/Assignments-new.php:293 modules/Grades/Assignments.php:474 modules/Grades/Assignments.php:576 modules/Grades/Configuration.php:32 modules/Grades/Configuration.php:217 modules/Grades/EditHistoryMarkingPeriods.php:83
+#: modules/Grades/EditHistoryMarkingPeriods.php:121 modules/Grades/EditReportCardGrades.php:206 modules/Grades/EditReportCardGrades.php:326 modules/Grades/Grades.php:491 modules/Grades/Grades.php:522 modules/Grades/InputFinalGrades.php:970 modules/Grades/InputFinalGrades.php:1061
+#: modules/Grades/ReportCardCommentCodes.php:165 modules/Grades/ReportCardCommentCodes.php:175 modules/Grades/ReportCardComments.php:281 modules/Grades/ReportCardComments.php:296 modules/Grades/ReportCardGrades.php:246 modules/Grades/ReportCardGrades.php:261 modules/Resources/Resources.php:79
+#: modules/Resources/Resources.php:82 modules/Scheduling/Courses.php:644 modules/Scheduling/Courses.php:1067 modules/Scheduling/Courses.php:1126 modules/Scheduling/Requests.php:220 modules/Scheduling/Requests.php:240 modules/Scheduling/Schedule.php:145 modules/Scheduling/Schedule.php:261
+#: modules/Scheduling/new_Requests.php:51 modules/Scheduling/new_Requests.php:56 modules/School_Inventory/SchoolInventory.php:444 modules/School_Inventory/SchoolInventory.php:504 modules/School_Setup/Calendar.php:1305 modules/School_Setup/Configuration.php:152 modules/School_Setup/Configuration.php:445
+#: modules/School_Setup/GradeLevels.php:84 modules/School_Setup/GradeLevels.php:87 modules/School_Setup/MarkingPeriods.php:439 modules/School_Setup/Periods.php:152 modules/School_Setup/Periods.php:156 modules/School_Setup/PortalNotes.php:282 modules/School_Setup/PortalNotes.php:286
+#: modules/School_Setup/PortalPolls.php:221 modules/School_Setup/PortalPolls.php:225 modules/School_Setup/Schools.php:23 modules/School_Setup/Schools.php:205 modules/School_Setup/Schools.php:560 modules/Student_Billing/StudentFees.php:153 modules/Student_Billing/StudentFees.php:164
+#: modules/Student_Billing/StudentPayments.php:183 modules/Student_Billing/StudentPayments.php:194 modules/Students/AssignOtherInfo.php:139 modules/Students/AssignOtherInfo.php:379 modules/Students/EnrollmentCodes.php:101 modules/Students/EnrollmentCodes.php:104 modules/Students/Student.php:460
+#: modules/Students/Student.php:515 modules/Users/Exceptions.php:131 modules/Users/Exceptions.php:312 modules/Users/Preferences.php:139 modules/Users/Preferences.php:861 modules/Users/Profiles.php:225 modules/Users/Profiles.php:456 modules/Users/User.php:520 modules/Users/User.php:585
+#: plugins/Moodle/config.inc.php:57 plugins/Moodle/config.inc.php:121
 msgid "Save"
 msgstr "រក្សាទុក"
 
@@ -216,8 +205,7 @@ msgstr "រក្សាទុក"
 msgid "Field Name"
 msgstr "ឈ្មោះតារាង"
 
-#: ProgramFunctions/Fields.fnc.php:332 ProgramFunctions/Fields.fnc.php:354 ProgramFunctions/Fields.fnc.php:422 ProgramFunctions/Fields.fnc.php:620 modules/Discipline/DisciplineForm.php:177 modules/Discipline/DisciplineForm.php:197
-#: modules/Students_Import/includes/StudentsImport.fnc.php:882
+#: ProgramFunctions/Fields.fnc.php:332 ProgramFunctions/Fields.fnc.php:354 ProgramFunctions/Fields.fnc.php:422 ProgramFunctions/Fields.fnc.php:620 modules/Discipline/DisciplineForm.php:177 modules/Discipline/DisciplineForm.php:197 modules/Students_Import/includes/StudentsImport.fnc.php:882
 msgid "Pull-Down"
 msgstr "ត្រប់ដោន"
 
@@ -237,13 +225,11 @@ msgstr "លេខកូដត្រប់ដោន"
 msgid "Export Pull-Down"
 msgstr "នាំចេញ"
 
-#: ProgramFunctions/Fields.fnc.php:337 ProgramFunctions/Fields.fnc.php:423 ProgramFunctions/Fields.fnc.php:625 modules/Discipline/DisciplineForm.php:177 modules/Discipline/DisciplineForm.php:197 modules/School_Setup/PortalPolls.php:279
-#: modules/Students_Import/includes/StudentsImport.fnc.php:890
+#: ProgramFunctions/Fields.fnc.php:337 ProgramFunctions/Fields.fnc.php:423 ProgramFunctions/Fields.fnc.php:625 modules/Discipline/DisciplineForm.php:177 modules/Discipline/DisciplineForm.php:197 modules/School_Setup/PortalPolls.php:279 modules/Students_Import/includes/StudentsImport.fnc.php:890
 msgid "Select Multiple from Options"
 msgstr "ជ្រើសរើសបានច្រើនពីជម្រើស"
 
-#: ProgramFunctions/Fields.fnc.php:338 ProgramFunctions/Fields.fnc.php:358 ProgramFunctions/Fields.fnc.php:626 modules/Discipline/DisciplineForm.php:197 modules/Grades/HonorRoll.php:212 modules/Grades/HonorRollSubject.php:133
-#: modules/Students_Import/includes/StudentsImport.fnc.php:885
+#: ProgramFunctions/Fields.fnc.php:338 ProgramFunctions/Fields.fnc.php:358 ProgramFunctions/Fields.fnc.php:626 modules/Discipline/DisciplineForm.php:197 modules/Grades/HonorRoll.php:212 modules/Grades/HonorRollSubject.php:133 modules/Students_Import/includes/StudentsImport.fnc.php:885
 msgid "Text"
 msgstr "អត្ដបទ"
 
@@ -259,12 +245,11 @@ msgstr "ប្រអប់ធីក"
 msgid "Number"
 msgstr "លេខ"
 
-#: ProgramFunctions/Fields.fnc.php:342 ProgramFunctions/Fields.fnc.php:630 modules/Accounting/DailyTransactions.php:188 modules/Accounting/Expenses.php:117 modules/Accounting/StaffPayments.php:124 modules/Attendance/Percent.php:108
-#: modules/Attendance/StudentSummary.php:184 modules/Discipline/DisciplineForm.php:197 modules/Discipline/includes/EmailReferral.fnc.php:55 modules/Discipline/includes/ReferralLog.fnc.php:203 modules/Food_Service/DailyMenus.php:236
-#: modules/Food_Service/Students/ActivityReport.php:61 modules/Food_Service/Students/ActivityReport.php:98 modules/Food_Service/Students/Statements.php:97 modules/Food_Service/Students/Statements.php:131
-#: modules/Food_Service/Users/ActivityReport.php:54 modules/Food_Service/Users/ActivityReport.php:88 modules/Food_Service/Users/Statements.php:69 modules/Food_Service/Users/Statements.php:103 modules/Grades/HonorRoll.php:175
-#: modules/Grades/HonorRollSubject.php:106 modules/School_Setup/AccessLog.php:112 modules/School_Setup/Calendar.php:652 modules/School_Setup/Calendar.php:809 modules/Student_Billing/DailyTransactions.php:73
-#: modules/Student_Billing/MassAssignPayments.php:64 modules/Student_Billing/StudentPayments.php:161 modules/Students/includes/Medical.inc.php:61 modules/Students/includes/Medical.inc.php:82 modules/misc/Portal.php:476 modules/misc/Portal.php:613
+#: ProgramFunctions/Fields.fnc.php:342 ProgramFunctions/Fields.fnc.php:630 modules/Accounting/DailyTransactions.php:188 modules/Accounting/Expenses.php:117 modules/Accounting/StaffPayments.php:124 modules/Attendance/Percent.php:108 modules/Attendance/StudentSummary.php:184
+#: modules/Discipline/DisciplineForm.php:197 modules/Discipline/includes/EmailReferral.fnc.php:55 modules/Discipline/includes/ReferralLog.fnc.php:203 modules/Food_Service/DailyMenus.php:236 modules/Food_Service/Students/ActivityReport.php:61 modules/Food_Service/Students/ActivityReport.php:98
+#: modules/Food_Service/Students/Statements.php:97 modules/Food_Service/Students/Statements.php:131 modules/Food_Service/Users/ActivityReport.php:54 modules/Food_Service/Users/ActivityReport.php:88 modules/Food_Service/Users/Statements.php:69 modules/Food_Service/Users/Statements.php:103
+#: modules/Grades/HonorRoll.php:175 modules/Grades/HonorRollSubject.php:106 modules/School_Setup/AccessLog.php:112 modules/School_Setup/Calendar.php:652 modules/School_Setup/Calendar.php:809 modules/Student_Billing/DailyTransactions.php:73 modules/Student_Billing/MassAssignPayments.php:64
+#: modules/Student_Billing/StudentPayments.php:161 modules/Students/includes/Medical.inc.php:61 modules/Students/includes/Medical.inc.php:82 modules/misc/Portal.php:476 modules/misc/Portal.php:613
 msgid "Date"
 msgstr "កាលបរិច្ឆេទ"
 
@@ -297,22 +282,19 @@ msgstr "សំរាប់ប្រអប់ធីក: Y"
 msgid "Required"
 msgstr "ត្រូវការ"
 
-#: ProgramFunctions/Fields.fnc.php:455 ProgramFunctions/Fields.fnc.php:475 ProgramFunctions/Fields.fnc.php:551 modules/Attendance/AttendanceCodes.php:134 modules/Attendance/AttendanceCodes.php:155 modules/Discipline/DisciplineForm.php:177
-#: modules/Food_Service/MenuItems.php:177 modules/Food_Service/MenuItems.php:199 modules/Food_Service/Menus.php:155 modules/Food_Service/Menus.php:191 modules/Grades/Assignments-new.php:258 modules/Grades/Assignments.php:605
-#: modules/Grades/ReportCardCommentCodes.php:129 modules/Grades/ReportCardCommentCodes.php:151 modules/Grades/ReportCardComments.php:211 modules/Grades/ReportCardComments.php:231 modules/Grades/ReportCardComments.php:252
-#: modules/Grades/ReportCardGrades.php:220 modules/Scheduling/Courses.php:1141 modules/School_Setup/GradeLevels.php:78 modules/School_Setup/MarkingPeriods.php:460 modules/School_Setup/Periods.php:130 modules/School_Setup/PortalNotes.php:274
-#: modules/School_Setup/PortalPolls.php:214 modules/Students/EnrollmentCodes.php:95
+#: ProgramFunctions/Fields.fnc.php:455 ProgramFunctions/Fields.fnc.php:475 ProgramFunctions/Fields.fnc.php:551 modules/Attendance/AttendanceCodes.php:134 modules/Attendance/AttendanceCodes.php:155 modules/Discipline/DisciplineForm.php:177 modules/Food_Service/MenuItems.php:177
+#: modules/Food_Service/MenuItems.php:199 modules/Food_Service/Menus.php:155 modules/Food_Service/Menus.php:191 modules/Grades/Assignments-new.php:258 modules/Grades/Assignments.php:605 modules/Grades/ReportCardCommentCodes.php:129 modules/Grades/ReportCardCommentCodes.php:151
+#: modules/Grades/ReportCardComments.php:211 modules/Grades/ReportCardComments.php:231 modules/Grades/ReportCardComments.php:252 modules/Grades/ReportCardGrades.php:220 modules/Scheduling/Courses.php:1141 modules/School_Setup/GradeLevels.php:78 modules/School_Setup/MarkingPeriods.php:460
+#: modules/School_Setup/Periods.php:130 modules/School_Setup/PortalNotes.php:274 modules/School_Setup/PortalPolls.php:214 modules/Students/EnrollmentCodes.php:95
 msgid "Sort Order"
 msgstr "តម្រៀបតាមលំដាប់"
 
-#: ProgramFunctions/Fields.fnc.php:468 modules/Attendance/AttendanceCodes.php:134 modules/Attendance/AttendanceCodes.php:155 modules/Custom/MyReport.php:152 modules/Discipline/DisciplineForm.php:177 modules/Eligibility/Activities.php:92
-#: modules/Grades/Assignments-new.php:217 modules/Grades/Assignments.php:483 modules/Grades/Assignments.php:584 modules/Grades/GradebookBreakdown.php:282 modules/Grades/MassCreateAssignments.php:294 modules/Grades/MassCreateAssignments.php:382
-#: modules/Grades/MassCreateAssignments.php:488 modules/Grades/MassCreateAssignments.php:530 modules/Grades/ReportCardCommentCodes.php:129 modules/Grades/ReportCardGrades.php:159 modules/Grades/StudentGrades.php:298
-#: modules/Grades/Transcripts.php:361 modules/Grades/Transcripts.php:368 modules/Grades/includes/StudentAssignments.fnc.php:282 modules/Grades/includes/StudentAssignments.fnc.php:518 modules/Resources/Resources.php:73
-#: modules/Scheduling/Courses.php:1075 modules/Scheduling/Courses.php:1134 modules/School_Setup/Calendar.php:92 modules/School_Setup/Calendar.php:689 modules/School_Setup/GradeLevels.php:78 modules/School_Setup/MarkingPeriods.php:446
-#: modules/School_Setup/Periods.php:128 modules/School_Setup/PortalNotes.php:274 modules/School_Setup/PortalPolls.php:214 modules/School_Setup/includes/Modules.inc.php:188 modules/School_Setup/includes/Plugins.inc.php:176
-#: modules/Student_Billing/MassAssignFees.php:61 modules/Students/EnrollmentCodes.php:95 modules/Users/Exceptions.php:317 modules/Users/Profiles.php:253 modules/Users/includes/General_Info.inc.php:39 modules/misc/Portal.php:116
-#: modules/misc/Portal.php:133 modules/misc/Portal.php:271 modules/misc/Portal.php:290 modules/misc/Portal.php:442 modules/misc/Portal.php:461 modules/misc/Portal.php:582 modules/misc/Portal.php:601
+#: ProgramFunctions/Fields.fnc.php:468 modules/Attendance/AttendanceCodes.php:134 modules/Attendance/AttendanceCodes.php:155 modules/Custom/MyReport.php:152 modules/Discipline/DisciplineForm.php:177 modules/Eligibility/Activities.php:92 modules/Grades/Assignments-new.php:217
+#: modules/Grades/Assignments.php:483 modules/Grades/Assignments.php:584 modules/Grades/GradebookBreakdown.php:282 modules/Grades/MassCreateAssignments.php:294 modules/Grades/MassCreateAssignments.php:382 modules/Grades/MassCreateAssignments.php:488 modules/Grades/MassCreateAssignments.php:530
+#: modules/Grades/ReportCardCommentCodes.php:129 modules/Grades/ReportCardGrades.php:159 modules/Grades/StudentGrades.php:298 modules/Grades/Transcripts.php:361 modules/Grades/Transcripts.php:368 modules/Grades/includes/StudentAssignments.fnc.php:282 modules/Grades/includes/StudentAssignments.fnc.php:518
+#: modules/Resources/Resources.php:73 modules/Scheduling/Courses.php:1075 modules/Scheduling/Courses.php:1134 modules/School_Setup/Calendar.php:92 modules/School_Setup/Calendar.php:689 modules/School_Setup/GradeLevels.php:78 modules/School_Setup/MarkingPeriods.php:446 modules/School_Setup/Periods.php:128
+#: modules/School_Setup/PortalNotes.php:274 modules/School_Setup/PortalPolls.php:214 modules/School_Setup/includes/Modules.inc.php:188 modules/School_Setup/includes/Plugins.inc.php:176 modules/Student_Billing/MassAssignFees.php:61 modules/Students/EnrollmentCodes.php:95 modules/Users/Exceptions.php:317
+#: modules/Users/Profiles.php:253 modules/Users/includes/General_Info.inc.php:39 modules/misc/Portal.php:116 modules/misc/Portal.php:133 modules/misc/Portal.php:271 modules/misc/Portal.php:290 modules/misc/Portal.php:442 modules/misc/Portal.php:461 modules/misc/Portal.php:582 modules/misc/Portal.php:601
 msgid "Title"
 msgstr "ចំណងជើង"
 
@@ -321,9 +303,8 @@ msgid "Field"
 msgid_plural "Fields"
 msgstr[0] "តារាង"
 
-#: ProgramFunctions/Fields.fnc.php:550 modules/Attendance/AttendanceCodes.php:89 modules/Discipline/DisciplineForm.php:111 modules/Discipline/DisciplineForm.php:134 modules/Food_Service/MenuItems.php:177 modules/Food_Service/Menus.php:79
-#: modules/Grades/AnomalousGrades.php:116 modules/Grades/Grades.php:229 modules/Grades/ReportCardComments.php:266 modules/Grades/ReportCardComments.php:292 modules/Grades/StudentGrades.php:298 modules/School_Inventory/SchoolInventory.php:370
-#: modules/School_Inventory/SchoolInventory.php:413
+#: ProgramFunctions/Fields.fnc.php:550 modules/Attendance/AttendanceCodes.php:89 modules/Discipline/DisciplineForm.php:111 modules/Discipline/DisciplineForm.php:134 modules/Food_Service/MenuItems.php:177 modules/Food_Service/Menus.php:79 modules/Grades/AnomalousGrades.php:116
+#: modules/Grades/Grades.php:229 modules/Grades/ReportCardComments.php:266 modules/Grades/ReportCardComments.php:292 modules/Grades/StudentGrades.php:298 modules/School_Inventory/SchoolInventory.php:370 modules/School_Inventory/SchoolInventory.php:413
 msgid "Category"
 msgstr "ក្រុម"
 
@@ -376,8 +357,8 @@ msgstr "ចំនូនអក្នចូលរូ"
 msgid "Visible Between"
 msgstr "អាចមើលឃើញរវាង"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:394 modules/Attendance/DailySummary.php:117 modules/Attendance/FixDailyAttendance.php:8 modules/Attendance/Percent.php:73 modules/Attendance/StudentSummary.php:79 modules/Food_Service/MenuReports.php:249
-#: modules/Food_Service/Students/Statements.php:47 modules/Food_Service/TransactionsReport.php:67 modules/Food_Service/Users/Statements.php:20 modules/Scheduling/AddDrop.php:38 modules/School_Setup/Calendar.php:795 modules/Students/AddDrop.php:40
+#: ProgramFunctions/PortalPollsNotes.fnc.php:394 modules/Attendance/DailySummary.php:117 modules/Attendance/FixDailyAttendance.php:8 modules/Attendance/Percent.php:73 modules/Attendance/StudentSummary.php:79 modules/Food_Service/MenuReports.php:249 modules/Food_Service/Students/Statements.php:47
+#: modules/Food_Service/TransactionsReport.php:67 modules/Food_Service/Users/Statements.php:20 modules/Scheduling/AddDrop.php:38 modules/School_Setup/Calendar.php:795 modules/Students/AddDrop.php:40
 msgid "to"
 msgstr "និង"
 
@@ -418,8 +399,8 @@ msgstr "ទំហំឯកសារធំបំផុត: %01.0fMb"
 msgid "Embed Link"
 msgstr "បង្កប់តំណភ្ជាប់"
 
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:234 ProgramFunctions/StudentsUsersInfo.fnc.php:329 functions/Search.fnc.php:617 modules/Grades/Assignments-new.php:282 modules/School_Setup/Schools.php:492 modules/School_Setup/Schools.php:513
-#: modules/Students/AssignOtherInfo.php:263 modules/Students/includes/Address.inc.php:1016 modules/Students/includes/Address.inc.php:1269 modules/Students/includes/Address.inc.php:1438
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:234 ProgramFunctions/StudentsUsersInfo.fnc.php:329 functions/Search.fnc.php:617 modules/Grades/Assignments-new.php:282 modules/School_Setup/Schools.php:492 modules/School_Setup/Schools.php:513 modules/Students/AssignOtherInfo.php:263
+#: modules/Students/includes/Address.inc.php:1016 modules/Students/includes/Address.inc.php:1269 modules/Students/includes/Address.inc.php:1438
 msgid "Edit"
 msgstr "កែប្រែ"
 
@@ -447,22 +428,21 @@ msgstr "មិនត្រូវចុះឈ្មោះបន្ទាប់ព
 msgid "Next Grade at "
 msgstr "ថ្នាក់បន្ទាប់គឺនៅ"
 
-#: Side.php:356 functions/GetStuList.fnc.php:508 modules/Custom/AttendanceSummary.php:99 modules/Custom/CreateParents.php:287 modules/Custom/NotifyParents.php:130 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/AssignSchool.php:44
-#: modules/Grades/HonorRoll.php:230 modules/Grades/HonorRollSubject.php:151 modules/Grades/Transcripts.php:523 modules/School_Setup/Configuration.php:257 modules/School_Setup/Menu.php:24 modules/School_Setup/Menu.php:35
-#: modules/School_Setup/Menu.php:45 modules/School_Setup/Schools.php:150 modules/Students/AddDrop.php:56 modules/Students/Letters.php:132 modules/Students/includes/Enrollment.inc.php:43 modules/Students/includes/General_Info.inc.php:170
-#: modules/Users/includes/Schedule.inc.php:28 modules/Users/includes/Schedule.inc.php:50 modules/misc/Export.php:165 modules/misc/Export.php:476 modules/misc/Portal.php:116 modules/misc/Portal.php:133 modules/misc/Portal.php:150
-#: modules/misc/Portal.php:216 modules/misc/Portal.php:271 modules/misc/Portal.php:290 modules/misc/Portal.php:306 modules/misc/Portal.php:442 modules/misc/Portal.php:461 modules/misc/Portal.php:476 modules/misc/Portal.php:601
+#: Side.php:356 functions/GetStuList.fnc.php:508 modules/Custom/AttendanceSummary.php:99 modules/Custom/CreateParents.php:287 modules/Custom/NotifyParents.php:130 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/AssignSchool.php:44 modules/Grades/HonorRoll.php:230
+#: modules/Grades/HonorRollSubject.php:151 modules/Grades/Transcripts.php:523 modules/School_Setup/Configuration.php:257 modules/School_Setup/Menu.php:24 modules/School_Setup/Menu.php:35 modules/School_Setup/Menu.php:45 modules/School_Setup/Schools.php:150 modules/Students/AddDrop.php:56
+#: modules/Students/Letters.php:132 modules/Students/includes/Enrollment.inc.php:43 modules/Students/includes/General_Info.inc.php:170 modules/Users/includes/Schedule.inc.php:28 modules/Users/includes/Schedule.inc.php:50 modules/misc/Export.php:165 modules/misc/Export.php:476 modules/misc/Portal.php:116
+#: modules/misc/Portal.php:133 modules/misc/Portal.php:150 modules/misc/Portal.php:216 modules/misc/Portal.php:271 modules/misc/Portal.php:290 modules/misc/Portal.php:306 modules/misc/Portal.php:442 modules/misc/Portal.php:461 modules/misc/Portal.php:476 modules/misc/Portal.php:601
 #: plugins/Paypal_Registration/config.inc.php:299
 msgid "School"
 msgstr "សាលារៀន"
 
-#: Side.php:447 modules/Discipline/CategoryBreakdownTime.php:439 modules/Discipline/includes/ReferralLog.fnc.php:192 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/AssignSchool.php:44 modules/Grades/EditHistoryMarkingPeriods.php:103
-#: modules/Grades/Transcripts.php:306 modules/Grades/Transcripts.php:524 modules/Grades/includes/ReportCards.fnc.php:583
+#: Side.php:447 modules/Discipline/CategoryBreakdownTime.php:439 modules/Discipline/includes/ReferralLog.fnc.php:192 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/AssignSchool.php:44 modules/Grades/EditHistoryMarkingPeriods.php:103 modules/Grades/Transcripts.php:306
+#: modules/Grades/Transcripts.php:524 modules/Grades/includes/ReportCards.fnc.php:583
 msgid "School Year"
 msgstr "ឆ្នាំសិក្សា"
 
-#: Side.php:467 modules/Grades/EditReportCardGrades.php:19 modules/Grades/HonorRoll.php:165 modules/Grades/HonorRollSubject.php:97 modules/Grades/MassCreateAssignments.php:532 modules/Scheduling/Courses.php:713 modules/Scheduling/MassDrops.php:135
-#: modules/Scheduling/MassSchedule.php:156 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintRequests.php:92 modules/Scheduling/PrintSchedules.php:248 modules/Users/includes/Schedule.inc.php:25
+#: Side.php:467 modules/Grades/EditReportCardGrades.php:19 modules/Grades/HonorRoll.php:165 modules/Grades/HonorRollSubject.php:97 modules/Grades/MassCreateAssignments.php:532 modules/Scheduling/Courses.php:713 modules/Scheduling/MassDrops.php:135 modules/Scheduling/MassSchedule.php:156
+#: modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintRequests.php:92 modules/Scheduling/PrintSchedules.php:248 modules/Users/includes/Schedule.inc.php:25
 msgid "Marking Period"
 msgstr "កំណត់រយៈពេល"
 
@@ -474,48 +454,48 @@ msgstr "កំហុស"
 msgid "No quarters found"
 msgstr "មិនមានត្រីមាស"
 
-#: Side.php:576 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:109 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:156 modules/School_Setup/Calendar.php:1101 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:576 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:109 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:156
+#: modules/School_Setup/Calendar.php:1101 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Sunday"
 msgstr "ថ្ងៃអាទិត្យ"
 
-#: Side.php:577 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:110 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:157 modules/School_Setup/Calendar.php:1102 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:577 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:110 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:157
+#: modules/School_Setup/Calendar.php:1102 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Monday"
 msgstr "ថ្ងៃចន្ទ"
 
-#: Side.php:578 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:111 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:158 modules/School_Setup/Calendar.php:1103 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:578 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:111 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:158
+#: modules/School_Setup/Calendar.php:1103 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Tuesday"
 msgstr "ថ្ងៃអង្គារ"
 
-#: Side.php:579 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:112 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:159 modules/School_Setup/Calendar.php:1104 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:579 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:112 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:159
+#: modules/School_Setup/Calendar.php:1104 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Wednesday"
 msgstr "ថ្ងៃពុធ"
 
-#: Side.php:580 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:113 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:160 modules/School_Setup/Calendar.php:1105 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:580 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:113 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:160
+#: modules/School_Setup/Calendar.php:1105 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Thursday"
 msgstr "ថ្ងៃព្រហស្បតិ៍"
 
-#: Side.php:581 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:114 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:161 modules/School_Setup/Calendar.php:1106 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:581 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:114 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:161
+#: modules/School_Setup/Calendar.php:1106 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Friday"
 msgstr "ថ្ងៃសុក្រ"
 
-#: Side.php:582 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:115 modules/Scheduling/Courses.php:97
-#: modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:162 modules/School_Setup/Calendar.php:1107 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
+#: Side.php:582 modules/Attendance/AddAbsences.php:180 modules/Eligibility/EnterEligibility.php:35 modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:115 modules/Scheduling/Courses.php:97 modules/Scheduling/PrintSchedules.php:61 modules/School_Setup/Calendar.php:162
+#: modules/School_Setup/Calendar.php:1107 modules/Users/TeacherPrograms.php:75 modules/Users/includes/Schedule.inc.php:81
 msgid "Saturday"
 msgstr "ថ្ងៃសៅរ៍"
 
-#: Side.php:613 modules/Attendance/StudentSummary.php:192 modules/Scheduling/Courses.php:250 modules/Scheduling/Courses.php:271 modules/Scheduling/Courses.php:393 modules/Scheduling/PrintSchedules.php:64 modules/School_Setup/Calendar.php:1283
-#: modules/Users/TeacherPrograms.php:88 modules/Users/includes/Schedule.inc.php:84 modules/misc/Portal.php:150 modules/misc/Portal.php:306 modules/misc/Portal.php:476 modules/misc/Portal.php:613
+#: Side.php:613 modules/Attendance/StudentSummary.php:192 modules/Scheduling/Courses.php:250 modules/Scheduling/Courses.php:271 modules/Scheduling/Courses.php:393 modules/Scheduling/PrintSchedules.php:64 modules/School_Setup/Calendar.php:1283 modules/Users/TeacherPrograms.php:88
+#: modules/Users/includes/Schedule.inc.php:84 modules/misc/Portal.php:150 modules/misc/Portal.php:306 modules/misc/Portal.php:476 modules/misc/Portal.php:613
 msgid "Day"
 msgstr "ថ្ងៃ"
 
-#: Side.php:613 modules/Scheduling/Courses.php:250 modules/Scheduling/Courses.php:271 modules/Scheduling/Courses.php:393 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/Schedule.php:235 modules/Scheduling/ScheduleReport.php:246
-#: modules/School_Setup/Calendar.php:678 modules/Users/TeacherPrograms.php:88 modules/misc/Portal.php:216 modules/misc/Portal.php:403
+#: Side.php:613 modules/Scheduling/Courses.php:250 modules/Scheduling/Courses.php:271 modules/Scheduling/Courses.php:393 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/Schedule.php:235 modules/Scheduling/ScheduleReport.php:246 modules/School_Setup/Calendar.php:678
+#: modules/Users/TeacherPrograms.php:88 modules/misc/Portal.php:216 modules/misc/Portal.php:403
 msgid "Days"
 msgstr "ថ្ងៃ"
 
@@ -552,22 +532,20 @@ msgstr "ឤស័យដ្ឋានអីុម៉ែល"
 msgid "Phone Number"
 msgstr "លេខទូរស័ព្ទ"
 
-#: functions/CustomFields.fnc.php:127 functions/GetStaffList.fnc.php:279 functions/GetStuList.fnc.php:263 functions/Search.fnc.php:222 functions/Search.fnc.php:381 functions/Search.fnc.php:396 index.php:356 modules/Custom/CreateParents.php:234
-#: modules/Custom/CreateParents.php:284 modules/Custom/NotifyParents.php:87 modules/Custom/NotifyParents.php:127 modules/Custom/NotifyParents.php:158 modules/School_Setup/AccessLog.php:113 modules/School_Setup/Configuration.php:238
-#: modules/Students/includes/General_Info.inc.php:115 plugins/Moodle/config.inc.php:104 plugins/Paypal_Registration/config.inc.php:303
+#: functions/CustomFields.fnc.php:127 functions/GetStaffList.fnc.php:279 functions/GetStuList.fnc.php:263 functions/Search.fnc.php:222 functions/Search.fnc.php:381 functions/Search.fnc.php:396 index.php:356 modules/Custom/CreateParents.php:234 modules/Custom/CreateParents.php:284
+#: modules/Custom/NotifyParents.php:87 modules/Custom/NotifyParents.php:127 modules/Custom/NotifyParents.php:158 modules/School_Setup/AccessLog.php:113 modules/School_Setup/Configuration.php:238 modules/Students/includes/General_Info.inc.php:115 plugins/Moodle/config.inc.php:104
+#: plugins/Paypal_Registration/config.inc.php:303
 msgid "Username"
 msgstr "ឈ្មោះគណនី"
 
-#: functions/Date.php:296 functions/Date.php:299 functions/Date.php:335 functions/Date.php:338 functions/Date.php:378 functions/Date.php:381 functions/Inputs.php:650 functions/Inputs.php:696 functions/Inputs.php:774 functions/Inputs.php:825
-#: functions/Inputs.php:985 functions/Inputs.php:1032 functions/Search.fnc.php:231 functions/Search.fnc.php:241 functions/Search.fnc.php:560 functions/Widgets.fnc.php:1373 functions/Widgets.fnc.php:1426 functions/Widgets.fnc.php:1525
-#: functions/Widgets.fnc.php:1644 modules/Discipline/DisciplineForm.php:278 modules/Eligibility/AddActivity.php:49 modules/Grades/Configuration.php:89 modules/Grades/FinalGrades.php:224 modules/Grades/GradebookBreakdown.php:377
-#: modules/Grades/Grades.php:510 modules/Grades/Grades.php:643 modules/Grades/Grades.php:672 modules/Grades/Grades.php:675 modules/Grades/Grades.php:732 modules/Grades/Grades.php:744 modules/Grades/Grades.php:747 modules/Grades/Grades.php:801
-#: modules/Grades/InputFinalGrades.php:1220 modules/Grades/InputFinalGrades.php:1265 modules/Grades/InputFinalGrades.php:1269 modules/Grades/ProgressReports.php:226 modules/Grades/ProgressReports.php:239 modules/Grades/ReportCardComments.php:245
-#: modules/Grades/StudentGrades.php:199 modules/Grades/StudentGrades.php:202 modules/Grades/StudentGrades.php:360 modules/Grades/StudentGrades.php:362 modules/Grades/includes/ReportCards.fnc.php:515 modules/Scheduling/Courses.php:1022
-#: modules/Scheduling/Courses.php:1028 modules/Scheduling/Courses.php:1356 modules/Scheduling/MassRequests.php:69 modules/Scheduling/MassRequests.php:77 modules/Scheduling/MassRequests.php:88 modules/Scheduling/MassRequests.php:93
-#: modules/Scheduling/PrintClassLists.php:137 modules/Scheduling/PrintClassLists.php:146 modules/Scheduling/PrintClassLists.php:155 modules/Scheduling/PrintClassPictures.php:215 modules/Scheduling/PrintClassPictures.php:225
-#: modules/Scheduling/PrintClassPictures.php:235 modules/Scheduling/PrintSchedules.php:239 modules/Scheduling/ScheduleReport.php:218 modules/Scheduling/ScheduleReport.php:223 modules/Scheduling/ScheduleReport.php:452
-#: modules/Scheduling/ScheduleReport.php:456 modules/Scheduling/includes/unfilledRequests.inc.php:38 modules/misc/Export.php:684
+#: functions/Date.php:296 functions/Date.php:299 functions/Date.php:335 functions/Date.php:338 functions/Date.php:378 functions/Date.php:381 functions/Inputs.php:650 functions/Inputs.php:696 functions/Inputs.php:774 functions/Inputs.php:825 functions/Inputs.php:985 functions/Inputs.php:1032
+#: functions/Search.fnc.php:231 functions/Search.fnc.php:241 functions/Search.fnc.php:560 functions/Widgets.fnc.php:1373 functions/Widgets.fnc.php:1426 functions/Widgets.fnc.php:1525 functions/Widgets.fnc.php:1644 modules/Discipline/DisciplineForm.php:278 modules/Eligibility/AddActivity.php:49
+#: modules/Grades/Configuration.php:89 modules/Grades/FinalGrades.php:224 modules/Grades/GradebookBreakdown.php:377 modules/Grades/Grades.php:510 modules/Grades/Grades.php:643 modules/Grades/Grades.php:672 modules/Grades/Grades.php:675 modules/Grades/Grades.php:732 modules/Grades/Grades.php:744
+#: modules/Grades/Grades.php:747 modules/Grades/Grades.php:801 modules/Grades/InputFinalGrades.php:1220 modules/Grades/InputFinalGrades.php:1265 modules/Grades/InputFinalGrades.php:1269 modules/Grades/ProgressReports.php:226 modules/Grades/ProgressReports.php:239 modules/Grades/ReportCardComments.php:245
+#: modules/Grades/StudentGrades.php:199 modules/Grades/StudentGrades.php:202 modules/Grades/StudentGrades.php:360 modules/Grades/StudentGrades.php:362 modules/Grades/includes/ReportCards.fnc.php:515 modules/Scheduling/Courses.php:1022 modules/Scheduling/Courses.php:1028
+#: modules/Scheduling/Courses.php:1356 modules/Scheduling/MassRequests.php:69 modules/Scheduling/MassRequests.php:77 modules/Scheduling/MassRequests.php:88 modules/Scheduling/MassRequests.php:93 modules/Scheduling/PrintClassLists.php:137 modules/Scheduling/PrintClassLists.php:146
+#: modules/Scheduling/PrintClassLists.php:155 modules/Scheduling/PrintClassPictures.php:215 modules/Scheduling/PrintClassPictures.php:225 modules/Scheduling/PrintClassPictures.php:235 modules/Scheduling/PrintSchedules.php:239 modules/Scheduling/ScheduleReport.php:218
+#: modules/Scheduling/ScheduleReport.php:223 modules/Scheduling/ScheduleReport.php:452 modules/Scheduling/ScheduleReport.php:456 modules/Scheduling/includes/unfilledRequests.inc.php:38 modules/misc/Export.php:684
 msgid "N/A"
 msgstr "គ្មានចំលើយ"
 
@@ -623,13 +601,12 @@ msgstr "ធ្នូ​"
 msgid "Open calendar"
 msgstr "បើក​ប្រតិទិន​"
 
-#: functions/ErrorMessage.fnc.php:57 modules/Food_Service/Student.inc.php:59 modules/Food_Service/Student.inc.php:76 modules/Food_Service/Students/Accounts.php:139 modules/Food_Service/Students/Accounts.php:156
-#: modules/Food_Service/Students/Reminders.php:148 modules/Food_Service/User.inc.php:50 modules/Food_Service/Users/Accounts.php:146 modules/Food_Service/Users/Reminders.php:91
+#: functions/ErrorMessage.fnc.php:57 modules/Food_Service/Student.inc.php:59 modules/Food_Service/Student.inc.php:76 modules/Food_Service/Students/Accounts.php:139 modules/Food_Service/Students/Accounts.php:156 modules/Food_Service/Students/Reminders.php:148 modules/Food_Service/User.inc.php:50
+#: modules/Food_Service/Users/Accounts.php:146 modules/Food_Service/Users/Reminders.php:91
 msgid "Warning"
 msgstr "ការ​ប្រមាន​"
 
-#: functions/ErrorMessage.fnc.php:62 modules/School_Setup/PortalNotes.php:244 modules/School_Setup/PortalNotes.php:274 modules/School_Setup/PortalNotes.php:284 modules/misc/Portal.php:116 modules/misc/Portal.php:271 modules/misc/Portal.php:442
-#: modules/misc/Portal.php:582
+#: functions/ErrorMessage.fnc.php:62 modules/School_Setup/PortalNotes.php:244 modules/School_Setup/PortalNotes.php:274 modules/School_Setup/PortalNotes.php:284 modules/misc/Portal.php:116 modules/misc/Portal.php:271 modules/misc/Portal.php:442 modules/misc/Portal.php:582
 msgid "Note"
 msgstr "ចំណាំ​"
 
@@ -649,22 +626,19 @@ msgstr "ការ​ចូល​គណនី ត្រូវ​បាន​ប�
 msgid "User ID"
 msgstr "កូដ​សំ​គាល់​របស់​អ្នក​ប្រើ​ប្រាស់​"
 
-#: functions/GetStaffList.fnc.php:214 functions/GetStuList.fnc.php:1163 functions/Search.fnc.php:131 functions/Search.fnc.php:209 modules/Custom/Registration.php:343 modules/Custom/Registration.php:363 modules/Custom/Registration.php:411
-#: modules/Custom/Registration.php:452 modules/Custom/Registration.php:464 modules/Grades/HonorRoll.php:225 modules/Grades/HonorRollSubject.php:146 modules/Grades/Transcripts.php:515 modules/Students/Letters.php:127
-#: modules/Students/includes/Address.inc.php:902 modules/Students/includes/Address.inc.php:1069 modules/Students/includes/General_Info.inc.php:49 modules/Students_Import/StudentsImport.php:263 modules/Users/includes/General_Info.inc.php:62
-#: modules/misc/Export.php:160 modules/misc/Export.php:471
+#: functions/GetStaffList.fnc.php:214 functions/GetStuList.fnc.php:1163 functions/Search.fnc.php:131 functions/Search.fnc.php:209 modules/Custom/Registration.php:343 modules/Custom/Registration.php:363 modules/Custom/Registration.php:411 modules/Custom/Registration.php:452
+#: modules/Custom/Registration.php:464 modules/Grades/HonorRoll.php:225 modules/Grades/HonorRollSubject.php:146 modules/Grades/Transcripts.php:515 modules/Students/Letters.php:127 modules/Students/includes/Address.inc.php:902 modules/Students/includes/Address.inc.php:1069
+#: modules/Students/includes/General_Info.inc.php:49 modules/Students_Import/StudentsImport.php:263 modules/Users/includes/General_Info.inc.php:62 modules/misc/Export.php:160 modules/misc/Export.php:471
 msgid "Last Name"
 msgstr "ត្រកូល"
 
-#: functions/GetStaffList.fnc.php:229 functions/GetStuList.fnc.php:1178 functions/Search.fnc.php:135 functions/Search.fnc.php:213 modules/Custom/Registration.php:339 modules/Custom/Registration.php:359 modules/Custom/Registration.php:407
-#: modules/Custom/Registration.php:448 modules/Custom/Registration.php:460 modules/Grades/HonorRoll.php:227 modules/Grades/HonorRollSubject.php:148 modules/Grades/Transcripts.php:517 modules/Students/Letters.php:126
-#: modules/Students/includes/Address.inc.php:892 modules/Students/includes/Address.inc.php:1058 modules/Students/includes/General_Info.inc.php:35 modules/Students_Import/StudentsImport.php:255 modules/Users/includes/General_Info.inc.php:48
-#: modules/misc/Export.php:158 modules/misc/Export.php:469
+#: functions/GetStaffList.fnc.php:229 functions/GetStuList.fnc.php:1178 functions/Search.fnc.php:135 functions/Search.fnc.php:213 modules/Custom/Registration.php:339 modules/Custom/Registration.php:359 modules/Custom/Registration.php:407 modules/Custom/Registration.php:448
+#: modules/Custom/Registration.php:460 modules/Grades/HonorRoll.php:227 modules/Grades/HonorRollSubject.php:148 modules/Grades/Transcripts.php:517 modules/Students/Letters.php:126 modules/Students/includes/Address.inc.php:892 modules/Students/includes/Address.inc.php:1058
+#: modules/Students/includes/General_Info.inc.php:35 modules/Students_Import/StudentsImport.php:255 modules/Users/includes/General_Info.inc.php:48 modules/misc/Export.php:158 modules/misc/Export.php:469
 msgid "First Name"
 msgstr "ឈ្មោះ"
 
-#: functions/GetStaffList.fnc.php:247 functions/GetStaffList.fnc.php:300 functions/Search.fnc.php:235 modules/School_Setup/AccessLog.php:195 modules/Users/UserFields.php:279 modules/Users/includes/General_Info.inc.php:169
-#: modules/Users/includes/General_Info.inc.php:190
+#: functions/GetStaffList.fnc.php:247 functions/GetStaffList.fnc.php:300 functions/Search.fnc.php:235 modules/School_Setup/AccessLog.php:195 modules/Users/UserFields.php:279 modules/Users/includes/General_Info.inc.php:169 modules/Users/includes/General_Info.inc.php:190
 msgid "No Access"
 msgstr "គ្មាន​សិទ្ធិ"
 
@@ -680,13 +654,13 @@ msgstr " Configurado"
 msgid "Mailing Address"
 msgstr "អាស័យដ្ឋានប្រអប់​សំបុត្រ​"
 
-#: functions/GetStuList.fnc.php:125 functions/GetStuList.fnc.php:293 modules/Custom/MyReport.php:110 modules/Custom/Registration.php:382 modules/Custom/Registration.php:418 modules/School_Setup/Schools.php:234
-#: modules/Students/includes/Address.inc.php:731 modules/Students/includes/Address.inc.php:814 modules/misc/Export.php:175 modules/misc/Export.php:497 modules/misc/Export.php:509
+#: functions/GetStuList.fnc.php:125 functions/GetStuList.fnc.php:293 modules/Custom/MyReport.php:110 modules/Custom/Registration.php:382 modules/Custom/Registration.php:418 modules/School_Setup/Schools.php:234 modules/Students/includes/Address.inc.php:731 modules/Students/includes/Address.inc.php:814
+#: modules/misc/Export.php:175 modules/misc/Export.php:497 modules/misc/Export.php:509
 msgid "City"
 msgstr "ទីក្រុង​"
 
-#: functions/GetStuList.fnc.php:126 functions/GetStuList.fnc.php:294 modules/Custom/MyReport.php:111 modules/Custom/Registration.php:385 modules/Custom/Registration.php:420 modules/School_Setup/Schools.php:240
-#: modules/Students/includes/Address.inc.php:740 modules/Students/includes/Address.inc.php:816 modules/misc/Export.php:176 modules/misc/Export.php:499 modules/misc/Export.php:510
+#: functions/GetStuList.fnc.php:126 functions/GetStuList.fnc.php:294 modules/Custom/MyReport.php:111 modules/Custom/Registration.php:385 modules/Custom/Registration.php:420 modules/School_Setup/Schools.php:240 modules/Students/includes/Address.inc.php:740 modules/Students/includes/Address.inc.php:816
+#: modules/misc/Export.php:176 modules/misc/Export.php:499 modules/misc/Export.php:510
 msgid "State"
 msgstr "រដ្ឋ"
 
@@ -694,8 +668,7 @@ msgstr "រដ្ឋ"
 msgid "Zipcode"
 msgstr "លេខកូដ​តំបន់​"
 
-#: functions/GetStuList.fnc.php:292 functions/Search.fnc.php:144 modules/Custom/Registration.php:415 modules/School_Setup/Schools.php:227 modules/Students/includes/Address.inc.php:311 modules/Students/includes/Address.inc.php:715
-#: modules/misc/Export.php:495
+#: functions/GetStuList.fnc.php:292 functions/Search.fnc.php:144 modules/Custom/Registration.php:415 modules/School_Setup/Schools.php:227 modules/Students/includes/Address.inc.php:311 modules/Students/includes/Address.inc.php:715 modules/misc/Export.php:495
 msgid "Address"
 msgstr "អាស័យ​ដ្ឋាន​"
 
@@ -711,22 +684,21 @@ msgstr "ទំនាក់​ទំនង​"
 msgid "Guardians"
 msgstr "អាណាព្យាបាល​"
 
-#: functions/GetStuList.fnc.php:452 functions/GetStuList.fnc.php:523 functions/StaffWidgets.fnc.php:266 functions/Widgets.fnc.php:1786 modules/Custom/AttendanceSummary.php:34 modules/Food_Service/Student.inc.php:83
-#: modules/Food_Service/Students/Accounts.php:72 modules/Food_Service/Students/Accounts.php:163 modules/Food_Service/Students/ActivityReport.php:8 modules/Food_Service/Students/Reminders.php:130 modules/Food_Service/Students/Statements.php:8
-#: modules/Food_Service/Students/Transactions.php:46 modules/Food_Service/User.inc.php:67 modules/Food_Service/Users/Accounts.php:106 modules/Food_Service/Users/Accounts.php:161 modules/Food_Service/Users/ActivityReport.php:7
-#: modules/Food_Service/Users/Reminders.php:78 modules/Food_Service/Users/Statements.php:7 modules/misc/Export.php:329
+#: functions/GetStuList.fnc.php:452 functions/GetStuList.fnc.php:523 functions/StaffWidgets.fnc.php:266 functions/Widgets.fnc.php:1786 modules/Custom/AttendanceSummary.php:34 modules/Food_Service/Student.inc.php:83 modules/Food_Service/Students/Accounts.php:72
+#: modules/Food_Service/Students/Accounts.php:163 modules/Food_Service/Students/ActivityReport.php:8 modules/Food_Service/Students/Reminders.php:130 modules/Food_Service/Students/Statements.php:8 modules/Food_Service/Students/Transactions.php:46 modules/Food_Service/User.inc.php:67
+#: modules/Food_Service/Users/Accounts.php:106 modules/Food_Service/Users/Accounts.php:161 modules/Food_Service/Users/ActivityReport.php:7 modules/Food_Service/Users/Reminders.php:78 modules/Food_Service/Users/Statements.php:7 modules/misc/Export.php:329
 msgid "Active"
 msgstr "សកម្ម​"
 
-#: functions/GetStuList.fnc.php:454 functions/GetStuList.fnc.php:525 functions/StaffWidgets.fnc.php:267 functions/Widgets.fnc.php:1787 modules/Custom/AttendanceSummary.php:35 modules/Food_Service/Student.inc.php:82
-#: modules/Food_Service/Students/Accounts.php:162 modules/Food_Service/User.inc.php:66 modules/Food_Service/Users/Accounts.php:160
+#: functions/GetStuList.fnc.php:454 functions/GetStuList.fnc.php:525 functions/StaffWidgets.fnc.php:267 functions/Widgets.fnc.php:1787 modules/Custom/AttendanceSummary.php:35 modules/Food_Service/Student.inc.php:82 modules/Food_Service/Students/Accounts.php:162 modules/Food_Service/User.inc.php:66
+#: modules/Food_Service/Users/Accounts.php:160
 msgid "Inactive"
 msgstr "អសកម្ម​"
 
-#: functions/GetStuList.fnc.php:467 modules/Custom/AttendanceSummary.php:120 modules/Food_Service/Student.inc.php:83 modules/Food_Service/Students/Accounts.php:80 modules/Food_Service/Students/Accounts.php:163
-#: modules/Food_Service/Students/ActivityReport.php:16 modules/Food_Service/Students/Reminders.php:148 modules/Food_Service/Students/Statements.php:16 modules/Food_Service/Students/Transactions.php:54 modules/Food_Service/TakeMenuCounts.php:201
-#: modules/Food_Service/User.inc.php:67 modules/Food_Service/Users/Accounts.php:108 modules/Food_Service/Users/Accounts.php:161 modules/Food_Service/Users/ActivityReport.php:10 modules/Food_Service/Users/Reminders.php:91
-#: modules/Food_Service/Users/Statements.php:10 modules/Food_Service/Users/Transactions.php:47 modules/School_Inventory/SchoolInventory.php:414 modules/School_Setup/AccessLog.php:115 modules/misc/Export.php:342 modules/misc/Export.php:565
+#: functions/GetStuList.fnc.php:467 modules/Custom/AttendanceSummary.php:120 modules/Food_Service/Student.inc.php:83 modules/Food_Service/Students/Accounts.php:80 modules/Food_Service/Students/Accounts.php:163 modules/Food_Service/Students/ActivityReport.php:16
+#: modules/Food_Service/Students/Reminders.php:148 modules/Food_Service/Students/Statements.php:16 modules/Food_Service/Students/Transactions.php:54 modules/Food_Service/TakeMenuCounts.php:201 modules/Food_Service/User.inc.php:67 modules/Food_Service/Users/Accounts.php:108
+#: modules/Food_Service/Users/Accounts.php:161 modules/Food_Service/Users/ActivityReport.php:10 modules/Food_Service/Users/Reminders.php:91 modules/Food_Service/Users/Statements.php:10 modules/Food_Service/Users/Transactions.php:47 modules/School_Inventory/SchoolInventory.php:414
+#: modules/School_Setup/AccessLog.php:115 modules/misc/Export.php:342 modules/misc/Export.php:565
 msgid "Status"
 msgstr "ស្ថាន​ភាព​"
 
@@ -738,8 +710,7 @@ msgstr "ស្ថានភាព​សាលា​"
 msgid "Course Status"
 msgstr "ស្ថាន​ភាព​មុខ​វិជ្ជា​"
 
-#: functions/GetStuList.fnc.php:736 modules/Students/includes/Address.inc.php:281 modules/Students/includes/Address.inc.php:881 modules/Users/Preferences.php:585 modules/Users/Preferences.php:587 modules/Users/Preferences.php:593
-#: modules/Users/Preferences.php:601 modules/Users/Preferences.php:609
+#: functions/GetStuList.fnc.php:736 modules/Students/includes/Address.inc.php:281 modules/Students/includes/Address.inc.php:881 modules/Users/Preferences.php:585 modules/Users/Preferences.php:587 modules/Users/Preferences.php:593 modules/Users/Preferences.php:601 modules/Users/Preferences.php:609
 msgid "Contact Information"
 msgstr "ពត៌មាន​ទំនាក់​ទំនង​"
 
@@ -747,40 +718,37 @@ msgstr "ពត៌មាន​ទំនាក់​ទំនង​"
 msgid "Call"
 msgstr "ទូរស័ព្ទ​ទៅ​"
 
-#: functions/GetStuList.fnc.php:1073 functions/Inputs.php:585 functions/Inputs.php:595 functions/Search.fnc.php:667 functions/Search.fnc.php:791 functions/StaffWidgets.fnc.php:332 functions/StaffWidgets.fnc.php:340 functions/Widgets.fnc.php:1638
-#: functions/Widgets.fnc.php:1647 modules/Attendance/TakeAttendance.php:276 modules/Attendance/TakeAttendance.php:293 modules/Attendance/TakeAttendance.php:302 modules/Attendance/TeacherCompletion.php:112
-#: modules/Discipline/CategoryBreakdown.php:135 modules/Discipline/CategoryBreakdownTime.php:191 modules/Discipline/StudentFieldBreakdown.php:174 modules/Discipline/includes/EmailReferral.fnc.php:79 modules/Grades/TeacherCompletion.php:84
-#: modules/Grades/TeacherCompletion.php:106 modules/Scheduling/IncompleteSchedules.php:87 modules/School_Setup/includes/Modules.inc.php:210 modules/School_Setup/includes/Plugins.inc.php:193 modules/Student_Billing/functions.inc.php:122
-#: modules/Students/StudentBreakdown.php:116 plugins/Moodle/functions.php:457 plugins/Moodle/functions.php:517
+#: functions/GetStuList.fnc.php:1073 functions/Inputs.php:585 functions/Inputs.php:595 functions/Search.fnc.php:667 functions/Search.fnc.php:791 functions/StaffWidgets.fnc.php:332 functions/StaffWidgets.fnc.php:340 functions/Widgets.fnc.php:1638 functions/Widgets.fnc.php:1647
+#: modules/Attendance/TakeAttendance.php:276 modules/Attendance/TakeAttendance.php:293 modules/Attendance/TakeAttendance.php:302 modules/Attendance/TeacherCompletion.php:112 modules/Discipline/CategoryBreakdown.php:135 modules/Discipline/CategoryBreakdownTime.php:191
+#: modules/Discipline/StudentFieldBreakdown.php:174 modules/Discipline/includes/EmailReferral.fnc.php:79 modules/Grades/TeacherCompletion.php:84 modules/Grades/TeacherCompletion.php:106 modules/Scheduling/IncompleteSchedules.php:87 modules/School_Setup/includes/Modules.inc.php:210
+#: modules/School_Setup/includes/Plugins.inc.php:193 modules/Student_Billing/functions.inc.php:122 modules/Students/StudentBreakdown.php:116 plugins/Moodle/functions.php:457 plugins/Moodle/functions.php:517
 msgid "Yes"
 msgstr ""
 
-#: functions/GetStuList.fnc.php:1073 functions/Inputs.php:586 functions/Inputs.php:596 functions/Search.fnc.php:668 functions/Search.fnc.php:801 functions/StaffWidgets.fnc.php:332 functions/StaffWidgets.fnc.php:342 functions/Widgets.fnc.php:1638
-#: functions/Widgets.fnc.php:1650 modules/Attendance/TeacherCompletion.php:112 modules/Discipline/CategoryBreakdown.php:139 modules/Discipline/CategoryBreakdownTime.php:192 modules/Discipline/StudentFieldBreakdown.php:178
-#: modules/Discipline/includes/EmailReferral.fnc.php:79 modules/Eligibility/TeacherCompletion.php:146 modules/Grades/TeacherCompletion.php:85 modules/Grades/TeacherCompletion.php:106 modules/Scheduling/IncompleteSchedules.php:80
-#: modules/School_Setup/includes/Modules.inc.php:212 modules/School_Setup/includes/Plugins.inc.php:195 modules/Student_Billing/functions.inc.php:122 modules/Students/StudentBreakdown.php:120
+#: functions/GetStuList.fnc.php:1073 functions/Inputs.php:586 functions/Inputs.php:596 functions/Search.fnc.php:668 functions/Search.fnc.php:801 functions/StaffWidgets.fnc.php:332 functions/StaffWidgets.fnc.php:342 functions/Widgets.fnc.php:1638 functions/Widgets.fnc.php:1650
+#: modules/Attendance/TeacherCompletion.php:112 modules/Discipline/CategoryBreakdown.php:139 modules/Discipline/CategoryBreakdownTime.php:192 modules/Discipline/StudentFieldBreakdown.php:178 modules/Discipline/includes/EmailReferral.fnc.php:79 modules/Eligibility/TeacherCompletion.php:146
+#: modules/Grades/TeacherCompletion.php:85 modules/Grades/TeacherCompletion.php:106 modules/Scheduling/IncompleteSchedules.php:80 modules/School_Setup/includes/Modules.inc.php:212 modules/School_Setup/includes/Plugins.inc.php:195 modules/Student_Billing/functions.inc.php:122
+#: modules/Students/StudentBreakdown.php:120
 msgid "No"
 msgstr "ទេ"
 
-#: functions/GetStuList.fnc.php:1150 functions/Search.fnc.php:139 modules/Attendance/DuplicateAttendance.php:239 modules/Attendance/TakeAttendance.php:253 modules/Custom/AttendanceSummary.php:97 modules/Custom/MyReport.php:99
-#: modules/Eligibility/EnterEligibility.php:150 modules/Food_Service/TakeMenuCounts.php:201 modules/Grades/AnomalousGrades.php:106 modules/Grades/InputFinalGrades.php:1012 modules/Scheduling/AddDrop.php:60
-#: modules/Scheduling/IncompleteSchedules.php:70 modules/Students/AddDrop.php:56 modules/Students/Letters.php:130 modules/Students/Search.inc.php:211 modules/Students/includes/General_Info.inc.php:101
-#: modules/Students/includes/General_Info.inc.php:103 modules/Students_Import/StudentsImport.php:272 modules/Users/Search.inc.php:183 modules/Users/Search.inc.php:195 modules/Users/includes/General_Info.inc.php:110 modules/misc/Export.php:163
-#: modules/misc/Export.php:474
+#: functions/GetStuList.fnc.php:1150 functions/Search.fnc.php:139 modules/Attendance/DuplicateAttendance.php:239 modules/Attendance/TakeAttendance.php:253 modules/Custom/AttendanceSummary.php:97 modules/Custom/MyReport.php:99 modules/Eligibility/EnterEligibility.php:150
+#: modules/Food_Service/TakeMenuCounts.php:201 modules/Grades/AnomalousGrades.php:106 modules/Grades/InputFinalGrades.php:1012 modules/Scheduling/AddDrop.php:60 modules/Scheduling/IncompleteSchedules.php:70 modules/Students/AddDrop.php:56 modules/Students/Letters.php:130
+#: modules/Students/Search.inc.php:211 modules/Students/includes/General_Info.inc.php:101 modules/Students/includes/General_Info.inc.php:103 modules/Students_Import/StudentsImport.php:272 modules/Users/Search.inc.php:183 modules/Users/Search.inc.php:195 modules/Users/includes/General_Info.inc.php:110
+#: modules/misc/Export.php:163 modules/misc/Export.php:474
 #, php-format
 msgid "%s ID"
 msgstr "កូដ​សំគាល់​របស់​ %s"
 
-#: functions/GetStuList.fnc.php:1196 functions/Search.fnc.php:190 modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141 modules/Attendance/Percent.php:147 modules/Attendance/TakeAttendance.php:253
-#: modules/Custom/AttendanceSummary.php:122 modules/Custom/MyReport.php:100 modules/Eligibility/EnterEligibility.php:150 modules/Food_Service/TakeMenuCounts.php:201 modules/Grades/EditReportCardGrades.php:195
-#: modules/Grades/EditReportCardGrades.php:216 modules/Grades/HonorRoll.php:231 modules/Grades/HonorRollSubject.php:152 modules/Grades/Transcripts.php:171 modules/Grades/Transcripts.php:520 modules/Scheduling/IncompleteSchedules.php:70
-#: modules/Scheduling/ScheduleReport.php:352 modules/Scheduling/ScheduleReport.php:367 modules/School_Setup/GradeLevels.php:60 modules/School_Setup/GradeLevels.php:86 modules/Students/AssignOtherInfo.php:301 modules/Students/Letters.php:133
-#: modules/Students/Search.inc.php:211 modules/Students/includes/Enrollment.inc.php:115
+#: functions/GetStuList.fnc.php:1196 functions/Search.fnc.php:190 modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141 modules/Attendance/Percent.php:147 modules/Attendance/TakeAttendance.php:253 modules/Custom/AttendanceSummary.php:122 modules/Custom/MyReport.php:100
+#: modules/Eligibility/EnterEligibility.php:150 modules/Food_Service/TakeMenuCounts.php:201 modules/Grades/EditReportCardGrades.php:195 modules/Grades/EditReportCardGrades.php:216 modules/Grades/HonorRoll.php:231 modules/Grades/HonorRollSubject.php:152 modules/Grades/Transcripts.php:171
+#: modules/Grades/Transcripts.php:520 modules/Scheduling/IncompleteSchedules.php:70 modules/Scheduling/ScheduleReport.php:352 modules/Scheduling/ScheduleReport.php:367 modules/School_Setup/GradeLevels.php:60 modules/School_Setup/GradeLevels.php:86 modules/Students/AssignOtherInfo.php:301
+#: modules/Students/Letters.php:133 modules/Students/Search.inc.php:211 modules/Students/includes/Enrollment.inc.php:115
 msgid "Grade Level"
 msgstr "កម្រិត​ថ្នាក់​"
 
-#: functions/GetStuList.fnc.php:1209 functions/Widgets.fnc.php:763 modules/Eligibility/Student.php:158 modules/Eligibility/StudentList.php:106 modules/Grades/EditReportCardGrades.php:269 modules/Grades/GradeBreakdown.php:147
-#: modules/Grades/GradebookBreakdown.php:118 modules/Grades/GradebookBreakdown.php:287 modules/Grades/ReportCardGrades.php:254 modules/Users/Preferences.php:699
+#: functions/GetStuList.fnc.php:1209 functions/Widgets.fnc.php:763 modules/Eligibility/Student.php:158 modules/Eligibility/StudentList.php:106 modules/Grades/EditReportCardGrades.php:269 modules/Grades/GradeBreakdown.php:147 modules/Grades/GradebookBreakdown.php:118
+#: modules/Grades/GradebookBreakdown.php:287 modules/Grades/ReportCardGrades.php:254 modules/Users/Preferences.php:699
 msgid "Grade"
 msgid_plural "Grades"
 msgstr[0] "ថ្នាក់​"
@@ -813,8 +781,8 @@ msgstr "គ្មាន​អ្វី​ឲ្យ​មើល​មុន។"
 msgid "Select some Options"
 msgstr "ជ្រើស​រើស​ជម្រើស​មួយ​ជំនួន​"
 
-#: functions/ListOutput.fnc.php:9 modules/Attendance/AttendanceCodes.php:172 modules/Food_Service/MenuReports.php:260 modules/Grades/EditReportCardGrades.php:316 modules/Grades/FinalGrades.php:400 modules/Grades/Transcripts.php:302
-#: modules/Grades/includes/ReportCards.fnc.php:660 modules/Users/Preferences.php:676 modules/Users/Preferences.php:733 modules/Users/Preferences.php:823 modules/Users/Preferences.php:853
+#: functions/ListOutput.fnc.php:9 modules/Attendance/AttendanceCodes.php:172 modules/Food_Service/MenuReports.php:260 modules/Grades/EditReportCardGrades.php:316 modules/Grades/FinalGrades.php:400 modules/Grades/Transcripts.php:302 modules/Grades/includes/ReportCards.fnc.php:660
+#: modules/Users/Preferences.php:676 modules/Users/Preferences.php:733 modules/Users/Preferences.php:823 modules/Users/Preferences.php:853
 msgid "."
 msgid_plural "."
 msgstr[0] "។"
@@ -857,16 +825,15 @@ msgstr "នាំ​តារាង​ចេញ​"
 
 # #-#-#-#-#  database.pot (PACKAGE VERSION)  #-#-#-#-#
 # 'user_profiles' table
-#: functions/ListOutput.fnc.php:555 modules/Scheduling/Courses.php:25 modules/Scheduling/Courses.php:27 modules/Scheduling/Courses.php:1173 modules/Students/Search.inc.php:138 modules/Users/Preferences.php:660 modules/Users/Preferences.php:725
-#: modules/Users/Preferences.php:815 modules/Users/Preferences.php:850
+#: functions/ListOutput.fnc.php:555 modules/Scheduling/Courses.php:25 modules/Scheduling/Courses.php:27 modules/Scheduling/Courses.php:1173 modules/Students/Search.inc.php:138 modules/Users/Preferences.php:660 modules/Users/Preferences.php:725 modules/Users/Preferences.php:815
+#: modules/Users/Preferences.php:850
 msgid "Search"
 msgstr "ស្វែង​រក​"
 
-#: functions/ListOutput.fnc.php:556 modules/Accounting/DailyTotals.php:68 modules/Accounting/DailyTransactions.php:60 modules/Attendance/DailySummary.php:118 modules/Attendance/Percent.php:73 modules/Attendance/StudentSummary.php:81
-#: modules/Discipline/CategoryBreakdown.php:259 modules/Discipline/CategoryBreakdownTime.php:449 modules/Discipline/StudentFieldBreakdown.php:281 modules/Eligibility/Student.php:119 modules/Eligibility/StudentList.php:75
-#: modules/Eligibility/TeacherCompletion.php:100 modules/Food_Service/BalanceReport.php:59 modules/Food_Service/MenuReports.php:249 modules/Food_Service/Students/ActivityReport.php:125 modules/Food_Service/Students/Statements.php:47
-#: modules/Food_Service/TeacherCompletion.php:119 modules/Food_Service/TransactionsReport.php:67 modules/Food_Service/Users/ActivityReport.php:115 modules/Food_Service/Users/Statements.php:20 modules/Grades/GradebookBreakdown.php:238
-#: modules/Scheduling/AddDrop.php:38 modules/School_Setup/AccessLog.php:84 modules/School_Setup/Calendar.php:796 modules/Student_Billing/DailyTotals.php:49 modules/Student_Billing/DailyTransactions.php:40 modules/Students/AddDrop.php:40
+#: functions/ListOutput.fnc.php:556 modules/Accounting/DailyTotals.php:68 modules/Accounting/DailyTransactions.php:60 modules/Attendance/DailySummary.php:118 modules/Attendance/Percent.php:73 modules/Attendance/StudentSummary.php:81 modules/Discipline/CategoryBreakdown.php:259
+#: modules/Discipline/CategoryBreakdownTime.php:449 modules/Discipline/StudentFieldBreakdown.php:281 modules/Eligibility/Student.php:119 modules/Eligibility/StudentList.php:75 modules/Eligibility/TeacherCompletion.php:100 modules/Food_Service/BalanceReport.php:59 modules/Food_Service/MenuReports.php:249
+#: modules/Food_Service/Students/ActivityReport.php:125 modules/Food_Service/Students/Statements.php:47 modules/Food_Service/TeacherCompletion.php:119 modules/Food_Service/TransactionsReport.php:67 modules/Food_Service/Users/ActivityReport.php:115 modules/Food_Service/Users/Statements.php:20
+#: modules/Grades/GradebookBreakdown.php:238 modules/Scheduling/AddDrop.php:38 modules/School_Setup/AccessLog.php:84 modules/School_Setup/Calendar.php:796 modules/Student_Billing/DailyTotals.php:49 modules/Student_Billing/DailyTransactions.php:40 modules/Students/AddDrop.php:40
 #: modules/Students/StudentBreakdown.php:217
 msgid "Go"
 msgstr "ចាប់​ផ្តើម​"
@@ -925,14 +892,13 @@ msgstr "មិនមែន"
 msgid "Check All"
 msgstr "គូសទាំងអស់"
 
-#: functions/Search.fnc.php:193 functions/StaffWidgets.fnc.php:265 functions/Widgets.fnc.php:961 functions/Widgets.fnc.php:1094 functions/Widgets.fnc.php:1737 functions/Widgets.fnc.php:1785 modules/Food_Service/Statements.php:101
-#: modules/Food_Service/Students/ActivityReport.php:110 modules/Food_Service/Students/ActivityReport.php:117 modules/Food_Service/Students/Statements.php:39 modules/Food_Service/Users/ActivityReport.php:99
-#: modules/Food_Service/Users/ActivityReport.php:106
+#: functions/Search.fnc.php:193 functions/StaffWidgets.fnc.php:265 functions/Widgets.fnc.php:961 functions/Widgets.fnc.php:1094 functions/Widgets.fnc.php:1737 functions/Widgets.fnc.php:1785 modules/Food_Service/Statements.php:101 modules/Food_Service/Students/ActivityReport.php:110
+#: modules/Food_Service/Students/ActivityReport.php:117 modules/Food_Service/Students/Statements.php:39 modules/Food_Service/Users/ActivityReport.php:99 modules/Food_Service/Users/ActivityReport.php:106
 msgid "Not Specified"
 msgstr "មិនត្រូវបាន​បញ្ជាក់"
 
-#: functions/Search.fnc.php:523 functions/Search.fnc.php:561 functions/Search.fnc.php:636 functions/Search.fnc.php:753 functions/Search.fnc.php:817 functions/Search.fnc.php:892 functions/Search.fnc.php:944 functions/Widgets.fnc.php:1427
-#: functions/Widgets.fnc.php:1491 functions/Widgets.fnc.php:1526 modules/Discipline/StudentFieldBreakdown.php:132 modules/Students/StudentBreakdown.php:74 modules/misc/Export.php:690
+#: functions/Search.fnc.php:523 functions/Search.fnc.php:561 functions/Search.fnc.php:636 functions/Search.fnc.php:753 functions/Search.fnc.php:817 functions/Search.fnc.php:892 functions/Search.fnc.php:944 functions/Widgets.fnc.php:1427 functions/Widgets.fnc.php:1491 functions/Widgets.fnc.php:1526
+#: modules/Discipline/StudentFieldBreakdown.php:132 modules/Students/StudentBreakdown.php:74 modules/misc/Export.php:690
 msgid "No Value"
 msgstr "គ្មានតំលៃ"
 
@@ -940,9 +906,8 @@ msgstr "គ្មានតំលៃ"
 msgid "Other Value"
 msgstr "តម្លៃ​ផ្សេង​ទៀត​"
 
-#: functions/Search.fnc.php:666 functions/StaffWidgets.fnc.php:169 functions/StaffWidgets.fnc.php:338 modules/Attendance/Administration.php:475 modules/Attendance/TeacherCompletion.php:37 modules/Eligibility/TeacherCompletion.php:65
-#: modules/Food_Service/TeacherCompletion.php:43 modules/Grades/Assignments-new.php:194 modules/Grades/Assignments-new.php:223 modules/Grades/Grades.php:438 modules/Grades/Grades.php:461 modules/Grades/Grades.php:474
-#: modules/Grades/TeacherCompletion.php:18 modules/School_Inventory/includes/SchoolInventory.fnc.php:41
+#: functions/Search.fnc.php:666 functions/StaffWidgets.fnc.php:169 functions/StaffWidgets.fnc.php:338 modules/Attendance/Administration.php:475 modules/Attendance/TeacherCompletion.php:37 modules/Eligibility/TeacherCompletion.php:65 modules/Food_Service/TeacherCompletion.php:43
+#: modules/Grades/Assignments-new.php:194 modules/Grades/Assignments-new.php:223 modules/Grades/Grades.php:438 modules/Grades/Grades.php:461 modules/Grades/Grades.php:474 modules/Grades/TeacherCompletion.php:18 modules/School_Inventory/includes/SchoolInventory.fnc.php:41
 msgid "All"
 msgstr "ទាំងអស់"
 
@@ -950,13 +915,13 @@ msgstr "ទាំងអស់"
 msgid "starts with"
 msgstr "ចាប់​ផ្តើម​ពី​"
 
-#: functions/StaffWidgets.fnc.php:77 modules/Food_Service/Accounts.php:17 modules/Food_Service/ActivityReport.php:40 modules/Food_Service/BalanceReport.php:50 modules/Food_Service/Reminders.php:15 modules/Food_Service/ServeMenus.php:35
-#: modules/Food_Service/Statements.php:62 modules/Food_Service/Transactions.php:25 modules/School_Setup/Rollover.php:3 modules/Users/Menu.php:14 modules/Users/Menu.php:28 modules/Users/Menu.php:35
+#: functions/StaffWidgets.fnc.php:77 modules/Food_Service/Accounts.php:17 modules/Food_Service/ActivityReport.php:40 modules/Food_Service/BalanceReport.php:50 modules/Food_Service/Reminders.php:15 modules/Food_Service/ServeMenus.php:35 modules/Food_Service/Statements.php:62
+#: modules/Food_Service/Transactions.php:25 modules/School_Setup/Rollover.php:3 modules/Users/Menu.php:14 modules/Users/Menu.php:28 modules/Users/Menu.php:35
 msgid "Users"
 msgstr "អ្នក​ប្រើប្រាស់​"
 
-#: functions/StaffWidgets.fnc.php:90 functions/Widgets.fnc.php:152 modules/Food_Service/Menu.php:14 modules/Food_Service/Menu.php:36 modules/Food_Service/Menu.php:46 modules/School_Setup/Configuration.php:417 modules/misc/Export.php:340
-#: modules/misc/Export.php:341 modules/misc/Export.php:342 modules/misc/Export.php:343 modules/misc/Export.php:344
+#: functions/StaffWidgets.fnc.php:90 functions/Widgets.fnc.php:152 modules/Food_Service/Menu.php:14 modules/Food_Service/Menu.php:36 modules/Food_Service/Menu.php:46 modules/School_Setup/Configuration.php:417 modules/misc/Export.php:340 modules/misc/Export.php:341 modules/misc/Export.php:342
+#: modules/misc/Export.php:343 modules/misc/Export.php:344
 msgid "Food Service"
 msgstr "សេវា​អាាហារ"
 
@@ -976,15 +941,14 @@ msgstr "ផ្ទាល់​ខ្លួន​"
 msgid "Food Service Balance"
 msgstr "តុល្យ​ភាព​នៃ​សេវា​កម្ម​អាហារ​"
 
-#: functions/StaffWidgets.fnc.php:212 functions/Widgets.fnc.php:1043 functions/Widgets.fnc.php:1692 modules/Accounting/Expenses.php:154 modules/Accounting/Incomes.php:152 modules/Accounting/Salaries.php:134 modules/Accounting/StaffBalances.php:18
-#: modules/Accounting/StaffPayments.php:161 modules/Food_Service/BalanceReport.php:73 modules/Food_Service/Student.inc.php:40 modules/Food_Service/Students/Accounts.php:80 modules/Food_Service/Students/Accounts.php:120
-#: modules/Food_Service/Students/ActivityReport.php:16 modules/Food_Service/Students/ActivityReport.php:62 modules/Food_Service/Students/ActivityReport.php:99 modules/Food_Service/Students/Reminders.php:148
-#: modules/Food_Service/Students/Reminders.php:202 modules/Food_Service/Students/ServeMenus.php:89 modules/Food_Service/Students/Statements.php:16 modules/Food_Service/Students/Statements.php:50 modules/Food_Service/Students/Statements.php:98
-#: modules/Food_Service/Students/Statements.php:132 modules/Food_Service/Students/Transactions.php:54 modules/Food_Service/Students/Transactions.php:75 modules/Food_Service/TakeMenuCounts.php:201 modules/Food_Service/Users/Accounts.php:108
-#: modules/Food_Service/Users/Accounts.php:153 modules/Food_Service/Users/ActivityReport.php:10 modules/Food_Service/Users/ActivityReport.php:55 modules/Food_Service/Users/ActivityReport.php:89 modules/Food_Service/Users/Reminders.php:91
-#: modules/Food_Service/Users/Reminders.php:136 modules/Food_Service/Users/ServeMenus.php:76 modules/Food_Service/Users/Statements.php:10 modules/Food_Service/Users/Statements.php:25 modules/Food_Service/Users/Statements.php:70
-#: modules/Food_Service/Users/Statements.php:104 modules/Food_Service/Users/Transactions.php:47 modules/Food_Service/Users/Transactions.php:70 modules/Student_Billing/StudentBalances.php:7 modules/Student_Billing/StudentFees.php:176
-#: modules/Student_Billing/StudentPayments.php:205 modules/misc/Export.php:344 modules/misc/Export.php:364 modules/misc/Export.php:567 modules/misc/Export.php:577 modules/misc/Portal.php:243 modules/misc/Portal.php:550
+#: functions/StaffWidgets.fnc.php:212 functions/Widgets.fnc.php:1043 functions/Widgets.fnc.php:1692 modules/Accounting/Expenses.php:154 modules/Accounting/Incomes.php:152 modules/Accounting/Salaries.php:134 modules/Accounting/StaffBalances.php:18 modules/Accounting/StaffPayments.php:161
+#: modules/Food_Service/BalanceReport.php:73 modules/Food_Service/Student.inc.php:40 modules/Food_Service/Students/Accounts.php:80 modules/Food_Service/Students/Accounts.php:120 modules/Food_Service/Students/ActivityReport.php:16 modules/Food_Service/Students/ActivityReport.php:62
+#: modules/Food_Service/Students/ActivityReport.php:99 modules/Food_Service/Students/Reminders.php:148 modules/Food_Service/Students/Reminders.php:202 modules/Food_Service/Students/ServeMenus.php:89 modules/Food_Service/Students/Statements.php:16 modules/Food_Service/Students/Statements.php:50
+#: modules/Food_Service/Students/Statements.php:98 modules/Food_Service/Students/Statements.php:132 modules/Food_Service/Students/Transactions.php:54 modules/Food_Service/Students/Transactions.php:75 modules/Food_Service/TakeMenuCounts.php:201 modules/Food_Service/Users/Accounts.php:108
+#: modules/Food_Service/Users/Accounts.php:153 modules/Food_Service/Users/ActivityReport.php:10 modules/Food_Service/Users/ActivityReport.php:55 modules/Food_Service/Users/ActivityReport.php:89 modules/Food_Service/Users/Reminders.php:91 modules/Food_Service/Users/Reminders.php:136
+#: modules/Food_Service/Users/ServeMenus.php:76 modules/Food_Service/Users/Statements.php:10 modules/Food_Service/Users/Statements.php:25 modules/Food_Service/Users/Statements.php:70 modules/Food_Service/Users/Statements.php:104 modules/Food_Service/Users/Transactions.php:47
+#: modules/Food_Service/Users/Transactions.php:70 modules/Student_Billing/StudentBalances.php:7 modules/Student_Billing/StudentFees.php:176 modules/Student_Billing/StudentPayments.php:205 modules/misc/Export.php:344 modules/misc/Export.php:364 modules/misc/Export.php:567 modules/misc/Export.php:577
+#: modules/misc/Portal.php:243 modules/misc/Portal.php:550
 msgid "Balance"
 msgstr "តុល្យ​ភាព​"
 
@@ -1008,8 +972,7 @@ msgstr "បិទ"
 msgid "Food Service Barcode"
 msgstr "បារកូដ​សេវាកម្ម​អាហារ​"
 
-#: functions/StaffWidgets.fnc.php:301 functions/Widgets.fnc.php:1822 modules/Food_Service/Student.inc.php:89 modules/Food_Service/Students/Accounts.php:167 modules/Food_Service/User.inc.php:68 modules/Food_Service/Users/Accounts.php:164
-#: modules/misc/Export.php:343 modules/misc/Export.php:566
+#: functions/StaffWidgets.fnc.php:301 functions/Widgets.fnc.php:1822 modules/Food_Service/Student.inc.php:89 modules/Food_Service/Students/Accounts.php:167 modules/Food_Service/User.inc.php:68 modules/Food_Service/Users/Accounts.php:164 modules/misc/Export.php:343 modules/misc/Export.php:566
 msgid "Barcode"
 msgstr "បារកូដ​"
 
@@ -1025,9 +988,8 @@ msgstr "មាន​គណនី​"
 msgid "Staff Payroll Balance"
 msgstr "តុល្យ​ភាព​ប្រាក់​បៀវត្ស​របស់​បុគ្គលិក"
 
-#: functions/StaffWidgets.fnc.php:382 functions/StaffWidgets.fnc.php:388 functions/Widgets.fnc.php:412 functions/Widgets.fnc.php:431 functions/Widgets.fnc.php:515 functions/Widgets.fnc.php:538 functions/Widgets.fnc.php:589
-#: functions/Widgets.fnc.php:624 functions/Widgets.fnc.php:663 functions/Widgets.fnc.php:708 functions/Widgets.fnc.php:1037 functions/Widgets.fnc.php:1044 functions/Widgets.fnc.php:1165 functions/Widgets.fnc.php:1345 functions/Widgets.fnc.php:1358
-#: functions/Widgets.fnc.php:1579
+#: functions/StaffWidgets.fnc.php:382 functions/StaffWidgets.fnc.php:388 functions/Widgets.fnc.php:412 functions/Widgets.fnc.php:431 functions/Widgets.fnc.php:515 functions/Widgets.fnc.php:538 functions/Widgets.fnc.php:589 functions/Widgets.fnc.php:624 functions/Widgets.fnc.php:663
+#: functions/Widgets.fnc.php:708 functions/Widgets.fnc.php:1037 functions/Widgets.fnc.php:1044 functions/Widgets.fnc.php:1165 functions/Widgets.fnc.php:1345 functions/Widgets.fnc.php:1358 functions/Widgets.fnc.php:1579
 msgid "Between"
 msgstr "ចន្លោះ​"
 
@@ -1039,13 +1001,12 @@ msgstr "ការ​ចុះ​ឈ្មោះ​"
 msgid "Scheduling"
 msgstr "ធ្វើកាលវិភាគ​"
 
-#: functions/Widgets.fnc.php:108 modules/Attendance/Administration.php:207 modules/Attendance/AttendanceCodes.php:125 modules/Attendance/Menu.php:14 modules/Attendance/Menu.php:34 modules/Attendance/Menu.php:42
-#: modules/Attendance/TakeAttendance.php:28 modules/Attendance/TeacherCompletion.php:29 modules/Custom/AttendanceSummary.php:129 modules/Scheduling/Courses.php:875 modules/School_Setup/Configuration.php:388
+#: functions/Widgets.fnc.php:108 modules/Attendance/Administration.php:207 modules/Attendance/AttendanceCodes.php:125 modules/Attendance/Menu.php:14 modules/Attendance/Menu.php:34 modules/Attendance/Menu.php:42 modules/Attendance/TakeAttendance.php:28 modules/Attendance/TeacherCompletion.php:29
+#: modules/Custom/AttendanceSummary.php:129 modules/Scheduling/Courses.php:875 modules/School_Setup/Configuration.php:388
 msgid "Attendance"
 msgstr "វត្តមាន​"
 
-#: functions/Widgets.fnc.php:123 modules/Grades/GradeBreakdown.php:120 modules/Grades/Menu.php:14 modules/Grades/Menu.php:43 modules/Grades/Menu.php:48 modules/Grades/Menu.php:67 modules/Grades/Transcripts.php:466
-#: modules/School_Setup/Configuration.php:327 modules/School_Setup/Configuration.php:338
+#: functions/Widgets.fnc.php:123 modules/Grades/GradeBreakdown.php:120 modules/Grades/Menu.php:14 modules/Grades/Menu.php:43 modules/Grades/Menu.php:48 modules/Grades/Menu.php:67 modules/Grades/Transcripts.php:466 modules/School_Setup/Configuration.php:327 modules/School_Setup/Configuration.php:338
 msgid "Grades"
 msgstr "កម្រិត​ថ្នាក់​"
 
@@ -1061,22 +1022,19 @@ msgstr "វិន័យ​"
 msgid "Student Billing"
 msgstr "វិក័យ​ប័ត្រ​របស់​សិស្ស​"
 
-#: functions/Widgets.fnc.php:251 functions/Widgets.fnc.php:282 modules/Attendance/Administration.php:261 modules/Attendance/Administration.php:277 modules/Attendance/Administration_fast.old.php:83 modules/Attendance/Administration_fast.old.php:87
-#: modules/Attendance/DailySummary.php:187 modules/Attendance/DailySummary.php:204 modules/Attendance/DuplicateAttendance.php:240 modules/Eligibility/Student.php:158 modules/Eligibility/Student.php:159 modules/Eligibility/StudentList.php:105
-#: modules/Grades/AnomalousGrades.php:114 modules/Grades/EditReportCardGrades.php:267 modules/Grades/EditReportCardGrades.php:295 modules/Grades/FinalGrades.php:119 modules/Grades/MassCreateAssignments.php:495
-#: modules/Grades/MassCreateAssignments.php:531 modules/Grades/StudentGrades.php:215 modules/Grades/TeacherCompletion.php:110 modules/Grades/Transcripts.php:130 modules/Grades/includes/ReportCards.fnc.php:346 modules/Scheduling/AddDrop.php:60
-#: modules/Scheduling/Courses.php:73 modules/Scheduling/Courses.php:487 modules/Scheduling/Courses.php:1159 modules/Scheduling/Courses.php:1169 modules/Scheduling/Courses.php:1218 modules/Scheduling/Courses.php:1228
-#: modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/MasterScheduleReport.php:17 modules/Scheduling/PrintRequests.php:16 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/PrintSchedules.php:111
-#: modules/Scheduling/PrintSchedules.php:129 modules/Scheduling/Requests.php:192 modules/Scheduling/RequestsReport.php:18 modules/Scheduling/Schedule.php:235 modules/Scheduling/Schedule.php:259 modules/Scheduling/ScheduleReport.php:162
-#: modules/Scheduling/ScheduleReport.php:185 modules/School_Setup/Calendar.php:696 modules/Users/Preferences.php:693 modules/Users/includes/Schedule.inc.php:25 modules/misc/ChooseCourse.php:15 modules/misc/Portal.php:337 modules/misc/Portal.php:519
-#: modules/misc/Portal.php:656
+#: functions/Widgets.fnc.php:251 functions/Widgets.fnc.php:282 modules/Attendance/Administration.php:261 modules/Attendance/Administration.php:277 modules/Attendance/Administration_fast.old.php:83 modules/Attendance/Administration_fast.old.php:87 modules/Attendance/DailySummary.php:187
+#: modules/Attendance/DailySummary.php:204 modules/Attendance/DuplicateAttendance.php:240 modules/Eligibility/Student.php:158 modules/Eligibility/Student.php:159 modules/Eligibility/StudentList.php:105 modules/Grades/AnomalousGrades.php:114 modules/Grades/EditReportCardGrades.php:267
+#: modules/Grades/EditReportCardGrades.php:295 modules/Grades/FinalGrades.php:119 modules/Grades/MassCreateAssignments.php:495 modules/Grades/MassCreateAssignments.php:531 modules/Grades/StudentGrades.php:215 modules/Grades/TeacherCompletion.php:110 modules/Grades/Transcripts.php:130
+#: modules/Grades/includes/ReportCards.fnc.php:346 modules/Scheduling/AddDrop.php:60 modules/Scheduling/Courses.php:73 modules/Scheduling/Courses.php:487 modules/Scheduling/Courses.php:1159 modules/Scheduling/Courses.php:1169 modules/Scheduling/Courses.php:1218 modules/Scheduling/Courses.php:1228
+#: modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/MasterScheduleReport.php:17 modules/Scheduling/PrintRequests.php:16 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/PrintSchedules.php:111 modules/Scheduling/PrintSchedules.php:129 modules/Scheduling/Requests.php:192
+#: modules/Scheduling/RequestsReport.php:18 modules/Scheduling/Schedule.php:235 modules/Scheduling/Schedule.php:259 modules/Scheduling/ScheduleReport.php:162 modules/Scheduling/ScheduleReport.php:185 modules/School_Setup/Calendar.php:696 modules/Users/Preferences.php:693
+#: modules/Users/includes/Schedule.inc.php:25 modules/misc/ChooseCourse.php:15 modules/misc/Portal.php:337 modules/misc/Portal.php:519 modules/misc/Portal.php:656
 msgid "Course"
 msgstr "មុខ​វិជ្ជា​"
 
-#: functions/Widgets.fnc.php:276 modules/Attendance/TeacherCompletion.php:151 modules/Grades/MassCreateAssignments.php:539 modules/Scheduling/AddDrop.php:60 modules/Scheduling/Courses.php:75 modules/Scheduling/Courses.php:91
-#: modules/Scheduling/Courses.php:475 modules/Scheduling/Courses.php:1159 modules/Scheduling/Courses.php:1169 modules/Scheduling/Courses.php:1260 modules/Scheduling/Courses.php:1281 modules/Scheduling/PrintClassLists.php:227
-#: modules/Scheduling/PrintClassLists.php:242 modules/Scheduling/PrintClassPictures.php:306 modules/Scheduling/PrintClassPictures.php:323 modules/Scheduling/PrintSchedules.php:139 modules/Scheduling/ScheduleReport.php:265
-#: modules/Users/TeacherPrograms.php:99 modules/Users/includes/Schedule.inc.php:25 modules/Users/includes/Schedule.inc.php:61 modules/misc/ChooseCourse.php:14
+#: functions/Widgets.fnc.php:276 modules/Attendance/TeacherCompletion.php:151 modules/Grades/MassCreateAssignments.php:539 modules/Scheduling/AddDrop.php:60 modules/Scheduling/Courses.php:75 modules/Scheduling/Courses.php:91 modules/Scheduling/Courses.php:475 modules/Scheduling/Courses.php:1159
+#: modules/Scheduling/Courses.php:1169 modules/Scheduling/Courses.php:1260 modules/Scheduling/Courses.php:1281 modules/Scheduling/PrintClassLists.php:227 modules/Scheduling/PrintClassLists.php:242 modules/Scheduling/PrintClassPictures.php:306 modules/Scheduling/PrintClassPictures.php:323
+#: modules/Scheduling/PrintSchedules.php:139 modules/Scheduling/ScheduleReport.php:265 modules/Users/TeacherPrograms.php:99 modules/Users/includes/Schedule.inc.php:25 modules/Users/includes/Schedule.inc.php:61 modules/misc/ChooseCourse.php:14
 msgid "Course Period"
 msgstr "រយៈពេល​នៃ​មុខ​វិជ្ជា​"
 
@@ -1084,8 +1042,8 @@ msgstr "រយៈពេល​នៃ​មុខ​វិជ្ជា​"
 msgid "Choose"
 msgstr "ជ្រើសរើស​"
 
-#: functions/Widgets.fnc.php:321 functions/Widgets.fnc.php:344 modules/Scheduling/PrintRequests.php:53 modules/Scheduling/PrintRequests.php:66 modules/Scheduling/Requests.php:59 modules/Scheduling/Requests.php:233
-#: modules/Scheduling/Schedule.php:287 modules/Scheduling/UnfilledRequests.php:42 modules/Scheduling/new_Requests.php:54 modules/Users/Preferences.php:693
+#: functions/Widgets.fnc.php:321 functions/Widgets.fnc.php:344 modules/Scheduling/PrintRequests.php:53 modules/Scheduling/PrintRequests.php:66 modules/Scheduling/Requests.php:59 modules/Scheduling/Requests.php:233 modules/Scheduling/Schedule.php:287 modules/Scheduling/UnfilledRequests.php:42
+#: modules/Scheduling/new_Requests.php:54 modules/Users/Preferences.php:693
 msgid "Request"
 msgstr "ស្នើ​សុំ​"
 
@@ -1162,8 +1120,8 @@ msgstr "មិនបាន​ទទួល​"
 msgid "Ineligible"
 msgstr "គ្មាន​សិទ្ធិ​"
 
-#: functions/Widgets.fnc.php:947 functions/Widgets.fnc.php:971 modules/Eligibility/Activities.php:68 modules/Eligibility/Activities.php:109 modules/Eligibility/AddActivity.php:46 modules/Eligibility/Student.php:35
-#: modules/Eligibility/Student.php:146 modules/Eligibility/Student.php:147 modules/Users/Preferences.php:702
+#: functions/Widgets.fnc.php:947 functions/Widgets.fnc.php:971 modules/Eligibility/Activities.php:68 modules/Eligibility/Activities.php:109 modules/Eligibility/AddActivity.php:46 modules/Eligibility/Student.php:35 modules/Eligibility/Student.php:146 modules/Eligibility/Student.php:147
+#: modules/Users/Preferences.php:702
 msgid "Activity"
 msgstr "សកម្មភាព​"
 
@@ -1175,8 +1133,8 @@ msgstr "ស្លាក​សម្រាប់​ផ្ញើរសំបុត
 msgid "Student Billing Balance"
 msgstr "តុល្យភាព​វិក័យ​ប័ត្ររបស់​សិស្ស​"
 
-#: functions/Widgets.fnc.php:1083 functions/Widgets.fnc.php:1091 modules/Discipline/MakeReferral.php:207 modules/Discipline/MakeReferral.php:214 modules/Discipline/Referrals.php:112 modules/Discipline/Referrals.php:210
-#: modules/Discipline/includes/EmailReferral.fnc.php:57 modules/Discipline/includes/ReferralLog.fnc.php:47 modules/Discipline/includes/ReferralLog.fnc.php:209
+#: functions/Widgets.fnc.php:1083 functions/Widgets.fnc.php:1091 modules/Discipline/MakeReferral.php:207 modules/Discipline/MakeReferral.php:214 modules/Discipline/Referrals.php:112 modules/Discipline/Referrals.php:210 modules/Discipline/includes/EmailReferral.fnc.php:57
+#: modules/Discipline/includes/ReferralLog.fnc.php:47 modules/Discipline/includes/ReferralLog.fnc.php:209
 msgid "Reporter"
 msgstr "អ្នក​រាយការណ៏​"
 
@@ -1204,8 +1162,8 @@ msgstr "ឆ្នាំ​ក្រោយ​"
 msgid "Any Value"
 msgstr "តម្លៃ​ណា​ក៏​បាន​"
 
-#: functions/Widgets.fnc.php:1516 functions/Widgets.fnc.php:1520 modules/Scheduling/Courses.php:980 modules/School_Setup/Calendar.php:403 modules/Students/AssignOtherInfo.php:336 modules/Students/includes/Enrollment.inc.php:127
-#: modules/Students_Import/StudentsImport.php:366 modules/Users/Preferences.php:690 modules/misc/Export.php:168 modules/misc/Export.php:479
+#: functions/Widgets.fnc.php:1516 functions/Widgets.fnc.php:1520 modules/Scheduling/Courses.php:980 modules/School_Setup/Calendar.php:403 modules/Students/AssignOtherInfo.php:336 modules/Students/includes/Enrollment.inc.php:127 modules/Students_Import/StudentsImport.php:366
+#: modules/Users/Preferences.php:690 modules/misc/Export.php:168 modules/misc/Export.php:479
 msgid "Calendar"
 msgstr "ប្រតិទិន​"
 
@@ -1225,9 +1183,8 @@ msgstr "ដែល​បាន​ចុះ​ឈ្មោះ​លើក​មុ
 msgid "Food Service Discount"
 msgstr "បញ្ចុះ​តម្លៃ​សេវា​កម្ម​អាហារ​"
 
-#: functions/Widgets.fnc.php:1735 modules/Food_Service/MenuReports.php:204 modules/Food_Service/MenuReports.php:244 modules/Food_Service/Student.inc.php:88 modules/Food_Service/Students/Accounts.php:166
-#: modules/Food_Service/Students/ActivityReport.php:63 modules/Food_Service/Students/ActivityReport.php:65 modules/Food_Service/Students/ActivityReport.php:100 modules/Food_Service/Students/Statements.php:99
-#: modules/Food_Service/Students/Statements.php:133 modules/misc/Export.php:341 modules/misc/Export.php:564
+#: functions/Widgets.fnc.php:1735 modules/Food_Service/MenuReports.php:204 modules/Food_Service/MenuReports.php:244 modules/Food_Service/Student.inc.php:88 modules/Food_Service/Students/Accounts.php:166 modules/Food_Service/Students/ActivityReport.php:63
+#: modules/Food_Service/Students/ActivityReport.php:65 modules/Food_Service/Students/ActivityReport.php:100 modules/Food_Service/Students/Statements.php:99 modules/Food_Service/Students/Statements.php:133 modules/misc/Export.php:341 modules/misc/Export.php:564
 msgid "Discount"
 msgstr "បញ្ចុះ​តម្លៃ​"
 
@@ -1247,8 +1204,8 @@ msgstr "ទំនេរ"
 msgid "Food Service Account ID"
 msgstr "កូដសម្គាល់​គណនី​សេវាកម្ម​អាហារ​"
 
-#: functions/Widgets.fnc.php:1855 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/BalanceReport.php:72 modules/Food_Service/Student.inc.php:50 modules/Food_Service/Students/Accounts.php:130
-#: modules/Food_Service/Students/ActivityReport.php:59 modules/Food_Service/Students/ActivityReport.php:96 modules/Food_Service/Students/Reminders.php:208 modules/misc/Export.php:340 modules/misc/Export.php:563 modules/misc/Portal.php:550
+#: functions/Widgets.fnc.php:1855 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/BalanceReport.php:72 modules/Food_Service/Student.inc.php:50 modules/Food_Service/Students/Accounts.php:130 modules/Food_Service/Students/ActivityReport.php:59
+#: modules/Food_Service/Students/ActivityReport.php:96 modules/Food_Service/Students/Reminders.php:208 modules/misc/Export.php:340 modules/misc/Export.php:563 modules/misc/Portal.php:550
 msgid "Account ID"
 msgstr "កូដ​សម្គាល់​គណនី"
 
@@ -1340,11 +1297,11 @@ msgstr "អំពី"
 #: index.php:414
 #, php-format
 msgid ""
-"This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating "
-"the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms."
+"This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be "
+"prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms."
 msgstr ""
-"នេះជាបណ្តាញតឹងរឹង។ ការប្រើប្រាស់បណ្តាញនេះ ឧបករណ៏ និង ធនធាន គឺត្រូវបានត្រួតពិនិត្យរាល់ពេល ហើយតម្រូវឲ្យមានការអនុញ្ញាតពី អ្នកគ្រប់គ្រងបណ្តាញ និង %s។ ប្រសិនបើអ្នកមិនមានការអនុញ្ញាត្តដោយលាយល័ក្ខអក្សរ អ្នកកំពុងតែបំពានបទប្បញ្ញត្តិរបស់បណ្តាញនេះ ហើយអាច និង នឹងត្រូវបានផ្តន្ទាទោសយ៉ាងពេញលេញតាមផ្លូវច្បាប់។ "
-"ដោយបន្តចូលទៅក្នុងប្រព័ន្ធនេះ អ្នកកំពុងតែទទួលស្គាល់ថាអ្នកបានដឹង និងយល់ព្រមទៅនឹងលក្ខខណ្ឌទាំងនេះ។ "
+"នេះជាបណ្តាញតឹងរឹង។ ការប្រើប្រាស់បណ្តាញនេះ ឧបករណ៏ និង ធនធាន គឺត្រូវបានត្រួតពិនិត្យរាល់ពេល ហើយតម្រូវឲ្យមានការអនុញ្ញាតពី អ្នកគ្រប់គ្រងបណ្តាញ និង %s។ ប្រសិនបើអ្នកមិនមានការអនុញ្ញាត្តដោយលាយល័ក្ខអក្សរ អ្នកកំពុងតែបំពានបទប្បញ្ញត្តិរបស់បណ្តាញនេះ ហើយអាច និង នឹងត្រូវបានផ្តន្ទាទោសយ៉ាងពេញលេញតាមផ្លូវច្បាប់។ ដោយបន្តចូលទៅក្នុងប្រព័ន្ធនេះ អ្នកកំពុងតែទទួលស្គាល់ថាអ្នកបានដឹង "
+"និងយល់ព្រមទៅនឹងលក្ខខណ្ឌទាំងនេះ។ "
 
 #: index.php:420
 #, php-format
@@ -1365,13 +1322,13 @@ msgstr[0] "ចំណូល"
 msgid "Staff Payroll"
 msgstr "ប្រាក់បៀវត្ស បុគ្គលិក"
 
-#: modules/Accounting/DailyTotals.php:66 modules/Accounting/DailyTransactions.php:58 modules/Discipline/CategoryBreakdown.php:255 modules/Discipline/CategoryBreakdownTime.php:445 modules/Discipline/StudentFieldBreakdown.php:277
-#: modules/Student_Billing/DailyTotals.php:47 modules/Student_Billing/DailyTransactions.php:40
+#: modules/Accounting/DailyTotals.php:66 modules/Accounting/DailyTransactions.php:58 modules/Discipline/CategoryBreakdown.php:255 modules/Discipline/CategoryBreakdownTime.php:445 modules/Discipline/StudentFieldBreakdown.php:277 modules/Student_Billing/DailyTotals.php:47
+#: modules/Student_Billing/DailyTransactions.php:40
 msgid "Report Timeframe"
 msgstr "ចន្លោះពេលរបាយការណ៏"
 
-#: modules/Accounting/DailyTotals.php:136 modules/Food_Service/MenuReports.php:194 modules/Food_Service/MenuReports.php:202 modules/Food_Service/MenuReports.php:235 modules/Food_Service/MenuReports.php:242
-#: modules/Food_Service/TransactionsReport.php:107 modules/Food_Service/TransactionsReport.php:116 modules/Grades/GradebookBreakdown.php:71 modules/Grades/Grades.php:458 modules/Grades/StudentGrades.php:45 modules/Student_Billing/DailyTotals.php:69
+#: modules/Accounting/DailyTotals.php:136 modules/Food_Service/MenuReports.php:194 modules/Food_Service/MenuReports.php:202 modules/Food_Service/MenuReports.php:235 modules/Food_Service/MenuReports.php:242 modules/Food_Service/TransactionsReport.php:107 modules/Food_Service/TransactionsReport.php:116
+#: modules/Grades/GradebookBreakdown.php:71 modules/Grades/Grades.php:458 modules/Grades/StudentGrades.php:45 modules/Student_Billing/DailyTotals.php:69
 msgid "Totals"
 msgstr "សរុប"
 
@@ -1379,9 +1336,8 @@ msgstr "សរុប"
 msgid "Expenses"
 msgstr "ការចំណាយ"
 
-#: modules/Accounting/DailyTotals.php:149 modules/Accounting/DailyTotals.php:162 modules/Accounting/DailyTotals.php:175 modules/Accounting/Expenses.php:152 modules/Accounting/Expenses.php:168 modules/Accounting/Incomes.php:150
-#: modules/Accounting/Incomes.php:165 modules/Accounting/Salaries.php:132 modules/Accounting/StaffPayments.php:159 modules/Student_Billing/DailyTotals.php:76 modules/Student_Billing/StudentFees.php:174
-#: modules/Student_Billing/StudentPayments.php:203
+#: modules/Accounting/DailyTotals.php:149 modules/Accounting/DailyTotals.php:162 modules/Accounting/DailyTotals.php:175 modules/Accounting/Expenses.php:152 modules/Accounting/Expenses.php:168 modules/Accounting/Incomes.php:150 modules/Accounting/Incomes.php:165 modules/Accounting/Salaries.php:132
+#: modules/Accounting/StaffPayments.php:159 modules/Student_Billing/DailyTotals.php:76 modules/Student_Billing/StudentFees.php:174 modules/Student_Billing/StudentPayments.php:203
 msgid "Less"
 msgstr "តិច"
 
@@ -1405,10 +1361,9 @@ msgstr "ការទូទាត់របស់ សិស្ស"
 msgid "Fees"
 msgstr "ថ្លៃ​ឈ្នួល​"
 
-#: modules/Accounting/DailyTotals.php:181 modules/Accounting/DailyTransactions.php:185 modules/Accounting/DailyTransactions.php:190 modules/Attendance/Percent.php:142 modules/Food_Service/MenuReports.php:204
-#: modules/Food_Service/TransactionsReport.php:118 modules/Grades/Assignments-new.php:395 modules/Grades/Configuration.php:171 modules/Grades/Configuration.php:207 modules/Grades/ProgressReports.php:102 modules/Grades/Transcripts.php:343
-#: modules/Scheduling/ScheduleReport.php:166 modules/Scheduling/ScheduleReport.php:180 modules/Scheduling/ScheduleReport.php:260 modules/School_Inventory/includes/SchoolInventory.fnc.php:305 modules/Student_Billing/DailyTotals.php:79
-#: modules/Student_Billing/DailyTransactions.php:74
+#: modules/Accounting/DailyTotals.php:181 modules/Accounting/DailyTransactions.php:185 modules/Accounting/DailyTransactions.php:190 modules/Attendance/Percent.php:142 modules/Food_Service/MenuReports.php:204 modules/Food_Service/TransactionsReport.php:118 modules/Grades/Assignments-new.php:395
+#: modules/Grades/Configuration.php:171 modules/Grades/Configuration.php:207 modules/Grades/ProgressReports.php:102 modules/Grades/Transcripts.php:343 modules/Scheduling/ScheduleReport.php:166 modules/Scheduling/ScheduleReport.php:180 modules/Scheduling/ScheduleReport.php:260
+#: modules/School_Inventory/includes/SchoolInventory.fnc.php:305 modules/Student_Billing/DailyTotals.php:79 modules/Student_Billing/DailyTransactions.php:74
 msgid "Total"
 msgstr "សរុប"
 
@@ -1426,8 +1381,8 @@ msgstr "ប្រាក់ខែ"
 msgid "Staff"
 msgstr "បុគ្គលិក"
 
-#: modules/Accounting/DailyTransactions.php:178 modules/Student_Billing/DailyTransactions.php:73 modules/Student_Billing/MassAssignFees.php:57 modules/Student_Billing/StudentFees.php:77 modules/Student_Billing/StudentFees.php:93
-#: modules/Student_Billing/StudentFees.php:145 modules/Student_Billing/StudentFees.php:159
+#: modules/Accounting/DailyTransactions.php:178 modules/Student_Billing/DailyTransactions.php:73 modules/Student_Billing/MassAssignFees.php:57 modules/Student_Billing/StudentFees.php:77 modules/Student_Billing/StudentFees.php:93 modules/Student_Billing/StudentFees.php:145
+#: modules/Student_Billing/StudentFees.php:159
 msgid "Fee"
 msgstr "តម្លៃ"
 
@@ -1436,24 +1391,22 @@ msgstr "តម្លៃ"
 msgid "Student Payment"
 msgstr "ការទូទាត់របស់ សិស្ស"
 
-#: modules/Accounting/DailyTransactions.php:188 modules/Accounting/Expenses.php:118 modules/Accounting/Incomes.php:112 modules/Accounting/Salaries.php:107 modules/Accounting/StaffPayments.php:125 modules/Attendance/StudentSummary.php:190
-#: modules/Grades/AnomalousGrades.php:116 modules/Grades/Grades.php:237 modules/Grades/Grades.php:374 modules/Grades/InputFinalGrades.php:1041 modules/Grades/ProgressReports.php:42 modules/Grades/ReportCardCommentCodes.php:129
-#: modules/Grades/ReportCardCommentCodes.php:151 modules/Grades/ReportCardComments.php:231 modules/Grades/ReportCardComments.php:252 modules/Grades/ReportCardComments.php:294 modules/Grades/ReportCardGrades.php:164
-#: modules/Grades/ReportCardGrades.php:216 modules/Grades/StudentGrades.php:313 modules/Grades/Transcripts.php:294 modules/Student_Billing/DailyTransactions.php:73 modules/Student_Billing/MassAssignFees.php:68
-#: modules/Student_Billing/MassAssignPayments.php:73 modules/Student_Billing/StudentFees.php:145 modules/Student_Billing/StudentPayments.php:162 modules/Students/includes/Comments.inc.php:67
+#: modules/Accounting/DailyTransactions.php:188 modules/Accounting/Expenses.php:118 modules/Accounting/Incomes.php:112 modules/Accounting/Salaries.php:107 modules/Accounting/StaffPayments.php:125 modules/Attendance/StudentSummary.php:190 modules/Grades/AnomalousGrades.php:116
+#: modules/Grades/Grades.php:237 modules/Grades/Grades.php:374 modules/Grades/InputFinalGrades.php:1041 modules/Grades/ProgressReports.php:42 modules/Grades/ReportCardCommentCodes.php:129 modules/Grades/ReportCardCommentCodes.php:151 modules/Grades/ReportCardComments.php:231
+#: modules/Grades/ReportCardComments.php:252 modules/Grades/ReportCardComments.php:294 modules/Grades/ReportCardGrades.php:164 modules/Grades/ReportCardGrades.php:216 modules/Grades/StudentGrades.php:313 modules/Grades/Transcripts.php:294 modules/Student_Billing/DailyTransactions.php:73
+#: modules/Student_Billing/MassAssignFees.php:68 modules/Student_Billing/MassAssignPayments.php:73 modules/Student_Billing/StudentFees.php:145 modules/Student_Billing/StudentPayments.php:162 modules/Students/includes/Comments.inc.php:67
 msgid "Comment"
 msgstr "មតិ"
 
-#: modules/Accounting/DailyTransactions.php:195 modules/Food_Service/ActivityReport.php:66 modules/Food_Service/Statements.php:86 modules/Food_Service/Students/ActivityReport.php:163 modules/Food_Service/Students/Statements.php:146
-#: modules/Food_Service/Transactions.php:33 modules/Food_Service/TransactionsReport.php:118 modules/Food_Service/Users/ActivityReport.php:159 modules/Food_Service/Users/Statements.php:114 modules/Student_Billing/DailyTransactions.php:75
+#: modules/Accounting/DailyTransactions.php:195 modules/Food_Service/ActivityReport.php:66 modules/Food_Service/Statements.php:86 modules/Food_Service/Students/ActivityReport.php:163 modules/Food_Service/Students/Statements.php:146 modules/Food_Service/Transactions.php:33
+#: modules/Food_Service/TransactionsReport.php:118 modules/Food_Service/Users/ActivityReport.php:159 modules/Food_Service/Users/Statements.php:114 modules/Student_Billing/DailyTransactions.php:75
 msgid "Transaction"
 msgid_plural "Transactions"
 msgstr[0] "ប្រតិបត្តិការ"
 
-#: modules/Accounting/Expenses.php:116 modules/Accounting/Incomes.php:110 modules/Accounting/Salaries.php:107 modules/Accounting/StaffPayments.php:123 modules/Food_Service/Students/ActivityReport.php:66
-#: modules/Food_Service/Students/ActivityReport.php:102 modules/Food_Service/Students/ActivityReport.php:148 modules/Food_Service/Students/ActivityReport.php:157 modules/Food_Service/Students/ServeMenus.php:98
-#: modules/Food_Service/Students/Statements.php:101 modules/Food_Service/Students/Statements.php:135 modules/Food_Service/Students/Transactions.php:119 modules/Food_Service/Users/ActivityReport.php:57
-#: modules/Food_Service/Users/ActivityReport.php:91 modules/Food_Service/Users/ActivityReport.php:143 modules/Food_Service/Users/ActivityReport.php:152 modules/Food_Service/Users/ServeMenus.php:91 modules/Food_Service/Users/Statements.php:72
+#: modules/Accounting/Expenses.php:116 modules/Accounting/Incomes.php:110 modules/Accounting/Salaries.php:107 modules/Accounting/StaffPayments.php:123 modules/Food_Service/Students/ActivityReport.php:66 modules/Food_Service/Students/ActivityReport.php:102
+#: modules/Food_Service/Students/ActivityReport.php:148 modules/Food_Service/Students/ActivityReport.php:157 modules/Food_Service/Students/ServeMenus.php:98 modules/Food_Service/Students/Statements.php:101 modules/Food_Service/Students/Statements.php:135 modules/Food_Service/Students/Transactions.php:119
+#: modules/Food_Service/Users/ActivityReport.php:57 modules/Food_Service/Users/ActivityReport.php:91 modules/Food_Service/Users/ActivityReport.php:143 modules/Food_Service/Users/ActivityReport.php:152 modules/Food_Service/Users/ServeMenus.php:91 modules/Food_Service/Users/Statements.php:72
 #: modules/Food_Service/Users/Statements.php:106 modules/Food_Service/Users/Transactions.php:113 modules/Student_Billing/MassAssignFees.php:63 modules/Student_Billing/StudentFees.php:145 modules/Student_Billing/StudentPayments.php:160
 msgid "Amount"
 msgstr "ចំនួន"
@@ -1482,8 +1435,8 @@ msgstr "ប្រាក់ទូទៅ"
 msgid "Assigned"
 msgstr "ដែលបានផ្ដល់អោយ"
 
-#: modules/Accounting/Menu.php:21 modules/Accounting/Menu.php:34 modules/Attendance/Menu.php:18 modules/Discipline/Menu.php:18 modules/Eligibility/Menu.php:18 modules/Food_Service/Menu.php:20 modules/Grades/Menu.php:21 modules/Grades/Menu.php:55
-#: modules/Scheduling/Menu.php:21 modules/Scheduling/Menu.php:41 modules/Student_Billing/Menu.php:20 modules/Student_Billing/Menu.php:36 modules/Students/Menu.php:20 modules/Students/Menu.php:41
+#: modules/Accounting/Menu.php:21 modules/Accounting/Menu.php:34 modules/Attendance/Menu.php:18 modules/Discipline/Menu.php:18 modules/Eligibility/Menu.php:18 modules/Food_Service/Menu.php:20 modules/Grades/Menu.php:21 modules/Grades/Menu.php:55 modules/Scheduling/Menu.php:21
+#: modules/Scheduling/Menu.php:41 modules/Student_Billing/Menu.php:20 modules/Student_Billing/Menu.php:36 modules/Students/Menu.php:20 modules/Students/Menu.php:41
 msgid "Reports"
 msgstr "របាយការណ៏"
 
@@ -1512,8 +1465,8 @@ msgid "Total from Salaries"
 msgstr "សរុបចេញពីប្រាក់ខែ"
 
 # 'user_profiles' table
-#: modules/Accounting/StaffPayments.php:87 modules/Accounting/StaffPayments.php:148 modules/Student_Billing/DailyTransactions.php:73 modules/Student_Billing/MassAssignPayments.php:57 modules/Student_Billing/StudentPayments.php:85
-#: modules/Student_Billing/StudentPayments.php:99 modules/Student_Billing/StudentPayments.php:189
+#: modules/Accounting/StaffPayments.php:87 modules/Accounting/StaffPayments.php:148 modules/Student_Billing/DailyTransactions.php:73 modules/Student_Billing/MassAssignPayments.php:57 modules/Student_Billing/StudentPayments.php:85 modules/Student_Billing/StudentPayments.php:99
+#: modules/Student_Billing/StudentPayments.php:189
 msgid "Payment"
 msgid_plural "Payments"
 msgstr[0] "ការទូទាត់"
@@ -1558,11 +1511,10 @@ msgstr "ហេតុផល អវត្តមាន"
 msgid "The selected date is not in a school quarter."
 msgstr "ការជ្រើសរើសទិន្ន័យ មិនមាននៅក្នុងត្រីមាសរបស់សាលា។"
 
-#: modules/Attendance/Administration.php:261 modules/Attendance/Administration_fast.old.php:83 modules/Attendance/DailySummary.php:189 modules/Eligibility/TeacherCompletion.php:100 modules/Scheduling/Courses.php:761
-#: modules/Scheduling/Courses.php:769 modules/Scheduling/MassRequests.php:77 modules/Scheduling/MassRequests.php:93 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintClassLists.php:154
-#: modules/Scheduling/PrintClassPictures.php:233 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/PrintSchedules.php:196 modules/Scheduling/PrintSchedules.php:216 modules/Scheduling/Requests.php:194 modules/Scheduling/Schedule.php:235
-#: modules/Scheduling/Schedule.php:287 modules/Scheduling/ScheduleReport.php:246 modules/Scheduling/UnfilledRequests.php:47 modules/School_Setup/Periods.php:98 modules/School_Setup/Periods.php:154 modules/Users/includes/Schedule.inc.php:113
-#: modules/misc/Portal.php:216 modules/misc/Portal.php:403
+#: modules/Attendance/Administration.php:261 modules/Attendance/Administration_fast.old.php:83 modules/Attendance/DailySummary.php:189 modules/Eligibility/TeacherCompletion.php:100 modules/Scheduling/Courses.php:761 modules/Scheduling/Courses.php:769 modules/Scheduling/MassRequests.php:77
+#: modules/Scheduling/MassRequests.php:93 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintClassLists.php:154 modules/Scheduling/PrintClassPictures.php:233 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/PrintSchedules.php:196 modules/Scheduling/PrintSchedules.php:216
+#: modules/Scheduling/Requests.php:194 modules/Scheduling/Schedule.php:235 modules/Scheduling/Schedule.php:287 modules/Scheduling/ScheduleReport.php:246 modules/Scheduling/UnfilledRequests.php:47 modules/School_Setup/Periods.php:98 modules/School_Setup/Periods.php:154
+#: modules/Users/includes/Schedule.inc.php:113 modules/misc/Portal.php:216 modules/misc/Portal.php:403
 msgid "Period"
 msgstr "រយៈពេល"
 
@@ -1589,8 +1541,7 @@ msgid "Update"
 msgstr "បន្ទាន់សម័យ"
 
 # 'user_profiles' table
-#: modules/Attendance/Administration.php:352 modules/Attendance/AttendanceCodes.php:232 modules/Attendance/DailySummary.php:265 modules/Attendance/DailySummary.php:312 modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141
-#: modules/Attendance/StudentSummary.php:185
+#: modules/Attendance/Administration.php:352 modules/Attendance/AttendanceCodes.php:232 modules/Attendance/DailySummary.php:265 modules/Attendance/DailySummary.php:312 modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141 modules/Attendance/StudentSummary.php:185
 msgid "Present"
 msgstr "បច្ចុប្បន្ន"
 
@@ -1607,9 +1558,8 @@ msgstr "សិស្ស បច្ចុប្បន្ន"
 msgid "Not Present"
 msgstr "មិនមាន"
 
-#: modules/Attendance/Administration.php:495 modules/Attendance/StudentSummary.php:198 modules/Food_Service/Students/Reminders.php:193 modules/Food_Service/Students/Reminders.php:196 modules/Food_Service/Users/Reminders.php:127
-#: modules/Food_Service/Users/Reminders.php:130 modules/Grades/Configuration.php:48 modules/Grades/includes/ReportCards.fnc.php:229 modules/Grades/includes/ReportCards.fnc.php:499 modules/Scheduling/Courses.php:941
-#: modules/Scheduling/Courses.php:1024 modules/Users/Preferences.php:618
+#: modules/Attendance/Administration.php:495 modules/Attendance/StudentSummary.php:198 modules/Food_Service/Students/Reminders.php:193 modules/Food_Service/Students/Reminders.php:196 modules/Food_Service/Users/Reminders.php:127 modules/Food_Service/Users/Reminders.php:130
+#: modules/Grades/Configuration.php:48 modules/Grades/includes/ReportCards.fnc.php:229 modules/Grades/includes/ReportCards.fnc.php:499 modules/Scheduling/Courses.php:941 modules/Scheduling/Courses.php:1024 modules/Users/Preferences.php:618
 msgid "None"
 msgstr "គ្មាន"
 
@@ -1621,9 +1571,8 @@ msgstr "ពាក់កណ្ដាលថ្ងៃ"
 msgid "Full Day"
 msgstr "ពេញមួយថ្ងៃ"
 
-#: modules/Attendance/Administration_fast.old.php:83 modules/Grades/FinalGrades.php:142 modules/Grades/FinalGrades.php:391 modules/Grades/Transcripts.php:471 modules/Grades/includes/ReportCards.fnc.php:49
-#: modules/Grades/includes/ReportCards.fnc.php:377 modules/School_Inventory/SchoolInventory.php:457 modules/School_Setup/MarkingPeriods.php:479 modules/Students/includes/Comments.inc.php:87 modules/Students/includes/Medical.inc.php:61
-#: modules/Students/includes/Medical.inc.php:82
+#: modules/Attendance/Administration_fast.old.php:83 modules/Grades/FinalGrades.php:142 modules/Grades/FinalGrades.php:391 modules/Grades/Transcripts.php:471 modules/Grades/includes/ReportCards.fnc.php:49 modules/Grades/includes/ReportCards.fnc.php:377 modules/School_Inventory/SchoolInventory.php:457
+#: modules/School_Setup/MarkingPeriods.php:479 modules/Students/includes/Comments.inc.php:87 modules/Students/includes/Medical.inc.php:61 modules/Students/includes/Medical.inc.php:82
 msgid "Comments"
 msgstr "មតិ"
 
@@ -1631,20 +1580,20 @@ msgstr "មតិ"
 msgid "Courses"
 msgstr "វគ្គសិក្សា"
 
-#: modules/Attendance/AttendanceCodes.php:68 modules/Discipline/DisciplineForm.php:101 modules/Food_Service/MenuItems.php:92 modules/Food_Service/Menus.php:65 modules/Grades/Assignments.php:75 modules/Grades/ReportCardCommentCodes.php:66
-#: modules/Grades/ReportCardComments.php:68 modules/School_Setup/GradeLevels.php:50 modules/School_Setup/MarkingPeriods.php:64 modules/School_Setup/PortalNotes.php:234 modules/School_Setup/PortalPolls.php:176 modules/Students/EnrollmentCodes.php:51
+#: modules/Attendance/AttendanceCodes.php:68 modules/Discipline/DisciplineForm.php:101 modules/Food_Service/MenuItems.php:92 modules/Food_Service/Menus.php:65 modules/Grades/Assignments.php:75 modules/Grades/ReportCardCommentCodes.php:66 modules/Grades/ReportCardComments.php:68
+#: modules/School_Setup/GradeLevels.php:50 modules/School_Setup/MarkingPeriods.php:64 modules/School_Setup/PortalNotes.php:234 modules/School_Setup/PortalPolls.php:176 modules/Students/EnrollmentCodes.php:51
 msgid "Please enter a valid Sort Order."
 msgstr "ចូរបំពេញការតម្រៀបតាមលំដាប់អោយបានត្រឹមត្រូវ។"
 
-#: modules/Attendance/AttendanceCodes.php:134 modules/Food_Service/MenuItems.php:199 modules/Food_Service/MenuItems.php:202 modules/Grades/EditHistoryMarkingPeriods.php:101 modules/Grades/ReportCardCommentCodes.php:129
-#: modules/Scheduling/Courses.php:656 modules/Scheduling/Courses.php:1082 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/Schedule.php:235 modules/Scheduling/ScheduleReport.php:246 modules/School_Setup/GradeLevels.php:78
-#: modules/School_Setup/MarkingPeriods.php:453 modules/School_Setup/Periods.php:129 modules/School_Setup/Schools.php:290 modules/Students/EnrollmentCodes.php:95 modules/misc/Portal.php:216 modules/misc/Portal.php:403
+#: modules/Attendance/AttendanceCodes.php:134 modules/Food_Service/MenuItems.php:199 modules/Food_Service/MenuItems.php:202 modules/Grades/EditHistoryMarkingPeriods.php:101 modules/Grades/ReportCardCommentCodes.php:129 modules/Scheduling/Courses.php:656 modules/Scheduling/Courses.php:1082
+#: modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/Schedule.php:235 modules/Scheduling/ScheduleReport.php:246 modules/School_Setup/GradeLevels.php:78 modules/School_Setup/MarkingPeriods.php:453 modules/School_Setup/Periods.php:129 modules/School_Setup/Schools.php:290
+#: modules/Students/EnrollmentCodes.php:95 modules/misc/Portal.php:216 modules/misc/Portal.php:403
 msgid "Short Name"
 msgstr "ឈ្មោះខ្លី"
 
-#: modules/Attendance/AttendanceCodes.php:134 modules/Food_Service/MenuReports.php:204 modules/Food_Service/MenuReports.php:244 modules/Food_Service/Statements.php:101 modules/Food_Service/Students/ActivityReport.php:110
-#: modules/Food_Service/Students/Transactions.php:119 modules/Food_Service/TransactionsReport.php:118 modules/Food_Service/TransactionsReport.php:120 modules/Food_Service/Users/ActivityReport.php:99 modules/Food_Service/Users/Transactions.php:113
-#: modules/Grades/Assignments-new.php:228 modules/Grades/Assignments-new.php:252 modules/Grades/EditHistoryMarkingPeriods.php:99 modules/Students/EnrollmentCodes.php:95 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:254
+#: modules/Attendance/AttendanceCodes.php:134 modules/Food_Service/MenuReports.php:204 modules/Food_Service/MenuReports.php:244 modules/Food_Service/Statements.php:101 modules/Food_Service/Students/ActivityReport.php:110 modules/Food_Service/Students/Transactions.php:119
+#: modules/Food_Service/TransactionsReport.php:118 modules/Food_Service/TransactionsReport.php:120 modules/Food_Service/Users/ActivityReport.php:99 modules/Food_Service/Users/Transactions.php:113 modules/Grades/Assignments-new.php:228 modules/Grades/Assignments-new.php:252
+#: modules/Grades/EditHistoryMarkingPeriods.php:99 modules/Students/EnrollmentCodes.php:95 modules/Users/Exceptions.php:318 modules/Users/Profiles.php:254
 msgid "Type"
 msgstr "ប្រភេទ"
 
@@ -1678,9 +1627,8 @@ msgstr "ប្រចាំថ្ងៃ"
 msgid "By Period"
 msgstr "តាមម៉ោងរៀន​"
 
-#: modules/Attendance/DailySummary.php:116 modules/Attendance/Percent.php:73 modules/Attendance/StudentSummary.php:78 modules/Discipline/CategoryBreakdownTime.php:442 modules/Eligibility/TeacherCompletion.php:99
-#: modules/Food_Service/MenuReports.php:249 modules/Food_Service/Students/Statements.php:47 modules/Food_Service/TransactionsReport.php:67 modules/Food_Service/Users/Statements.php:20 modules/Scheduling/AddDrop.php:38
-#: modules/School_Setup/Calendar.php:793 modules/Students/AddDrop.php:40
+#: modules/Attendance/DailySummary.php:116 modules/Attendance/Percent.php:73 modules/Attendance/StudentSummary.php:78 modules/Discipline/CategoryBreakdownTime.php:442 modules/Eligibility/TeacherCompletion.php:99 modules/Food_Service/MenuReports.php:249 modules/Food_Service/Students/Statements.php:47
+#: modules/Food_Service/TransactionsReport.php:67 modules/Food_Service/Users/Statements.php:20 modules/Scheduling/AddDrop.php:38 modules/School_Setup/Calendar.php:793 modules/Students/AddDrop.php:40
 msgid "Timeframe"
 msgstr "ពេលវេលា"
 
@@ -1696,10 +1644,9 @@ msgstr "របាយការណ៏​វត្តមានជាន់គ្ន
 msgid "The duplicate records have been deleted."
 msgstr "របាយការណ៏ជាន់គ្នាត្រូវបានលុប។"
 
-#: modules/Attendance/DuplicateAttendance.php:88 modules/Custom/AttendanceSummary.php:252 modules/Custom/CreateParents.php:239 modules/Eligibility/AddActivity.php:26 modules/Food_Service/Students/Reminders.php:104 modules/Grades/HonorRoll.php:186
-#: modules/Grades/HonorRollSubject.php:115 modules/Grades/ProgressReports.php:127 modules/Scheduling/MassDrops.php:86 modules/Scheduling/MassRequests.php:25 modules/Scheduling/MassSchedule.php:114 modules/Scheduling/PrintSchedules.php:229
-#: modules/Student_Billing/MassAssignFees.php:34 modules/Student_Billing/MassAssignPayments.php:34 modules/Students/Letters.php:93 modules/Students/MailingLabels.php:136 modules/Students/PrintStudentInfo.php:171
-#: modules/Students/StudentLabels.php:145 modules/Users/AddStudents.php:28
+#: modules/Attendance/DuplicateAttendance.php:88 modules/Custom/AttendanceSummary.php:252 modules/Custom/CreateParents.php:239 modules/Eligibility/AddActivity.php:26 modules/Food_Service/Students/Reminders.php:104 modules/Grades/HonorRoll.php:186 modules/Grades/HonorRollSubject.php:115
+#: modules/Grades/ProgressReports.php:127 modules/Scheduling/MassDrops.php:86 modules/Scheduling/MassRequests.php:25 modules/Scheduling/MassSchedule.php:114 modules/Scheduling/PrintSchedules.php:229 modules/Student_Billing/MassAssignFees.php:34 modules/Student_Billing/MassAssignPayments.php:34
+#: modules/Students/Letters.php:93 modules/Students/MailingLabels.php:136 modules/Students/PrintStudentInfo.php:171 modules/Students/StudentLabels.php:145 modules/Users/AddStudents.php:28
 msgid "You must choose at least one student."
 msgstr "អ្នកត្រូវតែជ្រើសរើសសិស្សយ៉ាងហោចណាស់មួយ។"
 
@@ -1732,10 +1679,9 @@ msgstr "កាលបរិច្ឆេទ​វត្ត​មាន​"
 msgid "No Duplicates Found"
 msgstr "មិនមាន​របាយណ៏ការជាន់​"
 
-#: modules/Attendance/DuplicateAttendance.php:381 modules/Custom/AttendanceSummary.php:248 modules/Discipline/ReferralLog.php:34 modules/Discipline/Referrals.php:421 modules/Grades/FinalGrades.php:404 modules/Grades/GradebookBreakdown.php:236
-#: modules/Grades/ProgressReports.php:124 modules/Grades/ReportCards.php:28 modules/Grades/Transcripts.php:379 modules/Scheduling/PrintClassLists.php:88 modules/Scheduling/PrintClassPictures.php:148 modules/Scheduling/PrintRequests.php:73
-#: modules/Scheduling/PrintSchedules.php:226 modules/Student_Billing/Statements.php:74 modules/Students/Letters.php:90 modules/Students/MailingLabels.php:133 modules/Students/PrintStudentInfo.php:168 modules/Students/Search.inc.php:333
-#: modules/Students/StudentLabels.php:142
+#: modules/Attendance/DuplicateAttendance.php:381 modules/Custom/AttendanceSummary.php:248 modules/Discipline/ReferralLog.php:34 modules/Discipline/Referrals.php:421 modules/Grades/FinalGrades.php:404 modules/Grades/GradebookBreakdown.php:236 modules/Grades/ProgressReports.php:124
+#: modules/Grades/ReportCards.php:28 modules/Grades/Transcripts.php:379 modules/Scheduling/PrintClassLists.php:88 modules/Scheduling/PrintClassPictures.php:148 modules/Scheduling/PrintRequests.php:73 modules/Scheduling/PrintSchedules.php:226 modules/Student_Billing/Statements.php:74
+#: modules/Students/Letters.php:90 modules/Students/MailingLabels.php:133 modules/Students/PrintStudentInfo.php:168 modules/Students/Search.inc.php:333 modules/Students/StudentLabels.php:142
 msgid "No Students were found."
 msgstr "មិនឃើញឈ្មោះរបស់សិស្ស។"
 
@@ -1792,8 +1738,7 @@ msgstr "ឧបករណ៏ប្រើប្រាស់"
 msgid "Delete Duplicate Attendance"
 msgstr "លុបវត្តមានដែលជាន់គ្នា"
 
-#: modules/Attendance/Menu.php:27 modules/Discipline/Menu.php:23 modules/Eligibility/Menu.php:21 modules/Food_Service/Menu.php:26 modules/Grades/Menu.php:28 modules/Grades/Menu.php:59 modules/Scheduling/Menu.php:32 modules/Students/Menu.php:29
-#: modules/Users/Menu.php:20
+#: modules/Attendance/Menu.php:27 modules/Discipline/Menu.php:23 modules/Eligibility/Menu.php:21 modules/Food_Service/Menu.php:26 modules/Grades/Menu.php:28 modules/Grades/Menu.php:59 modules/Scheduling/Menu.php:32 modules/Students/Menu.php:29 modules/Users/Menu.php:20
 msgid "Setup"
 msgstr "តម្លើង"
 
@@ -1817,14 +1762,14 @@ msgstr "អវត្តមាន"
 msgid "Daily Summary"
 msgstr "សរុបប្រចាំថ្ងៃ"
 
-#: modules/Attendance/Percent.php:43 modules/Attendance/Percent.php:72 modules/Discipline/CategoryBreakdown.php:70 modules/Discipline/CategoryBreakdown.php:250 modules/Discipline/CategoryBreakdownTime.php:78
-#: modules/Discipline/CategoryBreakdownTime.php:431 modules/Discipline/StudentFieldBreakdown.php:69 modules/Discipline/StudentFieldBreakdown.php:271 modules/Students/StudentBreakdown.php:23 modules/Students/StudentBreakdown.php:214
+#: modules/Attendance/Percent.php:43 modules/Attendance/Percent.php:72 modules/Discipline/CategoryBreakdown.php:70 modules/Discipline/CategoryBreakdown.php:250 modules/Discipline/CategoryBreakdownTime.php:78 modules/Discipline/CategoryBreakdownTime.php:431 modules/Discipline/StudentFieldBreakdown.php:69
+#: modules/Discipline/StudentFieldBreakdown.php:271 modules/Students/StudentBreakdown.php:23 modules/Students/StudentBreakdown.php:214
 msgid "Advanced"
 msgstr "កម្រិតខ្ពស់"
 
-#: modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141 modules/Food_Service/Accounts.php:13 modules/Food_Service/ActivityReport.php:34 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/BalanceReport.php:44
-#: modules/Food_Service/Reminders.php:11 modules/Food_Service/ServeMenus.php:31 modules/Food_Service/Statements.php:55 modules/Food_Service/Transactions.php:21 modules/School_Setup/Configuration.php:278 modules/School_Setup/Rollover.php:3
-#: modules/Students/Menu.php:14 modules/Students/Menu.php:37 modules/Students/Menu.php:48 modules/Users/AddStudents.php:98
+#: modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141 modules/Food_Service/Accounts.php:13 modules/Food_Service/ActivityReport.php:34 modules/Food_Service/AssignSchool.php:42 modules/Food_Service/BalanceReport.php:44 modules/Food_Service/Reminders.php:11
+#: modules/Food_Service/ServeMenus.php:31 modules/Food_Service/Statements.php:55 modules/Food_Service/Transactions.php:21 modules/School_Setup/Configuration.php:278 modules/School_Setup/Rollover.php:3 modules/Students/Menu.php:14 modules/Students/Menu.php:37 modules/Students/Menu.php:48
+#: modules/Users/AddStudents.php:98
 msgid "Students"
 msgstr "សិស្ស"
 
@@ -1882,8 +1827,7 @@ msgstr "អ្នកមិនអាចកែប្រែវត្តមានន
 msgid "You already have taken attendance today for this period."
 msgstr "អ្នកបានយកវត្តមានថ្ងៃនេះ សម្រាប់​ម៉ោង​សិក្សា​នេះ​រួចហើយ។"
 
-#: modules/Attendance/TeacherCompletion.php:119 modules/Grades/StudentGrades.php:55 modules/Grades/TeacherCompletion.php:78 modules/Grades/includes/StudentAssignments.fnc.php:268 modules/Grades/includes/StudentAssignments.fnc.php:521
-#: modules/Scheduling/Requests.php:224
+#: modules/Attendance/TeacherCompletion.php:119 modules/Grades/StudentGrades.php:55 modules/Grades/TeacherCompletion.php:78 modules/Grades/includes/StudentAssignments.fnc.php:268 modules/Grades/includes/StudentAssignments.fnc.php:521 modules/Scheduling/Requests.php:224
 msgid "Course Title"
 msgstr "ចំណងជើង​ វគ្គសិក្សា"
 
@@ -1911,8 +1855,7 @@ msgstr "គ្រូទាំងឡាយ​ដែលយកវត្តមាន
 msgid "Student Name"
 msgstr "ឈ្មោះសិស្ស"
 
-#: modules/Custom/AttendanceSummary.php:99 modules/Grades/EditHistoryMarkingPeriods.php:192 modules/Grades/Transcripts.php:451 modules/School_Setup/MarkingPeriods.php:292 modules/School_Setup/MarkingPeriods.php:566
-#: modules/School_Setup/MarkingPeriods.php:577
+#: modules/Custom/AttendanceSummary.php:99 modules/Grades/EditHistoryMarkingPeriods.php:192 modules/Grades/Transcripts.php:451 modules/School_Setup/MarkingPeriods.php:292 modules/School_Setup/MarkingPeriods.php:566 modules/School_Setup/MarkingPeriods.php:577
 msgid "Year"
 msgstr "ឆ្នាំ​"
 
@@ -1985,8 +1928,7 @@ msgstr "បង្កើតគណនីមាតាបិតាសំរាប់
 msgid "Email Text"
 msgstr "សារអ៊ីម៉េល"
 
-#: modules/Custom/CreateParents.php:280 modules/Custom/NotifyParents.php:123 modules/Grades/HonorRoll.php:223 modules/Grades/HonorRollSubject.php:144 modules/Grades/Transcripts.php:510 modules/Students/Letters.php:123
-#: plugins/Paypal_Registration/config.inc.php:295
+#: modules/Custom/CreateParents.php:280 modules/Custom/NotifyParents.php:123 modules/Grades/HonorRoll.php:223 modules/Grades/HonorRollSubject.php:144 modules/Grades/Transcripts.php:510 modules/Students/Letters.php:123 plugins/Paypal_Registration/config.inc.php:295
 msgid "Substitutions"
 msgstr "ជំនួស"
 
@@ -2135,9 +2077,9 @@ msgstr "ពត៌មានអំពីមាតាបិតាអ្នក"
 msgid "Information about you"
 msgstr "ពត៌មានអំពីអ្នក"
 
-#: modules/Custom/Registration.php:341 modules/Custom/Registration.php:361 modules/Custom/Registration.php:409 modules/Custom/Registration.php:450 modules/Custom/Registration.php:462 modules/Grades/HonorRoll.php:228
-#: modules/Grades/HonorRollSubject.php:149 modules/Grades/Transcripts.php:518 modules/Students/Letters.php:129 modules/Students/includes/Address.inc.php:897 modules/Students/includes/Address.inc.php:1064
-#: modules/Students/includes/General_Info.inc.php:42 modules/Students_Import/StudentsImport.php:259 modules/Users/includes/General_Info.inc.php:55 modules/misc/Export.php:161 modules/misc/Export.php:472
+#: modules/Custom/Registration.php:341 modules/Custom/Registration.php:361 modules/Custom/Registration.php:409 modules/Custom/Registration.php:450 modules/Custom/Registration.php:462 modules/Grades/HonorRoll.php:228 modules/Grades/HonorRollSubject.php:149 modules/Grades/Transcripts.php:518
+#: modules/Students/Letters.php:129 modules/Students/includes/Address.inc.php:897 modules/Students/includes/Address.inc.php:1064 modules/Students/includes/General_Info.inc.php:42 modules/Students_Import/StudentsImport.php:259 modules/Users/includes/General_Info.inc.php:55 modules/misc/Export.php:161
+#: modules/misc/Export.php:472
 msgid "Middle Name"
 msgstr "ឈ្មោះ កណ្តាល"
 
@@ -2190,9 +2132,8 @@ msgstr "សូមជ្រើសរើសក្រុមមួយ"
 msgid "Line"
 msgstr "ជួរ"
 
-#: modules/Discipline/CategoryBreakdown.php:285 modules/Discipline/CategoryBreakdown.php:302 modules/Discipline/CategoryBreakdownTime.php:469 modules/Discipline/StudentFieldBreakdown.php:307 modules/Discipline/StudentFieldBreakdown.php:324
-#: modules/Grades/GradeBreakdown.php:109 modules/Grades/GradebookBreakdown.php:254 modules/Grades/HonorRoll.php:201 modules/Scheduling/PrintSchedules.php:260 modules/Scheduling/Schedule.php:179 modules/Students/StudentBreakdown.php:242
-#: modules/Students/StudentBreakdown.php:259
+#: modules/Discipline/CategoryBreakdown.php:285 modules/Discipline/CategoryBreakdown.php:302 modules/Discipline/CategoryBreakdownTime.php:469 modules/Discipline/StudentFieldBreakdown.php:307 modules/Discipline/StudentFieldBreakdown.php:324 modules/Grades/GradeBreakdown.php:109
+#: modules/Grades/GradebookBreakdown.php:254 modules/Grades/HonorRoll.php:201 modules/Scheduling/PrintSchedules.php:260 modules/Scheduling/Schedule.php:179 modules/Students/StudentBreakdown.php:242 modules/Students/StudentBreakdown.php:259
 msgid "List"
 msgstr "បញ្ជី"
 
@@ -2204,8 +2145,8 @@ msgstr "ខ្ទង់"
 msgid "Pie"
 msgstr ""
 
-#: modules/Discipline/CategoryBreakdown.php:323 modules/Discipline/CategoryBreakdown.php:325 modules/Discipline/CategoryBreakdownTime.php:482 modules/Discipline/CategoryBreakdownTime.php:512 modules/Discipline/StudentFieldBreakdown.php:345
-#: modules/Discipline/StudentFieldBreakdown.php:347 modules/Students/StudentBreakdown.php:280 modules/Students/StudentBreakdown.php:282
+#: modules/Discipline/CategoryBreakdown.php:323 modules/Discipline/CategoryBreakdown.php:325 modules/Discipline/CategoryBreakdownTime.php:482 modules/Discipline/CategoryBreakdownTime.php:512 modules/Discipline/StudentFieldBreakdown.php:345 modules/Discipline/StudentFieldBreakdown.php:347
+#: modules/Students/StudentBreakdown.php:280 modules/Students/StudentBreakdown.php:282
 msgid "Option"
 msgid_plural "Options"
 msgstr[0] "ជម្រើស"
@@ -2236,11 +2177,11 @@ msgstr[0] "បែបបទទម្រងបញ្ជូន "
 msgid "Use at this school"
 msgstr "ប្រើប្រាស់នៅសាលារៀននេះ"
 
-#: modules/Discipline/MakeReferral.php:88 modules/Discipline/Referrals.php:41 modules/Food_Service/MenuItems.php:48 modules/Food_Service/MenuItems.php:88 modules/Food_Service/Students/Accounts.php:54 modules/Grades/Assignments-new.php:140
-#: modules/Grades/Assignments.php:68 modules/Grades/EditReportCardGrades.php:120 modules/Grades/MassCreateAssignments.php:54 modules/Grades/ReportCardGrades.php:73 modules/Scheduling/Courses.php:456 modules/School_Setup/Configuration.php:139
-#: modules/School_Setup/Periods.php:87 modules/School_Setup/SchoolFields.php:86 modules/School_Setup/Schools.php:45 modules/School_Setup/Schools.php:65 modules/Students/AddressFields.php:114 modules/Students/PeopleFields.php:114
-#: modules/Students/Student.php:156 modules/Students/Student.php:226 modules/Students/Student.php:254 modules/Students/StudentFields.php:144 modules/Students/includes/Address.inc.php:73 modules/Students/includes/Address.inc.php:157
-#: modules/Students_Import/includes/StudentsImport.fnc.php:579 modules/Users/User.php:234 modules/Users/User.php:323 modules/Users/UserFields.php:144 plugins/Moodle/config.inc.php:41 plugins/Paypal_Registration/config.inc.php:131
+#: modules/Discipline/MakeReferral.php:88 modules/Discipline/Referrals.php:41 modules/Food_Service/MenuItems.php:48 modules/Food_Service/MenuItems.php:88 modules/Food_Service/Students/Accounts.php:54 modules/Grades/Assignments-new.php:140 modules/Grades/Assignments.php:68
+#: modules/Grades/EditReportCardGrades.php:120 modules/Grades/MassCreateAssignments.php:54 modules/Grades/ReportCardGrades.php:73 modules/Scheduling/Courses.php:456 modules/School_Setup/Configuration.php:139 modules/School_Setup/Periods.php:87 modules/School_Setup/SchoolFields.php:86
+#: modules/School_Setup/Schools.php:45 modules/School_Setup/Schools.php:65 modules/Students/AddressFields.php:114 modules/Students/PeopleFields.php:114 modules/Students/Student.php:156 modules/Students/Student.php:226 modules/Students/Student.php:254 modules/Students/StudentFields.php:144
+#: modules/Students/includes/Address.inc.php:73 modules/Students/includes/Address.inc.php:157 modules/Students_Import/includes/StudentsImport.fnc.php:579 modules/Users/User.php:234 modules/Users/User.php:323 modules/Users/UserFields.php:144 plugins/Moodle/config.inc.php:41
+#: plugins/Paypal_Registration/config.inc.php:131
 msgid "Please enter valid Numeric data."
 msgstr "សូមបញ្ចូនទិន្នន័យលេខដែលមានសុពលភាព"
 
@@ -2417,10 +2358,9 @@ msgid "Teacher who hasn't entered eligibility"
 msgid_plural "Teachers who haven't entered eligibility"
 msgstr[0] "គ្រូដែលមិនទទួលបានសិទ្ធចូល"
 
-#: modules/Food_Service/Accounts.php:19 modules/Food_Service/ActivityReport.php:42 modules/Food_Service/AssignSchool.php:44 modules/Food_Service/BalanceReport.php:52 modules/Food_Service/MenuReports.php:162 modules/Food_Service/Reminders.php:17
-#: modules/Food_Service/ServeMenus.php:37 modules/Food_Service/Statements.php:64 modules/Food_Service/Students/ActivityReport.php:67 modules/Food_Service/Students/ActivityReport.php:117 modules/Food_Service/Transactions.php:27
-#: modules/Food_Service/TransactionsReport.php:92 modules/Food_Service/Users/ActivityReport.php:53 modules/Food_Service/Users/ActivityReport.php:58 modules/Food_Service/Users/ActivityReport.php:87 modules/Food_Service/Users/ActivityReport.php:106
-#: modules/Food_Service/Users/Statements.php:73 modules/Users/Search.inc.php:193 modules/Users/User.php:449
+#: modules/Food_Service/Accounts.php:19 modules/Food_Service/ActivityReport.php:42 modules/Food_Service/AssignSchool.php:44 modules/Food_Service/BalanceReport.php:52 modules/Food_Service/MenuReports.php:162 modules/Food_Service/Reminders.php:17 modules/Food_Service/ServeMenus.php:37
+#: modules/Food_Service/Statements.php:64 modules/Food_Service/Students/ActivityReport.php:67 modules/Food_Service/Students/ActivityReport.php:117 modules/Food_Service/Transactions.php:27 modules/Food_Service/TransactionsReport.php:92 modules/Food_Service/Users/ActivityReport.php:53
+#: modules/Food_Service/Users/ActivityReport.php:58 modules/Food_Service/Users/ActivityReport.php:87 modules/Food_Service/Users/ActivityReport.php:106 modules/Food_Service/Users/Statements.php:73 modules/Users/Search.inc.php:193 modules/Users/User.php:449
 msgid "User"
 msgstr "អ្នកប្រើប្រាស់"
 
@@ -2428,50 +2368,49 @@ msgstr "អ្នកប្រើប្រាស់"
 msgid "Transaction Item"
 msgstr "មុខទំនិញនៃប្រតិបត្តិការ"
 
-#: modules/Food_Service/ActivityReport.php:78 modules/Food_Service/ActivityReport.php:159 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111
-#: modules/Food_Service/TransactionsReport.php:63 modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
+#: modules/Food_Service/ActivityReport.php:78 modules/Food_Service/ActivityReport.php:159 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111 modules/Food_Service/TransactionsReport.php:63
+#: modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
 msgid "Cash"
 msgstr "សាច់ប្រាក់"
 
-#: modules/Food_Service/ActivityReport.php:79 modules/Food_Service/ActivityReport.php:160 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111
-#: modules/Food_Service/TransactionsReport.php:63 modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
+#: modules/Food_Service/ActivityReport.php:79 modules/Food_Service/ActivityReport.php:160 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111 modules/Food_Service/TransactionsReport.php:63
+#: modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
 msgid "Check"
 msgstr "មូលប្បទានប័ត្រ"
 
-#: modules/Food_Service/ActivityReport.php:80 modules/Food_Service/ActivityReport.php:161 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111
-#: modules/Food_Service/TransactionsReport.php:63 modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
+#: modules/Food_Service/ActivityReport.php:80 modules/Food_Service/ActivityReport.php:161 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111 modules/Food_Service/TransactionsReport.php:63
+#: modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
 msgid "Credit Card"
 msgstr "កាត​ឥណទាន"
 
-#: modules/Food_Service/ActivityReport.php:81 modules/Food_Service/ActivityReport.php:162 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111
-#: modules/Food_Service/TransactionsReport.php:63 modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
+#: modules/Food_Service/ActivityReport.php:81 modules/Food_Service/ActivityReport.php:162 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111 modules/Food_Service/TransactionsReport.php:63
+#: modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
 msgid "Debit Card"
 msgstr "ប័ណ្ណ​ឥ​ណ្ណ​ពន្ធ"
 
-#: modules/Food_Service/ActivityReport.php:82 modules/Food_Service/ActivityReport.php:163 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111
-#: modules/Food_Service/TransactionsReport.php:63 modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
+#: modules/Food_Service/ActivityReport.php:82 modules/Food_Service/ActivityReport.php:163 modules/Food_Service/Statements.php:117 modules/Food_Service/Students/Transactions.php:96 modules/Food_Service/Students/Transactions.php:111 modules/Food_Service/TransactionsReport.php:63
+#: modules/Food_Service/Users/Transactions.php:90 modules/Food_Service/Users/Transactions.php:105
 msgid "Transfer"
 msgstr "សេវាផ្ទេរប្រាក់"
 
-#: modules/Food_Service/ActivityReport.php:100 modules/Food_Service/ActivityReport.php:143 modules/Food_Service/Statements.php:98 modules/Food_Service/Statements.php:110 modules/Food_Service/Students/Transactions.php:89
-#: modules/Food_Service/Students/Transactions.php:109 modules/Food_Service/TransactionsReport.php:62 modules/Food_Service/Users/Transactions.php:83 modules/Food_Service/Users/Transactions.php:103
+#: modules/Food_Service/ActivityReport.php:100 modules/Food_Service/ActivityReport.php:143 modules/Food_Service/Statements.php:98 modules/Food_Service/Statements.php:110 modules/Food_Service/Students/Transactions.php:89 modules/Food_Service/Students/Transactions.php:109
+#: modules/Food_Service/TransactionsReport.php:62 modules/Food_Service/Users/Transactions.php:83 modules/Food_Service/Users/Transactions.php:103
 msgid "Deposit"
 msgstr ""
 
-#: modules/Food_Service/ActivityReport.php:106 modules/Food_Service/ActivityReport.php:144 modules/Food_Service/Statements.php:98 modules/Food_Service/Statements.php:110 modules/Food_Service/Students/Transactions.php:89
-#: modules/Food_Service/Students/Transactions.php:109 modules/Food_Service/TransactionsReport.php:62 modules/Food_Service/Users/Transactions.php:83 modules/Food_Service/Users/Transactions.php:103 modules/Grades/Transcripts.php:288
-#: modules/Grades/Transcripts.php:343
+#: modules/Food_Service/ActivityReport.php:106 modules/Food_Service/ActivityReport.php:144 modules/Food_Service/Statements.php:98 modules/Food_Service/Statements.php:110 modules/Food_Service/Students/Transactions.php:89 modules/Food_Service/Students/Transactions.php:109
+#: modules/Food_Service/TransactionsReport.php:62 modules/Food_Service/Users/Transactions.php:83 modules/Food_Service/Users/Transactions.php:103 modules/Grades/Transcripts.php:288 modules/Grades/Transcripts.php:343
 msgid "Credit"
 msgstr "ឥណទាន"
 
-#: modules/Food_Service/ActivityReport.php:112 modules/Food_Service/ActivityReport.php:145 modules/Food_Service/Statements.php:98 modules/Food_Service/Statements.php:110 modules/Food_Service/Students/Transactions.php:89
-#: modules/Food_Service/Students/Transactions.php:109 modules/Food_Service/TransactionsReport.php:62 modules/Food_Service/Users/Transactions.php:83 modules/Food_Service/Users/Transactions.php:103
+#: modules/Food_Service/ActivityReport.php:112 modules/Food_Service/ActivityReport.php:145 modules/Food_Service/Statements.php:98 modules/Food_Service/Statements.php:110 modules/Food_Service/Students/Transactions.php:89 modules/Food_Service/Students/Transactions.php:109
+#: modules/Food_Service/TransactionsReport.php:62 modules/Food_Service/Users/Transactions.php:83 modules/Food_Service/Users/Transactions.php:103
 msgid "Debit"
 msgstr "ឥណពន្ធ"
 
-#: modules/Food_Service/AssignSchool.php:42 modules/Food_Service/AssignSchool.php:44 modules/Food_Service/DailyMenus.php:236 modules/Food_Service/Students/ActivityReport.php:58 modules/Food_Service/Students/ActivityReport.php:95
-#: modules/Food_Service/Students/Statements.php:95 modules/Food_Service/Students/Statements.php:130 modules/Food_Service/Users/ActivityReport.php:52 modules/Food_Service/Users/ActivityReport.php:86 modules/Food_Service/Users/Statements.php:68
-#: modules/Food_Service/Users/Statements.php:102 modules/Grades/ReportCardCommentCodes.php:139 modules/Grades/ReportCardCommentCodes.php:155 modules/Students/EnrollmentCodes.php:98
+#: modules/Food_Service/AssignSchool.php:42 modules/Food_Service/AssignSchool.php:44 modules/Food_Service/DailyMenus.php:236 modules/Food_Service/Students/ActivityReport.php:58 modules/Food_Service/Students/ActivityReport.php:95 modules/Food_Service/Students/Statements.php:95
+#: modules/Food_Service/Students/Statements.php:130 modules/Food_Service/Users/ActivityReport.php:52 modules/Food_Service/Users/ActivityReport.php:86 modules/Food_Service/Users/Statements.php:68 modules/Food_Service/Users/Statements.php:102 modules/Grades/ReportCardCommentCodes.php:139
+#: modules/Grades/ReportCardCommentCodes.php:155 modules/Students/EnrollmentCodes.php:98
 msgid "ID"
 msgstr "លេខសម្គាល់"
 
@@ -2489,8 +2428,8 @@ msgstr[0] "ប្រតិបតិ្តការរបស់អ្នកប្
 msgid "Total of Balances"
 msgstr "សរុបនៃតុល្យភាព"
 
-#: modules/Food_Service/DailyMenus.php:41 modules/Food_Service/Kiosk.php:16 modules/Food_Service/Kiosk.php:20 modules/Food_Service/Kiosk.php:30 modules/Food_Service/Kiosk.php:35 modules/Food_Service/MenuReports.php:56
-#: modules/Food_Service/MenuReports.php:60 modules/Food_Service/MenuReports.php:70 modules/Food_Service/MenuReports.php:75 modules/Food_Service/ServeMenus.php:47
+#: modules/Food_Service/DailyMenus.php:41 modules/Food_Service/Kiosk.php:16 modules/Food_Service/Kiosk.php:20 modules/Food_Service/Kiosk.php:30 modules/Food_Service/Kiosk.php:35 modules/Food_Service/MenuReports.php:56 modules/Food_Service/MenuReports.php:60 modules/Food_Service/MenuReports.php:70
+#: modules/Food_Service/MenuReports.php:75 modules/Food_Service/ServeMenus.php:47
 msgid "There are no menus yet setup."
 msgstr "មិនទាន់មានមុខម្ហូបបង្កើតទេ"
 
@@ -2498,12 +2437,10 @@ msgstr "មិនទាន់មានមុខម្ហូបបង្កើត
 msgid "or select previous meal"
 msgstr "ឬ សូមជ្រើសរើសមុខម្ហូបលើកមុន"
 
-#: modules/Food_Service/DailyMenus.php:236 modules/Food_Service/Students/ActivityReport.php:64 modules/Food_Service/Students/ActivityReport.php:101 modules/Food_Service/Students/ActivityReport.php:148
-#: modules/Food_Service/Students/ActivityReport.php:157 modules/Food_Service/Students/Statements.php:100 modules/Food_Service/Students/Statements.php:134 modules/Food_Service/Students/Transactions.php:119
-#: modules/Food_Service/Users/ActivityReport.php:56 modules/Food_Service/Users/ActivityReport.php:90 modules/Food_Service/Users/ActivityReport.php:143 modules/Food_Service/Users/ActivityReport.php:152 modules/Food_Service/Users/Statements.php:71
-#: modules/Food_Service/Users/Statements.php:105 modules/Food_Service/Users/Transactions.php:113 modules/Grades/Assignments-new.php:224 modules/Grades/Assignments.php:530 modules/Grades/MassCreateAssignments.php:330
-#: modules/Grades/StudentGrades.php:422 modules/Grades/includes/StudentAssignments.fnc.php:292 modules/School_Setup/Calendar.php:811 modules/Students/includes/Address.inc.php:1039 modules/Students/includes/Address.inc.php:1046
-#: modules/misc/Portal.php:150 modules/misc/Portal.php:306 modules/misc/Portal.php:476 modules/misc/Portal.php:613
+#: modules/Food_Service/DailyMenus.php:236 modules/Food_Service/Students/ActivityReport.php:64 modules/Food_Service/Students/ActivityReport.php:101 modules/Food_Service/Students/ActivityReport.php:148 modules/Food_Service/Students/ActivityReport.php:157 modules/Food_Service/Students/Statements.php:100
+#: modules/Food_Service/Students/Statements.php:134 modules/Food_Service/Students/Transactions.php:119 modules/Food_Service/Users/ActivityReport.php:56 modules/Food_Service/Users/ActivityReport.php:90 modules/Food_Service/Users/ActivityReport.php:143 modules/Food_Service/Users/ActivityReport.php:152
+#: modules/Food_Service/Users/Statements.php:71 modules/Food_Service/Users/Statements.php:105 modules/Food_Service/Users/Transactions.php:113 modules/Grades/Assignments-new.php:224 modules/Grades/Assignments.php:530 modules/Grades/MassCreateAssignments.php:330 modules/Grades/StudentGrades.php:422
+#: modules/Grades/includes/StudentAssignments.fnc.php:292 modules/School_Setup/Calendar.php:811 modules/Students/includes/Address.inc.php:1039 modules/Students/includes/Address.inc.php:1046 modules/misc/Portal.php:150 modules/misc/Portal.php:306 modules/misc/Portal.php:476 modules/misc/Portal.php:613
 msgid "Description"
 msgstr "ពិពណ៌នា"
 
@@ -2574,9 +2511,8 @@ msgid "Meal Item"
 msgid_plural "Meal Items"
 msgstr[0] "មុខអាហារ"
 
-#: modules/Food_Service/MenuItems.php:116 modules/Food_Service/Students/ServeMenus.php:98 modules/Food_Service/Students/ServeMenus.php:148 modules/Food_Service/Students/ServeMenus.php:159 modules/Food_Service/TakeMenuCounts.php:166
-#: modules/Food_Service/TakeMenuCounts.php:182 modules/Food_Service/TeacherCompletion.php:142 modules/Food_Service/Users/ServeMenus.php:91 modules/Food_Service/Users/ServeMenus.php:135 modules/Food_Service/Users/ServeMenus.php:146
-#: modules/School_Inventory/SchoolInventory.php:329 modules/School_Inventory/SchoolInventory.php:487
+#: modules/Food_Service/MenuItems.php:116 modules/Food_Service/Students/ServeMenus.php:98 modules/Food_Service/Students/ServeMenus.php:148 modules/Food_Service/Students/ServeMenus.php:159 modules/Food_Service/TakeMenuCounts.php:166 modules/Food_Service/TakeMenuCounts.php:182
+#: modules/Food_Service/TeacherCompletion.php:142 modules/Food_Service/Users/ServeMenus.php:91 modules/Food_Service/Users/ServeMenus.php:135 modules/Food_Service/Users/ServeMenus.php:146 modules/School_Inventory/SchoolInventory.php:329 modules/School_Inventory/SchoolInventory.php:487
 msgid "Item"
 msgid_plural "Items"
 msgstr[0] "មុខទំនិញ"
@@ -2701,8 +2637,7 @@ msgstr "តម្រៀបតាមរយៈឈ្មោះ"
 msgid "Detailed View"
 msgstr "សេចក្ដីលម្អិត"
 
-#: modules/Food_Service/Students/ActivityReport.php:135 modules/Food_Service/Students/Statements.php:55 modules/Food_Service/Users/ActivityReport.php:130 modules/Food_Service/Users/Statements.php:30 modules/Students/Search.inc.php:226
-#: modules/Users/Search.inc.php:218
+#: modules/Food_Service/Students/ActivityReport.php:135 modules/Food_Service/Students/Statements.php:55 modules/Food_Service/Users/ActivityReport.php:130 modules/Food_Service/Users/Statements.php:30 modules/Students/Search.inc.php:226 modules/Users/Search.inc.php:218
 msgid "Original View"
 msgstr "សេចក្តីដើម"
 
@@ -2710,8 +2645,7 @@ msgstr "សេចក្តីដើម"
 msgid "Detail"
 msgstr "លម្អិត"
 
-#: modules/Food_Service/Students/ActivityReport.php:148 modules/Food_Service/Students/ActivityReport.php:157 modules/Food_Service/TakeMenuCounts.php:166 modules/Food_Service/Users/ActivityReport.php:143
-#: modules/Food_Service/Users/ActivityReport.php:152
+#: modules/Food_Service/Students/ActivityReport.php:148 modules/Food_Service/Students/ActivityReport.php:157 modules/Food_Service/TakeMenuCounts.php:166 modules/Food_Service/Users/ActivityReport.php:143 modules/Food_Service/Users/ActivityReport.php:152
 msgid "Count"
 msgstr "រាប់"
 
@@ -2935,8 +2869,7 @@ msgstr "សៀវកភៅសិក្ខាគរឹក"
 msgid "Include All Courses"
 msgstr "រួមបញ្ចូលវគ្គសិក្សាទាំងអស់"
 
-#: modules/Grades/AnomalousGrades.php:17 modules/Grades/Grades.php:496 modules/Grades/InputFinalGrades.php:971 modules/Scheduling/PrintClassLists.php:108 modules/Scheduling/PrintClassPictures.php:175 modules/Students/Search.inc.php:74
-#: modules/Students/Search.inc.php:176
+#: modules/Grades/AnomalousGrades.php:17 modules/Grades/Grades.php:496 modules/Grades/InputFinalGrades.php:971 modules/Scheduling/PrintClassLists.php:108 modules/Scheduling/PrintClassPictures.php:175 modules/Students/Search.inc.php:74 modules/Students/Search.inc.php:176
 msgid "Include Inactive Students"
 msgstr "រួមបញ្ចូលសិស្សនិស្សិតដែលអសកម្ម"
 
@@ -2961,14 +2894,13 @@ msgstr "វាស់ស្ទុង %d%% និងការបន្ថែមឥ
 msgid "Problem"
 msgstr "បញ្ហា"
 
-#: modules/Grades/AnomalousGrades.php:106 modules/Grades/EditHistoryMarkingPeriods.php:100 modules/School_Inventory/SchoolInventory.php:454 modules/Students/includes/Address.inc.php:910 modules/Students/includes/General_Info.inc.php:85
-#: modules/Students/includes/General_Info.inc.php:94 modules/Users/Preferences.php:250 modules/Users/includes/General_Info.inc.php:90 modules/Users/includes/General_Info.inc.php:99 plugins/Paypal_Registration/config.inc.php:375
+#: modules/Grades/AnomalousGrades.php:106 modules/Grades/EditHistoryMarkingPeriods.php:100 modules/School_Inventory/SchoolInventory.php:454 modules/Students/includes/Address.inc.php:910 modules/Students/includes/General_Info.inc.php:85 modules/Students/includes/General_Info.inc.php:94
+#: modules/Users/Preferences.php:250 modules/Users/includes/General_Info.inc.php:90 modules/Users/includes/General_Info.inc.php:99 plugins/Paypal_Registration/config.inc.php:375
 msgid "Name"
 msgstr "ឈ្មោះ"
 
-#: modules/Grades/AnomalousGrades.php:116 modules/Grades/Assignments-new.php:153 modules/Grades/Assignments-new.php:289 modules/Grades/Assignments.php:257 modules/Grades/Assignments.php:708 modules/Grades/Assignments.php:715
-#: modules/Grades/Grades.php:235 modules/Grades/Grades.php:518 modules/Grades/ProgressReports.php:23 modules/Grades/ProgressReports.php:117 modules/Grades/StudentGrades.php:386 modules/Grades/includes/StudentAssignments.fnc.php:526
-#: modules/misc/Portal.php:335 modules/misc/Portal.php:517 modules/misc/Portal.php:654
+#: modules/Grades/AnomalousGrades.php:116 modules/Grades/Assignments-new.php:153 modules/Grades/Assignments-new.php:289 modules/Grades/Assignments.php:257 modules/Grades/Assignments.php:708 modules/Grades/Assignments.php:715 modules/Grades/Grades.php:235 modules/Grades/Grades.php:518
+#: modules/Grades/ProgressReports.php:23 modules/Grades/ProgressReports.php:117 modules/Grades/StudentGrades.php:386 modules/Grades/includes/StudentAssignments.fnc.php:526 modules/misc/Portal.php:335 modules/misc/Portal.php:517 modules/misc/Portal.php:654
 msgid "Assignment"
 msgid_plural "Assignments"
 msgstr[0] "កិច្ចការ"
@@ -2995,20 +2927,19 @@ msgstr "ទោស"
 msgid "Extra Credit"
 msgstr "ឥណទានបន្ថែម"
 
-#: modules/Grades/Assignments-new.php:143 modules/Grades/Assignments.php:54 modules/Grades/MassCreateAssignments.php:40 modules/Scheduling/Courses.php:446 modules/School_Setup/SchoolFields.php:83 modules/School_Setup/Schools.php:34
-#: modules/Students/AddressFields.php:111 modules/Students/PeopleFields.php:111 modules/Students/Student.php:122 modules/Students/StudentFields.php:141 modules/Students/includes/Address.inc.php:269 modules/Users/User.php:187
-#: modules/Users/UserFields.php:141 plugins/Moodle/functions.php:134 plugins/Moodle/functions.php:241
+#: modules/Grades/Assignments-new.php:143 modules/Grades/Assignments.php:54 modules/Grades/MassCreateAssignments.php:40 modules/Scheduling/Courses.php:446 modules/School_Setup/SchoolFields.php:83 modules/School_Setup/Schools.php:34 modules/Students/AddressFields.php:111
+#: modules/Students/PeopleFields.php:111 modules/Students/Student.php:122 modules/Students/StudentFields.php:141 modules/Students/includes/Address.inc.php:269 modules/Users/User.php:187 modules/Users/UserFields.php:141 plugins/Moodle/functions.php:134 plugins/Moodle/functions.php:241
 msgid "Please fill in the required fields"
 msgstr "សូមធ្វើការបំពេញក្នុងទីតាំងដែលត្រូវការ"
 
-#: modules/Grades/Assignments-new.php:153 modules/Grades/Assignments-new.php:291 modules/Grades/Assignments.php:286 modules/Grades/Assignments.php:495 modules/Grades/Assignments.php:657 modules/Grades/Assignments.php:672
-#: modules/Grades/MassCreateAssignments.php:300 modules/Grades/MassCreateAssignments.php:436 modules/Grades/MassCreateAssignments.php:460 modules/Grades/ProgressReports.php:115 modules/Grades/includes/StudentAssignments.fnc.php:283
+#: modules/Grades/Assignments-new.php:153 modules/Grades/Assignments-new.php:291 modules/Grades/Assignments.php:286 modules/Grades/Assignments.php:495 modules/Grades/Assignments.php:657 modules/Grades/Assignments.php:672 modules/Grades/MassCreateAssignments.php:300
+#: modules/Grades/MassCreateAssignments.php:436 modules/Grades/MassCreateAssignments.php:460 modules/Grades/ProgressReports.php:115 modules/Grades/includes/StudentAssignments.fnc.php:283
 msgid "Assignment Type"
 msgid_plural "Assignment Types"
 msgstr[0] "ប្រភេទនៃកិច្ចការ"
 
-#: modules/Grades/Assignments-new.php:218 modules/Grades/Assignments.php:505 modules/Grades/Assignments.php:708 modules/Grades/Grades.php:236 modules/Grades/Grades.php:373 modules/Grades/Grades.php:402 modules/Grades/MassCreateAssignments.php:308
-#: modules/Grades/ProgressReports.php:32 modules/Grades/includes/StudentAssignments.fnc.php:287
+#: modules/Grades/Assignments-new.php:218 modules/Grades/Assignments.php:505 modules/Grades/Assignments.php:708 modules/Grades/Grades.php:236 modules/Grades/Grades.php:373 modules/Grades/Grades.php:402 modules/Grades/MassCreateAssignments.php:308 modules/Grades/ProgressReports.php:32
+#: modules/Grades/includes/StudentAssignments.fnc.php:287
 msgid "Points"
 msgstr "ពិន្ទុក"
 
@@ -3020,19 +2951,18 @@ msgstr "ពិន្ទុកដើម"
 msgid "Enter an asterisk (*) to excuse student"
 msgstr "បញ្ចូលសញ្ញាផ្កាយ (*) ដើម្បីដោះសាសិស្ស"
 
-#: modules/Grades/Assignments-new.php:221 modules/Grades/Configuration.php:52 modules/Grades/Grades.php:510 modules/Grades/ProgressReports.php:26 modules/Grades/ProgressReports.php:143 modules/Grades/includes/StudentAssignments.fnc.php:263
-#: modules/Grades/includes/StudentAssignments.fnc.php:520 modules/School_Setup/Calendar.php:659 modules/misc/Portal.php:334 plugins/Moodle/Grades/Assignments.php:36
+#: modules/Grades/Assignments-new.php:221 modules/Grades/Configuration.php:52 modules/Grades/Grades.php:510 modules/Grades/ProgressReports.php:26 modules/Grades/ProgressReports.php:143 modules/Grades/includes/StudentAssignments.fnc.php:263 modules/Grades/includes/StudentAssignments.fnc.php:520
+#: modules/School_Setup/Calendar.php:659 modules/misc/Portal.php:334 plugins/Moodle/Grades/Assignments.php:36
 msgid "Assigned Date"
 msgstr "កាលបរិច្ឆេទដែលបានកំណត់"
 
-#: modules/Grades/Assignments-new.php:222 modules/Grades/Configuration.php:52 modules/Grades/Grades.php:510 modules/Grades/ProgressReports.php:29 modules/Grades/ProgressReports.php:151 modules/Grades/includes/StudentAssignments.fnc.php:262
-#: modules/Grades/includes/StudentAssignments.fnc.php:519 modules/Student_Billing/MassAssignFees.php:65 modules/misc/Portal.php:333 modules/misc/Portal.php:516 modules/misc/Portal.php:653
+#: modules/Grades/Assignments-new.php:222 modules/Grades/Configuration.php:52 modules/Grades/Grades.php:510 modules/Grades/ProgressReports.php:29 modules/Grades/ProgressReports.php:151 modules/Grades/includes/StudentAssignments.fnc.php:262 modules/Grades/includes/StudentAssignments.fnc.php:519
+#: modules/Student_Billing/MassAssignFees.php:65 modules/misc/Portal.php:333 modules/misc/Portal.php:516 modules/misc/Portal.php:653
 msgid "Due Date"
 msgstr "កំណត់កាលបរិច្ឆេទ"
 
 # 'user_profiles' table
-#: modules/Grades/Assignments-new.php:255 modules/Grades/Grades.php:244 modules/Grades/Grades.php:411 modules/Grades/InputFinalGrades.php:1019 modules/Grades/InputFinalGrades.php:1020 modules/Grades/ProgressReports.php:35
-#: modules/Grades/StudentGrades.php:59 modules/Grades/StudentGrades.php:302
+#: modules/Grades/Assignments-new.php:255 modules/Grades/Grades.php:244 modules/Grades/Grades.php:411 modules/Grades/InputFinalGrades.php:1019 modules/Grades/InputFinalGrades.php:1020 modules/Grades/ProgressReports.php:35 modules/Grades/StudentGrades.php:59 modules/Grades/StudentGrades.php:302
 msgid "Percent"
 msgstr "ភាគរយ"
 
@@ -3362,8 +3292,7 @@ msgstr "ចំនួនសិស្សក"
 msgid "Submission"
 msgstr "ការដាក់ស្នើ"
 
-#: modules/Grades/Grades.php:249 modules/Grades/Grades.php:417 modules/Grades/InputFinalGrades.php:1018 modules/Grades/InputFinalGrades.php:1020 modules/Grades/ProgressReports.php:39 modules/Grades/StudentGrades.php:64
-#: modules/Grades/StudentGrades.php:309
+#: modules/Grades/Grades.php:249 modules/Grades/Grades.php:417 modules/Grades/InputFinalGrades.php:1018 modules/Grades/InputFinalGrades.php:1020 modules/Grades/ProgressReports.php:39 modules/Grades/StudentGrades.php:64 modules/Grades/StudentGrades.php:309
 msgid "Letter"
 msgstr "លិខិត"
 
@@ -3438,9 +3367,9 @@ msgstr "បន្ដុំរួបភាព"
 msgid "No ClipArt"
 msgstr "មិនមានបន្ដុំរួបភាព"
 
-#: modules/Grades/HonorRollSubject.php:278 modules/Grades/HonorRollSubject.php:293 modules/Grades/MassCreateAssignments.php:489 modules/Scheduling/Courses.php:69 modules/Scheduling/Courses.php:499 modules/Scheduling/Courses.php:1159
-#: modules/Scheduling/Courses.php:1169 modules/Scheduling/Courses.php:1187 modules/Scheduling/Courses.php:1197 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintClassLists.php:145 modules/Scheduling/PrintClassPictures.php:223
-#: modules/Scheduling/Requests.php:223 modules/Scheduling/RequestsReport.php:17 modules/Scheduling/RequestsReport.php:23 modules/Scheduling/ScheduleReport.php:115 modules/Scheduling/ScheduleReport.php:116
+#: modules/Grades/HonorRollSubject.php:278 modules/Grades/HonorRollSubject.php:293 modules/Grades/MassCreateAssignments.php:489 modules/Scheduling/Courses.php:69 modules/Scheduling/Courses.php:499 modules/Scheduling/Courses.php:1159 modules/Scheduling/Courses.php:1169 modules/Scheduling/Courses.php:1187
+#: modules/Scheduling/Courses.php:1197 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintClassLists.php:145 modules/Scheduling/PrintClassPictures.php:223 modules/Scheduling/Requests.php:223 modules/Scheduling/RequestsReport.php:17 modules/Scheduling/RequestsReport.php:23
+#: modules/Scheduling/ScheduleReport.php:115 modules/Scheduling/ScheduleReport.php:116
 msgid "Subject"
 msgstr "មុខវិជ្ជា"
 
@@ -3784,8 +3713,7 @@ msgstr "រួមបញ្ចូលលើប្រតិបិត្តពិន
 msgid "School Years"
 msgstr "ឆ្នាំសិក្សា"
 
-#: modules/Grades/Transcripts.php:448 modules/Grades/includes/ReportCards.fnc.php:105 modules/School_Setup/CopySchool.php:6 modules/School_Setup/Menu.php:18 modules/School_Setup/Menu.php:38 modules/School_Setup/Menu.php:49
-#: modules/School_Setup/Rollover.php:3
+#: modules/Grades/Transcripts.php:448 modules/Grades/includes/ReportCards.fnc.php:105 modules/School_Setup/CopySchool.php:6 modules/School_Setup/Menu.php:18 modules/School_Setup/Menu.php:38 modules/School_Setup/Menu.php:49 modules/School_Setup/Rollover.php:3
 msgid "Marking Periods"
 msgstr "ការកំណត់ពេលវេលា"
 
@@ -3952,9 +3880,8 @@ msgstr "អ្នកដែលអាចចូលរួមបាន"
 msgid "New Course Period"
 msgstr "រយៈពេលនៃវគ្គសិក្សាថ្មី"
 
-#: modules/Scheduling/Courses.php:687 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/PrintSchedules.php:324 modules/Scheduling/Schedule.php:235 modules/Students/StudentLabels.php:98
-#: modules/Students/StudentLabels.php:172 modules/Students/StudentLabels.php:183 modules/Users/includes/Schedule.inc.php:25 modules/Users/includes/Schedule.inc.php:152 modules/misc/Export.php:206 modules/misc/Export.php:584
-#: modules/misc/Export.php:595
+#: modules/Scheduling/Courses.php:687 modules/Scheduling/MasterScheduleReport.php:14 modules/Scheduling/PrintSchedules.php:33 modules/Scheduling/PrintSchedules.php:324 modules/Scheduling/Schedule.php:235 modules/Students/StudentLabels.php:98 modules/Students/StudentLabels.php:172
+#: modules/Students/StudentLabels.php:183 modules/Users/includes/Schedule.inc.php:25 modules/Users/includes/Schedule.inc.php:152 modules/misc/Export.php:206 modules/misc/Export.php:584 modules/misc/Export.php:595
 msgid "Room"
 msgstr "បន្ទប់"
 
@@ -4957,7 +4884,7 @@ msgid "Deactivate"
 msgstr "អសកម្ម"
 
 #: modules/School_Setup/includes/Modules.inc.php:96 modules/School_Setup/includes/Modules.inc.php:125 modules/School_Setup/includes/Modules.inc.php:135
-msgid "Incomplete or inexistant module."
+msgid "Incomplete or nonexistent module."
 msgstr "មិនពេញលេញឬមិនមាន module។"
 
 #: modules/School_Setup/includes/Modules.inc.php:188 modules/School_Setup/includes/Plugins.inc.php:176
@@ -4983,7 +4910,7 @@ msgid_plural "Plugins"
 msgstr[0] "កម្មវិធីជំនួយ"
 
 #: modules/School_Setup/includes/Plugins.inc.php:85 modules/School_Setup/includes/Plugins.inc.php:114 modules/School_Setup/includes/Plugins.inc.php:124
-msgid "Incomplete or inexistant plugin."
+msgid "Incomplete or nonexistent plugin."
 msgstr "មិនពេញលេញឬមិនមានកម្មវិធីជំនួយ។"
 
 # 'user_profiles' table

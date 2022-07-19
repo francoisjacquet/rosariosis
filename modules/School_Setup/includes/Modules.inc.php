@@ -170,7 +170,7 @@ if ( $_REQUEST['modfunc'] === 'deactivate'
 
 		if ( ! file_exists( 'modules/' . $_REQUEST['module'] . '/Menu.php' ) )
 		{
-			$error[] = _( 'Incomplete or inexistant module.' );
+			$error[] = _( 'Incomplete or nonexistent module.' );
 		}
 
 		// Unset modfunc & module & redirect URL.
@@ -219,7 +219,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 		}
 		else
 		{
-			$error[] = _( 'Incomplete or inexistant module.' );
+			$error[] = _( 'Incomplete or nonexistent module.' );
 		}
 	}
 
@@ -232,7 +232,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 	//no module dir
 	elseif ( ! file_exists( 'modules/' . $_REQUEST['module'] . '/Menu.php' ) )
 	{
-		$error[] = _( 'Incomplete or inexistant module.' );
+		$error[] = _( 'Incomplete or nonexistent module.' );
 	}
 
 	if ( $update_RosarioModules )

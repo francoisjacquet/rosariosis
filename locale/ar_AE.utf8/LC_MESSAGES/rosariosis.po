@@ -6686,7 +6686,7 @@ msgstr "تعطيل"
 #: modules/School_Setup/includes/Modules.inc.php:96
 #: modules/School_Setup/includes/Modules.inc.php:125
 #: modules/School_Setup/includes/Modules.inc.php:135
-msgid "Incomplete or inexistant module."
+msgid "Incomplete or nonexistent module."
 msgstr "موديول غير مكتمل أو غير موجود"
 
 #: modules/School_Setup/includes/Modules.inc.php:188
@@ -6724,7 +6724,7 @@ msgstr[5] ""
 #: modules/School_Setup/includes/Plugins.inc.php:85
 #: modules/School_Setup/includes/Plugins.inc.php:114
 #: modules/School_Setup/includes/Plugins.inc.php:124
-msgid "Incomplete or inexistant plugin."
+msgid "Incomplete or nonexistent plugin."
 msgstr "إضافة صغيرة غير مكتملة أو غير موجودة"
 
 #: modules/Student_Billing/DailyTotals.php:73 modules/Student_Billing/Menu.php:17

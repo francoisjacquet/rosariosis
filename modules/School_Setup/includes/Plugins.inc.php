@@ -161,7 +161,7 @@ if ( $_REQUEST['modfunc'] == 'deactivate'
 
 		if ( ! is_dir( 'plugins/' . $_REQUEST['plugin'] ) || ! file_exists( 'plugins/' . $_REQUEST['plugin'] . '/functions.php' ) )
 		{
-			$error[] = _( 'Incomplete or inexistant plugin.' );
+			$error[] = _( 'Incomplete or nonexistent plugin.' );
 		}
 
 		// Unset modfunc & plugin & redirect URL.
@@ -210,7 +210,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 		}
 		else
 		{
-			$error[] = _( 'Incomplete or inexistant plugin.' );
+			$error[] = _( 'Incomplete or nonexistent plugin.' );
 		}
 	}
 
@@ -223,7 +223,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 	//no plugin dir
 	elseif ( ! file_exists( 'plugins/' . $_REQUEST['plugin'] . '/functions.php' ) )
 	{
-		$error[] = _( 'Incomplete or inexistant plugin.' );
+		$error[] = _( 'Incomplete or nonexistent plugin.' );
 	}
 
 	if ( $update_RosarioPlugins )
