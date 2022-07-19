@@ -329,7 +329,7 @@ CREATE TABLE staff (
     custom_200000001 text, -- Old phone column.
     profile varchar(30),
     homeroom varchar(5),
-    schools text,
+    schools varchar(150),
     last_login timestamp(0) without time zone,
     failed_login integer,
     profile_id integer,
