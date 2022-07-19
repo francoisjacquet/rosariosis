@@ -104,7 +104,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 }
 else
 {
-	// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+	// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 	$course_RET = DBGet( "SELECT 1
 	FROM attendance_calendar acc,course_periods cp,school_periods sp, course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -120,7 +120,7 @@ else
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM " .
 	( $DatabaseType === 'mysql' ?
 		"DAYOFWEEK(acc.SCHOOL_DATE)" :
-		"extract(DOW FROM acc.SCHOOL_DATE)+1" ) .
+		"cast(extract(DOW FROM acc.SCHOOL_DATE)+1 AS int)" ) .
 	" FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" );
 }

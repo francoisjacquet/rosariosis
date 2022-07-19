@@ -90,7 +90,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 }
 else
 {
-	// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+	// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID
 	FROM schedule s,course_periods cp, course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -103,8 +103,8 @@ else
 	AND position(substring('UMTWHFS' FROM " .
 	( $DatabaseType === 'mysql' ?
 		"DAYOFWEEK(cast('" . $date . "' AS DATE))" :
-		"extract(DOW FROM cast('" . $date . "' AS DATE)+1" ) .
-	") FOR 1) IN cpsp.DAYS)>0
+		"cast(extract(DOW FROM cast('" . $date . "' AS DATE)+1 AS int)" ) .
+	" FOR 1) IN cpsp.DAYS)>0
 	AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 	ORDER BY s.START_DATE ASC";
 }
@@ -310,7 +310,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 	}
 	else
 	{
-		// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+		// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 		$schedule_RET = DBGet( "SELECT
 		s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
 		s.STUDENT_ID AS ATTENDANCE_CODE,s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS COMMENT
@@ -325,7 +325,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		AND position(substring('UMTWHFS' FROM " .
 		( $DatabaseType === 'mysql' ?
 			"DAYOFWEEK(cast('" . $date . "' AS DATE))" :
-			"extract(DOW FROM cast('" . $date . "' AS DATE))+1" ) .
+			"cast(extract(DOW FROM cast('" . $date . "' AS DATE))+1 AS int)" ) .
 		" FOR 1) IN cpsp.DAYS)>0
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='" . $date . "' AND ac.MINUTES!='0'
 		ORDER BY p.SORT_ORDER", $functions );

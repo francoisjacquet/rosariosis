@@ -83,7 +83,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 				else
 				{
-					// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+					// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID
 						FROM schedule s,course_periods cp,attendance_calendar ac,school_periods sp,course_period_school_periods cpsp
 						WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -98,7 +98,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND position(substring('UMTWHFS' FROM " .
 						( $DatabaseType === 'mysql' ?
 							"DAYOFWEEK(ac.SCHOOL_DATE)" :
-							"extract(DOW FROM ac.SCHOOL_DATE)+1" ) .
+							"cast(extract(DOW FROM ac.SCHOOL_DATE)+1 AS int)" ) .
 						" FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")", [], [ 'PERIOD_ID' ] );
 				}
 

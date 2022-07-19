@@ -355,7 +355,7 @@ switch ( User( 'PROFILE' ) )
 				}
 				else
 				{
-					// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+					// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,course_periods cp,school_periods sp,schools s,
@@ -379,7 +379,7 @@ switch ( User( 'PROFILE' ) )
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM " .
 					( $DatabaseType === 'mysql' ?
 						"DAYOFWEEK(acc.SCHOOL_DATE)" :
-						"extract(DOW FROM acc.SCHOOL_DATE)+1" ) .
+						"cast(extract(DOW FROM acc.SCHOOL_DATE)+1 AS int)" ) .
 					" FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
 						FROM attendance_completed ac
@@ -647,7 +647,7 @@ switch ( User( 'PROFILE' ) )
 				else
 				{
 					// @since 6.9 Add Secondary Teacher.
-					// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+					// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
 					FROM attendance_calendar acc,course_periods cp,school_periods sp,
@@ -670,7 +670,7 @@ switch ( User( 'PROFILE' ) )
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM " .
 					( $DatabaseType === 'mysql' ?
 						"DAYOFWEEK(acc.SCHOOL_DATE)" :
-						"extract(DOW FROM acc.SCHOOL_DATE)+1" ) .
+						"cast(extract(DOW FROM acc.SCHOOL_DATE)+1 AS int)" ) .
 					" FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
 						FROM attendance_completed ac

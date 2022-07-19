@@ -282,13 +282,14 @@ if ( $_REQUEST['modfunc'] === 'create'
 			if ( $_REQUEST['calendar_id']
 				&& $_REQUEST['calendar_id'] === $_REQUEST['copy_id'] )
 			{
+				// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 				DBQuery( "DELETE FROM attendance_calendar
 					WHERE CALENDAR_ID='" . (int) $calendar_id . "'
 					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'" .
 					( $weekdays_list ?
 						" OR " . ( $DatabaseType === 'mysql' ?
 							"DAYOFWEEK(SCHOOL_DATE)-1" :
-							"extract(DOW FROM SCHOOL_DATE)" ) .
+							"cast(extract(DOW FROM SCHOOL_DATE) AS int)" ) .
 						" NOT IN (" . $weekdays_list . ")" : '' ) .
 					")" );
 
@@ -308,7 +309,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 				}
 
 				// Insert Days.
-				// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+				// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 				$create_calendar_sql = "INSERT INTO attendance_calendar
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 					(SELECT '" . UserSyear() . "','" . UserSchool() . "',SCHOOL_DATE," . $minutes . ",'" . $calendar_id . "'
@@ -317,7 +318,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 						( $weekdays_list ?
 							" AND " . ( $DatabaseType === 'mysql' ?
 								"DAYOFWEEK(SCHOOL_DATE)-1" :
-								"extract(DOW FROM SCHOOL_DATE)+1" ) .
+								"cast(extract(DOW FROM SCHOOL_DATE)+1 AS int)" ) .
 							" IN (" . $weekdays_list . ")" : '' );
 
 				if ( $date_min && $date_max )

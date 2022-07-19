@@ -100,7 +100,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 }
 else
 {
-	// @since 10.0 SQL use DAYOFWEEK() for MySQL or extract(DOW)+1 for PostrgeSQL
+	// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
 		sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
 		(SELECT 'Y'
@@ -128,7 +128,7 @@ else
 			AND position(substring('UMTWHFS' FROM " .
 			( $DatabaseType === 'mysql' ?
 				"DAYOFWEEK(acc.SCHOOL_DATE)" :
-				"extract(DOW FROM acc.SCHOOL_DATE)+1" ) .
+				"cast(extract(DOW FROM acc.SCHOOL_DATE)+1 AS int)" ) .
 			" FOR 1) IN cpsp.DAYS)>0
 			OR sp.BLOCK IS NOT NULL
 			AND acc.BLOCK IS NOT NULL
