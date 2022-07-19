@@ -304,8 +304,13 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 	menuMP="' . UserMP() . '",
 	menuCoursePeriod="' . UserCoursePeriod() . '";';
 
-?>
+if ( ! isset( $_REQUEST['sidefunc'] )
+	|| $_REQUEST['sidefunc'] !== 'update' ) : ?>
+
 <div id="menu-top">
+
+<?php endif; ?>
+
 	<script><?php echo $addJavascripts; ?></script>
 
 	<?php // User Information. ?>
@@ -649,13 +654,12 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			<?php endif; ?>
 		</div>
 
-	<?php endif; ?>
-</div><!-- #menu-top -->
+	<?php endif;
 
-<?php
 if ( ! isset( $_REQUEST['sidefunc'] )
 	|| $_REQUEST['sidefunc'] !== 'update' ) : ?>
 
+</div><!-- #menu-top -->
 <ul class="adminmenu">
 
 <?php // Generate Menu.
