@@ -330,7 +330,7 @@ function Search( $type, $extra = null )
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID
+					AND MODNAME=CONCAT('Users/User.php&category_id=', cf.CATEGORY_ID)
 					LIMIT 1)='Y'
 				AND (SELECT VALUE
 					FROM program_user_config
@@ -349,7 +349,7 @@ function Search( $type, $extra = null )
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y'
+					AND MODNAME=CONCAT('Students/Student.php&category_id=', sfc.ID)
 					LIMIT 1)='Y'
 				AND cf.CATEGORY_ID=sfc.ID
 				AND NOT exists(SELECT ''
@@ -370,7 +370,7 @@ function Search( $type, $extra = null )
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"profile_exceptions WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"staff_exceptions WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
+					AND MODNAME=CONCAT('Students/Student.php&category_id=', cf.CATEGORY_ID)
 					LIMIT 1)='Y'
 				AND (SELECT VALUE
 					FROM program_user_config
