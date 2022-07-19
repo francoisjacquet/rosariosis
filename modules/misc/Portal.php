@@ -342,7 +342,8 @@ switch ( User( 'PROFILE' ) )
 							AND SCHOOL_ID=acc.SCHOOL_ID
 							AND SYEAR=acc.SYEAR)
 						AND CALENDAR_ID=cp.CALENDAR_ID)
-					AS INT) FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
+						" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+						" FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
 						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID
@@ -635,7 +636,8 @@ switch ( User( 'PROFILE' ) )
 							AND SCHOOL_ID=acc.SCHOOL_ID
 							AND SYEAR=acc.SYEAR)
 						AND CALENDAR_ID=acc.CALENDAR_ID)
-					AS INT) FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
+						" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+						" FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE
 						FROM attendance_completed ac
 						WHERE ac.STAFF_ID=cp.TEACHER_ID

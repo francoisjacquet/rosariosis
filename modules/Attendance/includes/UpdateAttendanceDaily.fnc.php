@@ -138,7 +138,9 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 				AND MP='QTR'
 				AND SCHOOL_ID=ac.SCHOOL_ID
 				AND SYEAR=ac.SYEAR)
-			AND CALENDAR_ID=cp.CALENDAR_ID) AS INT) FOR 1) IN cpsp.DAYS)>0";
+			AND CALENDAR_ID=cp.CALENDAR_ID)
+			" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+			" FOR 1) IN cpsp.DAYS)>0";
 	}
 	else
 	{

@@ -76,7 +76,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							AND SCHOOL_ID=ac.SCHOOL_ID
 							AND SYEAR=ac.SYEAR)
 						AND CALENDAR_ID=cp.CALENDAR_ID)
-					AS INT) FOR 1) IN cpsp.DAYS)>0
+					" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+					" FOR 1) IN cpsp.DAYS)>0
 					AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 					AND ac.SCHOOL_ID=s.SCHOOL_ID
 					AND ac.SYEAR=s.SYEAR", [], [ 'PERIOD_ID' ] );

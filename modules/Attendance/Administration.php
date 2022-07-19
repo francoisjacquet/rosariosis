@@ -84,7 +84,8 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 			AND SCHOOL_ID=s.SCHOOL_ID
 			AND SYEAR=s.SYEAR)
 		AND CALENDAR_ID=cp.CALENDAR_ID)
-	AS INT) FOR 1) IN cpsp.DAYS)>0
+	" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+	" FOR 1) IN cpsp.DAYS)>0
 	AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 	ORDER BY s.START_DATE ASC";
 }
@@ -301,8 +302,9 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 				AND MP='QTR'
 				AND SCHOOL_ID=s.SCHOOL_ID
 				AND SYEAR=s.SYEAR)
-			AND CALENDAR_ID=cp.CALENDAR_ID) AS INT) FOR 1)
-		IN cpsp.DAYS)>0
+			AND CALENDAR_ID=cp.CALENDAR_ID)
+		" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+		" FOR 1) IN cpsp.DAYS)>0
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID
 		AND ac.SCHOOL_DATE='" . $date . "'
 		AND ac.MINUTES!='0'
