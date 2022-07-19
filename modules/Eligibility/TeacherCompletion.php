@@ -60,7 +60,7 @@ $period_select .= '</select>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 
-$begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
+$begin_year = DBGetOne( "SELECT min(" . _SQLUnixTimestamp( 'SCHOOL_DATE' ) . ") AS SCHOOL_DATE
 	FROM attendance_calendar
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'" );
@@ -178,3 +178,27 @@ ListOutput(
 	'Teacher who hasn\'t entered eligibility',
 	'Teachers who haven\'t entered eligibility'
 );
+
+/**
+ * SQL to extract Unix timestamp or epoch from date
+ * Use UNIX_TIMESTAMP() for MySQL and extract(EPOCH) for PostgreSQL
+ *
+ * Local function
+ *
+ * @since 10.0
+ *
+ * @param  string $column Date column.
+ *
+ * @return string         MySQL or PostgreSQL function
+ */
+function _SQLUnixTimestamp( $column )
+{
+	global $DatabaseType;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		return "UNIX_TIMESTAMP(" . $column . ")";
+	}
+
+	return "extract(EPOCH FROM " . $column . ")";
+}
