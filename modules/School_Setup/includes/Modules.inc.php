@@ -191,11 +191,18 @@ if ( $_REQUEST['modfunc'] === 'activate'
 
 		if ( file_exists( 'modules/' . $_REQUEST['module'] . '/Menu.php' ) )
 		{
-			//install module: execute install.sql script
+			// Install module: execute install.sql script
+			$install_sql_file = 'modules/' . $_REQUEST['module'] . '/install.sql';
 
-			if ( file_exists( 'modules/' . $_REQUEST['module'] . '/install.sql' ) )
+			if ( $DatabaseType === 'mysql' )
 			{
-				$install_sql = file_get_contents( 'modules/' . $_REQUEST['module'] . '/install.sql' );
+				// @since 10.0 Install module: execute the install_mysql.sql script for MySQL
+				$install_sql_file = 'modules/' . $_REQUEST['module'] . '/install.sql';
+			}
+
+			if ( file_exists( $install_sql_file ) )
+			{
+				$install_sql = file_get_contents( $install_sql_file );
 				DBQuery( $install_sql );
 			}
 

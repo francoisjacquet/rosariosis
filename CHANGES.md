@@ -55,6 +55,7 @@ Changes in 10.0
 - Rename $pg_dumpPath configuration variable to $DatabaseDumpPath in config.inc.sample.php & DatabaseBackup.php
 - Build command for executing mysqldump in DatabaseBackup.php
 - SQL to extract Unix timestamp or epoch from date in Eligibility/Student.php, StudentList.php & TeacherCompletion.php
+- Install module/plugin: execute the install_mysql.sql script for MySQL in Modules.inc.php, Plugins.inc.php & modules/README.md & plugins/README.md
 
 Changes in 9.3
 --------------
