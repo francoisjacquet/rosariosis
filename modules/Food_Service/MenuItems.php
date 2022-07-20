@@ -285,7 +285,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$sql = "SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
 		FROM food_service_menu_items fsmi
 		WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
-		ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER IS NULL,SORT_ORDER';
+		ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'ITEM_ID' => 'makeSelectInput',
