@@ -54,7 +54,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 		AND sgl.SCHOOL_ID='" . UserSchool() . "'
 		AND se.GRADE_ID=sgl.ID
 		GROUP BY sgl.SHORT_NAME,sgl.SORT_ORDER
-		ORDER BY sgl.SORT_ORDER" );
+		ORDER BY sgl.SORT_ORDER IS NULL,sgl.SORT_ORDER" );
 
 		$students_gradelevel_data = [];
 

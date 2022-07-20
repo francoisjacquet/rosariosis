@@ -21,7 +21,7 @@ if ( ! empty( $_POST['values'] )
 		WHERE du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
-		ORDER BY du.SORT_ORDER", [], [ 'ID' ] );
+		ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER", [], [ 'ID' ] );
 
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value )
 	{
@@ -98,7 +98,7 @@ $categories_RET = DBGet( "SELECT df.ID,du.TITLE
 	AND du.SYEAR='" . UserSyear() . "'
 	AND du.SCHOOL_ID='" . UserSchool() . "'
 	AND du.DISCIPLINE_FIELD_ID=df.ID
-	ORDER BY du.SORT_ORDER" );
+	ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER" );
 
 Widgets( 'reporter' );
 Widgets( 'incident_date' );
@@ -184,7 +184,7 @@ if ( ! $_REQUEST['modfunc']
 			WHERE du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "'
 			AND du.DISCIPLINE_FIELD_ID=df.ID
-			ORDER BY du.SORT_ORDER" );
+			ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER" );
 
 		echo '<table class="width-100p">';
 

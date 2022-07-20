@@ -341,7 +341,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			AND cc.ID=c.CATEGORY_ID
 			AND cs.SCHOOL_ID=c.SCHOOL_ID
 			AND cs.ID=c.SCALE_ID
-			ORDER BY c.SORT_ORDER,c.ID", [], [ 'ID' ] );
+			ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.ID", [], [ 'ID' ] );
 
 			$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 			FROM report_card_comments
@@ -1287,7 +1287,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 	if ( ! $comment_codes_RET )
 	{
 		// Limit code scales to the ones in current SYEAR in report_card_comments.
-		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM report_card_comment_codes cc, report_card_comment_code_scales cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
+		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM report_card_comment_codes cc, report_card_comment_code_scales cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER IS NULL,cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
 			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
 		FROM report_card_comment_codes cc, report_card_comment_code_scales cs
@@ -1298,7 +1298,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 			WHERE c.SYEAR='" . UserSyear() . "'
 			AND c.SCHOOL_ID=cc.SCHOOL_ID
 			AND c.SCALE_ID IS NOT NULL)
-		ORDER BY cc.SORT_ORDER,cc.ID" );
+		ORDER BY cc.SORT_ORDER IS NULL,cc.SORT_ORDER,cc.ID" );
 	}
 
 	$student_comment_scales_RET = DBGet( "SELECT cs.ID
@@ -1461,7 +1461,7 @@ function GetReportCardCourseSpecificComments( $student_id, $comments_array )
 		AND cc.ID=c.CATEGORY_ID
 		AND cs.SCHOOL_ID=c.SCHOOL_ID
 		AND cs.ID=c.SCALE_ID
-		ORDER BY c.SORT_ORDER,c.ID", [], [ 'ID' ] );
+		ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.ID", [], [ 'ID' ] );
 	}
 
 	$personalizations = _getReportCardCommentPersonalizations( $student_id );

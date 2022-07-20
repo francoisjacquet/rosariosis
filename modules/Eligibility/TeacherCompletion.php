@@ -45,7 +45,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.SYEAR='" . UserSyear() . "')
-	ORDER BY sp.SORT_ORDER,sp.TITLE" );
+	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 
 $period_select = '<select name="period" id="period"><option value="">' . _( 'All' ) . '</option>';
 

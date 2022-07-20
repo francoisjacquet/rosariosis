@@ -229,7 +229,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,COALESCE(sp.SHORT_NAME,sp.TITLE) AS S
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0)
-	ORDER BY sp.SORT_ORDER,sp.TITLE" );
+	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 
 $categories_RET = DBGet( "SELECT ID,TITLE
 	FROM attendance_code_categories
@@ -308,7 +308,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID
 		AND ac.SCHOOL_DATE='" . $date . "'
 		AND ac.MINUTES!='0'
-		ORDER BY p.SORT_ORDER", $functions );
+		ORDER BY p.SORT_ORDER IS NULL,p.SORT_ORDER", $functions );
 	}
 	else
 	{
@@ -330,7 +330,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 			"cast(extract(DOW FROM cast('" . $date . "' AS DATE))+1 AS int)" ) .
 		" FOR 1) IN cpsp.DAYS)>0
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='" . $date . "' AND ac.MINUTES!='0'
-		ORDER BY p.SORT_ORDER", $functions );
+		ORDER BY p.SORT_ORDER IS NULL,p.SORT_ORDER", $functions );
 	}
 
 	$columns = [

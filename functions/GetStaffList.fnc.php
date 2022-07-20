@@ -75,7 +75,7 @@ function GetStaffList( &$extra = [] )
 				) .
 			")
 			AND cf.CATEGORY_ID=sfc.ID
-			ORDER BY sfc.SORT_ORDER,cf.SORT_ORDER,cf.TITLE" );
+			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,cf.SORT_ORDER,cf.TITLE" );
 
 		foreach ( $view_fields_RET as $field )
 		{
@@ -116,7 +116,7 @@ function GetStaffList( &$extra = [] )
 			$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 				FROM staff_fields cf
 				WHERE cf.ID IN (" . $extra['staff_fields']['view'] . ")
-				ORDER BY cf.SORT_ORDER,cf.TITLE" );
+				ORDER BY cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE" );
 
 			foreach ( $view_fields_RET as $field )
 			{

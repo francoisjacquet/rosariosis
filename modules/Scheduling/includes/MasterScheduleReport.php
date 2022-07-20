@@ -68,7 +68,7 @@ WHERE cs.SUBJECT_ID=c.SUBJECT_ID
 AND cp.COURSE_ID=c.COURSE_ID
 AND cp.SYEAR='" . UserSyear() . "'
 AND cp.SCHOOL_ID='" . UserSchool() . "'
-ORDER BY cs.SORT_ORDER,COURSE", [ 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ] );
+ORDER BY cs.SORT_ORDER IS NULL,cs.SORT_ORDER,COURSE", [ 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ] );
 
 $columns = [
 	'SUBJECT_TITLE' => _( 'Subject' ),

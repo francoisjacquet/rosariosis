@@ -92,7 +92,7 @@ if ( $_REQUEST['search_modfunc']
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM school_periods sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM course_periods WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER" );
+			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM school_periods sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM course_periods WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 			FROM school_periods sp
 			WHERE sp.SYEAR='" . UserSyear() . "'
@@ -104,7 +104,7 @@ if ( $_REQUEST['search_modfunc']
 				AND cpsp.PERIOD_ID=sp.PERIOD_ID
 				AND cp.SYEAR=sp.SYEAR
 				AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0
-			ORDER BY sp.SORT_ORDER,sp.TITLE" );
+			ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 		}
 		else
 		{
@@ -198,7 +198,7 @@ if ( $_REQUEST['student_id']
 				AND s.SYEAR = c.SYEAR AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
 				AND s.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'
 				AND ('".DBDate()."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
-			ORDER BY sp.SORT_ORDER
+			ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER
 			";*/
 		$sql = "SELECT cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
 			FROM schedule s,courses c,course_periods cp,school_periods sp,course_period_school_periods cpsp
@@ -227,7 +227,7 @@ if ( $_REQUEST['student_id']
 				OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')";
 		}
 
-		$sql .= " ORDER BY sp.SORT_ORDER";
+		$sql .= " ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER";
 
 		$schedule_RET = DBGet( $sql );
 

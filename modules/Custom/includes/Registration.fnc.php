@@ -361,7 +361,7 @@ function RegistrationContactFields( $name, $categories )
 		FROM people_field_categories c,people_fields f
 		WHERE f.CATEGORY_ID=c.ID
 		AND f.CATEGORY_ID IN(" . $category_ids . ")
-		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
+		ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 	foreach ( (array) $categories_RET as $fields_RET )
 	{
@@ -425,7 +425,7 @@ function RegistrationAddressFields( $name, $categories )
 		FROM address_field_categories c,address_fields f
 		WHERE f.CATEGORY_ID=c.ID
 		AND f.CATEGORY_ID IN(" . $category_ids . ")
-		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
+		ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 	foreach ( (array) $categories_RET as $fields_RET )
 	{

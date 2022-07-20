@@ -273,7 +273,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
 			AND (ss.START_DATE<='" . DBDate() . "'
 				AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
-			ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
+			ORDER BY p.SORT_ORDER IS NULL,p.SORT_ORDER LIMIT 1) AS TEACHER";
 		}
 
 		if ( ! empty( $_REQUEST['room'] ) )
@@ -290,7 +290,7 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 				AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
 				AND (ss.START_DATE<='" . DBDate() . "'
 					AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
-				ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
+				ORDER BY p.SORT_ORDER IS NULL,p.SORT_ORDER LIMIT 1) AS ROOM";
 		}
 
 		return $extra_select;

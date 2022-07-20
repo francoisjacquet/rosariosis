@@ -37,7 +37,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0)
-	ORDER BY sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
+	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
 $period_select = '<select name="period" id="period" onChange="ajaxPostForm(this.form,true);">
 	<option value="">' . _( 'All' ) .'</option>';

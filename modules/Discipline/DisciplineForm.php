@@ -190,7 +190,7 @@ if ( ! $_REQUEST['modfunc'] )
 		ON (du.DISCIPLINE_FIELD_ID=df.ID
 			AND du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "')
-		ORDER BY du.SORT_ORDER,du.ID",
+		ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER,du.ID",
 		[
 			'REMOVE' => '_makeRemove',
 			'TITLE' => '_makeTextInput',

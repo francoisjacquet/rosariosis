@@ -168,7 +168,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL
 		AND fsi.SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY fsi.SORT_ORDER", [ 'ICON' => 'makeIcon' ], [ 'SHORT_NAME' ] );
+		ORDER BY fsi.SORT_ORDER IS NULL,fsi.SORT_ORDER", [ 'ICON' => 'makeIcon' ], [ 'SHORT_NAME' ] );
 		$items = [];
 
 		foreach ( (array) $items_RET as $sn => $item )

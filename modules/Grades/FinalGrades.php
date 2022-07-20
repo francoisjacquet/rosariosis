@@ -418,7 +418,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					FROM report_card_comment_codes cc, report_card_comment_code_scales cs
 					WHERE cs.ID IN (" . implode( ',', $students_comment_scales ) . ")
 					AND cs.ID=cc.SCALE_ID
-					ORDER BY cs.SORT_ORDER", [], [ 'SCALE_ID' ] );
+					ORDER BY cs.SORT_ORDER IS NULL,cs.SORT_ORDER", [], [ 'SCALE_ID' ] );
 				}
 
 				if ( $comment_codes_RET )
@@ -453,7 +453,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND c.CATEGORY_ID=cc.ID
 				AND co.COURSE_ID=c.COURSE_ID
 				AND c.SCALE_ID=cs.ID
-				ORDER BY c.SORT_ORDER", [], [ 'COURSE_ID' ] );
+				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER", [], [ 'COURSE_ID' ] );
 
 				if ( $commentsA_RET )
 				{

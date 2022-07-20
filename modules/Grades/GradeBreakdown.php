@@ -88,7 +88,7 @@ $grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
 	WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 	AND rg.SYEAR='" . UserSyear() . "'
 	AND rs.ID=rg.GRADE_SCALE_ID
-	ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" );
+	ORDER BY rs.SORT_ORDER IS NULL,rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" );
 
 // Chart.js charts.
 if ( $grouped_RET )

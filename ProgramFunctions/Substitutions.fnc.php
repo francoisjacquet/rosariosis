@@ -173,7 +173,7 @@ function _substitutionsDBGetCustomFields( $table )
 		FROM " . DBEscapeIdentifier( $table_name ) . " f," . DBEscapeIdentifier( $category_table_name ) . " c
 		WHERE f.TYPE<>'files'
 		AND c.ID=f.CATEGORY_ID" . $profile_category_sql .
-		" ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE" );
+		" ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE" );
 }
 
 /**

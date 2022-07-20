@@ -27,7 +27,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		WHERE SYEAR=sp.SYEAR
 		AND PERIOD_ID=sp.PERIOD_ID
 		AND DOES_FS_COUNTS='Y')
-	ORDER BY sp.SORT_ORDER" );
+	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 
 $period_select = '<select name="period"<option value="">' . _( 'All' ) . '</option>';
 
@@ -93,7 +93,7 @@ if ( ! empty( $RET ) )
 		foreach ( (array) $periods as $period_id => $period )
 		{
 			//$sql = 'SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_LUNCH_ITEMS WHERE ITEM_ID=ac.ITEM_ID) AS DESCRIPTION,(SELECT SORT_ORDER FROM food_service_menu_items WHERE ITEM_ID=ac.ITEM_ID AND MENU_ID=\''.$_REQUEST['menu_id'].'\') AS SORT_ORDER,ac.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' ORDER BY SORT_ORDER IS NULL,SORT_ORDER';
-			$sql = 'SELECT fsi.DESCRIPTION,fsi.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac,food_service_items fsi WHERE ac.STAFF_ID=\'' . $staff_id . '\' AND ac.SCHOOL_DATE=\'' . $date . '\' AND ac.PERIOD_ID=\'' . $period_id . '\' AND ac.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=ac.ITEM_ID ORDER BY fsi.SORT_ORDER';
+			$sql = 'SELECT fsi.DESCRIPTION,fsi.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac,food_service_items fsi WHERE ac.STAFF_ID=\'' . $staff_id . '\' AND ac.SCHOOL_DATE=\'' . $date . '\' AND ac.PERIOD_ID=\'' . $period_id . '\' AND ac.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=ac.ITEM_ID ORDER BY fsi.SORT_ORDER IS NULL,fsi.SORT_ORDER';
 			$items_RET = DBGet( $sql );
 
 			if ( $items_RET )

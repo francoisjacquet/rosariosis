@@ -38,7 +38,7 @@ if ( $_REQUEST['search_modfunc']
 			AND cpsp.PERIOD_ID=sp.PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			" . ( User( 'PROFILE' ) === 'teacher' ? " AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" : '' ) . ")
-		ORDER BY sp.SORT_ORDER,sp.TITLE" );
+		ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 
 		$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
 			<option value="">' . _( 'Daily' ) . '</option>';
@@ -225,7 +225,7 @@ if ( $is_student_report )
 	}
 
 	//FJ multiple school periods for a course period
-	//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM school_periods sp,schedule s,course_periods cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER" );
+	//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM school_periods sp,schedule s,course_periods cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 	$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
 	FROM school_periods sp,schedule s,course_periods cp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -235,7 +235,7 @@ if ( $is_student_report )
 	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 	AND cpsp.PERIOD_ID=sp.PERIOD_ID
 	AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-	ORDER BY sp.SORT_ORDER" );
+	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 
 	$columns['SCHOOL_DATE'] = _( 'Date' );
 

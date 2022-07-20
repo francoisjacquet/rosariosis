@@ -103,7 +103,7 @@ $subject_RET = DBGet( "SELECT s.SUBJECT_ID,s.TITLE
 	FROM course_subjects s
 	WHERE s.SYEAR='" . UserSyear() . "'
 	AND s.SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY s.SORT_ORDER,s.TITLE" );
+	ORDER BY s.SORT_ORDER IS NULL,s.SORT_ORDER,s.TITLE" );
 
 if ( ! empty( $subject_RET ) && $_REQUEST['subject_id'] )
 {

@@ -416,7 +416,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
-		ORDER BY du.SORT_ORDER" );
+		ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER" );
 
 	$select_options = [];
 

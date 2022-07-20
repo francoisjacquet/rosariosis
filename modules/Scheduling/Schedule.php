@@ -255,7 +255,7 @@ if ( UserStudentID()
 		$sql .= " AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND s.START_DATE<='" . $date . "')) ";
 	}
 
-	//$sql .= " ORDER BY sp.SORT_ORDER,s.MARKING_PERIOD_ID";
+	//$sql .= " ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,s.MARKING_PERIOD_ID";
 	$sql .= " ORDER BY c.TITLE,cp.SHORT_NAME,s.MARKING_PERIOD_ID";
 
 	$schedule_RET = DBGet(

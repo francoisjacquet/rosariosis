@@ -233,7 +233,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			AND cp.TEACHER_ID=sta.STAFF_ID
 			AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 			AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")
-			ORDER BY sp.SORT_ORDER";
+			ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER";
 
 		$schedule_table_RET = DBGet(
 			$schedule_table_sql,

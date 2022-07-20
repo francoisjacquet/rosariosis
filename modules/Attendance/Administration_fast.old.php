@@ -96,7 +96,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 	AND cp.DOES_ATTENDANCE='Y'
 	AND s.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'
 	AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
-	ORDER BY p.SORT_ORDER", $functions );
+	ORDER BY p.SORT_ORDER IS NULL,p.SORT_ORDER", $functions );
 
 	$columns = [ 'PERIOD_TITLE' => _( 'Period' ), 'COURSE' => _( 'Course' ), 'ATTENDANCE_CODE' => _( 'Attendance Code' ), 'ATTENDANCE_TEACHER_CODE' => _( 'Teacher\'s Entry' ), 'ATTENDANCE_REASON' => _( 'Comments' ) ];
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=student&student_id=' . $_REQUEST['student_id']  ) . '" method="POST">';

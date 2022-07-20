@@ -176,7 +176,7 @@ if ( $meal_description )
 	echo '</td></tr></table><hr />';
 }
 
-$items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM food_service_items fsi,food_service_menu_items fsmi WHERE fsmi.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER', [ 'COUNT' => 'makeTextInput' ] );
+$items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM food_service_items fsi,food_service_menu_items fsmi WHERE fsmi.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER IS NULL,fsmi.SORT_ORDER', [ 'COUNT' => 'makeTextInput' ] );
 
 echo '<table class="width-100p"><tr><td style="width:50%;">';
 $LO_columns = [ 'DESCRIPTION' => _( 'Item' ), 'COUNT' => _( 'Count' ) ];

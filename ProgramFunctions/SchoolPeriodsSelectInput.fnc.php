@@ -31,7 +31,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND cpsp.PERIOD_ID=sp.PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-		ORDER BY sp.SORT_ORDER" );
+		ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 
 	$period_selected = false;
 

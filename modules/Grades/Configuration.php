@@ -243,7 +243,7 @@ $comment_codes_RET = DBGet( "SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE
 FROM report_card_comment_code_scales rccs,report_card_comment_codes rccc
 WHERE rccs.SCHOOL_ID='" . UserSchool() . "'
 AND rccc.SCALE_ID=rccs.ID
-ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", [], [ 'ID' ] );
+ORDER BY rccc.SORT_ORDER IS NULL,rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", [], [ 'ID' ] );
 
 if ( $comment_codes_RET )
 {
