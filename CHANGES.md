@@ -23,7 +23,7 @@ Changes in 10.0
 - Use Period's Short Name when > 10 columns in the list in TeacherCompletion.php
 - Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
 - Add note on save in EntryTimes.php
-- PHP8.1 Deprecated: trim(): Passing null to parameter in EmailReferral.fnc.php & CategoryBreakdown.php
+- Fix PHP8.1 Deprecated passing null to parameter in EmailReferral.fnc.php, CategoryBreakdown.php & StudentGrades.php
 - Add Total sum of balances in StaffBalances.php
 - Fix French translation for "Waiver" & "Refund" in rosariosis.po
 - Force title & action to lowercase in Prompts.php
