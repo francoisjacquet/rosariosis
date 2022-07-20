@@ -25,8 +25,8 @@ You typically want to register your `functions.php` file functions to be hooked 
 
 For example, to run a daily CRON like system:
 ```php
-// Add our MyModuleCronDo() function to the Warehouse.php|header_head action.
-add_action( 'Warehouse.php|header_head', 'MyModuleCronDo' );
+// Add our MyModuleCronDo() function to the Warehouse.php|header action.
+add_action( 'Warehouse.php|header', 'MyModuleCronDo' );
 
 /**
  * Run daily CRON on page load.
