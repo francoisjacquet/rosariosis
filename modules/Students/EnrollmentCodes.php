@@ -100,7 +100,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER
 		FROM student_enrollment_codes
 		WHERE SYEAR='" . UserSyear() . "'
-		ORDER BY SORT_ORDER,TITLE", [
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [
 			'TITLE' => '_makeTextInput',
 			'SHORT_NAME' => '_makeTextInput',
 			'TYPE' => '_makeSelectInput',

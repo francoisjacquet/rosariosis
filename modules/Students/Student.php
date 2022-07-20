@@ -250,7 +250,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM custom_fields
-					ORDER BY SORT_ORDER", [], [ 'ID' ] );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 				$go = false;
 
@@ -347,7 +347,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM custom_fields
-					ORDER BY SORT_ORDER", [], [ 'ID' ] );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
@@ -677,11 +677,11 @@ if (  ( UserStudentID()
 	}
 
 	//FJ General_Info only for new student
-	//$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM student_field_categories ORDER BY SORT_ORDER,TITLE" );
+	//$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM student_field_categories ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 		FROM student_field_categories
 		WHERE " . ( $_REQUEST['student_id'] !== 'new' ? 'TRUE' : "ID='1'" ) .
-		" ORDER BY SORT_ORDER,TITLE" );
+		" ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 	if ( mb_strpos( $_REQUEST['modfunc'], 'delete_' ) !== 0
 		|| ! empty( $_REQUEST['delete_ok'] ) )

@@ -161,7 +161,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
+	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER IS NULL,SORT_ORDER', [], [ 'MENU_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -217,7 +217,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = 'SELECT * FROM food_service_categories WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
+		$sql = 'SELECT * FROM food_service_categories WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER IS NULL,SORT_ORDER';
 
 		$functions = [
 			'TITLE' => '_makeTextInput',
@@ -253,7 +253,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = 'SELECT * FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
+		$sql = 'SELECT * FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER IS NULL,SORT_ORDER';
 
 		$functions = [
 			'TITLE' => '_makeTextInput',

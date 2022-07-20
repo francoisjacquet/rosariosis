@@ -146,7 +146,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM course_periods
 				WHERE SUBJECT_ID=course_subjects.SUBJECT_ID
 				AND GRADE_SCALE_ID IS NOT NULL)>0
-			ORDER BY SORT_ORDER,TITLE", [], [ 'SUBJECT_ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'SUBJECT_ID' ] );
 
 		if ( ! $_REQUEST['subject_id'] || ! $subjects_RET[$_REQUEST['subject_id']] )
 		{
@@ -254,7 +254,7 @@ if ( ! $_REQUEST['modfunc'] )
 	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
 	UNION
 	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
-	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
+	ORDER BY 4,SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 	if ( ! isset( $_REQUEST['tab_id'] )
 		|| $_REQUEST['tab_id'] == ''
@@ -292,7 +292,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER";
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'TITLE' => '_makeCommentsInput',
@@ -332,7 +332,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID IS NULL
-		ORDER BY SORT_ORDER";
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [ 'TITLE' => '_makeCommentsInput', 'SORT_ORDER' => '_makeCommentsInput' ];
 		$LO_columns = [ 'TITLE' => _( 'Comment' ), 'SORT_ORDER' => _( 'Sort Order' ) ];
@@ -363,7 +363,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$codes_RET = DBGet( "SELECT ID,TITLE
 			FROM report_card_comment_code_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER,TITLE" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 		$code_select = [ '' => _( 'N/A' ) ];
 
@@ -392,14 +392,14 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE COURSE_ID='0'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER,TITLE";
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 		}
 		else
 		{
 			$sql = "SELECT *
 			FROM report_card_comments
 			WHERE CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'
-			ORDER BY SORT_ORDER,TITLE";
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 
 			if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 			{

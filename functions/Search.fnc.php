@@ -152,7 +152,7 @@ function Search( $type, $extra = null )
 			$grade_levels_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 				FROM school_gradelevels
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 			if ( isset( $_REQUEST['advanced'] )
 				&& $_REQUEST['advanced'] === 'Y'
@@ -266,7 +266,7 @@ function Search( $type, $extra = null )
 			$grade_levels_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 				FROM school_gradelevels
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 			// Do not hide in case first Profile is "Parent".
 			$maybe_hide = key( $options ) === 'parent' ? '' : ' class="hide"';

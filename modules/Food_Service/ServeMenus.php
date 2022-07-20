@@ -49,7 +49,7 @@ User( 'PROFILE' ) === 'student' ? '' : DrawHeader( $header );
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM food_service_menus
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {

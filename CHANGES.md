@@ -60,6 +60,7 @@ Changes in 10.0
 - HTML fix duplicated #menu-top div on update in Side.php
 - JS fix #body height calculation: include bottom margin in jquery-fixedmenu.js & plugins.min.js
 - Add MySQLRemoveDelimiter() remove DELIMITER $$ declarations before procedures or functions in database.inc.php, Modules.inc.php & Plugins.inc.php
+- SQL ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) for consistency between PostgreSQL & MySQL, program wide
 
 Changes in 9.3
 --------------

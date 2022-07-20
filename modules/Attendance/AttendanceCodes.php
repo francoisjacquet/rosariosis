@@ -148,7 +148,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
-			ORDER BY SORT_ORDER,TITLE",
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE",
 			[
 				'TITLE' => '_makeTextInput',
 				'SHORT_NAME' => '_makeTextInput',
@@ -185,7 +185,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
-		ORDER BY SORT_ORDER,TITLE";
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 
 		$functions = [
 			'TITLE' => '_makeTextInput',
@@ -236,7 +236,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM attendance_code_categories
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER,TITLE";
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 
 		$functions = [ 'TITLE' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput' ];
 

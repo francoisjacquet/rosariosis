@@ -262,7 +262,7 @@ if ( UserStaffID()
 					{
 						$categories_RET = DBGet( "SELECT ID,TITLE
 							FROM student_field_categories
-							ORDER BY SORT_ORDER,TITLE" );
+							ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )
 						{
@@ -304,7 +304,7 @@ if ( UserStaffID()
 						$categories_RET = DBGet( "SELECT ID,TITLE
 						FROM staff_field_categories
 						WHERE " . $categories_profiles_where .
-							" ORDER BY SORT_ORDER,TITLE" );
+							" ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )
 						{

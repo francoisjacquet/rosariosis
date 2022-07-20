@@ -516,7 +516,7 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE (MP='QTR' OR MP='SEM')
 				AND SYEAR='" . $next_syear . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 			// Fix SQL error NULL as TITLE when various. Explicitely list rollover MP titles.
 			$mp_titles = [];

@@ -93,7 +93,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 				FROM school_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 		}
 
 		$period_ids_list = [];

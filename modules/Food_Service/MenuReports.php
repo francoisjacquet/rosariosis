@@ -13,7 +13,7 @@ DrawHeader( ProgramTitle() );
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM food_service_menus
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( ! empty( $_REQUEST['menu_id'] ) )
 {
@@ -95,7 +95,7 @@ $users_columns = [
 $items_RET = DBGet( "SELECT SHORT_NAME,DESCRIPTION
 	FROM food_service_items
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $items = [];
 $items_columns = [];

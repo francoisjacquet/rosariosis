@@ -218,7 +218,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM gradebook_assignment_types WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
+	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM gradebook_assignment_types WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -303,7 +303,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM gradebook_assignment_types WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER,TITLE";
+		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM gradebook_assignment_types WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 		$functions = [ 'TITLE' => '_makeTypeInput', 'SORT_ORDER' => '_makeTypeInput', 'COLOR' => '_makeColorInput' ];
 
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )

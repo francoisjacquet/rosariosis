@@ -224,7 +224,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			FROM school_periods
 			WHERE SYEAR='".UserSyear()."'
 			AND SCHOOL_ID='".UserSchool()."'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period )
 		{
@@ -234,7 +234,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE
 		FROM custom_fields
-		ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 	foreach ( (array) $custom_RET as $id => $field )
 	{
@@ -252,7 +252,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	$address_RET = DBGet( "SELECT TITLE,ID,TYPE
 		FROM address_fields
-		ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 	foreach ( (array) $address_RET as $id => $field )
 	{
@@ -604,11 +604,11 @@ else
 
 			$categories_RET = DBGet( "SELECT ID,TITLE
 				FROM address_field_categories
-				ORDER BY SORT_ORDER,TITLE" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 			$address_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID
 				FROM address_fields
-				ORDER BY SORT_ORDER,TITLE", [] , [ 'CATEGORY_ID' ] );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [] , [ 'CATEGORY_ID' ] );
 
 			foreach ( (array) $categories_RET as $category )
 			{
@@ -628,11 +628,11 @@ else
 	// Other Student Field Categories
 	$categories_RET = DBGet( "SELECT ID,TITLE
 		FROM student_field_categories
-		ORDER BY SORT_ORDER,TITLE" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID
 		FROM custom_fields
-		ORDER BY SORT_ORDER,TITLE", [], ['CATEGORY_ID'] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], ['CATEGORY_ID'] );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -684,7 +684,7 @@ else
 			FROM school_periods
 			WHERE SYEAR='".UserSyear()."'
 			AND SCHOOL_ID='".UserSchool()."'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period )
 			$fields_list['Scheduling']['PERIOD_' . $period['PERIOD_ID']] = $period['TITLE'] . ' ' .

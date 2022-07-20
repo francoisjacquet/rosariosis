@@ -42,7 +42,7 @@ $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 	FROM school_marking_periods
 	WHERE PARENT_ID='" . UserMP() . "'
 	AND MP='PRO'
-	ORDER BY 5,SORT_ORDER" );
+	ORDER BY 5,SORT_ORDER IS NULL,SORT_ORDER" );
 
 echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'' ) . '" method="GET">';
 

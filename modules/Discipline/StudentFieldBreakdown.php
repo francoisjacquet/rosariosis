@@ -257,7 +257,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM custom_fields
 		WHERE TYPE NOT IN ('textarea','text','date','files')
-		ORDER BY SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
 		FROM student_field_categories", [], [ 'ID' ] );

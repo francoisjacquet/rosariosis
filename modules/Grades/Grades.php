@@ -61,7 +61,7 @@ AND (SELECT count(1) FROM gradebook_assignments WHERE STAFF_ID=gt.STAFF_ID
 AND ((COURSE_ID=gt.COURSE_ID AND STAFF_ID=gt.STAFF_ID) OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'
 AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
-ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
+ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
 if ( $_REQUEST['type_id']

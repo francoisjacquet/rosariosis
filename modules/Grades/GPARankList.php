@@ -29,7 +29,7 @@ SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER
 FROM school_marking_periods
 WHERE PARENT_ID='" . UserMP() . "'
 AND MP='PRO'
-ORDER BY 5,SORT_ORDER" );
+ORDER BY 5,SORT_ORDER IS NULL,SORT_ORDER" );
 
 if ( $_REQUEST['search_modfunc'] === 'list' )
 {

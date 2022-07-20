@@ -59,7 +59,7 @@ function GetFullYearMP()
 		WHERE MP='FY'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 }
 
 

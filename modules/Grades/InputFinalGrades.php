@@ -98,7 +98,7 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND COURSE_ID IS NULL
 		AND SYEAR='" . UserSyear() . "')>0
-	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
+	ORDER BY 4,SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 if ( ! isset( $_REQUEST['tab_id'] )
 	|| $_REQUEST['tab_id'] == ''
@@ -110,7 +110,7 @@ if ( ! isset( $_REQUEST['tab_id'] )
 $comment_codes_RET = DBGet( "SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT
 	FROM report_card_comment_codes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER,ID", [], [ 'SCALE_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID", [], [ 'SCALE_ID' ] );
 
 $commentsA_select = [];
 
@@ -133,7 +133,7 @@ if ( $_REQUEST['tab_id'] == '-1' )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID IS NULL
-		ORDER BY SORT_ORDER", [], [ 'ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 	$current_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
 		FROM student_report_card_comments g,course_periods cp
@@ -159,7 +159,7 @@ elseif ( $_REQUEST['tab_id'] == '0' )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID='0'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM student_report_card_comments g,course_periods cp
@@ -177,7 +177,7 @@ elseif ( ! empty( $_REQUEST['tab_id'] ) )
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID='" . (int) $course_id . "'
 		AND CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM student_report_card_comments g,course_periods cp
@@ -1183,7 +1183,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
 			$where . "
-			ORDER BY SORT_ORDER", [], [ 'SCALE_ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'SCALE_ID' ] );
 
 		foreach ( (array) $commentsAbis_RET as $scale_id => $commentsAbis )
 		{

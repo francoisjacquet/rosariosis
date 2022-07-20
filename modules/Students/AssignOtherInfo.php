@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$fields_RET = DBGet( "SELECT ID,TYPE
 			FROM custom_fields
-			ORDER BY SORT_ORDER", [], [ 'ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 		$update = '';
 
@@ -215,7 +215,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 				FROM custom_fields
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
-				ORDER BY SORT_ORDER,TITLE", [], [ 'TYPE' ] );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'TYPE' ] );
 		}
 		else
 		{
@@ -376,7 +376,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$gradelevels_RET = DBGet( "SELECT ID,TITLE
 				FROM school_gradelevels
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 			$options = [];
 
@@ -430,7 +430,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM student_enrollment_codes
 				WHERE SYEAR='" . UserSyear() . "'
 				AND TYPE='Add'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 			$options = [];
 

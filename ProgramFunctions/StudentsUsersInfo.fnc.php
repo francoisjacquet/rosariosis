@@ -813,7 +813,7 @@ function _makeStartInput( $value, $column )
 			FROM student_enrollment_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND TYPE='Add'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $options_RET as $option )
 		{
@@ -896,7 +896,7 @@ function _makeEndInput( $value, $column )
 			FROM student_enrollment_codes
 			WHERE SYEAR='" . UserSyear() . "'
 			AND TYPE='Drop'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $options_RET as $option )
 		{

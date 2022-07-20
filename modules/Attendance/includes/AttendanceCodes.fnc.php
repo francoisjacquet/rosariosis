@@ -114,7 +114,7 @@ function AttendanceCodesTipMessage( $type = '', $table = '0' )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND TABLE_NAME='" . (int) $table . "'" .
 		$type_where .
-		" ORDER BY TABLE_NAME,SORT_ORDER" );
+		" ORDER BY TABLE_NAME,SORT_ORDER IS NULL,SORT_ORDER" );
 	}
 
 	foreach ( (array) $attendance_codes_RET as $attendance_code )

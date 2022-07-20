@@ -133,7 +133,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$comment_scales_RET = DBGet( "SELECT ID,TITLE
 		FROM report_card_comment_code_scales
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID", [], [ 'ID' ] );
 
 	if ( ! isset( $_REQUEST['tab_id'] )
 		|| $_REQUEST['tab_id'] == ''
@@ -169,7 +169,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM report_card_comment_codes
 		WHERE SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER,ID";
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID";
 
 		$functions = [
 			'TITLE' => '_makeCommentsInput',
@@ -218,7 +218,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$sql = 'SELECT *
 		FROM report_card_comment_code_scales
 		WHERE SCHOOL_ID=\'' . UserSchool() . '\'
-		ORDER BY SORT_ORDER,ID';
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID';
 
 		$functions = [
 			'TITLE' => '_makeCommentsInput',

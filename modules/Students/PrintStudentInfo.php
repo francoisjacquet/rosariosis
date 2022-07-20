@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 				FROM student_field_categories
-				ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 			// get the address and contacts custom fields, create the select lists and expand select and codeds options
 			$address_categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
@@ -117,7 +117,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						AND NOT EXISTS (SELECT '' FROM students_join_people sjp
 							WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 							AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-						ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" );
+						ORDER BY SORT_ORDER IS NULL,SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" );
 
 					$address_previous = "x";
 
@@ -306,7 +306,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 			FROM student_field_categories
-			ORDER BY SORT_ORDER,TITLE" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 		$extra['extra_header_right'] = '<table>';
 

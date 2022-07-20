@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			AND c.SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
 			//FJ add columns for All Courses comments
-			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
+			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID", [], [ 'ID' ] );
 		}
 
 		if ( ! empty( $RET ) )
@@ -366,7 +366,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND COURSE_ID IS NULL
-					ORDER BY SORT_ORDER", [], [ 'ID' ] );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 				if ( $commentsB_RET )
 				{

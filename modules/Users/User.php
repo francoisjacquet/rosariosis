@@ -294,7 +294,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM staff_fields
-					ORDER BY SORT_ORDER", [], [ 'ID' ] );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 				$go = false;
 
@@ -379,7 +379,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM staff_fields
-					ORDER BY SORT_ORDER", [], [ 'ID' ] );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
@@ -713,7 +713,7 @@ if (  ( UserStaffID()
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 			FROM staff_field_categories
 			WHERE " . ( $profile ? DBEscapeIdentifier( $profile ) . "='Y'" : "ID='1'" ) . "
-			ORDER BY SORT_ORDER,TITLE" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 		foreach ( (array) $categories_RET as $category )
 		{

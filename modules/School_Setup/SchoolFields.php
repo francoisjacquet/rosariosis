@@ -163,7 +163,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// FIELDS.
 	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 		FROM school_fields
-		ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 
 	echo '<div class="st">';
 

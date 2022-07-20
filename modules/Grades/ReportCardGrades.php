@@ -131,7 +131,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM report_card_grade_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER", [], [ 'ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 		if ( ! isset( $_REQUEST['tab_id'] )
 			|| $_REQUEST['tab_id'] == ''
@@ -188,7 +188,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER";
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'TITLE' => '_makeTextInput',
@@ -240,7 +240,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$sql = "SELECT * FROM report_card_grade_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER,ID";
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID";
 
 		$functions = [
 			'TITLE' => '_makeTextInput',

@@ -109,7 +109,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 			UserSyear() - 1 :
 			UserSyear() ) . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER,TITLE" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 		$courses_RET = DBGet( "SELECT SUBJECT_ID,COURSE_ID,TITLE
 			FROM courses
@@ -750,7 +750,7 @@ if (  ( ! $_REQUEST['modfunc']
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . ( $_REQUEST['modfunc'] == 'choose_course' && $_REQUEST['last_year'] == 'true' ?
 		UserSyear() - 1 :
-		UserSyear() ) . "' ORDER BY SORT_ORDER,TITLE" );
+		UserSyear() ) . "' ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 	if ( $_REQUEST['modfunc'] !== 'choose_course' )
 	{
@@ -963,7 +963,7 @@ if (  ( ! $_REQUEST['modfunc']
 				FROM school_periods
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
-				ORDER BY SORT_ORDER,TITLE" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 			foreach ( (array) $periods_RET as $period )
 			{
@@ -977,7 +977,7 @@ if (  ( ! $_REQUEST['modfunc']
 				WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
-				ORDER BY TBL,SORT_ORDER" );
+				ORDER BY TBL,SORT_ORDER IS NULL,SORT_ORDER" );
 
 			unset( $options );
 

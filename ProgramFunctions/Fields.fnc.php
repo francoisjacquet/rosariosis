@@ -401,7 +401,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			// CATEGORIES.
 			$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 				FROM " . DBEscapeIdentifier( $table . '_field_categories' ) .
-				" ORDER BY SORT_ORDER,TITLE" );
+				" ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 			foreach ( (array) $categories_RET as $type )
 			{

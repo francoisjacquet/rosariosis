@@ -30,7 +30,7 @@ $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' 
 		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	)>0
-	ORDER BY 3,SORT_ORDER,TITLE" );
+	ORDER BY 3,SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 $cp_title = DBGetOne( "SELECT TITLE
 	FROM course_periods
@@ -300,7 +300,7 @@ $codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 	AND SYEAR='" . UserSyear() . "'
 	AND TYPE='teacher'
 	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $columns = [];
 

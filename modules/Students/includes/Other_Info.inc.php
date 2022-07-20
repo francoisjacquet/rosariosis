@@ -8,7 +8,7 @@ $columns = DBGetOne( "SELECT COLUMNS
 $fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
 	FROM custom_fields
 	WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
-	ORDER BY SORT_ORDER,TITLE" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 

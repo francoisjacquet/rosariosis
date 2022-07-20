@@ -57,7 +57,7 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" );
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER" );
 	}
 	//$grades = array('A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F');
 

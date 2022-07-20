@@ -47,7 +47,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		$grade_levels_RET = DBGet( "SELECT TITLE
 			FROM school_gradelevels
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $grade_levels_RET as $grade_level )
 		{
@@ -228,7 +228,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM custom_fields
 		WHERE TYPE NOT IN ('textarea','text','date','log','holder','files')
-		ORDER BY SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
 		FROM student_field_categories", [], [ 'ID' ] );

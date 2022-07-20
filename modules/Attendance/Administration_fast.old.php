@@ -73,7 +73,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 }
 
 $codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE FROM attendance_codes WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
-$periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE FROM school_periods WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
+$periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE FROM school_periods WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 {

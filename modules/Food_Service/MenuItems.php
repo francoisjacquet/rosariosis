@@ -202,7 +202,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$menus_RET = DBGet( "SELECT MENU_ID,TITLE
 		FROM food_service_menus
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -261,7 +261,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$items_RET = DBGet( "SELECT ITEM_ID,DESCRIPTION
 			FROM food_service_items
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		$items_select = [];
 
@@ -273,7 +273,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$categories_RET = DBGet( "SELECT CATEGORY_ID,TITLE
 			FROM food_service_categories
 			WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		$categories_select = [];
 
@@ -327,7 +327,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$sql = "SELECT *
 		FROM food_service_items fsmi
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER";
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'DESCRIPTION' => 'makeTextInput',

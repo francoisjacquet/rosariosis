@@ -67,7 +67,7 @@ $types = [ 'DEPOSIT' => _( 'Deposit' ), 'CREDIT' => _( 'Credit' ), 'DEBIT' => _(
 $menus_RET = DBGet( "SELECT TITLE
 	FROM food_service_menus
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $type_select = ' &mdash; <label>' . _( 'Type' ) . ': <select name=type_select>
 	<option value="">' . _( 'Not Specified' ) . '</option>';

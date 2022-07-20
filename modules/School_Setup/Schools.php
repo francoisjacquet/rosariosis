@@ -46,7 +46,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM school_fields
-					ORDER BY SORT_ORDER", [], [ 'ID' ] );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 				$go = 0;
 
@@ -332,7 +332,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// FJ add School Fields.
 	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
 		FROM school_fields
-		ORDER BY SORT_ORDER,TITLE" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 	$fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 

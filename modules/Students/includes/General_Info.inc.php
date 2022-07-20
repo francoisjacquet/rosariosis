@@ -224,7 +224,7 @@ else
 		$gradelevels_RET = DBGet( "SELECT ID,TITLE
 			FROM school_gradelevels
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SCHOOL_ID,SORT_ORDER" );
+			ORDER BY SCHOOL_ID,SORT_ORDER IS NULL,SORT_ORDER" );
 
 		$gradelevel_options = [];
 

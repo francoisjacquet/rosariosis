@@ -75,7 +75,7 @@ if ( ! empty( $_POST['values'] )
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM address_fields
-				ORDER BY SORT_ORDER", [], [ 'ID' ] );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 			$go = 0;
 
@@ -171,7 +171,7 @@ if ( ! empty( $_POST['values'] )
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM people_fields
-				ORDER BY SORT_ORDER", [], [ 'ID' ] );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
 			$go = 0;
 
@@ -451,7 +451,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM students_join_people sjp
 		WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 		AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION", [], [ 'ADDRESS_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION", [], [ 'ADDRESS_ID' ] );
 
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 

@@ -14,7 +14,7 @@ $categories_RET = DBGet( "SELECT ID,TITLE
 	FROM attendance_code_categories
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER,TITLE" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 $category_select = '<select name="table" onChange="ajaxPostForm(this.form,true);"><option value="0"' .
 	( $_REQUEST['table'] == '0' ? ' selected' : '' ) . '>' . _( 'Attendance' ) . '</option>';

@@ -180,7 +180,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER", [], [ 'PARENT_ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'PARENT_ID' ] );
 
 		// Marking Periods.
 		$return .= '<tr class="st"><td colspan="2"><hr /><table class="cellpadding-5">';
@@ -323,7 +323,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			AND SYEAR='" . UserSyear() . "'
 			AND COURSE_ID IS NOT NULL
 			AND COURSE_ID='0'
-			ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID", [], [ 'ID' ] );
 
 			// FJ get color for Course specific categories & get comment scale.
 			//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM report_card_comments WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));

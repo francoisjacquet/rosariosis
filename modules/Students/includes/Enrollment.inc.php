@@ -77,7 +77,7 @@ foreach ( (array) $calendars_RET as $calendar )
 $gradelevels_RET = DBGet( "SELECT ID,TITLE
 	FROM school_gradelevels
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $gradelevel_options = [];
 

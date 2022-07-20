@@ -595,7 +595,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM school_marking_periods
 		WHERE MP='FY'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
+		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	if ( ! empty( $fy_RET ) )
 	{
@@ -649,7 +649,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND PARENT_ID='" . (int) $_REQUEST['year_id'] . "'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		if ( ! empty( $sem_RET ) )
 		{
@@ -700,7 +700,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND PARENT_ID='" . (int) $_REQUEST['semester_id'] . "'
-				ORDER BY SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 			if ( ! empty( $qtr_RET ) )
 			{
@@ -751,7 +751,7 @@ if ( ! $_REQUEST['modfunc'] )
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND PARENT_ID='" . (int) $_REQUEST['quarter_id'] . "'
-					ORDER BY SORT_ORDER" );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 				if ( ! empty( $pro_RET ) )
 				{

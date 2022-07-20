@@ -64,13 +64,13 @@ $transaction_items = [
 
 $menus_RET = DBGet( "SELECT TITLE
 	FROM food_service_menus WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 // echo '<pre>'; var_dump($menus_RET); echo '</pre>';
 $items = DBGet( "SELECT SHORT_NAME,DESCRIPTION,0 AS COUNT
 	FROM food_service_items
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", [], [ 'SHORT_NAME' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'SHORT_NAME' ] );
 
 // echo '<pre>'; var_dump($items); echo '</pre>';
 

@@ -403,7 +403,7 @@ function RegistrationAdminContactFields( $name, $fields, $custody, $emergency )
 	$fields_options_RET = DBGet( "SELECT ID,TITLE
 		FROM people_field_categories
 		WHERE TRUE" . $where_sql .
-		" ORDER BY SORT_ORDER" );
+		" ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$fields_options = [];
 
@@ -466,7 +466,7 @@ function RegistrationAdminAddressFields( $name, $fields )
 	$fields_options_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 		FROM address_field_categories
 		WHERE RESIDENCE='Y' OR MAILING='Y'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$fields_options = [];
 
@@ -530,7 +530,7 @@ function RegistrationAdminStudentFields( $name, $fields )
 		FROM student_field_categories sfc
 		WHERE EXISTS(SELECT 1 FROM custom_fields
 			WHERE CATEGORY_ID=sfc.ID)
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$fields_options = [];
 

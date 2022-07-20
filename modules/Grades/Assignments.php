@@ -510,7 +510,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM course_periods
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" .
 		$hide_previous_assignment_types_sql .
-		" ORDER BY SORT_ORDER,TITLE";
+		" ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 
 	$types_RET = DBGet( $assignment_types_sql );
 

@@ -215,7 +215,7 @@ if ( ! $_REQUEST['modfunc'] )
 	FROM portal_notes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC", [
+	ORDER BY EXPIRED DESC,SORT_ORDER IS NULL,SORT_ORDER,PUBLISHED_DATE DESC", [
 		'TITLE' => '_makeTextInput',
 		'CONTENT' => '_makeContentInput',
 		'SORT_ORDER' => '_makeTextInput',

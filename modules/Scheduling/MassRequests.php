@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			FROM school_periods
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period )
 		{

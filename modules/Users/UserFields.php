@@ -341,7 +341,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// CATEGORIES.
 	$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 		FROM staff_field_categories
-		ORDER BY SORT_ORDER,TITLE" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
 	// DISPLAY THE MENU.
 	echo '<div class="st">';
@@ -358,7 +358,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 			FROM staff_fields
 			WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
-			ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 
 		echo '<div class="st">';
 

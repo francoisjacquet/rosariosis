@@ -99,7 +99,7 @@ function _classSearchWidgetFindCourse( $extra )
 		FROM school_periods
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	echo '<tr class="st"><td>' . _( 'Period' ) . '</td><td>';
 

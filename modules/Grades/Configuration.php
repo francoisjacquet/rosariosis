@@ -345,21 +345,21 @@ $year = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
 	WHERE MP='FY'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $semesters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
 	FROM school_marking_periods
 	WHERE MP='SEM'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
 	FROM school_marking_periods
 	WHERE MP='QTR'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", [], [ 'PARENT_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'PARENT_ID' ] );
 
 echo '<fieldset><legend>' . _( 'Final Grading Percentages' ) . '</legend><table>';
 

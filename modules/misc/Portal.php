@@ -303,7 +303,7 @@ switch ( User( 'PROFILE' ) )
 			FROM attendance_code_categories
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY 3,SORT_ORDER" );
+			ORDER BY 3,SORT_ORDER IS NULL,SORT_ORDER" );
 
 			foreach ( (array) $categories_RET as $category )
 			{
@@ -596,7 +596,7 @@ switch ( User( 'PROFILE' ) )
 				FROM attendance_code_categories
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY 3,SORT_ORDER" );
+				ORDER BY 3,SORT_ORDER IS NULL,SORT_ORDER" );
 
 			foreach ( (array) $categories_RET as $category )
 			{

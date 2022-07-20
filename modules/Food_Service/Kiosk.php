@@ -9,7 +9,7 @@ DrawHeader( ProgramTitle() );
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM food_service_menus
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( ! empty( $_REQUEST['menu_id'] ) )
 {
@@ -67,7 +67,7 @@ else
 $categories_RET = DBGet( "SELECT MENU_ID,CATEGORY_ID,TITLE
 	FROM food_service_categories
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", [], [ 'MENU_ID', 'CATEGORY_ID' ] );
+	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID', 'CATEGORY_ID' ] );
 //FJ fix error Warning: key() expects parameter 1 to be array, null given
 //if ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
 

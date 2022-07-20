@@ -209,7 +209,7 @@ function MoodleUsersStudentEnrollmentForm()
 	$gradelevels_RET = DBGet( "SELECT ID,TITLE
 		FROM school_gradelevels
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$options = [];
 
@@ -275,7 +275,7 @@ function MoodleUsersStudentEnrollmentForm()
 		FROM student_enrollment_codes
 		WHERE SYEAR='" . UserSyear() . "'
 		AND TYPE='Add'
-		ORDER BY SORT_ORDER" );
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$options = [];
 

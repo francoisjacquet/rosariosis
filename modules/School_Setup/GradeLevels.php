@@ -89,7 +89,7 @@ if ( ! $_REQUEST['modfunc'] )
 			LIMIT 1) AS REMOVE
 		FROM school_gradelevels sg
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER",
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER",
 		[
 			'REMOVE' => '_makeRemoveButton',
 			'TITLE' => '_makeTextInput',
@@ -205,7 +205,7 @@ function _makeGradeInput( $value, $name )
 		$grades_RET = DBGet( "SELECT ID,TITLE
 			FROM school_gradelevels
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 		foreach ( (array) $grades_RET as $grade )
 		{
