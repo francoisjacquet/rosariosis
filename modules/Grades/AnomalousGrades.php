@@ -10,7 +10,9 @@ $_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
 
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
-$max_allowed = Preferences( 'ANOMALOUS_MAX', 'Gradebook' ) / 100;
+$max_allowed = ( Preferences( 'ANOMALOUS_MAX', 'Gradebook' ) ?
+	Preferences( 'ANOMALOUS_MAX', 'Gradebook' ) / 100 :
+	1 );
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
