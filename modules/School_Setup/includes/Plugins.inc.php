@@ -188,7 +188,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 			if ( $DatabaseType === 'mysql' )
 			{
 				// @since 10.0 Install plugin: execute the install_mysql.sql script for MySQL
-				$install_sql_file = 'plugins/' . $_REQUEST['plugin'] . '/install.sql';
+				$install_sql_file = 'plugins/' . $_REQUEST['plugin'] . '/install_mysql.sql';
 			}
 
 			if ( file_exists( $install_sql_file ) )

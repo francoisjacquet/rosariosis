@@ -197,7 +197,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 			if ( $DatabaseType === 'mysql' )
 			{
 				// @since 10.0 Install module: execute the install_mysql.sql script for MySQL
-				$install_sql_file = 'modules/' . $_REQUEST['module'] . '/install.sql';
+				$install_sql_file = 'modules/' . $_REQUEST['module'] . '/install_mysql.sql';
 			}
 
 			if ( file_exists( $install_sql_file ) )
