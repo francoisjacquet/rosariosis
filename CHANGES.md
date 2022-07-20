@@ -61,6 +61,7 @@ Changes in 10.0
 - JS fix #body height calculation: include bottom margin in jquery-fixedmenu.js & plugins.min.js
 - Add MySQLRemoveDelimiter() remove DELIMITER $$ declarations before procedures or functions in database.inc.php, Modules.inc.php & Plugins.inc.php
 - SQL ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) for consistency between PostgreSQL & MySQL, program wide
+- HTML use number input for Gradebook config options in Configuration.php
 
 Changes in 9.3
 --------------

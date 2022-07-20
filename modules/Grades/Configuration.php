@@ -195,7 +195,7 @@ echo '<tr><td><hr />' . TextInput(
 	issetVal( $gradebook_config['LETTER_GRADE_MIN'], '' ),
 	'values[LETTER_GRADE_MIN]',
 	_( 'Minimum assignment points for letter grade' ),
-	'size="3" maxlength="3"'
+	'type="number" min="0" max="999"'
 ) . '</td></tr>';
 
 $anomalous_max_value = ( ! empty( $gradebook_config['ANOMALOUS_MAX'] ) ? $gradebook_config['ANOMALOUS_MAX'] : '100' );
@@ -209,15 +209,15 @@ echo '<tr><td>' . TextInput(
 	$anomalous_max_value,
 	'values[ANOMALOUS_MAX]',
 	_( 'Allowed maximum percent in Anomalous grades' ),
-	'size="3" maxlength="3"',
+	'type="number" min="1" max="999"',
 	( array_key_exists( 'ANOMALOUS_MAX', $gradebook_config ) )
 ) . '</td></tr>';
 
 echo '<tr><td>' . TextInput(
-	(string) round( issetVal( $gradebook_config['LATENCY'] ) ),
+	(string) issetVal( $gradebook_config['LATENCY'] ),
 	'values[LATENCY]',
 	_( 'Days until ungraded assignment grade appears in Parent/Student gradebook views' ),
-	'size="3" maxlength="3"',
+	'type="number" min="-99" max="99"',
 	( isset( $gradebook_config['LATENCY'] ) )
 ) . '</td></tr>';
 
