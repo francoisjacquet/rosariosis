@@ -540,3 +540,66 @@ function DBEscapeIdentifier( $identifier )
 
 	return pg_escape_identifier( $db_connection, $identifier );
 }
+
+/**
+ * Remove delimiter declarations inside SQL file (MySQL)
+ * Delimiter are used for functions or procedures
+ * when importing an SQL file from the command line.
+ * They generate errors when the SQL is sent from PHP
+ *
+ * Used in InstallDatabase.php, Modules.inc.php & Plugins.inc.php
+ *
+ * @since 10.0
+ *
+ * @param  string $sql SQL from an .sql file.
+ * @return string      SQL without delimiter declarations
+ */
+function MySQLRemoveDelimiter( $sql )
+{
+	// https://stackoverflow.com/questions/1462720/iterate-over-each-line-in-a-string-in-php
+	$separator = "\r\n";
+
+	$line = strtok( $sql, $separator );
+
+	$sql_without_delimiter = '';
+
+	$delimiter = ';';
+
+	while ( $line !== false )
+	{
+		if ( stripos( $line, 'DELIMITER' ) !== false )
+		{
+			$delimiter = ';';
+
+			if ( $line !== 'DELIMITER ;'
+				&& $line !== 'delimiter ;' )
+			{
+				// Declaring custom delimiter, get it.
+				$line = trim( $line );
+
+				$line_exploded = explode( ' ', $line );
+
+				$delimiter = trim( $line_exploded[1] );
+			}
+
+			$line = strtok( $separator );
+
+			// DELIMITER declaration, skip.
+			continue;
+		}
+
+		$line_without_delimiter = $line;
+
+		if ( $delimiter !== ';' )
+		{
+			// Replace custom DELIMITER with ;
+			$line_without_delimiter = str_replace( $delimiter, ';', $line );
+		}
+
+		$sql_without_delimiter .= $line_without_delimiter . $separator;
+
+		$line = strtok( $separator );
+	}
+
+	return $sql_without_delimiter;
+}

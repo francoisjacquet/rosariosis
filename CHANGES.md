@@ -59,6 +59,7 @@ Changes in 10.0
 - Fix typo "inexistant" to "nonexistent" & update translations in Modules.inc.php, Plugins.inc.php & rosariosis.po
 - HTML fix duplicated #menu-top div on update in Side.php
 - JS fix #body height calculation: include bottom margin in jquery-fixedmenu.js & plugins.min.js
+- Add MySQLRemoveDelimiter() remove DELIMITER $$ declarations before procedures or functions in database.inc.php, Modules.inc.php & Plugins.inc.php
 
 Changes in 9.3
 --------------

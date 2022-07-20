@@ -203,6 +203,13 @@ if ( $_REQUEST['modfunc'] === 'activate'
 			if ( file_exists( $install_sql_file ) )
 			{
 				$install_sql = file_get_contents( $install_sql_file );
+
+				if ( $DatabaseType === 'mysql' )
+				{
+					// @since 10.0 Remove DELIMITER $$ declarations before procedures or functions.
+					$install_sql = MySQLRemoveDelimiter( $install_sql );
+				}
+
 				DBQuery( $install_sql );
 			}
 
