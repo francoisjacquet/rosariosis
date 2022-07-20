@@ -259,7 +259,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM portal_polls pp
 			WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 			AND pp.SYEAR='" . UserSyear() . "'
-			ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",
+			ORDER BY EXPIRED DESC,pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",
 		[
 			'TITLE' => '_makeTextInput',
 			'OPTIONS' => '_makeOptionsInputs',

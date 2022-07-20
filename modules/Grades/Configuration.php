@@ -98,7 +98,7 @@ AND cp.SYEAR='" . UserSyear() . "'
 AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 AND cp.GRADE_SCALE_ID IS NOT NULL
 AND cp.DOES_BREAKOFF='Y'
-ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC", [], [ 'COURSE_PERIOD_ID' ] );
+ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER IS NULL,rcg.SORT_ORDER DESC", [], [ 'COURSE_PERIOD_ID' ] );
 
 echo '<fieldset><legend>' . _( 'Assignments' ) . '</legend><table>';
 
@@ -243,7 +243,7 @@ $comment_codes_RET = DBGet( "SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE
 FROM report_card_comment_code_scales rccs,report_card_comment_codes rccc
 WHERE rccs.SCHOOL_ID='" . UserSchool() . "'
 AND rccc.SCALE_ID=rccs.ID
-ORDER BY rccc.SORT_ORDER IS NULL,rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", [], [ 'ID' ] );
+ORDER BY rccc.SORT_ORDER IS NULL,rccc.SORT_ORDER IS NULL,rccc.SORT_ORDER,rccs.SORT_ORDER IS NULL,rccs.SORT_ORDER,rccs.ID,rccc.ID", [], [ 'ID' ] );
 
 if ( $comment_codes_RET )
 {

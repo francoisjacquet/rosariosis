@@ -282,7 +282,10 @@ if ( ! $_REQUEST['modfunc'] )
 			$categories_select += [ $category['CATEGORY_ID'] => $category['TITLE'] ];
 		}
 
-		$sql = 'SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM food_service_menu_items fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
+		$sql = "SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
+		FROM food_service_menu_items fsmi
+		WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
+		ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER IS NULL,SORT_ORDER';
 
 		$functions = [
 			'ITEM_ID' => 'makeSelectInput',

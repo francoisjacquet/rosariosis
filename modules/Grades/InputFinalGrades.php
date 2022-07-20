@@ -75,7 +75,7 @@ $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 	AND rcg.SYEAR='" . UserSyear() . "'
 	AND rcg.SCHOOL_ID='" . UserSchool() . "'
 	AND rcg.GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
-	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER", [], [ 'ID' ] );
+	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER IS NULL,rcg.SORT_ORDER", [], [ 'ID' ] );
 
 $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 	FROM report_card_comment_categories rc

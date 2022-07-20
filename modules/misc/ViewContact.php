@@ -15,7 +15,7 @@ $fields_RET = DBGet( "SELECT pf.ID,pf.TITLE
 	WHERE pf.CATEGORY_ID=pfc.ID
 	AND (" . ( $person_RET[1]['CUSTODY'] == 'Y' ? "pfc.CUSTODY='Y'" : 'FALSE' ) . "
 		OR " . ( $person_RET[1]['EMERGENCY'] == 'Y' ? "pfc.EMERGENCY='Y'" : 'FALSE') . ")
-	ORDER BY pfc.SORT_ORDER IS NULL,pfc.SORT_ORDER,pf.SORT_ORDER" );
+	ORDER BY pfc.SORT_ORDER IS NULL,pfc.SORT_ORDER,pf.SORT_ORDER IS NULL,pf.SORT_ORDER" );
 
 echo '<br />';
 

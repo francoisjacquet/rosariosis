@@ -124,7 +124,7 @@ function GetStuList( &$extra = [] )
 					" OR cf.ID IN (" . $extra['student_fields']['view'] . ")" :
 					'' ) . ")
 			AND cf.CATEGORY_ID=sfc.ID
-			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,cf.SORT_ORDER,cf.TITLE" );
+			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE" );
 
 		$view_address_RET = DBGetOne( "SELECT VALUE
 			FROM program_user_config

@@ -106,7 +106,7 @@ $items_RET = DBGet( "SELECT (SELECT DESCRIPTION FROM food_service_items WHERE IT
 FROM food_service_menu_items fsmi
 WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 AND CATEGORY_ID='" . (int) $_REQUEST['cat_id'] . "'
-ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER" );
+ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER IS NULL,SORT_ORDER" );
 
 echo '<br />';
 
