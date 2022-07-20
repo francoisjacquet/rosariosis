@@ -66,7 +66,7 @@ function fixedMenu() {
 	var fixMenuLogic = function() {
 
 		var windowHeight = $window.height(),
-			bodyHeight = body.height();
+			bodyHeight = body.outerHeight();
 
 		if (! menu.is(':visible') ||
 			Math.round(menu.width()) === window.innerWidth || // isMobileMenu(), #menu width is 100% viewport width.

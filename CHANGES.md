@@ -58,6 +58,7 @@ Changes in 10.0
 - Install module/plugin: execute the install_mysql.sql script for MySQL in Modules.inc.php, Plugins.inc.php & modules/README.md & plugins/README.md
 - Fix typo "inexistant" to "nonexistent" & update translations in Modules.inc.php, Plugins.inc.php & rosariosis.po
 - HTML fix duplicated #menu-top div on update in Side.php
+- JS fix #body height calculation: include bottom margin in jquery-fixedmenu.js & plugins.min.js
 
 Changes in 9.3
 --------------
