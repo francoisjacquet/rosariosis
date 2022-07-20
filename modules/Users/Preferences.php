@@ -495,7 +495,7 @@ if ( ! $_REQUEST['modfunc'] )
 			" AND MODNAME=CONCAT('Students/Student.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'
-			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
+			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
 			$custom_fields_sql,
@@ -744,7 +744,7 @@ if ( ! $_REQUEST['modfunc'] )
 			" AND MODNAME=CONCAT('Users/User.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'
-			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
+			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
 			DBQuery( $custom_fields_sql ),

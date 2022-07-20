@@ -222,7 +222,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$fields_RET = DBGet( "SELECT f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
 				FROM custom_fields f,student_field_categories c
 				WHERE f.CATEGORY_ID=c.ID
-				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'TYPE' ] );
+				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER IS NULL,f.SORT_ORDER,f.TITLE", [], [ 'TYPE' ] );
 		}
 
 		// Only display Categories having fields.

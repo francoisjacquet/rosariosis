@@ -846,7 +846,7 @@ class Widget_letter_grade implements Widget
 						FROM course_periods
 						WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" :
 				'' ) .
-				" ORDER BY rs.SORT_ORDER IS NULL,rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER",
+				" ORDER BY rs.SORT_ORDER IS NULL,rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER IS NULL,rg.SORT_ORDER",
 				[], [ 'GRADE_SCALE_ID' ] );
 
 			$j = 0;

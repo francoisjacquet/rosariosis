@@ -37,13 +37,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 				c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
 				FROM address_field_categories c,address_fields f
 				WHERE f.CATEGORY_ID=c.ID
-				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
+				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER IS NULL,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 			$people_categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
 				c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
 				FROM people_field_categories c,people_fields f
 				WHERE f.CATEGORY_ID=c.ID
-				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
+				ORDER BY c.SORT_ORDER IS NULL,c.SORT_ORDER,c.TITLE,f.SORT_ORDER IS NULL,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 			explodeCustom( $address_categories_RET, $address_custom, 'a' );
 			explodeCustom( $people_categories_RET, $people_custom, 'p' );

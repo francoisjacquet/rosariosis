@@ -319,7 +319,7 @@ function Search( $type, $extra = null )
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					AND VALUE='Y')
 				AND cf.TYPE<>'files'
-				ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
+				ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE";
 			}
 			elseif ( $type === 'staff_fields' )
 			{
@@ -359,7 +359,7 @@ function Search( $type, $extra = null )
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					AND VALUE='Y')
 				AND cf.TYPE<>'files'
-				ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
+				ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE";
 			}
 			else
 			{
