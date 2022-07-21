@@ -14,7 +14,8 @@ DrawHeader( ProgramTitle() );
 // Set date.
 $date = RequestedDate( 'date', DBDate(), 'set' );
 
-//FJ bugfix SQL bug more than one row returned by a subquery
+// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
 $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE,0,NULL AS SORT_ORDER
 	WHERE position(',0,' IN
 		(SELECT DOES_ATTENDANCE
@@ -30,7 +31,7 @@ $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' 
 		FROM course_periods
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	)>0
-	ORDER BY 3,SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
+	ORDER BY 3,SORT_ORDER,TITLE" );
 
 $cp_title = DBGetOne( "SELECT TITLE
 	FROM course_periods

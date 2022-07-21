@@ -298,12 +298,14 @@ switch ( User( 'PROFILE' ) )
 		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
 			// Warn if missing attendances.
+			// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+			// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 			SELECT ID,TITLE,1,SORT_ORDER
 			FROM attendance_code_categories
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY 3,SORT_ORDER IS NULL,SORT_ORDER" );
+			ORDER BY 3,SORT_ORDER" );
 
 			foreach ( (array) $categories_RET as $category )
 			{
@@ -591,12 +593,14 @@ switch ( User( 'PROFILE' ) )
 		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
 			// Warn if missing attendances.
+			// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+			// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 				SELECT ID,TITLE,1,SORT_ORDER
 				FROM attendance_code_categories
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY 3,SORT_ORDER IS NULL,SORT_ORDER" );
+				ORDER BY 3,SORT_ORDER" );
 
 			foreach ( (array) $categories_RET as $category )
 			{
