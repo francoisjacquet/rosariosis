@@ -100,6 +100,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					echo '<br />';
 
+					// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+					// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
 					$addresses_RET = DBGet( "SELECT a.ADDRESS_ID,sjp.STUDENT_RELATION,a.ADDRESS,
 						a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
 						A.MAIL_ZIPCODE,sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,
@@ -117,7 +119,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						AND NOT EXISTS (SELECT '' FROM students_join_people sjp
 							WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 							AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-						ORDER BY SORT_ORDER IS NULL,SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" );
+						ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" );
 
 					$address_previous = "x";
 

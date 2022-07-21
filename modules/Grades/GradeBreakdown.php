@@ -20,6 +20,8 @@ if ( ! isset( $_REQUEST['chart_type'] )
 }
 
 // Get all the mp's associated with the current mp
+// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
 $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 	FROM school_marking_periods
 	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID
@@ -42,7 +44,7 @@ $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 	FROM school_marking_periods
 	WHERE PARENT_ID='" . UserMP() . "'
 	AND MP='PRO'
-	ORDER BY 5,SORT_ORDER IS NULL,SORT_ORDER" );
+	ORDER BY 5,SORT_ORDER" );
 
 echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'' ) . '" method="GET">';
 
