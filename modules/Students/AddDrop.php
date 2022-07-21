@@ -32,6 +32,7 @@ FROM student_enrollment se,students s,schools sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.START_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND sch.ID=se.SCHOOL_ID" . $schools_where_sql . "
+AND se.SYEAR='" . UserSyear() . "'
 UNION
 SELECT NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,
 se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE,se.SCHOOL_ID
@@ -39,6 +40,7 @@ FROM student_enrollment se,students s,schools sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.END_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND sch.ID=se.SCHOOL_ID" . $schools_where_sql . "
+AND se.SYEAR='" . UserSyear() . "'
 ORDER BY DATE DESC", [
 	'FULL_NAME' => '_makeStudentInfoLink',
 	'START_DATE' => 'ProperDate',

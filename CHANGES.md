@@ -63,6 +63,7 @@ Changes in 10.0
 - SQL ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) for consistency between PostgreSQL & MySQL, program wide
 - Rollback Fix PostgreSQL error invalid ORDER BY, only result column names can be used, program wide
 - HTML use number input for Gradebook config options in Configuration.php
+- SQL limit results to current school year in AddDrop.php
 
 Changes in 9.3
 --------------
