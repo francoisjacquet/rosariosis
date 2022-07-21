@@ -77,6 +77,8 @@ $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 	AND rcg.GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
 	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER IS NULL,rcg.SORT_ORDER", [], [ 'ID' ] );
 
+// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 	FROM report_card_comment_categories rc
 	WHERE rc.COURSE_ID='" . (int) $course_id . "'
@@ -98,7 +100,7 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND COURSE_ID IS NULL
 		AND SYEAR='" . UserSyear() . "')>0
-	ORDER BY 4,SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
+	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
 
 if ( ! isset( $_REQUEST['tab_id'] )
 	|| $_REQUEST['tab_id'] == ''

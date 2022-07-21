@@ -299,7 +299,7 @@ switch ( User( 'PROFILE' ) )
 		{
 			// Warn if missing attendances.
 			// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
-			// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
+			// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 			SELECT ID,TITLE,1,SORT_ORDER
 			FROM attendance_code_categories
@@ -594,7 +594,7 @@ switch ( User( 'PROFILE' ) )
 		{
 			// Warn if missing attendances.
 			// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
-			// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
+			// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 				SELECT ID,TITLE,1,SORT_ORDER
 				FROM attendance_code_categories

@@ -246,6 +246,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$course_select = $courses_RET[1]['TITLE'];
 	}
 
+	// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
+	// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 	$categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,
 	(SELECT count(1) FROM report_card_comments WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT
 	FROM report_card_comment_categories rc
@@ -254,7 +256,7 @@ if ( ! $_REQUEST['modfunc'] )
 	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
 	UNION
 	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM report_card_comments WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
-	ORDER BY 4,SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
+	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
 
 	if ( ! isset( $_REQUEST['tab_id'] )
 		|| $_REQUEST['tab_id'] == ''

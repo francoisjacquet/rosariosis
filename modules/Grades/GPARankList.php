@@ -12,7 +12,7 @@ if ( empty( $_REQUEST['mp'] ) )
 
 // Get all the mp's associated with the current mp
 // Fix PostgreSQL error invalid ORDER BY, only result column names can be used
-// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
+// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 FROM school_marking_periods
 WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM school_marking_periods WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM school_marking_periods WHERE MARKING_PERIOD_ID='" . UserMP() . "'))

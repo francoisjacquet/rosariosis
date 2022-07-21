@@ -431,7 +431,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
-	// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) here.
+	// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 	$addresses_RET = DBGet( "SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,
 		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
 		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
