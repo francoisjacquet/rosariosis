@@ -107,7 +107,8 @@ if ( UserStudentID()
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='" . UserStudentID() . "')
-		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
 
 		// TODO: code duplication!

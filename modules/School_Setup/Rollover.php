@@ -261,7 +261,9 @@ if ( Prompt(
  */
 function Rollover( $table, $mode = 'delete' )
 {
-	global $next_syear, $RosarioModules;
+	global $next_syear,
+		$RosarioModules,
+		$DatabaseType;
 
 	switch ( $table )
 	{
@@ -492,8 +494,12 @@ function Rollover( $table, $mode = 'delete' )
 				SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,POST_START_DATE,
 				POST_END_DATE,DOES_GRADES,DOES_COMMENTS,ROLLOVER_ID)
 				SELECT PARENT_ID,SYEAR+1,MP,
-				SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE+365,END_DATE+365,
-				POST_START_DATE+365,POST_END_DATE+365,DOES_GRADES,DOES_COMMENTS,MARKING_PERIOD_ID
+				SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,
+				(START_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '365 DAY' : "'365 DAY'" ) . "),
+				(END_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '365 DAY' : "'365 DAY'" ) . "),
+				(POST_START_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '365 DAY' : "'365 DAY'" ) . "),
+				(POST_END_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '365 DAY' : "'365 DAY'" ) . "),
+				DOES_GRADES,DOES_COMMENTS,MARKING_PERIOD_ID
 				FROM school_marking_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );

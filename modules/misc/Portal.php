@@ -243,7 +243,7 @@ switch ( User( 'PROFILE' ) )
 		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,s.TITLE AS SCHOOL
 		FROM calendar_events ce,schools s,staff st
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
-		AND CURRENT_DATE+11
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '11 DAY' : "'11 DAY'" ) . ")
 		AND ce.SYEAR='" . UserSyear() . "'
 		AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (st.SCHOOLS IS NULL OR position(CONCAT(',', ce.SCHOOL_ID, ',') IN st.SCHOOLS)>0)
@@ -533,7 +533,7 @@ switch ( User( 'PROFILE' ) )
 		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,s.TITLE AS SCHOOL
 		FROM calendar_events ce,schools s
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
-		AND CURRENT_DATE+11
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '11 DAY' : "'11 DAY'" ) . ")
 		AND ce.SYEAR='" . UserSyear() . "'
 		AND position(CONCAT(',', ce.SCHOOL_ID, ',') IN (SELECT SCHOOLS FROM staff WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'))>0
 		AND s.ID=ce.SCHOOL_ID
@@ -780,7 +780,8 @@ switch ( User( 'PROFILE' ) )
 
 		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,ce.DESCRIPTION,s.TITLE AS SCHOOL
 		FROM calendar_events ce,schools s
-		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
+		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '11 DAY' : "'11 DAY'" ) . ")
 		AND ce.SYEAR='" . UserSyear() . "'
 		AND ce.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM students_join_users sju, student_enrollment se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=ce.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL))
 		AND s.ID=ce.SCHOOL_ID
@@ -963,7 +964,8 @@ switch ( User( 'PROFILE' ) )
 
 		$events_RET = DBGet( "SELECT ID,TITLE,SCHOOL_DATE,SCHOOL_DATE AS DAY,DESCRIPTION
 		FROM calendar_events
-		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
+		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '11 DAY' : "'11 DAY'" ) . ")
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'", [
 			'SCHOOL_DATE' => 'ProperDate',

@@ -97,7 +97,8 @@ if ( UserStaffID()
 		FROM food_service_staff_transactions fst,food_service_staff_transaction_items fsti
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.STAFF_ID='" . UserStaffID() . "'
-		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
 
 		// TODO: code duplication!

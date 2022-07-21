@@ -45,12 +45,17 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 				AND fst.ACCOUNT_ID=fsa.ACCOUNT_ID
 				AND fsti.AMOUNT<0
-				AND fst.TIMESTAMP BETWEEN CAST(CURRENT_DATE-14 AS DATE)
-				AND CAST(CURRENT_DATE-1 AS DATE)) AS T_AMOUNT,
+				AND fst.TIMESTAMP BETWEEN (CURRENT_DATE - INTERVAL " .
+				( $DatabaseType === 'mysql' ? '14 DAY' : "'14 DAY'" ) . ")
+				AND (CURRENT_DATE - INTERVAL " .
+				( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")) AS T_AMOUNT,
 			(SELECT count(1)
 				FROM attendance_calendar
 				WHERE CALENDAR_ID=ssm.CALENDAR_ID
-				AND SCHOOL_DATE BETWEEN CAST(CURRENT_DATE-14 AS DATE) AND CAST(CURRENT_DATE-1 AS DATE)) AS T_DAYS";
+				AND SCHOOL_DATE BETWEEN (CURRENT_DATE - INTERVAL " .
+				( $DatabaseType === 'mysql' ? '14 DAY' : "'14 DAY'" ) . ")
+				AND (CURRENT_DATE - INTERVAL " .
+				( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")) AS T_DAYS";
 		}
 
 		$extra['FROM'] = ",food_service_student_accounts fsa";

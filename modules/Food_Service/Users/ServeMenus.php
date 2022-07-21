@@ -119,7 +119,8 @@ if ( UserStaffID()
 		WHERE fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.SYEAR='" . UserSyear() . "'
 		AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
-		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE
+		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID", $functions );
 
 		$columns = [

@@ -552,7 +552,7 @@ if ( ! $_REQUEST['modfunc'] )
 		CASE WHEN ASSIGNED_DATE>(SELECT END_DATE
 			FROM school_marking_periods
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
-		CASE WHEN DUE_DATE>(SELECT END_DATE+1
+		CASE WHEN DUE_DATE>(SELECT (END_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
 			FROM school_marking_periods
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS DUE_ERROR
 		FROM gradebook_assignments

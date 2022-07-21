@@ -130,7 +130,13 @@ if ( UserStudentID()
 
 				$sql .= ") JOIN gradebook_assignments ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='" . UserMP() . "') LEFT OUTER JOIN gradebook_grades gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),gradebook_assignment_types gt";
 
-				$sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+" . (int) $gradebook_config[$staff_id]['LATENCY'] . ") OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
+				$sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID
+				AND (gg.POINTS IS NOT NULL
+					OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
+					AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=(ga.DUE_DATE + INTERVAL " .
+					( $DatabaseType === 'mysql' ? (int) $gradebook_config[$staff_id]['LATENCY'] . ' DAY' :
+						"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) . "))
+					OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 
 				$sql .= " AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))" . ( $do_stats && $_REQUEST['do_stats'] ? '' : " AND s.STUDENT_ID='" . UserStudentID() . "'" );
 
@@ -355,7 +361,9 @@ if ( UserStudentID()
 			AND ga.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
-				AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+" . (int) $gradebook_config[$staff_id]['LATENCY'] . ")
+				AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=(ga.DUE_DATE + INTERVAL " .
+				( $DatabaseType === 'mysql' ? (int) $gradebook_config[$staff_id]['LATENCY'] . ' DAY' :
+					"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) . ")
 				OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
 				OR gg.POINTS IS NOT NULL)
 			AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')
@@ -380,7 +388,12 @@ if ( UserStudentID()
 					AND ga.MARKING_PERIOD_ID='" . UserMP() . "'
 					AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
 					AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
-					AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+" . (int) $gradebook_config[$staff_id]['LATENCY'] . ") OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR g.POINTS IS NOT NULL)
+					AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=(ga.DUE_DATE + INTERVAL " .
+						( $DatabaseType === 'mysql' ? (int) $gradebook_config[$staff_id]['LATENCY'] . ' DAY' :
+						"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) .
+						"))
+						OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
+						OR g.POINTS IS NOT NULL)
 					AND ga.POINTS!='0'
 					GROUP BY ga.ASSIGNMENT_ID", [], [ 'ASSIGNMENT_ID' ] );
 				}
