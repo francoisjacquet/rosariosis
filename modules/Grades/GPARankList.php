@@ -130,7 +130,11 @@ if ( mb_strpos( $extra['FROM'], 'student_mp_stats sms' ) === false )
 $extra['columns_after'] = [ 'CUM_UNWEIGHTED_FACTOR' => _( 'Unweighted GPA' ), 'CUM_WEIGHTED_FACTOR' => _( 'Weighted GPA' ), 'CUM_RANK' => _( 'Class Rank' ) ];
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
-$extra['functions'] = [ 'CUM_UNWEIGHTED_FACTOR' => '_roundGPA', 'CUM_WEIGHTED_FACTOR' => '_roundGPA' ];
+$extra['functions'] = [
+	'FULL_NAME' => 'makePhotoTipMessage',
+	'CUM_UNWEIGHTED_FACTOR' => '_roundGPA',
+	'CUM_WEIGHTED_FACTOR' => '_roundGPA',
+];
 $extra['ORDER_BY'] = 'GRADE_ID, CUM_RANK';
 
 // Parent: associated students.
