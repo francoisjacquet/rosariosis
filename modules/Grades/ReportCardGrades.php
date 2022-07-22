@@ -353,7 +353,7 @@ function _makeGradesInput( $value, $name )
 	}
 	else
 	{
-		$extra = 'size=4 maxlength=5';
+		$extra = ' type="number" min="0" max="99999" step="0.01"';
 
 		if ( $value )
 		{
