@@ -33,8 +33,9 @@ if ( ! empty( $_REQUEST['values'] )
 			DBQuery( $sql );
 		}
 
-		// New: check for Title.
-		elseif ( $columns['TITLE'] )
+		// New: check for Title & Amount.
+		elseif ( $columns['TITLE']
+			&& $columns['AMOUNT'] != '' )
 		{
 			$sql = "INSERT INTO billing_fees ";
 

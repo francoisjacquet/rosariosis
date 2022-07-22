@@ -64,6 +64,7 @@ Changes in 10.0
 - HTML use number input for Gradebook config options in Configuration.php
 - SQL limit results to current school year in AddDrop.php
 - SQL always use INTERVAL to add/subtract days to date for MySQL compatibility in Reminders.php, Transactions.php, ServeMenus.php, Assignments.php, StudentGrades.php, Rollover.php & Portal.php
+- SQL change amount columns type from numeric to numeric(14,2) NOT NULL in rosariosis.sql & StudentFees.php
 
 Changes in 9.3
 --------------
