@@ -14,7 +14,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			if ( ( empty( $columns['SORT_ORDER'] )
 					|| is_numeric($columns['SORT_ORDER'] ) )
 				&& ( empty( $columns['LENGTH'] )
-					|| is_numeric( $columns['LENGTH'] ) ) )
+					|| (string) (int) $columns['LENGTH'] == $columns['LENGTH'] ) )
 			{
 				// Deprecated: was used for START_TIME & END_TIME.
 				/*if ( $columns['START_TIME_HOUR'] != ''

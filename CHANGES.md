@@ -65,6 +65,7 @@ Changes in 10.0
 - SQL limit results to current school year in AddDrop.php
 - SQL always use INTERVAL to add/subtract days to date for MySQL compatibility in Reminders.php, Transactions.php, ServeMenus.php, Assignments.php, StudentGrades.php, Rollover.php & Portal.php
 - SQL change amount columns type from numeric to numeric(14,2) NOT NULL in rosariosis.sql & StudentFees.php
+- SQL change minutes,minutes_present,points,default_points,length columns type from numeric to integer in rosariosis.sql, UpdateAttendanceDaily.fnc.php, Assignments.php, MassCreateAssignments.php & Periods.php
 
 Changes in 9.3
 --------------

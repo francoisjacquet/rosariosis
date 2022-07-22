@@ -38,12 +38,14 @@ if ( isset( $_POST['tables'] )
 		// FJ default points.
 		if ( ( isset( $columns['POINTS'] )
 				&& ( ! is_numeric( $columns['POINTS'] )
-					|| intval( $columns['POINTS'] ) < 0 ) )
+					|| intval( $columns['POINTS'] ) < 0
+					|| (string) (int) $columns['POINTS'] != $columns['POINTS'] ) )
 			|| ( isset( $columns['DEFAULT_POINTS'] )
 				&& $columns['DEFAULT_POINTS'] !== ''
 				&& $columns['DEFAULT_POINTS'] !== '*'
 				&& ( ! is_numeric( $columns['DEFAULT_POINTS'] )
-					|| intval( $columns['DEFAULT_POINTS'] ) < 0 ) ) )
+					|| intval( $columns['DEFAULT_POINTS'] ) < 0
+					|| (string) (int) $columns['DEFAULT_POINTS'] != $columns['DEFAULT_POINTS'] ) ) )
 		{
 			$error[] = _( 'Please enter valid Numeric data.' );
 		}
@@ -305,7 +307,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'<div class="tooltip"><i>' .
 					_( 'Enter 0 so you can give students extra credit' ) .
 				'</i></div>',
-			'required size=4 maxlength=4 min=0'
+			' type="number" min="0" max="9999" required'
 		) . '</td>';
 
 		$header .= '<td>' . TextInput(

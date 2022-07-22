@@ -66,7 +66,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 	if ( empty( $current_RET ) )
 	{
 		DBQuery( "INSERT INTO attendance_day (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT)
-			VALUES('" . UserSyear() . "','" . $student_id . "','" . $date . "','" . $total . "','" .
+			VALUES('" . UserSyear() . "','" . $student_id . "','" . $date . "','" . (int) $total . "','" .
 			$length . "','" . GetCurrentMP( 'QTR', $date, false ) . "','" . $comment . "')" );
 
 		return;
@@ -76,7 +76,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		|| $current_RET[1]['STATE_VALUE'] != $length )
 	{
 		DBQuery( "UPDATE attendance_day
-			SET MINUTES_PRESENT='" . $total . "',STATE_VALUE='" . $length . "'" .
+			SET MINUTES_PRESENT='" . (int) $total . "',STATE_VALUE='" . $length . "'" .
 			( $comment !== false ? ",COMMENT='" . $comment . "'" : '' ) . "
 			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND SCHOOL_DATE='" . $date . "'" );

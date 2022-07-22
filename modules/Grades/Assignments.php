@@ -73,14 +73,16 @@ if ( ! empty( $_POST['tables'] ) )
 		// FJ fix SQL bug invalid numeric data.
 		// FJ default points.
 
-		if (  ( isset( $columns['POINTS'] )
-			&& ( ! is_numeric( $columns['POINTS'] )
-				|| intval( $columns['POINTS'] ) < 0 ) )
+		if ( ( isset( $columns['POINTS'] )
+				&& ( ! is_numeric( $columns['POINTS'] )
+					|| intval( $columns['POINTS'] ) < 0
+					|| (string) (int) $columns['POINTS'] != $columns['POINTS'] ) )
 			|| ( isset( $columns['DEFAULT_POINTS'] )
 				&& $columns['DEFAULT_POINTS'] !== ''
 				&& $columns['DEFAULT_POINTS'] !== '*'
 				&& ( ! is_numeric( $columns['DEFAULT_POINTS'] )
-					|| intval( $columns['DEFAULT_POINTS'] ) < 0 ) ) )
+					|| intval( $columns['DEFAULT_POINTS'] ) < 0
+					|| (string) (int) $columns['DEFAULT_POINTS'] != $columns['DEFAULT_POINTS'] ) ) )
 		{
 			$error[] = _( 'Please enter valid Numeric data.' );
 		}
