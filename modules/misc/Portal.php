@@ -577,7 +577,8 @@ switch ( User( 'PROFILE' ) )
 				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
 			] );
 
-		if ( $assignments_RET )
+		if ( $assignments_RET
+			&& AllowUse( 'Grades/Assignments.php' ) )
 		{
 			ListOutput(
 				$assignments_RET,
