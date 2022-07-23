@@ -72,6 +72,7 @@ Changes in 10.0
 - Add Can use modname to HACKING ATTEMPT error email in ErrorMessage.fnc.php
 - Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
 - Use `$_POST` to get password instead of unescaping `$_REQUEST` in PasswordReset.php, Student.php & User.php
+- Security: sanitize filename with no_accents() in Student.php, User.php & Schools.php
 
 Changes in 9.3
 --------------
