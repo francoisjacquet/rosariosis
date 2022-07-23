@@ -125,8 +125,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 		SaveTemplate( $createparentstext );
 	}
 
-	$message['new'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_new'] );
-	$message['old'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_old'] );
+	$template = GetTemplate();
+
+	list( $message['new'], $message['old'] ) = explode( '__BLOCK2__', $template );
 
 	if ( ! empty( $_REQUEST['student'] ) )
 	{

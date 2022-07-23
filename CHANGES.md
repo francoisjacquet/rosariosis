@@ -70,6 +70,7 @@ Changes in 10.0
 - SQL change gp & gpa columns type from numeric to numeric(7,2) in rosariosis.sql
 - SQL change sum/cum factors & credit_attempted/earned columns type from numeric to double precision in rosariosis.sql
 - Add Can use modname to HACKING ATTEMPT error email in ErrorMessage.fnc.php
+- Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
 
 Changes in 9.3
 --------------

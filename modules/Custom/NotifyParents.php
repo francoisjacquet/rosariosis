@@ -36,7 +36,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		SaveTemplate( $_REQUEST['inputnotifyparentstext'] );
 	}
 
-	$message = str_replace( "''", "'", $_REQUEST['inputnotifyparentstext'] );
+	$message = GetTemplate();
 
 	if ( ! empty( $_REQUEST['staff'] ) )
 	{
