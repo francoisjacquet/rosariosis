@@ -363,7 +363,7 @@ if ( UserStudentID()
 			AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 				AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=(ga.DUE_DATE + INTERVAL " .
 				( $DatabaseType === 'mysql' ? (int) $gradebook_config[$staff_id]['LATENCY'] . ' DAY' :
-					"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) . ")
+					"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) . "))
 				OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
 				OR gg.POINTS IS NOT NULL)
 			AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')
@@ -390,8 +390,7 @@ if ( UserStudentID()
 					AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 					AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=(ga.DUE_DATE + INTERVAL " .
 						( $DatabaseType === 'mysql' ? (int) $gradebook_config[$staff_id]['LATENCY'] . ' DAY' :
-						"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) .
-						"))
+						"'" . (int) $gradebook_config[$staff_id]['LATENCY'] . " DAY'" ) . "))
 						OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
 						OR g.POINTS IS NOT NULL)
 					AND ga.POINTS!='0'
