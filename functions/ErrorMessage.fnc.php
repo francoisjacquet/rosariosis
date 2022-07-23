@@ -106,6 +106,7 @@ function ErrorMessage( $errors, $code = 'error' )
  *
  * @since 4.0
  * @since 6.5 Add Profile.
+ * @since 10.0 Add Can use modname.
  *
  * @param array  $error Error messages. Optional.
  * @param $title string Email title. Optional.
