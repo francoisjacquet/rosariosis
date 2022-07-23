@@ -131,7 +131,6 @@ $extra['columns_after'] = [ 'CUM_UNWEIGHTED_FACTOR' => _( 'Unweighted GPA' ), 'C
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
 $extra['functions'] = [
-	'FULL_NAME' => 'makePhotoTipMessage',
 	'CUM_UNWEIGHTED_FACTOR' => '_roundGPA',
 	'CUM_WEIGHTED_FACTOR' => '_roundGPA',
 ];
