@@ -170,6 +170,10 @@ function ErrorSendEmail( $error = [], $title = 'PHP Fatal error' )
 	}
 	$message .= 'Page: ' . $_SERVER['PHP_SELF'] . "\n";
 	$message .= 'Query string: ' . $_SERVER['QUERY_STRING'] . "\n";
+	if ( ! empty( $_REQUEST['modname'] ) )
+	{
+		$message .= 'Can use modname: ' . ( AllowUse( $_REQUEST['modname'] ) ? 'true' : 'false' ) . "\n";
+	}
 
 	if ( ! empty( $_SERVER['HTTP_REFERER'] ) )
 	{
