@@ -53,23 +53,29 @@ function Config( $item, $value = null )
 	{
 		if ( ! isset( $_ROSARIO['Config'][ (string) $item ][1]['TITLE'] ) )
 		{
+			$school_id = ( UserSchool() > 0 ? UserSchool() : '0' );
+
 			// Insert value (does not exist).
 			DBQuery( "INSERT INTO config (CONFIG_VALUE,TITLE,SCHOOL_ID)
-				VALUES('" . $value . "','" . $item . "','" .
-				( UserSchool() > 0 ? UserSchool() : '0' ) . "')" );
+				VALUES('" . $value . "','" . $item . "','" . $school_id . "')" );
 		}
 		elseif ( $value != DBEscapeString( $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] ) )
 		{
+			$school_id = $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'];
+
 			// Update value (different from current value).
 			DBQuery( "UPDATE config
 				SET CONFIG_VALUE='" . $value . "'
 				WHERE TITLE='" . $item . "'
-				AND SCHOOL_ID='" . (int) $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] . "'" );
+				AND SCHOOL_ID='" . (int) $school_id . "'" );
 		}
 
 		if ( $value !== DBEscapeString( $value ) )
 		{
-			$value = str_replace( "''", "'", $value );
+			$value = DBGetOne( "SELECT VALUE
+				FROM program_config
+				WHERE TITLE='" . $item . "'
+				AND SCHOOL_ID='" . (int) $school_id . "'" );
 		}
 
 		$_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] = $value;
@@ -143,7 +149,11 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 
 		if ( $value !== DBEscapeString( $value ) )
 		{
-			$value = str_replace( "''", "'", $value );
+			$value = DBGetOne( "SELECT VALUE
+				FROM program_config
+				WHERE TITLE='" . $item . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'" );
 		}
 
 		$_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] = $value;

@@ -73,6 +73,7 @@ Changes in 10.0
 - Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
 - Use `$_POST` to get password instead of unescaping `$_REQUEST` in PasswordReset.php, Student.php & User.php
 - Security: sanitize filename with no_accents() in Student.php, User.php & Schools.php
+- Use DBGetOne() instead of unescaping `$_REQUEST` in Config.fnc.php
 
 Changes in 9.3
 --------------
