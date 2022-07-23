@@ -71,6 +71,7 @@ Changes in 10.0
 - SQL change sum/cum factors & credit_attempted/earned columns type from numeric to double precision in rosariosis.sql
 - Add Can use modname to HACKING ATTEMPT error email in ErrorMessage.fnc.php
 - Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
+- Use `$_POST` to get password instead of unescaping `$_REQUEST` in PasswordReset.php, Student.php & User.php
 
 Changes in 9.3
 --------------

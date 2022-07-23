@@ -216,7 +216,7 @@ if ( isset( $_REQUEST['h'] )
 			if ( isset( $_POST['PASSWORD'] )
 				&& $_REQUEST['PASSWORD'] !== '' )
 			{
-				$new_password = str_replace( "''", "'", $_REQUEST['PASSWORD'] );
+				$new_password = $_POST['PASSWORD'];
 
 				if ( $user_type === 'staff' )
 				{

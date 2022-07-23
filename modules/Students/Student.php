@@ -277,7 +277,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							continue;
 						}
 
-						$value = encrypt_password( str_replace( "''", "'", $value ) );
+						$value = encrypt_password( $_POST['students']['PASSWORD'] );
 					}
 
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
@@ -367,7 +367,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					}
 					elseif ( $column == 'PASSWORD' )
 					{
-						$value = encrypt_password( str_replace( "''", "'", $value ) );
+						$value = encrypt_password( $_POST['students']['PASSWORD'] );
 					}
 
 					if ( ! empty( $value ) || $value == '0' )
