@@ -30,6 +30,12 @@ if ( ! include_once 'config.inc.php' )
 	die( 'config.inc.php file not found. Please read the installation directions.' );
 }
 
+if ( empty( $DatabaseType ) )
+{
+	// @since 10.0 Add $DatabaseType configuration variable
+	$DatabaseType = 'postgresql';
+}
+
 require_once 'database.inc.php';
 
 /**

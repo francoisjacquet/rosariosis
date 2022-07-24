@@ -76,7 +76,7 @@ Changes in 10.0
 - Security: sanitize filename with no_accents() in Student.php, User.php & Schools.php
 - Use DBGetOne() instead of unescaping `$_REQUEST` in Config.fnc.php
 - Add MySQL support in database.inc.php
-- Add $DatabaseType configuration variable in database.inc.php
+- Add $DatabaseType configuration variable in database.inc.php, Warehouse.php & config.inc.php
 - Add $show_error parameter to db_start() in database.inc.php
 - Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 

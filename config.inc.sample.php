@@ -8,10 +8,13 @@
  */
 
 /**
- * PostgreSQL Database Settings
+ * Database Settings
  *
  * You can get this info from your web host
  */
+
+// Database type: postgresql or mysql.
+$DatabaseType = 'postgresql';
 
 // Database server hostname: use localhost if on same server.
 $DatabaseServer = 'localhost';

@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.0
+-----------
+
+config.inc.sample.php
+- `$DatabaseType` configuration variable
+
+
 New in 9.1
 ----------
 
