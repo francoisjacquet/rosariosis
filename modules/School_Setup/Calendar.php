@@ -639,6 +639,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		// Add submit Assignment link.
 		if ( ! empty( $RET[1]['SUBMISSION'] )
+			&& $RosarioModules['Grades']
 			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			echo '<tr><td>
