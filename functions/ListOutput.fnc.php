@@ -386,7 +386,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$onclick_js = 'LOSearch(event, $(\'#LO_search\').val(), ' . json_encode( $search_URL ) . ');';
 
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
-			AttrEscape( str_replace( "''", "'", $LO_search ) ) .
+			AttrEscape( DBUnescapeString( $LO_search ) ) .
 			'" placeholder="' . AttrEscape( _( 'Search' ) ) .
 			'" onkeypress="' . AttrEscape( $onkeypress_js ) . '" autocomplete="off" />
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
@@ -778,7 +778,7 @@ function _listSearch( $result, $LO_search )
 {
 	$result_count = count( $result );
 
-	$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
+	$search_term = trim( mb_strtolower( DBUnescapeString( $LO_search ) ) );
 
 	$terms = [];
 

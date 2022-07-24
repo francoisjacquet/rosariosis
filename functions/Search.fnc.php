@@ -761,7 +761,7 @@ function SearchField( $field, $type = 'student', $extra = [] )
 			if ( ! $no_search_terms )
 			{
 				$_ROSARIO['SearchTerms'] .= _( 'starts with' ) . ' ' .
-					str_replace( "''", "'", $value ) . '<br />';
+					DBUnescapeString( $value ) . '<br />';
 			}
 
 			return ' AND LOWER(' . $sql_col . ") LIKE '" . mb_strtolower( $value ) . "%' ";

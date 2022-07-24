@@ -78,6 +78,7 @@ Changes in 10.0
 - Add MySQL support in database.inc.php
 - Add $DatabaseType configuration variable in database.inc.php
 - Add $show_error parameter to db_start() in database.inc.php
+- Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 
 Changes in 9.3
 --------------

@@ -44,7 +44,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 		$tmp_REQUEST,
 		function ( $input )
 		{
-			return is_null( $input ) ? $input : str_replace( "''", "'", $input );
+			return is_null( $input ) ? $input : DBUnescapeString( $input );
 		}
 	);
 

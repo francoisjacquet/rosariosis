@@ -1294,7 +1294,7 @@ function appendSQL( $sql, $extra = [] )
 		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Address contains' ) . ': </b>' .
-				str_replace( "''", "'", $_REQUEST['addr'] ) . '<br />';
+				DBUnescapeString( $_REQUEST['addr'] ) . '<br />';
 		}
 	}
 

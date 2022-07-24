@@ -678,6 +678,30 @@ function DBEscapeString( $input )
 }
 
 /**
+ * Unescape string escaped with DBEscapeString()
+ * Useful for example to display search terms.
+ * Do not use for database purposes, display purposes only!
+ *
+ * @example $_ROSARIO['SearchTerms'] .= _( 'Address contains' ) . ': ' . DBUnescapeString( $_REQUEST['addr'] );
+ *
+ * @global $DatabaseType  Database type: mysql or postgresql
+ *
+ * @param string $input Input string.
+ * @return Unescaped string
+ */
+function DBUnescapeString( $input )
+{
+	global $DatabaseType;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		return stripcslashes( (string) $input );
+	}
+
+	return str_replace( "''", "'", (string) $input );
+}
+
+/**
  * Escapes identifiers (table, column) using double quotes.
  * Security function for
  * when you HAVE to use a variable as an identifier.
