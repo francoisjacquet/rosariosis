@@ -578,6 +578,7 @@ switch ( User( 'PROFILE' ) )
 			] );
 
 		if ( $assignments_RET
+			&& ! empty( $RosarioModules['Grades'] )
 			&& AllowUse( 'Grades/Assignments.php' ) )
 		{
 			ListOutput(
@@ -808,7 +809,8 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Assignments.
 
-		if ( AllowUse( 'Grades/StudentAssignments.php' ) )
+		if ( ! empty( $RosarioModules['Grades'] )
+			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
@@ -989,7 +991,8 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Assignments.
 
-		if ( AllowUse( 'Grades/StudentAssignments.php' ) )
+		if ( ! empty( $RosarioModules['Grades'] )
+			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
