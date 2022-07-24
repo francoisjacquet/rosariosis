@@ -5,6 +5,8 @@
 New in 10.0
 -----------
 
+Add **MySQL** support
+
 config.inc.sample.php
 - `$DatabaseType` configuration variable
 

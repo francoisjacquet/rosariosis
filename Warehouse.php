@@ -4,6 +4,7 @@
  *
  * Get configuration
  * Load functions
+ * Date format & Time zone
  * Start Session
  * Sanitize $_REQUEST array
  * Internationalization
@@ -95,6 +96,32 @@ foreach ( $functions as $function )
 	require_once $function;
 }
 
+if ( $DatabaseType === 'mysql' )
+{
+	/**
+	 * Set MySQL charset to utf8mb4 and collation to utf8mb4_unicode_520_ci
+	 *
+	 * @since 10.0
+	 *
+	 * Fix SQL error "Illegal mix of collations (utf8mb4_unicode_520_ci,IMPLICIT)
+	 * 	and (utf8mb4_general_ci,IMPLICIT) for operation '='"
+	 * @link https://www.php.net/manual/en/mysqli.set-charset.php#121647
+	 */
+	DBQuery( "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci" );
+
+	/**
+	 * Set MySQL mode to accept pipes || as concatenation operator.
+	 * For backward-compatibility purpose only, try to always use CONCAT() instead of ||
+	 *
+	 * @since 10.0
+	 * @link https://stackoverflow.com/questions/5975958/string-concatenation-in-mysql#5975980
+	 */
+	if ( ! ROSARIO_DEBUG )
+	{
+		DBQuery( "SET @@sql_mode=CONCAT(@@sql_mode,',PIPES_AS_CONCAT')" );
+	}
+}
+
 /**
  * Date format & Time zone
  */
@@ -113,11 +140,27 @@ if ( isset( $Timezone ) )
 {
 	// Time zone.
 	// Sets the default time zone used by all date/time functions.
-
 	if ( date_default_timezone_set( $Timezone ) )
 	{
-		// If valid PHP timezone_identifier, should be OK for Postgres.
-		DBQuery( "SET TIMEZONE TO '" . $Timezone . "'" );
+		if ( $DatabaseType === 'mysql' )
+		{
+			/**
+			 * Get offset from time zone.
+			 *
+			 * @link https://stackoverflow.com/questions/25086456/php-convert-string-timezone-format-to-offset-integer#25086526
+			 */
+			$date_time_zone = new DateTimeZone( $Timezone );
+			$date = new DateTime( null, $date_time_zone );
+			$offset = $date_time_zone->getOffset( $date );
+			$offset = ( $offset < 0 ? '-' : '+' ) . gmdate( 'H:i', abs( $offset ) );
+
+			DBQuery( "SET time_zone='" . $offset . "'" );
+		}
+		else
+		{
+			// If valid PHP timezone_identifier, should be OK for PostgreSQL.
+			DBQuery( "SET TIMEZONE TO '" . $Timezone . "'" );
+		}
 	}
 }
 
@@ -271,15 +314,10 @@ $locale = $_SESSION['locale'];
 
 putenv( 'LC_ALL=' . $locale );
 
-if ( function_exists( '_setlocale' ) )
-{
+function_exists( '_setlocale' ) ?
 	// PHP Compatibility: MoTranslator.
-	_setlocale( LC_ALL, $locale );
-}
-else
-{
+	_setlocale( LC_ALL, $locale ) :
 	setlocale( LC_ALL, $locale );
-}
 
 // Numeric separator ".".
 setlocale( LC_NUMERIC, 'C', 'english', 'en_US', 'en_US.utf8', 'en_US.UTF-8' );
@@ -319,7 +357,6 @@ else
 		// Prevent PHP Fatal error if Kint debug d() function not loaded.
 	}
 }
-
 
 /**
  * Update RosarioSIS
@@ -457,7 +494,7 @@ function _LoadAddons( $addons, $folder )
  * @since 4.4 Warehouse header hook
  * @since 6.0 Warehouse Header Javascripts
  *
- * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded']
+ * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded'] & $_ROSARIO['page']
  *
  * @uses isPopup()
  * @uses isAJAX()
@@ -549,7 +586,6 @@ function Warehouse( $mode )
 <?php
 			if ( $_ROSARIO['page'] === 'modules' ):
 				// If popup window, verify it is an actual popup.
-
 				if ( isPopup() ):
 				?>
 				<script>if(window == top  && (!window.opener)) window.location.href = "Modules.php?modname=misc/Portal.php";</script>
@@ -700,9 +736,6 @@ function WarehouseHeaderJS()
  */
 function isPopup( $modname = '', $modfunc = '' )
 {
-	/**
-	 * @var mixed
-	 */
 	static $is_popup = null;
 
 	if ( ! is_null( $is_popup ) )
@@ -761,9 +794,6 @@ function isPopup( $modname = '', $modfunc = '' )
  */
 function isAJAX()
 {
-	/**
-	 * @var mixed
-	 */
 	static $is_ajax = null;
 
 	if ( ! is_null( $is_ajax ) )
@@ -793,12 +823,8 @@ function isAJAX()
  */
 function ETagCache( $mode = '' )
 {
-	global $ETagCache,
-		$_ROSARIO;
+	global $ETagCache;
 
-	/**
-	 * @var mixed
-	 */
 	static $ob_started = false;
 
 	if ( ! $ETagCache )
