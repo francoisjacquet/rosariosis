@@ -6,13 +6,6 @@
  * @subpackage functions
  */
 
-/**
- * Set Postgres Session Date Format / Datestyle to ISO.
- *
- * @since 2.9
- */
-DBQuery( "SET DATESTYLE='ISO'" );
-
 
 /**
  * Get the Date of the day

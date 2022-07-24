@@ -95,6 +95,20 @@ foreach ( $functions as $function )
 	require_once $function;
 }
 
+/**
+ * Date format & Time zone
+ */
+if ( $DatabaseType === 'postgresql' )
+{
+	/**
+	 * Set PostgreSQL Session Date Format / Datestyle to ISO.
+	 *
+	 * @since 2.9
+	 * @since 10.0 Move query from Date.php to Warehouse.php
+	 */
+	DBQuery( "SET DATESTYLE='ISO'" );
+}
+
 if ( isset( $Timezone ) )
 {
 	// Time zone.
