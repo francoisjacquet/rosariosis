@@ -6,6 +6,7 @@ Changes in 9.3.1
 - Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
 - Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
 - Fix dummy day (year month date) set to 28 for February in Dashboard.inc.php
+- Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
 
 Changes in 9.3
 --------------

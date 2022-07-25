@@ -326,10 +326,11 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			$admin_schools_restriction = false;
 
 			// Admin Schools restriction.
-			if ( User( 'PROFILE' ) !== 'admin'
-				|| User( 'PROFILE' ) === 'admin'
-				&& AllowEdit()
-				&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
+			if ( ( User( 'PROFILE' ) !== 'admin'
+					&& AllowEdit() )
+				|| ( User( 'PROFILE' ) === 'admin'
+					&& AllowEdit()
+					&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) ) )
 			{
 				// Temporarily deactivate AllowEdit.
 				$_ROSARIO['allow_edit'] = false;
