@@ -28,14 +28,16 @@ foreach ( (array) $categories_RET as $category )
 $category_select .= "</select>";
 
 $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
-	FROM SCHOOL_PERIODS sp
+	FROM school_periods sp
 	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
 	AND sp.SYEAR='" . UserSyear() . "'
-	AND EXISTS (SELECT '' FROM COURSE_PERIODS
-		WHERE SYEAR=sp.SYEAR
-		AND PERIOD_ID=sp.PERIOD_ID
-		AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
-	ORDER BY sp.SORT_ORDER", [], [ 'PERIOD_ID' ] );
+	AND EXISTS (SELECT '' FROM course_periods cp,course_period_school_periods cpsp
+		WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
+		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND cp.SYEAR='" . UserSyear() . "'
+		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0)
+	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
 $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>" . _( 'All' ) . "</option>";
 

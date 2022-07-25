@@ -4,6 +4,7 @@
 Changes in 9.3.1
 ----------------
 - Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
+- Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
 
 Changes in 9.3
 --------------
