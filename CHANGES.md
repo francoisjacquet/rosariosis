@@ -10,7 +10,6 @@ Changes in 10.0
 - Use db_trans_*() functions in DeleteTransaction.fnc.php & DeleteTransactionItem.fnc.php
 - Close popup if no UserSchool in session, happens on login redirect in Warehouse.php
 - SQL order Grade Levels in StudentBreakdown.php
-- Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
 - Remove semicolon before "With" & "On" values in PrintRequests.php & unfilledRequests.inc.php
 - HTML Link is selected: bold in ScheduleReport.php
 - Display Period title if no short name set in IncompleteSchedules.php
@@ -21,7 +20,6 @@ Changes in 10.0
 - Add User / Student photo tooltip in Grades/TeacherCompletion.php, GPARankList.php & EnterEligibility.php
 - SQL order by Period title in TeacherCompletion.php
 - Use Period's Short Name when > 10 columns in the list in TeacherCompletion.php
-- Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
 - Add note on save in EntryTimes.php
 - Fix PHP8.1 Deprecated passing null to parameter in EmailReferral.fnc.php, CategoryBreakdown.php & StudentGrades.php
 - Add Total sum of balances in StaffBalances.php
@@ -36,8 +34,6 @@ Changes in 10.0
 - Use Currency() function instead of number_format() in TransactionsReport.php
 - HTML remove line-break in Warning/Minimum columns in Reminders.php
 - HTML CSS make Daily Menus calendar coherent with School Calendar in DailyMenus.php
-- Fix dummy day (year month date) set to 28 for February in Dashboard.inc.php
-- Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
 - Shorten Referral email subject in EmailReferral.fnc.php
 - Use plural wise ngettext() for "No %s were found." in FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
 - Force result text to lowercase for "No %s were found." in ListOutput.fnc.php, FinalGrades.php, GradeBreakdown.php, ReportCardComments.php, ReportCards.php & Transcripts.php
@@ -73,13 +69,20 @@ Changes in 10.0
 - Fix HACKING ATTEMPT when Grades module inactive in Portal.php & Calendar.php
 - Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
 - Use `$_POST` to get password instead of unescaping `$_REQUEST` in PasswordReset.php, Student.php & User.php
-- Security: sanitize filename with no_accents() in Student.php, User.php & Schools.php
 - Use DBGetOne() instead of unescaping `$_REQUEST` in Config.fnc.php
 - Add MySQL support in database.inc.php & Warehouse.php
 - Add $DatabaseType configuration variable in database.inc.php, Warehouse.php & config.inc.php
 - Add $show_error parameter to db_start() in database.inc.php
 - Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 - PostgreSQL Date format: move query from Date.php to Warehouse.php
+
+Changes in 9.3.1
+----------------
+- Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
+- Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
+- Fix dummy day (year month date) set to 28 for February in Dashboard.inc.php
+- Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
+- Security: sanitize filename with no_accents() in Student.php, User.php & Schools.php
 - Fix "Exclude PDF generated using the "Print" button" option for the PDF Header Footer plugin in Bottom.php
 
 Changes in 9.3
