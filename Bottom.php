@@ -90,6 +90,9 @@ elseif ( $_REQUEST['bottomfunc'] === 'print' ) :
 
 	$_REQUEST = $_SESSION['_REQUEST_vars'];
 
+	// Fix "Exclude PDF generated using the "Print" button" option for the PDF Header Footer plugin.
+	$_REQUEST['bottomfunc'] = 'print';
+
 	if ( ! empty( $_REQUEST['expanded_view'] ) )
 	{
 		$_SESSION['orientation'] = 'landscape';
