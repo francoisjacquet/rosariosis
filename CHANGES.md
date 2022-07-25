@@ -7,6 +7,7 @@ Changes in 9.3.1
 - Fix SQL to select Periods where exists CP in TeacherCompletion.php & Administration.php
 - Fix dummy day (year month date) set to 28 for February in Dashboard.inc.php
 - Fix AllowEdit for Teacher in Users/includes/General_Info.inc.php
+- Security: sanitize filename with no_accents() in Student.php, User.php & Schools.php
 - Fix "Exclude PDF generated using the "Print" button" option for the PDF Header Footer plugin in Bottom.php
 
 Changes in 9.3

@@ -138,7 +138,8 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
-		$filename = str_replace( "''", "'", $_REQUEST['filename'] );
+		// Security: sanitize filename with no_accents().
+		$filename = no_accents( $_GET['filename'] );
 
 		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $filename;
 
