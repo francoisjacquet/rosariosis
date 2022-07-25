@@ -80,6 +80,7 @@ Changes in 10.0
 - Add $show_error parameter to db_start() in database.inc.php
 - Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 - PostgreSQL Date format: move query from Date.php to Warehouse.php
+- Fix "Exclude PDF generated using the "Print" button" option for the PDF Header Footer plugin in Bottom.php
 
 Changes in 9.3
 --------------
