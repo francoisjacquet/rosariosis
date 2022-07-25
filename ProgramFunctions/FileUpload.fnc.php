@@ -230,18 +230,21 @@ function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = []
 
 		$extension = null;
 
-		if ( mb_strtolower( $final_ext ) === '.jpg'
-			|| mb_strtolower( $final_ext ) === '.jpeg' )
+		if ( $final_ext )
 		{
-			$extension = IMAGETYPE_JPEG;
-		}
-		elseif ( mb_strtolower( $final_ext ) === '.png' )
-		{
-			$extension = IMAGETYPE_PNG;
-		}
-		elseif ( mb_strtolower( $final_ext ) === '.gif' )
-		{
-			$extension = IMAGETYPE_GIF;
+			if ( mb_strtolower( $final_ext ) === '.jpg'
+				|| mb_strtolower( $final_ext ) === '.jpeg' )
+			{
+				$extension = IMAGETYPE_JPEG;
+			}
+			elseif ( mb_strtolower( $final_ext ) === '.png' )
+			{
+				$extension = IMAGETYPE_PNG;
+			}
+			elseif ( mb_strtolower( $final_ext ) === '.gif' )
+			{
+				$extension = IMAGETYPE_GIF;
+			}
 		}
 
 		try
