@@ -5,7 +5,7 @@
 function enrol_manual_enrol_users_object()
 {
 	//first, gather the necessary variables
-	global $student_id, $_SESSION, $start_date;
+	global $student_id, $cp_id, $start_date;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -32,7 +32,7 @@ function enrol_manual_enrol_users_object()
 	}
 
 	//gather the Moodle course ID
-	$courseid = MoodleXRosarioGet( 'course_period_id', $_SESSION['MassSchedule.php']['course_period_id'] );
+	$courseid = MoodleXRosarioGet( 'course_period_id', $cp_id );
 
 	if ( empty( $courseid ) )
 	{

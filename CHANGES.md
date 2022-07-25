@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.3.1
+----------------
+- Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
+
 Changes in 9.3
 --------------
 - Handle case where Course Period Parent ID is null in Courses.php
