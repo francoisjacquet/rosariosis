@@ -76,6 +76,7 @@ Changes in 10.0
 - Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 - PostgreSQL Date format: move query from Date.php to Warehouse.php
 - Compatibility with add-ons version < 10.0, gather CONFIG (uppercase table name) values too in Configuration.php
+- Fix MySQL error Table is specified twice, both as a target for 'INSERT' and as a separate source for data in CopySchool.php & Rollover.php
 
 Changes in 9.3.1
 ----------------

@@ -59,11 +59,10 @@ if ( $go
 	&& ! empty( $_REQUEST['title'] ) )
 {
 	DBQuery( "INSERT INTO schools (SYEAR,TITLE,REPORTING_GP_SCALE)
-		values('" . UserSyear() . "','" . $_REQUEST['title'] . "',
-		(SELECT REPORTING_GP_SCALE
+		(SELECT '" . UserSyear() . "','" . $_REQUEST['title'] . "',REPORTING_GP_SCALE
 			FROM schools
 			WHERE ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'))" );
+			AND SYEAR='" . UserSyear() . "')" );
 
 	$id = DBLastInsertID();
 

@@ -299,7 +299,7 @@ function Rollover( $table, $mode = 'delete' )
 				SCHOOL_NUMBER,SHORT_NAME,REPORTING_GP_SCALE,NUMBER_DAYS_ROTATION" . $school_custom . "
 				FROM schools
 				WHERE SYEAR='" . UserSyear() . "'
-				AND ID NOT IN(SELECT ID FROM schools WHERE SYEAR='" . $next_syear . "')" );
+				AND ID NOT IN(SELECT s2.ID FROM schools s2 WHERE s2.SYEAR='" . $next_syear . "')" );
 			break;
 
 		case 'staff':
@@ -384,7 +384,7 @@ function Rollover( $table, $mode = 'delete' )
 				PROFILE,HOMEROOM,NULL,SCHOOLS,PROFILE_ID,STAFF_ID" . $user_custom . "
 				FROM staff
 				WHERE SYEAR='" . UserSyear() . "'
-				AND STAFF_ID NOT IN(SELECT ROLLOVER_ID FROM staff WHERE SYEAR='" . $next_syear . "')" );
+				AND STAFF_ID NOT IN(SELECT s2.ROLLOVER_ID FROM staff s2 WHERE s2.SYEAR='" . $next_syear . "')" );
 
 			DBQuery( "INSERT INTO program_user_config (USER_ID,PROGRAM,TITLE,VALUE)
 				SELECT s.STAFF_ID,puc.PROGRAM,puc.TITLE,puc.VALUE
