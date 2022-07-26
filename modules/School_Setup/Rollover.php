@@ -361,20 +361,45 @@ function Rollover( $table, $mode = 'delete' )
 						AND SYEAR='" . $next_syear . "')" );
 			}
 
-			// Roll Users again: update users which could not be deleted.
-			DBQuery( "UPDATE staff SET
-				CURRENT_SCHOOL_ID=s.CURRENT_SCHOOL_ID,TITLE=s.TITLE,FIRST_NAME=s.FIRST_NAME,
-				LAST_NAME=s.LAST_NAME,MIDDLE_NAME=s.MIDDLE_NAME,NAME_SUFFIX=s.NAME_SUFFIX,
-				USERNAME=s.USERNAME,PASSWORD=s.PASSWORD,EMAIL=s.EMAIL,
-				PROFILE=s.PROFILE,HOMEROOM=s.HOMEROOM,LAST_LOGIN=s.LAST_LOGIN,SCHOOLS=s.SCHOOLS,
-				PROFILE_ID=s.PROFILE_ID
+			/**
+			 * Fix MySQL syntax error: no FROM allowed inside UPDATE, use multi-table syntax
+			 *
+			 * Note: WITH clause only available in MySQL 8+ & PostgreSQL 9.1+.
+			 */
+			if ( $DatabaseType === 'mysql' )
+			{
+				$update_users_sql = "UPDATE staff s,(SELECT STAFF_ID,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
+					LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,PROFILE,
+					HOMEROOM,LAST_LOGIN,SCHOOLS,PROFILE_ID
+					FROM staff
+					WHERE SYEAR='" . UserSyear() . "') s2 SET
+				s.CURRENT_SCHOOL_ID=s2.CURRENT_SCHOOL_ID,s.TITLE=s2.TITLE,s.FIRST_NAME=s2.FIRST_NAME,
+				s.LAST_NAME=s2.LAST_NAME,s.MIDDLE_NAME=s2.MIDDLE_NAME,s.NAME_SUFFIX=s2.NAME_SUFFIX,
+				s.USERNAME=s2.USERNAME,s.PASSWORD=s2.PASSWORD,s.EMAIL=s2.EMAIL,
+				s.PROFILE=s2.PROFILE,s.HOMEROOM=s2.HOMEROOM,s.LAST_LOGIN=s2.LAST_LOGIN,s.SCHOOLS=s2.SCHOOLS,
+				s.PROFILE_ID=s2.PROFILE_ID
+				WHERE s.SYEAR='" . $next_syear . "'
+				AND s.ROLLOVER_ID=s2.STAFF_ID";
+			}
+			else
+			{
+				$update_users_sql = "UPDATE staff SET
+				CURRENT_SCHOOL_ID=s2.CURRENT_SCHOOL_ID,TITLE=s2.TITLE,FIRST_NAME=s2.FIRST_NAME,
+				LAST_NAME=s2.LAST_NAME,MIDDLE_NAME=s2.MIDDLE_NAME,NAME_SUFFIX=s2.NAME_SUFFIX,
+				USERNAME=s2.USERNAME,PASSWORD=s2.PASSWORD,EMAIL=s2.EMAIL,
+				PROFILE=s2.PROFILE,HOMEROOM=s2.HOMEROOM,LAST_LOGIN=s2.LAST_LOGIN,SCHOOLS=s2.SCHOOLS,
+				PROFILE_ID=s2.PROFILE_ID
 				FROM (SELECT STAFF_ID,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
 					LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,PROFILE,
 					HOMEROOM,LAST_LOGIN,SCHOOLS,PROFILE_ID
 					FROM staff
-					WHERE SYEAR='" . UserSyear() . "') AS s
+					WHERE SYEAR='" . UserSyear() . "') s2
 				WHERE SYEAR='" . $next_syear . "'
-				AND ROLLOVER_ID=s.STAFF_ID" );
+				AND ROLLOVER_ID=s2.STAFF_ID";
+			}
+
+			// Roll Users again: update users which could not be deleted.
+			DBQuery( $update_users_sql );
 
 			DBQuery( "INSERT INTO staff (SYEAR,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
 				LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,PROFILE,
@@ -543,6 +568,7 @@ function Rollover( $table, $mode = 'delete' )
 				}
 			}
 
+			// Fix MySQL syntax error: no FROM allowed inside UPDATE, use subquery
 			DBQuery( "UPDATE program_user_config puc
 				SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
 					FROM staff s
@@ -550,11 +576,11 @@ function Rollover( $table, $mode = 'delete' )
 					AND puc.PROGRAM='Gradebook'
 					AND puc.USER_ID=s.STAFF_ID
 					AND s.SYEAR='" . $next_syear . "')
-				FROM staff s
 				WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
 				AND puc.PROGRAM='Gradebook'
-				AND puc.USER_ID=s.STAFF_ID
-				AND s.SYEAR='" . $next_syear . "'" );
+				AND puc.USER_ID IN (SELECT s2.STAFF_ID
+					FROM staff s2
+					WHERE s2.SYEAR='" . $next_syear . "')" );
 
 			break;
 
