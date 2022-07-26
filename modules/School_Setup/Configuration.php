@@ -80,7 +80,7 @@ else
 			{
 				// Compatibility with add-ons version < 10.0, gather CONFIG (uppercase table name) values too.
 				$_REQUEST['values']['config'] = array_merge(
-					$_REQUEST['values']['config'],
+					(array) $_REQUEST['values']['config'],
 					$_REQUEST['values']['CONFIG']
 				);
 			}
@@ -112,7 +112,7 @@ else
 			{
 				// Compatibility with add-ons version < 10.0, gather PROGRAM_CONFIG (uppercase table name) values too.
 				$_REQUEST['values']['program_config'] = array_merge(
-					$_REQUEST['values']['program_config'],
+					(array) $_REQUEST['values']['program_config'],
 					$_REQUEST['values']['PROGRAM_CONFIG']
 				);
 			}
