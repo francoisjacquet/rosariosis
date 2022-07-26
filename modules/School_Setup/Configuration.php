@@ -76,6 +76,15 @@ else
 
 			$_REQUEST['values']['config'] = issetVal( $_REQUEST['values']['config'] );
 
+			if ( ! empty( $_REQUEST['values']['CONFIG'] ) )
+			{
+				// Compatibility with add-ons version < 10.0.
+				$_REQUEST['values']['config'] = array_merge(
+					$_REQUEST['values']['config'],
+					$_REQUEST['values']['CONFIG']
+				);
+			}
+
 			foreach ( (array) $_REQUEST['values']['config'] as $column => $value )
 			{
 				$numeric_columns = [
@@ -98,6 +107,15 @@ else
 			}
 
 			$_REQUEST['values']['program_config'] = issetVal( $_REQUEST['values']['program_config'] );
+
+			if ( ! empty( $_REQUEST['values']['program_config'] ) )
+			{
+				// Compatibility with add-ons version < 10.0.
+				$_REQUEST['values']['program_config'] = array_merge(
+					$_REQUEST['values']['program_config'],
+					$_REQUEST['values']['PROGRAM_CONFIG']
+				);
+			}
 
 			foreach ( (array) $_REQUEST['values']['program_config'] as $program => $columns )
 			{
