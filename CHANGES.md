@@ -77,6 +77,7 @@ Changes in 10.0
 - PostgreSQL Date format: move query from Date.php to Warehouse.php
 - Compatibility with add-ons version < 10.0, gather CONFIG (uppercase table name) values too in Configuration.php
 - Fix MySQL error Table is specified twice, both as a target for 'INSERT' and as a separate source for data in CopySchool.php & Rollover.php
+- Fix MySQL syntax error: no table alias in DELETE in Rollover.php
 
 Changes in 9.3.1
 ----------------

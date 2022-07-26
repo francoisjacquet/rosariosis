@@ -372,7 +372,7 @@ function Rollover( $table, $mode = 'delete' )
 					LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,EMAIL,PROFILE,
 					HOMEROOM,LAST_LOGIN,SCHOOLS,PROFILE_ID
 					FROM staff
-					WHERE SYEAR='" . UserSyear() . "') s
+					WHERE SYEAR='" . UserSyear() . "') AS s
 				WHERE SYEAR='" . $next_syear . "'
 				AND ROLLOVER_ID=s.STAFF_ID" );
 
@@ -582,12 +582,16 @@ function Rollover( $table, $mode = 'delete' )
 					WHERE SYEAR='" . $next_syear . "'
 					AND SCHOOL_ID='" . UserSchool() . "';";
 
-				$delete_sql .= "DELETE FROM course_period_school_periods cpsp
-					WHERE EXISTS (SELECT COURSE_PERIOD_ID
-						FROM course_periods cp
-						WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-						AND cp.SYEAR='" . $next_syear . "'
-						AND cp.SCHOOL_ID='" . UserSchool() . "');";
+				/**
+				 * Fix MySQL syntax error: no table alias in DELETE.
+				 *
+				 * @link https://stackoverflow.com/questions/34353799/can-aliases-be-used-in-a-sql-delete-query
+				 */
+				$delete_sql .= "DELETE FROM course_period_school_periods
+					WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID
+						FROM course_periods
+						WHERE SYEAR='" . $next_syear . "'
+						AND SCHOOL_ID='" . UserSchool() . "');";
 
 				$delete_sql .= "DELETE FROM course_periods
 					WHERE SYEAR='" . $next_syear . "'
