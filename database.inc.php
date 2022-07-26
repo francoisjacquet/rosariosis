@@ -431,7 +431,7 @@ function DBTransDryRun( $sql )
 		db_trans_rollback();
 	}
 
-	return $result;
+	return $result !== false;
 }
 
 /**
