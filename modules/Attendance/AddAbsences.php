@@ -170,7 +170,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['link'] = [ 'FULL_NAME' => false ];
-	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
+	$extra['SELECT'] = ",NULL AS CHECKBOX";
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{

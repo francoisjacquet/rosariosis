@@ -79,6 +79,7 @@ Changes in 10.0
 - Fix MySQL error Table is specified twice, both as a target for 'INSERT' and as a separate source for data in CopySchool.php & Rollover.php
 - Fix MySQL syntax error: no table alias in DELETE in Rollover.php
 - Fix MySQL syntax error: no FROM allowed inside UPDATE, use subquery or multi-table syntax in Rollover.php
+- Fix MySQL syntax error: replace CAST (NULL AS CHAR(1)) AS CHECKBOX with NULL AS CHECKBOX in AddAbsences.php, AddActivity.php, MassDrops.php, MassRequests.php, MassSchedule.php, AddUsers.php, AssignOtherInfo.php & AddStudents.php
 
 Changes in 9.3.1
 ----------------

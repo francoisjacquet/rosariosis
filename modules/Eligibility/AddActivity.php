@@ -81,7 +81,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 //FJ fix bug no Search when student already selected
 $extra['link'] = [ 'FULL_NAME' => false ];
-$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
+$extra['SELECT'] = ",NULL AS CHECKBOX";
 $extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 $extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
 $extra['new'] = true;
