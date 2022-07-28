@@ -10,7 +10,6 @@ RosarioSIS ha sido probado en:
 
 - Windows 10 x86 con Apache 2.4.16, Postgres 9.3.6, y PHP 5.4.45
 - Ubuntu 14.04 con Apache 2.4.18, Postgres 9.3.10, y PHP 5.5.9
-- Ubuntu 18.04 con Apache 2.4.46, Postgres 10.15, y PHP 7.4.13
 - Debian Buster con Apache 2.4.38, Postgres 11.5, y PHP 8.0.0
 - macOS Monterey con Apache 2.4.54, Postgres 14.4, y PHP 8.0.21
 - Ubuntu 20.04 con Apache 2.4.48, Postgres 12.11, y PHP 7.4.22
