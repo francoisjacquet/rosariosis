@@ -12,6 +12,7 @@ RosarioSIS a été testé sur:
 - Ubuntu 14.04 avec Apache 2.4.18, Postgres 9.3.10, et PHP 5.5.9
 - Ubuntu 18.04 avec 2.4.46, Postgres 10.15, et PHP 7.4.13
 - Debian Buster avec Apache 2.4.38, Postgres 11.5, et PHP 8.0.0
+- macOS Monterey avec Apache 2.4.54, Postgres 14.4, et PHP 8.0.21
 - CentOS 8.2 avec Apache 2.4.37, Postgres 9.6.10, et PHP 7.2.24
 - Hébergement mutualisé avec cPanel, nginx, Postgres 8.4, et PHP 5.6.27
 - à travers Mozilla Firefox et Google Chrome
@@ -22,6 +23,7 @@ Minimum requis: **PHP 5.4.45** & **PostgreSQL 8.4**
 Instructions d'installation pour:
 
 - [**Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/Installer-RosarioSIS-sur-Windows)
+- [**Mac**](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-on-Mac-(macOS,-OS-X)) (en anglais)
 - [**cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel) (en anglais)
 - [**Docker**](https://github.com/francoisjacquet/docker-rosariosis) (en anglais)
 - **Ubuntu** (ou n'importe quelle distribution Linux basée sur Debian), voir ci-dessous

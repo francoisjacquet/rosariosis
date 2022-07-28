@@ -10,6 +10,8 @@ Add **MySQL** support
 config.inc.sample.php
 - `$DatabaseType` configuration variable
 
+[Installation tutorial for Mac (macOS, OS X)](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-on-Mac-(macOS,-OS-X))
+
 
 New in 9.1
 ----------
