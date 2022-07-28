@@ -80,6 +80,8 @@ Changes in 10.0
 - Fix MySQL syntax error: no table alias in DELETE in Rollover.php
 - Fix MySQL syntax error: no FROM allowed inside UPDATE, use subquery or multi-table syntax in Rollover.php
 - Fix MySQL syntax error: replace CAST (NULL AS CHAR(1)) AS CHECKBOX with NULL AS CHECKBOX in AddAbsences.php, AddActivity.php, MassDrops.php, MassRequests.php, MassSchedule.php, AddUsers.php, AssignOtherInfo.php & AddStudents.php
+- Add Installation tutorial for Mac in WHATS_NEW.md & INSTALL.md, INSTALL_fr.md & INSTALL_es.md
+- Update tested on Ubuntu 18.04 to 20.04 in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 
 Changes in 9.3.1
 ----------------
@@ -133,8 +135,6 @@ Changes in 9.2.1
 - Fix Course not found in user School Year (multiple browser tabs case) in MassRequests.php
 - HTML add label to inputs in Requests.php
 - Remove help sentence. The Scheduler is not run by the Student Requests program in Help_en.php
-- Add Installation tutorial for Mac in WHATS_NEW.md & INSTALL.md, INSTALL_fr.md & INSTALL_es.md
-- Update tested on Ubuntu 18.04 to 20.04 in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 
 Changes in 9.2
 --------------
