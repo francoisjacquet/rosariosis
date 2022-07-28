@@ -134,6 +134,7 @@ Changes in 9.2.1
 - HTML add label to inputs in Requests.php
 - Remove help sentence. The Scheduler is not run by the Student Requests program in Help_en.php
 - Add Installation tutorial for Mac in WHATS_NEW.md & INSTALL.md, INSTALL_fr.md & INSTALL_es.md
+- Update tested on Ubuntu 18.04 to 20.04 in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 
 Changes in 9.2
 --------------

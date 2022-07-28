@@ -13,6 +13,7 @@ RosarioSIS ha sido probado en:
 - Ubuntu 18.04 con Apache 2.4.46, Postgres 10.15, y PHP 7.4.13
 - Debian Buster con Apache 2.4.38, Postgres 11.5, y PHP 8.0.0
 - macOS Monterey con Apache 2.4.54, Postgres 14.4, y PHP 8.0.21
+- Ubuntu 20.04 con Apache 2.4.48, Postgres 12.11, y PHP 7.4.22
 - CentOS 8.2 con Apache 2.4.37, Postgres 9.6.10, y PHP 7.2.24
 - Shared hosting con cPanel, nginx, Postgres 8.4, y PHP 5.6.27
 - a traves de Mozilla Firefox y Google Chrome
@@ -113,7 +114,7 @@ Para ayudarlo a detectar problemas de instalación, apunte su navegador a: `http
 Extensiones PHP
 ---------------
 
-Instrucciones de instalación para Ubuntu 18.04:
+Instrucciones de instalación para Ubuntu 20.04:
 ```bash
 server$ sudo apt-get install php-pgsql php-gettext php-intl php-mbstring php-gd php-curl php-xmlrpc php-xml php-zip
 ```
@@ -134,7 +135,7 @@ Reiniciar PHP y Apache.
 Otros lenguajes
 ---------------
 
-Instrucciones de instalación para Ubuntu 18.04. Instalar el lenguaje español:
+Instrucciones de instalación para Ubuntu 20.04. Instalar el lenguaje español:
 ```bash
 server$ sudo apt-get install language-pack-es
 ```
@@ -144,10 +145,10 @@ Luego reinicie el servidor.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Instrucciones de instalación para Ubuntu 18.04 (Bionic):
+Instrucciones de instalación para Ubuntu 20.04 (Focal):
 ```bash
-server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
-server$ sudo dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb
+server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+server$ sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
 ```
 
 Definir el camino en el archivo `config.inc.php`:
@@ -157,7 +158,7 @@ Definir el camino en el archivo `config.inc.php`:
 Envio de email
 --------------
 
-Instrucciones de instalación para Ubuntu 18.04. Activar la función PHP `mail()`:
+Instrucciones de instalación para Ubuntu 20.04. Activar la función PHP `mail()`:
 ```bash
 server$ sudo apt-get install sendmail
 ```
