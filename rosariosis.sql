@@ -3220,38 +3220,24 @@ CREATE INDEX billing_payments_ind3 ON billing_payments (refunded_payment_id);
 
 
 --
--- Name: course_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX course_periods_ind1 ON course_periods (syear);
-
-
---
 -- Name: course_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX course_periods_ind2 ON course_periods (course_id, syear, school_id);
-
-
---
--- Name: course_periods_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX course_periods_ind5 ON course_periods (parent_id);
+CREATE INDEX course_periods_ind2 ON course_periods (syear, school_id);
 
 
 --
 -- Name: course_subjects_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX course_subjects_ind1 ON course_subjects (syear, school_id, subject_id);
+CREATE INDEX course_subjects_ind1 ON course_subjects (syear, school_id);
 
 
 --
 -- Name: courses_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX courses_ind1 ON courses (course_id, syear);
+CREATE INDEX courses_ind1 ON courses (syear, school_id);
 
 
 --
