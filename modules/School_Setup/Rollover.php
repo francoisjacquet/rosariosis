@@ -180,12 +180,7 @@ if ( Prompt(
 				 */
 				if ( ! empty( $_REQUEST['tables'] ) )
 				{
-					$request_uppercase_tables = [];
-
-					foreach ( $_REQUEST['tables'] as $lowercase_table_name => $value )
-					{
-						$request_uppercase_tables[ mb_strtoupper( $lowercase_table_name ) ] = $value;
-					}
+					$request_uppercase_tables = array_change_key_case( $_REQUEST['tables'], CASE_LOWER );
 
 					$_REQUEST['tables'] = array_merge( $_REQUEST['tables'], $request_uppercase_tables );
 				}
