@@ -3325,13 +3325,6 @@ CREATE INDEX gradebook_assignments_ind1 ON gradebook_assignments (staff_id, mark
 
 
 --
--- Name: gradebook_assignments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX gradebook_assignments_ind2 ON gradebook_assignments (course_id, course_period_id);
-
-
---
 -- Name: gradebook_assignments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -3357,13 +3350,6 @@ CREATE INDEX history_marking_period_ind1 ON history_marking_periods (school_id);
 --
 
 CREATE INDEX history_marking_period_ind2 ON history_marking_periods (syear);
-
-
---
--- Name: history_marking_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX history_marking_period_ind3 ON history_marking_periods (mp_type);
 
 
 --
@@ -3395,13 +3381,6 @@ CREATE INDEX lunch_period_ind4 ON lunch_period (school_date);
 
 
 --
--- Name: lunch_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX lunch_period_ind5 ON lunch_period (attendance_code);
-
-
---
 -- Name: name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -3413,13 +3392,6 @@ CREATE INDEX name ON students (last_name, first_name, middle_name);
 --
 
 CREATE INDEX people_1 ON people (last_name, first_name);
-
-
---
--- Name: people_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX people_3 ON people (person_id, last_name, first_name, middle_name);
 
 
 --
@@ -3447,7 +3419,7 @@ CREATE INDEX people_join_contacts_ind1 ON people_join_contacts (person_id);
 -- Name: program_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX program_config_ind1 ON program_config (program, school_id, syear);
+CREATE INDEX program_config_ind1 ON program_config (school_id, syear);
 
 
 --
@@ -3461,14 +3433,7 @@ CREATE INDEX program_user_config_ind1 ON program_user_config (user_id, program);
 -- Name: relations_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX relations_meets_2 ON students_join_people (person_id);
-
-
---
--- Name: relations_meets_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX relations_meets_6 ON students_join_people (custody, emergency);
+CREATE INDEX relations_meets_2 ON students_join_people (address_id);
 
 
 --
@@ -3531,49 +3496,7 @@ CREATE INDEX schedule_ind4 ON schedule (syear, school_id);
 -- Name: schedule_requests_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind1 ON schedule_requests (student_id, course_id, syear, school_id);
-
-
---
--- Name: schedule_requests_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind2 ON schedule_requests (syear, school_id);
-
-
---
--- Name: schedule_requests_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind3 ON schedule_requests (course_id, syear, school_id);
-
-
---
--- Name: schedule_requests_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind4 ON schedule_requests (with_teacher_id);
-
-
---
--- Name: schedule_requests_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind5 ON schedule_requests (not_teacher_id);
-
-
---
--- Name: schedule_requests_ind6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind6 ON schedule_requests (with_period_id);
-
-
---
--- Name: schedule_requests_ind7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind7 ON schedule_requests (not_period_id);
+CREATE INDEX schedule_requests_ind1 ON schedule_requests (student_id, course_id, syear);
 
 
 --
@@ -3608,7 +3531,7 @@ CREATE INDEX school_marking_periods_ind2 ON school_marking_periods (syear, schoo
 -- Name: school_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX school_periods_ind1 ON school_periods (period_id, syear);
+CREATE INDEX school_periods_ind1 ON school_periods (syear, school_id);
 
 
 --
@@ -3668,31 +3591,10 @@ CREATE INDEX stu_addr_meets_2 ON students_join_address (address_id);
 
 
 --
--- Name: stu_addr_meets_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX stu_addr_meets_3 ON students_join_address (primary_residence);
-
-
---
--- Name: stu_addr_meets_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX stu_addr_meets_4 ON students_join_address (legal_residence);
-
-
---
 -- Name: student_eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_eligibility_activities_ind1 ON student_eligibility_activities (student_id);
-
-
---
--- Name: student_enrollment_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX student_enrollment_1 ON student_enrollment (student_id, enrollment_code);
 
 
 --
@@ -3706,21 +3608,14 @@ CREATE INDEX student_enrollment_2 ON student_enrollment (grade_id);
 -- Name: student_enrollment_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_3 ON student_enrollment (syear, student_id, school_id, grade_id);
+CREATE INDEX student_enrollment_3 ON student_enrollment (syear, student_id, school_id);
 
 
 --
--- Name: student_enrollment_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
+-- Name: student_enrollment_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_6 ON student_enrollment (start_date, end_date);
-
-
---
--- Name: student_enrollment_7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX student_enrollment_7 ON student_enrollment (school_id);
+CREATE INDEX student_enrollment_4 ON student_enrollment (start_date, end_date);
 
 
 --
@@ -3748,7 +3643,7 @@ CREATE INDEX student_medical_visits_ind1 ON student_medical_visits (student_id);
 -- Name: student_report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_report_card_comments_ind1 ON student_report_card_comments (school_id);
+CREATE INDEX student_report_card_comments_ind1 ON student_report_card_comments (syear, school_id);
 
 
 --
@@ -3784,13 +3679,6 @@ CREATE INDEX student_report_card_grades_ind4 ON student_report_card_grades (mark
 --
 
 CREATE INDEX students_join_address_ind1 ON students_join_address (student_id);
-
-
---
--- Name: students_join_address_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX students_join_address_ind2 ON students_join_address (id, student_id, address_id);
 
 
 --

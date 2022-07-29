@@ -84,7 +84,8 @@ Changes in 10.0
 - Update tested on Ubuntu 18.04 to 20.04 in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 - Fix SQL error when column already dropped in Fields.fnc.php
 - SQL fix CREATE INDEX on right table in rosariosis.sql
-- SQL reduce indices for course_periods table & match index with FOREIGN KEY for course_subjects & courses tables in rosariosis.sql
+- SQL remove unused indices for various tables in rosariosis.sql
+- SQL match index with FOREIGN KEY for various tables in rosariosis.sql
 
 Changes in 9.3.1
 ----------------
