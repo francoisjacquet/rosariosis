@@ -82,6 +82,7 @@ Changes in 10.0
 - Fix MySQL syntax error: replace CAST (NULL AS CHAR(1)) AS CHECKBOX with NULL AS CHECKBOX in AddAbsences.php, AddActivity.php, MassDrops.php, MassRequests.php, MassSchedule.php, AddUsers.php, AssignOtherInfo.php & AddStudents.php
 - Add Installation tutorial for Mac in WHATS_NEW.md & INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 - Update tested on Ubuntu 18.04 to 20.04 in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
+- Fix SQL error when column already dropped in Fields.fnc.php
 
 Changes in 9.3.1
 ----------------

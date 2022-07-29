@@ -117,6 +117,10 @@ function AddDBField( $table, $field_id, $type )
  *
  * @example DeleteDBField( 'students', $_REQUEST['id'] );
  *
+ * @since 10.0 Fix SQL error when column already dropped
+ *
+ * @global $DatabaseType mysql or postgresql
+ *
  * @param  string  $table DB Table name.
  * @param  string  $id    Field ID.
  *
@@ -124,6 +128,8 @@ function AddDBField( $table, $field_id, $type )
  */
 function DeleteDBField( $table, $id )
 {
+	global $DatabaseType;
+
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $id )
@@ -144,8 +150,18 @@ function DeleteDBField( $table, $id )
 	DBQuery( "DELETE FROM " . DBEscapeIdentifier( $fields_table . '_fields' ) .
 		" WHERE ID='" . (int) $id . "'" );
 
-	DBQuery( 'ALTER TABLE ' . DBEscapeIdentifier( $table ) . '
-		DROP COLUMN ' . DBEscapeIdentifier( 'CUSTOM_' . (int) $id ) );
+	// Fix SQL error when column already dropped.
+	$column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.COLUMNS
+		WHERE TABLE_SCHEMA=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND TABLE_NAME='" . DBEscapeString( $table ) . "'
+		AND COLUMN_NAME='" . DBEscapeString( 'CUSTOM_' . (int) $id ) . "'" );
+
+	if ( $column_exists )
+	{
+		DBQuery( 'ALTER TABLE ' . DBEscapeIdentifier( $table ) . '
+			DROP COLUMN ' . DBEscapeIdentifier( 'CUSTOM_' . (int) $id ) );
+	}
 
 	return true;
 }
