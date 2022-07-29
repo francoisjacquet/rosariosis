@@ -83,6 +83,7 @@ Changes in 10.0
 - Add Installation tutorial for Mac in WHATS_NEW.md & INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 - Update tested on Ubuntu 18.04 to 20.04 in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
 - Fix SQL error when column already dropped in Fields.fnc.php
+- SQL fix CREATE INDEX on right table in rosariosis.sql
 
 Changes in 9.3.1
 ----------------

@@ -3132,14 +3132,14 @@ CREATE INDEX address_4 ON address (street);
 -- Name: address_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_desc_ind2 ON custom_fields (type);
+CREATE INDEX address_desc_ind2 ON address_fields (type);
 
 
 --
 -- Name: address_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_fields_ind3 ON custom_fields (category_id);
+CREATE INDEX address_fields_ind3 ON address_fields (category_id);
 
 
 --
@@ -3440,14 +3440,14 @@ CREATE INDEX people_3 ON people (person_id, last_name, first_name, middle_name);
 -- Name: people_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_desc_ind2 ON custom_fields (type);
+CREATE INDEX people_desc_ind2 ON people_fields (type);
 
 
 --
 -- Name: people_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_fields_ind3 ON custom_fields (category_id);
+CREATE INDEX people_fields_ind3 ON people_fields (category_id);
 
 
 --
