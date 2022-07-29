@@ -3500,6 +3500,13 @@ CREATE INDEX schedule_requests_ind1 ON schedule_requests (student_id, course_id,
 
 
 --
+-- Name: schedule_requests_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE INDEX schedule_requests_ind2 ON schedule_requests (syear, school_id);
+
+
+--
 -- Name: school_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
