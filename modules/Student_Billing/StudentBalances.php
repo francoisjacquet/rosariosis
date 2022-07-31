@@ -24,6 +24,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 {
 	// Call GetStuList() only so we calculate the $total.
 	GetStuList( $extra );
+
+	// Fix Search terms displayed twice
+	$_ROSARIO['SearchTerms'] = '';
 }
 
 // @since 9.0 Add Total sum of balances.
