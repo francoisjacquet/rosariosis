@@ -9,12 +9,13 @@ $functions = [
 
 unset( $THIS_RET );
 
+// SQL ORDER BY fix issue when Transferring to another school & new start date is <= old start date.
 $enrollment_RET = DBGet( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,
 		e.END_DATE AS END,e.SCHOOL_ID,e.NEXT_SCHOOL,e.CALENDAR_ID,e.GRADE_ID
 	FROM student_enrollment e
 	WHERE e.STUDENT_ID='" . UserStudentID() . "'
 	AND e.SYEAR='" . UserSyear() . "'
-	ORDER BY e.START_DATE", $functions );
+	ORDER BY e.END_DATE IS NULL,e.END_DATE,e.START_DATE IS NULL,e.START_DATE", $functions );
 
 $add = true;
 
