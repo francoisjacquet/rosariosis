@@ -11,8 +11,6 @@ function SaveEnrollment()
 	if ( ! empty( $_POST['month_values']['student_enrollment'] )
 		|| ! empty( $_POST['values']['student_enrollment'] ) )
 	{
-		//FJ check if student already enrolled on that date when updating START_DATE
-
 		foreach ( (array) $_REQUEST['month_values']['student_enrollment'] as $stu_enrol_id => $stu_enrol_month )
 		{
 			if ( $stu_enrol_id == 'new' && ! $_REQUEST['values']['student_enrollment']['new']['ENROLLMENT_CODE'] && ! $_REQUEST['month_values']['student_enrollment']['new']['START_DATE'] )
@@ -34,6 +32,37 @@ function SaveEnrollment()
 						WHERE SYEAR='" . UserSyear() . "'
 						AND ID='" . (int) $enrollment_school_id . "'" );
 				}
+
+				if ( ! empty( $stu_enrol_month['START_DATE'] ) )
+				{
+					$found_RET = 1;
+
+					$date = RequestedDate(
+						$_REQUEST['year_values']['student_enrollment'][$stu_enrol_id]['START_DATE'],
+						$_REQUEST['month_values']['student_enrollment'][$stu_enrol_id]['START_DATE'],
+						$_REQUEST['day_values']['student_enrollment'][$stu_enrol_id]['START_DATE']
+					);
+
+					if ( $date )
+					{
+						// Check if student already enrolled on that date when inserting START_DATE.
+						$found_RET = DBGet( "SELECT ID
+							FROM student_enrollment
+							WHERE STUDENT_ID='" . UserStudentID() . "'
+							AND SYEAR='" . UserSyear() . "'
+							AND '" . $date . "' BETWEEN START_DATE AND END_DATE" );
+					}
+
+					if ( $found_RET )
+					{
+						unset( $_REQUEST['values']['student_enrollment'][$stu_enrol_id] );
+						unset( $_REQUEST['day_values']['student_enrollment'][$stu_enrol_id] );
+						unset( $_REQUEST['month_values']['student_enrollment'][$stu_enrol_id] );
+						unset( $_REQUEST['year_values']['student_enrollment'][$stu_enrol_id] );
+
+						$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
+					}
+				}
 			}
 			elseif ( UserStudentID() && ! empty( $stu_enrol_month['START_DATE'] ) )
 			{
@@ -47,6 +76,7 @@ function SaveEnrollment()
 
 				if ( $date )
 				{
+					// Check if student already enrolled on that date when updating START_DATE.
 					$found_RET = DBGet( "SELECT ID
 						FROM student_enrollment
 						WHERE STUDENT_ID='" . UserStudentID() . "'

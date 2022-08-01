@@ -87,6 +87,7 @@ Changes in 10.0
 - SQL remove unused indices for various tables in rosariosis.sql
 - SQL match index with FOREIGN KEY for various tables in rosariosis.sql
 - SQL ORDER BY fix issue when Transferring to another school & new start date is <= old start date in Enrollment.inc.php
+- Check if student already enrolled on that date when inserting START_DATE in SaveEnrollment.fnc.php
 
 Changes in 9.3.1
 ----------------
