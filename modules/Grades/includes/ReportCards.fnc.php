@@ -1105,9 +1105,12 @@ function GetMPTardies( $st_list, $last_mp, $student_id )
 
 	$count = 0;
 
-	foreach ( (array) $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs )
+	if ( ! empty( $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] ) )
 	{
-		$count++;
+		foreach ( (array) $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs )
+		{
+			$count++;
+		}
 	}
 
 	$tardies_code_title = $other_attendance_codes[$_REQUEST['mp_tardies_code']][1]['TITLE'];
@@ -1136,11 +1139,14 @@ function GetYTDTardies( $st_list, $student_id )
 
 	$count = 0;
 
-	foreach ( (array) $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs )
+	if ( ! empty( $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] ) )
 	{
-		foreach ( (array) $mp_abs as $abs )
+		foreach ( (array) $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs )
 		{
-			$count++;
+			foreach ( (array) $mp_abs as $abs )
+			{
+				$count++;
+			}
 		}
 	}
 
