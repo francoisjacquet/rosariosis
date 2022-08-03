@@ -70,8 +70,8 @@ Changes in 10.0
 - Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
 - Use `$_POST` to get password instead of unescaping `$_REQUEST` in PasswordReset.php, Student.php & User.php
 - Use DBGetOne() instead of unescaping `$_REQUEST` in Config.fnc.php
-- Add MySQL support in database.inc.php & Warehouse.php
-- Add $DatabaseType configuration variable in database.inc.php, Warehouse.php & config.inc.php
+- Add MySQL support in database.inc.php, InstallDatabase.php & Warehouse.php
+- Add $DatabaseType configuration variable in database.inc.php, InstallDatabase.php, Warehouse.php & config.inc.php
 - Add $show_error parameter to db_start() in database.inc.php
 - Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 - PostgreSQL Date format: move query from Date.php to Warehouse.php
@@ -88,6 +88,7 @@ Changes in 10.0
 - SQL match index with FOREIGN KEY for various tables in rosariosis.sql
 - SQL ORDER BY fix issue when Transferring to another school & new start date is <= old start date in Enrollment.inc.php
 - Check if student already enrolled on that date when inserting START_DATE in SaveEnrollment.fnc.php
+- Add `_getAddonsSQL()` & `_configTableCheck()` functions in InstallDatabase.php
 
 Changes in 9.3.1
 ----------------
