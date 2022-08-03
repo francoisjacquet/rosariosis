@@ -1,5 +1,5 @@
 --
--- PostgreSQL data update
+-- PostgreSQL & MySQL data update
 --
 -- Translates database fields to French
 --
