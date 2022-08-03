@@ -89,6 +89,7 @@ Changes in 10.0
 - SQL ORDER BY fix issue when Transferring to another school & new start date is <= old start date in Enrollment.inc.php
 - Check if student already enrolled on that date when inserting START_DATE in SaveEnrollment.fnc.php
 - Add `_getAddonsSQL()` & `_configTableCheck()` functions in InstallDatabase.php
+- $DatabasePort configuration variable is now optional in config.inc.sample.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 9.3.1
 ----------------

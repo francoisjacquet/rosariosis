@@ -9,6 +9,7 @@ Add **MySQL** support
 
 config.inc.sample.php
 - `$DatabaseType` configuration variable
+- `$DatabasePort` configuration variable is now optional
 
 [Installation tutorial for Mac (macOS, OS X)](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-on-Mac-(macOS,-OS-X))
 

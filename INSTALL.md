@@ -38,7 +38,6 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 - `$DatabaseUsername` Username used for authenticating the database.
 - `$DatabasePassword` Password used for authenticating the database.
 - `$DatabaseName` Database name.
-- `$DatabasePort` Port number for accessing the database server.
 
 - `$pg_dumpPath` Full path to the postgres database dump utility, pg_dump.
 - `$wkhtmltopdfPath` Full path to the PDF generation utility, wkhtmltopdf.
@@ -49,6 +48,7 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 
 #### Optional variables
 
+- `$DatabasePort` Port number to access the database server. Default is 5432 for PostgreSQL & 3306 for MySQL.
 - `$RosarioPath` Full path to RosarioSIS installation.
 - `$wkhtmltopdfAssetsPath` Path to the `assets/` director for wkhtmltopdf. Possibly different than how the web browser finds it. Empty string means no translation.
 - `$StudentPicturesPath` Path to student pictures.

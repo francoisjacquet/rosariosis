@@ -28,9 +28,6 @@ $DatabasePassword = 'password_here';
 // Database name.
 $DatabaseName = 'database_name_here';
 
-// Database port: default is 5432.
-$DatabasePort = '5432';
-
 
 /**
  * Paths

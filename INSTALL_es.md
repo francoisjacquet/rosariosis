@@ -38,7 +38,6 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 - `$DatabaseUsername` Nombre de usuario para conectarse a la base de datos.
 - `$DatabasePassword` Contraseña para conectarse a la base de datos.
 - `$DatabaseName` Nombre de la base de datos.
-- `$DatabasePort` Número de puerto para acceder a la base de datos.
 
 - `$pg_dumpPath` Camino completo hacia el utilitario de exportación de base de datos, pg_dump.
 - `$wkhtmltopdfPath` Camino completo hacia el utilitario de generación de PDF, wkhtmltopdf.
@@ -49,6 +48,7 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 
 #### Variables opcionales
 
+- `$DatabasePort` Número de puerto para acceder a la base de datos. Por defecto: 5432 para PostgreSQL y 3306 para MySQL.
 - `$RosarioPath` Camino completo hacia la instalación de RosarioSIS.
 - `$wkhtmltopdfAssetsPath` Camino a la carpeta `assets/` para wkhtmltopdf. Puede ser diferente de como el navegador la encuentra. Una cadena vacía significa sin traslado.
 - `$StudentPicturesPath` Camino hacia las fotos de los estudiantes.
