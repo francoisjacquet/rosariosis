@@ -47,7 +47,7 @@ Changes in 10.0
 - SQL cast custom_fields ID as VARCHAR(10) instead of TEXT for MySQL compatibility in GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL rename $field COLUMN (reserved keyword) to COLUMN_NAME for MySQL compatibility in CustomFields.fnc.php, GetStaffList.fnc.php, GetStuList.fnc.php & Search.fnc.php
 - SQL remove use of nextval in rosariosis_fr.sql
-- Rename $pg_dumpPath configuration variable to $DatabaseDumpPath in config.inc.sample.php & DatabaseBackup.php
+- Rename $pg_dumpPath configuration variable to $DatabaseDumpPath in config.inc.sample.php, diagnostic.php & DatabaseBackup.php
 - Build command for executing mysqldump in DatabaseBackup.php
 - SQL to extract Unix timestamp or epoch from date in Eligibility/Student.php, StudentList.php & TeacherCompletion.php
 - Install module/plugin: execute the install_mysql.sql script for MySQL in Modules.inc.php, Plugins.inc.php & modules/README.md & plugins/README.md
@@ -70,8 +70,8 @@ Changes in 10.0
 - Use GetTemplate() instead of unescaping `$_REQUEST` in CreateParents.php & NotifyParents.php
 - Use `$_POST` to get password instead of unescaping `$_REQUEST` in PasswordReset.php, Student.php & User.php
 - Use DBGetOne() instead of unescaping `$_REQUEST` in Config.fnc.php
-- Add MySQL support in database.inc.php, InstallDatabase.php & Warehouse.php
-- Add $DatabaseType configuration variable in database.inc.php, InstallDatabase.php, Warehouse.php & config.inc.php
+- Add MySQL support in database.inc.php, diagnostic.php, InstallDatabase.php & Warehouse.php
+- Add $DatabaseType configuration variable in database.inc.php, diagnostic.php, InstallDatabase.php, Warehouse.php & config.inc.php
 - Add $show_error parameter to db_start() in database.inc.php
 - Add DBUnescapeString() function in database.inc.php, GetStuList.fnc.php, ListOutput.fnc.php, PreparePHP_SELF.fnc.php & Search.fnc.php
 - PostgreSQL Date format: move query from Date.php to Warehouse.php

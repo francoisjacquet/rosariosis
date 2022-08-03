@@ -27,12 +27,6 @@ if ( $inipath )
 else
 	$inipath = ' Note: No php.ini file is loaded!';
 
-// Check for pgsql extension.
-if ( ! extension_loaded( 'pgsql' ) )
-{
-	$error[] = 'PHP extensions: RosarioSIS relies on the pgsql (PostgreSQL) extension. Please install and activate it.';
-}
-
 if ( count( $error ) )
 {
 	echo _ErrorMessage( $error, 'fatal' );
@@ -43,66 +37,67 @@ if ( ! file_exists( './Warehouse.php' ) )
 {
 	$error[] = 'The diagnostic.php file needs to be in the RosarioSIS directory to be able to run. Please move it there, and run it again.';
 }
+elseif ( ! include_once './config.inc.php' )
+{
+	$error[] = 'config.inc.php file not found. Please read the installation directions.';
+}
 else
 {
-	if ( ! @opendir( $RosarioPath . '/functions' ) )
+	if ( ! @opendir( $RosarioPath . 'functions' ) )
 	{
-		$error[] = 'The value for $RosarioPath in the config.inc.php file is not correct or else the functions directory does not have the correct permissions to be read by the webserver. Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';
+		$error[] = 'The value for $RosarioPath in the config.inc.php file is not correct or else the functions directory does not have the correct permissions to be read by the webserver. Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by the `' . $_SERVER['USER'] . '` user.';
 	}
 
-	if ( ! function_exists( 'pg_connect' ) )
+	if ( empty( $DatabaseType ) )
 	{
-		$error[] = 'The pgsql extension (see the php.ini file) is not activated OR PHP was not compiled with PostgreSQL support. You may need to recompile PHP using the --with-pgsql option for RosarioSIS to work.';
+		// @since 10.0 Add $DatabaseType configuration variable
+		$DatabaseType = 'postgresql';
+	}
+
+	if ( $DatabaseType !== 'postgresql'
+		&& $DatabaseType !== 'mysql' )
+	{
+		$error[] = 'The value for $DatabaseType in the config.inc.php file is not correct. $DatabaseType value is either postgresql or mysql.';
+	}
+	elseif ( $DatabaseType === 'postgresql'
+		&& ! function_exists( 'pg_connect' ) )
+	{
+		$error[] = 'PHP extensions: RosarioSIS relies on the pgsql extension (used to connect to the PostgreSQL database). Please install and activate it.';
+	}
+	elseif ( $DatabaseType === 'mysql'
+		&& ! function_exists( 'mysqli_connect' ) )
+	{
+		$error[] = 'PHP extensions: RosarioSIS relies on the mysql (or mysqli) extension (used to connect to the MySQL database). Please install and activate it.';
 	}
 	else
 	{
-		require_once './Warehouse.php';
+		require_once './database.inc.php';
 
-		/**
-		 * Fix pg_connect(): Unable to connect to PostgreSQL server:
-		 * could not connect to server:
-		 * No such file or directory Is the server running locally
-		 * and accepting connections on Unix domain socket "/tmp/.s.PGSQL.5432"
-		 *
-		 * Always set host, force TCP.
-		 *
-		 * @since 3.8
-		 */
-		$connectstring = 'host=' . $DatabaseServer . ' ';
+		$db_connection = db_start( false );
 
-		if ( $DatabasePort !== '5432' )
+		if ( ! $db_connection )
 		{
-			$connectstring .= 'port=' . $DatabasePort .' ';
-		}
+			$error[] = 'RosarioSIS cannot connect to the ' . ( $DatabaseType === 'mysql' ? 'MySQL' : 'PostgreSQL' ) . ' database server. Please review the database configuration variables in the config.inc.php file.';
 
-		$connectstring .= 'dbname=' . $DatabaseName . ' user=' . $DatabaseUsername;
-
-		if ( $DatabasePassword !== '' )
-		{
-			$connectstring .= ' password=' . $DatabasePassword;
-		}
-
-		$connection = pg_connect( $connectstring );
-
-		if ( ! $connection )
-		{
-			$error[] = 'RosarioSIS cannot connect to the PostgreSQL database. Either Postgres is not running, it was not started with the -i option, or connections from this host are not allowed in the pg_hba.conf file. Last Postgres Error: ' . pg_last_error( $connection );
+			$error[] = ( $DatabaseType === 'mysql' ? mysqli_connect_error() : error_get_last()['message'] );
 		}
 		else
 		{
-			$result = @pg_exec( $connection, 'SELECT * FROM config' );
+			$result = db_query( 'SELECT * FROM config', false );
 
 			if ( $result === false )
 			{
-				$errstring = pg_last_error( $connection );
+				$errstring = ( $DatabaseType === 'mysql' ?
+					mysqli_errno( $db_connection ) . ' ' . mysqli_error( $db_connection ) :
+					pg_last_error( $db_connection ) );
 
 				if ( mb_strpos( $errstring, 'permission denied' ) !== false )
 				{
-					$error[] = 'The database was created with the wrong permissions. The user specified in the config.inc.php file does not have permission to access the database. Use the super-user (postgres) or recreate the database adding \connect - YOUR_USERNAME to the top of the rosariosis.sql file.';
+					$error[] = 'The database was created with the wrong permissions. The user specified in the config.inc.php file does not have permission to access the database.';
 				}
 				elseif ( mb_strpos( $errstring, 'elation "config" does not exist' ) !== false )
 				{
-					$error[] = 'At least one of the tables does not exist. Make sure you ran the rosariosis.sql file as described in the INSTALL.md file.';
+					$error[] = 'At least one of the database tables does not exist. To install the database, access the <a href="InstallDatabase.php">InstallDatabase.php</a> page.';
 				}
 				elseif ( $errstring )
 				{
@@ -112,14 +107,16 @@ else
 			else
 			{
 				// OK, we can connect to database & config table exists.
-				$result = @pg_exec( $connection, "SELECT * FROM staff WHERE SYEAR='" . $DefaultSyear . "'" );
+				$result = db_query( "SELECT * FROM staff WHERE SYEAR='" . $DefaultSyear . "'" );
 
-				if ( ! pg_fetch_all( $result ) )
+				if ( ! db_fetch_row( $result ) )
 				{
 					$error[] = 'The value for $DefaultSyear in the config.inc.php file is incorrect.';
 				}
 				else
 				{
+					require_once './Warehouse.php';
+
 					// OK, $DefaultSyear is correct so we can login.
 					if ( ( isset( $_SESSION['STAFF_ID'] )
 							&& $_SESSION['STAFF_ID'] < 1 )
@@ -151,12 +148,30 @@ if ( ! empty( $wkhtmltopdfPath )
 	$error[] = 'The value for $wkhtmltopdfPath in the config.inc.php file is not correct.';
 }
 
-// Check pg_dump binary exists.
 if ( ! empty( $pg_dumpPath )
-	&& ( ! file_exists( $pg_dumpPath )
-		|| strpos( basename( $pg_dumpPath ), 'pg_dump' ) !== 0 ) )
+	&& empty( $DatabaseDumpPath )
+	&& $DatabaseType === 'postgresql' )
 {
-	$error[] = 'The value for $pg_dumpPath in the config.inc.php file is not correct.';
+	// @since 10.0 Rename $pg_dumpPath configuration variable to $DatabaseDumpPath
+	$DatabaseDumpPath = $pg_dumpPath;
+}
+
+// Check pg_dump binary exists.
+if ( ! empty( $DatabaseDumpPath )
+	&& $DatabaseType === 'postgresql'
+	&& ( ! file_exists( $DatabaseDumpPath )
+		|| strpos( basename( $DatabaseDumpPath ), 'pg_dump' ) !== 0 ) )
+{
+	$error[] = 'The value for $DatabaseDumpPath in the config.inc.php file is not correct. pg_dump utility not found.';
+}
+
+// Check mysqldump binary exists.
+if ( ! empty( $DatabaseDumpPath )
+	&& $DatabaseType === 'mysql'
+	&& ( ! file_exists( $DatabaseDumpPath )
+		|| strpos( basename( $DatabaseDumpPath ), 'mysqldump' ) !== 0 ) )
+{
+	$error[] = 'The value for $DatabaseDumpPath in the config.inc.php file is not correct. mysqldump utility not found.';
 }
 
 // Check for gd extension.
