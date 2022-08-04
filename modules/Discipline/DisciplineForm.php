@@ -90,6 +90,14 @@ if ( ! empty( $_REQUEST['values'] )
 					case 'multiple_radio':
 					case 'multiple_checkbox':
 					case 'select':
+						/**
+						 * MySQL TEXT is limited to 64KB.
+						 * With utf8mb4 taking up to 4bytes per characters, there is a limit of
+						 * Maximum 65 535 chars (using single-byte characters)
+						 * Minimum 16 383 chars (using 4-bytes characters)
+						 *
+						 * @link https://stackoverflow.com/questions/6766781/maximum-length-for-mysql-type-text
+						 */
 						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " TEXT" );
 						break;
 
@@ -102,7 +110,21 @@ if ( ! empty( $_REQUEST['values'] )
 						break;
 
 					case 'textarea':
-						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " TEXT" );
+						$sql_type = 'TEXT';
+
+						if ( $DatabaseType === 'mysql' )
+						{
+							/**
+							 * MySQL LONGTEXT type is limited to 4GB whereas TEXT is limited to 64KB.
+							 *
+							 * @since 10.0 MySQL use LONGTEXT type for textarea field
+							 *
+							 * @link https://stackoverflow.com/questions/6766781/maximum-length-for-mysql-type-text
+							 */
+							$sql_type = 'LONGTEXT';
+						}
+
+						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " " . $sql_type );
 						$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 						break;
 				}

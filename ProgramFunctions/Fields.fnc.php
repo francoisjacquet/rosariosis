@@ -13,6 +13,7 @@
  * @since 4.6 Add Files type
  * @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
  * @since 9.2.1 Change $sequence param to $field_id, adapted for use with DBLastInsertID()
+ * @since 10.0 MySQL use LONGTEXT type for textarea field
  *
  * @example AddDBField( 'schools', $school_fields_id, $columns['TYPE'] );
  *
@@ -24,6 +25,8 @@
  */
 function AddDBField( $table, $field_id, $type )
 {
+	global $DatabaseType;
+
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $type ) )
@@ -69,6 +72,14 @@ function AddDBField( $table, $field_id, $type )
 		case 'select':
 		case 'autos':
 
+			/**
+			 * MySQL TEXT is limited to 64KB.
+			 * With utf8mb4 taking up to 4bytes per characters, there is a limit of
+			 * Maximum 65 535 chars (using single-byte characters)
+			 * Minimum 16 383 chars (using 4-bytes characters)
+			 *
+			 * @link https://stackoverflow.com/questions/6766781/maximum-length-for-mysql-type-text
+			 */
 			$sql_type = 'TEXT';
 
 		break;
@@ -89,6 +100,17 @@ function AddDBField( $table, $field_id, $type )
 		case 'files':
 
 			$sql_type = 'TEXT';
+
+			if ( $type === 'textarea'
+				&& $DatabaseType === 'mysql' )
+			{
+				/**
+				 * MySQL LONGTEXT type is limited to 4GB whereas TEXT is limited to 64KB.
+				 *
+				 * @link https://stackoverflow.com/questions/6766781/maximum-length-for-mysql-type-text
+				 */
+				$sql_type = 'LONGTEXT';
+			}
 
 			$create_index = false;
 

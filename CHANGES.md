@@ -91,6 +91,7 @@ Changes in 10.0
 - Add `_getAddonsSQL()` & `_configTableCheck()` functions in InstallDatabase.php
 - $DatabasePort configuration variable is now optional in config.inc.sample.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - SQL start staff_fields ID sequence at 200000000 for coherence with custom_fields in rosariosis.sql & Fields.fnc.php
+- MySQL use LONGTEXT type for textarea field in Fields.fnc.php & DisciplineForm.php
 
 Changes in 9.3.1
 ----------------
