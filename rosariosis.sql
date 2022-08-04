@@ -2943,8 +2943,10 @@ INSERT INTO staff_field_categories VALUES (NEXTVAL('staff_field_categories_id_se
 -- Data for Name: staff_fields; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO staff_fields VALUES (200000000, 'text', 'Email Address', 0, NULL, 1, NULL, NULL);
-INSERT INTO staff_fields VALUES (200000001, 'text', 'Phone Number', 1, NULL, 1, NULL, NULL);
+SELECT SETVAL('staff_fields_id_seq', 199999999 ); -- Start at 200000000.
+
+INSERT INTO staff_fields VALUES (NEXTVAL('staff_fields_id_seq'), 'text', 'Email Address', 0, NULL, 1, NULL, NULL);
+INSERT INTO staff_fields VALUES (NEXTVAL('staff_fields_id_seq'), 'text', 'Phone Number', 1, NULL, 1, NULL, NULL);
 
 
 --

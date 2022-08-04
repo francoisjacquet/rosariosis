@@ -90,6 +90,7 @@ Changes in 10.0
 - Check if student already enrolled on that date when inserting START_DATE in SaveEnrollment.fnc.php
 - Add `_getAddonsSQL()` & `_configTableCheck()` functions in InstallDatabase.php
 - $DatabasePort configuration variable is now optional in config.inc.sample.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- SQL start staff_fields ID sequence at 200000000 for coherence with custom_fields in rosariosis.sql & Fields.fnc.php
 
 Changes in 9.3.1
 ----------------
