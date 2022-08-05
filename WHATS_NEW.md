@@ -13,6 +13,10 @@ config.inc.sample.php
 
 [Installation tutorial for Mac (macOS, OS X)](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-on-Mac-(macOS,-OS-X))
 
+#### Breaking changes
+
+SQL table names were converted to lowercase. If you have any _custom_ CSS, JS (div IDs) or PHP code relying on UPPERCASE table names, please update.
+
 
 New in 9.1
 ----------
