@@ -322,7 +322,11 @@ if ( ! empty( $_POST['tables'] ) )
 
 if ( $_REQUEST['modfunc'] === 'delete' )
 {
-	if ( ! empty( $_REQUEST['assignment_id'] ) )
+	if ( ! empty( $_REQUEST['assignment_id'] )
+		// SQL Check requested assignment belongs to teacher.
+		&& DBGetOne( "SELECT 1 FROM gradebook_assignments
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" ) )
 	{
 		// Assignment.
 		$prompt_title = _( 'Assignment' );
@@ -350,7 +354,10 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			FROM gradebook_assignments
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
 	}
-	else
+	// SQL Check requested assignment type belongs to teacher.
+	elseif ( DBGetOne( "SELECT 1 FROM gradebook_assignment_types
+		WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
+		AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" ) )
 	{
 		$assignment_type_has_assignments = DBGet( "SELECT 1
 			FROM gradebook_assignments
@@ -373,8 +380,8 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	}
 
 	// Confirm Delete.
-
-	if ( DeletePrompt( $prompt_title ) )
+	if ( DeletePrompt( $prompt_title )
+		&& ! empty( $sql ) )
 	{
 		DBQuery( $sql );
 
@@ -478,12 +485,9 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	if ( ! empty( $_REQUEST['assignment_id'] )
-		&& $_REQUEST['assignment_id'] !== 'new'
-		&& ( empty( $_REQUEST['assignment_type_id'] )
-			|| ! is_numeric( $_REQUEST['assignment_type_id'] ) ) )
+		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
-		// We have an Assignment ID but no type ID.
-		// Try to find it back.
+		// SQL Check requested assignment belongs to teacher.
 		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
 			FROM gradebook_assignments
 			WHERE (COURSE_ID=(SELECT COURSE_ID
@@ -498,8 +502,10 @@ if ( ! $_REQUEST['modfunc'] )
 			// Unset assignment & type IDs & redirect URL.
 			RedirectURL( [ 'assignment_type_id', 'assignment_id' ] );
 		}
-		else
+		elseif ( empty( $_REQUEST['assignment_type_id'] )
+			|| ! is_numeric( $_REQUEST['assignment_type_id'] ) )
 		{
+			// We have an Assignment ID but no type ID.
 			$_REQUEST['assignment_type_id'] = $assignment_type_RET[1]['ASSIGNMENT_TYPE_ID'];
 		}
 	}
