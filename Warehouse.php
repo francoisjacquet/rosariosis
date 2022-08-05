@@ -293,6 +293,8 @@ function array_rwalk( &$array, $function )
  * But this includes $_FILES as well & post_max_size must be greater than upload_max_filesize
  * One may want to be able to upload a 100MB file, but may not want the $_POST var,
  * with for example the text or HTML of a textarea to be 100MB and later stored in database.
+ *
+ * @link https://huntr.dev/bounties/430aedac-c7d9-4acb-9bab-bcc0595d9e95/
  */
 if ( ! defined( 'ROSARIO_POST_MAX_SIZE_LIMIT' ) )
 {
