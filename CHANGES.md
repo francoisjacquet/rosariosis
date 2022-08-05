@@ -94,6 +94,7 @@ Changes in 10.0
 - MySQL use LONGTEXT type for textarea field in Fields.fnc.php & DisciplineForm.php
 - SQL Check requested assignment belongs to teacher in Assignments.php
 - CSS fix responsive when really long string with no space in stylesheet.css
+- Limit `$_POST` array size to a maximum of 16MB in Warehouse.php
 
 Changes in 9.3.1
 ----------------

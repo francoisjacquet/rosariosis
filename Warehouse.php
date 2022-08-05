@@ -287,6 +287,50 @@ function array_rwalk( &$array, $function )
 }
 
 /**
+ * Limit $_POST array size to a maximum of 16MB
+ *
+ * $_POST array size is limited by PHP post_max_size configuration option
+ * But this includes $_FILES as well & post_max_size must be greater than upload_max_filesize
+ * One may want to be able to upload a 100MB file, but may not want the $_POST var,
+ * with for example the text or HTML of a textarea to be 100MB and later stored in database.
+ */
+if ( ! defined( 'ROSARIO_POST_MAX_SIZE_LIMIT' ) )
+{
+	/**
+	 * Fix a limit of 16MB based on MySQL max_allowed_packet default limit
+	 * Limit size can be overriden in the config.inc.php file
+	 */
+	define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 ); // 16MB in bytes.
+}
+
+if ( $_POST
+	&& strlen( serialize( $_POST ) ) > ROSARIO_POST_MAX_SIZE_LIMIT )
+{
+	$post_max_size_limit = function( $value ) {
+		if ( strlen( $value ) > ( ROSARIO_POST_MAX_SIZE_LIMIT / 4 ) )
+		{
+			// Reset value > limit / 4, or else we would send it in the HackingLog email!
+			return 'ROSARIO_POST_MAX_SIZE_LIMIT / 4 reached.';
+		}
+
+		return $value;
+	};
+
+	array_rwalk( $_POST, $post_max_size_limit );
+
+	array_rwalk( $_REQUEST, $post_max_size_limit );
+
+	require_once 'ProgramFunctions/HackingLog.fnc.php';
+
+	// Do not translate.
+	$error[] = 'You are submitting too much data: over the ' .
+		( ROSARIO_POST_MAX_SIZE_LIMIT / 1024 / 1024 ) .
+		'M limit. Try reducing the data you are submitting.';
+
+	HackingLog();
+}
+
+/**
  * Sanitize $_REQUEST array
  * ($_POST + $_GET)
  */
