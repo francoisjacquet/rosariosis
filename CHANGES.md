@@ -96,6 +96,7 @@ Changes in 10.0
 - CSS fix responsive when really long string with no space in stylesheet.css
 - Limit `$_POST` array size to a maximum of 16MB in Warehouse.php
 - Add optional ROSARIO_POST_MAX_SIZE_LIMIT constant in Warehouse.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- Add MySQL database dump in rosariosis_mysql.sql
 
 Changes in 9.3.1
 ----------------
