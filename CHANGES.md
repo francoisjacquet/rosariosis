@@ -93,6 +93,7 @@ Changes in 10.0
 - SQL start staff_fields ID sequence at 200000000 for coherence with custom_fields in rosariosis.sql & Fields.fnc.php
 - MySQL use LONGTEXT type for textarea field in Fields.fnc.php & DisciplineForm.php
 - SQL Check requested assignment belongs to teacher in Assignments.php
+- CSS fix responsive when really long string with no space in stylesheet.css
 
 Changes in 9.3.1
 ----------------
