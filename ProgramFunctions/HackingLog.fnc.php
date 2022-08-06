@@ -17,22 +17,13 @@
  * @since 6.4.1 Only send email and redirect to Portal without displaying error.
  * @since 9.0 Logout after 10 Hacking attempts within 1 minute.
  * @since 10.0 Log "RosarioSIS HACKING ATTEMPT" into Apache error.log
+ * @since 10.0 Force URL & menu reloading, always use JS to redirect
  */
 function HackingLog()
 {
 	global $error;
 
 	$redirect_url = 'Modules.php?modname=misc/Portal.php';
-
-	if ( ! empty( $_SERVER['HTTP_REFERER'] )
-		&& mb_strpos( $_SERVER['HTTP_REFERER'], '&redirect_to=' ) !== false
-		&& ! headers_sent() )
-	{
-		// If User has just logged in, take him back to Portal without sending email!
-		header( 'Location: ' . $redirect_url );
-
-		exit;
-	}
 
 	// Log Hacking time in session.
 	$_SESSION['HackingLog'][] = time();
@@ -68,6 +59,20 @@ function HackingLog()
 	 */
 	error_log( 'RosarioSIS HACKING ATTEMPT' );
 
+	if ( $attempts_within_one_minute < 10
+		&& ! empty( $_SERVER['HTTP_REFERER'] )
+		&& mb_strpos( $_SERVER['HTTP_REFERER'], '&redirect_to=' ) !== false )
+	{
+		// If User has just logged in, take him back to Portal without sending email!
+		?>
+		<script>
+			window.location.href = <?php echo json_encode( $redirect_url ); ?>;
+		</script>
+		<?php
+
+		exit;
+	}
+
 	$error[] = _( 'You\'re not allowed to use this program!' );
 
 	ErrorSendEmail( $error, 'HACKING ATTEMPT' );
@@ -80,17 +85,9 @@ function HackingLog()
 		session_destroy();
 	}
 
-	if ( ! headers_sent() )
-	{
-		// Redirect automatically to Portal or Logout.
-		header( 'Location: ' . $redirect_url );
-
-		exit;
-	}
-
+	// Redirect automatically to Portal or Logout.
 	?>
 	<script>
-		// Redirect automatically to Portal or Logout.
 		window.location.href = <?php echo json_encode( $redirect_url ); ?>;
 	</script>
 	<?php

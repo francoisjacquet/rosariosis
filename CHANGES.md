@@ -98,6 +98,7 @@ Changes in 10.0
 - Add optional ROSARIO_POST_MAX_SIZE_LIMIT constant in Warehouse.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - Add MySQL database dump in rosariosis_mysql.sql
 - Log "RosarioSIS HACKING ATTEMPT" into Apache error.log in HackingLog.fnc.php
+- Force URL & menu reloading, always use JS to redirect in HackingLog.fnc.php
 
 Changes in 9.3.1
 ----------------
