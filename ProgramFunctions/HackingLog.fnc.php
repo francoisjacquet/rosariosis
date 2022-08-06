@@ -16,6 +16,7 @@
  * @since 4.3 Reload menu now so it does not contain links to disallowed programs.
  * @since 6.4.1 Only send email and redirect to Portal without displaying error.
  * @since 9.0 Logout after 10 Hacking attempts within 1 minute.
+ * @since 10.0 Log "RosarioSIS HACKING ATTEMPT" into Apache error.log
  */
 function HackingLog()
 {
@@ -60,6 +61,12 @@ function HackingLog()
 			$redirect_url = 'index.php?modfunc=logout&token=' . $_SESSION['token'];
 		}
 	}
+
+	/**
+	 * Log "RosarioSIS HACKING ATTEMPT" into Apache error.log
+	 * So you can ban IP using a custom fail2ban jail
+	 */
+	error_log( 'RosarioSIS HACKING ATTEMPT' );
 
 	$error[] = _( 'You\'re not allowed to use this program!' );
 
