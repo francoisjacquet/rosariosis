@@ -810,7 +810,7 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					DBQuery( "INSERT INTO student_report_card_comments
 					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID, COMMENT)
-					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $course_period_id . "','" . $_REQUEST['mp'] . "','" . $id . "','" . $comment . "')" );
+					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $course_period_id . "','" . $_REQUEST['mp'] . "','" . (int) $id . "','" . $comment . "')" );
 				}
 			}
 		}
