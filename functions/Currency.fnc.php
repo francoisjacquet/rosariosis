@@ -43,12 +43,27 @@ function Currency( $num, $sign = 'before', $red = false )
 	// Add currency symbol & format amount.
 	// @since 9.1 Add decimal & thousands separator configuration.
 	// @link https://en.wikipedia.org/wiki/Decimal_separator
-	$num = Config( 'CURRENCY' ) . number_format(
+	$num = number_format(
 		$num,
 		2,
 		Config( 'DECIMAL_SEPARATOR' ),
 		Config( 'THOUSANDS_SEPARATOR' )
 	);
+
+	$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
+
+	$currency_after_lang = [ 'fr', 'es', 'de', 'cs', 'hu', 'ru', 'sv', 'tr', 'vi' ];
+
+	if ( in_array( $lang_2_chars, $currency_after_lang ) )
+	{
+		// @since 10.0 Place currency symbol after amount for some locales
+		// @link https://fastspring.com/blog/how-to-format-30-currencies-from-countries-all-over-the-world/
+		$num .= '&nbsp;' . Config( 'CURRENCY' );
+	}
+	else
+	{
+		$num = Config( 'CURRENCY' ) . $num;
+	}
 
 	// Add minus if negative.
 	if ( $negative )
@@ -58,7 +73,9 @@ function Currency( $num, $sign = 'before', $red = false )
 
 	// Add CR if credit.
 	elseif ( $cr )
+	{
 		$num = $num . 'CR';
+	}
 
 	// Red if negative amount.
 	if ( $red
