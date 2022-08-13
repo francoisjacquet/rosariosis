@@ -1,11 +1,10 @@
-# Custom Module
+# Custom module
 
 This module is part of [RosarioSIS](https://www.rosariosis.org)
 
 Author François Jacquet
-See COPYRIGHT file.
 Remove Access program sponsored by Santa Cecilia school, Salvador.
-Administrators can customize Registration form, sponsored by English National Program, France.
+Administrators can customize the Registration form, sponsored by English National Program, France.
 
 ## Description
 
@@ -17,7 +16,7 @@ Students
 
 - My Report
 - Create Parent Users (created from the students' contacts)
-- Registration (for parents & students to register their contacts) (administrators can customize form)
+- Registration (for parents & students to register their contacts; administrators can customize the form)
 - Remove Access (for students and associated parents)
 
 Users
