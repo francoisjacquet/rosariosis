@@ -100,6 +100,7 @@ Changes in 10.0
 - Log "RosarioSIS HACKING ATTEMPT" into Apache error.log in HackingLog.fnc.php
 - Force URL & menu reloading, always use JS to redirect in HackingLog.fnc.php
 - Place currency symbol after amount for some locales in Currency.fnc.php
+- SQL use timestamp type: standard & without time zone by default in rosariosis.sql
 
 Changes in 9.3.1
 ----------------

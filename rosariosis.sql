@@ -291,7 +291,7 @@ CREATE TABLE students (
     name_suffix varchar(3),
     username varchar(100) UNIQUE,
     password varchar(106),
-    last_login timestamp(0) without time zone,
+    last_login timestamp,
     failed_login integer,
     custom_200000000 text,
     custom_200000001 text,
@@ -330,7 +330,7 @@ CREATE TABLE staff (
     profile varchar(30),
     homeroom varchar(5),
     schools varchar(150),
-    last_login timestamp(0) without time zone,
+    last_login timestamp,
     failed_login integer,
     profile_id integer,
     rollover_id integer,
@@ -431,7 +431,7 @@ CREATE TABLE access_log (
     syear numeric(4,0) NOT NULL,
     username varchar(100),
     profile varchar(30),
-    login_time timestamp(0) without time zone,
+    login_time timestamp, -- TODO use created_at instead
     ip_address varchar(50),
     user_agent text,
     status varchar(50),
@@ -1042,7 +1042,7 @@ CREATE TABLE food_service_staff_transactions (
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     balance numeric(9,2),
-    "timestamp" timestamp(0) without time zone,
+    "timestamp" timestamp, -- TODO use created_at instead
     short_name varchar(25),
     description varchar(50),
     seller_id integer,
@@ -1096,7 +1096,7 @@ CREATE TABLE food_service_transactions (
     syear numeric(4,0) NOT NULL,
     discount varchar(25),
     balance numeric(9,2),
-    "timestamp" timestamp(0) without time zone,
+    "timestamp" timestamp, -- TODO use created_at instead
     short_name varchar(25),
     description varchar(50),
     seller_id integer,
@@ -1316,7 +1316,7 @@ CREATE TABLE portal_notes (
     content text,
     sort_order numeric,
     published_user integer,
-    published_date timestamp(0) without time zone,
+    published_date timestamp, -- TODO use created_at instead
     start_date date,
     end_date date,
     published_profiles text,
@@ -1356,7 +1356,7 @@ CREATE TABLE portal_polls (
     display_votes varchar(1),
     sort_order numeric,
     published_user integer,
-    published_date timestamp(0) without time zone,
+    published_date timestamp, -- TODO use created_at instead
     start_date date,
     end_date date,
     published_profiles text,
