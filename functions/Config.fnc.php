@@ -51,18 +51,18 @@ function Config( $item, $value = null )
 
 	if ( ! is_null( $value ) )
 	{
+		$school_id = isset( $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] ) ?
+			$_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] :
+			( UserSchool() > 0 ? UserSchool() : '0' );
+
 		if ( ! isset( $_ROSARIO['Config'][ (string) $item ][1]['TITLE'] ) )
 		{
-			$school_id = ( UserSchool() > 0 ? UserSchool() : '0' );
-
 			// Insert value (does not exist).
 			DBQuery( "INSERT INTO config (CONFIG_VALUE,TITLE,SCHOOL_ID)
 				VALUES('" . $value . "','" . $item . "','" . $school_id . "')" );
 		}
 		elseif ( $value != DBEscapeString( $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] ) )
 		{
-			$school_id = $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'];
-
 			// Update value (different from current value).
 			DBQuery( "UPDATE config
 				SET CONFIG_VALUE='" . $value . "'
@@ -72,8 +72,8 @@ function Config( $item, $value = null )
 
 		if ( $value !== DBEscapeString( $value ) )
 		{
-			$value = DBGetOne( "SELECT VALUE
-				FROM program_config
+			$value = DBGetOne( "SELECT CONFIG_VALUE
+				FROM config
 				WHERE TITLE='" . $item . "'
 				AND SCHOOL_ID='" . (int) $school_id . "'" );
 		}
