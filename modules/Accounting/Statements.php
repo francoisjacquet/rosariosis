@@ -1,5 +1,7 @@
 <?php
 
+StaffWidgets( 'staff_balance' );
+
 if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $_REQUEST['search_modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
