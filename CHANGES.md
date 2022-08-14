@@ -101,6 +101,7 @@ Changes in 10.0
 - Force URL & menu reloading, always use JS to redirect in HackingLog.fnc.php
 - Place currency symbol after amount for some locales in Currency.fnc.php
 - SQL use timestamp type: standard & without time zone by default in rosariosis.sql
+- CSS add .accounting-totals, .accounting-staff-payroll-totals, .student-billing-totals classes in Expenses.php, Incomes.php, Salaries.php, StaffPayments.php, StudentFees.php & StudentPayments.php
 
 Changes in 9.3.1
 ----------------

@@ -201,7 +201,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
 
-	$table = '<table class="align-right"><tr><td>' . _( 'Total from Incomes' ) . ': ' . '</td><td>' . Currency( $incomes_total ) . '</td></tr>';
+	$table = '<table class="align-right accounting-totals"><tr><td>' . _( 'Total from Incomes' ) . ': ' . '</td><td>' . Currency( $incomes_total ) . '</td></tr>';
 
 	$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Expenses' ) . ': ' . '</td><td>' . Currency( $payments_total ) . '</td></tr>';
 

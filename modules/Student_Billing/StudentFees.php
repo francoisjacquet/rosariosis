@@ -262,7 +262,7 @@ if ( UserStudentID()
 			WHERE p.STUDENT_ID='" . UserStudentID() . "'
 			AND p.SYEAR='" . UserSyear() . "'" );
 
-		$table = '<table class="align-right"><tr><td>' . _( 'Total from Fees' ) . ': ' . '</td><td>' . Currency( $fees_total ) . '</td></tr>';
+		$table = '<table class="align-right student-billing-totals"><tr><td>' . _( 'Total from Fees' ) . ': ' . '</td><td>' . Currency( $fees_total ) . '</td></tr>';
 
 		$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Payments' ) . ': ' . '</td><td>' . Currency( $payments_total ) . '</td></tr>';
 
