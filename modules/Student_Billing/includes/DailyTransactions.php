@@ -81,7 +81,8 @@ $columns = [
 ];
 
 $link['add']['html'] = [
-	'FULL_NAME' => '<b>' . _( 'Total' ) . '</b>',
+	'FULL_NAME' => _( 'Total' ) . ': ' .
+		'<b>' . Currency( $totals['CREDIT'] - $totals['DEBIT'] ) . '</b>',
 	'DEBIT' => '<b>' . Currency( ( isset( $totals['DEBIT'] ) ? $totals['DEBIT'] : 0 ) ) . '</b>',
 	'CREDIT' => '<b>' . Currency( ( isset( $totals['CREDIT'] ) ? $totals['CREDIT'] : 0 ) ) . '</b>',
 	'DATE' => '&nbsp;',
