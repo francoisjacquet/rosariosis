@@ -1,6 +1,7 @@
 <?php
 
 Widgets( 'mailing_labels' );
+Widgets( 'balance' );
 
 if ( empty( $_REQUEST['search_modfunc'] ) )
 {
