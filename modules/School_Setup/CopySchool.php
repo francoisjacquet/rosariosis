@@ -196,7 +196,7 @@ function _rollover( $table )
 					WHERE SYEAR=school_marking_periods.SYEAR
 					AND SCHOOL_ID=school_marking_periods.SCHOOL_ID
 					AND ROLLOVER_ID=school_marking_periods.PARENT_ID
-				) AS mp
+				) AS mp)
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . (int) $id . "'" );
 
