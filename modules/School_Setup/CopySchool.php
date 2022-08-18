@@ -184,12 +184,19 @@ function _rollover( $table )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
+			/**
+			 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
+			 *
+			 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+			 */
 			DBQuery( "UPDATE school_marking_periods
 				SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
-					FROM school_marking_periods mp
-					WHERE mp.SYEAR=school_marking_periods.SYEAR
-					AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
-					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID)
+				FROM (SELECT MARKING_PERIOD_ID
+					FROM school_marking_periods
+					WHERE SYEAR=school_marking_periods.SYEAR
+					AND SCHOOL_ID=school_marking_periods.SCHOOL_ID
+					AND ROLLOVER_ID=school_marking_periods.PARENT_ID
+				) AS mp
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . (int) $id . "'" );
 
