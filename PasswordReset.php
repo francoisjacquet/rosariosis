@@ -352,7 +352,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 
 	// Last login = now + 2 hours.
 	$last_login = DBGetOne( "SELECT
-		CAST(CURRENT_TIMESTAMP + INTERVAL " . ( $DatabaseType === 'mysql' ? '2 hour' : "'2 hour'" ) . " AS VARCHAR(19)) AS LAST_LOGIN" );
+		CAST(CURRENT_TIMESTAMP + INTERVAL " . ( $DatabaseType === 'mysql' ? '2 hour' : "'2 hour'" ) . " AS char(19)) AS LAST_LOGIN" );
 
 	// Generate hash from user ID, username, name, password, email & last login.
 	$hash = encrypt_password( $user_id . $username . $name . $password . $email . $last_login );
