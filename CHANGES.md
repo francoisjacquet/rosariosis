@@ -102,6 +102,7 @@ Changes in 10.0
 - Place currency symbol after amount for some locales in Currency.fnc.php
 - SQL use timestamp type: standard & without time zone by default in rosariosis.sql
 - CSS add .accounting-totals, .accounting-staff-payroll-totals, .student-billing-totals classes in Expenses.php, Incomes.php, Salaries.php, StaffPayments.php, StudentFees.php & StudentPayments.php
+- SQL rename KEY (reserved keyword) to SORT_KEY for MySQL compatibility in Search.fnc.php, StudentFieldBreakdown.php, StudentBreakdown.php
 
 Changes in 9.3.1
 ----------------

@@ -77,13 +77,13 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		if ( $fields_RET[1]['TYPE'] === 'autos' )
 		{
 			// Add values found in current year.
-			$options_RET = DBGet( "SELECT DISTINCT " . $field_column . ",upper(" . $field_column . ") AS KEY
+			$options_RET = DBGet( "SELECT DISTINCT " . $field_column . ",upper(" . $field_column . ") AS SORT_KEY
 				FROM students s,student_enrollment sse
 				WHERE sse.STUDENT_ID=s.STUDENT_ID
 				AND (sse.SYEAR='" . UserSyear() . "')
 				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " IS NOT NULL
 				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " != ''
-				ORDER BY KEY" );
+				ORDER BY SORT_KEY" );
 
 			foreach ( (array) $options_RET as $option )
 			{

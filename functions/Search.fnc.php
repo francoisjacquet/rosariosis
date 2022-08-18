@@ -597,11 +597,11 @@ function Search( $type, $extra = null )
 						}
 						else // Staff.
 						{
-							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS KEY
+							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
 								FROM staff s WHERE s.SYEAR='" . UserSyear() . "'
 								AND s." . $col_name . " IS NOT NULL
 								AND s." . $col_name . " != ''
-								ORDER BY KEY";
+								ORDER BY SORT_KEY";
 						}
 
 						$options_RET = DBGet( $sql_options );
