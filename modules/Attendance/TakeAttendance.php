@@ -16,7 +16,9 @@ $date = RequestedDate( 'date', DBDate(), 'set' );
 
 // Fix PostgreSQL error invalid ORDER BY, only result column names can be used
 // Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
+// Fix MySQL 5.6 syntax error when WHERE without FROM clause
 $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE,0,NULL AS SORT_ORDER
+	FROM course_periods
 	WHERE position(',0,' IN
 		(SELECT DOES_ATTENDANCE
 		FROM course_periods
