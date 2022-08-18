@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 					$addresses_RET = DBGet( "SELECT a.ADDRESS_ID,sjp.STUDENT_RELATION,a.ADDRESS,
 						a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
-						A.MAIL_ZIPCODE,sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,
+						a.MAIL_ZIPCODE,sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,
 						sja.BUS_DROPOFF," . db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . "AS SORT_ORDER" . $address_custom .
 						" FROM address a,students_join_address sja,students_join_people sjp
 						WHERE a.ADDRESS_ID=sja.ADDRESS_ID
@@ -112,7 +112,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						AND a.ADDRESS_ID=sjp.ADDRESS_ID
 						AND sjp.STUDENT_ID=sja.STUDENT_ID
 						UNION
-						SELECT a.ADDRESS_ID,'No Contacts' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," . db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . " AS SORT_ORDER" . $address_custom .
+						SELECT a.ADDRESS_ID,'No Contacts' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," . db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . " AS SORT_ORDER" . $address_custom .
 						" FROM address a,students_join_address sja
 						WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 						AND sja.STUDENT_ID='" . UserStudentID() . "'
