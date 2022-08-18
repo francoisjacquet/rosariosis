@@ -37,7 +37,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 	 * Student Billing module & admin profile
 	 *
 	 * @since 4.0
-	 * @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
+	 * @since 9.3 SQL use CAST(X AS char(X)) instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -46,7 +46,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 		$balance = 0;
 
 		// Limit Results to Months between User MP Start & End Date.
-		$fees_RET = DBGet( "SELECT CAST(ASSIGNED_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
+		$fees_RET = DBGet( "SELECT CAST(ASSIGNED_DATE AS char(7)) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_FEES
 			FROM billing_fees
 			WHERE SYEAR='" . UserSyear() . "'
@@ -55,7 +55,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			ORDER BY YEAR_MONTH_DATE DESC
 			LIMIT 3", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
+		$payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS char(7)) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
 			FROM billing_payments
 			WHERE SYEAR='" . UserSyear() . "'

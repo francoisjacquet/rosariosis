@@ -37,7 +37,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	 * Accounting module & admin profile
 	 *
 	 * @since 4.0
-	 * @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
+	 * @since 9.3 SQL use CAST(X AS char(X)) instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -45,7 +45,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	{
 		$general_balance = 0;
 
-		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS varchar(10)),1,7) AS YEAR_MONTH_DATE,
+		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS char(10)),1,7) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_INCOMES
 			FROM accounting_incomes
 			WHERE SYEAR='" . UserSyear() . "'
@@ -54,7 +54,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			ORDER BY YEAR_MONTH_DATE DESC
 			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$expenses_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
+		$expenses_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS char(7)) AS YEAR_MONTH_DATE,
 			SUM(CASE WHEN STAFF_ID IS NULL THEN AMOUNT END) AS TOTAL_EXPENSES
 			FROM accounting_payments
 			WHERE SYEAR='" . UserSyear() . "'
@@ -63,7 +63,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			ORDER BY YEAR_MONTH_DATE DESC
 			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$staff_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
+		$staff_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS char(7)) AS YEAR_MONTH_DATE,
 			SUM(CASE WHEN STAFF_ID IS NOT NULL THEN AMOUNT END) AS TOTAL_STAFF
 			FROM accounting_payments
 			WHERE SYEAR='" . UserSyear() . "'
@@ -72,7 +72,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			ORDER BY YEAR_MONTH_DATE DESC
 			LIMIT 2", [], [ 'YEAR_MONTH_DATE' ] );
 
-		$student_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH_DATE,
+		$student_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS char(7)) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_STUDENT_PAYMENTS
 			FROM billing_payments
 			WHERE SYEAR='" . UserSyear() . "'

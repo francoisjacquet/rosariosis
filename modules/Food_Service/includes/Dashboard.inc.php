@@ -37,7 +37,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 	 * Food Service module & admin profile
 	 *
 	 * @since 4.0
-	 * @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
+	 * @since 9.3 SQL use CAST(X AS char(X)) instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -48,7 +48,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 		// Meals served.
 		$meals_RET = DBGet( "SELECT
 			COUNT(DISTINCT STUDENT_ID) AS PARTICIPATED,
-			CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS varchar(10)) AS TRANSACTION_DATE
+			CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS char(10)) AS TRANSACTION_DATE
 			FROM food_service_transactions
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -59,7 +59,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 
 		$meals_staff_RET = DBGet( "SELECT
 			COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,
-			CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS varchar(10)) AS TRANSACTION_DATE
+			CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS char(10)) AS TRANSACTION_DATE
 			FROM food_service_staff_transactions
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'

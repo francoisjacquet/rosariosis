@@ -125,7 +125,7 @@ Changes in 9.3
 - SQL use CONCAT() instead of pipes || for MySQL compatibility, program wide
 - Fix first item in the list not displayed in Accounting/includes/DailyTransactions.php
 - SQL time interval for MySQL compatibility in PasswordReset.php & index.php
-- SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility in Dashboard.inc.php & Reminders.php
+- SQL use CAST(X AS char(X)) instead of to_char() for MySQL compatibility in Dashboard.inc.php & Reminders.php
 - SQL result as comma separated list for MySQL compatibility in Grades/includes/Dashboard.inc.php & MasterScheduleReport.php
 - Use DBEscapeIdentifier() for MySQL reserved 'TIMESTAMP' keyword in ServeMenus.php & Transactions.php
 - SQL add `_SQLUnixTimestamp()` to extract Unix timestamp or epoch from date in Grades.php & Schedule.php

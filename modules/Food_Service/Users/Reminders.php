@@ -68,10 +68,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			// @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
+			// @since 9.3 SQL use CAST(X AS char(X)) instead of to_char() for MySQL compatibility
 			$last_deposit = DBGet( "SELECT
 			(SELECT sum(AMOUNT) FROM food_service_staff_transaction_items WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			CAST(fst.TIMESTAMP AS varchar(10)) AS DATE
+			CAST(fst.TIMESTAMP AS char(10)) AS DATE
 			FROM food_service_staff_transactions fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.STAFF_ID='" . (int) $staff['STAFF_ID'] . "'
