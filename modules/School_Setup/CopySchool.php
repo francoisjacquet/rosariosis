@@ -189,16 +189,16 @@ function _rollover( $table )
 			 *
 			 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
 			 */
-			DBQuery( "UPDATE school_marking_periods
-				SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
+			DBQuery( "UPDATE school_marking_periods AS mp
+				SET mp.PARENT_ID=(SELECT mp2.MARKING_PERIOD_ID
 				FROM (SELECT MARKING_PERIOD_ID
 					FROM school_marking_periods
-					WHERE SYEAR=school_marking_periods.SYEAR
-					AND SCHOOL_ID=school_marking_periods.SCHOOL_ID
-					AND ROLLOVER_ID=school_marking_periods.PARENT_ID
-				) AS mp)
-				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . (int) $id . "'" );
+					WHERE SYEAR=mp.SYEAR
+					AND SCHOOL_ID=mp.SCHOOL_ID
+					AND ROLLOVER_ID=mp.PARENT_ID
+				) AS mp2)
+				WHERE mp.SYEAR='" . UserSyear() . "'
+				AND mp.SCHOOL_ID='" . (int) $id . "'" );
 
 		break;
 
