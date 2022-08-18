@@ -329,7 +329,7 @@ function MoodleUserImportStudent( $user )
 
 	if ( $email_field_key !== 'USERNAME' )
 	{
-		$email_field_key = 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+		$email_field_key = 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 	}
 	elseif ( ! empty( $user['email'] ) )
 	{

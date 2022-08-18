@@ -176,7 +176,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 
 		// @since 5.9 Send Account Activation email notification to Student.
 		$student_email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
-			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+			'USERNAME' : 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 
 		$to = DBGetOne( "SELECT " . $student_email_field . " FROM students
 			WHERE STUDENT_ID='" . (int) $student_id . "'" );
@@ -315,7 +315,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 		}
 
 		$student_email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
-			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+			'USERNAME' : 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 
 		$to = DBGetOne( "SELECT " . $student_email_field . " FROM students
 			WHERE STUDENT_ID='" . (int) $student_id . "'" );

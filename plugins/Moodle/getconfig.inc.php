@@ -36,7 +36,7 @@ function MoodleConfig()
 		if ( Config( 'STUDENTS_EMAIL_FIELD' ) )
 		{
 			$email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
-				Config( 'STUDENTS_EMAIL_FIELD' ) : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+				Config( 'STUDENTS_EMAIL_FIELD' ) : 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 		}
 
 		// Example: 11 => CUSTOM_11.

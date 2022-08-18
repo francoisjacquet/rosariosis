@@ -94,7 +94,7 @@ function RegistrationSiblingRegistered()
 	}
 
 	$email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
-		Config( 'STUDENTS_EMAIL_FIELD' ) : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+		'USERNAME' : 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 
 	// Find already registered (has address) student having same email address.
 	$student_id = (int) DBGetOne( "SELECT s.STUDENT_ID
