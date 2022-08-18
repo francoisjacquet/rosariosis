@@ -105,6 +105,7 @@ Changes in 10.0
 - SQL rename KEY (reserved keyword) to SORT_KEY for MySQL compatibility in Search.fnc.php, StudentFieldBreakdown.php, StudentBreakdown.php
 - SQL use GROUP BY instead of DISCTINCT ON for MySQL compatibility in Address.inc.php & EnterEligibility.php
 - SQL cast Config( 'STUDENTS_EMAIL_FIELD' ) to int when custom field in SendNotification.fnc.php, Registration.fnc.php, Moodle/getconfig.inc.php & ImportUsers.fnc.php
+- Fix MySQL 5.6 syntax error when WHERE without FROM clause in TakeAttendance.php & InputFinalGrades.php
 
 Changes in 9.3.1
 ----------------

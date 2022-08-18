@@ -79,6 +79,7 @@ $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 
 // Fix PostgreSQL error invalid ORDER BY, only result column names can be used
 // Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
+// Fix MySQL 5.6 syntax error when WHERE without FROM clause
 $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 	FROM report_card_comment_categories rc
 	WHERE rc.COURSE_ID='" . (int) $course_id . "'
@@ -88,6 +89,7 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		AND CATEGORY_ID=rc.ID)>0
 	UNION
 	SELECT 0,'" . DBEscapeString( _( 'All Courses' ) ) . "',NULL,2,NULL
+	FROM report_card_comment_categories rc2
 	WHERE (SELECT count(1)
 		FROM report_card_comments
 		WHERE SCHOOL_ID='" . UserSchool() . "'
@@ -95,6 +97,7 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		AND SYEAR='" . UserSyear() . "')>0
 	UNION
 	SELECT -1,'" . DBEscapeString( _( 'General' ) ) . "',NULL,3,NULL
+	FROM report_card_comment_categories rc3
 	WHERE (SELECT count(1)
 		FROM report_card_comments
 		WHERE SCHOOL_ID='" . UserSchool() . "'
