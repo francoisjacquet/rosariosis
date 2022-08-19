@@ -3180,13 +3180,6 @@ CREATE INDEX attendance_period_ind2 ON attendance_period (period_id);
 
 
 --
--- Name: attendance_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX attendance_period_ind3 ON attendance_period (attendance_code);
-
-
---
 -- Name: attendance_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -3653,13 +3646,6 @@ CREATE INDEX student_medical_visits_ind1 ON student_medical_visits (student_id);
 --
 
 CREATE INDEX student_report_card_comments_ind1 ON student_report_card_comments (syear, school_id);
-
-
---
--- Name: student_report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX student_report_card_grades_ind1 ON student_report_card_grades (school_id);
 
 
 --

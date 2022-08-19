@@ -3130,13 +3130,6 @@ CREATE INDEX attendance_period_ind2 ON attendance_period (period_id);
 
 
 --
--- Name: attendance_period_ind3; Type: INDEX;
---
-
-CREATE INDEX attendance_period_ind3 ON attendance_period (attendance_code);
-
-
---
 -- Name: attendance_period_ind4; Type: INDEX;
 --
 
@@ -3442,13 +3435,6 @@ CREATE INDEX student_enrollment_2 ON student_enrollment (grade_id);
 --
 
 CREATE INDEX student_enrollment_4 ON student_enrollment (start_date, end_date);
-
-
---
--- Name: student_report_card_grades_ind1; Type: INDEX;
---
-
-CREATE INDEX student_report_card_grades_ind1 ON student_report_card_grades (school_id);
 
 
 --

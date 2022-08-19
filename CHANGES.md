@@ -293,6 +293,7 @@ Changes in 9.0
 - HTML use number input for Class Rank widget in Widget.php
 - Check default if school has no default calendar in Calendar.php
 - CSS do not capitalize date in stylesheet.css
+- Remove unused index ON attendance_period (attendance_code) & ON student_report_card_grades (school_id) in rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 8.9.6
 ----------------
