@@ -309,7 +309,7 @@ if ( $_REQUEST['student_id']
 		$school_date = strip_tags( $school_date );
 
 		// Remove trailing slash "/" or dash "-" or dot ".".
-		$school_date = trim( $school_date, '/-.' );
+		$school_date = trim( $school_date, '/-. ' );
 
 		$columns[ $value['SHORT_DATE'] ] = isset( $_REQUEST['LO_save'] ) ?
 			$school_date : '<span class="proper-date">' . $school_date . '</span>';
