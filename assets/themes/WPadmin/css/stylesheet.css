@@ -26,6 +26,10 @@
 	/* 100% of browser screen height */
 }
 
+#menu-top select {
+	width: 100%;
+}
+
 #body {
 	margin-bottom: 38px;
 }
