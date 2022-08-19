@@ -133,9 +133,9 @@ function db_query( $sql, $show_error = true )
 		{
 			$result = mysqli_store_result( $db_connection );
 
-			if ( mysqli_more_results( $db_connection ) )
+			while ( mysqli_more_results( $db_connection ) )
 			{
-				while ( mysqli_next_result( $db_connection ) )
+				if ( mysqli_next_result( $db_connection ) )
 				{
 					// If multiple SELECT, return last result to be coherent with PostgreSQL.
 					$result = mysqli_store_result( $db_connection );
