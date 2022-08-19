@@ -380,10 +380,6 @@ select,
 	border-spacing: 0;
 }
 
-.widefat * {
-	word-wrap: break-word
-}
-
 .widefat a {
 	text-decoration: none
 }
@@ -461,7 +457,9 @@ select,
 .widefat th {
 	overflow: hidden;
 	font-weight: normal;
-	line-height: 1.4em
+	line-height: 1.4em;
+	/* Do not break column headers */
+	word-break: normal;
 }
 
 .widefat th,
