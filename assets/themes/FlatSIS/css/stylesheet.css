@@ -407,7 +407,18 @@ select,
 	font-size: larger;
 	line-height: 0.5em;
 	content: "\0000a0";
+	/**
+	 * Prevent wrapping to next line
+	 * @link https://stackoverflow.com/questions/16100956/prevent-after-element-from-wrapping-to-next-line
+	 */
+	display: inline-block;
+	width: 10px;
 	padding-left: 3px;
+	margin-right: -13px;
+}
+
+.widefat th a[href*="LO_dir"] {
+	padding-right: 13px;
 }
 
 .widefat th a[href*="LO_dir=1"]:hover:after {
