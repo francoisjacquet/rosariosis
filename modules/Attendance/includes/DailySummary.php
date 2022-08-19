@@ -362,7 +362,7 @@ else
 		$proper_date = strip_tags( $proper_date );
 
 		// Remove trailing slash "/" or dash "-" or dot ".".
-		$proper_date = trim( $proper_date, '/-.' );
+		$proper_date = trim( $proper_date, '/-. ' );
 
 		$extra['columns_after'][ $school_date_col ] = isset( $_REQUEST['LO_save'] ) ?
 			$proper_date : '<span class="proper-date">' . $proper_date . '</span>';
