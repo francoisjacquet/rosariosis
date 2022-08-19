@@ -110,6 +110,7 @@ Changes in 10.0
 - Fix MySQL syntax error: explicitly list all columns instead of wildcard in ActivityReport.php & Statements.php
 - Fix MakeChooseCheckbox() remove parent link to sort column in Inputs.php & ListOutput.fnc.php
 - CSS WPadmin fix menu select width in stylesheet.css
+- Enrollment Start: No N/A option for new student in StudentUsersInfo.fnc.php
 
 Changes in 9.3.1
 ----------------

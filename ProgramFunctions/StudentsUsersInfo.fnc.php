@@ -787,6 +787,9 @@ function _makeStartInput( $value, $column )
 	{
 		$id = 'new';
 
+		// @since 10.0 Enrollment Start: No N/A option for new student.
+		$na = false;
+
 		$default = DBGetOne( "SELECT min(SCHOOL_DATE) AS START_DATE
 			FROM attendance_calendar
 			WHERE SYEAR='" . UserSyear() . "'
