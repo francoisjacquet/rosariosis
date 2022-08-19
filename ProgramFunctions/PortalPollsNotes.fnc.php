@@ -51,9 +51,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 	// Submit query.
 	DBQuery( "UPDATE portal_polls
 		SET EXCLUDED_USERS='" . $excluded_users . "',
-		VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END
-			FROM portal_polls
-			WHERE ID='" . (int) $poll_id . "')
+		VOTES_NUMBER=" . db_case( [ 'VOTES_NUMBER', "''", '1', 'VOTES_NUMBER+1' ] ) . "
 		WHERE ID='" . (int) $poll_id . "'" );
 
 	return PortalPollsVotesDisplay(

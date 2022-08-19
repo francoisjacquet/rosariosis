@@ -86,39 +86,38 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			//enrollment: update only the LAST enrollment record
 
+			/**
+			 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
+			 *
+			 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+			 */
+			$last_enrollment_id = DBGetOne( "SELECT ID
+				FROM student_enrollment
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND STUDENT_ID='" . (int) $student_id . "'
+				ORDER BY START_DATE DESC
+				LIMIT 1" );
+
 			if ( ! empty( $grade_id ) )
 			{
 				DBQuery( "UPDATE student_enrollment
 					SET GRADE_ID='" . (int) $grade_id . "'
-					WHERE ID=(SELECT ID
-						FROM student_enrollment
-						WHERE SYEAR='" . UserSyear() . "'
-						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . (int) $student_id . "'
-						ORDER BY START_DATE DESC LIMIT 1)" );
+					WHERE ID='" . (int) $last_enrollment_id . "'" );
 			}
 
 			if ( isset( $next_school ) )
 			{
 				DBQuery( "UPDATE student_enrollment
 					SET NEXT_SCHOOL='" . $next_school . "'
-					WHERE ID=(SELECT ID
-						FROM student_enrollment
-						WHERE SYEAR='" . UserSyear() . "'
-						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . (int) $student_id . "'
-						ORDER BY START_DATE DESC LIMIT 1)" );
+					WHERE ID='" . (int) $last_enrollment_id . "'" );
 			}
 
 			if ( ! empty( $calendar ) )
 			{
 				DBQuery( "UPDATE student_enrollment
 					SET CALENDAR_ID='" . (int) $calendar . "'
-					WHERE ID=(SELECT ID FROM student_enrollment
-						WHERE SYEAR='" . UserSyear() . "'
-						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . (int) $student_id . "'
-						ORDER BY START_DATE DESC LIMIT 1)" );
+					WHERE ID='" . (int) $last_enrollment_id . "'" );
 			}
 
 			if ( ! empty( $start_date ) )

@@ -524,15 +524,32 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "UPDATE school_marking_periods
-				SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
-					FROM school_marking_periods mp
-					WHERE mp.SYEAR=school_marking_periods.SYEAR
-					AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
-					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID
-					LIMIT 1)
-				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+			if ( $DatabaseType === 'mysql' )
+			{
+				/**
+				 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
+				 *
+				 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+				 */
+				DBQuery( "UPDATE school_marking_periods AS mp
+					INNER JOIN school_marking_periods AS mp2 ON (mp2.SYEAR=mp.SYEAR
+						AND mp2.SCHOOL_ID=mp.SCHOOL_ID
+						AND mp2.ROLLOVER_ID=mp.PARENT_ID)
+					SET mp.PARENT_ID=mp2.MARKING_PERIOD_ID
+					WHERE mp.SYEAR='" . $next_syear . "'
+					AND mp.SCHOOL_ID='" . UserSchool() . "'" );
+			}
+			else
+			{
+				DBQuery( "UPDATE school_marking_periods
+					SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
+						FROM school_marking_periods mp
+						WHERE mp.SYEAR=school_marking_periods.SYEAR
+						AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
+						AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID)
+					WHERE SYEAR='" . $next_syear . "'
+					AND SCHOOL_ID='" . UserSchool() . "'" );
+			}
 
 			//FJ ROLL Gradebook Config's Final Grading Percentages
 			$db_case_array = [ 'puc.TITLE' ];
@@ -690,14 +707,31 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			DBQuery( "UPDATE course_periods
-				SET PARENT_ID=(SELECT cp.COURSE_PERIOD_ID
-					FROM course_periods cp
-					WHERE cp.ROLLOVER_ID=course_periods.PARENT_ID
-					LIMIT 1)
-				WHERE PARENT_ID IS NOT NULL
-				AND SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+			if ( $DatabaseType === 'mysql' )
+			{
+				/**
+				 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
+				 *
+				 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+				 */
+				DBQuery( "UPDATE course_periods cp
+					INNER JOIN course_periods AS cp2 ON (cp2.ROLLOVER_ID=cp.PARENT_ID)
+					SET cp.PARENT_ID=cp2.COURSE_PERIOD_ID
+					WHERE cp.PARENT_ID IS NOT NULL
+					AND cp.SYEAR='" . $next_syear . "'
+					AND cp.SCHOOL_ID='" . UserSchool() . "'" );
+			}
+			else
+			{
+				DBQuery( "UPDATE course_periods
+					SET PARENT_ID=(SELECT cp.COURSE_PERIOD_ID
+						FROM course_periods cp
+						WHERE cp.ROLLOVER_ID=course_periods.PARENT_ID
+						LIMIT 1)
+					WHERE PARENT_ID IS NOT NULL
+					AND SYEAR='" . $next_syear . "'
+					AND SCHOOL_ID='" . UserSchool() . "'" );
+			}
 
 			$categories_RET = DBGet( "SELECT ID,ROLLOVER_ID
 				FROM attendance_code_categories
@@ -981,16 +1015,21 @@ function Rollover( $table, $mode = 'delete' )
 
 		case 'food_service_staff_accounts':
 
+			/**
+			 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
+			 *
+			 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+			 */
 			DBQuery( "UPDATE food_service_staff_accounts fs1
-				SET STAFF_ID=(SELECT STAFF_ID FROM staff WHERE ROLLOVER_ID=fs1.STAFF_ID)
-				WHERE exists(SELECT *
+				SET STAFF_ID=(SELECT STAFF_ID FROM staff WHERE ROLLOVER_ID=fs1.STAFF_ID LIMIT 1)
+				WHERE exists(SELECT 1
 					FROM staff
 					WHERE ROLLOVER_ID=fs1.STAFF_ID
 					AND SYEAR='" . $next_syear . "')
-				AND NOT EXISTS(SELECT 1
+				AND NOT EXISTS(SELECT 1 FROM (SELECT 1
 					FROM food_service_staff_accounts fs2,staff st
 					WHERE fs2.STAFF_ID=st.STAFF_ID
-					AND st.SYEAR='" . $next_syear . "')" );
+					AND st.SYEAR='" . $next_syear . "') AS fs3)" );
 
 			break;
 

@@ -117,7 +117,8 @@ if ( $go
  */
 function _rollover( $table )
 {
-	global $id;
+	global $id,
+		$DatabaseType;
 
 	switch ( $table )
 	{
@@ -184,18 +185,32 @@ function _rollover( $table )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			/**
-			 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
-			 *
-			 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
-			 */
-			DBQuery( "UPDATE school_marking_periods AS mp
-				INNER JOIN school_marking_periods AS mp2 ON (mp2.SYEAR=mp.SYEAR
-					AND mp2.SCHOOL_ID=mp.SCHOOL_ID
-					AND mp2.ROLLOVER_ID=mp.PARENT_ID)
-				SET mp.PARENT_ID=mp2.MARKING_PERIOD_ID
-				WHERE mp.SYEAR='" . UserSyear() . "'
-				AND mp.SCHOOL_ID='" . (int) $id . "'" );
+			if ( $DatabaseType === 'mysql' )
+			{
+				/**
+				 * Fix MySQL 5.6 error Can't specify target table for update in FROM clause.
+				 *
+				 * @link https://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+				 */
+				DBQuery( "UPDATE school_marking_periods AS mp
+					INNER JOIN school_marking_periods AS mp2 ON (mp2.SYEAR=mp.SYEAR
+						AND mp2.SCHOOL_ID=mp.SCHOOL_ID
+						AND mp2.ROLLOVER_ID=mp.PARENT_ID)
+					SET mp.PARENT_ID=mp2.MARKING_PERIOD_ID
+					WHERE mp.SYEAR='" . UserSyear() . "'
+					AND mp.SCHOOL_ID='" . (int) $id . "'" );
+			}
+			else
+			{
+				DBQuery( "UPDATE school_marking_periods
+					SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID
+						FROM school_marking_periods mp
+						WHERE mp.SYEAR=school_marking_periods.SYEAR
+						AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
+						AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID)
+					WHERE SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . (int) $id . "'" );
+			}
 
 		break;
 
