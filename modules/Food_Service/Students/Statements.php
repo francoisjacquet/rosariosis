@@ -137,8 +137,10 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 			foreach ( (array) $RET as $key => $value )
 			{
-				$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,* FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'" );
-//FJ add translation
+				$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,
+					ITEM_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION
+					FROM food_service_transaction_items
+					WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'" );
 
 				foreach ( (array) $tmpRET as $RET_key => $RET_val )
 				{

@@ -71,7 +71,11 @@ if ( UserStudentID()
 		foreach ( (array) $RET as $key => $value )
 		{
 			// get details of each transaction
-			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM food_service_transaction_items WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
+			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,
+				ITEM_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION,
+				'" . DBEscapeString( $value['SHORT_NAME'] ) . "' AS TRANSACTION_SHORT_NAME
+				FROM food_service_transaction_items
+				WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
 
 			foreach ( (array) $tmpRET as $RET_key => $RET_val )
 			{

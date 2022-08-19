@@ -107,6 +107,7 @@ Changes in 10.0
 - SQL cast Config( 'STUDENTS_EMAIL_FIELD' ) to int when custom field in SendNotification.fnc.php, Registration.fnc.php, Moodle/getconfig.inc.php & ImportUsers.fnc.php
 - Fix MySQL 5.6 syntax error when WHERE without FROM clause in TakeAttendance.php & InputFinalGrades.php
 - Fix MySQL 5.6 error Can't specify target table for update in FROM clause in PortalPollsNotes.fnc.php, DeleteTransaction.fnc.php, DeleteTransactionItem.fnc.php, Rollover.php, CopySchool.php & AssignOtherInfo.php
+- Fix MySQL syntax error: explicitly list all columns instead of wildcard in ActivityReport.php & Statements.php
 
 Changes in 9.3.1
 ----------------
