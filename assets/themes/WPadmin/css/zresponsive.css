@@ -358,6 +358,9 @@
 	.fixed-col select {
 		max-width: 260px
 	}
+	#menu-top select {
+		width: 50%;
+	}
 	/* Teacher Programs */
 	.teacher-programs-wrapper {
 		padding: 1%;
