@@ -108,6 +108,7 @@ Changes in 10.0
 - Fix MySQL 5.6 syntax error when WHERE without FROM clause in TakeAttendance.php & InputFinalGrades.php
 - Fix MySQL 5.6 error Can't specify target table for update in FROM clause in PortalPollsNotes.fnc.php, DeleteTransaction.fnc.php, DeleteTransactionItem.fnc.php, Rollover.php, CopySchool.php & AssignOtherInfo.php
 - Fix MySQL syntax error: explicitly list all columns instead of wildcard in ActivityReport.php & Statements.php
+- Fix MakeChooseCheckbox() remove parent link to sort column in Inputs.php & ListOutput.fnc.php
 
 Changes in 9.3.1
 ----------------

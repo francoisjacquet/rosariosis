@@ -436,7 +436,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					continue;
 				}
 
-				if ( $options['sort'] )
+				if ( $options['sort']
+					// Fix MakeChooseCheckbox() remove parent link to sort column
+					&& mb_strpos( $value, 'id="controller"' ) === false )
 				{
 					echo '<th><a href="' . $PHP_tmp_SELF . URLEscape( '&LO_page=' . $LO_page .
 						'&LO_sort=' . $key . '&LO_dir=' . $direction .

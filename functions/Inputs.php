@@ -1766,6 +1766,7 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
  * AND use first, to set controller checkbox & default checked value & $THIS_RET column if need be.
  *
  * @since 4.3
+ * @since 10.0 Fix remove parent link to sort column, see ListOutput.fnc.php
  *
  * First, set controller:
  * @example $extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
@@ -1797,12 +1798,12 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 			return $checked ? '✔️' : '';
 		}
 
-		return '</a><input type="checkbox" value="Y" name="controller" id="controller"
+		return '<input type="checkbox" value="Y" name="controller" id="controller"
 			onclick="' . AttrEscape( 'checkAll(this.form,this.checked,' .
 				json_encode( $controller_name ) .
 				');' ) . '"' .
 			( $checked ? ' checked' : '' ) . ' />
-			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label><a>';
+			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label>';
 	}
 
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
