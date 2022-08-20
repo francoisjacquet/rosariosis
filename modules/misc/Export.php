@@ -323,7 +323,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		{
 			//FJ multiple school periods for a course period
 			//$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM staff st,schedule ss,course_periods cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
-			$extra['SELECT'] .= ',array(SELECT CONCAT(st.FIRST_NAME, \' \', st.LAST_NAME, \' - \'||coalesce(cp.ROOM,\' \'))
+			$extra['SELECT'] .= ',array(SELECT CONCAT(st.FIRST_NAME, \' \', st.LAST_NAME, \' - \', coalesce(cp.ROOM,\' \'))
 			FROM staff st,schedule ss,course_periods cp,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND ss.STUDENT_ID=ssm.STUDENT_ID
