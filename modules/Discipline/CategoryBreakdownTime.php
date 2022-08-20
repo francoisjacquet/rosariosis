@@ -154,7 +154,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 			if ( $_REQUEST['timeframe'] === 'month' )
 			{
 				//FJ bugfix data showed in the wrong month
-				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
+				$tf = ( $i%12 == 0 ? 12 : $i%12 );
 
 				//FJ add translation
 				$chart['chart_data'][ $index ][0] = $months[ (int) $tf ];
@@ -198,7 +198,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 			if ( $_REQUEST['timeframe'] === 'month' )
 			{
 				//FJ bugfix data showed in the wrong month
-				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
+				$tf = ( $i%12 == 0 ? 12 : $i%12 );
 
 				//FJ add translation
 				$chart['chart_data'][ $index ][0] = $months[ (int) $tf ];
@@ -295,7 +295,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 			if ( $_REQUEST['timeframe'] === 'month' )
 			{
 				//FJ bugfix data showed in the wrong month
-				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
+				$tf = ( $i%12 == 0 ? 12 : $i%12 );
 
 				//FJ add translation
 				$chart['chart_data'][ $index ][0] = $months[ (int) $tf ];

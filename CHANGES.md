@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.3.2
+----------------
+- Fix regression since 9.2.1 fields other type than Select Multiple from Options in CategoryBreakdownTime.php
+
 Changes in 9.3.1
 ----------------
 - Fix regression since 2.9 Schedule multiple courses in plugins/Moodle/Scheduling/MassSchedule.php
