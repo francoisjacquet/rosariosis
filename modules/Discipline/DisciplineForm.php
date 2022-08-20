@@ -83,7 +83,7 @@ if ( ! empty( $_REQUEST['values'] )
 				switch ( $columns['DATA_TYPE'] )
 				{
 					case 'checkbox':
-						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " VARCHAR(1)" );
+						$sql_type = 'VARCHAR(1)';
 						break;
 
 					case 'text':
@@ -98,15 +98,15 @@ if ( ! empty( $_REQUEST['values'] )
 						 *
 						 * @link https://stackoverflow.com/questions/6766781/maximum-length-for-mysql-type-text
 						 */
-						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " TEXT" );
+						$sql_type = 'TEXT';
 						break;
 
 					case 'numeric':
-						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " NUMERIC(20,2)" );
+						$sql_type = 'NUMERIC(20,2)';
 						break;
 
 					case 'date':
-						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " DATE" );
+						$sql_type = 'DATE';
 						break;
 
 					case 'textarea':
@@ -124,15 +124,18 @@ if ( ! empty( $_REQUEST['values'] )
 							$sql_type = 'LONGTEXT';
 						}
 
-						DBQuery( "ALTER TABLE discipline_referrals ADD CATEGORY_" . $id . " " . $sql_type );
 						$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 						break;
 				}
 
+				DBQuery( 'ALTER TABLE discipline_referrals ADD ' .
+					DBEscapeIdentifier( 'CATEGORY_' . (int) $id ) . ' ' . $sql_type );
+
 				if ( $create_index )
 				{
-					DBQuery( "CREATE INDEX discipline_referrals_IND" . $id . "
-						ON discipline_referrals (CATEGORY_" . $id . ")" );
+					DBQuery( 'CREATE INDEX ' . DBEscapeIdentifier( 'discipline_referrals_ind' . (int) $id ) .
+						' ON discipline_referrals (' .
+						DBEscapeIdentifier( 'CATEGORY_' . (int) $id ) . ')' );
 				}
 
 				DBQuery( $usage_sql );
