@@ -351,8 +351,9 @@ if ( $confirm_ok )
 		db_trans_commit();
 	}
 
-	if ( empty( $_REQUEST['test_mode'] )
-		|| ! empty( $_REQUEST['delete'] ) )
+	if ( ( empty( $_REQUEST['test_mode'] )
+			|| ! empty( $_REQUEST['delete'] ) )
+		&& $DatabaseType === 'postgresql' )
 	{
 		echo '<script>document.getElementById("percentDIV").innerHTML = ' .
 			json_encode( '<span class="loading" style="visibility: visible;"></span> ' . _( 'Optimizing ...' ) . ' ' ) . ';</script>';
@@ -360,6 +361,7 @@ if ( $confirm_ok )
 		ob_flush();
 		flush();
 
+		// SQL VACUUM & ANALIZE are for PostgreSQL only.
 		DBQuery( "VACUUM" );
 		DBQuery( "ANALYZE" );
 	}
