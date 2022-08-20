@@ -4,6 +4,7 @@
 Changes in 10.1
 ---------------
 - Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table in TakeAttendance.php, Reminders.php,  InputFinalGrades.php, Requests.php & Calendar.php
+- Add dual VIEW for compatibility with MySQL 5.6 to avoid syntax error when WHERE without FROM clause in rosariosis.sql
 
 Changes in 10.0
 ---------------

@@ -875,6 +875,17 @@ CREATE TABLE discipline_referrals (
 
 
 --
+-- Name: dual; Type: VIEW; Schema: public; Owner: rosariosis
+--
+-- Compatibility with MySQL 5.6 to avoid syntax error when WHERE without FROM clause
+-- @example SELECT 1 FROM dual WHERE NOT EXISTS(...)
+-- @link https://pgpedia.info/d/dual-dummy-table.html
+--
+
+CREATE VIEW dual AS SELECT 'X' AS dummy;
+
+
+--
 -- Name: eligibility; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
