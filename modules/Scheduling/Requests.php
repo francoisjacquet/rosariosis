@@ -106,6 +106,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 			FROM courses
 			WHERE COURSE_ID='" . (int) $course_id . "'" );
 
+		// Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table
 		DBQuery( "INSERT INTO schedule_requests (SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
 			SELECT '" .
 				UserSyear() . "','" .
@@ -113,9 +114,10 @@ if ( $_REQUEST['modfunc'] === 'add' )
 				UserStudentID() . "','" .
 				$subject_id . "','" .
 				$course_id . "'
+			FROM dual
 			WHERE NOT EXISTS (SELECT COURSE_ID
 				FROM schedule_requests
-				WHERE SYEAR='" .UserSyear() . "'
+				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND STUDENT_ID='" . UserStudentID() . "'
 				AND COURSE_ID='" . (int) $course_id . "')" );

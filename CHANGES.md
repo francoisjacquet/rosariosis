@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.1
+---------------
+- Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table in TakeAttendance.php, Reminders.php,  InputFinalGrades.php, Requests.php & Calendar.php
+
 Changes in 10.0
 ---------------
 - SQL convert table names to lowercase, program wide
@@ -105,7 +109,6 @@ Changes in 10.0
 - SQL rename KEY (reserved keyword) to SORT_KEY for MySQL compatibility in Search.fnc.php, StudentFieldBreakdown.php, StudentBreakdown.php
 - SQL use GROUP BY instead of DISCTINCT ON for MySQL compatibility in Address.inc.php & EnterEligibility.php
 - SQL cast Config( 'STUDENTS_EMAIL_FIELD' ) to int when custom field in SendNotification.fnc.php, Registration.fnc.php, Moodle/getconfig.inc.php & ImportUsers.fnc.php
-- Fix MySQL 5.6 syntax error when WHERE without FROM clause in TakeAttendance.php & InputFinalGrades.php
 - Fix MySQL 5.6 error Can't specify target table for update in FROM clause in PortalPollsNotes.fnc.php, DeleteTransaction.fnc.php, DeleteTransactionItem.fnc.php, Rollover.php, CopySchool.php & AssignOtherInfo.php
 - Fix MySQL syntax error: explicitly list all columns instead of wildcard in ActivityReport.php & Statements.php
 - Fix MakeChooseCheckbox() remove parent link to sort column in Inputs.php & ListOutput.fnc.php

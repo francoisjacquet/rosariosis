@@ -852,9 +852,11 @@ if ( ! $_REQUEST['modfunc'] )
 			//FJ fix bug MINUTES not numeric
 			elseif ( intval( $minutes ) > 0 )
 			{
+				// Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table
 				DBQuery( "INSERT INTO attendance_calendar
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
 					SELECT '" . UserSyear() . "','" . UserSchool() . "','" . $date . "','" . $_REQUEST['calendar_id'] . "','" . intval( $minutes ) . "'
+					FROM dual
 					WHERE NOT EXISTS(SELECT 1
 					FROM attendance_calendar
 					WHERE SCHOOL_DATE='" . $date . "'
@@ -889,9 +891,11 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 				else
 				{
+					// Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table
 					DBQuery( "INSERT INTO attendance_calendar
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
 						SELECT '" . UserSyear() . "','" . UserSchool()."','" . $date . "','" . $_REQUEST['calendar_id'] . "','999'
+						FROM dual
 						WHERE NOT EXISTS(SELECT 1
 						FROM attendance_calendar
 						WHERE SCHOOL_DATE='" . $date . "'

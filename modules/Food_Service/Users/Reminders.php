@@ -119,10 +119,11 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 	$status = DBEscapeString( _( 'Active' ) );
 
+	// Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table
 	$extra['SELECT'] .= ",coalesce(fsa.STATUS,'" . $status . "') AS STATUS,fsa.BALANCE
-		,(SELECT 'Y' WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING
-		,(SELECT 'Y' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE
-		,(SELECT 'Y' WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
+		,(SELECT 'Y' FROM dual WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING
+		,(SELECT 'Y' FROM dual WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE
+		,(SELECT 'Y' FROM dual WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
 
 	if ( ! mb_strpos( $extra['FROM'], 'fsa' ) )
 	{
