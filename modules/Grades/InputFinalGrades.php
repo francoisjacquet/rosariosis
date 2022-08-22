@@ -80,6 +80,7 @@ $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 // Fix PostgreSQL error invalid ORDER BY, only result column names can be used
 // Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 // Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table
+// Fix MySQL 5.6 syntax error in ORDER BY use report_card_comments table instead of dual
 $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 	FROM report_card_comment_categories rc
 	WHERE rc.COURSE_ID='" . (int) $course_id . "'
@@ -89,20 +90,16 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		AND CATEGORY_ID=rc.ID)>0
 	UNION
 	SELECT 0,'" . DBEscapeString( _( 'All Courses' ) ) . "',NULL,2,NULL
-	FROM dual
-	WHERE (SELECT count(1)
-		FROM report_card_comments
-		WHERE SCHOOL_ID='" . UserSchool() . "'
-		AND COURSE_ID='0'
-		AND SYEAR='" . UserSyear() . "')>0
+	FROM report_card_comments
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	AND COURSE_ID='0'
+	AND SYEAR='" . UserSyear() . "'
 	UNION
 	SELECT -1,'" . DBEscapeString( _( 'General' ) ) . "',NULL,3,NULL
-	FROM dual
-	WHERE (SELECT count(1)
-		FROM report_card_comments
-		WHERE SCHOOL_ID='" . UserSchool() . "'
-		AND COURSE_ID IS NULL
-		AND SYEAR='" . UserSyear() . "')>0
+	FROM report_card_comments
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	AND COURSE_ID IS NULL
+	AND SYEAR='" . UserSyear() . "'
 	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
 
 if ( ! isset( $_REQUEST['tab_id'] )
