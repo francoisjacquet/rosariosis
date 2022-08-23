@@ -1488,7 +1488,7 @@ if ( ! $_REQUEST['modfunc'] )
 					$value = [];
 				}
 
-				$request = 'values[ADDRESS]';
+				$request = 'values[address]';
 				echo '<table>';
 
 				foreach ( (array) $categories_RET as $fields_RET )
