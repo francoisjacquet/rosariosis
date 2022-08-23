@@ -45,7 +45,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	{
 		$general_balance = 0;
 
-		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS char(10)),1,7) AS YEAR_MONTH_DATE,
+		$incomes_RET = DBGet( "SELECT CAST(ASSIGNED_DATE AS char(7)) AS YEAR_MONTH_DATE,
 			SUM(AMOUNT) AS TOTAL_INCOMES
 			FROM accounting_incomes
 			WHERE SYEAR='" . UserSyear() . "'
