@@ -318,7 +318,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 						( $weekdays_list ?
 							" AND " . ( $DatabaseType === 'mysql' ?
 								"DAYOFWEEK(SCHOOL_DATE)-1" :
-								"cast(extract(DOW FROM SCHOOL_DATE)+1 AS int)" ) .
+								"cast(extract(DOW FROM SCHOOL_DATE) AS int)" ) .
 							" IN (" . $weekdays_list . ")" : '' );
 
 				if ( $date_min && $date_max )
