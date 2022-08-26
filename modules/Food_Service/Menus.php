@@ -217,7 +217,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = 'SELECT * FROM food_service_categories WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER IS NULL,SORT_ORDER';
+		$sql = "SELECT * FROM food_service_categories
+		WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'TITLE' => '_makeTextInput',

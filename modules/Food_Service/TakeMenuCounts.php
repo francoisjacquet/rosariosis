@@ -109,7 +109,13 @@ if ( ! isset( $_ROSARIO['allow_edit'] ) )
 	}
 }
 
-$current_RET = DBGet( 'SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND MENU_ID=\'' . $_REQUEST['menu_id'] . '\'', [], [ 'ITEM_ID' ] );
+$current_RET = DBGet( "SELECT ITEM_ID
+	FROM FOOD_SERVICE_COMPLETED
+	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+	AND SCHOOL_DATE='" . $date . "'
+	AND PERIOD_ID='" . UserPeriod() . "'
+	AND MENU_ID='" . (int) $_REQUEST['menu_id'] . "'", [], [ 'ITEM_ID' ] );
+
 //echo '<pre>'; var_dump($current_RET); echo '</pre>';
 
 if ( $_REQUEST['values']
