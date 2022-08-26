@@ -91,7 +91,7 @@ if ( $confirm_ok )
 		DBQuery( "DELETE FROM schedule
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND (SCHEDULER_LOCK!='Y' OR scheduleR_LOCK IS NULL)" );
+			AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)" );
 	}
 
 	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID
