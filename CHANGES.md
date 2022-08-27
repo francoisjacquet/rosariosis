@@ -7,6 +7,7 @@ Changes in 10.1
 - Add dual VIEW for compatibility with MySQL 5.6 to avoid syntax error when WHERE without FROM clause in rosariosis.sql & Update.fnc.php
 - Fix MySQL 5.6 syntax error in ORDER BY use report_card_comments table instead of dual in InputFinalGrades.php
 - Fix SQL use cast(extract(DOW) AS int) for PostrgeSQL in Calendar.php
+- Add instructions for MySQL in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 10.0
 ---------------

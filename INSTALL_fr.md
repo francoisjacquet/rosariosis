@@ -2,23 +2,23 @@
 
 ## RosarioSIS Student Information System
 
-RosarioSIS est une application web qui dépend d'un serveur web, du langage de script PHP et d'un serveur de base de données PostgreSQL.
+RosarioSIS est une application web qui dépend d'un serveur web, du langage de script PHP et d'un serveur de base de données PostgreSQL ou MySQL/MariaDB.
 
-Pour que RosarioSIS fonctionne, vous devrez d'abord avoir votre serveur web, PostgreSQL et PHP (extensions `pgsql`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` incluses) en état de marche. L'installation et la configuration des ces derniers varie selon votre système d'exploitation aussi ne seront-elles pas couvertes ici.
+Pour que RosarioSIS fonctionne, vous devrez d'abord avoir votre serveur web, PostgreSQL et PHP (extensions `pgsql`, `mysql`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` incluses) en état de marche. L'installation et la configuration des ces derniers varie selon votre système d'exploitation aussi ne seront-elles pas couvertes ici.
 
 RosarioSIS a été testé sur:
 
-- Windows 10 x86 avec Apache 2.4.16, Postgres 9.3.6, et PHP 5.4.45
-- Ubuntu 14.04 avec Apache 2.4.18, Postgres 9.3.10, et PHP 5.5.9
-- Debian Buster avec Apache 2.4.38, Postgres 11.5, et PHP 8.0.0
+- Windows 10 x86 avec Apache 2.4.16, Postgres 9.3.6, et PHP 7.1.18
 - macOS Monterey avec Apache 2.4.54, Postgres 14.4, et PHP 8.0.21
+- Ubuntu 14.04 avec Apache 2.4.18, Postgres 9.3.10, MySQL 5.6.33 et PHP 5.5.9
 - Ubuntu 20.04 avec Apache 2.4.48, Postgres 12.11, et PHP 7.4.22
+- Debian Bullseye avec Apache 2.4.54, Postgres 13.7, MariaDB 10.5.15 et PHP 8.1.4
 - CentOS 8.2 avec Apache 2.4.37, Postgres 9.6.10, et PHP 7.2.24
 - Hébergement mutualisé avec cPanel, nginx, Postgres 8.4, et PHP 5.6.27
 - à travers Mozilla Firefox et Google Chrome
 - à travers BrowserStack pour la compatibilité navigateurs (incompatible avec Internet Explorer)
 
-Minimum requis: **PHP 5.4.45** & **PostgreSQL 8.4**
+Minimum requis: **PHP 5.4.45** & **PostgreSQL 8.4** ou **MySQL 5.6**/MariaDB
 
 Instructions d'installation pour:
 
@@ -34,12 +34,13 @@ Installer le paquet
 
 Décompressez l'archive de RosarioSIS, ou bien clonez le dépôt avec git dans un répertoire accessible depuis le navigateur. Éditez le fichier `config.inc.sample.php` afin de régler les variables de configuration et renommez-le `config.inc.php`.
 
+- `$DatabaseType` Type du serveur de base de données: mysql ou postgresql.
 - `$DatabaseServer` Nom de l'hôte ou IP du serveur de base de données.
 - `$DatabaseUsername` Nom d'utilisateur pour se connecter à la base de données.
 - `$DatabasePassword` Mot de passe pour se connecter à la base de données.
 - `$DatabaseName` Nom de la base de données.
 
-- `$pg_dumpPath` Chemin complet vers l'utilitaire d'export de base de donnée, pg_dump.
+- `$DatabaseDumpPath` Chemin complet vers l'utilitaire d'export de base de donnée, pg_dump (PostgreSQL) ou mysqldump (MySQL).
 - `$wkhtmltopdfPath` Chemin complet vers l'utilitaire de génération de PDF, wkhtmltopdf.
 
 - `$DefaultSyear` Année scolaire par défaut. Ne changer qu'après avoir lancé le programme _Report Final_.
@@ -68,26 +69,26 @@ Décompressez l'archive de RosarioSIS, ou bien clonez le dépôt avec git dans u
 - `define( 'ROSARIO_DISABLE_ADDON_DELETE', true );` Désactiver la possibilité de supprimer les compléments (modules & plugins).
 
 
-Base de données
----------------
+Créer la base de données
+------------------------
 
-Vous êtes maintenant prêt pour configurer la base de données de RosarioSIS. Si vous avez accès à l'invite de commande sur votre serveur, suivez ces instructions.
+Vous êtes maintenant prêt pour configurer la base de données de RosarioSIS. Si vous avez accès à l'invite de commande sur votre serveur, ouvrez une fenêtre de terminal et suivez ces instructions.
 
-1. Ouvrez une fenêtre de terminal.
+Les instructions suivantes sont pour **PostgreSQL** (voir plus bas pour MySQL) :
 
-2. Connectez-vous à PostgreSQL avec l'utilisateur postgres:
+1. Connectez-vous à PostgreSQL avec l'utilisateur postgres :
 ```bash
 server$ sudo -u postgres psql
 ```
-3. Créez l'utilisateur rosariosis:
+2. Créez l'utilisateur rosariosis :
 ```bash
 postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';
 ```
-4. Créez la base de données rosariosis:
+3. Créez la base de données rosariosis :
 ```bash
 postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;
 ```
-5. Déconnexion de PostgreSQL:
+4. Déconnexion de PostgreSQL :
 ```bash
 postgres=# \q
 ```
@@ -97,6 +98,36 @@ Aussi, vous devrez peut-être éditer le fichier [`pg_hba.conf`](http://www.post
 # "local" is for Unix domain socket connections only
 local   all             all                                     md5
 ```
+
+---------------------------------------------
+
+Les instructions suivantes sont pour **MySQL** (RosarioSIS version 10 et supérieur) :
+
+1. Connectez-vous à MySQL avec l'utilisateur root :
+```bash
+server$ sudo mysql
+```
+ou bien
+```bash
+server$ mysql -u root -p
+```
+2. Créez l'utilisateur rosariosis :
+```bash
+mysql> CREATE USER 'rosariosis_user'@'localhost' IDENTIFIED BY 'rosariosis_user_password';
+```
+3. Créez la base de données rosariosis :
+```bash
+mysql> CREATE DATABASE rosariosis_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
+mysql> GRANT ALL PRIVILEGES ON rosariosis_db.* TO 'rosariosis_user'@'localhost';
+```
+4. Déconnexion de MySQL :
+```bash
+mysql> \q
+```
+
+
+Installer la base de données
+----------------------------
 
 Pour installer la base de données, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/InstallDatabase.php`
 
@@ -116,7 +147,7 @@ Extensions PHP
 
 Instructions d'installation pour Ubuntu 20.04:
 ```bash
-server$ sudo apt-get install php-pgsql php-gettext php-intl php-mbstring php-gd php-curl php-xmlrpc php-xml php-zip
+server$ sudo apt-get install php-pgsql php-mysql gettext php-intl php-mbstring php-gd php-curl php-xmlrpc php-xml php-zip
 ```
 
 
