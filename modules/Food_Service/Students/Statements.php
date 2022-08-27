@@ -138,7 +138,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			foreach ( (array) $RET as $key => $value )
 			{
 				$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,
-					ITEM_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION
+					ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION
 					FROM food_service_transaction_items
 					WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'" );
 
