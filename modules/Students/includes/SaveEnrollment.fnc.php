@@ -60,7 +60,10 @@ function SaveEnrollment()
 						unset( $_REQUEST['month_values']['student_enrollment'][$stu_enrol_id] );
 						unset( $_REQUEST['year_values']['student_enrollment'][$stu_enrol_id] );
 
-						$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
+						if ( $date )
+						{
+							$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
+						}
 					}
 				}
 			}
@@ -91,7 +94,10 @@ function SaveEnrollment()
 					unset( $_REQUEST['month_values']['student_enrollment'][$stu_enrol_id] );
 					unset( $_REQUEST['year_values']['student_enrollment'][$stu_enrol_id] );
 
-					$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
+					if ( $date )
+					{
+						$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
+					}
 				}
 			}
 			elseif ( UserStudentID()
