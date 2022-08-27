@@ -15,7 +15,11 @@ config.inc.sample.php
 
 #### Breaking changes
 
-SQL table names were converted to lowercase. If you have any _custom_ CSS, JS (div IDs) or PHP code relying on UPPERCASE table names, please update.
+SQL table names were converted to lowercase. If you have any _custom_ CSS, JS (div or input ID and names) or PHP code relying on UPPERCASE table names, please update.
+
+#### Know more
+
+Know more about RosarioSIS version 10 and MySQL support in this [blog post](https://www.rosariosis.org/blog/#mysql-support).
 
 
 New in 9.1
