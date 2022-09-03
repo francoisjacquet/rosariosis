@@ -4,6 +4,7 @@
 Changes in 10.2
 ---------------
 - Add StudentCanEnrollNextSchoolYear() & StudentEnrollNextSchoolYear() functions in Enrollment.fnc.php
+- Add "Enroll student for next school year" in Enrollment.inc.php
 
 Changes in 10.1
 ---------------

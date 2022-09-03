@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.2
+-----------
+
+Students
+- Student Info: Add "Enroll student for next school year" link to Rolling / Retention Options
+
+
 New in 10.0
 -----------
 

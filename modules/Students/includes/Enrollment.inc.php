@@ -87,7 +87,7 @@ foreach ( (array) $gradelevels_RET as $gradelevel )
 	$gradelevel_options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
 }
 
-if ( $_REQUEST['student_id']!== 'new' && ! empty( $enrollment_RET ))
+if ( $_REQUEST['student_id'] !== 'new' && ! empty( $enrollment_RET ) )
 {
 	$id = $enrollment_RET[count($enrollment_RET)]['ID'];
 
@@ -145,6 +145,32 @@ echo SelectInput(
 	'required',
 	$div
 );
+
+$can_enroll_next_syear = AllowEdit()
+	&& User( 'PROFILE' ) === 'admin'
+	&& $id !== 'new'
+	&& StudentCanEnrollNextSchoolYear( UserStudentID() );
+
+if ( $_REQUEST['modfunc'] === 'enroll_next_syear'
+	&& $can_enroll_next_syear )
+{
+	// @since 10.2 Add "Enroll student for next school year"
+	StudentEnrollNextSchoolYear( UserStudentID() );
+
+	$can_enroll_next_syear = false;
+
+	// Remove modfunc from URL & redirect.
+	RedirectURL( 'modfunc' );
+}
+
+if ( $can_enroll_next_syear )
+{
+	// @since 10.2 Add "Enroll student for next school year"
+	$enroll_next_syear_link = PreparePHP_SELF( [], [], [ 'modfunc' => 'enroll_next_syear' ] );
+
+	echo '<a href="' . $enroll_next_syear_link . '">' . _( 'Enroll student for next school year' ) . '</a>';
+}
+
 
 echo '</td></tr></table>';
 
