@@ -4,6 +4,7 @@ require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 require_once 'modules/Students/includes/Student.fnc.php';
 require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
+require_once 'modules/Students/includes/Enrollment.fnc.php';
 
 $_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
 

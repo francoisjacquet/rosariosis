@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.2
+---------------
+- Add StudentCanEnrollNextSchoolYear() & StudentEnrollNextSchoolYear() functions in Enrollment.fnc.php
+
 Changes in 10.1
 ---------------
 - Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table in TakeAttendance.php, Reminders.php,  InputFinalGrades.php, Requests.php & Calendar.php
