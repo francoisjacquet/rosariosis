@@ -5,6 +5,7 @@ Changes in 10.2
 ---------------
 - Add StudentCanEnrollNextSchoolYear() & StudentEnrollNextSchoolYear() functions in Enrollment.fnc.php
 - Add "Enroll student for next school year" in Enrollment.inc.php
+- Translate "Enroll student for next school year" to French & Spanish in rosariosis.po
 
 Changes in 10.1
 ---------------
