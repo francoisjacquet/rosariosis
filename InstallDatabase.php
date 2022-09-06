@@ -42,6 +42,12 @@ if ( _configTableCheck() )
 		die( 'Database already installed.' );
 	}
 
+	if ( $DatabaseType === 'mysql' )
+	{
+		// @since 10.2 MySQL fix character encoding when translating database
+		db_query( "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci" );
+	}
+
 	$addons_sql = $rosariosis_sql = '';
 
 	// Translate Database.
