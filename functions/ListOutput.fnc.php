@@ -464,7 +464,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
 					button(
 						'add',
-						$link['add']['title'],
+						issetVal( $link['add']['title'], '' ),
 						( mb_strpos( $link['add']['link'], '"' ) === 0 ?
 							$link['add']['link'] :
 							'"' . URLEscape( $link['add']['link'] ) . '"' )
