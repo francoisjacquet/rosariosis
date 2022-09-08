@@ -1675,9 +1675,6 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
  */
 function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = '', $div = true )
 {
-	/**
-	 * @var mixed
-	 */
 	static $js_included = false;
 
 	if ( $column === 'CITY'
@@ -1732,7 +1729,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 					$el.remove();
 
 					// Show & enable the text input of the same name.
-					$( '[name="' + el.name + '"]' ).prop('disabled', false).show().focus();
+					$( '[name="' + el.name + '_text"]' ).prop('name', el.name).prop('disabled', false).show().focus();
 				}
 			}
 			</script>
@@ -1745,7 +1742,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			// Add hidden & disabled Text input in case user chooses -Edit-.
 			$return .= TextInput(
 				'',
-				$input_name,
+				$input_name . '_text',
 				'',
 				$options . ' disabled style="display:none;"',
 				false
