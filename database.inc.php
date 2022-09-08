@@ -417,7 +417,7 @@ function db_trans_rollback()
  * @example $can_delete = DBTransDryRun( UserDeleteSQL( UserStaffID() ) );
  *
  * @param  string     $sql       SQL statement.
- * @return PostgreSQL result resource
+ * @return bool Can run the queries in the transaction without error?
  */
 function DBTransDryRun( $sql )
 {
