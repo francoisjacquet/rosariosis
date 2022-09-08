@@ -543,7 +543,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			}
 
 			// Reload Calendar & close popup
-			// @since 10.3 Maintain Calendar when closing event popup
+			// @since 10.2.1 Maintain Calendar when closing event popup
 			$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
 				$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
 			?>
@@ -569,7 +569,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			do_action( 'School_Setup/Calendar.php|delete_calendar_event' );
 
 			// Reload Calendar & close popup
-			// @since 10.3 Maintain Calendar when closing Event popup
+			// @since 10.2.1 Maintain Calendar when closing Event popup
 			$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
 				$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
 			?>
@@ -982,7 +982,7 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		// @since 10.3 Maintain current month on calendar change.
+		// @since 10.2.1 Maintain current month on calendar change.
 		$calendar_onchange_URL = PreparePHP_SELF( [], [ 'calendar_id' ] ) . '&calendar_id=';
 
 		$links = SelectInput(
