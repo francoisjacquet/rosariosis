@@ -1380,6 +1380,7 @@ div.st {
 
 .calendar-event {
 	height: 32px;
+	font-size: 14px;
 }
 
 /*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/

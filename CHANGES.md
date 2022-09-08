@@ -6,6 +6,7 @@ Changes in 10.3
 - SQL order by Marking Period Start Date in MarkingPeriods.php, Schedule.php, PrintSchedules.php, MassSchedule.php, MassDrops.php & Side.php
 - Maintain current month on calendar change in Calendar.php
 - Maintain Calendar when closing event popup in Calendar.php
+- CSS FlatSIS smaller font size for Calendar Event title in stylesheet.css
 
 Changes in 10.2
 ---------------
