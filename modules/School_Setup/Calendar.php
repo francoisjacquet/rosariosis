@@ -976,8 +976,8 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		//FJ bugfix erase calendar onchange
-		$calendar_onchange_URL = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&calendar_id=" );
+		// @since 10.3 Maintain current month on calendar change.
+		$calendar_onchange_URL = PreparePHP_SELF( [], [ 'calendar_id' ] ) . '&calendar_id=';
 
 		$links = SelectInput(
 			$_REQUEST['calendar_id'],

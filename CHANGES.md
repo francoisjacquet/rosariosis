@@ -4,6 +4,7 @@
 Changes in 10.3
 ---------------
 - SQL order by Marking Period Start Date in MarkingPeriods.php, Schedule.php, PrintSchedules.php, MassSchedule.php, MassDrops.php & Side.php
+- Maintain current month on calendar change in Calendar.php
 
 Changes in 10.2
 ---------------
