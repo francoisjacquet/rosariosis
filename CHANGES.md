@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.3
+---------------
+- SQL order by Marking Period Start Date in MarkingPeriods.php, Schedule.php, PrintSchedules.php, MassSchedule.php, MassDrops.php & Side.php
+
 Changes in 10.2
 ---------------
 - Add StudentCanEnrollNextSchoolYear() & StudentEnrollNextSchoolYear() functions in Enrollment.fnc.php

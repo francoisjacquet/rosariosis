@@ -463,7 +463,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			WHERE MP='QTR'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
 		?>
 
 		<span class="br-after">

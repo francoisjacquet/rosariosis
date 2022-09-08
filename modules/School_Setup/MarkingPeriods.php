@@ -649,7 +649,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND PARENT_ID='" . (int) $_REQUEST['year_id'] . "'
-			ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
 
 		if ( ! empty( $sem_RET ) )
 		{
@@ -700,7 +700,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND PARENT_ID='" . (int) $_REQUEST['semester_id'] . "'
-				ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
 
 			if ( ! empty( $qtr_RET ) )
 			{
@@ -751,7 +751,7 @@ if ( ! $_REQUEST['modfunc'] )
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND PARENT_ID='" . (int) $_REQUEST['quarter_id'] . "'
-					ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
 
 				if ( ! empty( $pro_RET ) )
 				{

@@ -165,7 +165,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY TBL,SORT_ORDER IS NULL,SORT_ORDER" );
+			ORDER BY TBL,SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
 
 		echo '<tr><td><select name="marking_period_id" id="marking_period_id">';
 

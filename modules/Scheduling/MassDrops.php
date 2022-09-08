@@ -197,7 +197,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY TBL,SORT_ORDER IS NULL,SORT_ORDER" );
+			ORDER BY TBL,SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
 
 		foreach ( (array) $mp_RET as $mp )
 		{
