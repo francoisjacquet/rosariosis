@@ -273,7 +273,8 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 				ORDER BY SORT_KEY";
 		}
 
-		if ( empty( $options_RET ) )
+		if ( empty( $options_RET )
+			&& ! empty( $options_SQL ) )
 		{
 			$options_RET = DBGet( $options_SQL );
 		}

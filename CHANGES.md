@@ -1,12 +1,13 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 10.3
----------------
+Changes in 10.2.1
+-----------------
 - SQL order by Marking Period Start Date in MarkingPeriods.php, Schedule.php, PrintSchedules.php, MassSchedule.php, MassDrops.php & Side.php
 - Maintain current month on calendar change in Calendar.php
 - Maintain Calendar when closing event popup in Calendar.php
 - CSS FlatSIS smaller font size for Calendar Event title in stylesheet.css
+- Fix SQL error mysqli_fetch_assoc(): Argument 1 must be of type mysqli_result, null given in database.inc.php & StudentsUsersInfo.fnc.php
 
 Changes in 10.2
 ---------------
