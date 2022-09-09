@@ -4,7 +4,7 @@
 
 RosarioSIS es una aplicación web que depende de un servidor web, el lenguaje de script PHP y un servidor de base de datos PostgreSQL o MySQL/MariaDB.
 
-Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL, y PHP (incluyendo las extensiones `pgsql`, `mysql`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` y `zip`) operativos. La implementación de aquellos varia con el sistema operativo así que está fuera del alcance de este breve documento de instalación.
+Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL (o MySQL/MariaDB), y PHP (incluyendo las extensiones `pgsql`, `mysql`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` y `zip`) operativos. La implementación de aquellos varia con el sistema operativo así que está fuera del alcance de este breve documento de instalación.
 
 RosarioSIS ha sido probado en:
 
