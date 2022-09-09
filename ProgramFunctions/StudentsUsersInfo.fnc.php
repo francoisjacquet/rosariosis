@@ -183,6 +183,7 @@ function _makeSelectInput( $column, $name, $request )
  * Make Auto Select Input
  *
  * @since 4.6 Add $options_RET parameter.
+ * @since 10.2.1 When -Edit- option selected, change the auto pull-down to text field
  *
  * @global array  $value
  * @global array  $field
@@ -196,6 +197,8 @@ function _makeSelectInput( $column, $name, $request )
  */
 function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 {
+	static $js_included = false;
+
 	global $value,
 		$field;
 
@@ -310,33 +313,83 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		];
 	}
 
-	if ( $value[ $column ] != '---'
-		&& count( $options ) > 1 )
-	{
-		// FJ select field is required.
-		$extra = ( $field['REQUIRED'] === 'Y' ? 'required' : '' );
+	$input_name = $request . '[' . $column . ']';
 
-		return SelectInput(
-			$value[ $column ],
-			$request . '[' . $column . ']',
+	if ( $value[ $column ] === '---'
+		|| count( $options ) < 1 )
+	{
+		// FJ new option.
+		return TextInput(
+			$value[ $column ] === '---' ?
+				[ '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ] :
+				$value[ $column ],
+			$input_name,
 			$name,
-			$options,
-			'N/A',
-			$extra,
+			( $field['REQUIRED'] === 'Y' ? 'required' : '' ),
 			$div
 		);
 	}
 
-	// FJ new option.
-	return TextInput(
-		$value[ $column ] === '---' ?
-			[ '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ] :
-			$value[ $column ],
-		$request . '[' . $column . ']',
+	// When -Edit- option selected, change the auto pull-down to text field.
+	$return = '';
+
+	if ( AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
+		&& ! $js_included )
+	{
+		$js_included = true;
+
+		ob_start();?>
+		<script>
+		function maybeEditTextInput(el) {
+
+			// -Edit- option's value is ---.
+			if ( el.value === '---' ) {
+
+				var $el = $( el );
+
+				// Remove parent <div> if any
+				if ( $el.parent('div').length ) {
+					$el.unwrap();
+				}
+				// Remove the select input.
+				$el.remove();
+
+				// Show & enable the text input of the same name.
+				$( '[name="' + el.name + '_text"]' ).prop('name', el.name).prop('disabled', false).show().focus();
+			}
+		}
+		</script>
+		<?php $return = ob_get_clean();
+	}
+
+	// FJ select field is required.
+	$extra = ( $field['REQUIRED'] === 'Y' ? 'required' : '' );
+
+	if ( AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		// Add hidden & disabled Text input in case user chooses -Edit-.
+		$return .= TextInput(
+			'',
+			$input_name . '_text',
+			'',
+			$extra . ' disabled style="display:none;"',
+			false
+		);
+	}
+
+	$return .= SelectInput(
+		$value[ $column ],
+		$input_name,
 		$name,
-		( $field['REQUIRED'] === 'Y' ? 'required' : '' ),
+		$options,
+		'N/A',
+		$extra . ' onchange="maybeEditTextInput(this);"',
 		$div
 	);
+
+	return $return;
 }
 
 
