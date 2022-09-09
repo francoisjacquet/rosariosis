@@ -71,7 +71,10 @@ if ( ! empty( $_REQUEST['values'] )
 			$_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] = 'N';
 		}
 
-		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) === 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] != 'Y' )
+		if ( $_REQUEST['tab'] == 'student_listing'
+			&& User( 'PROFILE' ) === 'admin'
+			&& ( empty( $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] )
+				|| $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] != 'Y' ) )
 		{
 			$_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] = 'N';
 		}
