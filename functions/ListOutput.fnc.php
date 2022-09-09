@@ -205,10 +205,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					array_multisort( $sort_array, $dir, $result );
 				}
 
-				for ( $i = $result_count - 1; $i >= 0; $i-- )
-				{
-					$result[$i + 1] = $result[$i];
-				}
+				array_unshift( $result, [ 'always_start_list_at_key_1' ] );
 
 				unset( $result[0] );
 			}
