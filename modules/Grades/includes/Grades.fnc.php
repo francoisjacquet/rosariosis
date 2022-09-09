@@ -43,7 +43,7 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND MARKING_PERIOD_ID='" . (int) $mp . "'" );
 
-			$gpa_row[$mp] = '<B>' . number_format( $cumulative_gpa, 2, '.', '' ) . '</B> / ' .
+			$gpa_row[$mp] = '<B>' . number_format( $cumulative_gpa, 2, '.', '' ) . '</B> /' .
 				(float) SchoolInfo( 'REPORTING_GP_SCALE' );
 		}
 
