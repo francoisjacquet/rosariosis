@@ -159,6 +159,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$i = 0;
 
+			$course_periods_all = [];
+
 			foreach ( (array) $RET as $student_id => $course_periods )
 			{
 				$name_tipmessage = '';
@@ -327,12 +329,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						}
 					}
 				}
+
+				$course_periods_all = array_replace( $course_periods_all, $course_periods );
 			}
 
 			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
 			{
 				// @since 5.0 Add Min. and Max. Grades.
-				$min_max_grades = GetReportCardMinMaxGrades( $course_periods );
+				$min_max_grades = GetReportCardMinMaxGrades( $course_periods_all );
 
 				$grades_RET = AddReportCardMinMaxGrades(
 					$min_max_grades,
