@@ -1460,6 +1460,40 @@ td.calendar-menu {
 	float: left;
 }
 
+/* Report Cards */
+
+.grade-minmax-wrap {
+	min-width: 120px;
+}
+
+/* Note: Total width < 100% so to leave space for triangle sort icon (::after). */
+
+.grade-minmax-min {
+	float: left;
+	width: 23%;
+	font-size: 14px;
+}
+
+.grade-minmax-grade {
+	float: left;
+	width: 48%;
+	text-align: center;
+}
+
+.grade-minmax-max {
+	float: left;
+	width: 23%;
+	text-align: right;
+	font-size: 14px;
+}
+
+.grade-minmax-min,
+.grade-minmax-grade,
+.grade-minmax-max {
+	/* Do not break grades */
+	word-wrap: initial;
+}
+
 /* Take Attendance */
 
 /* Attendance Codes */

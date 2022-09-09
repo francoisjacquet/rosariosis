@@ -1643,6 +1643,7 @@ function GetReportCardMinMaxGrades( $course_periods )
  * Update MP columns text: "Min. [MP] Max.".
  *
  * @since 5.0
+ * @since 10.2.1 CSS Add .grade-minmax-wrap,.grade-minmax-min,.grade-minmax-grade & .grade-minmax-max classes & avoid breaking grades
  *
  * @param array $min_max_grades Min. and Max. Grades.
  * @param array $grades_RET     Student Report Card Grades list array.
@@ -1691,19 +1692,18 @@ function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 				$max_grade = number_format( $max_grade, 2, '.', '' );
 			}
 
-			$grades_RET[$i][$mp_id] = '<div style="float: left;width: 23%;" class="size-1">' . $min_grade . '</div>
-				<div style="float: left;width: 48%;text-align: center;">' . $grades_RET[$i][$mp_id] . '</div>
-				<div style="float: left;width: 23%;text-align: right;" class="size-1">' . $max_grade . '</div>';
+			$grades_RET[$i][$mp_id] = '<div class="grade-minmax-wrap"><div class="grade-minmax-min">' . $min_grade . '</div>
+				<div class="grade-minmax-grade">' . $grades_RET[$i][$mp_id] . '</div>
+				<div class="grade-minmax-max">' . $max_grade . '</div></div>';
 
 			if ( ! empty( $columns_done[$mp_id] ) )
 			{
 				continue;
 			}
 
-			// Note: Total width < 100% so to leave space for triangle sort icon (::after).
-			$LO_columns[$mp_id] = '<div style="float: left;width: 23%;" class="size-1">' . _( 'Min.' ) . '</div>
-				<div style="float: left;width: 48%;text-align: center;"><b>' . $LO_columns[$mp_id] . '</b></div>
-				<div style="float: left;width: 23%;text-align: right;" class="size-1">' . _( 'Max.' ) . '</div>';
+			$LO_columns[$mp_id] = '<div class="grade-minmax-wrap"><div class="grade-minmax-min">' . _( 'Min.' ) . '</div>
+				<div class="grade-minmax-grade">' . GetMP( $mp_id, 'SHORT_NAME' ) . '</div>
+				<div class="grade-minmax-max">' . _( 'Max.' ) . '</div></div>';
 
 			$columns_done[$mp_id] = true;
 		}

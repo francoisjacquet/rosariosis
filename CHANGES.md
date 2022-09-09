@@ -12,6 +12,7 @@ Changes in 10.2.1
 - HTML remove bold for "Other students associated with this address/person" in Address.inc.php
 - SQL order by FULL_NAME (Display Name config option) in PortalPollNotes.fnc.php, Widget.php, GetStaffList.fnc.php, GetStuList.fnc.php, Transcripts.fnc.php, Courses.php, MassRequests.php, ScheduleReport.php & Address.inc.php
 - CSS fix Report Cards PDF columns size when long comments text in ReportCards.fnc.php & stylesheet_wkhtmltopdf.css
+- CSS Add .grade-minmax-wrap,.grade-minmax-min,.grade-minmax-grade & .grade-minmax-max classes & avoid breaking grades in stylesheet.css & ReportCards.fnc.php
 
 Changes in 10.2
 ---------------
