@@ -9,6 +9,7 @@ Changes in 10.2.1
 - CSS FlatSIS smaller font size for Calendar Event title in stylesheet.css
 - Fix SQL error mysqli_fetch_assoc(): Argument 1 must be of type mysqli_result, null given in database.inc.php & StudentsUsersInfo.fnc.php
 - When -Edit- option selected, change the auto pull-down to text field in StudentsUsersInfo.fnc.php
+- HTML remove bold for "Other students associated with this address/person" in Address.inc.php
 
 Changes in 10.2
 ---------------

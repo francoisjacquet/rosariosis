@@ -519,7 +519,7 @@ if ( ! $_REQUEST['modfunc'] )
 					$ximages .= ' ' . button( 'mailbox' );
 				}
 
-				$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b>' . $ximages;
+				$warning[] = $xstudent['FULL_NAME'] . $ximages;
 			}
 
 			echo '<th>' . makeTipMessage(
@@ -771,8 +771,8 @@ if ( ! $_REQUEST['modfunc'] )
 							$ximages .= ' ' . button( 'emergency' );
 						}
 
-						$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b> ' .
-							( $xstudent['STUDENT_RELATION'] ? '(' . $xstudent['STUDENT_RELATION'] . ') ' : '' ) .
+						$warning[] = $xstudent['FULL_NAME'] .
+							( $xstudent['STUDENT_RELATION'] ? ' (' . $xstudent['STUDENT_RELATION'] . ') ' : '' ) .
 							$ximages;
 					}
 
