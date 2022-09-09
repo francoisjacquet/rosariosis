@@ -8,6 +8,8 @@ New in 10.2
 Students
 - Student Info: Add "Enroll student for next school year" link to Rolling / Retention Options
 
+Student / User Listing: order by "Display Name" (was Last Name, First Name)
+
 
 New in 10.0
 -----------
