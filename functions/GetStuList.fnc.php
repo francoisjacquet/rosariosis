@@ -668,8 +668,7 @@ function GetStuList( &$extra = [] )
 			$sql .= '(SELECT SORT_ORDER FROM school_gradelevels WHERE ID=ssm.GRADE_ID),';
 		}
 
-		// It would be easier to sort on full_name but postgres sometimes yields strange results.
-		$sql .= 's.LAST_NAME,s.FIRST_NAME';
+		$sql .= 'FULL_NAME';
 
 		if ( isset( $extra['ORDER'] ) )
 		{
@@ -959,13 +958,13 @@ function makeParents( $student_id, $column )
 		$constraint .= " AND sjp.CUSTODY='Y'";
 	}
 
-	$people_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
+	$people_RET = DBGet( "SELECT p.PERSON_ID," . DisplayNameSQL( 'p' ) . " AS FULL_NAME,
 		sjp.CUSTODY,sjp.EMERGENCY
 		FROM students_join_people sjp,people p
 		WHERE sjp.PERSON_ID=p.PERSON_ID
 		AND sjp.STUDENT_ID='" . (int) $student_id . "'
 		AND sjp.ADDRESS_ID='" . (int) $THIS_RET['ADDRESS_ID'] . "'" . $constraint .
-		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" );
+		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,FULL_NAME" );
 
 	if ( ! $people_RET )
 	{
@@ -986,7 +985,7 @@ function makeParents( $student_id, $column )
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			$parents .= $person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] . '</div>';
+			$parents .= $person['FULL_NAME'] . '</div>';
 
 			continue;
 		}
@@ -998,7 +997,7 @@ function makeParents( $student_id, $column )
 				' . json_encode( $popup_url ) . ',
 				"scrollbars=yes,resizable=yes,width=400,height=300"
 			); return false;' ) . '">' .
-				$person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] .
+				$person['FULL_NAME'] .
 			'</a></div>';
 	}
 

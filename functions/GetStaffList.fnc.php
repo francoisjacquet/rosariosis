@@ -198,8 +198,7 @@ function GetStaffList( &$extra = [] )
 	if ( ! isset( $extra['ORDER_BY'] )
 		/*&& ! isset( $extra['SELECT_ONLY'] )*/ )
 	{
-		// It would be easier to sort on full_name but postgres sometimes yields strange results.
-		$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
+		$sql .= ' ORDER BY FULL_NAME';
 
 		if ( isset( $extra['ORDER'] ) )
 		{

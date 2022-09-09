@@ -688,6 +688,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['address_id'] !== 'new' && $_REQUEST['address_id'] != 'old' )
 		{
 			$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
+				" . DisplayNameSQL( 'p' ) . " AS FULL_NAME,
 				sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
 				FROM people p,students_join_people sjp
 				WHERE p.PERSON_ID=sjp.PERSON_ID
@@ -794,12 +795,10 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 
 				echo $images .
-				'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] ) . '">' .
-				DisplayName(
-					$contact['FIRST_NAME'],
-					$contact['LAST_NAME'],
-					$contact['MIDDLE_NAME']
-				) . '</a>';
+				'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+					'&category_id=' . $_REQUEST['category_id'] .
+					'&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] ) . '">' .
+				$contact['FULL_NAME'] . '</a>';
 
 				echo $contact['STUDENT_RELATION'] ? ' (' . $contact['STUDENT_RELATION'] . ')' : '';
 
@@ -1176,8 +1175,7 @@ if ( ! $_REQUEST['modfunc'] )
 					echo InputDivOnclick(
 						$id,
 						$person_html,
-						$this_contact['FIRST_NAME'] . ' ' . $this_contact['MIDDLE_NAME'] . ' ' .
-						$this_contact['LAST_NAME'],
+						$this_contact['FULL_NAME'],
 						FormatInputTitle( _( 'Name' ), $id )
 					);
 
@@ -1437,7 +1435,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 
 				$people_RET = DBGet( "SELECT DISTINCT p.PERSON_ID,
-					p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
+					" . DisplayNameSQL( 'p' ) . " AS FULL_NAME
 					FROM people p,students_join_people sjp
 					WHERE sjp.PERSON_ID=p.PERSON_ID
 					AND sjp.ADDRESS_ID" . ( $_REQUEST['address_id'] != '0' ? '!=' : '=' ) . "'0'
@@ -1445,17 +1443,13 @@ if ( ! $_REQUEST['modfunc'] )
 						FROM students_join_people
 						WHERE STUDENT_ID='" . UserStudentID() . "')" .
 					$limit_current_school_sql .
-					" ORDER BY LAST_NAME,FIRST_NAME" );
+					" ORDER BY FULL_NAME" );
 
 				$people_select = [];
 
 				foreach ( (array) $people_RET as $people )
 				{
-					$people_select[$people['PERSON_ID']] = DisplayName(
-						$people['FIRST_NAME'],
-						$people['LAST_NAME'],
-						$people['MIDDLE_NAME']
-					);
+					$people_select[$people['PERSON_ID']] = $people['FULL_NAME'];
 				}
 
 				echo ChosenSelectInput(

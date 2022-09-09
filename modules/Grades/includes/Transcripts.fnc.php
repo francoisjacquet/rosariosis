@@ -791,7 +791,7 @@ function _getTranscriptsStudents( $st_list, $syear )
 
 	$students_RET = DBGet( $students_dataquery .
 		' WHERE s.student_id IN (' . $st_list . ')
-		ORDER BY LAST_NAME,FIRST_NAME', [], [ 'STUDENT_ID' ] );
+		ORDER BY FULL_NAME', [], [ 'STUDENT_ID' ] );
 
 	return $students_RET;
 }

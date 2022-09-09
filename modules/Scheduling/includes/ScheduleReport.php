@@ -388,7 +388,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 		}
 	}
 
-	$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
+	$sql .= ' ORDER BY FULL_NAME';
 
 	$RET = DBGet( $sql, [ 'GRADE_ID' => 'GetGrade' ] + $function_birthdate );
 

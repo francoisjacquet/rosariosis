@@ -98,7 +98,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		echo '</div><a href="#" onclick="' . AttrEscape( 'popups.open(
 			' . json_encode( $popup_url ) . '
-			); return false;' ) . '">' . _( 'Choose a Course' ) . '</a></td></tr>';
+			); return false;' ) . '">' . _( 'Choose a Course' ) . '</a><br /><br /></td></tr>';
 
 		echo '<tr><td>' . _( 'With' ) . '</td><td>';
 
@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 			AND SYEAR='" . UserSyear() . "'
 			AND PROFILE='teacher'
-			ORDER BY LAST_NAME,FIRST_NAME" );
+			ORDER BY FULL_NAME" );
 
 		foreach ( (array) $teachers_RET as $teacher )
 		{

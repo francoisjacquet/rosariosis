@@ -10,6 +10,7 @@ Changes in 10.2.1
 - Fix SQL error mysqli_fetch_assoc(): Argument 1 must be of type mysqli_result, null given in database.inc.php & StudentsUsersInfo.fnc.php
 - When -Edit- option selected, change the auto pull-down to text field in StudentsUsersInfo.fnc.php
 - HTML remove bold for "Other students associated with this address/person" in Address.inc.php
+- SQL order by FULL_NAME (Display Name config option) in PortalPollNotes.fnc.php, Widget.php, GetStaffList.fnc.php, GetStuList.fnc.php, Transcripts.fnc.php, Courses.php, MassRequests.php, ScheduleReport.php & Address.inc.php
 
 Changes in 10.2
 ---------------

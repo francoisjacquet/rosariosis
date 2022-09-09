@@ -898,11 +898,11 @@ if (  ( ! $_REQUEST['modfunc']
 			) . '</td>';
 
 			// @since 9.2.1 SQL replace use of STRPOS() with LIKE, compatible with MySQL.
-			$teachers_RET = DBGet( "SELECT STAFF_ID
+			$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 				FROM staff WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 				AND SYEAR='" . UserSyear() . "'
 				AND PROFILE='teacher'
-				ORDER BY LAST_NAME,FIRST_NAME" );
+				ORDER BY FULL_NAME" );
 
 			$teachers = [];
 

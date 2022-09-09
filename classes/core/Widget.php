@@ -1137,8 +1137,7 @@ class Widget_reporter implements Widget
 				WHERE SYEAR='" . UserSyear() . "'
 				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 				AND (PROFILE='admin' OR PROFILE='teacher')
-				AND STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "'
-				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME" );
+				AND STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "'" );
 
 			$extra['SearchTerms'] .= '<b>' . _( 'Reporter' ) . ': </b>' .
 				$reporter_name . '<br />';
@@ -1154,7 +1153,7 @@ class Widget_reporter implements Widget
 			WHERE SYEAR='" . UserSyear() . "'
 			AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 			AND (PROFILE='admin' OR PROFILE='teacher')
-			ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME", [], [ 'STAFF_ID' ] );
+			ORDER BY FULL_NAME", [], [ 'STAFF_ID' ] );
 
 		$html = '<tr class="st"><td><label for="discipline_reporter">' .
 		_( 'Reporter' ) . '</label></td><td>

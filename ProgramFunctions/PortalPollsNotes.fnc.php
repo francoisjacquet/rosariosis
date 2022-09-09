@@ -439,7 +439,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 	AND SYEAR='" . UserSyear() . "'
 	AND PROFILE='teacher'
-	ORDER BY LAST_NAME,FIRST_NAME" );
+	ORDER BY FULL_NAME" );
 
 	$teachers = [];
 
