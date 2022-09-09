@@ -50,4 +50,5 @@ body {
 html,
 body {
 	background: #fff;
+	word-break: normal;
 }

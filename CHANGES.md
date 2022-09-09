@@ -11,6 +11,7 @@ Changes in 10.2.1
 - When -Edit- option selected, change the auto pull-down to text field in StudentsUsersInfo.fnc.php
 - HTML remove bold for "Other students associated with this address/person" in Address.inc.php
 - SQL order by FULL_NAME (Display Name config option) in PortalPollNotes.fnc.php, Widget.php, GetStaffList.fnc.php, GetStuList.fnc.php, Transcripts.fnc.php, Courses.php, MassRequests.php, ScheduleReport.php & Address.inc.php
+- CSS fix Report Cards PDF columns size when long comments text in ReportCards.fnc.php & stylesheet_wkhtmltopdf.css
 
 Changes in 10.2
 ---------------

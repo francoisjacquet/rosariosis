@@ -44,3 +44,10 @@ body {
 .wkhtmltopdf-landscape {
 	width: 1405px;
 }
+
+/* wkhtmltopdf reset */
+
+html,
+body {
+	word-break: normal;
+}

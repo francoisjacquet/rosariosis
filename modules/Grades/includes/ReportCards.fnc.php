@@ -576,6 +576,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								$sep ) .
 							_( 'None' );
 						}
+
+						$grades_RET[$i]['COMMENT'] = '<span class="size-1">' . $grades_RET[$i]['COMMENT'] . '</span>';
 					}
 
 					$last_mp = $mp;
