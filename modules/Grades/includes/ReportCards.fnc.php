@@ -180,7 +180,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'PARENT_ID' ] );
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE", [], [ 'PARENT_ID' ] );
 
 		// Marking Periods.
 		$return .= '<tr class="st"><td colspan="2"><hr /><table class="cellpadding-5">';
