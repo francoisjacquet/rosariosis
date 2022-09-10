@@ -417,7 +417,9 @@ select,
 	border-width: 1px 0;
 	border-style: solid;
 	padding: 4px 7px;
-	vertical-align: top
+	vertical-align: top;
+	/* Do not break text inside lists */
+	word-break: normal;
 }
 
 /* @since 7.0 CSS Add .widefat.files class */
@@ -439,8 +441,6 @@ select,
 	overflow: hidden;
 	font-weight: normal;
 	line-height: 1.4em;
-	/* Do not break column headers */
-	word-break: normal;
 }
 
 .widefat th,
