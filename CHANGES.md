@@ -14,6 +14,7 @@ Changes in 10.2.1
 - CSS fix Report Cards PDF columns size when long comments text in ReportCards.fnc.php & stylesheet_wkhtmltopdf.css
 - CSS Add .grade-minmax-wrap,.grade-minmax-min,.grade-minmax-grade & .grade-minmax-max classes & avoid breaking grades in stylesheet.css & ReportCards.fnc.php
 - Fix get Min. Max. grades for students in distinct grade levels in FinalGrades.php
+- Fix SQL syntax error since 10.0 in Administration.php
 
 Changes in 10.2
 ---------------

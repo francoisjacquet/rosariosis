@@ -104,7 +104,7 @@ else
 	AND position(substring('UMTWHFS' FROM " .
 	( $DatabaseType === 'mysql' ?
 		"DAYOFWEEK(cast('" . $date . "' AS DATE))" :
-		"cast(extract(DOW FROM cast('" . $date . "' AS DATE)+1 AS int)" ) .
+		"cast(extract(DOW FROM cast('" . $date . "' AS DATE))+1 AS int)" ) .
 	" FOR 1) IN cpsp.DAYS)>0
 	AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 	ORDER BY s.START_DATE ASC";
