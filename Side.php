@@ -329,7 +329,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 		if ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) :
 
-			$schools = mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 );
+			$schools = mb_substr( str_replace( ',', "','", (string) User( 'SCHOOLS' ) ), 2, -2 );
 
 			$schools_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 				FROM schools
