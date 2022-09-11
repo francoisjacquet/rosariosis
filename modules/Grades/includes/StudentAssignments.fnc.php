@@ -336,7 +336,7 @@ function StudentAssignmentDrawHeaders( $assignment )
 	if ( $assignment['DESCRIPTION'] )
 	{
 		// Description.
-		DrawHeader( _( 'Description' ) . ':<br />'. $assignment['DESCRIPTION'] );
+		echo $assignment['DESCRIPTION'];
 	}
 }
 
