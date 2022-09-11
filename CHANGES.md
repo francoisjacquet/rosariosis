@@ -16,6 +16,7 @@ Changes in 10.2.1
 - Fix get Min. Max. grades for students in distinct grade levels in FinalGrades.php
 - Fix SQL syntax error since 10.0 in Administration.php
 - CSS Do not break words inside lists in stylesheet.css
+- SQL handle case when student dropped and then later re-enrolled in course in DuplicateAttendance.php
 
 Changes in 10.2
 ---------------
