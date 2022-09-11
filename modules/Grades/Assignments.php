@@ -953,7 +953,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 		AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
-		ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
+		ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC" );
 
 		if ( ! empty( $assn_RET ) )
 		{

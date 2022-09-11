@@ -74,7 +74,7 @@ $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	AND ((COURSE_ID='" . (int) $course_id . "'
 	AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	AND MARKING_PERIOD_ID='" . UserMP() . "'
-	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
+	ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC" );
 
 $assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
 

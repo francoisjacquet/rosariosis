@@ -80,7 +80,7 @@ WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND ((COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['type_id'] ? "
 AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) . "
-ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE", [], [ 'ASSIGNMENT_ID' ] );
+ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC,ASSIGNMENT_ID DESC,TITLE", [], [ 'ASSIGNMENT_ID' ] );
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 // when changing course periods the assignment_id will be wrong except for '' (totals) and 'all'
@@ -312,7 +312,7 @@ if ( UserStudentID() )
 		( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' );
 	}
 
-	$extra['ORDER_BY'] = Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC";
+	$extra['ORDER_BY'] = DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC";
 
 	$extra['functions'] = [
 		'POINTS' => '_makeExtraStuCols',

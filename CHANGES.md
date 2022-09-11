@@ -17,6 +17,7 @@ Changes in 10.2.1
 - Fix SQL syntax error since 10.0 in Administration.php
 - CSS Do not break words inside lists in stylesheet.css
 - SQL handle case when student dropped and then later re-enrolled in course in DuplicateAttendance.php
+- Use DBEscapeIdentifier() for Gradebook ASSIGNMENT_SORTING in Assignments.php, GradebookBreakdown.php & Grades.php
 
 Changes in 10.2
 ---------------
