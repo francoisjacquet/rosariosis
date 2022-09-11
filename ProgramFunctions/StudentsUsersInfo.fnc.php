@@ -204,6 +204,8 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 
 	$div = true;
 
+	$value[ $column ] = issetVal( $value[ $column ] );
+
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
