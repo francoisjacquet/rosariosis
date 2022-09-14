@@ -88,6 +88,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				if ( ! empty( $_REQUEST['category']['1'] ) )
 				{
+					require_once 'modules/Students/includes/Enrollment.fnc.php';
 					require 'modules/Students/includes/General_Info.inc.php';
 					echo '<div style="page-break-after: always;"></div>';
 				}

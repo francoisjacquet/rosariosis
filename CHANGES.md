@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.2.2
+-----------------
+- Fix PHP fatal error undefined function StudentCanEnrollNextSchoolYear() in PrintStudentInfo.php
+
 Changes in 10.2.1
 -----------------
 - SQL order by Marking Period Start Date in MarkingPeriods.php, ReportCards.fnc.php, Courses.php, Schedule.php, PrintSchedules.php, MassSchedule.php, MassDrops.php & Side.php
