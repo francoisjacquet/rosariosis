@@ -68,9 +68,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 				//School logo
 				$logo_pic = 'assets/school_logo_' . UserSchool() . '.jpg';
 
+				$picwidth = 120;
+
 				if ( file_exists( $logo_pic ) )
 				{
-					DrawHeader( _( 'Student Info' ), '<img src="' . URLEscape( $logo_pic ) . '" width="280" />' );
+					DrawHeader( _( 'Student Info' ), '<img src="' . URLEscape( $logo_pic ) . '" width="' . $picwidth . '" />' );
 				}
 				else
 				{

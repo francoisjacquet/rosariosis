@@ -4,6 +4,7 @@
 Changes in 10.2.2
 -----------------
 - Fix PHP fatal error undefined function StudentCanEnrollNextSchoolYear() in PrintStudentInfo.php
+- Set school logo with to 120px in PrintStudentInfo.php
 
 Changes in 10.2.1
 -----------------
