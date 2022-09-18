@@ -133,9 +133,22 @@ if ( ! empty( $_REQUEST['values'] )
 
 				if ( $create_index )
 				{
+					$key_length = '';
+
+					if ( $sql_type === 'TEXT'
+						&& $DatabaseType === 'mysql' )
+					{
+						/**
+						 * Fix MySQL error TEXT column used in key specification without a key length
+						 *
+						 * @since 10.2.3
+						 */
+						$key_length = '(255)';
+					}
+
 					DBQuery( 'CREATE INDEX ' . DBEscapeIdentifier( 'discipline_referrals_ind' . (int) $id ) .
 						' ON discipline_referrals (' .
-						DBEscapeIdentifier( 'CATEGORY_' . (int) $id ) . ')' );
+						DBEscapeIdentifier( 'CATEGORY_' . (int) $id ) . $key_length . ')' );
 				}
 
 				DBQuery( $usage_sql );

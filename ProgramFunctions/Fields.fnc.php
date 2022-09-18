@@ -125,9 +125,22 @@ function AddDBField( $table, $field_id, $type )
 		// @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
 		$index_name = $table === 'students' ? 'CUSTOM_IND' : $table . '_IDX';
 
+		$key_length = '';
+
+		if ( $sql_type === 'TEXT'
+			&& $DatabaseType === 'mysql' )
+		{
+			/**
+			 * Fix MySQL error TEXT column used in key specification without a key length
+			 *
+			 * @since 10.2.3
+			 */
+			$key_length = '(255)';
+		}
+
 		DBQuery( 'CREATE INDEX ' . DBEscapeIdentifier( $index_name . (int) $id ) .
 			' ON ' . DBEscapeIdentifier( $table ) .
-			' (' . DBEscapeIdentifier( 'CUSTOM_' . (int) $id ) . ')' );
+			' (' . DBEscapeIdentifier( 'CUSTOM_' . (int) $id ) . $key_length . ')' );
 	}
 
 	return $id;
