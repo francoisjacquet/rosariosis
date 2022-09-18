@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.2.3
+-----------------
+- Remove dead link to centresis.org in index.php
+
 Changes in 10.2.2
 -----------------
 - Fix PHP fatal error undefined function StudentCanEnrollNextSchoolYear() in PrintStudentInfo.php
