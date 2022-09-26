@@ -5,6 +5,7 @@ Changes in 10.3
 ---------------
 - Add "Cumulative Balance over school years" checkbox in StudentBalances.php
 - Fix program not found when query string is URL encoded in Modules.php
+- JS fix add new Period below existing Period row in Courses.php
 
 Changes in 10.2.3
 -----------------

@@ -1169,7 +1169,7 @@ if (  ( ! $_REQUEST['modfunc']
 					function newSchoolPeriod()
 					{
 						var table = document.getElementById('coursesTable');
-						row = table.insertRow(3+nbSchoolPeriods);
+						row = table.insertRow(4+nbSchoolPeriods);
 						// insert table cells to the new row
 						var tr = document.getElementById('schoolPeriod'+nbSchoolPeriods);
 						row.setAttribute('id', 'schoolPeriod'+(nbSchoolPeriods+1));
