@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.3
+-----------
+
+Student Billing
+- Student Balances: Add "Cumulative Balance over school years" checkbox
+
+
 New in 10.2
 -----------
 

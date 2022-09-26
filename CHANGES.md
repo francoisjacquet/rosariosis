@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.3
+---------------
+- Add "Cumulative Balance over school years" checkbox in StudentBalances.php
+
 Changes in 10.2.3
 -----------------
 - Remove dead link to centresis.org in index.php
