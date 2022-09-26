@@ -64,6 +64,9 @@ if ( ! $allowed )
 	// Generate Menu.
 	require_once 'Menu.php';
 
+	// @since 10.3 Fix program not found when query string is URL encoded.
+	$query_string = urldecode( $_SERVER['QUERY_STRING'] );
+
 	foreach ( (array) $_ROSARIO['Menu'] as $modcat => $programs )
 	{
 		foreach ( (array) $programs as $program => $title )
@@ -76,7 +79,7 @@ if ( ! $allowed )
 			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
 			if ( $modname == $program
 				|| ( mb_strpos( $program, $modname ) === 0
-					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 8 ) )
+					&& mb_strpos( $query_string, $program ) === 8 ) )
 			{
 				$allowed = true;
 
