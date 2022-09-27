@@ -213,6 +213,8 @@ if ( empty( $_REQUEST['save'] )
 
 	echo '<br />';
 
+	$school_title = '';
+
 	// If more than 1 school, add its title to table title.
 	if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
 	{
