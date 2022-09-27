@@ -82,8 +82,40 @@ foreach ( (array) $tables as $table => $name )
 	$checked = ( $exists_RET[$table][1]['COUNT'] > 0 ) ? '' : ' checked';
 
 	$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']"' .
-		$checked . '>&nbsp;' .
-		$input_title . '</label></td></tr>';
+		$checked . '>&nbsp;' . $input_title . '</label>';
+
+	if ( $table === 'courses' )
+	{
+		// @since 10.3 Add "Course Periods" checkbox
+		$disabled = ( $exists_RET[$table][1]['COUNT'] > 0 ) ? ' disabled' : '';
+
+		$table_list .= '<br />&#10551;&nbsp;<label><input type="checkbox" value="Y" id="course_periods" name="course_periods"' .
+			$checked . $disabled . '>&nbsp;';
+
+		$cp_title = _( 'Course Periods' );
+
+		if ( $exists_RET[$table][1]['COUNT'] > 0 )
+		{
+			$cp_title = '<span style="color:grey">' . $cp_title . '</span>';
+		}
+
+		$table_list .= $cp_title . '</label>';
+
+		// JS Enable / disable checkbox on Courses checkbox change.
+		ob_start();
+
+		?>
+		<script>
+			$('input[name="tables[courses]"]').change(function() {
+				$('#course_periods').prop( 'disabled', ! this.checked );
+			});
+		</script>
+		<?php
+
+		$table_list .= ob_get_clean();
+	}
+
+	$table_list .= '</td></tr>';
 }
 
 $table_list .= '</table>';
@@ -669,6 +701,14 @@ function Rollover( $table, $mode = 'delete' )
 				CREDIT_HOURS,DESCRIPTION,COURSE_ID FROM courses c
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
+
+			if ( ! isset( $_REQUEST['course_periods'] )
+				|| $_REQUEST['course_periods'] !== 'Y' )
+			{
+				// Do NOT roll Course Periods, break.
+				// @since 10.3 Add "Course Periods" checkbox
+				break;
+			}
 
 			// ROLL course_periods
 			DBQuery( "INSERT INTO course_periods (SYEAR,SCHOOL_ID,COURSE_ID,TITLE,

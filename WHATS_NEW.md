@@ -5,6 +5,9 @@
 New in 10.3
 -----------
 
+School
+- Rollover: Add "Course Periods" checkbox
+
 Student Billing
 - Student Balances: Add "Cumulative Balance over school years" checkbox
 
