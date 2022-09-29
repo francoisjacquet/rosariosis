@@ -131,7 +131,23 @@ if ( ! empty( $_REQUEST['values'] )
 				DBQuery( 'ALTER TABLE discipline_referrals ADD ' .
 					DBEscapeIdentifier( 'CATEGORY_' . (int) $id ) . ' ' . $sql_type );
 
-				if ( $create_index )
+				$max_indices_reached = false;
+
+				if ( $DatabaseType === 'mysql' )
+				{
+					/**
+					 * Fix MySQL error 1069 Too many keys specified; max 64 keys allowed
+					 * Count columns having an index
+					 *
+					 * @since 10.3
+					 */
+					$indices = DBGet( DBQuery( "SHOW INDEX FROM " . DBEscapeIdentifier( 'discipline_referrals' ) ) );
+
+					$max_indices_reached = count( $indices ) >= 64;
+				}
+
+				if ( $create_index
+					&& ! $max_indices_reached )
 				{
 					$key_length = '';
 
