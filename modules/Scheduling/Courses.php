@@ -74,7 +74,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
 		// Security Fix reflected XSS: encode HTML special chars for search_term.
 		// Security: use $_POST here to avoid DBEscapeString() on $_REQUEST, still use strip_tags() though.
-		AttrEscape( strip_tags( issetVal( $_POST['search_term'] ), '' ) ) . '" required autofocus /></td>
+		AttrEscape( strip_tags( issetVal( $_POST['search_term'], '' ) ) ) . '" required autofocus /></td>
 		<td>' . Buttons( _( 'Search' ) ) . '</td></tr></table>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
