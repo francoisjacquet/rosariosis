@@ -73,7 +73,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
 		// Security Fix reflected XSS: encode HTML special chars for search_term.
-		AttrEscape( issetVal( $_REQUEST['search_term'], '' ) ) . '" required autofocus /></td>
+		AttrEscape( issetVal( $_POST['search_term'], '' ) ) . '" required autofocus /></td>
 		<td>' . Buttons( _( 'Search' ) ) . '</td></tr></table>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
