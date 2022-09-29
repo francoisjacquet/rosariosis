@@ -120,7 +120,23 @@ function AddDBField( $table, $field_id, $type )
 	DBQuery( 'ALTER TABLE ' . DBEscapeIdentifier( $table ) . ' ADD ' .
 		DBEscapeIdentifier( 'CUSTOM_' . (int) $id ) . ' ' . $sql_type );
 
-	if ( $create_index )
+	$max_indices_reached = false;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		/**
+		 * Fix MySQL error 1069 Too many keys specified; max 64 keys allowed
+		 * Count columns having an index
+		 *
+		 * @since 10.3
+		 */
+		$indices = DBGet( DBQuery( "SHOW INDEX FROM " . DBEscapeIdentifier( $table ) ) );
+
+		$max_indices_reached = count( $indices ) >= 64;
+	}
+
+	if ( $create_index
+		&& ! $max_indices_reached )
 	{
 		// @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
 		$index_name = $table === 'students' ? 'CUSTOM_IND' : $table . '_IDX';

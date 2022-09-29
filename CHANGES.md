@@ -7,6 +7,7 @@ Changes in 10.3
 - Fix program not found when query string is URL encoded in Modules.php
 - JS fix add new Period below existing Period row in Courses.php
 - Add "Course Periods" checkbox in Rollover.php
+- Fix MySQL error 1069 Too many keys specified; max 64 keys allowed in Fields.fnc.php
 
 Changes in 10.2.3
 -----------------
