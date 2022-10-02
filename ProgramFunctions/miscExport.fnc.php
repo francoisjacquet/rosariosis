@@ -92,6 +92,8 @@ function _makeCalendar( $value, $column )
  *
  * DBGet() callback function
  *
+ * @deprecated since 10.3.1 Use SQL result as comma separated list instead
+ *
  * @param  string $value  Period teachers value.
  * @param  string $column 'PERIOD_' . $period['PERIOD_ID'] Column.
  *

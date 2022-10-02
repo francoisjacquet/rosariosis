@@ -304,16 +304,17 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		//FJ multiple school periods for a course period
 		//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM staff st,schedule ss,course_periods cp,school_periods p WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
-		$extra['SELECT'] .= ',(SELECT CONCAT(st.FIRST_NAME, \' \', st.LAST_NAME, \' - \', coalesce(cp.ROOM,\' \'))
+		$extra['SELECT'] .= ",(SELECT CONCAT(st.FIRST_NAME, ' ', st.LAST_NAME, ' - ', coalesce(cp.ROOM,' '))
 		FROM staff st,schedule ss,course_periods cp,school_periods p,course_period_school_periods cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND ss.STUDENT_ID=ssm.STUDENT_ID
 		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 		AND cp.TEACHER_ID=st.STAFF_ID
 		AND cpsp.PERIOD_ID=p.PERIOD_ID
-		AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
-		AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')
-		AND p.ATTENDANCE=\'Y\' LIMIT 1) AS PERIOD_ATTENDANCE';
+		AND ('" . $date . "' BETWEEN ss.START_DATE AND ss.END_DATE
+			OR '" . $date . "'>=ss.START_DATE AND ss.END_DATE IS NULL)
+		AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date ) ) . ")
+		AND p.ATTENDANCE='Y' LIMIT 1) AS PERIOD_ATTENDANCE";
 	}
 
 	foreach ( (array) $periods_RET as $period )
@@ -321,21 +322,45 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( isset( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] )
 			&& $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
 		{
+			/**
+			 * SQL result as comma separated list
+			 *
+			 * @since 9.3 Add MySQL support
+			 * @link https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_group-concat
+			 *
+			 * @param string $column    SQL column.
+			 * @param string $separator List separator, default to comma.
+			 *
+			 * @return string MySQL or PostgreSQL function
+			 */
+			$sql_comma_separated_result = function( $column, $separator = ',' )
+			{
+				global $DatabaseType;
+
+				if ( $DatabaseType === 'mysql' )
+				{
+					return "GROUP_CONCAT(" . $column . " SEPARATOR '" . DBEscapeString( $separator ) . "')";
+				}
+
+				return "ARRAY_TO_STRING(ARRAY_AGG(" . $column . "), '" . DBEscapeString( $separator ) . "')";
+			};
+
 			//FJ multiple school periods for a course period
-			//$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM staff st,schedule ss,course_periods cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
-			$extra['SELECT'] .= ',array(SELECT CONCAT(st.FIRST_NAME, \' \', st.LAST_NAME, \' - \', coalesce(cp.ROOM,\' \'))
+			//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM staff st,schedule ss,course_periods cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
+			$extra['SELECT'] .= ",(SELECT " . $sql_comma_separated_result(
+				"CONCAT(st.FIRST_NAME, ' ', st.LAST_NAME, ' - ', coalesce(cp.ROOM,' '))",
+				'<br />'
+			) . "
 			FROM staff st,schedule ss,course_periods cp,course_period_school_periods cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND ss.STUDENT_ID=ssm.STUDENT_ID
 			AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 			AND cp.TEACHER_ID=st.STAFF_ID
-			AND cpsp.PERIOD_ID=\''.$period['PERIOD_ID'].'\'
-			AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE
-				OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
-			AND ss.MARKING_PERIOD_ID IN (' . GetAllMP( 'QTR', UserMP() ) . '))
-			AS PERIOD_'.$period['PERIOD_ID'];
-
-			$extra['functions']['PERIOD_' . $period['PERIOD_ID']] = '_makeTeachers';
+			AND cpsp.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
+			AND ('" . $date . "' BETWEEN ss.START_DATE AND ss.END_DATE
+				OR '" . $date . "'>=ss.START_DATE AND ss.END_DATE IS NULL)
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))
+			AS PERIOD_" . (int) $period['PERIOD_ID'];
 		}
 	}
 
