@@ -159,6 +159,7 @@ Recommended PHP configuration settings. Edit the `php.ini` file as follows:
 max_execution_time = 240
 max_input_vars = 4000
 memory_limit = 768M
+session.gc_maxlifetime = 3600
 ```
 Restart PHP and Apache.
 

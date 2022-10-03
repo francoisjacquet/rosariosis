@@ -4,6 +4,7 @@
 Changes in 10.3.1
 -----------------
 - Fix MySQL error result as comma separated list in Export.php
+- Add recommended php.ini setting session.gc_maxlifetime = 3600 in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 10.3
 ---------------
