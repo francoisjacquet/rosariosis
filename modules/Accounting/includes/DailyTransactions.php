@@ -104,7 +104,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	$salaries_extra = $extra;
 	$name_col_sql = '';
 
-	if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
+	if ( ! empty( $_REQUEST['student_billing'] ) )
 	{
 		$name_col_sql = ",'' AS STUDENT_NAME";
 	}
@@ -166,18 +166,25 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	&& $RosarioModules['Student_Billing'] )
 {
 	$fees_extra = $extra;
-	$name_col_sql = '';
 
-	if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
+	// Fix PostgreSQL error ORDER BY "full_name" is ambiguous
+	$name_col_sql = DisplayNameSQL( 's' ) . " AS FULL_NAME,";
+
+	$fees_extra['ORDER_BY'] = 'FULL_NAME';
+
+	if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	{
-		$name_col_sql = "," . DisplayNameSQL() . " AS STUDENT_NAME, '' AS FULL_NAME";
+		// FULL_NAME column already used for Staff Payroll, use STUDENT_NAME instead.
+		$name_col_sql = DisplayNameSQL( 's' ) . " AS STUDENT_NAME, '' AS FULL_NAME,";
+
+		$fees_extra['ORDER_BY'] = 'STUDENT_NAME';
 	}
 
-	$fees_extra['SELECT'] = issetVal( $fees_extra['SELECT'], '' );
+	$fees_extra['SELECT_ONLY'] = issetVal( $fees_extra['SELECT_ONLY'], '' );
 	$fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 	$fees_extra['WHERE'] = issetVal( $fees_extra['WHERE'], '' );
 
-	$fees_extra['SELECT'] .= $name_col_sql . ",f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+	$fees_extra['SELECT_ONLY'] .= $name_col_sql . "f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
 	$fees_extra['FROM'] .= ',billing_fees f';
 
@@ -194,15 +201,23 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$student_payments_extra = $extra;
 
-	$student_payments_extra['SELECT'] = issetVal( $student_payments_extra['SELECT'], '' );
+	$student_payments_extra['SELECT_ONLY'] = issetVal( $student_payments_extra['SELECT_ONLY'], '' );
 	$student_payments_extra['FROM'] = issetVal( $student_payments_extra['FROM'], '' );
 	$student_payments_extra['WHERE'] = issetVal( $student_payments_extra['WHERE'], '' );
 
-	$student_payments_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
+	$student_payments_extra['SELECT_ONLY'] .= $name_col_sql . "'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 
 	$student_payments_extra['FROM'] .= ',billing_payments p';
 
 	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
+
+	// Fix PostgreSQL error ORDER BY "full_name" is ambiguous
+	$student_payments_extra['ORDER_BY'] = 'FULL_NAME';
+
+	if ( ! empty( $_REQUEST['staff_payroll'] ) )
+	{
+		$student_payments_extra['ORDER_BY'] = 'STUDENT_NAME';
+	}
 
 	$student_payments_RET = GetStuList( $student_payments_extra );
 
@@ -215,6 +230,11 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$credit_col[] = _( 'Fee' );
 	$debit_col[] = _( 'Student Payment' );
+
+	if ( empty( $_REQUEST['staff_payroll'] ) )
+	{
+		$name_col = _( 'Student' );
+	}
 }
 
 $credit_col = implode( ' / ', $credit_col );

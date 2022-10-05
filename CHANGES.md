@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.3.2
+-----------------
+- Fix PostgreSQL error ORDER BY "full_name" is ambiguous in DailyTransactions.php
+
 Changes in 10.3.1
 -----------------
 - Fix MySQL error result as comma separated list in Export.php
