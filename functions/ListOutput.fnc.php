@@ -795,7 +795,7 @@ function _listSearch( $result, $LO_search )
 
 		$terms[trim( $search_term )] = 1;
 	}
-	else
+	elseif ( mb_strlen( $search_term ) > 2 )
 	{
 		// Search "expression".
 		$search_term = str_replace( '"', '', $search_term );
