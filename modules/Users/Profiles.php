@@ -365,7 +365,15 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 				$module_title = _( str_replace( '_', ' ', $modcat ) );
 			}
 
-			echo '<h3 class="dashboard-module-title"><span class="module-icon ' . $modcat . '"></span> ' . $module_title . '</h3>';
+			echo '<h3 class="dashboard-module-title"><span class="module-icon ' . $modcat . '"';
+
+			if ( ! in_array( $modcat, $RosarioCoreModules ) )
+			{
+				// Modcat is addon module, set custom module icon.
+				echo ' style="background-image: url(modules/' . $modcat . '/icon.png);"';
+			}
+
+			echo '></span> ' . $module_title . '</h3>';
 
 			echo '<table class="widefat fixed-col"><tr><th class="align-right"><label>' . _( 'Can Use' ) . ' ' .
 				( AllowEdit() ?

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.4
+---------------
+- Modcat is addon module, set custom module icon in Profiles.php & Exceptions.php
+
 Changes in 10.3.2
 -----------------
 - Fix PostgreSQL error ORDER BY "full_name" is ambiguous in DailyTransactions.php
