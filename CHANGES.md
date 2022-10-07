@@ -4,6 +4,7 @@
 Changes in 10.4
 ---------------
 - Modcat is addon module, set custom module icon in Profiles.php & Exceptions.php
+- SQL performance: use NOT EXISTS instead of NOT IN + LIMIT 1000 in Portal.php
 
 Changes in 10.3.2
 -----------------
