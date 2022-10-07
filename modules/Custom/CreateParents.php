@@ -412,12 +412,15 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 	}
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,trim(lower(" . $email_column . ")) AS EMAIL,s.STUDENT_ID AS CONTACT";
+	// @todo SQL performance: really slow subquery.
+	// But DO NOT use LEFT OUTER JOIN, cannot LIMIT 1...
 	$extra['SELECT'] .= ",(SELECT STAFF_ID
 		FROM staff
 		WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
 		AND PROFILE='parent'
 		AND SYEAR=ssm.SYEAR
 		LIMIT 1) AS STAFF_ID";
+
 	$extra['SELECT'] .= ",(SELECT 1
 		FROM students_join_users sju,staff st
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
