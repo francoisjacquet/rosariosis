@@ -555,6 +555,7 @@ if ( UserStudentID()
  *
  * @uses StudentAssignmentDrawHeaders()
  * @since 4.5 Move assignment details from Tip message to Colorbox popup
+ * @since 10.4 Truncate Assignment title to 36 chars
  *
  * @param  string $value     Assignment Title
  * @param  string $column    'TITLE'
@@ -569,6 +570,11 @@ function _makeTipAssignment( $value, $column )
 		// Include Student Assignments functions.
 		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 	}
+
+	// Truncate title to 36 chars.
+	$title = mb_strlen( $value ) <= 36 ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 
 	if (  ( $THIS_RET['DESCRIPTION']
 		|| $THIS_RET['ASSIGNED_DATE']
@@ -593,11 +599,11 @@ function _makeTipAssignment( $value, $column )
 
 		$colorbox .= '</div></div>';
 
-		$colorbox .= '<a class="colorboxinline" href="#' . $colorbox_id . '">' . $value . '</a>';
+		$colorbox .= '<a class="colorboxinline" href="#' . $colorbox_id . '">' . $title . '</a>';
 	}
 	else
 	{
-		$colorbox = $value;
+		$colorbox = $title;
 	}
 
 	return $colorbox;
