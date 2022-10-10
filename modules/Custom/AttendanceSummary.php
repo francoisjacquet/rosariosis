@@ -240,7 +240,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							echo '<td class="attendance-code ' .
 								$attendance_code_classes[ $attendance['STATE_VALUE'] ] . '"
 								style="display: table-cell; padding: 0;">' .
-								$attendance_codes_locale[ $attendance['STATE_VALUE'] ] . '</td>';
+								mb_substr( $attendance_codes_locale[ $attendance['STATE_VALUE'] ], 0, 1 ) . '</td>';
 						}
 						else
 						//pink box
