@@ -9,6 +9,7 @@ Changes in 10.4
 - Fix display only first letter of attendance code in AttendanceSummary.php
 - Remove "Minimum assignment points for letter grade" config option in Grades/Configuration.php & StudentGrades.php
 - Truncate Assignment title to 36 chars in StudentGrades.php & Grades.php
+- CSS date capitalize first letter only in stylesheet.css
 
 Changes in 10.3.2
 -----------------

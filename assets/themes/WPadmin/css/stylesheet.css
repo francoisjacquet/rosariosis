@@ -566,6 +566,11 @@ label {
 
 .proper-date {
 	white-space: nowrap;
+	display: inline-block;
+}
+
+.proper-date:first-letter {
+	text-transform: capitalize;
 }
 
 /**
