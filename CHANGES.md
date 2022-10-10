@@ -7,6 +7,7 @@ Changes in 10.4
 - SQL performance: use NOT EXISTS instead of NOT IN + LIMIT 1000 in Portal.php
 - Add student name to Student's Absences and Grades delete prompt in MassDrops.php
 - Fix display only first letter of attendance code in AttendanceSummary.php
+- Remove "Minimum assignment points for letter grade" config option in Grades/Configuration.php & StudentGrades.php
 
 Changes in 10.3.2
 -----------------

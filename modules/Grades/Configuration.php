@@ -191,13 +191,6 @@ echo '<tr><td>' . CheckboxInput(
 	( ! array_key_exists( 'HIDE_PREVIOUS_ASSIGNMENT_TYPES', $gradebook_config ) )
 ) . '</td></tr>';
 
-echo '<tr><td><hr />' . TextInput(
-	issetVal( $gradebook_config['LETTER_GRADE_MIN'], '' ),
-	'values[LETTER_GRADE_MIN]',
-	_( 'Minimum assignment points for letter grade' ),
-	'type="number" min="0" max="999"'
-) . '</td></tr>';
-
 $anomalous_max_value = ( ! empty( $gradebook_config['ANOMALOUS_MAX'] ) ? $gradebook_config['ANOMALOUS_MAX'] : '100' );
 
 $anomalous_max_value = [

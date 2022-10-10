@@ -498,13 +498,11 @@ if ( UserStudentID()
 							_( 'N/A' ) :
 							( $assignment['POINTS'] == '-1' ?
 								_( 'N/A' ) :
-								( $assignment['POINTS_POSSIBLE'] >= $gradebook_config[$staff_id]['LETTER_GRADE_MIN'] ?
-									'<b>' . _makeLetterGrade(
-										$assignment['POINTS'] / $assignment['POINTS_POSSIBLE'],
-										$course['COURSE_PERIOD_ID'],
-										$staff_id
-									) . '</b>' :
-									'' ) ) ),
+								'<b>' . _makeLetterGrade(
+									$assignment['POINTS'] / $assignment['POINTS_POSSIBLE'],
+									$course['COURSE_PERIOD_ID'],
+									$staff_id
+								) . '</b>' ) ),
 						'COMMENT' => $comment,
 					] +
 						( $do_stats && $_REQUEST['do_stats'] ?
