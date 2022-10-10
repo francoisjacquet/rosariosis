@@ -53,9 +53,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 							if ( ! empty( $start_end_RET ) )
 							{
+								$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . "
+									FROM students
+									WHERE STUDENT_ID='" . $student_id . "'" );
+
 								// User is asked if he wants absences and grades to be deleted.
 								$delete_ok = DeletePrompt(
-									_( 'Student\'s Absences and Grades' ),
+									_( 'Student\'s Absences and Grades' ) . ' (' . $student_name . ')',
 									_( 'also delete' ),
 									false
 								);
