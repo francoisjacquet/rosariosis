@@ -378,7 +378,12 @@ else
 
 			$extra['functions'] += [ 'G' . $id => '_makeExtraCols' ];
 
-			$column_title = $assignment['TITLE'];
+			// @since 10.4 Truncate Assignment title to 36 chars.
+			$title = mb_strlen( $assignment['TITLE'] ) <= 36 ?
+				$assignment['TITLE'] :
+				'<span title="' . AttrEscape( $assignment['TITLE'] ) . '">' . mb_substr( $assignment['TITLE'], 0, 33 ) . '...</span>';
+
+			$column_title = $title;
 
 			if ( empty( $_REQUEST['type_id'] ) )
 			{
