@@ -189,7 +189,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		// FJ other fields required.
-		$required_error = $required_error || CheckRequiredCustomFields( 'staff_fields', $_REQUEST['staff'] );
+		$required_error = $required_error || CheckRequiredCustomFields( 'staff_fields', issetVal( $_REQUEST['staff'], [] ) );
 
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'staff_fields', 'staff' );
