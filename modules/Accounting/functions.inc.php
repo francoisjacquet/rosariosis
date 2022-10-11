@@ -232,6 +232,7 @@ function _makePaymentsAmount( $value, $column )
  * Make Salaries File Attached Input
  *
  * @since 8.1
+ * @since 10.4 Add File Attached Input for existing Salaries
  *
  * @param  string $value File path value.
  * @param  string $name  Column name, 'FILE_ATTACHED'.
@@ -252,7 +253,16 @@ function _makeSalariesFileInput( $value, $column )
 	if ( empty( $value )
 		|| ! file_exists( $value ) )
 	{
-		return '';
+		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		{
+			return '';
+		}
+
+		// Add hidden FILE_ATTACHED input so it gets saved even if no other columns to save.
+		return '<input type="hidden" name="values[' . $THIS_RET['ID'] . '][FILE_ATTACHED]" value="" />' .
+		FileInput(
+			'FILE_ATTACHED_' . $THIS_RET['ID']
+		);
 	}
 
 	$file_path = $value;
@@ -304,4 +314,98 @@ function _makePaymentsFileInput( $value, $column )
 function _makeIncomesFileInput( $value, $column )
 {
 	return _makeSalariesFileInput( $value, $column );
+}
+
+/**
+ * Save Salaries File
+ *
+ * @since 10.4
+ *
+ * @param  int|string $id Salary ID or 'new'.
+ *
+ * @return string     File path or empty.
+ */
+function _saveSalariesFile( $id )
+{
+	global $error,
+		$FileUploadsPath;
+
+	$input = $id === 'new' ? 'FILE_ATTACHED' : 'FILE_ATTACHED_' . $id;
+
+	if ( ! isset( $_FILES[ $input ] ) )
+	{
+		return '';
+	}
+
+	$file_attached = FileUpload(
+		$input,
+		$FileUploadsPath . UserSyear() . '/staff_' . UserStaffID() . '/',
+		FileExtensionWhiteList(),
+		0,
+		$error
+	);
+
+	// Fix SQL error when quote in uploaded file name.
+	return DBEscapeString( $file_attached );
+}
+
+/**
+ * Save Payments File
+ *
+ * @since 10.4
+ *
+ * @param  int|string $id Payment ID or 'new'.
+ *
+ * @return string     File path or empty.
+ */
+function _savePaymentsFile( $id )
+{
+	return _saveSalariesFile( $id );
+}
+
+/**
+ * Save Incomes File
+ *
+ * @since 10.4
+ *
+ * @param  int|string $id Income ID or 'new'.
+ *
+ * @return string     File path or empty.
+ */
+function _saveIncomesFile( $id )
+{
+	global $error,
+		$FileUploadsPath;
+
+	$input = $id === 'new' ? 'FILE_ATTACHED' : 'FILE_ATTACHED_' . $id;
+
+	if ( ! isset( $_FILES[ $input ] ) )
+	{
+		return '';
+	}
+
+	$file_attached = FileUpload(
+		$input,
+		$FileUploadsPath . UserSyear() . '/staff_' . User( 'STAFF_ID' ) . '/',
+		FileExtensionWhiteList(),
+		0,
+		$error
+	);
+
+	// Fix SQL error when quote in uploaded file name.
+	return DBEscapeString( $file_attached );
+}
+
+/**
+ * Save Expenses File
+ *
+ * @since 10.4
+ *
+ * @param  int|string $id Expense ID or 'new'.
+ *
+ * @return string     File path or empty.
+ */
+function _saveExpensesFile( $id )
+{
+	return _saveIncomesFile( $id );
 }

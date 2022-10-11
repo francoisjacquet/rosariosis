@@ -28,6 +28,19 @@ if ( ! empty( $_REQUEST['values'] )
 		{
 			$sql = "UPDATE accounting_payments SET ";
 
+			$columns['FILE_ATTACHED'] = _savePaymentsFile( $id );
+
+			if ( ! $columns['FILE_ATTACHED'] )
+			{
+				unset( $columns['FILE_ATTACHED'] );
+
+				if ( empty( $columns ) )
+				{
+					// No file, and FILE_ATTACHED was the only column, skip.
+					continue;
+				}
+			}
+
 			foreach ( (array) $columns as $column => $value )
 			{
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
@@ -45,19 +58,7 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'STAFF_ID,SYEAR,SCHOOL_ID,';
 			$values = "'" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',";
 
-			if ( isset( $_FILES['FILE_ATTACHED'] ) )
-			{
-				$columns['FILE_ATTACHED'] = FileUpload(
-					'FILE_ATTACHED',
-					$FileUploadsPath . UserSyear() . '/staff_' . UserStaffID() . '/',
-					FileExtensionWhiteList(),
-					0,
-					$error
-				);
-
-				// Fix SQL error when quote in uploaded file name.
-				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
-			}
+			$columns['FILE_ATTACHED'] = _savePaymentsFile( $id );
 
 			$go = 0;
 
