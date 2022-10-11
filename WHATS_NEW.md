@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.4
+-----------
+
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/)
+- Configuration: Add Payment Reminder to Portal, sponsored by @Hirama666
+
+
 New in 10.3
 -----------
 
