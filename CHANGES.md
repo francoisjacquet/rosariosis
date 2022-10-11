@@ -18,6 +18,7 @@ Changes in 10.4
 Changes in 10.3.3
 -----------------
 - SQL ORDER BY END_DATE IS NULL DESC,END_DATE DESC (nulls first) for consistency between PostgreSQL & MySQL in User.fnc.php
+- Fix PostgreSQL error column "students_join_people.address_id" must appear in the GROUP BY clause in Address.inc.php
 
 Changes in 10.3.2
 -----------------

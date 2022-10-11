@@ -25,14 +25,26 @@ if ( ! empty( $_POST['values'] )
 				DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID)
 					values('" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
 
-				// @since 10.0 Use GROUP BY instead of DISTINCT ON for MySQL compatibility
-				DBQuery( "INSERT INTO students_join_people
-					(STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
-					SELECT '" . UserStudentID() . "',PERSON_ID,
-					ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
-					FROM students_join_people
-					WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
-					GROUP BY PERSON_ID" );
+				if ( $DatabaseType === 'mysql' )
+				{
+					// @since 10.0 Use GROUP BY instead of DISTINCT ON for MySQL
+					DBQuery( "INSERT INTO students_join_people
+						(STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+						SELECT '" . UserStudentID() . "',PERSON_ID,
+						ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
+						FROM students_join_people
+						WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
+						GROUP BY PERSON_ID" );
+				}
+				else
+				{
+					DBQuery( "INSERT INTO students_join_people
+						(STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+						SELECT DISTINCT ON (PERSON_ID) '" . UserStudentID() . "',PERSON_ID,
+						ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
+						FROM students_join_people
+						WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
+				}
 			}
 		}
 		elseif ( $_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id'] == 'old' )
