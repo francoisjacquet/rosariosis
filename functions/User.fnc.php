@@ -64,7 +64,7 @@ function User( $item )
 				WHERE s.STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'
 				AND se.SYEAR='" . UserSyear() . "'
 				AND se.STUDENT_ID=s.STUDENT_ID
-				ORDER BY se.END_DATE DESC LIMIT 1";
+				ORDER BY se.END_DATE IS NULL DESC,se.END_DATE DESC LIMIT 1";
 
 			$_ROSARIO['User'] = DBGet( $sql );
 

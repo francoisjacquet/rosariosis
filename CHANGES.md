@@ -15,6 +15,10 @@ Changes in 10.4
 - Add File Attached Input for existing Fees/Payments in StudentFees.php, StudentPayments.php & Student_Billing/functions.inc.php
 - Add File Attached Input for existing Salaries/Staff Payments/Incomes/Expenses in Expenses.php, Incomes.php, Salaries, StaffPayments.php & Accounting/functions.inc.php
 
+Changes in 10.3.3
+-----------------
+- SQL ORDER BY END_DATE IS NULL DESC,END_DATE DESC (nulls first) for consistency between PostgreSQL & MySQL in User.fnc.php
+
 Changes in 10.3.2
 -----------------
 - Fix PostgreSQL error ORDER BY "full_name" is ambiguous in DailyTransactions.php
