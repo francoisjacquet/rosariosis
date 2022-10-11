@@ -325,6 +325,7 @@ function _lunchInput( $value, $column )
  * Make Fees File Attached Input
  *
  * @since 8.1
+ * @since 10.4 Add File Attached Input for existing Fees
  *
  * @param  string $value File path value.
  * @param  string $name  Column name, 'FILE_ATTACHED'.
@@ -345,7 +346,16 @@ function _makeFeesFileInput( $value, $column )
 	if ( empty( $value )
 		|| ! file_exists( $value ) )
 	{
-		return '';
+		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		{
+			return '';
+		}
+
+		// Add hidden FILE_ATTACHED input so it gets saved even if no other columns to save.
+		return '<input type="hidden" name="values[' . $THIS_RET['ID'] . '][FILE_ATTACHED]" value="" />' .
+		FileInput(
+			'FILE_ATTACHED_' . $THIS_RET['ID']
+		);
 	}
 
 	$file_path = $value;
@@ -382,4 +392,51 @@ function _makeFeesFileInput( $value, $column )
 function _makePaymentsFileInput( $value, $column )
 {
 	return _makeFeesFileInput( $value, $column );
+}
+
+/**
+ * Save Fees File
+ *
+ * @since 10.4
+ *
+ * @param  int|string $id Fee ID or 'new'.
+ *
+ * @return string     File path or empty.
+ */
+function _saveFeesFile( $id )
+{
+	global $error,
+		$FileUploadsPath;
+
+	$input = $id === 'new' ? 'FILE_ATTACHED' : 'FILE_ATTACHED_' . $id;
+
+	if ( ! isset( $_FILES[ $input ] ) )
+	{
+		return '';
+	}
+
+	$file_attached = FileUpload(
+		$input,
+		$FileUploadsPath . UserSyear() . '/student_' . UserStudentID() . '/',
+		FileExtensionWhiteList(),
+		0,
+		$error
+	);
+
+	// Fix SQL error when quote in uploaded file name.
+	return DBEscapeString( $file_attached );
+}
+
+/**
+ * Save Payments File
+ *
+ * @since 10.4
+ *
+ * @param  int|string $id Payment ID or 'new'.
+ *
+ * @return string     File path or empty.
+ */
+function _savePaymentsFile( $id )
+{
+	return _saveFeesFile( $id );
 }

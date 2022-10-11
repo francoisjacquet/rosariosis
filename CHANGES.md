@@ -12,6 +12,7 @@ Changes in 10.4
 - CSS date capitalize first letter only in stylesheet.css
 - Add optional $id param to FilesUploadUpdate() in FileUpload.fnc.php
 - JS Only show laoding spinner if file input has selected files in warehouse.js
+- Add File Attached Input for existing Fees/Payments in StudentFees.php, StudentPayments.php & Student_Billing/functions.inc.php
 
 Changes in 10.3.2
 -----------------
