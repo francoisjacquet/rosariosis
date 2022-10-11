@@ -816,7 +816,7 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
  * @example $required_error = $required_error || CheckRequiredCustomFields( 'custom_fields', $_REQUEST['students'] );
  *
  * @param string $table          Custom fields TABLE name.
- * @param string $request_values $_REQUEST var array of fields values.
+ * @param array  $request_values $_REQUEST var array of fields values.
  *
  * @return boolean true if one Required Custom field is empty, else false.
  */
