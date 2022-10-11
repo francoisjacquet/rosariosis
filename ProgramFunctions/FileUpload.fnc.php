@@ -343,18 +343,21 @@ function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = []
  * Input name must BEGIN with $request, for example: "valuesCUSTOM_3".
  *
  * @since 4.6
+ * @since 10.4 Add optional $id param
  *
  * @example FilesUploadUpdate( 'schools', 'values',	$FileUploadsPath . 'Schools/' . UserSchool() . '/' );
+ * @example FilesUploadUpdate( $table, 'tables' . $id, $FileUploadsPath . 'Hostel/', $id );
  *
  * @uses FileUpload()
  *
  * @param string $table   DB Table name.
  * @param string $request Request part of the input name.
  * @param string $path    Path, folder where the files will be uploaded to.
+ * @param int    $id      Table row ID. Optional.
  *
  * @return string Empty or last file full path.
  */
-function FilesUploadUpdate( $table, $request, $path )
+function FilesUploadUpdate( $table, $request, $path, $id = 0 )
 {
 	global $error;
 
@@ -403,27 +406,39 @@ function FilesUploadUpdate( $table, $request, $path )
 
 			if ( $table === 'schools' )
 			{
-				$where_sql = "ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
+				$id = $id ? $id : UserSchool();
+
+				$where_sql = "ID='" . (int) $id . "' AND SYEAR='" . UserSyear() . "'";
 			}
 			elseif ( $table === 'students' )
 			{
-				$where_sql = "STUDENT_ID='" . UserStudentID() . "'";
+				$id = $id ? $id : UserStudentID();
+
+				$where_sql = "STUDENT_ID='" . (int) $id . "'";
 			}
 			elseif ( $table === 'address' )
 			{
-				$where_sql = "ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'";
+				$id = $id ? $id : $_REQUEST['address_id'];
+
+				$where_sql = "ADDRESS_ID='" . (int) $id . "'";
 			}
 			elseif ( $table === 'people' )
 			{
-				$where_sql = "PERSON_ID='" . (int) $_REQUEST['person_id'] . "'";
+				$id = $id ? $id : $_REQUEST['person_id'];
+
+				$where_sql = "PERSON_ID='" . (int) $id . "'";
 			}
 			elseif ( $table === 'staff' )
 			{
-				$where_sql = "STAFF_ID='" . UserStaffID() . "'";
+				$id = $id ? $id : UserStaffID();
+
+				$where_sql = "STAFF_ID='" . (int) $id . "'";
 			}
 			else
 			{
-				$where_sql = "ID='" . (int) $_REQUEST['id'] . "'";
+				$id = $id ? $id : $_REQUEST['id'];
+
+				$where_sql = "ID='" . (int) $id . "'";
 			}
 
 			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "

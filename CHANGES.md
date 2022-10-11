@@ -10,6 +10,7 @@ Changes in 10.4
 - Remove "Minimum assignment points for letter grade" config option in Grades/Configuration.php & StudentGrades.php
 - Truncate Assignment title to 36 chars in StudentGrades.php & Grades.php
 - CSS date capitalize first letter only in stylesheet.css
+- Add optional $id param to FilesUploadUpdate() in FileUpload.fnc.php
 
 Changes in 10.3.2
 -----------------
