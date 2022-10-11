@@ -11,6 +11,7 @@ Changes in 10.4
 - Truncate Assignment title to 36 chars in StudentGrades.php & Grades.php
 - CSS date capitalize first letter only in stylesheet.css
 - Add optional $id param to FilesUploadUpdate() in FileUpload.fnc.php
+- JS Only show laoding spinner if file input has selected files in warehouse.js
 
 Changes in 10.3.2
 -----------------

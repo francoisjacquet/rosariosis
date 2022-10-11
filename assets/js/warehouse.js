@@ -223,7 +223,14 @@ var ajaxOptions = function(target, url, form) {
 			// AJAX error hide.
 			$('.ajax-error').hide();
 
-			$('.loading').css('visibility', 'visible');
+			$('.loading.BottomButton').css('visibility', 'visible');
+
+			$('input[type="file"]').each(function(){
+				if (this.files.length) {
+					// Only show loading spinner if file input has selected files.
+					$(this).next('.loading').css('visibility', 'visible');
+				}
+			});
 		},
 		success: function(data, s, xhr) {
 			// See PHP RedirectURL().
@@ -565,13 +572,13 @@ var showHelp = function() {
 		$fhc = $('#footerhelp .footerhelp-content');
 
 	if (modname !== showHelp.tmp) {
-		$('.loading').css('visibility', 'visible');
+		$('.loading.BottomButton').css('visibility', 'visible');
 		$.get("Bottom.php?bottomfunc=help&modname=" + encodeURIComponent(modname), function(data) {
 			showHelp.tmpdata = data;
 			$fhc.html(data);
 			$fh.scrollTop(0);
 		}).fail(ajaxError).always(function() {
-			$('.loading').css('visibility', 'hidden');
+			$('.loading.BottomButton').css('visibility', 'hidden');
 		});
 
 		showHelp.tmp = modname;
