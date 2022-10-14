@@ -33,6 +33,8 @@ class Widgets
 	/**
 	 * Widgets extra, sent to GetStuList() or GetStaffList()
 	 *
+	 * @since 10.4 Add-ons can add their custom Widgets
+	 *
 	 * - functions to apply to SQL RET
 	 * - search: will end up being imploded $this->html
 	 * - NoSearchTerms: set to true to diable SearchTerms
@@ -40,6 +42,9 @@ class Widgets
 	 * - SELECT: to restrict SQL query
 	 * - FROM: to restrict SQL query
 	 * - WHERE: to restrict SQL query
+	 * - Widgets: to add custom Widgets.
+	 *   $extra['Widgets']['Addon_Name'] = [ 'widget_1', 'widget_2' ];
+	 *   Custom '\Addon_Name\Widget_' class prefix.
 	 *
 	 * @var array $extra for GetStuList() or GetStaffList()
 	 */
@@ -51,6 +56,7 @@ class Widgets
 		'SELECT' => '',
 		'FROM' => '',
 		'WHERE' => '',
+		'Widgets' => [],
 	];
 
 	protected $extra;
@@ -350,6 +356,36 @@ class Widgets
 			// @since 5.1 Medical Immunization or Physical Widget displayed under Student Fields.
 			// Call here necessary for header.
 			$this->build( 'medical_date' );
+		}
+
+		// @since 10.4 Add-ons can add their custom Widgets
+		$extra_widgets = $this->extra['Widgets'];
+
+		foreach ( $extra_widgets as $add_on => $widgets )
+		{
+			if ( empty( $widgets ) )
+			{
+				continue;
+			}
+
+			/**
+			 * If Widget was added by add-on, then:
+			 * 1. add-on is activated
+			 * 2. Add-on must check first if user has rights to access all Widgets
+			 */
+			$this->wrapHeader( dgettext( $add_on, str_replace( '_', ' ', $add_on ) ) );
+
+			foreach ( $widgets as $widget )
+			{
+				/**
+				 * Custom '\Addon_Name\Widget_' class prefix.
+				 *
+				 * @example namespace Hostel_Premium; class Widget_hostel_room implements \RosarioSIS\Widget {...}
+				 */
+				$this->build( $widget, '\\' . $add_on . '\Widget_' );
+			}
+
+			$this->wrapFooter();
 		}
 	}
 }
