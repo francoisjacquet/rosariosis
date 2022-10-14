@@ -15,6 +15,7 @@ Changes in 10.4
 - Add File Attached Input for existing Fees/Payments in StudentFees.php, StudentPayments.php & Student_Billing/functions.inc.php
 - Add File Attached Input for existing Salaries/Staff Payments/Incomes/Expenses in Expenses.php, Incomes.php, Salaries, StaffPayments.php & Accounting/functions.inc.php
 - Add-ons can add their custom Widgets in classes/core/Widgets.php
+- Add Widgets init action hook in Actions.php & Widgets.fnc.php
 
 Changes in 10.3.3
 -----------------
