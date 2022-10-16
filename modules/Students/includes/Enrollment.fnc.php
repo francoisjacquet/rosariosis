@@ -48,6 +48,8 @@ function StudentCanEnrollNextSchoolYear( $student_id )
 		FROM student_enrollment e
 		WHERE e.STUDENT_ID='" . (int) $student_id . "'
 		AND e.SYEAR='" . UserSyear() . "'
+		AND NEXT_SCHOOL IS NOT NULL
+		AND GRADE_ID IS NOT NULL
 		ORDER BY e.END_DATE IS NULL,e.END_DATE,e.START_DATE IS NULL,e.START_DATE" );
 
 	if ( empty( $enrollment_RET ) )
