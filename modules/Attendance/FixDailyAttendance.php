@@ -5,7 +5,9 @@ require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 DrawHeader( ProgramTitle() );
 
 //FJ add translation
-$message = '<table><tr><td colspan="7" class="center">' . _( 'From' ) . ' ' . PrepareDate( DBDate(), '_min' ) . ' ' . _( 'to' ) . ' ' . PrepareDate( DBDate(), '_max' ) . '</td></tr></table>';
+$message = '<table><tr><td colspan="7" class="center">' . _( 'From' ) . ' ' .
+	DateInput( DBDate(), 'min', '', false, false ) . ' ' . _( 'to' ) . ' ' .
+	DateInput( DBDate(), 'max', '', false, false ) . '</td></tr></table>';
 
 if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily attendance?' ), $message ) )
 {
@@ -25,8 +27,8 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 
 	$students_RET = GetStuList();
 
-	$begin = mktime( 0, 0, 0, MonthNWswitch( $_REQUEST['month_min'], 'to_num' ), $_REQUEST['day_min'] * 1, $_REQUEST['year_min'] ) + 43200;
-	$end = mktime( 0, 0, 0, MonthNWswitch( $_REQUEST['month_max'], 'to_num' ), $_REQUEST['day_max'] * 1, $_REQUEST['year_max'] ) + 43200;
+	$begin = mktime( 0, 0, 0, (int) $_REQUEST['month_min'], (int) $_REQUEST['day_min'], (int) $_REQUEST['year_min'] ) + 43200;
+	$end = mktime( 0, 0, 0, (int) $_REQUEST['month_max'], (int) $_REQUEST['day_max'], (int) $_REQUEST['year_max'] ) + 43200;
 
 	for ( $i = $begin; $i <= $end; $i += 86400 )
 	{
