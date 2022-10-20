@@ -45,6 +45,7 @@ class Widgets
 	 * - Widgets: to add custom Widgets.
 	 *   $extra['Widgets']['Addon_Name'] = [ 'widget_1', 'widget_2' ];
 	 *   Custom '\Addon_Name\Widget_' class prefix.
+	 *   For Staff Widgets, class prefix is '\Addon_Name\StaffWidget_'
 	 *
 	 * @var array $extra for GetStuList() or GetStaffList()
 	 */
@@ -359,8 +360,19 @@ class Widgets
 		}
 
 		// @since 10.4 Add-ons can add their custom Widgets
-		$extra_widgets = $this->extra['Widgets'];
+		$this->custom( $this->extra['Widgets'] );
+	}
 
+	/**
+	 * Custom Widgets
+	 *
+	 * @since 10.4 Add-ons can add their custom Widgets
+	 *
+	 * @param  array  $extra_widgets $this->extra['Widgets'];
+	 * @param  string $class_prefix  Class prefix without namespace. Defaults to 'Widget_'.
+	 */
+	function custom( $extra_widgets, $class_prefix = 'Widget_' )
+	{
 		foreach ( $extra_widgets as $add_on => $widgets )
 		{
 			if ( empty( $widgets ) )
@@ -382,7 +394,7 @@ class Widgets
 				 *
 				 * @example namespace Hostel_Premium; class Widget_hostel_room implements \RosarioSIS\Widget {...}
 				 */
-				$this->build( $widget, '\\' . $add_on . '\Widget_' );
+				$this->build( $widget, '\\' . $add_on . '\\' . $class_prefix );
 			}
 
 			$this->wrapFooter();
