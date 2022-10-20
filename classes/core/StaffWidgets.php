@@ -78,5 +78,8 @@ class StaffWidgets extends Widgets
 
 			$this->wrapFooter();
 		}
+
+		// @since 10.4 Add-ons can add their custom Widgets
+		$this->custom( $this->extra['Widgets'], 'StaffWidget_' );
 	}
 }
