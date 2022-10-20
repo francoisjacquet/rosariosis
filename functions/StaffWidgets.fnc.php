@@ -11,6 +11,7 @@
  * Essentially used in the Find a User form
  *
  * @since 8.6 Use RosarioSIS\StaffWidgets
+ * @since 10.4 Add Staff Widgets init action hook
  *
  * @global array   $_ROSARIO       Sets $_ROSARIO['SearchTerms']
  * @global array   $extra
@@ -36,6 +37,16 @@ function StaffWidgets( $item, &$myextra = null )
 
 		$widgets = new RosarioSIS\StaffWidgets();
 	}
+
+	/**
+	 * Staff Widgets init action hook
+	 * Add your add-on custom staff widgets to the $myextra['Widgets'] var:
+	 * $myextra['Widgets']['Addon_Name'] = [ 'widget_1', 'widget_2' ];
+	 * And load your custom \Addon_Name\StaffWidget_[widget_name] class(es).
+	 *
+	 * @since 10.4
+	 */
+	do_action( 'functions/StaffWidgets.fnc.php|widgets_init', [ $item, &$myextra ] );
 
 	// Do not use `! empty()` here.
 	if ( isset( $myextra ) )

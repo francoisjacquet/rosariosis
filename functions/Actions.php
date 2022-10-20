@@ -394,6 +394,16 @@ $RosarioActions = [];
 	 * @since 10.4
 	 */
 	/*'functions/Widgets.fnc.php|widgets_init' => array(),
+
+	/**
+	 * Staff Widgets init
+	 * Add your add-on custom staff widgets to the $myextra['Widgets'] var:
+	 * $myextra['Widgets']['Addon_Name'] = [ 'widget_1', 'widget_2' ];
+	 * And load your custom \Addon_Name\StaffWidget_[widget_name] class(es).
+	 *
+	 * @since 10.4
+	 */
+	/*'functions/StaffWidgets.fnc.php|widgets_init' => array(),
 );*/
 
 /**
