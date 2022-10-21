@@ -35,6 +35,11 @@ function strftime_compat($format, $timestamp = null)
 			$timestamp = strtotime( $timestamp );
 		}
 
+		if ( is_null( $timestamp ) ) {
+			// Fix date is 1969-12-31 on Windows when PHP intl ext not activated.
+			$timestamp = time();
+		}
+
 		// Revert to strftime() if PHP intl extension not installed...
 		return strftime( $format, $timestamp );
 	}

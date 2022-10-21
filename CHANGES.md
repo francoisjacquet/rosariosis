@@ -18,6 +18,7 @@ Changes in 10.4
 - Add Widgets init action hook in Actions.php & Widgets.fnc.php
 - Add Staff Widgets init action hook in Actions.php & StaffWidgets.fnc.php
 - Fix SQL check student is actually enrolled in Enrollment.fnc.php
+- Fix date is 1969-12-31 on Windows when PHP intl ext not activated in strftime_compat.php
 
 Changes in 10.3.3
 -----------------
