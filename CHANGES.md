@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.4.1
+-----------------
+- JS fix regression since 9.0 & DOMPurify, open links in new window in warehouse.js
+
 Changes in 10.4
 ---------------
 - Modcat is addon module, set custom module icon in Profiles.php & Exceptions.php

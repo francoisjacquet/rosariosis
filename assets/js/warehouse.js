@@ -127,25 +127,25 @@ var GetMDConverter = function() {
 	if (typeof GetMDConverter.marked === 'undefined') {
 		GetMDConverter.marked = function(markDown) {
 			// @since 6.0 JS MarkDown use marked instead of showdown (15KB smaller).
-			// Open links in new window.
-			// @link https://github.com/markedjs/marked/issues/144
-			var renderer = new marked.Renderer();
-
-			renderer.link = function(href, title, text) {
-			    var link = marked.Renderer.prototype.link.call(this, href, title, text);
-			    return link.replace("<a","<a target='_blank' ");
-			};
-
 			// Set options.
 			// @link https://marked.js.org/#/USING_ADVANCED.md
 			marked.setOptions({
 				breaks: true, // Add <br> on a single line break. Requires gfm be true.
 				gfm: true, // GitHub Flavored Markdown (GFM).
 				headerIds: false, // Include an id attribute when emitting headings (h1, h2, h3, etc).
-				renderer: renderer,
 			});
 
 			var md = marked.parse(markDown);
+
+			// Open links in new window.
+			// @link https://github.com/cure53/DOMPurify/issues/317
+			DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+				// set all elements owning target to target=_blank
+				if ('target' in node) {
+					node.setAttribute('target', '_blank');
+					node.setAttribute('rel', 'noopener');
+				}
+			});
 
 			return DOMPurify.sanitize(md);
 		};
