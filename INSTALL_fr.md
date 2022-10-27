@@ -62,7 +62,7 @@ Décompressez l'archive de RosarioSIS, ou bien clonez le dépôt avec git dans u
 - `$PNGQuantPath` Chemin vers [PNGQuant](https://pngquant.org/) (compression des images PNG).
 - `$RosarioErrorsAddress` Adresse email pour les erreurs (PHP fatal, base de donnée, tentatives de piratage).
 - `$Timezone` Fuseau horaire utilisé par les fonctions de date/heure. [Liste des Fuseaux Horaires Supportés](http://php.net/manual/fr/timezones.php).
-- `$ETagCache` Réglez sur `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et sécurité](https://secure.php.net/manual/fr/session.security.php).
+- `$ETagCache` Passer à `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et sécurité](https://secure.php.net/manual/fr/session.security.php).
 - `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limiter la taille de `$_POST` (16MB par défaut). Détails [ici](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L290).
 - `define( 'ROSARIO_DEBUG', true );` Mode debug activé.
 - `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Désactiver l'upload de compléments (modules et plugins).
@@ -167,7 +167,7 @@ Redémarrer PHP et Apache.
 Autres langues
 --------------
 
-Instructions d'installation pour Ubuntu 18.04 et la locale _Espagnol_:
+Instructions d'installation pour Ubuntu 20.04 et la locale _Espagnol_:
 ```bash
 server$ sudo apt-get install language-pack-es
 ```

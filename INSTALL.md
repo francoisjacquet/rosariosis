@@ -51,7 +51,7 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 
 - `$DatabasePort` Port number to access the database server. Default is 5432 for PostgreSQL & 3306 for MySQL.
 - `$RosarioPath` Full path to RosarioSIS installation.
-- `$wkhtmltopdfAssetsPath` Path to the `assets/` director for wkhtmltopdf. Possibly different than how the web browser finds it. Empty string means no translation.
+- `$wkhtmltopdfAssetsPath` Path to the `assets/` directory for wkhtmltopdf. Possibly different than how the web browser finds it. Empty string means no translation.
 - `$StudentPicturesPath` Path to student pictures.
 - `$UserPicturesPath` Path to user pictures.
 - `$PortalNotesFilesPath` Path to portal notes attached files.
