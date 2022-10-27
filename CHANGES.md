@@ -4,6 +4,7 @@
 Changes in 10.4.1
 -----------------
 - JS fix regression since 9.0 & DOMPurify, open links in new window in warehouse.js
+- Add Database Type and Version, add PHP version to FirstLoginPoll() in FirstLogin.fnc.php
 
 Changes in 10.4
 ---------------
