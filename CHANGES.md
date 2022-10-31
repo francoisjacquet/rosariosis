@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.4.2
+-----------------
+- Fix SQL error null value in column "amount" in Salaries.php
+
 Changes in 10.4.1
 -----------------
 - JS fix regression since 9.0 & DOMPurify, open links in new window in warehouse.js
