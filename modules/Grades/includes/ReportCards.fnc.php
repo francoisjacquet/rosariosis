@@ -436,6 +436,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			unset( $grades_RET );
 
+			$grades_total = [];
+
 			$i = 0;
 
 			// Course Periods.
@@ -471,11 +473,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					// @since 5.0 Add GPA or Total row.
 					if ( ! isset( $grades_total[$mp] ) )
 					{
-						if ( ! isset( $grades_total ) )
-						{
-							$grades_total = [];
-						}
-
 						$grades_total[$mp] = 0;
 					}
 

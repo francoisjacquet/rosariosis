@@ -4,6 +4,7 @@
 Changes in 10.4.2
 -----------------
 - Fix SQL error null value in column "amount" in Salaries.php
+- Fix Total row calculation, reset for each student in ReportCards.fnc.php, thanks to @fatahou
 
 Changes in 10.4.1
 -----------------
