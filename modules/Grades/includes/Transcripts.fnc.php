@@ -296,6 +296,8 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 			$student['ID'] = $student_id;
 
+			$grades_total = [];
+
 			foreach ( (array) $t_sgrades as $syear => $mps )
 			{
 				// Start buffer.
@@ -377,11 +379,6 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 						// @since 5.0 Add GPA or Total row.
 						if ( ! isset( $grades_total[$mp_id] ) )
 						{
-							if ( ! isset( $grades_total ) )
-							{
-								$grades_total = [];
-							}
-
 							$grades_total[$mp_id] = 0;
 						}
 
