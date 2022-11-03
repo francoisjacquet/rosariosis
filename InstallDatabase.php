@@ -46,6 +46,9 @@ if ( _configTableCheck() )
 	{
 		// @since 10.2 MySQL fix character encoding when translating database
 		db_query( "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci" );
+
+		// @since 10.4.3 MySQL always use InnoDB (default), avoid MyISAM
+		db_query( "SET storage_engine=InnoDB;" );
 	}
 
 	$addons_sql = $rosariosis_sql = '';

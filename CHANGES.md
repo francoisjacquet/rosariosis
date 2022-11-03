@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.4.3
+-----------------
+- MySQL always use InnoDB (default), avoid MyISAM in InstallDatabase.php, Modules.inc.php, Plugins.inc.php & rosariosis_mysql.sql
+
 Changes in 10.4.2
 -----------------
 - Fix SQL error null value in column "amount" in Salaries.php
