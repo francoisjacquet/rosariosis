@@ -337,6 +337,7 @@ input[type=number],
 input[type=search],
 input[type=tel],
 input[type=url],
+input[type=time],
 select,
 .postbox {
 	border-radius: 3px;

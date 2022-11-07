@@ -363,6 +363,7 @@ input[type=number],
 input[type=search],
 input[type=tel],
 input[type=url],
+input[type=time],
 select,
 .postbox {
 	border-width: 1px;
@@ -582,6 +583,7 @@ input[type="tel"],
 input[type="text"],
 input[type="url"],
 input[type="color"],
+input[type="time"],
 select,
 textarea {
 	border-bottom-width: 2px;

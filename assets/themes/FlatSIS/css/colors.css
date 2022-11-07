@@ -14,6 +14,7 @@ input[type="number"],
 input[type="search"],
 input[type="tel"],
 input[type="url"],
+input[type="time"],
 select {
 	border-color: #cacaca;
 	background: #fff;
@@ -31,6 +32,7 @@ input[type="tel"]:hover,
 input[type="text"]:hover,
 input[type="url"]:hover,
 input[type="color"]:hover,
+input[type="time"]:hover,
 select:hover,
 textarea:hover {
 	border-color: #aaa;
@@ -48,6 +50,7 @@ input[type="number"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
+input[type="time"]:focus,
 select:focus {
 	border-color: #aaa;
 	border-bottom-color: #298cba;
