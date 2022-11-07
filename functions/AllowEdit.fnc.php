@@ -93,7 +93,8 @@ function AllowUse( $modname = false )
 
 	// Student / User Info tabs.
 	if ( ( $modname === 'Students/Student.php'
-			|| $modname ==='Users/User.php' )
+			|| $modname === 'Users/User.php' )
+		&& $modname === $_REQUEST['modname']
 		&& isset( $_REQUEST['category_id'] ) )
 	{
 		$modname = $modname . '&category_id=' . $_REQUEST['category_id'];

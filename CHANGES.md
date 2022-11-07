@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.4.4
+-----------------
+- Fix AllowUse() for User Info when on Student Info in AllowEdit.fnc.php
+
 Changes in 10.4.3
 -----------------
 - MySQL always use InnoDB (default), avoid MyISAM in InstallDatabase.php, Modules.inc.php, Plugins.inc.php & rosariosis_mysql.sql
