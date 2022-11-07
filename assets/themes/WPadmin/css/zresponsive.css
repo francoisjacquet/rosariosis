@@ -122,10 +122,6 @@
 	table.col1-align-right > tbody > tr.st > td:nth-child(2) {
 		border-top: none;
 	}
-	.fixed-col {
-		table-layout: auto;
-		/*no fixed layout for stackable tables*/
-	}
 	.fixed-col select {
 		max-width: 440px;
 	}

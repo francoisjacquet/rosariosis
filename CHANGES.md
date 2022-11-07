@@ -5,6 +5,7 @@ Changes in 10.4.4
 -----------------
 - Fix AllowUse() & AllowEdit() for User Info when on Student Info in AllowEdit.fnc.php
 - CSS fix Calendar header days word-break in zresponsive.css
+- CSS fix List width inside Student / User Info tabs in zresponsive.css
 
 Changes in 10.4.3
 -----------------
