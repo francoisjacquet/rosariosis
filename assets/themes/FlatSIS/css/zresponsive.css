@@ -183,9 +183,6 @@
 	#body {
 		padding: 0 6px 0;
 	}
-	#calendar > thead > tr > th {
-		font-size: 13px;
-	}
 	/*responsive tables*/
 	.rt {
 		display: block;
@@ -289,6 +286,7 @@
 		overflow: hidden;
 		word-wrap: normal;
 		padding: 4px;
+		word-break: initial;
 	}
 	.calendar-day {
 		position: relative;
