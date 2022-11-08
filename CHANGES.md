@@ -6,6 +6,7 @@ Changes in 10.4.4
 - Fix AllowUse() & AllowEdit() for User Info when on Student Info in AllowEdit.fnc.php
 - CSS fix Calendar header days word-break in zresponsive.css
 - CSS style time input in stylesheet.css & colors.css
+- CSS remove padding for LO_SORT arrow in zresponsive.css
 
 Changes in 10.4.3
 -----------------

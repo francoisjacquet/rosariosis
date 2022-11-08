@@ -246,6 +246,10 @@
 	.rt2colorBox {
 		overflow: auto
 	}
+	/* Remove padding for LO_SORT arrow */
+	.widefat th a[href*="LO_dir"] {
+		padding-right: 0;
+	}
 	/*if content on 1 line & text <= 36 chars*/
 	.widefat td .rt2colorBox p {
 		margin-top: 0

@@ -206,13 +206,12 @@
 	}
 	.rt th {
 		display: block;
-		line-height: 2em;
-		height: 2em
+		line-height: 2.135em;
+		height: 2.135em
 	}
 	.rt th,
 	.rt th a {
-		font-size: 15px;
-		line-height: 2em;
+		line-height: 2.135em;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 	}
@@ -258,6 +257,10 @@
 	}
 	.rt2colorBox {
 		overflow: auto
+	}
+	/* Remove padding for LO_SORT arrow */
+	.widefat th a[href*="LO_dir"] {
+		padding-right: 0;
 	}
 	/*if content on 1 line & text <= 36 chars*/
 	.widefat td .rt2colorBox p {
