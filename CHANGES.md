@@ -7,6 +7,7 @@ Changes in 10.4.4
 - CSS fix Calendar header days word-break in zresponsive.css
 - CSS style time input in stylesheet.css & colors.css
 - CSS remove padding for LO_SORT arrow in zresponsive.css
+- HTML fix responsive / stackable table for Course Periods in Courses.php
 
 Changes in 10.4.3
 -----------------

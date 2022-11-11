@@ -952,7 +952,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
 
-			$header .= '<tr><td>' . TextInput(
+			$header .= '<tr class="st"><td>' . TextInput(
 				issetVal( $RET['ROOM'], '' ),
 				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][ROOM]',
 				_( 'Room' ),
