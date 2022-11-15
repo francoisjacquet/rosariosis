@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.5
+---------------
+- JS responsive add minWidth & minHeight options to inline colorBox in jquery-colorbox.js & warehouse.js
+
 Changes in 10.4.4
 -----------------
 - Fix AllowUse() & AllowEdit() for User Info when on Student Info in AllowEdit.fnc.php

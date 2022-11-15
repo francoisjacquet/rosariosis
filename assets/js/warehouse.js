@@ -95,8 +95,8 @@ var ColorBox = function() {
 	var cWidth = 640,
 		cHeight = 390;
 	if (screen.width < 768) {
-		cWidth = 300;
-		cHeight = 183;
+		cWidth = 320;
+		cHeight = 195;
 	}
 
 	$('.rt2colorBox').before(function(i) {
@@ -118,6 +118,8 @@ var ColorBox = function() {
 		inline: true,
 		maxWidth: '95%',
 		maxHeight: '85%',
+		minWidth: 306,
+		minHeight: 153,
 		scrolling: true
 	});
 }
