@@ -161,6 +161,8 @@ function RegistrationSaveSiblingContacts( $student_id )
  * Save Registration Student Info / Custom Fields.
  * Limit custom fields to the Categories in config.
  *
+ * @since 10.5 Save Student Files fields, upload files
+ *
  * @param array $config Student Info config.
  * @param array $values Student Info values.
  *
@@ -168,6 +170,8 @@ function RegistrationSaveSiblingContacts( $student_id )
  */
 function RegistrationSaveStudent( $config, $values )
 {
+	global $FileUploadsPath;
+
 	if ( ! $config['fields']
 		|| ! $values )
 	{
@@ -213,6 +217,15 @@ function RegistrationSaveStudent( $config, $values )
 	if ( $go )
 	{
 		DBQuery( $sql );
+	}
+
+	if ( ! empty( $_FILES ) )
+	{
+		$uploaded = FilesUploadUpdate(
+			'students',
+			'students',
+			$FileUploadsPath . 'Student/' . UserStudentID() . '/'
+		);
 	}
 
 	return true;

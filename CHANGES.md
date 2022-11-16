@@ -5,6 +5,7 @@ Changes in 10.5
 ---------------
 - JS responsive add minWidth & minHeight options to inline colorBox in jquery-colorbox.js & warehouse.js
 - Trim white spaces for Contact name & Address fields in RegistrationSave.fnc.php & Address.inc.php
+- Save Student Files fields, upload files in RegistrationSave.fnc.php
 
 Changes in 10.4.4
 -----------------

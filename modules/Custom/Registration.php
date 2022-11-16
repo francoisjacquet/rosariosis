@@ -5,6 +5,7 @@
  */
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 require_once 'modules/Custom/includes/Registration.fnc.php';
 
