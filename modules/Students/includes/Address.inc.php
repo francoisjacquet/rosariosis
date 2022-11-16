@@ -1135,7 +1135,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			foreach ( (array) $addresses_RET as $address )
 			{
-				$address_select[$address['ADDRESS_ID']] = $address['ADDRESS'] . ', ' . $address['CITY'] . ', ' . $address['STATE'] . ', ' . $address['ZIPCODE'];
+				$address_select[$address['ADDRESS_ID']] = trim( (string) $address['ADDRESS'] ) . ', ' . trim( (string) $address['CITY'] ) . ', ' . trim( (string) $address['STATE'] ) . ', ' . trim( (string) $address['ZIPCODE'] );
 			}
 
 			echo ChosenSelectInput(
@@ -1629,10 +1629,17 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 
 		foreach ( (array) $options_RET as $option )
 		{
-			if ( $option[$column] != ''
-				&& ! isset( $options[$option[$column]] ) )
+			if ( $option[$column] == '' )
 			{
-				$options[$option[$column]] = [ $option[$column], $option[$column] ];
+				continue;
+			}
+
+			$option_val = trim( $option[$column] );
+
+			if ( $option_val != ''
+				&& ! isset( $options[$option_val] ) )
+			{
+				$options[$option_val] = [ $option_val, $option_val ];
 			}
 		}
 	}

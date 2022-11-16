@@ -233,7 +233,7 @@ function RegistrationSaveAddress( $config, $values )
 {
 	static $inserted_addresses = [];
 
-	if ( empty( $values['ADDRESS'] ) )
+	if ( empty( trim( $values['ADDRESS'] ) ) )
 	{
 		return 0;
 	}
@@ -249,7 +249,7 @@ function RegistrationSaveAddress( $config, $values )
 
 	$fields = 'ADDRESS,CITY,STATE,ZIPCODE,';
 
-	$values_sql = "'" . $values['ADDRESS'] . "','" . $values['CITY'] . "','" . $values['STATE'] . "','" . $values['ZIPCODE'] . "',";
+	$values_sql = "'" . trim( $values['ADDRESS'] ) . "','" . trim( $values['CITY'] ) . "','" . trim( $values['STATE'] ) . "','" . trim( $values['ZIPCODE'] ) . "',";
 
 	// Textarea fields MarkDown sanitize.
 	$values = FilterCustomFieldsMarkdown( 'address_fields', 'address' );
@@ -389,8 +389,8 @@ function RegistrationSaveJoinContact( $contact_id, $address_id, $config )
  */
 function RegistrationSaveContactNameFields( $config, $values )
 {
-	if ( empty( $values['FIRST_NAME'] )
-		|| empty( $values['LAST_NAME'] ) )
+	if ( empty( trim( $values['FIRST_NAME'] ) )
+		|| empty( trim( $values['LAST_NAME'] ) ) )
 	{
 		return 0;
 	}
@@ -399,7 +399,7 @@ function RegistrationSaveContactNameFields( $config, $values )
 
 	$fields = 'LAST_NAME,FIRST_NAME,MIDDLE_NAME,';
 
-	$values_sql = "'" . $values['LAST_NAME'] . "','" . $values['FIRST_NAME'] . "','" . $values['MIDDLE_NAME'] . "',";
+	$values_sql = "'" . trim( $values['LAST_NAME'] ) . "','" . trim( $values['FIRST_NAME'] ) . "','" . trim( $values['MIDDLE_NAME'] ) . "',";
 
 	if ( $config
 		&& ! empty( $values['fields'] ) )
