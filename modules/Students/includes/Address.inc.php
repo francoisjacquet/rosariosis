@@ -982,6 +982,9 @@ if ( ! $_REQUEST['modfunc'] )
 				$this_address['RESIDENCE'] = 'Y';
 				$this_address['MAILING'] = 'Y';
 
+				$this_address['BUS_PICKUP'] = '';
+				$this_address['BUS_DROPOFF'] = '';
+
 				if ( ProgramConfig( 'students', 'STUDENTS_USE_BUS' ) )
 				{
 					$this_address['BUS_PICKUP'] = 'Y';
