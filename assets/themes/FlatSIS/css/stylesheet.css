@@ -569,6 +569,8 @@ input[type=button] {
 	white-space: normal;
 	/* Fix button on iPhone iPad. */
 	-webkit-appearance: none;
+	/* Do not break text inside button */
+	word-break: normal;
 }
 
 input[type="button"],

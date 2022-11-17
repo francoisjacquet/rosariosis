@@ -545,6 +545,8 @@ input[type=button] {
 	box-sizing: content-box;
 	/* Display button text on multiple lines if too long */
 	white-space: normal;
+	/* Do not break text inside button */
+	word-break: normal;
 }
 
 .header2.align-right input[type="button"],
