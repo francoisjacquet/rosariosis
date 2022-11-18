@@ -1,14 +1,6 @@
-/*tablet vertical*/
+/*mobile + tablet vertical*/
 
-@media only screen and (max-width:800px) {
-	.BottomButton span {
-		display: none
-	}
-}
-
-/*mobile*/
-
-@media only screen and (max-width:736px) {
+@media only screen and (max-width:874px) {
 	/*quick smartphone reset*/
 	.mod {
 		position: relative !important;
@@ -30,6 +22,9 @@
 	#footerhelp {
 		border-width: 1px 0;
 		border-style: solid;
+	}
+	.BottomButton span {
+		display: none
 	}
 	#menu .logo {
 		max-width: 130px;

@@ -7,6 +7,7 @@ Changes in 10.5
 - Trim white spaces for Contact name & Address fields in RegistrationSave.fnc.php & Address.inc.php
 - Save Student Files fields, upload files in RegistrationSave.fnc.php
 - CSS Do not break text inside button in stylesheet.css
+- CSS responsive raise max-width for mobile & vertical tablet from 736 to 874px in zresponsive.css, rtl.css & colors.css
 
 Changes in 10.4.4
 -----------------

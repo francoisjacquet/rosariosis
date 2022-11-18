@@ -597,7 +597,9 @@ hr {
 	}
 }
 
-@media only screen and (max-width:736px) {
+/*mobile + tablet vertical*/
+
+@media only screen and (max-width:874px) {
 	.wp-submenu a:hover {
 		background: transparent;
 		color: #21759b
