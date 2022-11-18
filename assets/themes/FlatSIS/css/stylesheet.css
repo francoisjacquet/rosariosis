@@ -96,7 +96,7 @@ input,
 /* @link https://stackoverflow.com/questions/10672586/how-to-make-select-elements-shrink-to-max-width-percent-style-within-fieldset */
 
 select {
-	max-width: 440px;
+	max-width: 340px;
 }
 
 #search input,

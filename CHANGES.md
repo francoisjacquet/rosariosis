@@ -9,6 +9,7 @@ Changes in 10.5
 - CSS Do not break text inside button in stylesheet.css
 - CSS responsive raise max-width for mobile & vertical tablet from 736 to 874px in zresponsive.css, rtl.css & colors.css
 - HTML fix responsive table & weekdays in Calendars.php
+- CSS responsive reduce select max-width from 440 to 340px in stylesheet.css & zresponsive.css
 
 Changes in 10.4.4
 -----------------

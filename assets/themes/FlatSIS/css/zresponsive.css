@@ -124,7 +124,7 @@
 		/*no fixed layout for stackable tables*/
 	}
 	.fixed-col select {
-		max-width: 440px;
+		max-width: 340px;
 	}
 	.divPortalPoll {
 		min-width: 0
