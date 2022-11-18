@@ -8,6 +8,7 @@ Changes in 10.5
 - Save Student Files fields, upload files in RegistrationSave.fnc.php
 - CSS Do not break text inside button in stylesheet.css
 - CSS responsive raise max-width for mobile & vertical tablet from 736 to 874px in zresponsive.css, rtl.css & colors.css
+- HTML fix responsive table & weekdays in Calendars.php
 
 Changes in 10.4.4
 -----------------

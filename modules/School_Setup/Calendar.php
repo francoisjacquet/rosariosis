@@ -86,7 +86,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$div = false;
 
-	$message = '<table class="valign-top fixed-col"><tr class="st">';
+	$message = '<table class="valign-top fixed-col width-100p"><tr class="st">';
 
 	// Title.
 	$message .= '<td>' . TextInput(
@@ -156,7 +156,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		!( $recreate_calendar && $recreate_calendar['END_DATE'] )
 	) . '</td></tr>';
 
-	$message .= '<tr class="st"><td colspan="2"><table class="valign-top cellpadding-5"><tr><td>';
+	$message .= '<tr class="st"><td colspan="2"><table class="valign-top cellpadding-5"><tr class="st"><td>';
 
 	// Weekdays.
 	$weekdays = [
