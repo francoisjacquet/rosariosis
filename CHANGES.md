@@ -10,6 +10,7 @@ Changes in 10.5
 - CSS responsive raise max-width for mobile & vertical tablet from 736 to 874px in zresponsive.css, rtl.css & colors.css
 - HTML fix responsive table & weekdays in Calendars.php
 - CSS responsive reduce select max-width from 440 to 340px in stylesheet.css & zresponsive.css
+- Fix PHP8.2 utf8_decode() function deprecated in PDF.php
 
 Changes in 10.4.4
 -----------------

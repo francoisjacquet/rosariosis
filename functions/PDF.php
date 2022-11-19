@@ -145,11 +145,17 @@ function PDFStop( $handle )
 	$path = sys_get_temp_dir();
 
 	// File name.
-	$filename = utf8_decode( str_replace(
-		[ _( 'Print' ) . ' ', ' ' ],
-		[ '', '_' ],
-		ProgramTitle()
-	)) . ( $file_number++ );
+	// Fix PHP8.2 utf8_decode() function deprecated
+	// Decode UTF8 is useful for Windows only.
+	$filename = iconv(
+		'UTF-8',
+		'ISO-8859-1',
+		str_replace(
+			[ _( 'Print' ) . ' ', ' ' ],
+			[ '', '_' ],
+			ProgramTitle()
+		)
+	) . ( $file_number++ );
 
 	if ( empty( $wkhtmltopdfPath ) )
 	{
