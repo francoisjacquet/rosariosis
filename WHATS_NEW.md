@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.5
+-----------
+
+[SMS Premium](https://www.rosariosis.org/modules/sms/): new gateway, WhatsApp Cloud API, sponsored by EspaceHitech.mg
+
+
 New in 10.4
 -----------
 
