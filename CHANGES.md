@@ -11,6 +11,7 @@ Changes in 10.5
 - HTML fix responsive table & weekdays in Calendars.php
 - CSS responsive reduce select max-width from 440 to 340px in stylesheet.css & zresponsive.css
 - Fix PHP8.2 utf8_decode() function deprecated in PDF.php
+- MySQL change database charset to utf8mb4 and collation to utf8mb4_unicode_520_ci in InstallDatabase.php
 
 Changes in 10.4.4
 -----------------

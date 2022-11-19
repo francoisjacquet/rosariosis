@@ -103,6 +103,9 @@ if ( $DatabaseType === 'mysql' )
 {
 	// @since 10.0 Remove DELIMITER $$ declarations before procedures or functions.
 	$rosariosis_sql = MySQLRemoveDelimiter( $rosariosis_sql );
+
+	// @since 10.5 MySQL change database charset to utf8mb4 and collation to utf8mb4_unicode_520_ci
+	db_query( "ALTER DATABASE " . DBEscapeIdentifier( $DatabaseName ) . " CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_520_ci'" );
 }
 
 db_query( $rosariosis_sql );
