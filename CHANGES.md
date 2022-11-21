@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.5.1
+-----------------
+- Fix MySQL error Unknown system variable 'storage_engine' in InstallDatabase.php, Modules.inc.php, Plugins.inc.php & rosariosis_mysql.sql
+
 Changes in 10.5
 ---------------
 - JS responsive add minWidth & minHeight options to inline colorBox in jquery-colorbox.js & warehouse.js

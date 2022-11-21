@@ -200,7 +200,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 				$install_sql_file = 'modules/' . $_REQUEST['module'] . '/install_mysql.sql';
 
 				// @since 10.4.3 MySQL always use InnoDB (default), avoid MyISAM
-				DBQuery( "SET storage_engine=InnoDB;" );
+				DBQuery( "SET default_storage_engine=InnoDB;" );
 			}
 
 			if ( file_exists( $install_sql_file ) )

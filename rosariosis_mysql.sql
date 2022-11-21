@@ -14,7 +14,7 @@ SET foreign_key_checks = 0;
 SET @@sql_mode=CONCAT(@@sql_mode,',NO_AUTO_VALUE_ON_ZERO');
 
 -- Always use InnoDB (default), avoid MyISAM
-SET storage_engine=InnoDB;
+SET default_storage_engine=InnoDB;
 
 --
 -- Name: calc_cum_cr_gpa(mp_id integer, s_id integer); Type: FUNCTION;

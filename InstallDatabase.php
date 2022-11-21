@@ -48,7 +48,7 @@ if ( _configTableCheck() )
 		db_query( "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci" );
 
 		// @since 10.4.3 MySQL always use InnoDB (default), avoid MyISAM
-		db_query( "SET storage_engine=InnoDB;" );
+		db_query( "SET default_storage_engine=InnoDB;" );
 	}
 
 	$addons_sql = $rosariosis_sql = '';
