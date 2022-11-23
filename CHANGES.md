@@ -4,6 +4,7 @@
 Changes in 10.5.2
 -----------------
 - Fix PHP8.1 Fatal error when $options is null in StudentsUsersInfo.fnc.php
+- Remove .00 decimal from value of numeric type in Substitutions.fnc.php
 
 Changes in 10.5.1
 -----------------

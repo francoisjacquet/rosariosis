@@ -211,6 +211,7 @@ function SubstitutionsCustomFields( $table )
  * Format field value for display, depending on field type.
  *
  * @since 5.5
+ * @since 10.5.2 Remove .00 decimal from value of numeric type
  *
  * @example $substitutions += SubstitutionsCustomFieldsValues( 'student', $student );
  *
@@ -247,7 +248,7 @@ function SubstitutionsCustomFieldsValues( $table, $values )
 
 		$custom_values[ $code ] = $value = $values[ $column ];
 
-		if ( in_array( $field['TYPE'], [ 'text', 'numeric' ] ) )
+		if ( $field['TYPE'] === 'text' )
 		{
 			// No formatting, use raw for text & numeric types.
 			continue;
@@ -258,6 +259,12 @@ function SubstitutionsCustomFieldsValues( $table, $values )
 		// Process value based on field type.
 		switch ( $field['TYPE'] )
 		{
+			case 'numeric':
+
+				$custom_values[ $code ] = $value ? (float) $value : $value;
+
+				break;
+
 			case 'date':
 
 				$custom_values[ $code ] = ProperDate( $value );
