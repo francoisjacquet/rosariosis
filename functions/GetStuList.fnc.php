@@ -797,7 +797,7 @@ function makeContactInfo( $student_id, $column )
  */
 function removeDot00( $value, $column = '' )
 {
-	return str_replace( '.00', '', $value );
+	return str_replace( '.00', '', (string) $value );
 }
 
 
