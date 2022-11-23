@@ -604,7 +604,7 @@ function _makeMultipleInput( $column, $name, $request )
 			FormatInputTitle( $name );
 	}
 
-	$select_options = [];
+	$select_options = $options = [];
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
