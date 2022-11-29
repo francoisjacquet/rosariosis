@@ -96,6 +96,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	}
 
 	$extra2['functions'] = [
+		'TITLE' => '_makeTitle',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'DUE_DATE' => 'ProperDate',
 		'POINTS' => '_makeExtraPoints',
@@ -475,4 +476,27 @@ function _Percent( $num, $decimals = 2 )
 {
 	// Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator.
 	return (float) number_format( $num, $decimals, '.', '' ) . '%';
+}
+
+/**
+ * Make Assignment Title
+ * Truncate Assignment title to 36 chars
+ *
+ * Local function.
+ * GetStuList() DBGet() callback.
+ *
+ * @since 10.5.2
+ *
+ * @param  string $value  Title value.
+ * @param  string $column Column. Defaults to 'TITLE'.
+ *
+ * @return string         Assignment title truncated to 36 chars.
+ */
+function _makeTitle( $value, $column = 'TITLE' )
+{
+	$title = mb_strlen( $value ) <= 36 ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+
+	return $title;
 }
