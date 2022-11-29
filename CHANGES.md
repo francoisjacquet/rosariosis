@@ -7,6 +7,7 @@ Changes in 10.5.2
 - Remove .00 decimal from value of numeric type in Substitutions.fnc.php
 - Truncate Assignment title to 36 chars only if has words > 36 chars in ProgressReports.php, Assignments.php & MassCreateAssignments.php
 - Truncate Assignment title to 36 chars in GradebookBreakdown.php & Grades.php
+- CSS responsive fix List column title prevent word breaking in zresponsive.css
 
 Changes in 10.5.1
 -----------------

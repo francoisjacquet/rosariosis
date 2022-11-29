@@ -324,10 +324,7 @@
 		float: right;
 	}
 	/* Hide List sorting icons */
-	.widefat th a[href*="LO_dir"]:after {
-		content: "";
-		padding-left: 0;
-	}
+	.widefat th a[href*="LO_dir"]:after,
 	.widefat th a[href*="LO_dir"]:hover:after {
 		content: "";
 	}
