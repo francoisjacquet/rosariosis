@@ -408,7 +408,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// DISPLAY THE MENU
 	// ASSIGNMENT TYPES.
 	// @since 4.5 Hide previous quarters assignment types.
-	$assignment_types_sql = "SELECT DISTINCT TRIM(TITLE) AS TITLE
+	$assignment_types_sql = "SELECT DISTINCT TRIM(TITLE) AS TITLE,TRIM(TITLE) AS TITLE_FOR_LINK
 	FROM gradebook_assignment_types
 	WHERE COURSE_ID IN (SELECT COURSE_ID
 		FROM course_periods
@@ -422,7 +422,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND STAFF_ID=USER_ID))
 	ORDER BY TITLE";
 
-	$types_RET = DBGet( $assignment_types_sql );
+	$types_RET = DBGet( $assignment_types_sql, [ 'TITLE' => '_makeTitle' ] );
 
 	if ( $_REQUEST['assignment_type'] !== 'new' )
 	{
@@ -441,7 +441,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'];
 
-	$link['TITLE']['variables'] = [ 'assignment_type' => 'TITLE' ];
+	$link['TITLE']['variables'] = [ 'assignment_type' => 'TITLE_FOR_LINK' ];
 
 	$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=new';
 
@@ -553,4 +553,42 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<div class="center">' . $submit_button . '</div>';
 		echo '</form>';
 	}
+}
+
+/**
+ * Make Assignment (Type) Title
+ * Truncate Assignment title to 36 chars only if has words > 36 chars
+ *
+ * Local function.
+ * GetStuList() DBGet() callback.
+ *
+ * @since 10.5.2
+ *
+ * @param  string $value  Title value.
+ * @param  string $column Column. Defaults to 'TITLE'.
+ *
+ * @return string         Assignment title truncated to 36 chars.
+ */
+function _makeTitle( $value, $column = 'TITLE' )
+{
+	// Split on spaces.
+	$title_words = explode( ' ', $value );
+
+	$truncate = false;
+
+	foreach ( $title_words as $title_word )
+	{
+		if ( mb_strlen( $title_word ) > 36 )
+		{
+			$truncate = true;
+
+			break;
+		}
+	}
+
+	$title = ! $truncate ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+
+	return $title;
 }

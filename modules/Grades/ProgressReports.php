@@ -480,7 +480,7 @@ function _Percent( $num, $decimals = 2 )
 
 /**
  * Make Assignment Title
- * Truncate Assignment title to 36 chars
+ * Truncate Assignment title to 36 chars only if has words > 36 chars
  *
  * Local function.
  * GetStuList() DBGet() callback.
@@ -494,7 +494,22 @@ function _Percent( $num, $decimals = 2 )
  */
 function _makeTitle( $value, $column = 'TITLE' )
 {
-	$title = mb_strlen( $value ) <= 36 ?
+	// Split on spaces.
+	$title_words = explode( ' ', $value );
+
+	$truncate = false;
+
+	foreach ( $title_words as $title_word )
+	{
+		if ( mb_strlen( $title_word ) > 36 )
+		{
+			$truncate = true;
+
+			break;
+		}
+	}
+
+	$title = ! $truncate ?
 		$value :
 		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 

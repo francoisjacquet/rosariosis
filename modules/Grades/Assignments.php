@@ -520,7 +520,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$hide_previous_assignment_types_sql .
 		" ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 
-	$types_RET = DBGet( $assignment_types_sql );
+	$types_RET = DBGet( $assignment_types_sql, [ 'TITLE' => '_makeTitle' ] );
 
 	$delete_button = '';
 
@@ -953,7 +953,8 @@ if ( ! $_REQUEST['modfunc'] )
 		AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 		AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
-		ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC" );
+		ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC",
+		[ 'TITLE' => '_makeTitle' ] );
 
 		if ( ! empty( $assn_RET ) )
 		{
@@ -991,4 +992,42 @@ function _makePercent( $value, $column )
 {
 	// Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator.
 	return (float) number_format( $value * 100, 2, '.', '' ) . '%';
+}
+
+/**
+ * Make Assignment (Type) Title
+ * Truncate Assignment title to 36 chars only if has words > 36 chars
+ *
+ * Local function.
+ * GetStuList() DBGet() callback.
+ *
+ * @since 10.5.2
+ *
+ * @param  string $value  Title value.
+ * @param  string $column Column. Defaults to 'TITLE'.
+ *
+ * @return string         Assignment title truncated to 36 chars.
+ */
+function _makeTitle( $value, $column = 'TITLE' )
+{
+	// Split on spaces.
+	$title_words = explode( ' ', $value );
+
+	$truncate = false;
+
+	foreach ( $title_words as $title_word )
+	{
+		if ( mb_strlen( $title_word ) > 36 )
+		{
+			$truncate = true;
+
+			break;
+		}
+	}
+
+	$title = ! $truncate ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+
+	return $title;
 }
