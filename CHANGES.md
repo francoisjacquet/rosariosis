@@ -8,6 +8,7 @@ Changes in 10.5.2
 - Truncate Assignment title to 36 chars only if has words > 36 chars in ProgressReports.php, Assignments.php & MassCreateAssignments.php
 - Truncate Assignment title to 36 chars in GradebookBreakdown.php & Grades.php
 - CSS responsive fix List column title prevent word breaking in zresponsive.css
+- Fix photo use mime types, not file extensions so mobile browsers allow camera in General_Info.inc.php & MenuItems.php
 
 Changes in 10.5.1
 -----------------

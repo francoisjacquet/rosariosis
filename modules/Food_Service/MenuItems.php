@@ -441,7 +441,12 @@ if ( ! $_REQUEST['modfunc'] )
 		// @since 8.9 Food Service icon upload.
 		echo '<br /><form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&modfunc=upload' ) . '" method="POST" enctype="multipart/form-data">';
 
-		echo FileInput( 'upload', '', 'required accept=".jpg,.jpeg,.png,.gif"' );
+		echo FileInput(
+			'upload',
+			'',
+			// Fix photo use mime types, not file extensions so mobile browsers allow camera
+			'required accept="image/jpeg, image/png, image/gif"'
+		);
 
 		echo SubmitButton( _( 'Upload' ), '', '' );
 

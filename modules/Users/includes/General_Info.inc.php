@@ -12,7 +12,8 @@ if ( AllowEdit()
 	echo FileInput(
 		'photo',
 		_( 'User Photo' ) . ' (.jpg, .png, .gif)',
-		'accept=".jpg,.jpeg,.png,.gif"'
+		// Fix photo use mime types, not file extensions so mobile browsers allow camera
+		'accept="image/jpeg, image/png, image/gif"'
 	);
 ?></div>
 <?php endif;
