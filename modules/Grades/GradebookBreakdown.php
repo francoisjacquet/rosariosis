@@ -90,7 +90,10 @@ foreach ( (array) $types_RET as $type )
 
 	if ( $_REQUEST['assignment_id'] === ( 'totals' . $type['ASSIGNMENT_TYPE_ID'] ) )
 	{
-		$title = $type['TITLE'];
+		// @since 10.5.2 Truncate Assignment title to 36 chars
+		$title = mb_strlen( $type['TITLE'] ) <= 36 ?
+			$type['TITLE'] :
+			mb_substr( $type['TITLE'], 0, 33 ) . '...';
 
 		$selected = ' selected';
 	}
@@ -108,7 +111,10 @@ foreach ( (array) $assignments_RET as $assignment )
 
 	if ( $_REQUEST['assignment_id'] === $assignment['ASSIGNMENT_ID'] )
 	{
-		$title = $assignment['TITLE'];
+		// @since 10.5.2 Truncate Assignment title to 36 chars
+		$title = mb_strlen( $assignment['TITLE'] ) <= 36 ?
+			$assignment['TITLE'] :
+			mb_substr( $assignment['TITLE'], 0, 33 ) . '...';
 
 		$selected = ' selected';
 	}

@@ -61,7 +61,7 @@ AND (SELECT count(1) FROM gradebook_assignments WHERE STAFF_ID=gt.STAFF_ID
 AND ((COURSE_ID=gt.COURSE_ID AND STAFF_ID=gt.STAFF_ID) OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'
 AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
-ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
+ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [ 'TITLE' => '_makeTitle' ], [ 'ASSIGNMENT_TYPE_ID' ] );
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
 if ( $_REQUEST['type_id']
@@ -1257,4 +1257,27 @@ function _SQLUnixTimestamp( $column )
 	}
 
 	return "extract(EPOCH FROM " . $column . ")";
+}
+
+/**
+ * Make Assignment Title
+ * Truncate Assignment title to 36 chars
+ *
+ * Local function.
+ * GetStuList() DBGet() callback.
+ *
+ * @since 10.5.2
+ *
+ * @param  string $value  Title value.
+ * @param  string $column Column. Defaults to 'TITLE'.
+ *
+ * @return string         Assignment title truncated to 36 chars.
+ */
+function _makeTitle( $value, $column = 'TITLE' )
+{
+	$title = mb_strlen( $value ) <= 36 ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+
+	return $title;
 }
