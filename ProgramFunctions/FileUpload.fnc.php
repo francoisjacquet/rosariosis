@@ -116,7 +116,7 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
  * @param string $final_ext        Final file extension (useful for .jpg, if .jpeg submitted) (optional).
  * @param string $file_name_no_ext Final file name without extension, for example UserStudentID() . '.' . bin2hex( openssl_random_pseudo_bytes( 16 ) ) (optional).
  *
- * @return string|boolean Full path to file, or false if error
+ * @return string|boolean Full path to file, or false (or base64 data) if error
  */
 function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = [], $final_ext = null, $file_name_no_ext = '' )
 {
@@ -288,7 +288,8 @@ function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = []
 				( $extension === IMAGETYPE_JPEG ? 'FFFFFF' : null )
 			);
 
-			if ( filesize( $full_path ) < $original_image_size )
+			if ( filesize( $full_path ) < $original_image_size
+				|| ( $extension && $extension !== $image_resize_gd->getSourceType() ) )
 			{
 				return $full_path;
 			}

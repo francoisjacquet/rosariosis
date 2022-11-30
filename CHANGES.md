@@ -9,6 +9,7 @@ Changes in 10.5.2
 - Truncate Assignment title to 36 chars in GradebookBreakdown.php & Grades.php
 - CSS responsive fix List column title prevent word breaking in zresponsive.css
 - Fix photo use mime types, not file extensions so mobile browsers allow camera in General_Info.inc.php & MenuItems.php
+- Fix return processed image upload in case source type != target type in FileUpload.fnc.php
 
 Changes in 10.5.1
 -----------------
