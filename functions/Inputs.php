@@ -547,7 +547,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 				$lang_2_chars = mb_substr( $locale, 0, 2 );
 
 				// Right to left direction.
-				$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
+				$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur', 'ps' ];
 
 				$tinymce_directionality = in_array( $lang_2_chars, $RTL_languages ) ? 'rtl' : 'ltr';
 			}

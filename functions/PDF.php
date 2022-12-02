@@ -92,7 +92,7 @@ function PDFStop( $handle )
 	$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
 	// Right to left direction.
-	$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
+	$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur', 'ps' ];
 
 	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
 

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.6
+---------------
+- Add Pashto to right-to-left languages in Warehouse.php, Inputs.php & PDF.php
+
 Changes in 10.5.2
 -----------------
 - Fix PHP8.1 Fatal error when $options is null in StudentsUsersInfo.fnc.php
