@@ -6,9 +6,9 @@
 	box-sizing: border-box;
 }
 
-/*ScrollToFixed bug when menu hidden*/
+/*FixedMenu bug when menu hidden*/
 
-#menu.scroll-to-fixed-fixed.hide + div {
+#menu.fixedmenu-fixed.hide + div {
 	width: 0!important
 }
 
