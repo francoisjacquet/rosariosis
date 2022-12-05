@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.6
+-----------
+
+Files input: automatically resize & compress uploaded images (only if width > 1988px or height > 2810px)
+
+
 New in 10.5
 -----------
 

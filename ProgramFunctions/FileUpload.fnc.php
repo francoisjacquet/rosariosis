@@ -13,6 +13,8 @@
  *
  * @global $_FILES
  *
+ * @since 10.6 Resize, compress & store image using ImageUpload()
+ *
  * @param string $input            Name of the input file field, for example 'photo'.
  * @param string $path             Final path with trailing slash, for example $StudentPicturesPath . UserSyear() . '/'.
  * @param array  $ext_white_list   Extensions white list, for example array('.jpg', '.jpeg').
@@ -37,6 +39,10 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 	{
 		$file_name = $file_name_no_ext . $final_ext;
 	}
+
+	$caller_function = debug_backtrace();
+
+	$caller_function = isset( $caller_function[1]['function'] ) ? $caller_function[1]['function'] : '';
 
 	if ( empty( $_FILES[ $input ]['tmp_name'] )
 		|| ! is_uploaded_file( $_FILES[ $input ]['tmp_name'] ) )
@@ -76,6 +82,21 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 	{
 		// See PHP / Apache user rights for folder.
 		$error[] = sprintf( _( 'Folder not writable' ) . ': %s', $path );
+	}
+
+	// Check if file is image.
+	elseif ( $caller_function !== 'ImageUpload'
+		&& in_array( $final_ext, [ '.jpg', '.jpeg', '.png', '.gif' ] ) )
+	{
+		// Resize, compress & store image using ImageUpload().
+		return ImageUpload(
+			$input,
+			[],
+			$path,
+			[],
+			$final_ext,
+			$file_name_no_ext
+		);
 	}
 
 	// Store file.
