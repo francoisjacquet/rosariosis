@@ -5,6 +5,7 @@ Changes in 10.6
 ---------------
 - Add Pashto to right-to-left languages in Warehouse.php, Inputs.php & PDF.php
 - CSS FixedMenu bug when menu hidden in stylesheet.css
+- Fix JPG image rotation in ImageResizeGD.php
 
 Changes in 10.5.2
 -----------------

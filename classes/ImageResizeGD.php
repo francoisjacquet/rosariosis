@@ -313,7 +313,8 @@ class ImageResizeGD {
 					}
 
 					$imageFile = is_null( $saveImageName ) ? null :
-						$saveImageName . ( substr( $saveImageName, -4 ) === '.jpg' ? '' : '.jpg' );
+						$saveImageName . ( substr( $saveImageName, -4 ) === '.jpg' ? '' :
+							( substr( $saveImageName, -5 ) === '.jpeg' ? '' : '.jpg' ) );
 
 					$imageResult = imagejpeg($this->imageModified, $imageFile, $quality);
 				} else {
@@ -520,6 +521,8 @@ class ImageResizeGD {
 
 		$image = $this->fixTransparentBackground( $image );
 
+		$image = $this->fixRotation( $image, $imagePath );
+
 		return $image;
 	}
 
@@ -630,6 +633,65 @@ class ImageResizeGD {
 				 */
 				imagesavealpha($image, true);
 			break;
+		}
+
+		return $image;
+	}
+
+
+	/**
+	 * Fix JPG image rotation
+	 * Some cameras store the image orientation in the EXIF data.
+	 * Prevent a portrait photo to be rotated to landscape when saved
+	 *
+	 * @since 10.6
+	 *
+	 * @link https://www.php.net/manual/en/function.exif-read-data.php#110894
+	 * @link https://stackoverflow.com/questions/12774411/php-resizing-image-on-upload-rotates-the-image-when-i-dont-want-it-to
+	 *
+	 * @param  resource $image     GD image resource.
+	 * @param  string   $imagePath Path to image file.
+	 * @return resource            GD image resource.
+	 */
+	protected function fixRotation( $image, $imagePath )
+	{
+		if ( $this->getSourceType() !== IMAGETYPE_JPEG )
+		{
+			// Only fix rotation for JPG.
+			return $image;
+		}
+
+		$orientation = 0;
+
+		if ( function_exists( 'exif_read_data' ) )
+		{
+			// Suppress warning Incorrect APP1 Exif Identifier Code.
+			$exif = @exif_read_data( $imagePath );
+
+			if ( isset( $exif['Orientation'] ) )
+			{
+				$orientation = $exif['Orientation'];
+			}
+		}
+		elseif ( preg_match(
+			'@\x12\x01\x03\x00\x01\x00\x00\x00(.)\x00\x00\x00@',
+			file_get_contents( $imagePath ),
+			$matches ) )
+		{
+			$orientation = ord( $matches[1] );
+		}
+
+		switch ( $orientation )
+		{
+			case 8:
+				$image = imagerotate( $image, 90, 0 );
+				break;
+			case 3:
+				$image = imagerotate( $image, 180, 0 );
+				break;
+			case 6:
+				$image = imagerotate( $image, -90, 0 );
+				break;
 		}
 
 		return $image;
