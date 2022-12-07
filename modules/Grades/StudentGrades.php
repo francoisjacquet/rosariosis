@@ -367,7 +367,7 @@ if ( UserStudentID()
 				OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
 				OR gg.POINTS IS NOT NULL)
 			AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')
-			ORDER BY ga.ASSIGNMENT_ID DESC", [ 'TITLE' => '_makeTipAssignment' ] );
+			ORDER BY ga.ASSIGNMENT_ID DESC", [ 'TITLE' => '_makeTipAssignment', 'CATEGORY' => '_makeCategory' ] );
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 			if ( ! empty( $assignments_RET ) )
@@ -608,6 +608,30 @@ function _makeTipAssignment( $value, $column )
 
 	return $colorbox;
 }
+
+/**
+ * Make Assignment Category
+ * Truncate Assignment Category to 36 chars
+ *
+ * Local function.
+ * GetStuList() DBGet() callback.
+ *
+ * @since 10.6
+ *
+ * @param  string $value  Category value.
+ * @param  string $column Column. Defaults to 'CATEGORY'.
+ *
+ * @return string         Assignment Category truncated to 36 chars.
+ */
+function _makeCategory( $value, $column = 'TITLE' )
+{
+	$title = mb_strlen( $value ) <= 36 ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+
+	return $title;
+}
+
 
 //FJ fix error Missing argument 2 & 3 & 4 & 5
 //function bargraph1($x,$lo,$avg,$hi,$max)
