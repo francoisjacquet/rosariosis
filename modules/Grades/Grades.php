@@ -571,7 +571,7 @@ foreach ( (array) $assignments_RET as $id => $assignment )
 
 		$optgroup = $types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'];
 
-		$assignment_select .= '<optgroup label="' . AttrEscape( $optgroup ) . '">';
+		$assignment_select .= '<optgroup label="' . AttrEscape( strip_tags( $optgroup ) ) . '">';
 	}
 
 	$assignment_select .= '<option value="' . AttrEscape( $id ) . '"' .

@@ -7,6 +7,7 @@ Changes in 10.6
 - CSS FixedMenu bug when menu hidden in stylesheet.css
 - Fix JPG image rotation in ImageResizeGD.php
 - Resize, compress & store image using ImageUpload() in FileUpload.fnc.php
+- Fix remove <span> HTML tag from Assignment Type in select in Grades.php
 
 Changes in 10.5.2
 -----------------
