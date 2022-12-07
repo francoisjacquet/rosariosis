@@ -279,6 +279,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
  * Student Assignment Draw Headers with details
  *
  * @since 4.5
+ * @since 10.6 Truncate Assignment Title & Category to 36 chars only if has words > 36 chars
  *
  * @param array $assignment Assignment details array
  */
@@ -316,10 +317,50 @@ function StudentAssignmentDrawHeaders( $assignment )
 			AttrEscape( $assignment['ASSIGNMENT_TYPE_COLOR'] ) . ';">&nbsp;</span>&nbsp;';
 	}
 
+	// Truncate title to 36 chars only if has words > 36 chars.
+	// Split on spaces.
+	$title_words = explode( ' ', $assignment['TITLE'] );
+
+	$truncate = false;
+
+	foreach ( $title_words as $title_word )
+	{
+		if ( mb_strlen( $title_word ) > 36 )
+		{
+			$truncate = true;
+
+			break;
+		}
+	}
+
+	$title = ! $truncate ?
+		$assignment['TITLE'] :
+		'<span title="' . AttrEscape( $assignment['TITLE'] ) . '">' . mb_substr( $assignment['TITLE'], 0, 33 ) . '...</span>';
+
+	// Truncate category to 36 chars only if has words > 36 chars.
+	// Split on spaces.
+	$category_words = explode( ' ', $assignment['CATEGORY'] );
+
+	$truncate = false;
+
+	foreach ( $category_words as $category_word )
+	{
+		if ( mb_strlen( $category_word ) > 36 )
+		{
+			$truncate = true;
+
+			break;
+		}
+	}
+
+	$category = ! $truncate ?
+		$assignment['CATEGORY'] :
+		'<span title="' . AttrEscape( $assignment['CATEGORY'] ) . '">' . mb_substr( $assignment['CATEGORY'], 0, 33 ) . '...</span>';
+
 	// Title - Type.
 	DrawHeader(
-		_( 'Title' ) . ': <b>' . $assignment['TITLE'],
-		_( 'Category' ) . ': <b>' . $type_color . $assignment['CATEGORY'] . '</b>'
+		_( 'Title' ) . ': <b>' . $title,
+		_( 'Category' ) . ': <b>' . $type_color . $category . '</b>'
 	);
 
 	// @since 4.4 Assignment File.
