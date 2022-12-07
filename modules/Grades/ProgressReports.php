@@ -97,6 +97,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$extra2['functions'] = [
 		'TITLE' => '_makeTitle',
+		'CATEGORY_TITLE' => '_makeTitle',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'DUE_DATE' => 'ProperDate',
 		'POINTS' => '_makeExtraPoints',

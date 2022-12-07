@@ -8,6 +8,7 @@ Changes in 10.6
 - Fix JPG image rotation in ImageResizeGD.php
 - Resize, compress & store image using ImageUpload() in FileUpload.fnc.php
 - Fix remove <span> HTML tag from Assignment Type in select in Grades.php
+- Truncate Assignment Type title to 36 chars only if has words > 36 chars in ProgressReports.php
 
 Changes in 10.5.2
 -----------------
