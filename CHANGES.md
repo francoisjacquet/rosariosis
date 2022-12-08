@@ -10,6 +10,7 @@ Changes in 10.6
 - Fix remove <span> HTML tag from Assignment Type in select in Grades.php
 - Truncate Assignment Type to 36 chars only if has words > 36 chars in ProgressReports.php & StudentAssignments.fnc.php
 - Truncate Assignment title to 36 chars in StudentGrades.php
+- CSS Do NOT use global word-break. Use it only on specific elements in stylesheet.css & zresponsive.css
 
 Changes in 10.5.2
 -----------------

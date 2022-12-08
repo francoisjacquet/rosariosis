@@ -162,7 +162,9 @@ body {
 	margin: 0;
 	padding: 0;
 	word-wrap: break-word;
-	word-break: break-word;
+	/* Do NOT use global word-break, is awful!
+	   Use it wisely, only on specific elements which will not overflow nicely */
+	/*word-break: break-word;*/
 }
 
 html,
@@ -419,8 +421,6 @@ select,
 	border-style: solid;
 	padding: 4px 7px;
 	vertical-align: top;
-	/* Do not break text inside lists */
-	word-break: normal;
 }
 
 /* @since 7.0 CSS Add .widefat.files class */
@@ -869,7 +869,8 @@ h3 span {
 
 .header2 table {
 	line-height: 1;
-	margin-left: -3px
+	margin-left: -3px;
+	word-break: break-all;
 }
 
 .header2 .widefat {

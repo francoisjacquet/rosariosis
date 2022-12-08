@@ -284,7 +284,6 @@
 		overflow: hidden;
 		word-wrap: normal;
 		padding: 4px;
-		word-break: initial;
 	}
 	.calendar-day {
 		position: relative;
