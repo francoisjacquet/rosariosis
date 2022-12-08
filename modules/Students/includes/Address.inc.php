@@ -60,7 +60,8 @@ if ( ! empty( $_POST['values'] )
 					SELECT '" . UserStudentID() . "',PERSON_ID,
 					'" . $_REQUEST['address_id'] . "',CUSTODY,EMERGENCY,STUDENT_RELATION
 					FROM students_join_people
-					WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
+					WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
+					LIMIT 1" );
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
@@ -392,8 +393,8 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 					AND STUDENT_ID='" . UserStudentID() . "'" );
 			}
 
-			// Unset modfunc & address ID & person ID redirect URL.
-			RedirectURL( [ 'modfunc', 'address_id', 'person_id' ] );
+			// Unset modfunc & person ID redirect URL.
+			RedirectURL( [ 'modfunc', 'person_id' ] );
 		}
 	}
 	elseif ( ! empty( $_REQUEST['address_id'] ) )
