@@ -397,7 +397,16 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 
 		$_ROSARIO['allow_edit'] = true;
 
-		require_once 'modules/' . $include;
+		// FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html.
+		if ( mb_substr( $include, -4, 4 ) !== '.php'
+			|| mb_strpos( $include, '..' ) !== false
+			|| ! is_file( 'modules/' . $include ) )
+		{
+			require_once 'ProgramFunctions/HackingLog.fnc.php';
+			HackingLog();
+		}
+		else
+			require_once 'modules/' . $include;
 
 		Warehouse( 'footer' );
 

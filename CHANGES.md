@@ -13,6 +13,7 @@ Changes in 10.6
 - CSS Do NOT use global word-break. Use it only on specific elements in stylesheet.css & zresponsive.css
 - CSS responsive Fix list overflow-x scroll inside div.st in stylesheet.css
 - CSS set max-width for City & State select in Address.inc.php
+- Security fix for dynamic include in index.php
 
 Changes in 10.5.2
 -----------------
