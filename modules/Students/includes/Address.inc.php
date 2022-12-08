@@ -1693,16 +1693,22 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 {
 	static $js_included = false;
 
+	$select_options = '';
+
 	if ( $column === 'CITY'
 		|| $column === 'MAIL_CITY' )
 	{
 		$options = 'maxlength=200';
+
+		$select_options = 'style="max-width:205px"';
 	}
 
 	if ( $column === 'STATE'
 		|| $column === 'MAIL_STATE' )
 	{
 		$options = 'size=3 maxlength=50';
+
+		$select_options = 'style="max-width:140px"';
 	}
 	elseif ( $column === 'ZIPCODE'
 		|| $column === 'MAIL_ZIPCODE' )
@@ -1771,7 +1777,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			$title,
 			$select,
 			'N/A',
-			'onchange="maybeEditTextInput(this);"',
+			$select_options . ' onchange="maybeEditTextInput(this);"',
 			$div
 		);
 
