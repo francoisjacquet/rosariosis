@@ -15,6 +15,8 @@
  *
  * @global array  $_ROSARIO  Uses $_ROSARIO['selected_tab']
  *
+ * @since 10.6 CSS responsive add .postbox-wrapper class for overflow-x scroll
+ *
  * @param  string       $action        'header' or 'footer'.
  * @param  string|array $tabs_or_title PopTable Title or Tabs: array( array( 'link' => 'tab-link.php', 'title' => 'Tab Title' ) ) (optional).
  * @param  string       $table_att     <table [attributes]> (optional).
@@ -27,7 +29,7 @@ function PopTable( $action, $tabs_or_title = 'Search', $table_att = '' )
 
 	if ( $action === 'header' )
 	{
-		echo '<table class="postbox cellspacing-0" ' . $table_att . '>
+		echo '<div class="postbox-wrapper"><table class="postbox cellspacing-0" ' . $table_att . '>
 			<thead><tr><th class="center">';
 
 		// Multiple Tabs.
@@ -46,6 +48,6 @@ function PopTable( $action, $tabs_or_title = 'Search', $table_att = '' )
 	}
 	elseif ( $action === 'footer' )
 	{
-		echo '</td></tr></tbody></table>';
+		echo '</td></tr></tbody></table></div>';
 	}
 }

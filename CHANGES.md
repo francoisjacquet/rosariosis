@@ -15,6 +15,7 @@ Changes in 10.6
 - CSS set max-width for City & State select in Address.inc.php
 - Security fix for dynamic include in index.php
 - Fix SQL limit 1 when adding existing Contact in Address.inc.php
+- CSS responsive add .postbox-wrapper class for overflow-x scroll in PopTable.fnc.php & stylesheet.css
 
 Changes in 10.5.2
 -----------------

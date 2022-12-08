@@ -796,9 +796,15 @@ label {
 	font-weight: bold;
 }
 
+.postbox-wrapper {
+	overflow-x: auto;
+}
+
 .postbox {
-	margin-bottom: 20px;
 	padding: 0;
+	margin: 0 auto;
+	position: relative;
+	min-width: 255px;
 	line-height: 1.1
 }
 
@@ -856,12 +862,6 @@ label {
 th a {
 	display: block;
 	overflow: hidden;
-}
-
-.postbox {
-	margin: 0 auto;
-	position: relative;
-	min-width: 255px
 }
 
 fieldset {
