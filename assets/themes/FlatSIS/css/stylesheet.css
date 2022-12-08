@@ -1348,6 +1348,12 @@ div.st {
 	padding: 4px
 }
 
+/*Fix list overflow-x scroll inside div.st*/
+
+div.st > .list-outer {
+	display: inline-grid;
+}
+
 /*student comments*/
 
 #student-comments {

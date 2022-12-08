@@ -11,6 +11,7 @@ Changes in 10.6
 - Truncate Assignment Type to 36 chars only if has words > 36 chars in ProgressReports.php & StudentAssignments.fnc.php
 - Truncate Assignment title to 36 chars in StudentGrades.php
 - CSS Do NOT use global word-break. Use it only on specific elements in stylesheet.css & zresponsive.css
+- CSS responsive Fix list overflow-x scroll inside div.st in stylesheet.css
 
 Changes in 10.5.2
 -----------------
