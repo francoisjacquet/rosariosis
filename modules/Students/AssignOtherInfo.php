@@ -137,12 +137,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				{
 					DBQuery( "UPDATE student_enrollment
 						SET START_DATE='" . $start_date . "'
-						WHERE ID=(SELECT ID
-							FROM student_enrollment
-							WHERE SYEAR='" . UserSyear() . "'
-							AND SCHOOL_ID='" . UserSchool() . "'
-							AND STUDENT_ID='" . (int) $student_id . "'
-							ORDER BY START_DATE DESC LIMIT 1)" );
+						WHERE ID='" . (int) $last_enrollment_id . "'" );
 				}
 			}
 
@@ -150,12 +145,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				DBQuery( "UPDATE student_enrollment
 					SET ENROLLMENT_CODE='" . $enrollment_code . "'
-					WHERE ID=(SELECT ID
-						FROM student_enrollment
-						WHERE SYEAR='" . UserSyear() . "'
-						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . (int) $student_id . "'
-						ORDER BY START_DATE DESC LIMIT 1)" );
+					WHERE ID='" . (int) $last_enrollment_id . "'" );
 			}
 		}
 

@@ -16,6 +16,7 @@ Changes in 10.6
 - Security fix for dynamic include in index.php
 - Fix SQL limit 1 when adding existing Contact in Address.inc.php
 - CSS responsive add .postbox-wrapper class for overflow-x scroll in PopTable.fnc.php & stylesheet.css
+- Fix MySQL 5.6 error Can't specify target table for update in FROM clause in AssignOtherInfo.php
 
 Changes in 10.5.2
 -----------------
