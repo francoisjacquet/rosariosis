@@ -1,6 +1,9 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.6.1
+-----------------
+- PostgreSQL Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric (exact) in rosariosis.sql, thanks to @fatahou
 Changes in 10.6
 ---------------
 - Add Pashto to right-to-left languages in Warehouse.php, Inputs.php & PDF.php

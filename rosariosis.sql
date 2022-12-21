@@ -1831,30 +1831,32 @@ CREATE TABLE student_mp_comments (
 
 --
 -- Name: student_mp_stats; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+-- Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric (exact)
+-- @link https://www.rosariosis.org/forum/d/665-le-classement-diff-rent-mais-m-me-moyenne/
 --
 
 CREATE TABLE student_mp_stats (
     student_id integer NOT NULL REFERENCES students(student_id),
     marking_period_id integer NOT NULL, -- Can be History, so no REFERENCES school_marking_periods(marking_period_id).
-    cum_weighted_factor double precision,
-    cum_unweighted_factor double precision,
+    cum_weighted_factor numeric,
+    cum_unweighted_factor numeric,
     cum_rank integer,
     mp_rank integer,
     class_size integer,
-    sum_weighted_factors double precision,
-    sum_unweighted_factors double precision,
+    sum_weighted_factors numeric,
+    sum_unweighted_factors numeric,
     count_weighted_factors integer,
     count_unweighted_factors integer,
     grade_level_short varchar(3),
-    cr_weighted_factors double precision,
-    cr_unweighted_factors double precision,
+    cr_weighted_factors numeric,
+    cr_unweighted_factors numeric,
     count_cr_factors integer,
-    cum_cr_weighted_factor double precision,
-    cum_cr_unweighted_factor double precision,
-    credit_attempted double precision,
-    credit_earned double precision,
-    gp_credits double precision,
-    cr_credits double precision,
+    cum_cr_weighted_factor numeric,
+    cum_cr_unweighted_factor numeric,
+    credit_attempted numeric,
+    credit_earned numeric,
+    gp_credits numeric,
+    cr_credits numeric,
     comments varchar(75),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -1899,8 +1901,8 @@ CREATE TABLE student_report_card_grades (
     weighted_gp numeric(7,2),
     unweighted_gp numeric(7,2),
     gp_scale numeric(7,2),
-    credit_attempted double precision,
-    credit_earned double precision,
+    credit_attempted numeric,
+    credit_earned numeric,
     credit_category varchar(10),
     course_title text NOT NULL,
     id serial PRIMARY KEY,
