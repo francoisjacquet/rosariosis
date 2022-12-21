@@ -6,6 +6,7 @@ Changes in 10.6.1
 - PostgreSQL Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric (exact) in rosariosis.sql, thanks to @fatahou
 - MySQL Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric(22,16) (exact) in rosariosis_mysql.sql, thanks to @fatahou
 - SQL Fix regression since 10.0, change sum/cum factors & credit_attempted/earned columns type from double precision to numeric in Update.fnc.php
+- Fix Grades input not displaying for Teachers in Widget.php
 
 Changes in 10.6
 ---------------

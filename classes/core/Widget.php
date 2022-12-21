@@ -782,6 +782,8 @@ class Widget_letter_grade implements Widget
 
 	function html()
 	{
+		global $_ROSARIO;
+
 		$html = '<tr class="st"><td>' . _( 'Grade' ) . '<br />
 		<label>
 			<input type="checkbox" name="letter_grade_exclude" value="Y" />&nbsp;' . _( 'Did not receive' ) .
@@ -865,6 +867,14 @@ class Widget_letter_grade implements Widget
 					$grades_options[ $grade['ID'] ] = $grade['TITLE'];
 				}
 
+				if ( ! AllowEdit() )
+				{
+					// @since 10.6.1 Fix Grades input not displaying for Teachers.
+					$_ROSARIO['allow_edit'] = true;
+
+					$allow_edit_tmp = true;
+				}
+
 				// @since 9.0 Use multiple select input for grades list to gain space.
 				$html .= ChosenSelectInput(
 					'',
@@ -874,6 +884,11 @@ class Widget_letter_grade implements Widget
 					false,
 					'multiple'
 				);
+
+				if ( ! empty( $allow_edit_tmp ) )
+				{
+					$_ROSARIO['allow_edit'] = false;
+				}
 			}
 		}
 
