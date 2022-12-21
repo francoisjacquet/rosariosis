@@ -1774,30 +1774,32 @@ CREATE TABLE student_mp_comments (
 
 --
 -- Name: student_mp_stats; Type: TABLE;
+-- Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric(22,16) (exact)
+-- @link https://www.rosariosis.org/forum/d/665-le-classement-diff-rent-mais-m-me-moyenne/
 --
 
 CREATE TABLE student_mp_stats (
     student_id integer NOT NULL REFERENCES students(student_id),
     marking_period_id integer NOT NULL, -- Can be History, so no REFERENCES school_marking_periods(marking_period_id).
-    cum_weighted_factor double precision,
-    cum_unweighted_factor double precision,
+    cum_weighted_factor numeric(22,16),
+    cum_unweighted_factor numeric(22,16),
     cum_rank integer,
     mp_rank integer,
     class_size integer,
-    sum_weighted_factors double precision,
-    sum_unweighted_factors double precision,
+    sum_weighted_factors numeric(22,16),
+    sum_unweighted_factors numeric(22,16),
     count_weighted_factors integer,
     count_unweighted_factors integer,
     grade_level_short varchar(3),
-    cr_weighted_factors double precision,
-    cr_unweighted_factors double precision,
+    cr_weighted_factors numeric(22,16),
+    cr_unweighted_factors numeric(22,16),
     count_cr_factors integer,
-    cum_cr_weighted_factor double precision,
-    cum_cr_unweighted_factor double precision,
-    credit_attempted double precision,
-    credit_earned double precision,
-    gp_credits double precision,
-    cr_credits double precision,
+    cum_cr_weighted_factor numeric(22,16),
+    cum_cr_unweighted_factor numeric(22,16),
+    credit_attempted numeric(22,16),
+    credit_earned numeric(22,16),
+    gp_credits numeric(22,16),
+    cr_credits numeric(22,16),
     comments varchar(75),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
@@ -1842,8 +1844,8 @@ CREATE TABLE student_report_card_grades (
     weighted_gp numeric(7,2),
     unweighted_gp numeric(7,2),
     gp_scale numeric(7,2),
-    credit_attempted double precision,
-    credit_earned double precision,
+    credit_attempted numeric(22,16),
+    credit_earned numeric(22,16),
     credit_category varchar(10),
     course_title text NOT NULL,
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
