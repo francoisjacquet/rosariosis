@@ -232,6 +232,10 @@ function Update()
 		case version_compare( $from_version, '10.1', '<' ) :
 
 			$return = _update101();
+
+		case version_compare( $from_version, '10.6.1', '<' ) :
+
+			$return = _update1061();
 	}
 
 	// Update version in DB config table.
@@ -890,6 +894,153 @@ function _update101()
 	if ( $DatabaseType !== 'mysql' )
 	{
 		DBQuery( "CREATE OR REPLACE VIEW dual AS SELECT 'X' AS dummy;" );
+	}
+
+	return $return;
+}
+
+/**
+ * Update to version 10.6.1
+ * Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric (exact)
+ * @link https://www.rosariosis.org/forum/d/665-le-classement-diff-rent-mais-m-me-moyenne/
+ * Fix regression since 10.0, change sum/cum factors & credit_attempted/earned columns type from double precision to numeric
+ *
+ * PostgreSQL
+ * 1. Drop transcript_grades view, so we can alter student_report_card_grades table
+ * 2. SQL student_report_card_grades table: convert CREDIT_ATTEMPTED & CREDIT_EARNED columns to numeric
+ * 3. SQL student_mp_stats table: convert sum/cum factors & credit_attempted/earned columns to numeric
+ * 4. Recreate transcript_grades view
+ *
+ * MySQL
+ * 1. SQL student_report_card_grades table: convert CREDIT_ATTEMPTED & CREDIT_EARNED columns to numeric(22,16)
+ * 2. SQL student_mp_stats table: convert sum/cum factors & credit_attempted/earned columns to numeric(22,16)
+ *
+ * Local function
+ *
+ * @since 10.6.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update1061()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	if ( $DatabaseType === 'postgresql' )
+	{
+		// Check if data type is numeric already.
+		$data_type_is_numeric = DBGetOne( "SELECT 1
+			FROM student_report_card_grades
+			WHERE CAST(PG_TYPEOF(credit_attempted) AS varchar(7))='numeric'
+			LIMIT 1;" );
+	}
+	else
+	{
+		// Check if data type is numeric already.
+		$data_type_is_numeric = DBGetOne( "SELECT 1
+			FROM INFORMATION_SCHEMA.COLUMNS
+			WHERE table_name='student_report_card_grades'
+			AND COLUMN_NAME='credit_attempted'
+			AND DATA_TYPE='decimal'
+			LIMIT 1;" );
+	}
+
+	if ( $data_type_is_numeric )
+	{
+		return $return;
+	}
+
+	if ( $DatabaseType === 'postgresql' )
+	{
+		// 1. Drop transcript_grades view, so we can alter student_report_card_grades table
+		DBQuery( "DROP VIEW transcript_grades;" );
+
+		// 2. SQL student_report_card_grades table: convert CREDIT_ATTEMPTED & CREDIT_EARNED columns to numeric
+		DBQuery( "ALTER TABLE student_report_card_grades
+		ALTER credit_attempted TYPE numeric,
+		ALTER credit_earned TYPE numeric;" );
+
+		// 3. SQL student_mp_stats table: convert sum/cum factors & credit_attempted/earned columns to numeric
+		DBQuery( "ALTER TABLE student_mp_stats
+		ALTER cum_weighted_factor TYPE numeric,
+		ALTER cum_unweighted_factor TYPE numeric,
+		ALTER sum_weighted_factors TYPE numeric,
+		ALTER sum_unweighted_factors TYPE numeric,
+		ALTER cr_weighted_factors TYPE numeric,
+		ALTER cr_unweighted_factors TYPE numeric,
+		ALTER cum_cr_weighted_factor TYPE numeric,
+		ALTER cum_cr_unweighted_factor TYPE numeric,
+		ALTER credit_attempted TYPE numeric,
+		ALTER credit_earned TYPE numeric,
+		ALTER gp_credits TYPE numeric,
+		ALTER cr_credits TYPE numeric" );
+
+		// 4. Recreate transcript_grades view
+		DBQuery( "CREATE VIEW transcript_grades AS
+		SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
+		mp.short_name,mp.parent_id,mp.grandparent_id,
+		(SELECT mp2.end_date
+			FROM student_report_card_grades
+				JOIN marking_periods mp2
+				ON mp2.marking_period_id = student_report_card_grades.marking_period_id
+			WHERE student_report_card_grades.student_id = sms.student_id
+			AND (student_report_card_grades.marking_period_id = mp.parent_id
+				OR student_report_card_grades.marking_period_id = mp.grandparent_id)
+			AND student_report_card_grades.course_title = srcg.course_title
+			ORDER BY mp2.end_date LIMIT 1) AS parent_end_date,
+		mp.end_date,sms.student_id,
+		(sms.cum_weighted_factor * COALESCE(schools.reporting_gp_scale, (SELECT reporting_gp_scale FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))) AS cum_weighted_gpa,
+		(sms.cum_unweighted_factor * schools.reporting_gp_scale) AS cum_unweighted_gpa,
+		sms.cum_rank,sms.mp_rank,sms.class_size,
+		((sms.sum_weighted_factors / sms.count_weighted_factors) * schools.reporting_gp_scale) AS weighted_gpa,
+		((sms.sum_unweighted_factors / sms.count_unweighted_factors) * schools.reporting_gp_scale) AS unweighted_gpa,
+		sms.grade_level_short,srcg.comment,srcg.grade_percent,srcg.grade_letter,
+		srcg.weighted_gp,srcg.unweighted_gp,srcg.gp_scale,srcg.credit_attempted,
+		srcg.credit_earned,srcg.course_title,srcg.school AS school_name,
+		schools.reporting_gp_scale AS school_scale,
+		((sms.cr_weighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_weighted_gpa,
+		((sms.cr_unweighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_unweighted_gpa,
+		(sms.cum_cr_weighted_factor * schools.reporting_gp_scale) AS cum_cr_weighted_gpa,
+		(sms.cum_cr_unweighted_factor * schools.reporting_gp_scale) AS cum_cr_unweighted_gpa,
+		srcg.class_rank,sms.comments,
+		srcg.credit_hours
+		FROM marking_periods mp
+			JOIN student_report_card_grades srcg
+			ON mp.marking_period_id = srcg.marking_period_id
+			JOIN student_mp_stats sms
+			ON sms.marking_period_id = mp.marking_period_id
+				AND sms.student_id = srcg.student_id
+			LEFT OUTER JOIN schools
+			ON mp.school_id = schools.id
+				AND (mp.mp_source<>'History' AND mp.syear = schools.syear)
+					OR (mp.mp_source='History' AND mp.syear=(SELECT syear FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))
+		ORDER BY srcg.course_period_id;" );
+	}
+	else
+	{
+		// MySQL.
+		// 1. SQL student_report_card_grades table: convert CREDIT_ATTEMPTED & CREDIT_EARNED columns to numeric(22,16)
+		DBQuery( "ALTER TABLE student_report_card_grades
+		CHANGE credit_attempted credit_attempted numeric(22,16),
+		CHANGE credit_earned credit_earned numeric(22,16);" );
+
+		// 2. SQL student_mp_stats table: convert sum/cum factors & credit_attempted/earned columns to numeric(22,16)
+		DBQuery( "ALTER TABLE student_mp_stats
+		CHANGE cum_weighted_factor cum_weighted_factor numeric(22,16),
+		CHANGE cum_unweighted_factor cum_unweighted_factor numeric(22,16),
+		CHANGE sum_weighted_factors sum_weighted_factors numeric(22,16),
+		CHANGE sum_unweighted_factors sum_unweighted_factors numeric(22,16),
+		CHANGE cr_weighted_factors cr_weighted_factors numeric(22,16),
+		CHANGE cr_unweighted_factors cr_unweighted_factors numeric(22,16),
+		CHANGE cum_cr_weighted_factor cum_cr_weighted_factor numeric(22,16),
+		CHANGE cum_cr_unweighted_factor cum_cr_unweighted_factor numeric(22,16),
+		CHANGE credit_attempted credit_attempted numeric(22,16),
+		CHANGE credit_earned credit_earned numeric(22,16),
+		CHANGE gp_credits gp_credits numeric(22,16),
+		CHANGE cr_credits cr_credits numeric(22,16);" );
 	}
 
 	return $return;
