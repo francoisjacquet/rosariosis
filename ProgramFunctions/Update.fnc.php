@@ -941,8 +941,9 @@ function _update1061()
 	{
 		// Check if data type is numeric already.
 		$data_type_is_numeric = DBGetOne( "SELECT 1
-			FROM INFORMATION_SCHEMA.COLUMNS
-			WHERE table_name='student_report_card_grades'
+			FROM information_schema.columns
+			WHERE table_schema=DATABASE()
+			AND table_name='student_report_card_grades'
 			AND COLUMN_NAME='credit_attempted'
 			AND DATA_TYPE='decimal'
 			LIMIT 1;" );
