@@ -7,6 +7,7 @@ Changes in 10.6.1
 - MySQL Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric(22,16) (exact) in rosariosis_mysql.sql, thanks to @fatahou
 - SQL Fix regression since 10.0, change sum/cum factors & credit_attempted/earned columns type from double precision to numeric in Update.fnc.php
 - Fix Grades input not displaying for Teachers in Widget.php
+- Raise minimum PHP version from 5.4.45 to 5.5.9 in INSTALL.md, README.md, composer.json, diagnostic.php & Portal.php
 
 Changes in 10.6
 ---------------

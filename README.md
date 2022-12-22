@@ -14,7 +14,7 @@ Your [contributions](https://www.rosariosis.org/contribute/) are welcome.
 Installation
 ------------
 
-Minimum requirements: PHP 5.4.45 & PostgreSQL 8.4 or MySQL 5.6/MariaDB.
+Minimum requirements: PHP 5.5.9 & PostgreSQL 8.4 or MySQL 5.6/MariaDB.
 
 For installation directions, consult the [INSTALL.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/INSTALL.md) file.
 

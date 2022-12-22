@@ -12,9 +12,9 @@
 $error = [];
 
 // FJ check PHP version.
-if ( version_compare( PHP_VERSION, '5.4.45' ) == -1 )
+if ( version_compare( PHP_VERSION, '5.5.9' ) == -1 )
 {
-	$error[] = 'RosarioSIS requires PHP 5.4.45 to run, your version is : ' . PHP_VERSION;
+	$error[] = 'RosarioSIS requires PHP 5.5.9 to run, your version is : ' . PHP_VERSION;
 }
 
 // FJ verify PHP extensions and php.ini.
