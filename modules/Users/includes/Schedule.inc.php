@@ -173,7 +173,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 
 	if ( $PopTable_opened )
 	{
-		echo '<table><tr><td>';
+		echo '<div><table><tr><td>';
 	}
 }
 

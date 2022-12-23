@@ -182,6 +182,6 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! empty( $PopTable_opened ) )
 	{
 		// FJ bugfix display in PrintStudentInfo.php.
-		echo '<table><tr><td>';
+		echo '<div><table><tr><td>';
 	}
 }

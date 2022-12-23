@@ -255,7 +255,7 @@ else
 
 	if ( $PopTable_opened )
 	{
-		echo '<table><tr><td>';
+		echo '<div><table><tr><td>';
 
 		PopTable( 'footer' );
 	}

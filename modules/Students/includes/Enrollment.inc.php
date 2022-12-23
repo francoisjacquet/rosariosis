@@ -191,5 +191,5 @@ ListOutput(
 
 if ( ! empty( $PopTable_opened ) )
 {
-	echo '<table><tr><td>';
+	echo '<div><table><tr><td>';
 }
