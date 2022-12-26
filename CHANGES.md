@@ -8,7 +8,7 @@ Changes in 10.6.1
 - SQL Fix regression since 10.0, change sum/cum factors & credit_attempted/earned columns type from double precision to numeric in Update.fnc.php
 - Fix Grades input not displaying for Teachers in Widget.php
 - Raise minimum PHP version from 5.4.45 to 5.5.9 in INSTALL.md, README.md, composer.json, diagnostic.php & Portal.php
-- Fix close PopTable wrapper <div> in Enrollment.inc.php, General_Info.inc.php, Medical.inc.php & Schedule.inc.php
+- Fix close PopTable wrapper `<div>` in Enrollment.inc.php, General_Info.inc.php, Medical.inc.php & Schedule.inc.php
 
 Changes in 10.6
 ---------------
@@ -16,7 +16,7 @@ Changes in 10.6
 - CSS FixedMenu bug when menu hidden in stylesheet.css
 - Fix JPG image rotation in ImageResizeGD.php
 - Resize, compress & store image using ImageUpload() in FileUpload.fnc.php
-- Fix remove <span> HTML tag from Assignment Type in select in Grades.php
+- Fix remove `<span>` HTML tag from Assignment Type in select in Grades.php
 - Truncate Assignment Type to 36 chars only if has words > 36 chars in ProgressReports.php & StudentAssignments.fnc.php
 - Truncate Assignment title to 36 chars in StudentGrades.php
 - CSS Do NOT use global word-break. Use it only on specific elements in stylesheet.css & zresponsive.css
