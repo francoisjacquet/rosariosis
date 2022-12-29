@@ -641,6 +641,12 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 	{
 		global $THIS_RET;
 
+		if ( ! empty( $_REQUEST['LO_save'] ) )
+		{
+			// Export list.
+			return $value;
+		}
+
 		// Truncate value to 36 chars.
 		$title = mb_strlen( $value ) <= 36 ?
 		$value :

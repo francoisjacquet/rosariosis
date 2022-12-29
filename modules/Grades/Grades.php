@@ -1275,6 +1275,12 @@ function _SQLUnixTimestamp( $column )
  */
 function _makeTitle( $value, $column = 'TITLE' )
 {
+	if ( ! empty( $_REQUEST['LO_save'] ) )
+	{
+		// Export list.
+		return $value;
+	}
+
 	$title = mb_strlen( $value ) <= 36 ?
 		$value :
 		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';

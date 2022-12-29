@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.7
+---------------
+- Do not truncate value on List export in Accounting/functions.inc.php, Grades.php, StudentGrades.php, StudentAsignments.fnc.php, Resources.php & Student_Billing/functions.inc.php
+
 Changes in 10.6.1
 -----------------
 - PostgreSQL Fix Class Rank float comparison issue: do NOT use double precision type (inexact), use numeric (exact) in rosariosis.sql, thanks to @fatahou

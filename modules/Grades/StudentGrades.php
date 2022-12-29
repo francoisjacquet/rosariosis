@@ -565,6 +565,12 @@ function _makeTipAssignment( $value, $column )
 {
 	global $THIS_RET;
 
+	if ( ! empty( $_REQUEST['LO_save'] ) )
+	{
+		// Export list.
+		return $value;
+	}
+
 	if ( ! function_exists( 'StudentAssignmentDrawHeaders' ) )
 	{
 		// Include Student Assignments functions.

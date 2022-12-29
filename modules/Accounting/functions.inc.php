@@ -265,6 +265,12 @@ function _makeSalariesFileInput( $value, $column )
 		);
 	}
 
+	if ( ! empty( $_REQUEST['LO_save'] ) )
+	{
+		// Export list.
+		return $value;
+	}
+
 	$file_path = $value;
 
 	$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );

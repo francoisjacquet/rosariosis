@@ -132,8 +132,7 @@ function _makeTextInput( $value, $name )
  */
 function _makeLink( $value, $name )
 {
-	if ( isset( $_REQUEST['LO_save'] )
-		&& $_REQUEST['LO_save'] )
+	if ( ! empty( $_REQUEST['LO_save'] ) )
 	{
 		// Export list.
 		return $value;
