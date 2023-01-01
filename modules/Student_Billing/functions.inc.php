@@ -346,7 +346,8 @@ function _makeFeesFileInput( $value, $column )
 	if ( empty( $value )
 		|| ! file_exists( $value ) )
 	{
-		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		if ( isset( $_REQUEST['_ROSARIO_PDF'] )
+			|| ! AllowEdit() )
 		{
 			return '';
 		}
