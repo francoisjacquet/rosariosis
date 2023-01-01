@@ -166,9 +166,9 @@ if ( UserStudentID()
 	$staff_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 		FROM staff
 		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
+		AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 		AND PROFILE='admin'
-		ORDER BY LAST_NAME" );
+		ORDER BY FULL_NAME" );
 
 	$staff_select = '<label>' . _( 'User' ) .
 		' <select name="staff_select"><option value="">' . _( 'Not Specified' ) . '</option>';

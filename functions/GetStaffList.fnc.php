@@ -176,7 +176,7 @@ function GetStaffList( &$extra = [] )
 	if ( ! isset( $_REQUEST['_search_all_schools'] )
 		|| $_REQUEST['_search_all_schools'] !== 'Y' )
 	{
-		$sql .= " AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
+		$sql .= " AND (s.SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN s.SCHOOLS)>0) ";
 	}
 	// Search All Schools: if user is not assigned to "All Schools".
 	elseif ( trim( User( 'SCHOOLS' ), ',' ) )
@@ -184,11 +184,11 @@ function GetStaffList( &$extra = [] )
 		// Restrict Search All Schools to user schools.
 		$sql_schools_like = explode( ',', trim( User( 'SCHOOLS' ), ',' ) );
 
-		$sql_schools_like = implode( ",%' OR s.SCHOOLS LIKE '%,", $sql_schools_like );
+		$sql_schools_like = implode( ",' IN s.SCHOOLS)>0 OR position(',", $sql_schools_like );
 
-		$sql_schools_like = "s.SCHOOLS LIKE '%," . $sql_schools_like . ",%'";
+		$sql_schools_like = "position('," . $sql_schools_like . ",' IN s.SCHOOLS)>0";
 
-		$sql .= " AND (" . $sql_schools_like . " OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
+		$sql .= " AND (s.SCHOOLS IS NULL OR " . $sql_schools_like . ") ";
 	}
 
 	// Extra WHERE.

@@ -1150,7 +1150,7 @@ class Widget_reporter implements Widget
 			$reporter_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 				FROM staff
 				WHERE SYEAR='" . UserSyear() . "'
-				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
+				AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 				AND (PROFILE='admin' OR PROFILE='teacher')
 				AND STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "'" );
 
@@ -1166,7 +1166,7 @@ class Widget_reporter implements Widget
 		$users_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 			FROM staff
 			WHERE SYEAR='" . UserSyear() . "'
-			AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
+			AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 			AND (PROFILE='admin' OR PROFILE='teacher')
 			ORDER BY FULL_NAME", [], [ 'STAFF_ID' ] );
 

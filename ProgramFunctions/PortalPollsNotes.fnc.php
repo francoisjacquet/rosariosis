@@ -436,7 +436,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	// @since 9.2.1 SQL replace use of STRPOS() with LIKE, compatible with MySQL.
 	$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 	FROM staff
-	WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
+	WHERE (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 	AND SYEAR='" . UserSyear() . "'
 	AND PROFILE='teacher'
 	ORDER BY FULL_NAME" );

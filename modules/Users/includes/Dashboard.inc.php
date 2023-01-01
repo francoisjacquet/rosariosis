@@ -47,9 +47,7 @@ if ( ! function_exists( 'DashboardUsersAdmin' ) )
 		$users_RET = DBGet( "SELECT PROFILE,COUNT(STAFF_ID) AS USERS_NB
 		FROM staff
 		WHERE SYEAR='" . UserSyear() . "'
-		AND (SCHOOLS LIKE '%," . UserSchool() . ",%'
-			OR SCHOOLS IS NULL
-			OR SCHOOLS='')
+		AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 		GROUP BY PROFILE" );
 
 		$users_profile_data = [];

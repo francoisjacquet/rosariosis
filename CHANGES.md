@@ -4,6 +4,7 @@
 Changes in 10.7
 ---------------
 - Do not truncate value on List export in Accounting/functions.inc.php, Grades.php, StudentGrades.php, StudentAsignments.fnc.php, Resources.php & Student_Billing/functions.inc.php
+- SQL performance use POSITION()>0 instead of LIKE, program wide
 
 Changes in 10.6.1
 -----------------

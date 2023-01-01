@@ -163,7 +163,7 @@ function SetUserStaffID( $staff_id )
 				$is_related_parent = DBGet( "SELECT 1
 					FROM staff s
 					WHERE s.SYEAR='" . UserSyear() . "'
-					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
+					AND (s.SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN s.SCHOOLS)>0)
 					AND (s.PROFILE='parent' AND exists(SELECT 1
 						FROM students_join_users _sju,student_enrollment _sem,schedule _ss
 						WHERE _sju.STAFF_ID=s.STAFF_ID

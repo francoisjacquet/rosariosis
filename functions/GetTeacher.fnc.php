@@ -34,7 +34,7 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 			" . DisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE
 			FROM staff
 			WHERE SYEAR='" . UserSyear() . "'" .
-			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ),
+			( $schools ? " AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)" : '' ),
 			[],
 			[ 'STAFF_ID' ]
 		);
