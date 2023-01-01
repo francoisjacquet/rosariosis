@@ -153,7 +153,7 @@ function _makePaymentsCommentsInput( $value, $name )
 			WHERE STAFF_ID='" . UserStaffID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=sal.AMOUNT
-			AND (COMMENTS=sal.TITLE OR COMMENTS LIKE '%' || sal.TITLE OR COMMENTS LIKE sal.TITLE || '%')
+			AND (COMMENTS=sal.TITLE OR COMMENTS LIKE CONCAT('%',sal.TITLE) OR COMMENTS LIKE CONCAT(sal.TITLE,'%'))
 			AND PAYMENT_DATE>=sal.ASSIGNED_DATE)
 		ORDER BY ASSIGNED_DATE DESC
 		LIMIT 20" );

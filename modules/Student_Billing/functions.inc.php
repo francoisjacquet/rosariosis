@@ -223,7 +223,7 @@ function _makePaymentsCommentsInput( $value, $name )
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=bf.AMOUNT
-			AND (COMMENTS=bf.TITLE OR COMMENTS LIKE '%' || bf.TITLE OR COMMENTS LIKE bf.TITLE || '%')
+			AND (COMMENTS=bf.TITLE OR COMMENTS LIKE CONCAT('%',bf.TITLE) OR COMMENTS LIKE CONCAT(bf.TITLE,'%'))
 			AND PAYMENT_DATE>=bf.ASSIGNED_DATE)
 		AND NOT EXISTS(SELECT 1
 			FROM billing_fees

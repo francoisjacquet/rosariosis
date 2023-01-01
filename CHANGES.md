@@ -1,12 +1,13 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 10.7
----------------
+Changes in 10.6.2
+-----------------
 - Do not truncate value on List export in Accounting/functions.inc.php, Grades.php, StudentGrades.php, StudentAsignments.fnc.php, Resources.php & Student_Billing/functions.inc.php
 - SQL performance use POSITION()>0 instead of LIKE, program wide
 - SQL remove useless ID='' check in StudentFees.php, StudentPayments.php & Student_Billing/functions.inc.php
 - Fix hide File input if cannot edit in Accounting/functions.inc.php & Student_Billing/functions.inc.php
+- SQL use CONCAT() instead of pipes || for MySQL compatibility in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 
 Changes in 10.6.1
 -----------------
