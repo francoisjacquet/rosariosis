@@ -217,7 +217,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		FROM billing_fees bf
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND (WAIVED_FEE_ID IS NULL OR WAIVED_FEE_ID='')
+		AND WAIVED_FEE_ID IS NULL
 		AND NOT EXISTS(SELECT 1
 			FROM billing_payments
 			WHERE STUDENT_ID='" . UserStudentID() . "'

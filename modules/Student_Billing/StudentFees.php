@@ -169,7 +169,7 @@ if ( UserStudentID()
 		FROM billing_fees f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
-		AND (f.WAIVED_FEE_ID IS NULL OR f.WAIVED_FEE_ID='')
+		AND f.WAIVED_FEE_ID IS NULL
 		ORDER BY f.ASSIGNED_DATE", $functions );
 
 	$i = 1;

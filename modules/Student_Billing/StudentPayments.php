@@ -176,7 +176,7 @@ if ( UserStudentID()
 		FROM billing_payments
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID", $functions );
+		AND REFUNDED_PAYMENT_ID IS NULL ORDER BY ID", $functions );
 
 	$i = 1;
 	$RET = [];
