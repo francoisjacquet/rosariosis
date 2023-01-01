@@ -273,6 +273,7 @@ modules/RIS*
 modules/Hostel*
 modules/Student_Pickup*
 modules/Student_ID_Card*
+modules/Meeting*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
