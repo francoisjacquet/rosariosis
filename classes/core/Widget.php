@@ -1137,13 +1137,15 @@ class Widget_reporter implements Widget
 			return $extra;
 		}
 
-		$extra['WHERE'] .= ' AND EXISTS(SELECT 1
-			FROM discipline_referrals dr
-			WHERE dr.STUDENT_ID=ssm.STUDENT_ID
-			AND dr.SYEAR=ssm.SYEAR
-			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
+		if ( mb_stripos( $extra['FROM'], 'discipline_referrals dr' ) === false )
+		{
+			$extra['FROM'] .= ' LEFT JOIN discipline_referrals dr
+				ON (dr.STUDENT_ID=ssm.STUDENT_ID
+				AND dr.SYEAR=ssm.SYEAR
+				AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ';
+		}
 
-		$extra['WHERE'] .= " AND dr.STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "') ";
+		$extra['WHERE'] .= " AND dr.STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "'";
 
 		if ( ! $extra['NoSearchTerms'] )
 		{
@@ -1224,13 +1226,15 @@ class Widget_incident_date implements Widget
 		}
 
 		if ( $discipline_entry_begin
-				|| $discipline_entry_end )
+			|| $discipline_entry_end )
 		{
-			$extra['WHERE'] .= ' AND EXISTS(SELECT 1
-				FROM discipline_referrals dr
-				WHERE dr.STUDENT_ID=ssm.STUDENT_ID
-				AND dr.SYEAR=ssm.SYEAR
-				AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
+			if ( mb_stripos( $extra['FROM'], 'discipline_referrals dr' ) === false )
+			{
+				$extra['FROM'] .= ' LEFT JOIN discipline_referrals dr
+					ON (dr.STUDENT_ID=ssm.STUDENT_ID
+					AND dr.SYEAR=ssm.SYEAR
+					AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ';
+			}
 		}
 
 		if ( $discipline_entry_begin
@@ -1238,7 +1242,7 @@ class Widget_incident_date implements Widget
 		{
 			$extra['WHERE'] .= " AND dr.ENTRY_DATE
 				BETWEEN '" . $discipline_entry_begin .
-				"' AND '" . $discipline_entry_end . "') ";
+				"' AND '" . $discipline_entry_end . "'";
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -1249,7 +1253,7 @@ class Widget_incident_date implements Widget
 		}
 		elseif ( $discipline_entry_begin )
 		{
-			$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $discipline_entry_begin . "') ";
+			$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $discipline_entry_begin . "'";
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -1259,7 +1263,7 @@ class Widget_incident_date implements Widget
 		}
 		elseif ( $discipline_entry_end )
 		{
-			$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $discipline_entry_end . "') ";
+			$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $discipline_entry_end . "'";
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -1368,15 +1372,15 @@ class Widget_discipline_fields implements Widget
 			return $extra;
 		}
 
-		$extra['WHERE'] .= ' AND EXISTS(SELECT 1
-			FROM discipline_referrals dr
-			WHERE dr.STUDENT_ID=ssm.STUDENT_ID
-			AND dr.SYEAR=ssm.SYEAR
-			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
+		if ( mb_stripos( $extra['FROM'], 'discipline_referrals dr' ) === false )
+		{
+			$extra['FROM'] .= ' LEFT JOIN discipline_referrals dr
+				ON (dr.STUDENT_ID=ssm.STUDENT_ID
+				AND dr.SYEAR=ssm.SYEAR
+				AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ';
+		}
 
 		$extra = $this->_discipline_fields_search( $extra );
-
-		$extra['WHERE'] .= ') ';
 
 		return $extra;
 	}

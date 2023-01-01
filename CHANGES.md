@@ -8,6 +8,7 @@ Changes in 10.6.2
 - SQL remove useless ID='' check in StudentFees.php, StudentPayments.php & Student_Billing/functions.inc.php
 - Fix hide File input if cannot edit in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 - SQL use CONCAT() instead of pipes || for MySQL compatibility in Accounting/functions.inc.php & Student_Billing/functions.inc.php
+- Fix SQL use JOIN instead of WHERE EXISTS for Discipline Widgets in Widget.php
 
 Changes in 10.6.1
 -----------------
