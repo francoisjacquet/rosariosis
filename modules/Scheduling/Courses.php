@@ -1793,6 +1793,9 @@ function calcSeats1( &$periods, $date )
  */
 function _updateSchedulesCPMP( $cp_id, $mp_id )
 {
+	global $db_connection,
+		$DatabaseType;
+
 	// Get CP MP.
 	$cp_mp = GetMP( $mp_id, 'MP' );
 
@@ -1827,6 +1830,7 @@ function _updateSchedulesCPMP( $cp_id, $mp_id )
 		AND MP IN (" . $schedule_mp_in . ")" );
 
 	// Return number of updated schedules.
-
-	return pg_affected_rows( $update );
+	return $DatabaseType === 'mysql' ?
+		mysqli_affected_rows( $db_connection ) :
+		pg_affected_rows( $update );
 }
