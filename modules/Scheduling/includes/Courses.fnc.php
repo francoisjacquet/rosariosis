@@ -12,6 +12,7 @@
  * @since 4.8
  * @since 6.9 Add Secondary Teacher.
  * @since 9.0 Add $course_period_id param to limit check to a single Course Period.
+ * @since 10.6.2 Fix #338 Only check against Course Periods having overlapping Marking Period
  *
  * @param int $teacher_id       Teacher ID.
  * @param int $course_period_id Course Period ID.
@@ -20,53 +21,74 @@
  */
 function CoursePeriodTeacherConflictCheck( $teacher_id, $course_period_id )
 {
-	if ( ! $teacher_id )
+	if ( ! $teacher_id
+		|| ! $course_period_id )
 	{
 		return false;
 	}
 
-	// Get school periods for Teacher course periods.
+	$this_school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS,cp.MARKING_PERIOD_ID
+		FROM course_period_school_periods cpsp,course_periods cp
+		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND cp.SYEAR='" . UserSyear() . "'
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND (TEACHER_ID='" . (int) $teacher_id . "'
+			OR SECONDARY_TEACHER_ID='" . (int) $teacher_id . "')
+		AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
+
+	if ( empty( $this_school_periods_RET[1]['MARKING_PERIOD_ID'] ) )
+	{
+		return false;
+	}
+
+	$all_mp = GetAllMP(
+		GetMP( $this_school_periods_RET[1]['MARKING_PERIOD_ID'], 'MP' ),
+		$this_school_periods_RET[1]['MARKING_PERIOD_ID']
+	);
+
+	if ( ! $all_mp )
+	{
+		return false;
+	}
+
+	// Get school periods for Teacher course periods (having an MP which overlaps this MP).
 	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS,cp.COURSE_PERIOD_ID
 		FROM course_period_school_periods cpsp,course_periods cp
 		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND (TEACHER_ID='" . (int) $teacher_id . "'
-			OR SECONDARY_TEACHER_ID='" . (int) $teacher_id . "')" );
+			OR SECONDARY_TEACHER_ID='" . (int) $teacher_id . "')
+		AND cp.COURSE_PERIOD_ID<>'" . (int) $course_period_id . "'
+		AND cp.MARKING_PERIOD_ID IN(" . $all_mp . ")" );
 
-	if ( empty( $school_periods_RET )
-		|| count( $school_periods_RET ) < 2 )
+	if ( empty( $school_periods_RET ) )
 	{
 		return false;
 	}
 
-	$school_periods = [];
-	$course_periods = [];
+	$this_school_periods = [];
+
+	foreach ( (array) $this_school_periods_RET as $this_school_period )
+	{
+		$this_school_periods[ $this_school_period['PERIOD_ID'] ] = $this_school_period['DAYS'];
+	}
 
 	foreach ( (array) $school_periods_RET as $school_period )
 	{
-		if ( isset( $school_periods[ $school_period['PERIOD_ID'] ] ) )
+		if ( isset( $this_school_periods[ $school_period['PERIOD_ID'] ] ) )
 		{
-			$days_array = str_split( $school_periods[ $school_period['PERIOD_ID'] ] );
+			$days_array = str_split( $this_school_periods[ $school_period['PERIOD_ID'] ] );
 
 			$days_array2 = str_split( $school_period['DAYS'] );
 
 			$common_days = array_intersect( $days_array, $days_array2 );
 
-			if ( $common_days
-				&& ( $course_periods[ $school_period['PERIOD_ID'] ] == $course_period_id
-					|| $school_period['COURSE_PERIOD_ID'] == $course_period_id ) )
+			if ( $common_days )
 			{
 				return true;
 			}
 		}
-		else
-		{
-			$school_periods[ $school_period['PERIOD_ID'] ] = '';
-		}
-
-		$school_periods[ $school_period['PERIOD_ID'] ] .= $school_period['DAYS'];
-		$course_periods[ $school_period['PERIOD_ID'] ] = $school_period['COURSE_PERIOD_ID'];
 	}
 
 	return false;

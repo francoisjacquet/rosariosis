@@ -10,6 +10,7 @@ Changes in 10.6.2
 - SQL use CONCAT() instead of pipes || for MySQL compatibility in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 - Fix SQL use JOIN instead of WHERE EXISTS for Discipline Widgets in Widget.php
 - MySQL fix PHP fatal error when updating Course's Marking Period in Courses.php
+- Fix #338 Only check against Course Periods having overlapping Marking Period in Courses.fnc.php
 
 Changes in 10.6.1
 -----------------
