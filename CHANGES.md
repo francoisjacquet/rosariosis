@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.6.3
+-----------------
+- Fix regression Teacher can save config even if overridden by Admin in Grades/Configuration.php
+
 Changes in 10.6.2
 -----------------
 - Do not truncate value on List export in Accounting/functions.inc.php, Grades.php, StudentGrades.php, StudentAsignments.fnc.php, Resources.php & Student_Billing/functions.inc.php
