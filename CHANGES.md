@@ -4,6 +4,7 @@
 Changes in 10.7
 ---------------
 - CSS add Select2 styles in stylesheet.css & colors.css
+- JS add Select2 jQuery plugin in assets/js/jquery-select2/
 
 Changes in 10.6.2
 -----------------
