@@ -1650,16 +1650,36 @@ input[type=checkbox].toggle {
 	height: auto;
 }
 
-/* Chosen select: add 15px to original width so Chosen options ALL fit */
+/* Select2 select */
 
-.chosen-select {
+.select2-dropdown,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+	border-radius: 3px !important;
+}
+
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+	border-bottom-width: 1px !important;
+	min-height: 26px !important;
+}
+
+.select2-container--default li {
+	margin-bottom: 0;
+}
+
+/* Chosen/Select2 select: add 15px to original width so Chosen options ALL fit */
+
+.chosen-select,
+.select2-select {
 	min-width: 55px;
 	padding-right: 15px;
 }
 
-/* Add 23px to multiple Chosen select */
+/* Add 23px to multiple Chosen/Select2 select */
 
-.chosen-select[multiple] {
+.chosen-select[multiple],
+.select2-select[multiple] {
 	padding-right: 23px;
 }
 

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.7
+---------------
+- CSS add Select2 styles in stylesheet.css & colors.css
+
 Changes in 10.6.2
 -----------------
 - Do not truncate value on List export in Accounting/functions.inc.php, Grades.php, StudentGrades.php, StudentAsignments.fnc.php, Resources.php & Student_Billing/functions.inc.php

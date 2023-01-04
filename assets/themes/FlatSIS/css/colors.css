@@ -20,6 +20,11 @@ select {
 	background: #fff;
 }
 
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+	border-color: #cacaca !important;
+}
+
 input[type="button"]:hover,
 input[type="email"]:hover,
 input[type="file"]:hover,
@@ -55,6 +60,24 @@ select:focus {
 	border-color: #aaa;
 	border-bottom-color: #298cba;
 	outline: none;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--multiple {
+	border-color: #aaa !important;
+	border-bottom-color: #298cba !important;
+}
+
+/* Select2 */
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+	background-color: #0073aa !important;
+}
+
+.select2-container--default .select2-selection__rendered {
+	color: #111 !important;
 }
 
 code {

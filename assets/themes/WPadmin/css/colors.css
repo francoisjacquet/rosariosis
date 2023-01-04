@@ -20,6 +20,11 @@ select {
 	background: #fff;
 }
 
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+	border-color: #dfdfdf !important;
+}
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -36,6 +41,23 @@ input[type="time"]:focus,
 select:focus {
 	border-color: #aaa;
 	outline: none;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--multiple {
+	border-color: #aaa !important;
+}
+
+/* Select2 */
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+	background-color: #21759b !important;
+}
+
+.select2-container--default .select2-selection__rendered {
+	color: #111 !important;
 }
 
 code {
