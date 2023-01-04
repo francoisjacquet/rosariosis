@@ -1097,6 +1097,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
  * @link https://github.com/harvesthq/chosen
  *
  * @since 2.9.5
+ * @deprecated since 10.7 Use Select2Input() instead. Fixes the overflow issue.
  *
  * @example ChosenSelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
  *
@@ -1183,6 +1184,112 @@ function ChosenSelectInput( $value, $name, $title = '', $options = [], $allow_na
 		// On InputDivOnClick(), call Chosen.
 		$return .= '<script>$("#div' . $id . '").on("click", function(){
 			$("#' . $id . '").chosen();
+		});</script>';
+	}
+
+	return $return;
+}
+
+
+/**
+ * SelectInput() wrapper which adds jQuery Select2.
+ *
+ * Select2 gives you a customizable select box with support for searching, tagging, remote data sets, infinite scrolling, and many other highly used options.
+ * @link https://select2.org/
+ *
+ * @since 10.7
+ *
+ * @example Select2Input( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
+ *
+ * @uses SelectInput() to generate the Select input
+ *
+ * @param  string         $value    Input value.
+ * @param  string         $name     Input name.
+ * @param  string         $title    Input title (optional). Defaults to ''.
+ * @param  array          $options  Input options: array( option_value => option_text ).
+ * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A.
+ * @param  string         $extra    Extra HTML attributes added to the input.
+ * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
+ *
+ * @return string         Input HTML
+ */
+function Select2Input( $value, $name, $title = '', $options = [], $allow_na = 'N/A', $extra = '', $div = true )
+{
+	static $select2_included = false;
+
+	$js = '';
+
+	if ( ! $select2_included
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		ob_start();	?>
+		<!-- Select2 -->
+		<script src="assets/js/jquery-select2/select2.min.js"></script>
+		<link rel="stylesheet" href="assets/js/jquery-select2/select2.min.css">
+		<script>
+			$(document).ready(function(){
+				$('.select2-select').select2({
+					language: {
+						noResults: function() { return ''; }
+					}
+				});
+			});
+		</script>
+		<?php $select2_included = true;
+
+		$js = ob_get_clean();
+	}
+
+	if ( ! $extra
+		|| mb_strpos( $extra, 'class=' ) === false )
+	{
+		$extra .= ' class="select2-select"';
+	}
+	elseif ( mb_strpos( $extra, 'class=' ) !== false )
+	{
+		$extra = str_replace(
+			[ 'class="', "class='" ],
+			[ 'class="select2-select ', "class='select2-select " ],
+			$extra
+		);
+	}
+
+	// Translate default "Select Some Options" multiple placeholder.
+	if ( mb_strpos( $extra, 'multiple' ) !== false
+		&& mb_strpos( $extra, 'data-placeholder=' ) === false )
+	{
+		$extra .= ' data-placeholder="' . AttrEscape( _( 'Select some Options' ) ) . '"';
+	}
+
+	$return = $js . SelectInput(
+		$value,
+		$name,
+		$title,
+		$options,
+		$allow_na,
+		$extra,
+		$div
+	);
+
+	if ( $value != ''
+		&& $div
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$id = GetInputID( $name );
+
+		// On InputDivOnClick(), call Select2 (once).
+		$return .= '<script>var select2Div' . $id . '=false;
+		$("#div' . $id . '").on("click", function() {
+			if (select2Div' . $id . ') return;
+
+			select2Div' . $id . '=true;
+			$("#' . $id . '").select2({
+				language: {
+					noResults: function() { return ""; }
+				}
+			});
 		});</script>';
 	}
 
