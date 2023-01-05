@@ -1139,7 +1139,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$address_select[$address['ADDRESS_ID']] = trim( (string) $address['ADDRESS'] ) . ', ' . trim( (string) $address['CITY'] ) . ', ' . trim( (string) $address['STATE'] ) . ', ' . trim( (string) $address['ZIPCODE'] );
 			}
 
-			echo ChosenSelectInput(
+			echo Select2Input(
 				'',
 				'values[EXISTING][address_id]',
 				_( 'Select Address' ),
@@ -1468,7 +1468,7 @@ if ( ! $_REQUEST['modfunc'] )
 					$people_select[$people['PERSON_ID']] = $people['FULL_NAME'];
 				}
 
-				echo ChosenSelectInput(
+				echo Select2Input(
 					'',
 					'values[EXISTING][person_id]',
 					_( 'Select Person' ),

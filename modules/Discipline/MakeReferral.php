@@ -99,11 +99,17 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				// FJ email Discipline Referral feature.
 
-				if ( isset( $_REQUEST['emails'] ) )
+				if ( isset( $_REQUEST['admin_emails'] )
+					|| isset( $_REQUEST['teacher_emails'] ) )
 				{
 					require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
 
-					if ( EmailReferral( $referral_id, $_REQUEST['emails'] ) )
+					$emails = array_merge(
+						(array) $_REQUEST['admin_emails'],
+						(array) $_REQUEST['teacher_emails']
+					);
+
+					if ( EmailReferral( $referral_id, $emails ) )
 					{
 						$email_sent = true;
 					}
@@ -224,9 +230,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table><tr class="st"><td>';
 
-		echo ChosenSelectInput(
+		echo Select2Input(
 			$value,
-			'emails[]',
+			'admin_emails[]',
 			_( 'Administrators' ),
 			$emailadmin_options,
 			$allow_na,
@@ -236,9 +242,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</td><td>';
 
-		echo ChosenSelectInput(
+		echo Select2Input(
 			$value,
-			'emails[]',
+			'teacher_emails[]',
 			_( 'Teachers' ),
 			$emailteacher_options,
 			$allow_na,

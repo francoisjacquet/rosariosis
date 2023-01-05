@@ -146,7 +146,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 					);
 				}
 
-				$return .= ChosenSelectInput(
+				$return .= Select2Input(
 					UserSyear(),
 					'syear_arr[]',
 					_( 'School Years' ),

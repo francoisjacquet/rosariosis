@@ -876,14 +876,14 @@ class Widget_letter_grade implements Widget
 				}
 
 				// @since 9.0 Use multiple select input for grades list to gain space.
-				$html .= ChosenSelectInput(
+				$html .= '<div style="max-width: 240px">' . Select2Input(
 					'',
 					'letter_grade[' . $grade['GRADE_SCALE_ID'] . '][]',
 					$grade['SCALE_TITLE'],
 					$grades_options,
 					false,
 					'multiple'
-				);
+				) . '</div>';
 
 				if ( ! empty( $allow_edit_tmp ) )
 				{
@@ -891,9 +891,6 @@ class Widget_letter_grade implements Widget
 				}
 			}
 		}
-
-		// CSS fix chosen width when parent has display none.
-		$html .= '<style>.chosen-container-multi { width: 100% !important; max-width: 300px; }</style>';
 
 		return $html . '</td></tr>';
 	}
