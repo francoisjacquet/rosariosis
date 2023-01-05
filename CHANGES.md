@@ -4,6 +4,7 @@
 Changes in 10.6.3
 -----------------
 - Fix regression Teacher can save config even if overridden by Admin in Grades/Configuration.php
+- Prevent double encoding single quote (`&#039;`), was encoded by SanitizeHTML() or SanitizeMarkDown() in Inputs.php
 
 Changes in 10.6.2
 -----------------
