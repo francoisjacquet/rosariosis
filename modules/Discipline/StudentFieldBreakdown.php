@@ -94,7 +94,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 	$extra['FROM'] = ',discipline_referrals dr ';
 
-	$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID
+	$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID
 		AND dr.SCHOOL_ID=ssm.SCHOOL_ID
 		AND dr.ENTRY_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' ";
 
@@ -205,7 +205,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		$extra['SELECT_ONLY'] = "COALESCE(max(" . $field_column . "),0) as MAX,COALESCE(min(" . $field_column . "),0) AS MIN ";
 
 		// Remove NULL entries.
-		$extra['WHERE'] .= "AND " . $field_column . " IS NOT NULL ";
+		$extra['WHERE'] .= " AND " . $field_column . " IS NOT NULL ";
 
 		$max_min_RET = GetStuList( $extra );
 

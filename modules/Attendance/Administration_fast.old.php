@@ -133,7 +133,7 @@ else
 
 	if ( ! empty( $REQ_codes ) && ! $abs )
 	{
-		$extra['WHERE'] .= "AND ac.ID IN (";
+		$extra['WHERE'] .= " AND ac.ID IN (";
 
 		foreach ( (array) $REQ_codes as $code )
 		{
@@ -148,7 +148,7 @@ else
 
 		if ( ! empty( $RET ) )
 		{
-			$extra['WHERE'] .= "AND ac.ID IN (";
+			$extra['WHERE'] .= " AND ac.ID IN (";
 
 			foreach ( (array) $RET as $code )
 			{

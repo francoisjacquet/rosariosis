@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		$extra['WHERE'] = "AND s.STUDENT_ID IN(" . $st_list . ")
+		$extra['WHERE'] = " AND s.STUDENT_ID IN(" . $st_list . ")
 			AND fsa.STUDENT_ID=s.STUDENT_ID";
 
 		$extra['SELECT'] = ",fsa.ACCOUNT_ID,fsa.STATUS,(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID LIMIT 1) AS BALANCE";

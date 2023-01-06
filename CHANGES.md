@@ -8,6 +8,7 @@ Changes in 10.7
 - Add Select2Input() function in Inputs.php
 - Use Select2 instead of Chosen, fixes the overflow issue in Widget.php, MakeReferral.php, Transcripts.fnc.php & Address.inc.php
 - Fix PHP8.2 deprecated Creation of dynamic property in Markdownify/ConverterExtra.php
+- SQL always add space before AND to $extra['WHERE'], program wide
 
 Changes in 10.6.3
 -----------------

@@ -123,7 +123,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 	$extra['FROM'] = ',discipline_referrals dr ';
 
-	$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID
+	$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID
 		AND dr.SCHOOL_ID=ssm.SCHOOL_ID
 		AND dr.ENTRY_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' ";
 
@@ -279,8 +279,8 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_" . intval( $_REQUEST['category_id'] ) .
 			"),0) as MAX,COALESCE(min(CATEGORY_" . intval( $_REQUEST['category_id'] ) . "),0) AS MIN ";
 
-		//FJ remove NULL entries
-		$extra['WHERE'] .= "AND CATEGORY_" . intval( $_REQUEST['category_id'] ) . " IS NOT NULL ";
+		// Remove NULL entries.
+		$extra['WHERE'] .= " AND CATEGORY_" . intval( $_REQUEST['category_id'] ) . " IS NOT NULL ";
 
 		$max_min_RET = GetStuList( $extra );
 

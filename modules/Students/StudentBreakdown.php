@@ -176,7 +176,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 		$extra['SELECT_ONLY'] = "COALESCE(max(" . $field_column . "),0) as MAX,COALESCE(min(" . $field_column . "),0) AS MIN ";
 
 		// Remove NULL entries.
-		$extra['WHERE'] = "AND " . $field_column . " IS NOT NULL ";
+		$extra['WHERE'] = " AND " . $field_column . " IS NOT NULL ";
 
 		$max_min_RET = GetStuList( $extra );
 
