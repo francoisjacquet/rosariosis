@@ -344,6 +344,7 @@ function _makeGradesInput( $value, $name )
 	}
 	elseif ( $name === 'BREAK_OFF'
 		&& $teacher_id
+		&& ! empty( $THIS_RET['ID'] )
 		&& isset( $gradebook_config[UserCoursePeriod() . '-' . $THIS_RET['ID']] )
 		&& $gradebook_config[UserCoursePeriod() . '-' . $THIS_RET['ID']] != '' )
 	{
