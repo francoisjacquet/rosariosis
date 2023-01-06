@@ -718,7 +718,7 @@ if (  ( UserStaffID()
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			if ( $can_use_RET['Users/User.php&category_id=' . $category['ID']] )
+			if ( ! empty( $can_use_RET['Users/User.php&category_id=' . $category['ID']] ) )
 			{
 				$tabs[] = [
 					'title' => $category['TITLE'],
