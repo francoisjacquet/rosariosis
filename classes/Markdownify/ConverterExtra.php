@@ -32,6 +32,11 @@ class ConverterExtra extends Converter
 	 */
 	protected $row = 0;
 
+	// FJ fix PHP8.2 deprecated Creation of dynamic property
+	protected $tableLookaheadHeader = '';
+	protected $tdSubstitute = '';
+	protected $tableLookaheadBody = '';
+
 	/**
 	 * constructor, see Markdownify::Markdownify() for more information
 	 */
