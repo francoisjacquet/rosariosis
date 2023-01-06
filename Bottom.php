@@ -31,6 +31,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 		$btn_path = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/';
 
 		if ( isset( $_SESSION['List_PHP_SELF'] )
+			&& isset( $_SESSION['Back_PHP_SELF'] )
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher') ) :
 
