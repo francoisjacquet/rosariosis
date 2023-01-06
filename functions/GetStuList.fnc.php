@@ -817,7 +817,7 @@ function removeDot00( $value, $column = '' )
  */
 function makeEmail( $email, $column = '' )
 {
-	$email = trim( $email );
+	$email = trim( (string) $email );
 
 	if ( $email == '' )
 	{
