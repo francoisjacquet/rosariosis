@@ -38,7 +38,7 @@ if ( UserStudentID() )
 		if ( ! empty( $_REQUEST['new_sms'] ) )
 		{
 			// FJ fix SQL bug when marking period already exist.
-			$sms_RET = DBGet( "SELECT *
+			$sms_RET = DBGet( "SELECT 1
 				FROM student_mp_stats
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND MARKING_PERIOD_ID='" . (int) $_REQUEST['new_sms'] . "'" );

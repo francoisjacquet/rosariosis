@@ -64,7 +64,7 @@ foreach ( (array) $tables as $table => $name )
 		$exists_RET['food_service_staff_accounts'] = DBGet( "SELECT count(*) AS COUNT
 			FROM staff
 			WHERE SYEAR='" . $next_syear . "'
-			AND exists(SELECT * FROM food_service_staff_accounts WHERE STAFF_ID=staff.STAFF_ID)" );
+			AND exists(SELECT 1 FROM food_service_staff_accounts WHERE STAFF_ID=staff.STAFF_ID)" );
 	}
 
 	$input_title = $name;
@@ -334,9 +334,9 @@ function Rollover( $table, $mode = 'delete' )
 			if ( $mode === 'delete' )
 			{
 				$delete_sql = "DELETE FROM food_service_staff_accounts
-						WHERE exists(SELECT * FROM staff
-							WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
-							AND SYEAR='" . $next_syear . "');";
+					WHERE exists(SELECT 1 FROM staff
+						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
+						AND SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM students_join_users
 					WHERE STAFF_ID IN (SELECT STAFF_ID FROM staff WHERE SYEAR='" . $next_syear . "');";
@@ -382,7 +382,7 @@ function Rollover( $table, $mode = 'delete' )
 						FROM staff
 						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 						LIMIT 1)
-					WHERE exists(SELECT * FROM staff
+					WHERE exists(SELECT 1 FROM staff
 						WHERE STAFF_ID=food_service_staff_accounts.STAFF_ID
 						AND ROLLOVER_ID IS NOT NULL
 						AND SYEAR='" . $next_syear . "')" );

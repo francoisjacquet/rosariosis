@@ -11,6 +11,7 @@ Changes in 10.7
 - SQL always add space before AND to $extra['WHERE'], program wide
 - Escape SanitizeHTML() & SanitizeMarkDown() before saving to DB, program wide
 - Always use UserStudentID() instead of `$_SESSION['STUDENT_ID']` in PortalPollsNotes.php
+- SQL use EXISTS(SELECT 1) instead of `EXISTS(SELECT *)` in EditReportCardGrades.php, Rollover.php & Moodle/functions.php
 
 Changes in 10.6.3
 -----------------

@@ -666,10 +666,10 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			if ( ! empty( $_REQUEST['tables']['courses'] ) && $exists_RET['courses'][1]['COUNT'] )
 			{
 				//SUBJECT_ID
-				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT * FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='subject_id'" );
+				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT 1 FROM course_subjects WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='subject_id'" );
 
 				//COURSE_ID
-				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM courses WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM courses WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='course_id'" );
+				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM courses WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT 1 FROM courses WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='course_id'" );
 
 				//COURSE_PERIOD_ID
 				$course_periods_RET = DBGet( "SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM course_periods cp, moodlexrosario mxc WHERE cp.SYEAR='" . $next_syear . "' AND cp.SCHOOL_ID='" . UserSchool() . "' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc." . DBEscapeIdentifier( 'column' ) . "='course_period_id'" );
@@ -687,7 +687,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			//reset STAFF_ID to pre-rollover values
 			elseif ( ! empty( $_REQUEST['tables']['staff'] ) && $exists_RET['staff'][1]['COUNT'] )
 			{
-				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM staff WHERE STAFF_ID=ROSARIO_ID) WHERE exists(SELECT * FROM staff WHERE STAFF_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
+				DBQuery( "UPDATE moodlexrosario SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM staff WHERE STAFF_ID=ROSARIO_ID) WHERE exists(SELECT 1 FROM staff WHERE STAFF_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
 			}
 
 			break;
