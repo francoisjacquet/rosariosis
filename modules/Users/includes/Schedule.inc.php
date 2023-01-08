@@ -149,7 +149,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER", [ 'DAYS' => '_GetDays' ], [ 'SCHOOL_PERIOD' ] );
 	// FJ note the "sp.LENGTH<=(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day school periods from the schedule table!
 
-	$columns = [ 'SCHOOL_PERIOD' => _( 'Periods' ) ];
+	$columns = [ 'SCHOOL_PERIOD' => _( 'Period' ) ];
 
 	foreach ( $schedule_table_days as $day => $true )
 	{

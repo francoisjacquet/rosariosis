@@ -15,6 +15,7 @@ Changes in 10.7
 - Remove trailing seconds :00 & add sorting HTML comment to datetime in Date.php
 - HTML set max Event Repeat Days to 300 in Calendar.php
 - Only display Locked column if AllowEdit() in Schedule.php
+- Schedule table: rename Periods column to Period (singular) in PrintSchedules.php & Schedule.inc.php
 
 Changes in 10.6.3
 -----------------

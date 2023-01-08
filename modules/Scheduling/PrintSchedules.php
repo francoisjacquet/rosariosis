@@ -241,7 +241,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			[ 'STUDENT_ID', 'SCHOOL_PERIOD' ]
 		);
 
-		$columns_table = [ 'SCHOOL_PERIOD' => _( 'Periods' ) ];
+		$columns_table = [ 'SCHOOL_PERIOD' => _( 'Period' ) ];
 
 		// Leave after $schedule_table_RET as _GetDays() callback modifies $schedule_table_days global.
 		foreach ( $schedule_table_days as $day => $true )
