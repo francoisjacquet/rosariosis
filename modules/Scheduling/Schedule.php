@@ -288,9 +288,17 @@ if ( UserStudentID()
 		'PERIOD_PULLDOWN' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 		'ROOM' => _( 'Room' ),
 		'COURSE_MARKING_PERIOD_ID' => _( 'Term' ),
-		'SCHEDULER_LOCK' => '<img src="assets/themes/' . Preferences( 'THEME' ) .
+	];
+
+	if ( AllowEdit() )
+	{
+		$columns['SCHEDULER_LOCK'] = '<img src="assets/themes/' . Preferences( 'THEME' ) .
 			'/btn/locked.png" class="button bigger" alt="' . AttrEscape( _( 'Locked' ) ) . '">' .
-			'<span class="a11y-hidden">' . _( 'Locked' ) . '</span>',
+			'<span class="a11y-hidden">' . _( 'Locked' ) . '</span>';
+
+	}
+
+	$columns += [
 		'START_DATE' => _( 'Enrolled' ),
 		'END_DATE' => _( 'Dropped' ),
 	];

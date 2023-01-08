@@ -14,6 +14,7 @@ Changes in 10.7
 - SQL use EXISTS(SELECT 1) instead of `EXISTS(SELECT *)` in EditReportCardGrades.php, Rollover.php & Moodle/functions.php
 - Remove trailing seconds :00 & add sorting HTML comment to datetime in Date.php
 - HTML set max Event Repeat Days to 300 in Calendar.php
+- Only display Locked column if AllowEdit() in Schedule.php
 
 Changes in 10.6.3
 -----------------
