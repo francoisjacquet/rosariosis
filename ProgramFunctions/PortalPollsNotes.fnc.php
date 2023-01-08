@@ -201,14 +201,7 @@ function GetPortalPollUser()
 {
 	$profile_id = User( 'PROFILE_ID' );
 
-	if ( $profile_id !== '0' ) // FJ call right Student/Staff ID.
-	{
-		$user_id = $_SESSION['STAFF_ID'];
-	}
-	else
-	{
-		$user_id = $_SESSION['STUDENT_ID'];
-	}
+	$user_id = User( 'STAFF_ID' ) ? User( 'STAFF_ID' ) : UserStudentID();
 
 	if ( ! $user_id )
 	{

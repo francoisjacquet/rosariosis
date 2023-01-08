@@ -10,6 +10,7 @@ Changes in 10.7
 - Fix PHP8.2 deprecated Creation of dynamic property in Markdownify/ConverterExtra.php
 - SQL always add space before AND to $extra['WHERE'], program wide
 - Escape SanitizeHTML() & SanitizeMarkDown() before saving to DB, program wide
+- Always use UserStudentID() instead of `$_SESSION['STUDENT_ID']` in PortalPollsNotes.php
 
 Changes in 10.6.3
 -----------------
