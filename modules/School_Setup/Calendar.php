@@ -660,7 +660,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			&& $_REQUEST['event_id'] === 'new' )
 		{
 			echo '<tr><td>
-				<input name="REPEAT" id="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;' . _( 'Days' ) .
+				<input name="REPEAT" id="REPEAT" value="0" type="number" min="0" max="300" />&nbsp;' . _( 'Days' ) .
 				FormatInputTitle( _( 'Event Repeat' ), 'REPEAT' ) .
 			'</td></tr>';
 		}

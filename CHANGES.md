@@ -13,6 +13,7 @@ Changes in 10.7
 - Always use UserStudentID() instead of `$_SESSION['STUDENT_ID']` in PortalPollsNotes.php
 - SQL use EXISTS(SELECT 1) instead of `EXISTS(SELECT *)` in EditReportCardGrades.php, Rollover.php & Moodle/functions.php
 - Remove trailing seconds :00 & add sorting HTML comment to datetime in Date.php
+- HTML set max Event Repeat Days to 300 in Calendar.php
 
 Changes in 10.6.3
 -----------------
