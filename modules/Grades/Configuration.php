@@ -99,15 +99,12 @@ AND cp.GRADE_SCALE_ID IS NOT NULL
 AND cp.DOES_BREAKOFF='Y'
 ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER IS NULL,rcg.SORT_ORDER DESC", [], [ 'COURSE_PERIOD_ID' ] );
 
-echo '<fieldset><legend>' . _( 'Assignments' ) . '</legend><table>';
+echo '<fieldset><legend>' . _( 'Assignments' ) . '</legend><table class="cellpadding-5">';
 
 if ( ! empty( $grades ) )
 {
 	// Allow Edit fields for teachers.
 	$_ROSARIO['allow_edit'] = true;
-
-	//if ( ! $gradebook_config['ROUNDING'])
-	//	$gradebook_config['ROUNDING'] = 'NORMAL';
 
 	$rounding_options = [
 		'UP' => _( 'Up' ),
@@ -116,7 +113,7 @@ if ( ! empty( $grades ) )
 	];
 
 	echo '<tr><td>' . RadioInput(
-		$gradebook_config['ROUNDING'],
+		issetVal( $gradebook_config['ROUNDING'] ),
 		'values[ROUNDING]',
 		_( 'Score Rounding' ),
 		$rounding_options,
@@ -286,12 +283,12 @@ if ( ! empty( $grades ) )
 	// Allow Edit fields for teachers.
 	$_ROSARIO['allow_edit'] = true;
 
-	echo '<fieldset><legend>' . _( 'Score Breakoff Points' ) . '</legend><table>';
+	echo '<fieldset><legend>' . _( 'Score Breakoff Points' ) . '</legend>';
 
 	foreach ( (array) $grades as $course_period_id => $cp_grades )
 	{
 		$table = '<table class="cellpadding-5">';
-		$table .= '<tr><td colspan="9">' . $cp_grades[1]['COURSE_TITLE'] . ' &mdash; ' .
+		$table .= '<tr><td colspan="6">' . $cp_grades[1]['COURSE_TITLE'] . ' &mdash; ' .
 		mb_substr(
 			$cp_grades[1]['CP_TITLE'],
 			0,
@@ -323,10 +320,10 @@ if ( ! empty( $grades ) )
 
 		$table .= '</tr></table>';
 
-		echo '<tr><td>' . $table . '</td></tr>';
+		echo $table;
 	}
 
-	echo '</table></fieldset><br />';
+	echo '</fieldset><br />';
 
 	// Allow Edit fields for teachers.
 	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );

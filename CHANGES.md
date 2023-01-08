@@ -16,6 +16,7 @@ Changes in 10.7
 - HTML set max Event Repeat Days to 300 in Calendar.php
 - Only display Locked column if AllowEdit() in Schedule.php
 - Schedule table: rename Periods column to Period (singular) in PrintSchedules.php & Schedule.inc.php
+- HTML add padding to Assignment options + remove useless table in Grades/Configuration.php
 
 Changes in 10.6.3
 -----------------
