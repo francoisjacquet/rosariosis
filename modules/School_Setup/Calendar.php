@@ -466,7 +466,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			// FJ textarea fields MarkDown sanitize.
 			if ( ! empty( $_REQUEST['values']['DESCRIPTION'] ) )
 			{
-				$_REQUEST['values']['DESCRIPTION'] = SanitizeMarkDown( $_POST['values']['DESCRIPTION'] );
+				$_REQUEST['values']['DESCRIPTION'] = DBEscapeString( SanitizeMarkDown( $_POST['values']['DESCRIPTION'] ) );
 			}
 
 			// Update Event.

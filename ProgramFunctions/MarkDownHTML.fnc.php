@@ -57,7 +57,7 @@ function MarkDownToHTML( $md, $column = '' )
  * @uses    Markdownify class
  *
  * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
- *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
+ *          $_REQUEST['values']['textarea'] = DBEscapeString( SanitizeMarkDown( $_POST['values']['textarea'] ) );
  *
  * @since   2.9
  * @since   4.3 Prevent XSS.
@@ -148,7 +148,10 @@ function SanitizeMarkDown( $md )
  * @uses    UploadImage()
  *
  * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
- *          $_REQUEST['values']['textarea'] = SanitizeHTML( $_POST['values']['textarea'] );
+ *          $_REQUEST['values']['textarea'] = DBEscapeString( SanitizeHTML( $_POST['values']['textarea'] ) );
+ *
+ * @example SaveTemplate( DBEscapeString( SanitizeHTML( $_POST['email_text'], '', true ) ) );
+ *          $email_text_template = GetTemplate();
  *
  * @since 2.9
  * @since 5.5.3 Better base64 images detection.

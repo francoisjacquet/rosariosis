@@ -57,7 +57,7 @@ if ( ! empty( $_POST['tables'] ) )
 
 		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables'][$id]['DESCRIPTION'] );
+			$columns['DESCRIPTION'] = DBEscapeString( SanitizeHTML( $_POST['tables'][$id]['DESCRIPTION'] ) );
 		}
 
 		// FJ added SQL constraint TITLE & POINTS are not null.

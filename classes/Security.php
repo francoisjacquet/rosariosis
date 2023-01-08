@@ -10,7 +10,7 @@
  * - Add static self::remove_invisible_characters() function.
  *
  * MarkDown input sanitize:
- * @example $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
+ * @example $_REQUEST['values']['textarea'] = DBEscapeString( SanitizeMarkDown( $_POST['values']['textarea'] ) );
  *
  * @since 2.9
  * @since 7.6.1 Fix #307 XSS update CodeIgniter Security class.

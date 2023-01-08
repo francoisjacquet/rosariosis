@@ -20,7 +20,7 @@ if ( isset( $_POST['tables'] )
 		// FJ textarea fields HTML sanitize.
 		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables'][ $id ]['DESCRIPTION'] );
+			$columns['DESCRIPTION'] = DBEscapeString( SanitizeHTML( $_POST['tables'][ $id ]['DESCRIPTION'] ) );
 		}
 
 		// FJ added SQL constraint TITLE & POINTS are not null.

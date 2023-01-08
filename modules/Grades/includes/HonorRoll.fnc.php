@@ -96,9 +96,9 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	else
 	{
 		// Is Certificate.
-		$REQUEST_honor_roll_text = SanitizeHTML( $honor_roll_text );
+		SaveTemplate( DBEscapeString( SanitizeHTML( $honor_roll_text ) ) );
 
-		SaveTemplate( $REQUEST_honor_roll_text );
+		$honor_roll_text_template = GetTemplate();
 
 		$no_margins = [ 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 ];
 
@@ -154,7 +154,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 			$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
-			$honor_roll_text = SubstitutionsTextMake( $substitutions, $REQUEST_honor_roll_text );
+			$honor_roll_text = SubstitutionsTextMake( $substitutions, $honor_roll_text_template );
 
 			$honor_roll_text = ( $student['HIGH_HONOR'] === 'Y' ?
 				str_replace( _( 'Honor Roll' ), _( 'High Honor Roll' ), $honor_roll_text ) :
@@ -258,9 +258,9 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 	else
 	{
 		// Is Certificate.
-		$REQUEST_honor_roll_text = SanitizeHTML( $honor_roll_text );
+		SaveTemplate( DBEscapeString( SanitizeHTML( $honor_roll_text ) ) );
 
-		SaveTemplate( $REQUEST_honor_roll_text );
+		$honor_roll_text_template = GetTemplate();
 
 		$no_margins = [ 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 ];
 
@@ -312,7 +312,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 
 			$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
-			$honor_roll_text = SubstitutionsTextMake( $substitutions, $REQUEST_honor_roll_text );
+			$honor_roll_text = SubstitutionsTextMake( $substitutions, $honor_roll_text_template );
 
 			echo '<tr><td>' . $honor_roll_text . '</td></tr></table>';
 

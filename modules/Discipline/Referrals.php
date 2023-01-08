@@ -41,7 +41,7 @@ if ( ! empty( $_POST['values'] )
 
 		if ( $column_data_type === 'textarea' )
 		{
-			$value = SanitizeMarkDown( $_POST['values'][$column_name] );
+			$value = DBEscapeString( SanitizeMarkDown( $_POST['values'][$column_name] ) );
 		}
 
 		if ( ! is_array( $value ) )

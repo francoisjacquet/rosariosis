@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( ! empty( $_REQUEST['elements']['freetext'] ) )
 		{
 			// Bypass strip_tags on the $_REQUEST vars.
-			$REQUEST_inputfreetext = SanitizeHTML( $_POST['inputfreetext'] );
+			$REQUEST_inputfreetext = DBEscapeString( SanitizeHTML( $_POST['inputfreetext'] ) );
 
 			SaveTemplate( $REQUEST_inputfreetext );
 		}

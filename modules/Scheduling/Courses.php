@@ -321,7 +321,7 @@ if ( ! empty( $_REQUEST['tables'] )
 						&& $columns['DESCRIPTION'] )
 					{
 						// Sanitize Course Description HTML. Get data from $_POST as it has HTML tags.
-						$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables']['courses'][ $id ]['DESCRIPTION'] );
+						$columns['DESCRIPTION'] = DBEscapeString( SanitizeHTML( $_POST['tables']['courses'][ $id ]['DESCRIPTION'] ) );
 					}
 
 					if ( isset( $columns['TOTAL_SEATS'] )

@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					if ( $column_data_type === 'textarea' )
 					{
-						$value = SanitizeMarkDown( $_POST['values'][$column] );
+						$value = DBEscapeString( SanitizeMarkDown( $_POST['values'][$column] ) );
 					}
 
 					$fields .= DBEscapeIdentifier( $column ) . ',';

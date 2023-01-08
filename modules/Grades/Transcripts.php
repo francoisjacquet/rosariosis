@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( ! empty( $_REQUEST['showcertificate'] ) )
 		{
 			// FJ bypass strip_tags on the $_REQUEST vars.
-			$REQUEST_inputcertificatetext = SanitizeHTML( $_POST['inputcertificatetext'] );
+			$REQUEST_inputcertificatetext = DBEscapeString( SanitizeHTML( $_POST['inputcertificatetext'] ) );
 
 			SaveTemplate( $REQUEST_inputcertificatetext );
 		}

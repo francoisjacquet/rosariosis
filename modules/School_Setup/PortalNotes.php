@@ -67,7 +67,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( isset( $columns['CONTENT'] ) )
 			{
-				$columns['CONTENT'] = SanitizeMarkDown( $_POST['values'][$id]['CONTENT'] );
+				$columns['CONTENT'] = DBEscapeString( SanitizeMarkDown( $_POST['values'][$id]['CONTENT'] ) );
 			}
 
 			if ( $id !== 'new' )

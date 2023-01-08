@@ -799,9 +799,9 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 		if ( isset( $post_values[ $custom_index ] )
 			&& ! empty( $post_values[ $custom_index ] ) )
 		{
-			$request_values[ $custom_index ] = SanitizeMarkDown(
+			$request_values[ $custom_index ] = DBEscapeString( SanitizeMarkDown(
 				$post_values[ $custom_index ]
-			);
+			) );
 		}
 	}
 

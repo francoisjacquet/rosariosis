@@ -19,9 +19,6 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 	$_REQUEST['mailing_labels'] = issetVal( $_REQUEST['mailing_labels'], '' );
 
-	// Bypass strip_tags on the $_REQUEST vars.
-	$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
-
 	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
@@ -108,9 +105,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 		BackPrompt( _( 'No Students were found.' ) );
 	}
 
-	SaveTemplate( $REQUEST_letter_text );
+	SaveTemplate( DBEscapeString( SanitizeHTML( $_POST['letter_text'] ) ) );
 
-	// $REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
+	$letter_text_template = GetTemplate();
 
 	$handle = PDFStart();
 
@@ -149,7 +146,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
-		$letter_text = SubstitutionsTextMake( $substitutions, $REQUEST_letter_text );
+		$letter_text = SubstitutionsTextMake( $substitutions, $letter_text_template );
 
 		echo '<br />' . $letter_text;
 		echo '<div style="page-break-after: always;"></div>';
