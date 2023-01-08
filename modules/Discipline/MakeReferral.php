@@ -63,7 +63,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					if ( ! is_array( $value ) )
 					{
-						$values .= "'" . str_replace( '&quot;', '"', $value ) . "',";
+						$values .= "'" . $value . "',";
 					}
 					else
 					{
@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						{
 							if ( $val )
 							{
-								$values .= str_replace( '&quot;', '"', $val ) . '||';
+								$values .= $val . '||';
 							}
 						}
 

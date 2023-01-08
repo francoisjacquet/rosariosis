@@ -46,7 +46,7 @@ if ( ! empty( $_POST['values'] )
 
 		if ( ! is_array( $value ) )
 		{
-			$sql .= DBEscapeIdentifier( $column_name ) . "='" . str_replace( "&rsquo;", "''", $value ) . "',";
+			$sql .= DBEscapeIdentifier( $column_name ) . "='" . $value . "',";
 		}
 		else
 		{
@@ -56,7 +56,7 @@ if ( ! empty( $_POST['values'] )
 			{
 				if ( $val )
 				{
-					$sql .= str_replace( '&quot;', '"', $val ) . '||';
+					$sql .= $val . '||';
 				}
 			}
 
