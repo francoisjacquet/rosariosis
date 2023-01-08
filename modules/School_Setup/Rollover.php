@@ -583,7 +583,7 @@ function Rollover( $table, $mode = 'delete' )
 					AND SCHOOL_ID='" . UserSchool() . "'" );
 			}
 
-			//FJ ROLL Gradebook Config's Final Grading Percentages
+			// ROLL Gradebook Config's Final Grading Percentages
 			$db_case_array = [ 'puc.TITLE' ];
 
 			$mp_next = DBGet( "SELECT MARKING_PERIOD_ID,ROLLOVER_ID,MP
@@ -625,6 +625,14 @@ function Rollover( $table, $mode = 'delete' )
 				AND puc.USER_ID IN (SELECT s2.STAFF_ID
 					FROM staff s2
 					WHERE s2.SYEAR='" . $next_syear . "')" );
+
+			// @since 10.7 ROLL Gradebook Config's Final Grading Percentages for Admin (overridden)
+			DBQuery( "INSERT INTO program_user_config (USER_ID,PROGRAM,TITLE,VALUE)
+				SELECT puc.USER_ID,puc.PROGRAM,(" . db_case( $db_case_array ) . "),puc.VALUE
+				FROM program_user_config puc
+				WHERE puc.USER_ID='-1'
+				AND puc.PROGRAM='Gradebook'
+				AND puc.TITLE IN(" . implode( ',', $mp_titles ) . ")" );
 
 			break;
 

@@ -21,6 +21,7 @@ Changes in 10.7
 - Only display profiles w/Custom if actually used to gain space in PortalPollsNotes.php
 - Add & remove module icons in themes/FlatSIS/modules/
 - Add .dotx,.ppsx,.mdb,.sldx,.odg,.odc,.odb,.odf,.numbers,.pages,.m4a,.tsv,.json,.ics file extensions to whitelist in FileUpload.fnc.php
+- ROLL Gradebook Config's Final Grading Percentages for Admin (overridden) in Rollover.php
 
 Changes in 10.6.3
 -----------------
