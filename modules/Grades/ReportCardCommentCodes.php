@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
 
-		$link['remove']['variables'] = [ 'id' => _( 'ID' ) ];
+		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
