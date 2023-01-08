@@ -18,6 +18,7 @@ Changes in 10.7
 - Schedule table: rename Periods column to Period (singular) in PrintSchedules.php & Schedule.inc.php
 - HTML add padding to Assignment options + remove useless table in Grades/Configuration.php
 - Move "Remove required attribute, TinyMCE bug" fix to TextAreaInput() in Inputs.php
+- Only display profiles w/Custom if actually used to gain space in PortalPollsNotes.php
 
 Changes in 10.6.3
 -----------------

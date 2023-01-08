@@ -389,12 +389,33 @@ function makePublishing( $value, $name )
 	{
 		$profiles_RET = DBGet( "SELECT ID,TITLE FROM user_profiles ORDER BY ID" );
 
-		//add Profiles with Custom permissions to profiles list
-		$profiles = array_merge( [
-			[ 'ID' => 'admin', 'TITLE' => _( 'Administrator w/Custom' ) ],
-			[ 'ID' => 'teacher', 'TITLE' => _( 'Teacher w/Custom' ) ],
-			[ 'ID' => 'parent', 'TITLE' => _( 'Parent w/Custom' ) ],
-		], $profiles_RET );
+		$custom_permissions = [];
+
+		$there_is_user_with_custom = function( $profile )
+		{
+			return (bool) DBGetOne( "SELECT 1 FROM staff
+				WHERE PROFILE='" . DBEscapeString( $profile ) . "'
+				AND PROFILE_ID IS NULL
+				AND SYEAR='" . UserSyear() . "'" );
+		};
+
+		if ( $there_is_user_with_custom( 'admin' ) )
+		{
+			$custom_permissions[] = [ 'ID' => 'admin', 'TITLE' => _( 'Administrator w/Custom' ) ];
+		}
+
+		if ( $there_is_user_with_custom( 'teacher' ) )
+		{
+			$custom_permissions[] = [ 'ID' => 'teacher', 'TITLE' => _( 'Teacher w/Custom' ) ];
+		}
+
+		if ( $there_is_user_with_custom( 'parent' ) )
+		{
+			$custom_permissions[] = [ 'ID' => 'parent', 'TITLE' => _( 'Parent w/Custom' ) ];
+		}
+
+		// Add Profiles with Custom permissions to profiles list.
+		$profiles = array_merge( $custom_permissions, $profiles_RET );
 	}
 
 	$return .= makePublishingVisibleTo( $profiles, $THIS_RET, $id );
@@ -535,7 +556,7 @@ function makeFileAttached( $value, $name )
 		'',
 		'values[' . $id . '][' . $name . '_EMBED]',
 		_( 'Embed Link' ),
-		'size="14" placeholder="http://"'
+		'size="22" placeholder="https://"'
 	) . '</div></div>';
 
 	return $return;
