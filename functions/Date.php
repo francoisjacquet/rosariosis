@@ -106,6 +106,11 @@ function ProperDateTime( $datetime, $length = 'long' )
 	// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
 	$locale_time = strftime_compat( '%X', $datetime );
 
+	// Remove trailing seconds :00.
+	$locale_time = mb_substr( $locale_time, -3 ) === ':00' ? mb_substr( $locale_time, 0, -3 ) : $locale_time;
+
+	$locale_time = str_replace( ':00 ', ' ', $locale_time );
+
 	$date = mb_substr( $datetime, 0, 10 );
 
 	if ( $length === 'short'
@@ -115,7 +120,9 @@ function ProperDateTime( $datetime, $length = 'long' )
 		return $locale_time;
 	}
 
-	return ProperDate( $date, $length ) . ' ' . $locale_time;
+	$comment = '<!-- ' . $datetime . ' -->';
+
+	return $comment . ProperDate( $date, $length ) . ' ' . $locale_time;
 }
 
 
