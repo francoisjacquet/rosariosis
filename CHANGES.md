@@ -19,6 +19,7 @@ Changes in 10.7
 - HTML add padding to Assignment options + remove useless table in Grades/Configuration.php
 - Move "Remove required attribute, TinyMCE bug" fix to TextAreaInput() in Inputs.php
 - Only display profiles w/Custom if actually used to gain space in PortalPollsNotes.php
+- Add & remove module icons in themes/FlatSIS/modules/
 
 Changes in 10.6.3
 -----------------
