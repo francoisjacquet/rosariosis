@@ -371,7 +371,7 @@ function setMLvalue(id, loc, value){
  * @param  string  $title    Input title (optional). Defaults to ''.
  * @param  string  $extra    Extra HTML attributes added to the input.
  * @param  boolean $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
- * @param  string  $markdown markdown|tinymce|text Text Type (optional). Defaults to 'markdown'.
+ * @param  string  $type     markdown|tinymce|text Text Type (optional). Defaults to 'markdown'.
  *
  * @return string  Input HTML
  */
@@ -384,6 +384,13 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
 	$ftitle_nobr = FormatInputTitle( $title, $id, $required, '' );
+
+	if ( $type === 'tinymce'
+		&& mb_strpos( (string) $extra, 'required' ) !== false )
+	{
+		// Remove required attribute, TinyMCE bug.
+		$extra = str_replace( 'required', '', $extra );
+	}
 
 	$display_val = '-';
 
@@ -505,13 +512,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 		}
 	}
 
-	if ( mb_strpos( (string) $extra, 'required' ) !== false )
-	{
-		// Remove required attribute, TinyMCE bug.
-		$extra = str_replace( 'required', '', $extra );
-	}
-
-	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, 'tinymce' );
+	$textarea = TextAreaInput( $value, $name, $title, $extra, $div, 'tinymce' );
 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -750,7 +751,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		'-';
 
 	if ( ! AllowEdit()
-	 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		return $multiple_value . FormatInputTitle( $title );
 	}
@@ -1632,6 +1633,8 @@ function CheckCaptcha()
 
 /**
  * File Input
+ * Warning: contrary to other *Input() functions, there is no AllowEdit() check
+ * so the file input will also be visible to students, parents & teachers.
  *
  * @since 3.8.1
  * @since 5.2 Add $max_file_size param & max file size validation.

@@ -17,6 +17,7 @@ Changes in 10.7
 - Only display Locked column if AllowEdit() in Schedule.php
 - Schedule table: rename Periods column to Period (singular) in PrintSchedules.php & Schedule.inc.php
 - HTML add padding to Assignment options + remove useless table in Grades/Configuration.php
+- Move "Remove required attribute, TinyMCE bug" fix to TextAreaInput() in Inputs.php
 
 Changes in 10.6.3
 -----------------
