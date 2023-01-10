@@ -16,6 +16,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @since 5.0 Add GPA or Total row (only for Report Cards).
 	 * @since 5.0 Add Min. and Max. Grades.
 	 * @since 7.1 Add Credits (only for Report Cards).
+	 * @since 10.7 Add Class Average row.
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -115,10 +116,10 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		{
 			$return .= '</tr><tr class="st">';
 
-			// Add GPA or Total row.
+			// Add GPA and/or Total row.
 			$gpa_or_total_options = [
-				'gpa' => _( 'GPA' ),
 				'total' => _( 'Total' ),
+				'gpa' => _( 'GPA' ),
 			];
 
 			if ( User( 'PROFILE' ) !== 'admin' )
@@ -126,11 +127,16 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				$_ROSARIO['allow_edit'] = true;
 			}
 
-			$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
+			$return .= '<td>' . MultipleCheckboxInput( '', 'elements[last_row][]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
 
-			// Class Rank.
-			$return .= '<td class="valign-top"><label><input type="checkbox" name="elements[class_rank]" value="Y"> ' .
-				_( 'Class Rank' ) . '</label></td>';
+			// Class Rank and/or Average.
+			// @since 10.7 Add Class Average row.
+			$class_rank_or_average_options = [
+				'average' => _( 'Class average' ),
+				'rank' => _( 'Class Rank' ),
+			];
+
+			$return .= '<td>' . MultipleCheckboxInput( '', 'elements[last_row][]', _( 'Last row' ), $class_rank_or_average_options ) . '</td>';
 		}
 
 		$return .= '</tr></table></td></tr>';
@@ -277,6 +283,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 5.0 Add Min. and Max. Grades.
 	 * @since 7.5 Report Cards PDF footer action hook
 	 * @since 8.0 Add Class Rank row.
+	 * @since 10.7 Add Class Average row.
 	 *
 	 * @param  array         $student_array Students IDs
 	 * @param  array         $mp_array      Marking Periods IDs
@@ -597,42 +604,60 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				}
 			}
 
-			if ( ! empty( $_REQUEST['elements']['gpa_or_total'] ) )
+			if ( ! empty( $_REQUEST['elements']['last_row'] ) )
 			{
-				// @since 5.0 Add GPA or Total row.
-				$grades_RET[$i + 1] = GetGpaOrTotalRow(
-					$student_id,
-					$grades_total,
-					$i,
-					$_REQUEST['elements']['gpa_or_total']
-				);
+				$last_row_i = $i + 1;
 
-				if ( ! empty( $_REQUEST['elements']['credits'] ) )
+				foreach ( $_REQUEST['elements']['last_row'] as $last_row )
 				{
-					$credits_total = 0;
-
-					foreach ( $grades_RET as $grade_i )
+					if ( $last_row === 'total'
+						|| $last_row === 'gpa' )
 					{
-						if ( isset( $grade_i['CREDITS'] ) )
+						// @since 5.0 Add GPA or Total row.
+						$grades_RET[$last_row_i++] = GetGpaOrTotalRow(
+							$student_id,
+							$grades_total,
+							$i,
+							$last_row
+						);
+
+						if ( ! empty( $_REQUEST['elements']['credits'] )
+							&& empty( $credits_total_done ) )
 						{
-							// @since 7.4 Add Total Credits.
-							$credits_total += $grade_i['CREDITS'];
+							$credits_total = 0;
+
+							foreach ( $grades_RET as $grade_i )
+							{
+								if ( isset( $grade_i['CREDITS'] ) )
+								{
+									// @since 7.4 Add Total Credits.
+									$credits_total += $grade_i['CREDITS'];
+								}
+							}
+
+							$grades_RET[$last_row_i - 1]['CREDITS'] = (float) $credits_total;
+
+							$credits_total_done = true;
 						}
 					}
 
-					$grades_RET[$i + 1]['CREDITS'] = (float) $credits_total;
+					if ( $last_row === 'rank' )
+					{
+						// @since 8.0 Add Class Rank row.
+						$grades_RET[$last_row_i++] = GetClassRankRow(
+							$student_id,
+							$mp_array
+						);
+					}
+
+					if ( $last_row === 'average' )
+					{
+						// @since 10.6 Add Class Average row.
+						$grades_RET[$last_row_i++] = GetClassAverageRow(
+							$course_periods
+						);
+					}
 				}
-			}
-
-			if ( ! empty( $_REQUEST['elements']['class_rank'] ) )
-			{
-				// @since 8.0 Add Class Rank row.
-				$plus_one_or_two = ! empty( $_REQUEST['elements']['gpa_or_total'] ) ? 2 : 1;
-
-				$grades_RET[$i + $plus_one_or_two] = GetClassRankRow(
-					$student_id,
-					$mp_array
-				);
 			}
 
 			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
@@ -1594,7 +1619,7 @@ function GetReportCardMinMaxGrades( $course_periods )
 
 		foreach ( (array) $mps as $mp )
 		{
-			$mp_list[] = $mp[1]['MARKING_PERIOD_ID'];
+			$mp_list[$mp[1]['MARKING_PERIOD_ID']] = $mp[1]['MARKING_PERIOD_ID'];
 		}
 	}
 
@@ -1613,8 +1638,8 @@ function GetReportCardMinMaxGrades( $course_periods )
 			AND MARKING_PERIOD_ID IN(" . $mp_list . ")
 			GROUP BY COURSE_PERIOD_ID,MARKING_PERIOD_ID", [], [ 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ] );
 
-		if ( ! empty( $_REQUEST['elements']['gpa_or_total'] )
-			&& $_REQUEST['elements']['gpa_or_total'] === 'gpa' )
+		if ( ! empty( $_REQUEST['elements']['last_row'] )
+			&& in_array( 'gpa', $_REQUEST['elements']['last_row'] ) )
 		{
 			// @since 8.8 Add Min. and Max. GPA to Last row.
 			$min_max_grades[$cp_list][$mp_list]['-1'] = DBGet( "SELECT '-1' AS COURSE_PERIOD_ID,MARKING_PERIOD_ID,
@@ -1682,7 +1707,7 @@ function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 				$min_grade = _makeLetterGrade( $min_grade / 100, $cp_id );
 				$max_grade = _makeLetterGrade( $max_grade / 100, $cp_id );
 			}
-			else
+			elseif ( $cp_id === '-1' )
 			{
 				// CP ID=-1 is Total GPA, format float.
 				$min_grade = number_format( $min_grade, 2, '.', '' );

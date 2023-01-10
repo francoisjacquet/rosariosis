@@ -27,7 +27,7 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 
 	$gpa_row = [
 		'COURSE_TITLE' => ( $mode === 'total' ? _( 'Total' ) : _( 'GPA' ) ),
-		'COURSE_PERIOD_ID' => '-1',
+		'COURSE_PERIOD_ID' => ( $mode === 'total' ? '-2' : '-1' ),
 	];
 
 	foreach ( (array) $grades_total as $mp => $grades_total_mp )
@@ -61,7 +61,7 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
  * Get Class Rank row
  * Used by ReportCardsGenerate().
  *
- * @example $grades_RET[$i + 2] = GetClassRankRow( $student_id, $mp_list );
+ * @example $grades_RET[$i + 4] = GetClassRankRow( $student_id, $mp_array );
  *
  * @since 8.0 Add Class Rank row.
  *
@@ -82,7 +82,7 @@ function GetClassRankRow( $student_id, $mp_array )
 		AND STUDENT_ID='" . (int) $student_id . "'" );
 
 	$class_rank_row = [
-		'COURSE_PERIOD_ID' => '-2',
+		'COURSE_PERIOD_ID' => '-4',
 		'COURSE_TITLE' => _( 'Class Rank' ),
 	];
 
@@ -104,6 +104,93 @@ function GetClassRankRow( $student_id, $mp_array )
 	}
 
 	return $class_rank_row;
+}
+
+
+/**
+ * Get Class Average row
+ * Used by ReportCardsGenerate().
+ *
+ * @since 10.7 Add Class Average row.
+ *
+ * @example $grades_RET[$i + 3] = GetClassAverageRow( $course_periods );
+ *
+ * @uses GetClassAveragePercent()
+ *
+ *
+ * @param array $course_periods Course Periods array, with MPs array.
+ *
+ * @return array Class Rank row.
+ */
+function GetClassAverageRow( $course_periods )
+{
+	static $class_averages = [];
+
+	foreach ( (array) $course_periods as $course_period_id => $mps )
+	{
+		$cp_list[] = $course_period_id;
+
+		foreach ( (array) $mps as $mp )
+		{
+			$mp_list[$mp[1]['MARKING_PERIOD_ID']] = $mp[1]['MARKING_PERIOD_ID'];
+		}
+	}
+
+	$mp_list = "'" . implode( "','", $mp_list ) . "'";
+
+	$cp_list = "'" . implode( "','", $cp_list ) . "'";
+
+	$class_average_row = [
+		'COURSE_PERIOD_ID' => '-3',
+		'COURSE_TITLE' => _( 'Class average' ),
+	];
+
+	if ( ! isset( $class_averages[$cp_list][$mp_list] ) )
+	{
+		$credits = $class_average = [];
+
+		foreach ( (array) $course_periods as $course_period_id => $mps )
+		{
+			foreach ( (array) $mps as $mp )
+			{
+				$mp_id = $mp[1]['MARKING_PERIOD_ID'];
+
+				if ( ! isset( $class_average[ $mp_id ] ) )
+				{
+					$class_average[ $mp_id ] = $credits[ $mp_id ] = 0;
+				}
+
+				$cp_credits = DBGetOne( "SELECT CREDITS
+					FROM course_periods
+					WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
+
+				$class_average[ $mp_id ] += GetClassAveragePercent( $course_period_id, $mp_id ) * $cp_credits;
+
+				$credits[ $mp_id ] += $cp_credits;
+			}
+		}
+
+		foreach ( $class_average as $mp_id => $class_av )
+		{
+			$class_av = $class_av / $credits[ $mp_id ];
+
+			$class_av = ( $class_av / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' );
+
+			$class_av = '<B>' . number_format( $class_av, 2, '.', '' ) . '</B> /' .
+				(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+
+			$class_average_row[ $mp_id ] = $class_av;
+
+			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
+			{
+				$class_average_row[ $mp_id ] = '<div class="center">' . $class_average_row[ $mp_id ] . '</div>';
+			}
+		}
+
+		$class_averages[$cp_list][$mp_list] = $class_average_row;
+	}
+
+	return $class_averages[$cp_list][$mp_list];
 }
 
 /**

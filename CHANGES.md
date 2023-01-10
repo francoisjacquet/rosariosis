@@ -27,6 +27,7 @@ Changes in 10.7
 - SQL include Secondary Teacher Course Periods in Schedule.inc.php
 - HTML move Schedule list inside PopTable & rework table cell in Schedule.inc.php
 - Fix do not display "Enroll student for next school year" link if new enrollment record in Enrollment.inc.php
+- Add Class Average row in ReportCards.fnc.php & Grades.fnc.php
 
 Changes in 10.6.3
 -----------------
