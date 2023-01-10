@@ -23,6 +23,7 @@ Changes in 10.7
 - Add .dotx,.ppsx,.mdb,.sldx,.odg,.odc,.odb,.odf,.numbers,.pages,.m4a,.tsv,.json,.ics file extensions to whitelist in FileUpload.fnc.php
 - ROLL Gradebook Config's Final Grading Percentages for Admin (overridden) in Rollover.php
 - HTML responsive limit display columns to 3 in Courses.php & Assignments.php
+- SQL remove Period Length<=(Minutes in a Full School Day / 2) for Teacher's Schedule table in Schedule.inc.php
 
 Changes in 10.6.3
 -----------------
