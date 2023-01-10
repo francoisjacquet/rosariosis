@@ -53,7 +53,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	$schedule_RET = DBGet( "SELECT cp.TITLE AS COURSE_PERIOD,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL
 	FROM course_periods cp,courses c,schools s
 	WHERE cp.COURSE_ID=c.COURSE_ID
-	AND cp.TEACHER_ID='" . UserStaffID() . "'
+	AND (cp.TEACHER_ID='" . UserStaffID() . "' OR cp.SECONDARY_TEACHER_ID='" . UserStaffID() . "')
 	AND cp.SYEAR='" . UserSyear() . "'" .
 		( $_REQUEST['all_schools'] == 'Y' ? '' : " AND cp.SCHOOL_ID='" . UserSchool() . "'" ) . "
 	AND s.ID=cp.SCHOOL_ID
@@ -137,7 +137,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	$schedule_table_RET = DBGet( "SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
 	FROM course_periods cp,courses c,schools s,school_periods sp,course_period_school_periods cpsp
 	WHERE cp.COURSE_ID=c.COURSE_ID
-	AND cp.TEACHER_ID='" . UserStaffID() . "'
+	AND (cp.TEACHER_ID='" . UserStaffID() . "' OR cp.SECONDARY_TEACHER_ID='" . UserStaffID() . "')
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND s.ID=cp.SCHOOL_ID
 	AND s.ID='" . UserSchool() . "'
@@ -146,7 +146,6 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER", [ 'DAYS' => '_GetDays' ], [ 'SCHOOL_PERIOD' ] );
-	// FJ note the "sp.LENGTH<=(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day school periods from the schedule table!
 
 	$columns = [ 'SCHOOL_PERIOD' => _( 'Period' ) ];
 
