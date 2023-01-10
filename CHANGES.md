@@ -25,6 +25,7 @@ Changes in 10.7
 - HTML responsive limit display columns to 3 in Courses.php & Assignments.php
 - SQL remove Period Length<=(Minutes in a Full School Day / 2) for Teacher's Schedule table in Schedule.inc.php
 - SQL include Secondary Teacher Course Periods in Schedule.inc.php
+- HTML move Schedule list inside PopTable & rework table cell in Schedule.inc.php
 
 Changes in 10.6.3
 -----------------

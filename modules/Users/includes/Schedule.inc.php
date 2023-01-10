@@ -7,11 +7,6 @@ $_REQUEST['all_schools'] = issetVal( $_REQUEST['all_schools'] );
 
 if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {
-	if ( $PopTable_opened )
-	{
-		PopTable( 'footer' );
-	}
-
 	$all_schools_onclick_URL = ( $_REQUEST['all_schools'] == 'Y' ?
 		PreparePHP_SELF( $_REQUEST, [], [ 'all_schools' => '' ] ) :
 		PreparePHP_SELF( $_REQUEST, [], [ 'all_schools' => 'Y' ] ) );
@@ -83,15 +78,16 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		);
 	}
 
+	if ( $PopTable_opened )
+	{
+		PopTable( 'footer' );
+	}
+
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		echo '<div style="page-break-after: always;"></div>';
 
 		$_SESSION['orientation'] = 'landscape';
-	}
-	else
-	{
-		echo '<hr />';
 	}
 
 	if ( ! UserMP() )
@@ -166,7 +162,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		'Periods',
 		false,
 		[],
-		[ 'save' => false ]
+		[ 'save' => false, 'search' => false ]
 	);
 
 	if ( $PopTable_opened )
@@ -217,7 +213,12 @@ function _schedule_table_RET( $schedule_table_RET )
 					$schedule_table_body[$i][$course_period_day] = [];
 				}
 
-				$schedule_table_body[$i][$course_period_day][] = '<div style="display:table-cell;">' . $course_period['TITLE'] . ' ' . ( empty( $course_period['SHORT_NAME'] ) ? '' : '<span style="font-size:smaller;">(' . $course_period['SHORT_NAME'] ) . ')' . ( empty( $course_period['ROOM'] ) ? '' : ' ' . _( 'Room' ) . ': ' . $course_period['ROOM'] . '</span>' ) . '&nbsp;</div>';
+				$schedule_table_body[$i][$course_period_day][] = '<div style="display:table-cell;">' . $course_period['TITLE'] .
+					( empty( $course_period['SHORT_NAME'] ) ? '' :
+						'<br /><span class="size-1">' . $course_period['SHORT_NAME'] . '</span>' ) .
+					( empty( $course_period['ROOM'] ) ? '' :
+						'<br /><span class="size-1">' . _( 'Room' ) . ': ' . $course_period['ROOM'] . '</span>' ) .
+					'&nbsp;</div>';
 			}
 		}
 
