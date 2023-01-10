@@ -22,6 +22,7 @@ Changes in 10.7
 - Add & remove module icons in themes/FlatSIS/modules/
 - Add .dotx,.ppsx,.mdb,.sldx,.odg,.odc,.odb,.odf,.numbers,.pages,.m4a,.tsv,.json,.ics file extensions to whitelist in FileUpload.fnc.php
 - ROLL Gradebook Config's Final Grading Percentages for Admin (overridden) in Rollover.php
+- HTML responsive limit display columns to 3 in Courses.php & Assignments.php
 
 Changes in 10.6.3
 -----------------

@@ -835,20 +835,6 @@ if ( ! $_REQUEST['modfunc'] )
 			'required maxlength=100' . ( empty( $RET['TITLE'] ) ? ' size=20' : '' )
 		) . '</td>';
 
-		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
-		{
-			$header .= '<td>' . TextInput(
-				issetVal( $RET['FINAL_GRADE_PERCENT'] ),
-				'tables[' . $_REQUEST['assignment_type_id'] . '][FINAL_GRADE_PERCENT]',
-				( ! empty( $RET['FINAL_GRADE_PERCENT'] ) ?
-					_( 'Percent of Final Grade' ) :
-					'<span class="legend-red">' . _( 'Percent of Final Grade' ) . '</span>' ),
-				'maxlength="5" size="4"'
-			) . '</td>';
-
-			$header .= '<td>' . NoInput( $RET['TOTAL_PERCENT'] == 1 ? '100%' : '<span style="color:red">' . ( 100 * $RET['TOTAL_PERCENT'] ) . '%</span>', _( 'Percent Total' ) ) . '</td>';
-		}
-
 		$header .= '<td>' . TextInput(
 			issetVal( $RET['SORT_ORDER'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][SORT_ORDER]',
@@ -861,6 +847,20 @@ if ( ! $_REQUEST['modfunc'] )
 			'tables[' . $_REQUEST['assignment_type_id'] . '][COLOR]',
 			_( 'Color' )
 		) . '</td>';
+
+		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
+		{
+			$header .= '</tr><tr class="st"><td>' . TextInput(
+				issetVal( $RET['FINAL_GRADE_PERCENT'] ),
+				'tables[' . $_REQUEST['assignment_type_id'] . '][FINAL_GRADE_PERCENT]',
+				( ! empty( $RET['FINAL_GRADE_PERCENT'] ) ?
+					_( 'Percent of Final Grade' ) :
+					'<span class="legend-red">' . _( 'Percent of Final Grade' ) . '</span>' ),
+				'maxlength="5" size="4"'
+			) . '</td>';
+
+			$header .= '<td>' . NoInput( $RET['TOTAL_PERCENT'] == 1 ? '100%' : '<span style="color:red">' . ( 100 * $RET['TOTAL_PERCENT'] ) . '%</span>', _( 'Percent Total' ) ) . '</td>';
+		}
 
 		$header .= '</tr></table>';
 	}

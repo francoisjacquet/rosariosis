@@ -921,7 +921,7 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 
 			// FJ Moodle integrator.
-			$header .= '<td colspan="2">' . SelectInput(
+			$header .= '<td>' . SelectInput(
 				issetVal( $RET['TEACHER_ID'], '' ),
 				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][TEACHER_ID]',
 				_( 'Teacher' ),
@@ -943,7 +943,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( AllowEdit() || $RET['SECONDARY_TEACHER_ID'] )
 			{
-				$header .= '<td colspan="2">' . SelectInput(
+				$header .= '<td>' . SelectInput(
 					issetVal( $RET['SECONDARY_TEACHER_ID'], '' ),
 					'tables[course_periods][' . $_REQUEST['course_period_id'] . '][SECONDARY_TEACHER_ID]',
 					_( 'Secondary Teacher' ),
@@ -951,7 +951,7 @@ if (  ( ! $_REQUEST['modfunc']
 				) . '</td>';
 			}
 
-			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
+			$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
 
 			$header .= '<tr class="st"><td>' . TextInput(
 				issetVal( $RET['ROOM'], '' ),
@@ -990,7 +990,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( AllowEdit() )
 			{
-				$header .= '<td colspan="2">' . SelectInput(
+				$header .= '<td>' . SelectInput(
 					issetVal( $RET['MARKING_PERIOD_ID'], '' ),
 					'tables[course_periods][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
 					_( 'Marking Period' ),
@@ -1003,7 +1003,7 @@ if (  ( ! $_REQUEST['modfunc']
 			else
 			{
 				// Non editing users: Show Full MP Title.
-				$header .= '<td colspan="2">' . NoInput(
+				$header .= '<td>' . NoInput(
 					GetMP( $RET['MARKING_PERIOD_ID'] ),
 					_( 'Marking Period' )
 				) . '</td>';
@@ -1016,7 +1016,7 @@ if (  ( ! $_REQUEST['modfunc']
 				' type="number" step="1" min="0" max="9999"'
 			) . '</td>';
 
-			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
+			$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
 
 			$days = [ 'M', 'T', 'W', 'H', 'F', 'S', 'U' ];
 
@@ -1076,7 +1076,7 @@ if (  ( ! $_REQUEST['modfunc']
 					) . '</td>';
 				}
 
-				$header .= '<td colspan="5">';
+				$header .= '<td colspan="2">';
 
 				$days_html = '<table class="cellspacing-0"><tr class="st">';
 
@@ -1151,7 +1151,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( AllowEdit() )
 			{
-				$header .= '<tr class="st"><td colspan="6">
+				$header .= '<tr class="st"><td colspan="3">
 					<a href="#" onclick="' .
 				( $new ?
 					'newSchoolPeriod();' :
@@ -1184,7 +1184,7 @@ if (  ( ! $_REQUEST['modfunc']
 					// fill the cells
 					function createCell(cell, tr, i, newId) {
 						cell.innerHTML = tr.cells[i].innerHTML;
-						if (i == 1) cell.setAttribute('colspan', '5');
+						if (i == 1) cell.setAttribute('colspan', '2');
 						reg = new RegExp('new' + (newId-1),'g'); //g for global string
 						cell.innerHTML = cell.innerHTML.replace(reg, 'new'+newId);
 						// remove required attribute
@@ -1200,7 +1200,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$new
 			);
 
-			$header .= '<tr><td colspan="6"><hr /></td></tr>';
+			$header .= '<tr><td colspan="3"><hr /></td></tr>';
 
 			// Takes Attendance.
 			$header .= '<tr class="st"><td>' . $cp_inputs[1] . '</td>';
@@ -1209,10 +1209,10 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				// Hide Calendar if CP "No Attendance".
 				// Calendar.
-				$header .= '<td colspan="2">' . $cp_inputs[0] . '</td>';
+				$header .= '<td>' . $cp_inputs[0] . '</td>';
 			}
 
-			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
+			$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
 
 			// Grading Scale.
 			$header .= '<tr class="st"><td>' . $cp_inputs[2] . '</td>';
@@ -1228,11 +1228,11 @@ if (  ( ! $_REQUEST['modfunc']
 				}
 				else
 				{
-					$header .= '<td>&nbsp;</td>';
+					$header .= '<td colspan="2">&nbsp;</td>';
 				}
 
 				// Credits.
-				$header .= '<td>' . $cp_inputs[4] . '</td>';
+				$header .= '</tr><tr class="st"><td>' . $cp_inputs[4] . '</td>';
 
 				// Affects Class Rank.
 				$header .= '<td>' . $cp_inputs[5] . '</td>';
@@ -1248,7 +1248,7 @@ if (  ( ! $_REQUEST['modfunc']
 				|| $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 			{
 				// Hide hr separator from non editing users if no Gender Restriction and no Parent CP.
-				$header .= '<tr><td colspan="6"><hr /></td></tr><tr class="st">';
+				$header .= '<tr><td colspan="3"><hr /></td></tr><tr class="st">';
 			}
 
 			if ( AllowEdit()
@@ -1256,7 +1256,7 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				// Hide from non editing users if no Gender Restriction set.
 				// Gender Restriction.
-				$header .= '<td colspan="3">' . $cp_inputs[7] . '</td>';
+				$header .= '<td>' . $cp_inputs[7] . '</td>';
 			}
 
 			if ( AllowEdit()
