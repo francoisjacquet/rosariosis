@@ -163,7 +163,8 @@ if ( $_REQUEST['modfunc'] === 'enroll_next_syear'
 	RedirectURL( 'modfunc' );
 }
 
-if ( $can_enroll_next_syear )
+if ( $can_enroll_next_syear
+	&& ! is_null( $next_school ) )
 {
 	// @since 10.2 Add "Enroll student for next school year"
 	$enroll_next_syear_link = PreparePHP_SELF( [], [], [ 'modfunc' => 'enroll_next_syear' ] );

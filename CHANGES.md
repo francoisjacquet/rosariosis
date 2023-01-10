@@ -26,6 +26,7 @@ Changes in 10.7
 - SQL remove Period Length<=(Minutes in a Full School Day / 2) for Teacher's Schedule table in Schedule.inc.php
 - SQL include Secondary Teacher Course Periods in Schedule.inc.php
 - HTML move Schedule list inside PopTable & rework table cell in Schedule.inc.php
+- Fix do not display "Enroll student for next school year" link if new enrollment record in Enrollment.inc.php
 
 Changes in 10.6.3
 -----------------
