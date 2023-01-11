@@ -31,6 +31,7 @@ Changes in 10.7
 - Fix HTML5 notice Trailing slash on void elements has no effect, but keep `<br />` for `$_ROSARIO['SearchTerms']`, program wide
 - Fix regression since 9.0 show Student Photo in Transcripts.fnc.php
 - Check Assignment is in current MP in StudentAssignments.php & StudentAssignments.fnc.php
+- Corrections for French translation in rosariosis.po
 
 Changes in 10.6.3
 -----------------

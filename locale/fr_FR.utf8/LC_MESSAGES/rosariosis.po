@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-22 17:48+0200\n"
-"PO-Revision-Date: 2022-09-22 17:48+0200\n"
+"PO-Revision-Date: 2023-01-04 21:25+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -273,7 +273,7 @@ msgstr ""
 
 #: PasswordReset.php:273 PasswordReset.php:278
 msgid "Forgot your password?"
-msgstr "Mot de passe oublié?"
+msgstr "Mot de passe oublié ?"
 
 #: PasswordReset.php:282 ProgramFunctions/StudentsUsersInfo.fnc.php:48
 #: modules/Custom/CreateParents.php:316 modules/Custom/CreateParents.php:406
@@ -5103,11 +5103,11 @@ msgstr "Devoirs"
 
 #: modules/Grades/Configuration.php:114
 msgid "Up"
-msgstr "En haut"
+msgstr "Supérieur"
 
 #: modules/Grades/Configuration.php:115
 msgid "Down"
-msgstr "Plus bas"
+msgstr "Inférieur"
 
 #: modules/Grades/Configuration.php:116
 msgid "Normal"
@@ -6300,7 +6300,7 @@ msgstr "Priorité"
 
 #: modules/Scheduling/PrintSchedules.php:52 modules/Scheduling/Schedule.php:290
 msgid "Term"
-msgstr "Trimestre"
+msgstr "Période"
 
 #: modules/Scheduling/PrintSchedules.php:353
 #: modules/Scheduling/PrintSchedules.php:441
@@ -7106,8 +7106,8 @@ msgid ""
 "You <i>must</i> roll courses at the same time or before rolling report card "
 "comments."
 msgstr ""
-"Vous <i>devez</i> reporter les matières en même temps ou avant de reporter "
-"les codes commentaires de bulletin de notes."
+"Vous <i>devez</i> reporter les cours en même temps ou avant de reporter les "
+"commentaires du bulletin."
 
 #: modules/School_Setup/Rollover.php:43
 msgid "Food Service Staff Accounts"
@@ -7133,21 +7133,21 @@ msgstr ""
 #, php-format
 msgid "Are you sure you want to roll the data for %s to the next school year?"
 msgstr ""
-"Étés-vous sur de vouloir reporter les données de %s à l'année scolaire "
-"suivante?"
+"Étés-vous sûr de vouloir reporter les données de %s à l'année scolaire "
+"suivante ?"
 
 #: modules/School_Setup/Rollover.php:231
 msgid ""
 "You <i>must</i> roll users, school periods, marking periods, calendars, and "
 "report card codes at the same time or before rolling courses."
 msgstr ""
-"Vous <i>devez</i> reporter les utilisateurs, tranches horaires, calendriers "
-"et codes des bulletins de notes en même temps ou avant de reporter les "
-"matières."
+"Vous <i>devez</i> reporter les utilisateurs, tranches horaires, périodes "
+"scolaires, calendriers et échelles de notes en même temps ou avant de "
+"reporter les cours."
 
 #: modules/School_Setup/Rollover.php:241
 msgid "The data have been rolled."
-msgstr "Les données ont été recréées."
+msgstr "Les données ont été reportées."
 
 #: modules/School_Setup/Rollover.php:247
 #, php-format
