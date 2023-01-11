@@ -77,6 +77,9 @@
 		padding-left: 36px;
 		text-indent: -36px;
 	}
+	.header2 .fixed-col {
+		word-break: break-all;
+	}
 	#search input,
 	#search select,
 	#LO_search {
@@ -199,14 +202,15 @@
 	.rt thead tr {
 		display: block
 	}
-	.rt th {
+	.rt th,
+	.list.rt th {
 		display: block;
-		line-height: 2.135em;
-		height: 2.135em
+		line-height: 2.137em;
+		height: 2.137em
 	}
 	.rt th,
 	.rt th a {
-		line-height: 2.135em;
+		line-height: 2.137em;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 	}
@@ -234,7 +238,7 @@
 	.rt input,
 	.rt select,
 	.rt textarea {
-		max-width: 150px
+		max-width: 190px
 	}
 	.list.rt td,
 	.list.rt th {

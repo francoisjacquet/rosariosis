@@ -866,13 +866,18 @@ h3 span {
 }
 
 .header2 {
-	padding: 4px 8px
+	padding: 4px 8px;
+	word-break: break-all;
+}
+
+.header2 .fixed-col,
+.header2 .tooltip {
+	word-break: normal;
 }
 
 .header2 table {
 	line-height: 1;
 	margin-left: -3px;
-	word-break: break-all;
 }
 
 .header2 .widefat {
@@ -1234,6 +1239,12 @@ input[type=file] {
 	height: 25px;
 }
 
+/* Reduce File input size when inside list */
+
+.list.widefat input[type=file] {
+	width: 220px;
+}
+
 /*bars*/
 
 .bar {
@@ -1268,6 +1279,14 @@ div.st > .list-outer {
 	padding: 10px;
 	margin-bottom: 15px;
 	border-bottom: 1px solid
+}
+
+#student-comments div > :first-child {
+	margin-top: 0;
+}
+
+#student-comments div > :last-child {
+	margin-bottom: 0;
 }
 
 /*calendar*/

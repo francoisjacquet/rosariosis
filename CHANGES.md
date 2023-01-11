@@ -32,6 +32,10 @@ Changes in 10.7
 - Fix regression since 9.0 show Student Photo in Transcripts.fnc.php
 - Check Assignment is in current MP in StudentAssignments.php & StudentAssignments.fnc.php
 - Corrections for French translation in rosariosis.po
+- CSS FlatSIS .list & .postbox headers adjustments for Chrome in stylesheet.css
+- CSS reduce File input size when inside list in stylesheet.css
+- CSS responsive increase max input size when inside list in zresponsive.css
+- CSS fix Student Comments margin & padding in stylesheet.css
 
 Changes in 10.6.3
 -----------------

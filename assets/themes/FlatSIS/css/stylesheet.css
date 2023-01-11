@@ -449,8 +449,10 @@ select,
 }
 
 .list.widefat th {
-	padding: 1px 11px;
-	line-height: 2.226em;
+	padding: 4px 11px 1px;
+	/*line-height: 2.226em;*/
+	line-height: 1.8em;
+	height: 28px;
 }
 
 /* @since 7.0 CSS Add .widefat.files class */
@@ -557,8 +559,8 @@ input[type=button] {
 	text-decoration: none;
 	font-size: 15px;
 	text-transform: uppercase;
-	line-height: 14px;
-	padding: 6px 10px;
+	line-height: 16px;
+	padding: 6px 10px 4px;
 	margin: 0 8px;
 	cursor: pointer;
 	border-width: 1px;
@@ -823,7 +825,7 @@ label {
 }
 
 .postbox th h3 {
-	line-height: 31px;
+	line-height: 32px;
 	height: 32px;
 	margin: 0;
 	border: 0
@@ -856,7 +858,8 @@ label {
 }
 
 .postbox .h3multi {
-	overflow-y: hidden
+	overflow-y: hidden;
+	margin-bottom: -2px;
 }
 
 th a {
@@ -938,6 +941,11 @@ h3 span {
 .header2 {
 	padding: 5px 12px;
 	word-break: break-all;
+}
+
+.header2 .fixed-col,
+.header2 .tooltip {
+	word-break: normal;
 }
 
 .header2 table {
@@ -1335,6 +1343,12 @@ input[type=file] {
 	height: 25px;
 }
 
+/* Reduce File input size when inside list */
+
+.list.widefat input[type=file] {
+	width: 220px;
+}
+
 /*bars*/
 
 .bar {
@@ -1367,9 +1381,17 @@ div.st > .list-outer {
 }
 
 #student-comments div {
-	padding: 1px 12px;
+	padding: 12px;
 	margin-bottom: 12px;
 	border-bottom: 1px solid;
+}
+
+#student-comments div > :first-child {
+	margin-top: 0;
+}
+
+#student-comments div > :last-child {
+	margin-bottom: 0;
 }
 
 /*calendar*/

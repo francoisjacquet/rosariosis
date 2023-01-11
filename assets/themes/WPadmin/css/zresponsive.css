@@ -75,6 +75,9 @@
 		padding-left: 42px;
 		text-indent: -42px;
 	}
+	.header2 .fixed-col {
+		word-break: break-all;
+	}
 	#search input,
 	#search select,
 	#LO_search {
@@ -226,7 +229,7 @@
 	.rt input,
 	.rt select,
 	.rt textarea {
-		max-width: 150px
+		max-width: 190px
 	}
 	.rt .link2colorBox {
 		display: block
