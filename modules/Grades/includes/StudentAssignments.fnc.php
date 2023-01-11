@@ -389,6 +389,7 @@ function StudentAssignmentDrawHeaders( $assignment )
  *
  * @since 2.9
  * @since 4.4 Adapt function for Teachers (no Student).
+ * @since 10.7 Check Assignment is in current MP
  *
  * @param  string        $assignment_id Assignment ID.
  * @return boolean|array Assignment details array or false.
@@ -443,7 +444,8 @@ function GetAssignment( $assignment_id )
 		FROM gradebook_assignments ga,courses c,gradebook_assignment_types gat
 		" . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . (int) $assignment_id . "'
-		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
+		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
+		AND ga.MARKING_PERIOD_ID='" . UserMP() . "'"; // Why not?
 
 	$assignment_RET = DBGet( $assignment_sql, [], [ 'ASSIGNMENT_ID' ] );
 

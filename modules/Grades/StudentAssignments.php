@@ -28,8 +28,14 @@ if ( ! empty( $_REQUEST['assignment_id'] )
 
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
-if ( isset( $_REQUEST['assignment_id'] )
-	&& $_REQUEST['assignment_id'] )
+if ( ! empty( $_REQUEST['assignment_id'] )
+	&& ! GetAssignment( $_REQUEST['assignment_id'] ) )
+{
+	// @since 10.7 Check Assignment is in current MP.
+	RedirectURL( 'assignment_id' );
+}
+
+if ( ! empty( $_REQUEST['assignment_id'] ) )
 {
 	if ( isset( $_POST['submit_assignment'] ) )
 	{
@@ -41,6 +47,8 @@ if ( isset( $_REQUEST['assignment_id'] )
 
 			echo ErrorMessage( $note, 'note' );
 		}
+
+		RedirectURL( 'message' );
 
 		echo ErrorMessage( $error );
 	}
