@@ -367,9 +367,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-			$extra['SELECT'] = 's.STUDENT_ID';
+			$extra['SELECT'] = 's.STUDENT_ID,' . DisplayNameSQL( 's' ) . ' AS FULL_NAME';
 
-			Widgets( 'mailing_labels' );
+			Widgets( 'mailing_labels', $extra );
 
 			$extra['SELECT_ONLY'] = $extra['SELECT'];
 
@@ -808,6 +808,14 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					$count_lines++;
 				}
 
+				if ( isset( $_REQUEST['mailing_labels'] )
+					&& $_REQUEST['mailing_labels'] === 'Y' )
+				{
+					DrawHeader( ProperDate( DBDate() ) );
+
+					$count_lines++;
+				}
+
 				// @since 4.5 Add Report Cards PDF header action hook.
 				do_action( 'Grades/includes/ReportCards.fnc.php|pdf_header', $student_id );
 
@@ -825,10 +833,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				if ( isset( $_REQUEST['mailing_labels'] )
 					&& $_REQUEST['mailing_labels'] === 'Y' )
 				{
-					DrawHeader( ProperDate( DBDate() ) );
-
-					$count_lines++;
-
 					for ( $i = $count_lines; $i <= 6; $i++ )
 					{
 						echo '<BR />';
