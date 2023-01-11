@@ -108,7 +108,7 @@ else
 	$div = false;
 }
 
-echo '<hr />';
+echo '<hr>';
 
 echo '<table class="enrollment width-100p valign-top fixed-col"><tr class="st"><td>';
 

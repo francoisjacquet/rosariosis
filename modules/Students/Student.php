@@ -807,7 +807,7 @@ if (  ( UserStudentID()
 					require 'modules/' . $include . '.inc.php';
 				}
 
-				$separator = '<hr />';
+				$separator = '<hr>';
 
 				require_once 'modules/Students/includes/Other_Info.inc.php';
 			}

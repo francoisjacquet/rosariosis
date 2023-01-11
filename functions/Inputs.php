@@ -108,7 +108,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
 
 	$input = '<input ' . $type . ' id="' . $id . '" name="' . AttrEscape( $name ) .
-		'" value="' . AttrEscape( $value ) . '" ' . $extra . ' />' .
+		'" value="' . AttrEscape( $value ) . '" ' . $extra . '>' .
 		FormatInputTitle( $title, $id, $required );
 
 	if ( is_null( $value )
@@ -305,7 +305,7 @@ function setMLvalue(id, loc, value){
 </script>
 <?php 	$return = ob_get_clean();
 
-		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . AttrEscape( $name ) . '" value="' . AttrEscape( $value ) . '" autocomplete="off" />';
+		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . AttrEscape( $name ) . '" value="' . AttrEscape( $value ) . '" autocomplete="off">';
 
 		if ( mb_strpos( $extra, 'size=' ) === false
 			&& $value != '' )
@@ -320,7 +320,7 @@ function setMLvalue(id, loc, value){
 				ucfirst( locale_get_display_language( $loc, $locale ) ) :
 				str_replace( '.utf8', '', $loc );
 
-			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" alt="' . AttrEscape( $language ) . '" title="' . AttrEscape( $language ) . '" /> ';
+			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" alt="' . AttrEscape( $language ) . '" title="' . AttrEscape( $language ) . '"> ';
 
 			//$return .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$extra." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 
@@ -335,7 +335,7 @@ function setMLvalue(id, loc, value){
 				false
 			);
 
-			$return .= '</label><br />';
+			$return .= '</label><br>';
 		}
 
 		$return .= '</div>';
@@ -346,7 +346,7 @@ function setMLvalue(id, loc, value){
 	{
 		$return = ParseMLField( $value );
 
-		$title_break = '<br />';
+		$title_break = '<br>';
 	}
 
 	return $return . FormatInputTitle( $title, '', false, $title_break );
@@ -641,7 +641,7 @@ function MarkDownInputPreview( $input_id )
 			'); return false;' ); ?>" class="tab"><?php echo _( 'Preview' ); ?></a>
 
 		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>" target="_blank" class="md-link">
-			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>" />
+			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>">
 		</a>
 		<div class="markdown-to-html" id="<?php echo GetInputID( 'divMDPreview' . $input_id ); ?>"></div>
 	</div>
@@ -688,9 +688,9 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 	{
 		$id = GetInputID( $name );
 
-		$checkbox = '<input type="hidden" name="' . AttrEscape( $name ) . '" value="" />' . // Save unchecked value!
+		$checkbox = '<input type="hidden" name="' . AttrEscape( $name ) . '" value="">' . // Save unchecked value!
 			'<label class="checkbox-label">
-			<input type="checkbox" name="' . AttrEscape( $name ) . '" id="' . $id . '" value="Y"' . $checked . ' ' . $extra . ' />&nbsp;' .
+			<input type="checkbox" name="' . AttrEscape( $name ) . '" id="' . $id . '" value="Y"' . $checked . ' ' . $extra . '>&nbsp;' .
 			$title . '</label>';
 
 		if ( $new
@@ -764,7 +764,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 	foreach ( (array) $options as $option_value => $option )
 	{
-		if ( $i++ % 3 == 0 )
+		if ( $i++ % 3 == 0 && $i > 1 )
 		{
 			$multiple_html .= '</tr><tr class="st">';
 		}
@@ -778,7 +778,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		$multiple_html .= '<td><label>
 			<input type="checkbox" name="' . AttrEscape( $name ) . '"
 				value="' . AttrEscape( $option_value ) . '" ' . $extra . ' ' .
-				( $option != '' && mb_strpos( (string) $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
+				( $option != '' && mb_strpos( (string) $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . '>&nbsp;' .
 			( $option != '' ? $option : '-' ) .
 		'</label></td>';
 	}
@@ -1345,7 +1345,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 		if ( $allow_na !== false )
 		{
 			$table .= '<td><label><input type="radio" name="' . AttrEscape( $name ) . '" value=""' .
-				( $value == '' ? ' checked' : '' ) . ' ' . $extra . ' /> ' .
+				( $value == '' ? ' checked' : '' ) . ' ' . $extra . '> ' .
 				( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</label></td>';
 
 			$i++;
@@ -1353,7 +1353,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 
 		foreach ( (array) $options as $key => $val )
 		{
-			if ( $i++ % 3 == 0 )
+			if ( $i++ % 3 == 0 && $i > 1 )
 			{
 				$table .= '</tr><tr class="st">';
 			}
@@ -1370,7 +1370,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 			}
 
 			$table .= '<td><label><input type="radio" name="' . AttrEscape( $name ) . '" value="' .
-				AttrEscape( $key ) . '"' . $checked . ' ' . $extra . ' /> ' .
+				AttrEscape( $key ) . '"' . $checked . ' ' . $extra . '> ' .
 				( is_array( $val ) ? $val[0] : $val ) . '</label></td>';
 		}
 
@@ -1447,7 +1447,7 @@ function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
 	}
 
 	$input = '<input type="color" name="' . AttrEscape( $name ) . '" id="' . $id . '" value="' .
-		AttrEscape( $value ) . '"' . $extra . ' />';
+		AttrEscape( $value ) . '"' . $extra . '>';
 
 	$input .= FormatInputTitle( $title, $id, $required );
 
@@ -1514,7 +1514,7 @@ function ColorInputMiniColors( $value, $name, $title = '', $type = 'hidden', $ex
 		ob_start();
 		?>
 		<!-- MiniColors -->
-		<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
+		<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css">
 		<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
 		<script>$(document).ready(function(){
 			$('.minicolors').each(function(){
@@ -1532,7 +1532,7 @@ function ColorInputMiniColors( $value, $name, $title = '', $type = 'hidden', $ex
 	ob_start();
 	?>
 	<input type="<?php echo AttrEscape( $type ); ?>" name="<?php echo AttrEscape( $name ); ?>" id="<?php echo $id; ?>"
-		class="minicolors" value="<?php echo AttrEscape( $value ); ?>" <?php echo $extra; ?> />
+		class="minicolors" value="<?php echo AttrEscape( $value ); ?>" <?php echo $extra; ?>>
 	<?php
 
 	$color = ob_get_clean() . FormatInputTitle( $title, $id, $required );
@@ -1588,8 +1588,8 @@ function CaptchaInput( $name, $title, $extra = '' )
 
 	ob_start(); ?>
 	<div class="captcha">
-		<span id="<?php echo $id_base; ?>-n1"></span> + <span id="<?php echo $id_base; ?>-n2"></span> = <input id="<?php echo $id_base; ?>-input" name="<?php echo AttrEscape( $name ); ?>[input]" type="number" required />
-		<input id="<?php echo $id_base; ?>-answer" name="<?php echo AttrEscape( $name ); ?>[answer]" type="hidden" <?php echo $extra; ?> />
+		<span id="<?php echo $id_base; ?>-n1"></span> + <span id="<?php echo $id_base; ?>-n2"></span> = <input id="<?php echo $id_base; ?>-input" name="<?php echo AttrEscape( $name ); ?>[input]" type="number" required>
+		<input id="<?php echo $id_base; ?>-answer" name="<?php echo AttrEscape( $name ); ?>[answer]" type="hidden" <?php echo $extra; ?>>
 		<?php echo FormatInputTitle( $title, $id_base . '-input', $required ); ?>
 	</div>
 	<script>captcha(<?php echo json_encode( $id_base ); ?>);</script>
@@ -1678,7 +1678,7 @@ function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 	}
 
 	return '<input type="file" id="' . $id . '" name="' . AttrEscape( $name ) . '" ' . $extra .
-		' onchange="fileInputSizeValidate(this,' . (float) $max_file_size . ');" /><span class="loading"></span>' .
+		' onchange="fileInputSizeValidate(this,' . (float) $max_file_size . ');"><span class="loading"></span>' .
 		$ftitle;
 }
 
@@ -1735,7 +1735,7 @@ function CheckBoxOnclick( $name, $title = '' )
 
 	$input = '<input type="checkbox" name="' . AttrEscape( $name ) . '" value="Y"' .
 		( isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? ' checked' : '' ) .
-		' onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $onclick_URL ) . ');' ) . '" />';
+		' onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $onclick_URL ) . ');' ) . '">';
 
 	if ( $title != '' )
 	{
@@ -1788,11 +1788,11 @@ function GetInputID( $name )
  * @param  string  $title    Input Title
  * @param  string  $id       Input id attribute (optional). Defaults to ''
  * @param  boolean $required Required Input & AllowEdit() ? CSS class is .legend-red
- * @param  string  $break    Break before title (optional). Defaults to '<br />'
+ * @param  string  $break    Break before title (optional). Defaults to '<br>'
  *
  * @return string  Formatted Input Title
  */
-function FormatInputTitle( $title, $id = '', $required = false, $break = '<br />' )
+function FormatInputTitle( $title, $id = '', $required = false, $break = '<br>' )
 {
 	if ( $title === '' )
 	{
@@ -1915,7 +1915,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 			onclick="' . AttrEscape( 'checkAll(this.form,this.checked,' .
 				json_encode( $controller_name ) .
 				');' ) . '"' .
-			( $checked ? ' checked' : '' ) . ' />
+			( $checked ? ' checked' : '' ) . '>
 			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label>';
 	}
 
@@ -1930,7 +1930,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 	}
 
 	return '<label><input type="checkbox" name="' . AttrEscape( $name ) . '[]" value="' . AttrEscape( $value ) . '"' .
-		( $checked ? ' checked' : '' ) . ' /><span class="a11y-hidden">' .
+		( $checked ? ' checked' : '' ) . '><span class="a11y-hidden">' .
 		_( 'Select' ) . '</span></label>';
 }
 

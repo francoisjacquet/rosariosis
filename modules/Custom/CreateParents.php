@@ -397,7 +397,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .
-		'<hr /></td></tr>';
+		'<hr></td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'Test Mode' ) . ':<br />' .
 		TextInput(

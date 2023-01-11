@@ -20,11 +20,11 @@
  */
 function Buttons( $submit_value, $reset_value = '' )
 {
-	$buttons = '<input type="submit" value="' . AttrEscape( $submit_value ) . '" class="button-primary" />';
+	$buttons = '<input type="submit" value="' . AttrEscape( $submit_value ) . '" class="button-primary">';
 
 	if ( $reset_value )
 	{
-		$buttons .= ' <input type="reset" value="' . AttrEscape( $reset_value ) . '" />';
+		$buttons .= ' <input type="reset" value="' . AttrEscape( $reset_value ) . '">';
 	}
 
 	return $buttons;
@@ -73,7 +73,7 @@ function button( $type, $text = '', $link = '', $class = '' )
 		$button_file = str_replace( '_button', '', $button_file );
 	}
 
-	$button .= '<img src="' . URLEscape( $button_file ) . '" class="button ' . $class . '" alt="' . AttrEscape( ucfirst( str_replace( '_', ' ', $type ) ) ) . '" />';
+	$button .= '<img src="' . URLEscape( $button_file ) . '" class="button ' . $class . '" alt="' . AttrEscape( ucfirst( str_replace( '_', ' ', $type ) ) ) . '">';
 
 	if ( $text )
 	{
@@ -117,7 +117,7 @@ function SubmitButton( $value = '', $name = '', $options = 'class="button-primar
 		$name_attr = $name ? ' name="' . AttrEscape( $name ) . '" ' : '';
 
 		return '<input type="submit" value="' . AttrEscape( $value ) . '" ' .
-			$name_attr . $options . ' />';
+			$name_attr . $options . '>';
 	}
 
 	return '';
@@ -141,7 +141,7 @@ function ResetButton( $value, $options = '' )
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		return '<input type="reset" value="' . AttrEscape( $value ) . '" ' . $options . ' />';
+		return '<input type="reset" value="' . AttrEscape( $value ) . '" ' . $options . '>';
 	}
 
 	return '';

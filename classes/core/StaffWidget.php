@@ -145,11 +145,11 @@ class StaffWidget_fsa_balance implements StaffWidget
 	{
 		return '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
 		<label class="sizep2">
-			<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
+			<input type="radio" name="fsa_bal_ge" value="" checked> &lt;</label>&nbsp;
 		<label  class="sizep2">
-			<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
+			<input type="radio" name="fsa_bal_ge" value="Y"> &ge;</label>
 		<input name="fsa_balance" id="fsa_balance" type="number" step="0.01"' .
-			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' min="-999999999999999" max="999999999999999" />
+			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' min="-999999999999999" max="999999999999999">
 		</td></tr>';
 	}
 }
@@ -267,7 +267,7 @@ class StaffWidget_fsa_barcode implements StaffWidget
 	{
 		return '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
 		'</label></td><td>
-		<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50" />
+		<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50">
 		</td></tr>';
 	}
 }
@@ -305,11 +305,11 @@ class StaffWidget_fsa_exists implements StaffWidget
 	function html( $value = '' )
 	{
 		return '<tr class="st"><td>' . _( 'Has Account' ) . '</td><td>
-		<label><input type="radio" name="fsa_exists" value=""' . ( empty( $value ) ? ' checked' : '' ) . ' /> ' .
+		<label><input type="radio" name="fsa_exists" value=""' . ( empty( $value ) ? ' checked' : '' ) . '> ' .
 			_( 'All') . '</label> &nbsp;
-		<label><input type="radio" name="fsa_exists" value="Y"' . ( $value == 'Y' ? ' checked' : '' ).' /> '.
+		<label><input type="radio" name="fsa_exists" value="Y"' . ( $value == 'Y' ? ' checked' : '' ).'> '.
 			_( 'Yes' ) . '</label> &nbsp;
-		<label><input type="radio" name="fsa_exists" value="N"' . ( $value == 'N' ? ' checked' : '' ) . ' /> '.
+		<label><input type="radio" name="fsa_exists" value="N"' . ( $value == 'N' ? ' checked' : '' ) . '> '.
 			_( 'No' ) . '</label>
 		</td></tr>';
 	}
@@ -388,8 +388,8 @@ class StaffWidget_staff_balance implements StaffWidget
 	{
 		return '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td><label>' .
 		_( 'Between' ) .
-		' <input type="number" name="balance_low" step="0.01" min="-999999999999999" max="999999999999999" /></label> <label>&amp;
-		<input type="number" name="balance_high" step="0.01" min="-999999999999999" max="999999999999999" /></label>
+		' <input type="number" name="balance_low" step="0.01" min="-999999999999999" max="999999999999999"></label> <label>&amp;
+		<input type="number" name="balance_high" step="0.01" min="-999999999999999" max="999999999999999"></label>
 		</td></tr>';
 	}
 }

@@ -179,7 +179,7 @@ if ( $meal_description )
 	echo '<table class="width-100p">';
 	echo '<tr><td class="center">';
 	echo '<b>Today\'s ' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ':</b> ' . $meal_description;
-	echo '</td></tr></table><hr />';
+	echo '</td></tr></table><hr>';
 }
 
 $items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM food_service_items fsi,food_service_menu_items fsmi WHERE fsmi.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER IS NULL,fsmi.SORT_ORDER', [ 'COUNT' => 'makeTextInput' ] );

@@ -199,7 +199,7 @@ echo '</td></tr></table>';
 
 if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 {
-	echo '<hr /><table class="width-100p valign-top fixed-col">';
+	echo '<hr><table class="width-100p valign-top fixed-col">';
 
 	echo '<tr class="st"><td>';
 
@@ -371,20 +371,21 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			$id = 'schools';
 
 			$title = FormatInputTitle( _( 'Schools' ), $id );
+			$title_nobr = FormatInputTitle( _( 'Schools' ), $id, false, '' );
 
 			if ( $_REQUEST['staff_id'] !== 'new'
 				&& AllowEdit() )
 			{
 				echo InputDivOnclick(
 					$id,
-					$schools_html . str_replace( '<br />', '', $title ),
+					$schools_html . $title_nobr,
 					$school_titles ? implode( ', ', $school_titles ) : _( 'All Schools' ),
 					$title
 				);
 			}
 			elseif ( AllowEdit() )
 			{
-				echo $schools_html . str_replace( '<br />', '', $title );
+				echo $schools_html . $title_nobr;
 			}
 
 			// Admin Schools restriction.
@@ -415,14 +416,14 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 }
 
 $_REQUEST['category_id'] = '1';
-$separator = '<hr />';
+$separator = '<hr>';
 
 require_once 'modules/Users/includes/Other_Info.inc.php';
 
 // FJ create account.
 if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 {
-	echo '<hr />';
+	echo '<hr>';
 
 	echo '<table class="create-account width-100p valign-top fixed-col"><tr class="st"><td colspan="3">';
 

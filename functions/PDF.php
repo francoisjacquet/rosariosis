@@ -114,11 +114,11 @@ function PDFStop( $handle )
 	$_html['head'] = '<!doctype html>
 		<html lang="' . $lang_2_chars . '" ' . $dir_RTL . '>
 		<head>
-			<meta charset="UTF-8" />';
+			<meta charset="UTF-8">';
 
 	if ( $handle['css'] )
 	{
-		$_html['head'] .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ) . '/stylesheet_wkhtmltopdf.css" />';
+		$_html['head'] .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ) . '/stylesheet_wkhtmltopdf.css">';
 	}
 
 	// Include Markdown to HTML.

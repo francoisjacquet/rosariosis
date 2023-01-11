@@ -86,7 +86,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( $reminders_count % 3 !== 0 )
 			{
 				// 3 per page, insert spaces & horizontal ruler.
-				echo '<br /><br /><hr /><br /><br />';
+				echo '<br /><br /><hr><br /><br />';
 			}
 		}
 

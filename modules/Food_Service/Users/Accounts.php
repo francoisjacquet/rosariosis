@@ -192,7 +192,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	echo NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) );
 
 	echo '</td></tr></table>';
-	echo '<hr />';
+	echo '<hr>';
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 

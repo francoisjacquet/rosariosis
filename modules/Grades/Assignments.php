@@ -749,7 +749,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FileInput(
 			'assignment_file',
 			_( 'File' )
-		) . '<hr /></td>';
+		) . '<hr></td>';
 
 		$header .= '</tr><tr class="st">';
 

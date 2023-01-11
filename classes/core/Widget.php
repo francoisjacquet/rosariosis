@@ -205,16 +205,16 @@ class Widget_course implements Widget
 		$html = '<tr class="st"><td>' . _( 'Course' ) . '</td><td>' .
 		$course_period_chosen_select .
 		'<div id="course_div" class="hide">
-		<label><input type="checkbox" name="w_course_period_id_not" value="Y" /> ' .
+		<label><input type="checkbox" name="w_course_period_id_not" value="Y"> ' .
 			_( 'Not' ) . '</label>
 		<label><select name="w_course_period_id_which" autocomplete="off">
 		<option value="course_period"> ' . _( 'Course Period' ) . '</option>
 		<option value="course"> ' . _( 'Course' ) . '</option>
 		<option value="subject"> ' . _( 'Subject' ) . '</option>
 		</select></label>
-		<input type="hidden" name="w_course_period_id" value="" />
-		<input type="hidden" name="w_course_id" value="" />
-		<input type="hidden" name="w_subject_id" value="" />
+		<input type="hidden" name="w_course_period_id" value="">
+		<input type="hidden" name="w_course_id" value="">
+		<input type="hidden" name="w_subject_id" value="">
 		</div></td></tr>';
 
 		return $html . '<script>var wCourseIdUpdate = function( val ) {
@@ -376,21 +376,21 @@ class Widget_absences implements Widget
 		return '<tr class="st"><td>' .	_( 'Days Absent' ) .
 		'<br />
 		<label title="' . AttrEscape( _( 'this school year to date' ) ) . '">
-			<input type="radio" name="absences_term" value="FY" checked />&nbsp;' .
+			<input type="radio" name="absences_term" value="FY" checked>&nbsp;' .
 			_( 'YTD' ) .
 		'</label> &nbsp;
 		<label title="' . AttrEscape( _( 'this semester to date' ) ) . '">
-			<input type="radio" name="absences_term" value="SEM" />&nbsp;' .
+			<input type="radio" name="absences_term" value="SEM">&nbsp;' .
 			GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
 		'</label> &nbsp;
 		<label title="' . AttrEscape( _( 'this marking period to date' ) ) . '">
-			<input type="radio" name="absences_term" value="QTR" />&nbsp;' .
+			<input type="radio" name="absences_term" value="QTR">&nbsp;' .
 			GetMP( UserMP(), 'SHORT_NAME' ) .
 		'</label>
 		</td><td><label>' . _( 'Between' ) .
-		' <input type="text" name="absences_low" size="3" maxlength="3" /></label>' .
+		' <input type="text" name="absences_low" size="3" maxlength="3"></label>' .
 		' <label>&amp; ' .
-		'<input type="text" name="absences_high" size="3" maxlength="3" /><label>
+		'<input type="text" name="absences_high" size="3" maxlength="3"><label>
 		</td></tr>';
 	}
 }
@@ -492,21 +492,21 @@ class Widget_cp_absences implements Widget
 		'</i></div>' .
 		'<br />
 		<label title="' . AttrEscape( _( 'this school year to date' ) ) . '">
-			<input type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' .
+			<input type="radio" name="cp_absences_term" value="FY" checked>&nbsp;' .
 			_( 'YTD' ) .
 		'</label> &nbsp;
 		<label title="' . AttrEscape( _( 'this semester to date' ) ) . '">
-			<input type="radio" name="cp_absences_term" value="SEM" />&nbsp;' .
+			<input type="radio" name="cp_absences_term" value="SEM">&nbsp;' .
 			GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
 		'</label> &nbsp;
 		<label title="' . AttrEscape( _( 'this marking period to date' ) ) . '">
-			<input type="radio" name="cp_absences_term" value="QTR" />&nbsp;' .
+			<input type="radio" name="cp_absences_term" value="QTR">&nbsp;' .
 			GetMP( UserMP(), 'SHORT_NAME' ) .
 		'</label>
 		</td><td><label>' . _( 'Between' ) .
-		' <input type="text" name="cp_absences_low" size="3" maxlength="3" /></label>' .
+		' <input type="text" name="cp_absences_low" size="3" maxlength="3"></label>' .
 		' <label>&amp;' .
-		' <input type="text" name="cp_absences_high" size="3" maxlength="3" /></label>
+		' <input type="text" name="cp_absences_high" size="3" maxlength="3"></label>
 		</td></tr>';
 	}
 }
@@ -575,14 +575,14 @@ class Widget_gpa implements Widget
 	{
 		$html = '<tr class="st"><td>' . _( 'GPA' ) . '<br />
 		<label>
-			<input type="checkbox" name="gpa_weighted" value="Y" checked />&nbsp;' . _( 'Weighted' ) .
+			<input type="checkbox" name="gpa_weighted" value="Y" checked>&nbsp;' . _( 'Weighted' ) .
 		'</label>
-		<br />';
+		<br>';
 
 		if ( GetMP( $MPfy = GetParentMP( 'FY', GetParentMP( 'SEM', UserMP() ) ), 'DOES_GRADES') == 'Y' )
 		{
 			$html .= '<label title="' . AttrEscape( GetMP( $MPfy, 'TITLE' ) ) . '">
-					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPfy ) . '" checked />&nbsp;' .
+					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPfy ) . '" checked>&nbsp;' .
 					GetMP( $MPfy, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
@@ -598,15 +598,15 @@ class Widget_gpa implements Widget
 		if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
 		{
 			$html .= '<label title="' . AttrEscape( GetMP( $MPtrim, 'TITLE' ) ) . '">
-					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPtrim ) . '" checked />&nbsp;' .
+					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPtrim ) . '" checked>&nbsp;' .
 					GetMP( $MPtrim, 'SHORT_NAME' ) .
 				'</label>';
 		}
 
 		return $html . '</td><td><label>' . _( 'Between' ) .
-		' <input type="number" name="gpa_low" min="0" max="99999" step="0.01" /></label>' .
+		' <input type="number" name="gpa_low" min="0" max="99999" step="0.01"></label>' .
 		' <label>&amp;' .
-		' <input type="number" name="gpa_high" min="0" max="99999" step="0.01" /></label>
+		' <input type="number" name="gpa_high" min="0" max="99999" step="0.01"></label>
 		</td></tr>';
 	}
 }
@@ -685,7 +685,7 @@ class Widget_class_rank implements Widget
 		if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
 		{
 			$html .= '<label title="' . AttrEscape( GetMP( $MPtrim, 'TITLE' ) ) . '">
-					<input type="radio" name="class_rank_term" value="' . AttrEscape( $MPtrim ) . '" checked />&nbsp;' .
+					<input type="radio" name="class_rank_term" value="' . AttrEscape( $MPtrim ) . '" checked>&nbsp;' .
 					GetMP( $MPtrim, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
@@ -709,9 +709,9 @@ class Widget_class_rank implements Widget
 		}
 
 		return $html . '</td><td><label>' . _( 'Between' ) .
-		' <input type="number" name="class_rank_low" min="0" max="99999" step="1" /></label>' .
+		' <input type="number" name="class_rank_low" min="0" max="99999" step="1"></label>' .
 		' <label>&amp;' .
-		' <input type="number" name="class_rank_high" min="0" max="99999" step="1" /></label>
+		' <input type="number" name="class_rank_high" min="0" max="99999" step="1"></label>
 		</td></tr>';
 	}
 }
@@ -786,9 +786,9 @@ class Widget_letter_grade implements Widget
 
 		$html = '<tr class="st"><td>' . _( 'Grade' ) . '<br />
 		<label>
-			<input type="checkbox" name="letter_grade_exclude" value="Y" />&nbsp;' . _( 'Did not receive' ) .
+			<input type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;' . _( 'Did not receive' ) .
 		'</label>
-		<br />';
+		<br>';
 
 		if ( GetMP( $MPfy = GetParentMP( 'FY', GetParentMP( 'SEM', UserMP() ) ), 'DOES_GRADES' ) == 'Y' )
 		{
@@ -809,7 +809,7 @@ class Widget_letter_grade implements Widget
 		if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
 		{
 			$html .= '<label title="' . AttrEscape( GetMP( $MPtrim, 'TITLE' ) ) . '">
-					<input type="radio" name="letter_grade_term" value="' . AttrEscape( $MPtrim ) . '" checked />&nbsp;' .
+					<input type="radio" name="letter_grade_term" value="' . AttrEscape( $MPtrim ) . '" checked>&nbsp;' .
 					GetMP( $MPtrim, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
@@ -826,7 +826,7 @@ class Widget_letter_grade implements Widget
 				}
 
 				$html .= '<label title="' . AttrEscape( GetMP( $pro, 'TITLE' ) ) . '">
-						<input type="radio" name="letter_grade_term" value="' . AttrEscape( $pro ) . '" />&nbsp;' .
+						<input type="radio" name="letter_grade_term" value="' . AttrEscape( $pro ) . '">&nbsp;' .
 						GetMP( $pro, 'SHORT_NAME' ) .
 					'</label> &nbsp; ';
 			}
@@ -945,7 +945,7 @@ class Widget_eligibility implements Widget
 		return '<tr class="st"><td>
 		</td><td>
 		<label>
-			<input type="checkbox" name="ineligible" value="Y" />&nbsp;' . _( 'Ineligible' ) .
+			<input type="checkbox" name="ineligible" value="Y">&nbsp;' . _( 'Ineligible' ) .
 		'</label>
 		</td></tr>';
 	}
@@ -1054,7 +1054,7 @@ class Widget_mailing_labels implements Widget
 		return '<tr class="st"><td>' .
 			'<label for="mailing_labels">' . _( 'Mailing Labels' ) . '</label>' .
 			'</td><td>' .
-			'<input type="checkbox" id="mailing_labels" name="mailing_labels" value="Y" />' .
+			'<input type="checkbox" id="mailing_labels" name="mailing_labels" value="Y">' .
 			'</td>';
 	}
 }
@@ -1111,9 +1111,9 @@ class Widget_balance implements Widget
 	function html()
 	{
 		return '<tr class="st"><td>' . _( 'Balance' ) . '</td><td><label>' . _( 'Between' ) .
-		' <input type="number" name="balance_low" step="0.01" min="-999999999999999" max="999999999999999" /></label>' .
+		' <input type="number" name="balance_low" step="0.01" min="-999999999999999" max="999999999999999"></label>' .
 		' <label>&amp;' .
-		' <input type="number" name="balance_high" step="0.01" min="-999999999999999" max="999999999999999" /></label>
+		' <input type="number" name="balance_high" step="0.01" min="-999999999999999" max="999999999999999"></label>
 		</td></tr>';
 	}
 }
@@ -1521,14 +1521,14 @@ class Widget_discipline_fields implements Widget
 				case 'text':
 
 					$html .= '<input type="text" name="' . AttrEscape( $input_name ) .
-						'" id="' . $input_id . '" size="24" maxlength="255" />';
+						'" id="' . $input_id . '" size="24" maxlength="255">';
 
 				break;
 
 				case 'checkbox':
 
 					$html .= '<input type="checkbox" name="' . AttrEscape( $input_name ) .
-						'" id="' . $input_id . '" value="Y" />';
+						'" id="' . $input_id . '" value="Y">';
 
 				break;
 
@@ -1536,10 +1536,10 @@ class Widget_discipline_fields implements Widget
 
 					$html .= '<label>' . _( 'Between' ) .
 						' <input type="number" name="discipline_begin[' . $category['ID'] .
-							']" min="-999999999999999999" max="999999999999999999" /></label>' .
+							']" min="-999999999999999999" max="999999999999999999"></label>' .
 						' <label>&amp;' .
 						' <input type="number" name="discipline_end[' . $category['ID'] .
-							']" min="-999999999999999999" max="999999999999999999" /></label>';
+							']" min="-999999999999999999" max="999999999999999999"></label>';
 
 				break;
 
@@ -1718,7 +1718,7 @@ class Widget_calendar implements Widget
 
 		$html = '<tr class="st"><td><label for="calendar_input">' . _( 'Calendar' ) . '</label></td><td>
 		<label>
-			<input type="checkbox" name="calendar_not" value="Y" /> ' . _( 'Not' ) .
+			<input type="checkbox" name="calendar_not" value="Y"> ' . _( 'Not' ) .
 		'</label>
 		<select name="calendar" id="calendar_input">
 			<option value="">' . _( 'N/A' ) . '</option>
@@ -1860,13 +1860,13 @@ class Widget_rolled implements Widget
 	{
 		return '<tr class="st"><td>' . _( 'Previously Enrolled' ) . '</td><td>
 		<label>
-			<input type="radio" value="" name="rolled" checked />&nbsp;' . _( 'N/A' ) .
+			<input type="radio" value="" name="rolled" checked>&nbsp;' . _( 'N/A' ) .
 		'</label> &nbsp;
 		<label>
-			<input type="radio" value="Y" name="rolled" />&nbsp;' . _( 'Yes' ) .
+			<input type="radio" value="Y" name="rolled">&nbsp;' . _( 'Yes' ) .
 		'</label> &nbsp;
 		<label>
-			<input type="radio" value="N" name="rolled" />&nbsp;' . _( 'No' ) .
+			<input type="radio" value="N" name="rolled">&nbsp;' . _( 'No' ) .
 		'</label>
 		</td></tr>';
 	}
@@ -1915,11 +1915,11 @@ class Widget_fsa_balance implements Widget
 	{
 		return '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
 		<label class="sizep2">
-			<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
+			<input type="radio" name="fsa_bal_ge" value="" checked> &lt;</label>&nbsp;
 		<label  class="sizep2">
-			<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
+			<input type="radio" name="fsa_bal_ge" value="Y"> &ge;</label>
 		<input name="fsa_balance" id="fsa_balance" type="number" step="0.01"' .
-			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' min="-999999999999999" max="999999999999999" />
+			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' min="-999999999999999" max="999999999999999">
 		</td></tr>';
 	}
 }
@@ -2083,7 +2083,7 @@ class Widget_fsa_barcode implements Widget
 	{
 		return '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
 		'</label></td><td>
-		<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50" />
+		<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50">
 		</td></tr>';
 	}
 }
@@ -2126,7 +2126,7 @@ class Widget_fsa_account_id implements Widget
 	function html()
 	{
 		return '<tr class="st"><td><label for="fsa_account_id">' . _( 'Account ID' ) . '</label></td><td>
-		<input type="text" name="fsa_account_id" id="fsa_account_id" size="5" maxlength="9" />
+		<input type="text" name="fsa_account_id" id="fsa_account_id" size="5" maxlength="9">
 		</td></tr>';
 	}
 }
@@ -2222,11 +2222,11 @@ class Widget_medical_date implements Widget
 
 		return '<tr class="st"><td>
 		<label>
-			<input type="radio" name="medical_type" value="Immunization" checked />&nbsp;' .
+			<input type="radio" name="medical_type" value="Immunization" checked>&nbsp;' .
 			_( 'Immunization' ) .
 		'</label> &nbsp;
 		<label>
-			<input type="radio" name="medical_type" value="Physical" />&nbsp;' .
+			<input type="radio" name="medical_type" value="Physical">&nbsp;' .
 			_( 'Physical' ) .
 		'</label></td><td>
 		<table class="cellspacing-0"><tr><td>

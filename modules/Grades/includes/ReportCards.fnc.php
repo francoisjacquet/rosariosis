@@ -189,7 +189,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE", [], [ 'PARENT_ID' ] );
 
 		// Marking Periods.
-		$return .= '<tr class="st"><td colspan="2"><hr /><table class="cellpadding-5">';
+		$return .= '<tr class="st"><td colspan="2"><hr><table class="cellpadding-5">';
 
 		foreach ( (array) $mps_RET as $sem => $quarters )
 		{
@@ -247,7 +247,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</table>' .
 			FormatInputTitle( _( 'Marking Periods' ), '', false, '' ) .
-			'<hr /></td></tr>';
+			'<hr></td></tr>';
 
 		if ( $mailing_labels )
 		{

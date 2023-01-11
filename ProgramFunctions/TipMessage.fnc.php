@@ -13,7 +13,7 @@
 /**
  * Make Tip Message
  *
- * @example makeTipMessage( '<img src="' . URLEscape( $picture_path ) . '" width="150" />', $title, $title );
+ * @example makeTipMessage( '<img src="' . URLEscape( $picture_path ) . '" width="150">', $title, $title );
  *
  * @todo Use CSS class + ID to trigger plugin and remove inline JS (data attributes) + onMouseOver + onMouseOut + onclick
  *
@@ -79,7 +79,7 @@ function MakeStudentPhotoTipMessage( $student_id, $title )
 
 	if ( $picture_path )
 	{
-		return MakeTipMessage( '<img src="' . URLEscape( $picture_path ) . '" width="150" />', $title, $title );
+		return MakeTipMessage( '<img src="' . URLEscape( $picture_path ) . '" width="150">', $title, $title );
 	}
 
 	return $title;
@@ -129,7 +129,7 @@ function MakeUserPhotoTipMessage( $staff_id, $title, $staff_rollover_id = 0 )
 
 	if ( $picture_path )
 	{
-		return MakeTipMessage( '<img src="' . URLEscape( $picture_path ) . '" width="150" />', $title, $title );
+		return MakeTipMessage( '<img src="' . URLEscape( $picture_path ) . '" width="150">', $title, $title );
 	}
 
 	return $title;

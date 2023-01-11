@@ -1465,11 +1465,15 @@ class Parsedown
 	{
 		if ($this->breaksEnabled)
 		{
-			$text = preg_replace('/[ ]*\n/', "<br />\n", $text);
+			// FJ remove trailing slash for self closing tags: same as Security->clean_xss()
+			//$text = preg_replace('/[ ]*\n/', "<br />\n", $text);
+			$text = preg_replace('/[ ]*\n/', "<br>\n", $text);
 		}
 		else
 		{
-			$text = preg_replace('/(?:[ ][ ]+|[ ]*\\\\)\n/', "<br />\n", $text);
+			// FJ remove trailing slash for self closing tags: same as Security->clean_xss()
+			//$text = preg_replace('/(?:[ ][ ]+|[ ]*\\\\)\n/', "<br />\n", $text);
+			$text = preg_replace('/(?:[ ][ ]+|[ ]*\\\\)\n/', "<br>\n", $text);
 			$text = str_replace(" \n", "\n", $text);
 		}
 
@@ -1543,7 +1547,9 @@ class Parsedown
 		}
 		else
 		{
-			$markup .= ' />';
+			// FJ remove trailing slash for self closing tags: same as Security->clean_xss()
+			//$markup .= ' />';
+			$markup .= '>';
 		}
 
 		return $markup;

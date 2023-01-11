@@ -370,7 +370,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 		);
 
 		$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) .
-			'" onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $delete_url ) . ');' ) . '" /> ';
+			'" onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $delete_url ) . ');' ) . '"> ';
 	}
 
 	ob_start();
@@ -511,7 +511,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 				issetVal( $RET['SELECT_OPTIONS'], '' ),
 				'tables[' . $id . '][SELECT_OPTIONS]',
 				_( 'Options' ) .
-				'<div class="tooltip"><i>' . _( 'One per line' ) . '<br />' .
+				'<div class="tooltip"><i>' . _( 'One per line' ) . '<br>' .
 				_( 'Pull-Down' ) . ' / ' . _( 'Auto Pull-Down' ) . ' / ' . _( 'Export Pull-Down' ) . ' / ' .
 				_( 'Select Multiple from Options' ) . '</i></div>',
 				'rows=5 cols=40',
@@ -527,7 +527,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			issetVal( $RET['DEFAULT_SELECTION'], '' ),
 			'tables[' . $id . '][DEFAULT_SELECTION]',
 			_( 'Default' ) .
-			'<div class="tooltip"><i>' . _( 'For dates: YYYY-MM-DD' ).'<br />' .
+			'<div class="tooltip"><i>' . _( 'For dates: YYYY-MM-DD' ).'<br>' .
 			_( 'for checkboxes: Y' ) . '</i></div>'
 		) . '</td>';
 

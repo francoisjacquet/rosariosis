@@ -339,7 +339,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $fields_RET ) )
 	{
-		echo '<tr><td colspan="3"><hr /></td></tr>';
+		echo '<tr><td colspan="3"><hr></td></tr>';
 	}
 
 	$custom_RET = DBGet( "SELECT *

@@ -261,11 +261,11 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 
 		$fields = [];
 
-		$fields[] = '<input type="hidden" name="locale" value="' . AttrEscape( $locale ) . '" />';
+		$fields[] = '<input type="hidden" name="locale" value="' . AttrEscape( $locale ) . '">';
 
-		$fields[] = '<input type="hidden" name="version" value="' . AttrEscape( ROSARIO_VERSION ) . '" />';
+		$fields[] = '<input type="hidden" name="version" value="' . AttrEscape( ROSARIO_VERSION ) . '">';
 
-		$fields[] = '<input type="hidden" name="database" value="' . AttrEscape( $DatabaseType ) . '" />';
+		$fields[] = '<input type="hidden" name="database" value="' . AttrEscape( $DatabaseType ) . '">';
 
 		if ( $DatabaseType === 'postgresql' )
 		{
@@ -286,12 +286,12 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 				(int) ( ( $database_version - ( $main_version * 10000 ) ) / 100 );
 		}
 
-		$fields[] = '<input type="hidden" name="database_version" value="' . AttrEscape( $database_version ) . '" />';
+		$fields[] = '<input type="hidden" name="database_version" value="' . AttrEscape( $database_version ) . '">';
 
 		// i.e. 8.1.3, get 8.1 back.
 		$php_version = (float) PHP_VERSION;
 
-		$fields[] = '<input type="hidden" name="php_version" value="' . AttrEscape( $php_version ) . '" />';
+		$fields[] = '<input type="hidden" name="php_version" value="' . AttrEscape( $php_version ) . '">';
 
 		$_ROSARIO['allow_edit'] = true;
 

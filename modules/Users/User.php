@@ -753,7 +753,7 @@ if (  ( UserStaffID()
 					require 'modules/' . $include . '.inc.php';
 				}
 
-				$separator = '<hr />';
+				$separator = '<hr>';
 
 				require_once 'modules/Users/includes/Other_Info.inc.php';
 			}

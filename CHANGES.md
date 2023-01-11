@@ -28,6 +28,7 @@ Changes in 10.7
 - HTML move Schedule list inside PopTable & rework table cell in Schedule.inc.php
 - Fix do not display "Enroll student for next school year" link if new enrollment record in Enrollment.inc.php
 - Add Class Average row in ReportCards.fnc.php & Grades.fnc.php
+- Fix HTML5 notice Trailing slash on void elements has no effect, but keep `<br />` for `$_ROSARIO['SearchTerms']`, program wide
 
 Changes in 10.6.3
 -----------------

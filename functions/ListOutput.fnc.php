@@ -361,7 +361,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'&amp;LO_save=' . $options['save'] .
 			'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
 			Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
-			AttrEscape( _( 'Export list' ) ) . '" alt="' . AttrEscape( _( 'Export list' ) ) . '" /></a>';
+			AttrEscape( _( 'Export list' ) ) . '" alt="' . AttrEscape( _( 'Export list' ) ) . '"></a>';
 		}
 
 		echo '</td>';
@@ -385,10 +385,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
 			AttrEscape( DBUnescapeString( $LO_search ) ) .
 			'" placeholder="' . AttrEscape( _( 'Search' ) ) .
-			'" onkeypress="' . AttrEscape( $onkeypress_js ) . '" autocomplete="off" />
+			'" onkeypress="' . AttrEscape( $onkeypress_js ) . '" autocomplete="off">
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
 				onclick="' . AttrEscape( $onclick_js ) . '"
-				class="button" alt="" title="' . AttrEscape( _( 'Search' ) ) . '" />
+				class="button" alt="" title="' . AttrEscape( _( 'Search' ) ) . '">
 				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
 
 			echo '</td>';
@@ -912,8 +912,8 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				html_entity_decode(  // Decode HTML entities.
 					strip_tags(  // Remove HTML tags.
 						str_ireplace(
-							[ '&nbsp;', '<br />' ], // Convert &nbsp; to space, <br /> to [br].
-							[ ' ', '[br]' ],
+							[ '&nbsp;', '<br />', '<br>' ], // Convert &nbsp; to space, <br> to [br].
+							[ ' ', '[br]', '[br]' ],
 							$value
 						)
 					),
@@ -1097,7 +1097,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				}
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
-				$value = str_replace( '[br]', '<br />', AttrEscape( $value ) );
+				$value = str_replace( '[br]', '<br>', AttrEscape( $value ) );
 
 				$output .= "\t\t" . '<' . $column . '>' . $value .
 					'</' . $column . '>' . "\n";

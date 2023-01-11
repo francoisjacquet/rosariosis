@@ -212,7 +212,7 @@ class Widgets
 	{
 		$this->html[] = '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
 			<b>' . $title . '</b></a>
-			<br />
+			<br>
 			<table class="widefat width-100p col1-align-right hide">';
 	}
 

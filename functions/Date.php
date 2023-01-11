@@ -401,7 +401,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 	// CALENDAR  ---------------.
 	if ( $options['C'] )
 	{
-		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . AttrEscape( _( 'Open calendar' ) ) . '" class="button cal" alt="' . AttrEscape( _( 'Open calendar' ) ) . '" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
+		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . AttrEscape( _( 'Open calendar' ) ) . '" class="button cal" alt="' . AttrEscape( _( 'Open calendar' ) ) . '" id="trigger' . $_ROSARIO['PrepareDate'] . '">';
 	}
 
 	// NOBR on date input.

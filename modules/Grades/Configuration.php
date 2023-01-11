@@ -143,7 +143,7 @@ echo '<tr><td>' . RadioInput(
 	false
 ) . '</td></tr>';
 
-echo '<tr><td><hr />' . CheckboxInput(
+echo '<tr><td><hr>' . CheckboxInput(
 	( array_key_exists( 'WEIGHT', $gradebook_config ) ? $gradebook_config['WEIGHT'] : '' ),
 	'values[WEIGHT]',
 	_( 'Weight Grades' ),

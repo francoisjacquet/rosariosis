@@ -58,7 +58,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 			} ?>
 
 			<a href="<?php echo URLEscape( $_SESSION['List_PHP_SELF'] ); ?>&amp;bottom_back=true" title="<?php echo AttrEscape( $back_text ); ?>" class="BottomButton">
-				<img src="<?php echo $btn_path; ?>back.png" alt="" />
+				<img src="<?php echo $btn_path; ?>back.png" alt="">
 				<span><?php echo $back_text; ?></span>
 			</a>
 
@@ -70,15 +70,15 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 		do_action( 'Bottom.php|bottom_buttons' ); ?>
 
 		<a href="Bottom.php?bottomfunc=print" target="_blank" title="<?php echo AttrEscape( _( 'Print' ) ); ?>" class="BottomButton">
-			<img src="<?php echo $btn_path; ?>print.png" alt="" />
+			<img src="<?php echo $btn_path; ?>print.png" alt="">
 			<span><?php echo _( 'Print' ); ?></span>
 		</a>
 		<a href="#" onclick="toggleHelp();return false;" title="<?php echo AttrEscape( _( 'Help' ) ); ?>" class="BottomButton">
-			<img src="<?php echo $btn_path; ?>help.png" alt="" />
+			<img src="<?php echo $btn_path; ?>help.png" alt="">
 			<span><?php echo _( 'Help' ); ?></span>
 		</a>
 		<a href="<?php echo URLEscape( 'index.php?modfunc=logout&token=' . $_SESSION['token'] ); ?>" target="_top" title="<?php echo AttrEscape( _( 'Logout' ) ); ?>" class="BottomButton">
-			<img src="<?php echo $btn_path; ?>logout.png" alt="" />
+			<img src="<?php echo $btn_path; ?>logout.png" alt="">
 			<span><?php echo _( 'Logout' ); ?></span>
 		</a>
 		<span class="loading BottomButton"></span>

@@ -316,7 +316,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 	<?php // User Information. ?>
 
 	<a href="Modules.php?modname=misc/Portal.php" class="center">
-		<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
+		<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" alt="Logo">
 	</a>
 	<form action="Side.php?sidefunc=update" method="POST" target="menu-top">
 		<span class="username br-after"><?php echo User( 'NAME' ); ?></span>
@@ -324,7 +324,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			// Localized today's date.
 			echo '<span class="today-date size-1">' . strftime_compat( '%A ' . Preferences( 'DATE' ) ) . '</span>';
 		?>
-		<br />
+		<br>
 		<?php // School SELECT (Admins & Teachers only).
 		if ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) :

@@ -529,7 +529,7 @@ if ( ! $_REQUEST['modfunc'] )
 		) . '</td>';
 	}
 
-	$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
+	$header .= '</tr><tr><td colspan="3"><hr></td></tr>';
 
 	$required = $allow_na = $div = true;
 

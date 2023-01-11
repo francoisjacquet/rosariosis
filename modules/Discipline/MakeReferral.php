@@ -263,7 +263,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			echo '<tr><td><hr />' . ReferralInput( $category ) . '</td></tr>';
+			echo '<tr><td><hr>' . ReferralInput( $category ) . '</td></tr>';
 		}
 
 		echo '</table>';

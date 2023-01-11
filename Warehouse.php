@@ -593,14 +593,14 @@ function Warehouse( $mode )
 <!doctype html>
 <html lang="<?php echo $lang_2_chars; ?>"<?php echo $dir_RTL; ?>>
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
 	<title><?php echo ParseMLField( Config( 'TITLE' ) ); ?></title>
-	<link rel="icon" href="favicon.ico" sizes="32x32" />
-	<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="mobile-web-app-capable" content="yes" />
-	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>" />
+	<link rel="icon" href="favicon.ico" sizes="32x32">
+	<link rel="icon" href="apple-touch-icon.png" sizes="128x128">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>">
 	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
 	<?php
 
@@ -625,7 +625,7 @@ function Warehouse( $mode )
 			do_action( 'Warehouse.php|header_head' );
 		?>
 	<noscript>
-		<meta http-equiv="REFRESH" content="0;url=<?php echo URLEscape( 'index.php?modfunc=logout&amp;reason=javascript&amp;token=' . $_SESSION['token'] ); ?>" />
+		<meta http-equiv="REFRESH" content="0; url=<?php echo URLEscape( 'index.php?modfunc=logout&amp;reason=javascript&amp;token=' . $_SESSION['token'] ); ?>">
 	</noscript>
 </head>
 <body class="<?php echo AttrEscape( $_ROSARIO['page'] ); ?>">
@@ -669,7 +669,7 @@ function Warehouse( $mode )
 		// Footer HTML.
 		case 'footer':
 			?>
-<br />
+<br>
 <?php
 
 			if ( isset( $_ROSARIO['page'] )

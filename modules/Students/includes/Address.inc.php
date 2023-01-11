@@ -1527,7 +1527,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<td></td><td></td>';*/
 	echo '</tr>';
 	echo '</table>';
-	$separator = '<hr />';
+	$separator = '<hr>';
 
 	require_once 'modules/Students/includes/Other_Info.inc.php';
 }

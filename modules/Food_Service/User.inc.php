@@ -61,7 +61,7 @@ if ( ! $_REQUEST['modfunc']
 
 	echo '</tr></table>';
 	echo '</td></tr></table>';
-	echo '<hr />';
+	echo '<hr>';
 
 	echo '<table class="width-100p fixed-col">';
 	echo '<tr><td class="valign-top">';

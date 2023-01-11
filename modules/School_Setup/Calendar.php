@@ -130,7 +130,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		true
 	) . '</td></tr>';
 
-	$message .= '<tr><td colspan="2"><hr /></td></tr>';
+	$message .= '<tr><td colspan="2"><hr></td></tr>';
 
 	// From date.
 	$message .= '<tr class="st"><td>' . DateInput(

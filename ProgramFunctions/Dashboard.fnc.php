@@ -87,7 +87,7 @@ function DashboardOutput( $rows = 4 )
 		return;
 	}
 
-	echo '<br />';
+	echo '<br>';
 
 	PopTable( 'header', _( 'Dashboard' ), 'width="100%"' );
 

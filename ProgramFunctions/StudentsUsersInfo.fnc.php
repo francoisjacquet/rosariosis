@@ -571,7 +571,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 		$name,
 		( AllowEdit() ? $request . $column : '' ),
 		$required,
-		( AllowEdit() || ! $files ? '<br />' : '' )
+		( AllowEdit() || ! $files ? '<br>' : '' )
 	);
 }
 
@@ -642,7 +642,7 @@ function _makeMultipleInput( $column, $name, $request )
 			<input type="checkbox" name="' . AttrEscape( $request . '[' . $column . '][]' ) . '" value="' .
 				AttrEscape( $option ) . '"' .
 				( ! empty( $value[ $column ] )
-					&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
+					&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . '> ' .
 				$option .
 		'</label></td>';
 
@@ -652,7 +652,7 @@ function _makeMultipleInput( $column, $name, $request )
 	$table .= '</tr><tr><td colspan="2">';
 
 	// FJ fix bug none selected not saved.
-	$table .= '<input type="hidden" name="' . AttrEscape( $request . '[' . $column . '][none]' ) . '" value="" />';
+	$table .= '<input type="hidden" name="' . AttrEscape( $request . '[' . $column . '][none]' ) . '" value="">';
 
 	$table .= '<table class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><tr><td></td></tr></table>';
 
@@ -1070,7 +1070,7 @@ function _makeSchoolInput( $value, $column )
 	}
 
 	// FJ save new Student's Enrollment in Enrollment.inc.php.
-	return '<input type="hidden" name="values[student_enrollment][new][SCHOOL_ID]" value="' . AttrEscape( UserSchool() ) . '" />' .
+	return '<input type="hidden" name="values[student_enrollment][new][SCHOOL_ID]" value="' . AttrEscape( UserSchool() ) . '">' .
 		$schools[ UserSchool() ][1]['TITLE'];
 }
 

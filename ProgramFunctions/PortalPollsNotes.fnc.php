@@ -253,7 +253,7 @@ function PortalPollForm( $poll_id, $poll_questions_RET )
 				$poll_form .= '<tr><td>
 					<label>
 					<input type="radio" name="' . AttrEscape( $name ) . '" value="' .
-					AttrEscape( $option_nb ) . '" ' . ( $checked ? 'checked' : '' ) . ' />&nbsp;' .
+					AttrEscape( $option_nb ) . '" ' . ( $checked ? 'checked' : '' ) . '>&nbsp;' .
 					$option_label .
 					'</label>
 					</td></tr>' . "\n";
@@ -265,7 +265,7 @@ function PortalPollForm( $poll_id, $poll_questions_RET )
 				$poll_form .= '<tr><td>
 					<label>
 					<input type="checkbox" name="' . AttrEscape( $name ) . '" value="' .
-					AttrEscape( $option_nb ) . '" />&nbsp;' . $option_label .
+					AttrEscape( $option_nb ) . '">&nbsp;' . $option_label .
 					'</label>
 					</td></tr>' . "\n";
 			}
@@ -379,7 +379,7 @@ function makePublishing( $value, $name )
 	$return = '<div id="divPublishing' . $id . '" class="rt2colorBox">' . "\n";
 
 	//FJ remove LO_field
-	$return .= '<table class="widefat"><tr><td><b>' . _( 'Visible Between' ) . ':</b><br />';
+	$return .= '<table class="widefat"><tr><td><b>' . _( 'Visible Between' ) . ':</b><br>';
 	$return .= DateInput( $value, 'values[' . $id . '][' . $name . ']' ) . ' ' . _( 'to' ) . ' ';
 	$return .= DateInput( issetVal( $THIS_RET['END_DATE'] ), 'values[' . $id . '][END_DATE]' ) . '</td></tr>';
 
@@ -534,9 +534,9 @@ function makeFileAttached( $value, $name )
 		$filesAttachedCount++;
 
 		//FJ colorbox
-		$view_online = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' . _( 'View Online' ) . '';
+		$view_online = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger"> ' . _( 'View Online' ) . '';
 
-		$download = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/download.png" class="button bigger" /> ' . _( 'Download' ) . '';
+		$download = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/download.png" class="button bigger"> ' . _( 'Download' ) . '';
 
 		if ( filter_var( $value, FILTER_VALIDATE_URL ) !== false ) //embed link
 		{
@@ -552,7 +552,7 @@ function makeFileAttached( $value, $name )
 
 	$return .= FileInput( $name . '_FILE', _( 'File Attached' ) );
 
-	$return .= '<br />' . TextInput(
+	$return .= '<br>' . TextInput(
 		'',
 		'values[' . $id . '][' . $name . '_EMBED]',
 		_( 'Embed Link' ),

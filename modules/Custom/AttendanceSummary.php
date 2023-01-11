@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		) . '</td></tr>';
 
 		// HTML remove "Demographics" header to gain space on PDF (if has header or footer).
-		// echo '<tr><td colspan="3"><hr /><h3>' . _( 'Demographics' ) . '</h3></td></tr><tr>';
+		// echo '<tr><td colspan="3"><hr><h3>' . _( 'Demographics' ) . '</h3></td></tr><tr>';
 		echo '<tr>';
 
 		foreach ( (array) $custom_RET as $id => $custom )
@@ -130,7 +130,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			_( 'Grade Level' )
 		) . '</td></tr>';
 
-		echo '<tr><td colspan="3"><hr /><h3>' . _( 'Attendance' ) . '</h3>
+		echo '<tr><td colspan="3"><hr><h3>' . _( 'Attendance' ) . '</h3>
 		<table class="width-100p cellspacing-0 center">';
 
 		echo '<tr class="center"><td><b>' . _( 'Month' ) . '</b></td>';

@@ -161,7 +161,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	echo NoInput( red( $student['BALANCE'] ), _( 'Balance' ) );
 
 	echo '</td></tr></table>';
-	echo '<hr />';
+	echo '<hr>';
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 

@@ -96,7 +96,7 @@ function SanitizeMarkDown( $md )
 	{
 		if ( ROSARIO_DEBUG )
 		{
-			echo 'Sanitized HTML:<br />';
+			echo 'Sanitized HTML:<br>';
 			var_dump( $sanitized_html );
 		}
 
@@ -232,7 +232,7 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 		if ( ROSARIO_DEBUG
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			echo 'Sanitized HTML:<br />';
+			echo 'Sanitized HTML:<br>';
 			var_dump( $sanitized_html_quotes );
 		}
 
@@ -337,7 +337,7 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 		}
 		else
 		{
-			echo 'Sanitized HTML:<br />';
+			echo 'Sanitized HTML:<br>';
 			var_dump( $sanitized_html_quotes );
 		}
 	}

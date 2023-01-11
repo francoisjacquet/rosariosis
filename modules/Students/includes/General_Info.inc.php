@@ -168,7 +168,7 @@ echo PasswordInput(
 echo '</td></tr></table>';
 
 $_REQUEST['category_id'] = '1';
-$separator = '<hr />';
+$separator = '<hr>';
 
 include 'modules/Students/includes/Other_Info.inc.php';
 
@@ -186,7 +186,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 else
 {
 	// Create account.
-	echo '<hr />';
+	echo '<hr>';
 
 	echo '<table class="create-account width-100p valign-top fixed-col"><tr class="st"><td>';
 

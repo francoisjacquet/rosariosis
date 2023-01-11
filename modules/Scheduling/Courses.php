@@ -951,7 +951,7 @@ if (  ( ! $_REQUEST['modfunc']
 				) . '</td>';
 			}
 
-			$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
+			$header .= '</tr><tr><td colspan="3"><hr></td></tr>';
 
 			$header .= '<tr class="st"><td>' . TextInput(
 				issetVal( $RET['ROOM'], '' ),
@@ -1016,7 +1016,7 @@ if (  ( ! $_REQUEST['modfunc']
 				' type="number" step="1" min="0" max="9999"'
 			) . '</td>';
 
-			$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
+			$header .= '</tr><tr><td colspan="3"><hr></td></tr>';
 
 			$days = [ 'M', 'T', 'W', 'H', 'F', 'S', 'U' ];
 
@@ -1113,7 +1113,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$days_html .= '</tr></table>';
 
-				$days_title = FormatInputTitle( _( 'Meeting Days' ), '', empty( $school_period['DAYS'] ) );
+				$days_title_nobr = FormatInputTitle( _( 'Meeting Days' ), '', empty( $school_period['DAYS'] ), '' );
 
 				if ( $new == false )
 				{
@@ -1122,14 +1122,14 @@ if (  ( ! $_REQUEST['modfunc']
 
 					$header .= InputDivOnclick(
 						'days' . $i,
-						$days_html . str_replace( '<br />', '', $days_title ),
+						$days_html . $days_title_nobr,
 						implode( ' ', $day_titles ),
-						$days_title
+						FormatInputTitle( _( 'Meeting Days' ), '', empty( $school_period['DAYS'] ) )
 					);
 				}
 				else
 				{
-					$header .= $days_html . str_replace( '<br />', '', $days_title );
+					$header .= $days_html . $days_title_nobr;
 				}
 
 				if ( $not_really_new )
@@ -1200,7 +1200,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$new
 			);
 
-			$header .= '<tr><td colspan="3"><hr /></td></tr>';
+			$header .= '<tr><td colspan="3"><hr></td></tr>';
 
 			// Takes Attendance.
 			$header .= '<tr class="st"><td>' . $cp_inputs[1] . '</td>';
@@ -1212,7 +1212,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$header .= '<td>' . $cp_inputs[0] . '</td>';
 			}
 
-			$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
+			$header .= '</tr><tr><td colspan="3"><hr></td></tr>';
 
 			// Grading Scale.
 			$header .= '<tr class="st"><td>' . $cp_inputs[2] . '</td>';
@@ -1248,7 +1248,7 @@ if (  ( ! $_REQUEST['modfunc']
 				|| $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 			{
 				// Hide hr separator from non editing users if no Gender Restriction and no Parent CP.
-				$header .= '<tr><td colspan="3"><hr /></td></tr><tr class="st">';
+				$header .= '<tr><td colspan="3"><hr></td></tr><tr class="st">';
 			}
 
 			if ( AllowEdit()

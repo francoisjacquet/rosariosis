@@ -112,7 +112,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 			$return .= '</table></div>';
 		}
 
-		$return .= '<hr /></td></tr>';
+		$return .= '<hr></td></tr>';
 
 		// History grades & previous school years in Transripts.
 		if ( User( 'PROFILE' ) === 'admin' )
@@ -156,7 +156,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 					false
 				);
 
-				$return .= '<hr /></td></tr>';
+				$return .= '<hr></td></tr>';
 			}
 		}
 

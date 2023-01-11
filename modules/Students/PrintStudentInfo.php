@@ -250,7 +250,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 								require 'modules/' . $category[1]['INCLUDE'] . '.inc.php';
 							}
 
-							$separator = '<hr />';
+							$separator = '<hr>';
 							require 'modules/Students/includes/Other_Info.inc.php';
 						}
 

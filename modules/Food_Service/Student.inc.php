@@ -50,7 +50,7 @@ if ( ! $_REQUEST['modfunc']
 	echo NoInput(  ( $student['BALANCE'] < 0 ? '<span style="color:red">' : '' ) . $student['BALANCE'] . ( $student['BALANCE'] < 0 ? '</span>' : '' ), _( 'Balance' ) );
 
 	echo '</td></tr></table>';
-	echo '<hr />';
+	echo '<hr>';
 
 	echo '<table class="width-100 valign-top fixed-col"><tr><td>';
 

@@ -771,7 +771,7 @@ function makeContactInfo( $student_id, $column )
 			}
 		}
 
-		$tipmsg .= '</table><br />';
+		$tipmsg .= '</table><br>';
 	}
 
 	if ( ! $tipmsg )
