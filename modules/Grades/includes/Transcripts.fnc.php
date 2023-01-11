@@ -519,7 +519,7 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		{
 			// Student Photo.
 			// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
-			$picture_path = (array) glob( $StudentPicturesPath . '*/' . UserStudentID() . '.*jpg' );
+			$picture_path = (array) glob( $StudentPicturesPath . '*/' . $student['ID'] . '.*jpg' );
 
 			$picture_path = end( $picture_path );
 
