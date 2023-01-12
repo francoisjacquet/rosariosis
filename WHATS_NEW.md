@@ -2,6 +2,22 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.7
+-----------
+
+Use [Select2](https://select2.org/) instead of Chosen for enhanced select inputs
+
+Grades
+- Report Cards: add "Class average" option (Last row)
+- Report Cards: add "Student Photo" option, sponsored by Paris'Com Sup
+
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/)
+- Print Invoices/Receipts: add "Two per page" checkbox
+
+[Library Premium](https://www.rosariosis.org/modules/library/)
+- Library: limit document Category Visibility to selected User Profiles and Grade Levels, sponsored by @Hirama666
+
+
 New in 10.6
 -----------
 
