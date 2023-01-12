@@ -17,6 +17,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @since 5.0 Add Min. and Max. Grades.
 	 * @since 7.1 Add Credits (only for Report Cards).
 	 * @since 10.7 Add Class Average row.
+	 * @since 10.7 Add Student Photo
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -41,6 +42,15 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		// Open table.
 		$return = '<table class="width-100p"><tr><td colspan="2"><b>' . $include_on_title .
 			'</b></td></tr><tr><td colspan="2"><table class="cellpadding-5"><tr class="st">';
+
+		if ( $_REQUEST['modname'] !== 'Grades/FinalGrades.php' )
+		{
+			// Student Photo.
+			$return .= '<td colspan="2"><label><input type="checkbox" name="elements[studentpic]" value="Y"> ' .
+				_( 'Student Photo' ) . '</label></td>';
+
+			$return .= '</tr><tr class="st">';
+		}
 
 		// Teacher.
 		$return .= '<td><label><input type="checkbox" name="elements[teacher]" value="Y" checked /> ' .
@@ -284,6 +294,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 7.5 Report Cards PDF footer action hook
 	 * @since 8.0 Add Class Rank row.
 	 * @since 10.7 Add Class Average row.
+	 * @since 10.7 Add Student Photo
 	 *
 	 * @param  array         $student_array Students IDs
 	 * @param  array         $mp_array      Marking Periods IDs
@@ -292,7 +303,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	function ReportCardsGenerate( $student_array, $mp_array )
 	{
 		global $_ROSARIO,
-			$count_lines;
+			$count_lines,
+			$StudentPicturesPath;
 
 		require_once 'modules/Grades/includes/Grades.fnc.php';
 
@@ -725,19 +737,21 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					echo '<BR /><BR /><BR />';
 				}
 
+				echo '<table class="width-100p"><tr>';
+
 				// FJ add school logo.
 				$logo_pic = 'assets/school_logo_' . UserSchool() . '.jpg';
 
-				$picwidth = 120;
-
 				if ( file_exists( $logo_pic ) )
 				{
-					echo '<table class="width-100p"><tr>
-					<td style="width:' . $picwidth . 'px;">
+					$picwidth = 120;
+
+					echo '<td style="width:' . $picwidth . 'px;">
 						<img src="' . URLEscape( $logo_pic ) . '" width="' . AttrEscape( $picwidth ) . '" />
-					</td>
-					<td>';
+					</td>';
 				}
+
+				echo '<td>';
 
 				// Headers.
 				DrawHeader( _( 'Report Card' ) );
@@ -819,14 +833,28 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				// @since 4.5 Add Report Cards PDF header action hook.
 				do_action( 'Grades/includes/ReportCards.fnc.php|pdf_header', $student_id );
 
-				// FJ add school logo.
+				echo '</td>';
 
-				if ( file_exists( $logo_pic ) )
+				if ( isset( $_REQUEST['elements']['studentpic'] )
+					&& $_REQUEST['elements']['studentpic'] === 'Y' )
 				{
-					echo '</td></tr></table>';
+					// @since 10.7 Add Student Photo.
+					// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+					$picture_path = (array) glob( $StudentPicturesPath . '*/' . $student_id . '.*jpg' );
 
-					$count_lines++;
+					$picture_path = end( $picture_path );
+
+					if ( $picture_path )
+					{
+						$picwidth = 120;
+
+						echo '<td style="width:' . $picwidth . 'px;">
+							<img src="' . URLEscape( $picture_path ) . '" width="' . AttrEscape( $picwidth ) . '" />
+						</td>';
+					}
 				}
+
+				echo '</tr></table>';
 
 				// Mailing Labels.
 

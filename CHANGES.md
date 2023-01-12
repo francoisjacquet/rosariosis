@@ -37,6 +37,7 @@ Changes in 10.7
 - CSS responsive increase max input size when inside list in zresponsive.css
 - CSS fix Student Comments margin & padding in stylesheet.css
 - Fix regression display Mailing Labels in ReportCards.fnc.php
+- Add Student Photo in ReportCards.fnc.php
 
 Changes in 10.6.3
 -----------------
