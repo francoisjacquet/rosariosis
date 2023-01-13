@@ -263,9 +263,8 @@ function GetStuList( &$extra = [] )
 					AND sja.STUDENT_ID=ssm.STUDENT_ID
 					AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
 
-				$extra2['ORDER_BY'] = issetVal( $extra2['ORDER_BY'], '' );
-
-				$extra2['ORDER_BY'] .= 'sjp.CUSTODY';
+				$extra2['ORDER_BY'] = empty( $extra2['ORDER_BY'] ) ? 'sjp.CUSTODY' :
+					$extra2['ORDER_BY'] . ',sjp.CUSTODY';
 
 				$extra2['group'] = [ 'STUDENT_ID', 'PERSON_ID' ];
 

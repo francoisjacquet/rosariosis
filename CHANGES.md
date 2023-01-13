@@ -38,6 +38,7 @@ Changes in 10.7
 - CSS fix Student Comments margin & padding in stylesheet.css
 - Fix regression display Mailing Labels in ReportCards.fnc.php
 - Add Student Photo in ReportCards.fnc.php
+- Fix SQL error ORDER BY for Expanded View + Contact Information in GetStuList.fnc.php
 
 Changes in 10.6.3
 -----------------
