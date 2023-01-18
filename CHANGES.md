@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.7.1
+-----------------
+- Fix SQL limit School Periods to Course Period in AddAbsences.php
+
 Changes in 10.7
 ---------------
 - CSS add Select2 styles in stylesheet.css & colors.css

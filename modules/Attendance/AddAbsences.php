@@ -60,6 +60,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND ac.CALENDAR_ID=cp.CALENDAR_ID
 					AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 					AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+					AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND s.STUDENT_ID='" . (int) $student_id . "'
 					AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 					AND position(',0,' IN cp.DOES_ATTENDANCE)>0
@@ -92,6 +93,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND ac.CALENDAR_ID=cp.CALENDAR_ID
 						AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 						AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+						AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 						AND s.STUDENT_ID='" . (int) $student_id . "'
 						AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 						AND position(',0,' IN cp.DOES_ATTENDANCE)>0
