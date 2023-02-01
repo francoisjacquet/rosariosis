@@ -217,7 +217,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = "SELECT * FROM food_service_categories
+		$sql = "SELECT CATEGORY_ID,TITLE,SORT_ORDER
+		FROM food_service_categories
 		WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER IS NULL,SORT_ORDER";
@@ -256,7 +257,10 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = 'SELECT * FROM food_service_menus WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER IS NULL,SORT_ORDER';
+		$sql = "SELECT MENU_ID,TITLE,SORT_ORDER
+		FROM food_service_menus
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'TITLE' => '_makeTextInput',
@@ -298,7 +302,6 @@ if ( ! $_REQUEST['modfunc'] )
 		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, [], $extra );
 	}
 	else
-//FJ add translation
 	{
 		ListOutput( $LO_ret, $LO_columns, 'Meal', 'Meals', $link, [], $extra );
 	}

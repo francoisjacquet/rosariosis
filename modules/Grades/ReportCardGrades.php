@@ -184,7 +184,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = "SELECT * FROM report_card_grades
+		$sql = "SELECT ID,TITLE,SORT_ORDER,GPA_VALUE,BREAK_OFF,COMMENT,GRADE_SCALE_ID,UNWEIGHTED_GP
+			FROM report_card_grades
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -237,7 +238,9 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$sql = "SELECT * FROM report_card_grade_scales
+		$sql = "SELECT ID,TITLE,GP_SCALE,GP_PASSING_VALUE,COMMENT,
+			HHR_GPA_VALUE,HR_GPA_VALUE,HRS_GPA_VALUE,SORT_ORDER
+			FROM report_card_grade_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,ID";

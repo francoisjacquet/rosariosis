@@ -282,10 +282,12 @@ if ( ! $_REQUEST['modfunc'] )
 			$categories_select += [ $category['CATEGORY_ID'] => $category['TITLE'] ];
 		}
 
-		$sql = "SELECT *,(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
+		$sql = "SELECT MENU_ITEM_ID,ITEM_ID,CATEGORY_ID,DOES_COUNT,SORT_ORDER,
+		(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
 		FROM food_service_menu_items fsmi
-		WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
-		ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER IS NULL,SORT_ORDER";
+		WHERE fsmi.MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
+		ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),
+		SORT_ORDER IS NULL,SORT_ORDER";
 
 		$functions = [
 			'ITEM_ID' => 'makeSelectInput',
@@ -327,7 +329,8 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$icons_select = getFSIcons( $FS_IconsPath );
 
-		$sql = "SELECT *
+		$sql = "SELECT ITEM_ID,DESCRIPTION,SHORT_NAME,ICON,SORT_ORDER,
+		PRICE,PRICE_REDUCED,PRICE_FREE,PRICE_STAFF
 		FROM food_service_items fsmi
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER IS NULL,SORT_ORDER";

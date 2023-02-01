@@ -3,7 +3,10 @@
 
 Changes in 10.7.2
 -----------------
+Changes in 10.8
+---------------
 - Fix MySQL Periods list in MasterScheduleReport.php
+- SQL explicitly list all columns instead of `SELECT *` in MenuItems.php, Menus.php, EditHistoryMarkingPeriods.php, EditReportcardGrades.php, ReportCardCommentCodes.php, ReportCardComments.php & ReportCardGrades.php
 
 Changes in 10.7.1
 -----------------

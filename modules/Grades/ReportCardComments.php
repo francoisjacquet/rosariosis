@@ -289,7 +289,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] == 'new' )
 	{
-		$sql = "SELECT *
+		$sql = "SELECT ID,TITLE,SORT_ORDER,COLOR
 			FROM report_card_comment_categories
 			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
@@ -329,7 +329,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['tab_id'] == '-1' )
 	{
-		$sql = "SELECT *
+		$sql = "SELECT ID,TITLE,SORT_ORDER
 		FROM report_card_comments
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -389,7 +389,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['tab_id'] == '0' )
 		{
 			// need to be more specific since course_id=0 is not unique
-			$sql = "SELECT *
+			$sql = "SELECT ID,TITLE,SCALE_ID,SORT_ORDER,CATEGORY_ID
 			FROM report_card_comments
 			WHERE COURSE_ID='0'
 			AND SYEAR='" . UserSyear() . "'
@@ -398,7 +398,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 		else
 		{
-			$sql = "SELECT *
+			$sql = "SELECT ID,TITLE,SCALE_ID,SORT_ORDER,CATEGORY_ID
 			FROM report_card_comments
 			WHERE CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";

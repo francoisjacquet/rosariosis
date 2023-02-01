@@ -464,7 +464,9 @@ if ( UserStudentID() )
 			// FJ SQL error fix: operator does not exist: character varying = integer, add explicit type casts.
 			// $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
 
-			$student_grades_RET = DBGet( "SELECT *
+			$student_grades_RET = DBGet( "SELECT ID,COURSE_TITLE,COURSE_PERIOD_ID,
+				CREDIT_ATTEMPTED,CREDIT_EARNED,CREDIT_CATEGORY,CLASS_RANK,
+				GRADE_PERCENT,GRADE_LETTER,WEIGHTED_GP,UNWEIGHTED_GP,GP_SCALE,COMMENT
 				FROM student_report_card_grades
 				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND MARKING_PERIOD_ID='" . (int) $mp_id . "'

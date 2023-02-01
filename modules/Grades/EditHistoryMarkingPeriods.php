@@ -124,7 +124,8 @@ if ( ! $_REQUEST['modfunc'] )
 	$link['remove']['variables'] = [ 'id' => 'MARKING_PERIOD_ID' ];
 	$link['add']['html']['remove'] = button( 'add' );
 
-	$LO_ret = DBGet( "SELECT * FROM history_marking_periods
+	$LO_ret = DBGet( "SELECT MP_TYPE,NAME,SHORT_NAME,POST_END_DATE,SYEAR,MARKING_PERIOD_ID
+		FROM history_marking_periods
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY POST_END_DATE", $functions );
 
