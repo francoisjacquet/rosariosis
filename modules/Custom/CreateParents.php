@@ -404,7 +404,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 			'',
 			'test_email',
 			_( 'Email' ),
-			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . AttrEscape( _( 'Email' ) ) . '" size="24"',
+			'maxlength=255 type="email" placeholder="' . AttrEscape( _( 'Email' ) ) . '" size="24"',
 			false
 		) . '</td></tr>';
 

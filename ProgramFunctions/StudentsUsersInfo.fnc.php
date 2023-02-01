@@ -45,7 +45,7 @@ function _makeTextInput( $column, $name, $request )
 	}
 	elseif ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $column ) )
 	{
-		$options = 'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . AttrEscape( _( 'Email' ) ) . '"';
+		$options = 'maxlength=255 type="email" placeholder="' . AttrEscape( _( 'Email' ) ) . '"';
 
 		if ( ! empty( $_REQUEST['moodle_create_student'] ) )
 		{

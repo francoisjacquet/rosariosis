@@ -135,8 +135,8 @@ echo TextInput(
 	_( 'Username' ),
 	( $required ? 'required ' : '' ) .
 	( Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
-		'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . AttrEscape( _( 'Email' ) ) . '" ' :
-		'' ) .
+		'maxlength=100 type="email" placeholder="' . AttrEscape( _( 'Email' ) ) . '" ' :
+		'maxlength=100' ) .
 	'autocomplete="off"',
 	empty( $_REQUEST['moodle_create_student'] )
 );
