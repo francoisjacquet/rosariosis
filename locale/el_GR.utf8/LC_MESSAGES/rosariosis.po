@@ -25,7 +25,7 @@ msgstr "Μενού"
 #: Bottom.php:145 modules/Attendance/Administration.php:273
 #: modules/Eligibility/Menu.php:19 modules/Eligibility/Menu.php:36
 msgid "Student List"
-msgstr "Λίστα Φοιτητών"
+msgstr "Λίστα Καταρτιζόμενων"
 
 #: Bottom.php:150
 msgid "User List"
@@ -862,7 +862,7 @@ msgstr "Καθαρισμός μαθητή"
 #: modules/Students/Menu.php:50 modules/Students/PrintStudentInfo.php:46
 #: modules/Students/PrintStudentInfo.php:48
 msgid "Student Info"
-msgstr "Πληροφορίες Φοιτητών"
+msgstr "Πληροφορίες Καταρτιζόμενων"
 
 #: Side.php:696
 msgid "Clear working user"
@@ -3537,7 +3537,7 @@ msgstr "Να"
 
 #: modules/Eligibility/Menu.php:16 modules/Eligibility/Menu.php:35
 msgid "Student Screen"
-msgstr "Οθόνη φοιτητών"
+msgstr "Οθόνη Καταρτιζόμενων"
 
 #: modules/Eligibility/Menu.php:17
 msgid "Add Activity"
@@ -4622,23 +4622,23 @@ msgstr "Κατηγορίες βάρους"
 
 #: modules/Grades/Configuration.php:56
 msgid "Assigned Date defaults to today"
-msgstr "Έσοδα για προεπιλογές Date σήμερα"
+msgstr "Η ημερομηνία εκχώρησης είναι από προεπιλογή σήμερα"
 
 #: modules/Grades/Configuration.php:57
 msgid "Due Date defaults to today"
-msgstr "Λόγω προεπιλογές Date σήμερα"
+msgstr "Η προεπιλεγμένη ημερομηνία λήξης είναι σήμερα"
 
 #: modules/Grades/Configuration.php:58
 msgid "Hide letter grades for all gradebook assignments"
-msgstr ""
+msgstr "Απόκρυψη γραμμάτων βαθμών για όλες τις εργασίες βαθμολόγησης"
 
 #: modules/Grades/Configuration.php:59
 msgid "Minimum assignment points for letter grade"
-msgstr ""
+msgstr "Ελάχιστος βαθμος εργασίας για τον βαθμό επιστολής"
 
 #: modules/Grades/Configuration.php:60
 msgid "Allowed maximum percent in Anomalous grades"
-msgstr "Επιτρέπονται κατ &#39;ανώτατο όριο τοις εκατό σε Ανώμαλη βαθμούς"
+msgstr "Επιτρεπόμενο μέγιστο ποσοστό σε ανώμαλους βαθμούς"
 
 #: modules/Grades/Configuration.php:61
 msgid ""
@@ -4648,12 +4648,12 @@ msgstr ""
 
 #: modules/Grades/Configuration.php:70
 msgid "Calculate Eligibility using Cumulative Semester Grades"
-msgstr ""
+msgstr "Υπολογίστε την επιλεξιμότητα χρησιμοποιώντας αθροιστικούς βαθμούς εξαμήνου"
 
 #: modules/Grades/Configuration.php:84 modules/Grades/Menu.php:25
 #: modules/Grades/Menu.php:57 modules/Grades/Menu.php:71
 msgid "Final Grades"
-msgstr "Τελική βαθμοί"
+msgstr "Τελικοί βαθμοί"
 
 #: modules/Grades/Configuration.php:94
 #, php-format
@@ -4666,19 +4666,19 @@ msgstr "Σημεία Breakoff Βαθμολογία"
 
 #: modules/Grades/Configuration.php:148
 msgid "Final Grading Percentages"
-msgstr "Τελική ποσοστά βαθμολόγησης"
+msgstr "Τελικά ποσοστά βαθμολόγησης"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:66
 #: modules/Grades/EditHistoryMarkingPeriods.php:119
 #, fuzzy
 msgid "History Marking Period"
 msgid_plural "History Marking Periods"
-msgstr[0] "Ιστορία Σήμανση Περίοδος"
-msgstr[1] "Ιστορία Σήμανση Περίοδος"
+msgstr[0] "Ιστορική περίοδος σήμανσης"
+msgstr[1] "Ιστορικές περιόδους σήμανσης"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:102
 msgid "Grade Post Date"
-msgstr "Βαθμός Ημερομηνία Δημοσίευση"
+msgstr "Ημερομηνία καταχώρησης βαθμού"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:192
 #: modules/Grades/Transcripts.php:451
@@ -4686,7 +4686,7 @@ msgstr "Βαθμός Ημερομηνία Δημοσίευση"
 #: modules/School_Setup/MarkingPeriods.php:613
 #: modules/School_Setup/MarkingPeriods.php:623
 msgid "Semester"
-msgstr "Διακοπές"
+msgstr "Εξάμηνο"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:192
 #: modules/Grades/Transcripts.php:451
@@ -4698,29 +4698,29 @@ msgstr "Τέταρτο"
 
 #: modules/Grades/EditReportCardGrades.php:129
 msgid "Student Grade"
-msgstr "Ο βαθμός του φοιτητή"
+msgstr "Ο βαθμός του καταρτιζόμενου"
 
 #: modules/Grades/EditReportCardGrades.php:198
 msgid "Add another marking period"
-msgstr "Προσθέστε μια άλλη σήμανση περίοδο"
+msgstr "Προσθέστε μια άλλη περίοδο σήμανσης"
 
 #: modules/Grades/EditReportCardGrades.php:211
 msgid "Marking Period Statistics"
-msgstr ""
+msgstr "Στατιστικά Περιόδου Σήμανσης"
 
 #: modules/Grades/EditReportCardGrades.php:211
 #: modules/Grades/EditReportCardGrades.php:212
 msgid "Unweighted"
-msgstr ""
+msgstr "Χωρίς επιβάρυνση"
 
 #: modules/Grades/EditReportCardGrades.php:212
 msgid "Class Rank GPA"
-msgstr ""
+msgstr "ΣΔΣ Τάξης"
 
 #: modules/Grades/EditReportCardGrades.php:234
 #: modules/School_Setup/MarkingPeriods.php:30
 msgid "New Marking Period"
-msgstr "Νέα Περίοδος Σήμανση"
+msgstr "Νέα Περίοδος Σήμανσης"
 
 #: modules/Grades/EditReportCardGrades.php:268
 msgid "Percentage"
@@ -4728,11 +4728,11 @@ msgstr "Ποσοστό"
 
 #: modules/Grades/EditReportCardGrades.php:270
 msgid "Grade Points"
-msgstr ""
+msgstr "Πόντοι βαθμού"
 
 #: modules/Grades/EditReportCardGrades.php:271
 msgid "Unweighted Grade Points"
-msgstr ""
+msgstr "Πόνυοι βαθμού χωρίς επιβάρυνση"
 
 #: modules/Grades/EditReportCardGrades.php:272
 #: modules/Grades/ReportCardGrades.php:170
@@ -4744,29 +4744,29 @@ msgstr "Βαθμολογική Κλίμακα"
 #: modules/Grades/EditReportCardGrades.php:296
 #: modules/Grades/Transcripts.php:344
 msgid "Credit Attempted"
-msgstr "Πιστωτικές Απόπειρα"
+msgstr "Απόπειρα Πίστωσης"
 
 #: modules/Grades/EditReportCardGrades.php:297
 #: modules/Grades/Transcripts.php:345
 msgid "Credit Earned"
-msgstr "Πιστωτικές Δεδουλευμένα"
+msgstr "Δουλεμένη πίστωση"
 
 #: modules/Grades/EditReportCardGrades.php:298
 msgid "Credit Category"
-msgstr "Κατηγορία Credit"
+msgstr "Κατηγορία Πιστώσεων"
 
 #: modules/Grades/EditReportCardGrades.php:299
 #: modules/Scheduling/Courses.php:922
 msgid "Affects Class Rank"
-msgstr "Επηρεάζει Κατάταξη Κατηγορία"
+msgstr "Επηρεάζει Κατάταξη Κατηγορίας"
 
 #: modules/Grades/EditReportCardGrades.php:323
 msgid "Remove Marking Period"
-msgstr "Κατάργηση Σήμανση Περίοδος"
+msgstr "Κατάργηση Σήμανση Περιόδου"
 
 #: modules/Grades/FinalGrades.php:11
 msgid "Final Grade"
-msgstr ""
+msgstr "Τελικός βαθμός"
 
 #: modules/Grades/FinalGrades.php:127
 msgid "Abs<br />YTD / MP"
@@ -4775,69 +4775,69 @@ msgstr ""
 #: modules/Grades/FinalGrades.php:289
 #: modules/Grades/includes/ReportCards.fnc.php:747
 msgid "General Comments"
-msgstr ""
+msgstr "Γενικά σχόλια"
 
 #: modules/Grades/FinalGrades.php:292 modules/Grades/FinalGrades.php:293
 #: modules/Grades/FinalGrades.php:343 modules/Grades/InputFinalGrades.php:919
 #: modules/Grades/InputFinalGrades.php:962 modules/Grades/Menu.php:31
 #: modules/Grades/Menu.php:63
 msgid "Comment Codes"
-msgstr ""
+msgstr "Κωδικοί σχολίων"
 
 #: modules/Grades/FinalGrades.php:348
 #: modules/Grades/includes/ReportCards.fnc.php:695
 msgid "Comment Scales"
-msgstr ""
+msgstr "Κατηγορίες σχολίων"
 
 #: modules/Grades/FinalGrades.php:381
 #: modules/Grades/ReportCardCommentCodes.php:134
 #: modules/Grades/ReportCardCommentCodes.php:151
 #: modules/Grades/includes/ReportCards.fnc.php:793
 msgid "Comment Scale"
-msgstr ""
+msgstr "Κατηγορία σχολίου"
 
 #: modules/Grades/FinalGrades.php:396
 #: modules/Grades/includes/ReportCards.fnc.php:749
 msgid "Course-specific Comments"
-msgstr ""
+msgstr "Σχόλια για το μάθημα"
 
 #: modules/Grades/FinalGrades.php:412 modules/Grades/ReportCards.php:31
 #: modules/Grades/Transcripts.php:382
 msgid "You must choose at least one student and one marking period."
-msgstr ""
+msgstr "Πρέπει να επιλέξετε τουλάχιστον έναν μαθητή και μία περίοδο"
 
 #: modules/Grades/FinalGrades.php:430 modules/Grades/FinalGrades.php:529
 msgid "Create Grade Lists for Selected Students"
-msgstr "Δημιουργία Βαθμού Λίστες για επιλεγμένους μαθητές"
+msgstr "Δημιουργήστε λίστες βαθμών για επιλεγμένους μαθητές"
 
 #: modules/Grades/FinalGrades.php:432
 msgid "Include on Grade List"
-msgstr ""
+msgstr "Συμπεριλάβετε στη λίστα βαθμών"
 
 #: modules/Grades/GradeBreakdown.php:157 modules/Grades/Menu.php:24
 #: modules/Grades/Menu.php:54
 msgid "Grade Breakdown"
-msgstr "Βαθμός Κατανομή"
+msgstr "Ανάλυση Βαθμού"
 
 #: modules/Grades/GradebookBreakdown.php:30
 #: modules/Grades/ReportCardComments.php:165
 #: modules/Grades/ReportCardGrades.php:126
 msgid "This course is not graded."
-msgstr "Το μάθημα δεν βαθμολογείται."
+msgstr "Αυτό το μάθημα δεν έχει βαθμολογιθεί."
 
 #: modules/Grades/GradebookBreakdown.php:283
 #: modules/Grades/ReportCardGrades.php:161
 msgid "GPA Value"
-msgstr ""
+msgstr "Αξία ΣΔΣ"
 
 #: modules/Grades/GradebookBreakdown.php:284
 #: modules/Students/StudentBreakdown.php:280
 msgid "Number of Students"
-msgstr ""
+msgstr "Αριθμός καταρτιζομένων"
 
 #: modules/Grades/Grades.php:238 modules/Grades/Grades.php:375
 msgid "Submission"
-msgstr ""
+msgstr "Υποβολή"
 
 #: modules/Grades/Grades.php:249 modules/Grades/Grades.php:417
 #: modules/Grades/InputFinalGrades.php:1018
@@ -4849,11 +4849,11 @@ msgstr "Επιστολή"
 
 #: modules/Grades/Grades.php:500
 msgid "Include Inactive Assignments"
-msgstr ""
+msgstr "Συμπεριλάβετε Ανενεργές Εργασίες"
 
 #: modules/Grades/Grades.php:510
 msgid "Assignment is Due"
-msgstr ""
+msgstr "Η εργασία έχει λήξει"
 
 #: modules/Grades/Grades.php:646 modules/Grades/Grades.php:735
 #: modules/Grades/Grades.php:806 modules/Grades/ProgressReports.php:228
@@ -4883,7 +4883,7 @@ msgstr "Κύριος"
 
 #: modules/Grades/HonorRoll.php:196 modules/Grades/HonorRoll.php:288
 msgid "Create Honor Roll for Selected Students"
-msgstr "Δημιουργία Roll Τιμής για επιλεγμένους μαθητές"
+msgstr "Δημιουργήστε το Honor Roll για επιλεγμένους μαθητές"
 
 #: modules/Grades/HonorRoll.php:203
 msgid "Certificates"
@@ -4897,11 +4897,11 @@ msgstr ""
 
 #: modules/Grades/HonorRoll.php:241 modules/Grades/HonorRollSubject.php:164
 msgid "Frame"
-msgstr ""
+msgstr "Πλαίσιο"
 
 #: modules/Grades/HonorRoll.php:244 modules/Grades/HonorRollSubject.php:167
 msgid "No frame"
-msgstr ""
+msgstr "Χωρίς πλαίσιο"
 
 #: modules/Grades/HonorRoll.php:342 modules/Grades/HonorRoll.php:415
 msgid "High Honor"
@@ -4914,7 +4914,7 @@ msgstr ""
 #: modules/Grades/HonorRollSubject.php:125
 #: modules/Grades/HonorRollSubject.php:233
 msgid "Create Honor Roll by Subject for Selected Students"
-msgstr ""
+msgstr "Δημιουργία Honor Roll ανά θέμα για επιλεγμένους μαθητές"
 
 #: modules/Grades/HonorRollSubject.php:154
 #: modules/Grades/HonorRollSubject.php:190
@@ -4944,7 +4944,7 @@ msgstr "Θέμα"
 #: modules/Grades/InputFinalGrades.php:18
 #: modules/Grades/InputFinalGrades.php:33
 msgid "You cannot enter grades for this course period."
-msgstr ""
+msgstr "Δεν μπορείτε να εισαγάγετε βαθμούς για αυτήν την περίοδο μαθήματος."
 
 #: modules/Grades/InputFinalGrades.php:69
 #: modules/Grades/ReportCardComments.php:180
@@ -4960,42 +4960,42 @@ msgstr "Γενικός"
 #: modules/Grades/InputFinalGrades.php:918 modules/Grades/Menu.php:30
 #: modules/Grades/Menu.php:62
 msgid "Report Card Comments"
-msgstr "Card Σχόλια Έκθεση"
+msgstr "Σχόλια κάρτας αναφοράς"
 
 #: modules/Grades/InputFinalGrades.php:979
 #, php-format
 msgid "Grade Posting dates: %s - %s"
-msgstr ""
+msgstr "Ημερομηνίες δημοσίευσης βαθμών: %s - %s"
 
 #: modules/Grades/InputFinalGrades.php:982
 msgid "These grades are complete."
-msgstr ""
+msgstr "Αυτοί οι βαθμοί έχουν ολοκληρωθεί"
 
 #: modules/Grades/InputFinalGrades.php:982
 msgid "These grades are NOT complete."
-msgstr ""
+msgstr "Αυτοί οι βαθμοί ΔΕΝ έχουν ολοκληρωθεί"
 
 #: modules/Grades/InputFinalGrades.php:982
 msgid "You can edit these grades."
-msgstr ""
+msgstr "Μπορείτε να επεξεργαστείτε αυτούς τους βαθμούς."
 
 #: modules/Grades/InputFinalGrades.php:982
 msgid "You can not edit these grades."
-msgstr ""
+msgstr "Δεν μπορείτε να επεξεργαστείτε αυτούς τους βαθμούς."
 
 #: modules/Grades/InputFinalGrades.php:986
 msgid "Get Gradebook Grades."
-msgstr ""
+msgstr "Λάβετε βαθμούς Βαθμολογίας."
 
 #: modules/Grades/InputFinalGrades.php:995
 #, php-format
 msgid "Get %s Grades"
-msgstr ""
+msgstr "Λάβετε %s βαθμούς"
 
 #: modules/Grades/InputFinalGrades.php:996
 #, php-format
 msgid "Get %s Comments"
-msgstr ""
+msgstr "Λάβετε %s σχόλια"
 
 #: modules/Grades/InputFinalGrades.php:1000
 msgid "Clear All"
@@ -5004,43 +5004,43 @@ msgstr "Κατάργηση όλων"
 #: modules/Grades/InputFinalGrades.php:1033
 #, php-format
 msgid "Comment %d"
-msgstr ""
+msgstr "Σχόλιο %d"
 
 #: modules/Grades/InputFinalGrades.php:1036
 msgid "Add Comment"
-msgstr ""
+msgstr "Προσθήκη σχολίου"
 
 #: modules/Grades/MassCreateAssignments.php:75
 #: modules/Grades/MassCreateAssignments.php:93
 #: modules/Scheduling/MassDrops.php:89 modules/Scheduling/MassRequests.php:28
 #: modules/Scheduling/MassSchedule.php:117
 msgid "You must choose a course."
-msgstr ""
+msgstr "Πρέπει να επιλέξετε ένα μάθημα"
 
 #: modules/Grades/MassCreateAssignments.php:229
 msgid "The Assignments were successfully created."
-msgstr ""
+msgstr "Οι Εργασίες δημιουργήθηκαν με επιτυχία."
 
 #: modules/Grades/MassCreateAssignments.php:233
 msgid "The Assignment Types were successfully created."
-msgstr ""
+msgstr "Οι τύποι εργασιών δημιουργήθηκαν με επιτυχία."
 
 #: modules/Grades/MassCreateAssignments.php:280
 msgid "Create Assignment for Selected Course Periods"
-msgstr ""
+msgstr "Δημιουργία Εργασίας για Επιλεγμένες Περιόδους Μαθημάτων"
 
 #: modules/Grades/MassCreateAssignments.php:367
 msgid "Create Assignment Type for Selected Courses"
-msgstr ""
+msgstr "Δημιουργία τύπου εργασίας για επιλεγμένα μαθήματα"
 
 #: modules/Grades/Menu.php:16 modules/Grades/Menu.php:46
 #: modules/Grades/Menu.php:72
 msgid "Report Cards"
-msgstr "Κάρτες Έκθεση"
+msgstr "Κάρτες αναφοράς"
 
 #: modules/Grades/Menu.php:18
 msgid "Honor Roll by Subject"
-msgstr ""
+msgstr "Honor Roll ανά μάθημα"
 
 #: modules/Grades/Menu.php:19
 msgid "Calculate GPA"
@@ -5048,11 +5048,11 @@ msgstr "Υπολογίστε ΣΔΣ"
 
 #: modules/Grades/Menu.php:20 modules/Grades/Menu.php:73
 msgid "Transcripts"
-msgstr "Πρακτικά"
+msgstr "Μεταγραφές"
 
 #: modules/Grades/Menu.php:22 modules/Grades/Menu.php:56
 msgid "Student Grades"
-msgstr "Βαθμοί Φοιτητών"
+msgstr "Βαθμοί Καταρτιζόμενων"
 
 #: modules/Grades/Menu.php:26 modules/Grades/Menu.php:58
 msgid "GPA / Class Rank List"
@@ -6496,7 +6496,7 @@ msgstr "Σχολεία"
 
 #: modules/School_Setup/Rollover.php:3
 msgid "Student Enrollment Codes"
-msgstr "Οι κωδικοί των φοιτητών που εγγράφονται"
+msgstr "Οι κωδικοί των Καταρτιζόμενων που εγγράφονται"
 
 #: modules/School_Setup/Rollover.php:10
 msgid "Food Service Staff Accounts"
@@ -6923,7 +6923,7 @@ msgstr ""
 
 #: modules/Students/MailingLabels.php:166
 msgid "To Student"
-msgstr "Για να Φοιτητών"
+msgstr "Για να Καταρτιζόμενων"
 
 #: modules/Students/MailingLabels.php:167
 #: modules/Students/StudentLabels.php:163
@@ -6947,11 +6947,11 @@ msgstr "Ξεκινώντας στήλη"
 
 #: modules/Students/Menu.php:17 modules/Students/Student.php:369
 msgid "Add a Student"
-msgstr "Προσθήκη Φοιτητών"
+msgstr "Προσθήκη Καταρτιζόμενων"
 
 #: modules/Students/Menu.php:18
 msgid "Group Assign Student Info"
-msgstr "Ομάδα Αντιστοίχιση Πληροφορίες Φοιτητών"
+msgstr "Ομάδα Αντιστοίχιση Πληροφορίες Καταρτιζόμενων"
 
 #: modules/Students/Menu.php:19
 msgid "Associate Parents with Students"
@@ -6975,11 +6975,11 @@ msgstr "Εκτύπωση Ετικέτες αλληλογραφίας"
 
 #: modules/Students/Menu.php:27 modules/Students/Menu.php:43
 msgid "Print Student Labels"
-msgstr "Εκτύπωση ετικετών Φοιτητών"
+msgstr "Εκτύπωση ετικετών Καταρτιζόμενων"
 
 #: modules/Students/Menu.php:28
 msgid "Print Student Info"
-msgstr "Εκτύπωση Πληροφορίες Φοιτητών"
+msgstr "Εκτύπωση Πληροφορίες Καταρτιζόμενων"
 
 #: modules/Students/Menu.php:32
 msgid "Contact Fields"
@@ -7032,7 +7032,7 @@ msgstr "Εκτύπωση Πληροφορίες για επιλεγμένους 
 
 #: modules/Students/Search.inc.php:28
 msgid "Find a Student"
-msgstr "Βρείτε ένα Φοιτητών"
+msgstr "Βρείτε ένα Καταρτιζόμενων"
 
 #: modules/Students/Search.inc.php:69 modules/Students/Search.inc.php:173
 #: modules/Users/Search.inc.php:57 modules/Users/Search.inc.php:152
@@ -7083,7 +7083,7 @@ msgstr ""
 
 #: modules/Students/StudentFields.php:158
 msgid "Student Field"
-msgstr "Πεδίο Φοιτητών"
+msgstr "Πεδίο Καταρτιζόμενων"
 
 #: modules/Students/StudentFields.php:169
 msgid "Student Field Category"
@@ -7091,11 +7091,11 @@ msgstr "Φοιτητής Κατηγορία Πεδίο"
 
 #: modules/Students/StudentFields.php:221
 msgid "New Student Field"
-msgstr "Νέο Πεδίο Φοιτητών"
+msgstr "Νέο Πεδίο Καταρτιζόμενων"
 
 #: modules/Students/StudentFields.php:229
 msgid "New Student Field Category"
-msgstr "Νέα Κατηγορία Πεδίο Φοιτητών"
+msgstr "Νέα Κατηγορία Πεδίο Καταρτιζόμενων"
 
 #: modules/Students/StudentFields.php:240 modules/Users/UserFields.php:242
 msgid "Display Columns"
@@ -7282,7 +7282,7 @@ msgstr ""
 
 #: modules/Users/AddStudents.php:89 modules/Users/AddStudents.php:115
 msgid "Add Selected Students"
-msgstr "Προσθήκη επιλεγμένων φοιτητών"
+msgstr "Προσθήκη επιλεγμένων Καταρτιζόμενων"
 
 #: modules/Users/Exceptions.php:131
 msgid "Select the programs with which this user can use and save information."
@@ -7375,7 +7375,7 @@ msgstr ""
 
 #: modules/Users/Preferences.php:249
 msgid "Student Sorting"
-msgstr "Ταξινόμηση Φοιτητών"
+msgstr "Ταξινόμηση Καταρτιζόμενων"
 
 #: modules/Users/Preferences.php:262
 msgid "File Export Type"
@@ -7782,13 +7782,13 @@ msgid "Currency"
 msgstr "Νόμισμα"
 
 #~ msgid "Selected Student"
-#~ msgstr "Επιλεγμένα Φοιτητών"
+#~ msgstr "Επιλεγμένα Καταρτιζόμενων"
 
 #~ msgid "Remove"
 #~ msgstr "Κατάργηση"
 
 #~ msgid "Back to Student List"
-#~ msgstr "Επιστροφή στη λίστα Φοιτητών"
+#~ msgstr "Επιστροφή στη λίστα Καταρτιζόμενων"
 
 #~ msgid "Selected User"
 #~ msgstr "Επιλεγμένα χρήστη"
@@ -7824,7 +7824,7 @@ msgstr "Νόμισμα"
 #~ "οθόνη. Θα γεμίσει, όπως και όταν προσθέτετε αρχεία σήμερα ημέρα στο "
 #~ "παράδειγμα του λογισμικού. Ως διαχειριστής, μπορείτε να ρυθμίσετε τα "
 #~ "σχολεία σε αυτό το σύστημα, να τροποποιήσει τους φοιτητές και τους "
-#~ "χρήστες, καθώς και πρόσβαση σε βασικές εκθέσεις φοιτητών."
+#~ "χρήστες, καθώς και πρόσβαση σε βασικές εκθέσεις Καταρτιζόμενων."
 
 #~ msgid ""
 #~ "You have access to any school in the system.  To choose a school to work "
@@ -7902,9 +7902,9 @@ msgstr "Νόμισμα"
 #~ "λείπουν συμμετοχή. Όταν κάνετε login για πρώτη φορά θα είναι μια κενή "
 #~ "οθόνη. Θα γεμίσει, όπως και όταν προσθέτετε ημέρα-σήμερα καταγράφει στο "
 #~ "παράδειγμα του λογισμικού. Ως δάσκαλος, μπορείτε να δείτε πληροφορίες των "
-#~ "φοιτητών και χρονοδιαγράμματα για τους σπουδαστές που θα διδάξει και "
+#~ "Καταρτιζόμενων και χρονοδιαγράμματα για τους σπουδαστές που θα διδάξει και "
 #~ "παρακολούθηση των εισροών, τους βαθμούς, και την επιλεξιμότητα των "
-#~ "φοιτητών αυτών. Μπορείτε να παρακολουθείτε τους φοιτητές τους βαθμούς από "
+#~ "Καταρτιζόμενων αυτών. Μπορείτε να παρακολουθείτε τους φοιτητές τους βαθμούς από "
 #~ "την καρτέλα βαθμούς. Από αυτή την καρτέλα, όχι μόνο μπορείτε να "
 #~ "παρακολουθείτε τους βαθμούς, αλλά μπορείτε να εκτυπώσετε τις εκθέσεις "
 #~ "προόδου για οποιαδήποτε από τους μαθητές σας"
@@ -8529,7 +8529,7 @@ msgstr "Νόμισμα"
 #~ "You can insert certain pieces of student information into your letter "
 #~ "with special variables:"
 #~ msgstr ""
-#~ "Μπορείτε να εισάγετε ορισμένα κομμάτια της ενημέρωσης των φοιτητών στην "
+#~ "Μπορείτε να εισάγετε ορισμένα κομμάτια της ενημέρωσης των Καταρτιζόμενων στην "
 #~ "επιστολή σας με ειδικές μεταβλητές:"
 
 #~ msgid "Full Name"
@@ -8548,7 +8548,7 @@ msgstr "Νόμισμα"
 #~ msgstr "__LAST_NAME__"
 
 #~ msgid "Student ID"
-#~ msgstr "ID Φοιτητών"
+#~ msgstr "ID Καταρτιζόμενων"
 
 #~ msgid "__STUDENT_ID__"
 #~ msgstr "__STUDENT_ID__"
@@ -8732,7 +8732,7 @@ msgstr "Νόμισμα"
 #~ "Save button at the top of the screen"
 #~ msgstr ""
 #~ "Για να αποβάλετε έναν φοιτητή, αλλάξτε την Dropped ημερομηνία και τον "
-#~ "λόγο για να την ημερομηνία έναρξης ισχύος της πτώσης φοιτητών καθώς και ο "
+#~ "λόγο για να την ημερομηνία έναρξης ισχύος της πτώσης Καταρτιζόμενων καθώς και ο "
 #~ "λόγος για την πτώση του. Κάντε κλικ στο κουμπί Αποθήκευση στο πάνω μέρος "
 #~ "της οθόνης"
 
@@ -8793,7 +8793,7 @@ msgstr "Νόμισμα"
 #~ msgstr ""
 #~ "Για να προσθέσετε ένα πεδίο δεδομένων, συμπληρώστε τα πεδία δεδομένων "
 #~ "τίτλος και το είδος των δεδομένων, και επιλέξτε το αν ή όχι το πεδίο θα "
-#~ "πρέπει να εμφανίζονται στις οθόνες αναζήτησης των φοιτητών στο κενά πεδία "
+#~ "πρέπει να εμφανίζονται στις οθόνες αναζήτησης των Καταρτιζόμενων στο κενά πεδία "
 #~ "στο κάτω μέρος των πεδίων δεδομένων καταλόγου. Εάν το πεδίο είναι μια "
 #~ "pull-down μενού, πληκτρολογήστε καθεμία από τις διαθέσιμες επιλογές στο "
 #~ "αναπτυσσόμενο πεδίο Επιλογές χωρισμένα με κόμμα. Σε αντίθετη περίπτωση, "
@@ -8826,7 +8826,7 @@ msgstr "Νόμισμα"
 #~ msgstr ""
 #~ "Η εγγραφή της σελίδας Κωδικοί σας επιτρέπει να ρυθμίσετε τα σχολεία τους "
 #~ "κωδικούς σας εγγραφής. Οι κωδικοί που χρησιμοποιούνται Εγγραφή στην οθόνη "
-#~ "εγγραφής φοιτητών, και να καθορίσετε το λόγο ο μαθητής ήταν εγγεγραμμένος "
+#~ "εγγραφής Καταρτιζόμενων, και να καθορίσετε το λόγο ο μαθητής ήταν εγγεγραμμένος "
 #~ "ή έχει πέσει από ένα σχολείο. Οι κωδικοί αυτοί ισχύουν για όλα τα σχολεία "
 #~ "σε όλο το σύστημα."
 
@@ -8870,7 +8870,7 @@ msgstr "Νόμισμα"
 #~ "φύλο, τη γενέτειρα και την τάξη"
 
 #~ msgid "is a display of the students enrollment history"
-#~ msgstr "είναι μια απεικόνιση της ιστορίας εγγραφής φοιτητών"
+#~ msgstr "είναι μια απεικόνιση της ιστορίας εγγραφής Καταρτιζόμενων"
 
 #~ msgid "User Information"
 #~ msgstr "Πληροφορίες χρήστη"
@@ -8987,7 +8987,7 @@ msgstr "Νόμισμα"
 #~ "Αυτή η σελίδα σας επιτρέπει να εισάγετε τρίμηνο, εξάμηνο, και τους "
 #~ "βαθμούς εξετάσεις εξαμήνου για όλες τις επιλεγείσες φοιτητές καθηγητές "
 #~ "κατά την τρέχουσα περίοδο. Από προεπιλογή, το πρόγραμμα αυτό θα λίστα των "
-#~ "φοιτητών στο επιλεγμένο καθηγητές πρώτης τάξης περίοδο για το τρέχον "
+#~ "Καταρτιζόμενων στο επιλεγμένο καθηγητές πρώτης τάξης περίοδο για το τρέχον "
 #~ "τρίμηνο. Μπορείτε να αλλάξετε το χρονικό διάστημα από την αλλαγή της "
 #~ "περιόδου pull-down μενού στο πάνω μέρος της οθόνης. Επίσης, μπορείτε να "
 #~ "αλλάξετε το τρίμηνο από την αλλαγή της σήμανσης περίοδο pull-down μενού "
@@ -9033,7 +9033,7 @@ msgstr "Νόμισμα"
 #~ msgstr ""
 #~ "Αυτή η σελίδα σας επιτρέπει να εισαγάγετε συμμετοχή περίοδο για όλες τις "
 #~ "επιλεγείσες φοιτητές καθηγητές. Από προεπιλογή, το πρόγραμμα αυτό θα "
-#~ "λίστα των φοιτητών στο επιλεγμένο καθηγητές πρώτης κατηγορίας περιόδου. "
+#~ "λίστα των Καταρτιζόμενων στο επιλεγμένο καθηγητές πρώτης κατηγορίας περιόδου. "
 #~ "Μπορείτε να αλλάξετε την τρέχουσα περίοδο με την αλλαγή της περιόδου pull-"
 #~ "down μενού στο πάνω μέρος της οθόνης στην επιθυμητή περίοδο"
 
@@ -9057,7 +9057,7 @@ msgstr "Νόμισμα"
 #~ msgstr ""
 #~ "Αυτή η σελίδα σας επιτρέπει να εισάγετε τους βαθμούς επιλεξιμότητας για "
 #~ "όλα τα επιλεγμένα φοιτητές καθηγητές. Από προεπιλογή, το πρόγραμμα αυτό "
-#~ "θα λίστα των φοιτητών στο επιλεγμένο καθηγητές πρώτης κατηγορίας "
+#~ "θα λίστα των Καταρτιζόμενων στο επιλεγμένο καθηγητές πρώτης κατηγορίας "
 #~ "περιόδου. Μπορείτε να αλλάξετε την τρέχουσα περίοδο με την αλλαγή της "
 #~ "περιόδου pull-down μενού στο αριστερό πλαίσιο για την επιθυμητή περίοδο"
 
@@ -9137,7 +9137,7 @@ msgstr "Νόμισμα"
 #~ "window that appears"
 #~ msgstr ""
 #~ "Πρέπει να επιλέξετε πρώτα ένα μαθητή με τη χρήση του Βρείτε μια οθόνη "
-#~ "αναζήτησης Φοιτητών. Μπορείτε να ψάξετε για τους φοιτητές που έχουν "
+#~ "αναζήτησης Καταρτιζόμενων. Μπορείτε να ψάξετε για τους φοιτητές που έχουν "
 #~ "ζητήσει μια συγκεκριμένη πορεία ή αίτηση κάνοντας κλικ στο σύνδεσμο "
 #~ "Επιλέξτε δίπλα στην αναζήτηση Γήπεδο επιλογές και Αίτηση αντίστοιχα και "
 #~ "επιλέγοντας ένα μάθημα από το αναδυόμενο παράθυρο που εμφανίζεται"
@@ -9250,7 +9250,7 @@ msgstr "Νόμισμα"
 #~ "you entered by changing the course and weight to Not Specified. Once you "
 #~ "have made all the desired modifications, click the Save button again."
 #~ msgstr ""
-#~ "Επιπλέον, όταν έχετε αποθηκεύσει τα αιτήματα φοιτητών, θα έχετε την "
+#~ "Επιπλέον, όταν έχετε αποθηκεύσει τα αιτήματα Καταρτιζόμενων, θα έχετε την "
 #~ "επιλογή για να καθορίσετε έναν δάσκαλο ή περιόδου και να αποκλείσει έναν "
 #~ "δάσκαλο ή περίοδο. Για να το κάνετε αυτό, επιλέξτε το δάσκαλο ή το "
 #~ "χρονικό διάστημα από Με και χωρίς το pull-down μενού, αντίστοιχα. "
@@ -9327,7 +9327,7 @@ msgstr "Νόμισμα"
 #~ "schedule in one action."
 #~ msgstr ""
 #~ "Αυτό το βοηθητικό πρόγραμμα σας επιτρέπει να προσθέσετε μια αφαιρέσετε "
-#~ "μια ομάδα φοιτητών από το ένα πρόγραμμα σε μια δράση."
+#~ "μια ομάδα Καταρτιζόμενων από το ένα πρόγραμμα σε μια δράση."
 
 #~ msgid ""
 #~ "First, select a course to be removed by clicking the Choose a Course link "
@@ -9346,7 +9346,7 @@ msgstr "Νόμισμα"
 #~ "πρόγραμμα θα αφαιρεθεί από το επιλεγμένο πρόγραμμα."
 
 #~ msgid "Student Schedule Report"
-#~ msgstr "Έκθεση Φοιτητών Πρόγραμμα"
+#~ msgstr "Έκθεση Καταρτιζόμενων Πρόγραμμα"
 
 #~ msgid ""
 #~ "This report shows the students who are scheduled into each course, the "
@@ -9376,9 +9376,9 @@ msgstr "Νόμισμα"
 #~ "αριθμό των διαθέσιμων θέσεων για το συγκεκριμένο μάθημα. Εάν επιλέξετε "
 #~ "ένα μάθημα κάνοντας κλικ σε αυτό, θα δείτε μια λίστα με τα βάρη φυσικά, "
 #~ "και τα αιτήματα, ανοιχτό, και το συνολικό αριθμό εδρών θα κατανεμηθεί για "
-#~ "κάθε βάρος. Εδώ, μπορείτε επίσης να δείτε μια λίστα των φοιτητών "
-#~ "προγραμματιστεί κατά τη διάρκεια ή μια λίστα των φοιτητών που ζήτησαν τη "
-#~ "διάρκεια αλλά werent προγραμματιστεί σε αυτό, κάνοντας κλικ στο Φοιτητών "
+#~ "κάθε βάρος. Εδώ, μπορείτε επίσης να δείτε μια λίστα των Καταρτιζόμενων "
+#~ "προγραμματιστεί κατά τη διάρκεια ή μια λίστα των Καταρτιζόμενων που ζήτησαν τη "
+#~ "διάρκεια αλλά werent προγραμματιστεί σε αυτό, κάνοντας κλικ στο Καταρτιζόμενων "
 #~ "λίστα και λίστα μη προγραμματισμένη μαθητές συνδέσεις αντίστοιχα."
 
 #~ msgid "If you select a weight by clicking on it, the open"
@@ -9402,7 +9402,7 @@ msgstr "Νόμισμα"
 #~ "the number of total seats in that course. The courses are grouped by "
 #~ "subject."
 #~ msgstr ""
-#~ "Η έκθεση αυτή δείχνει τον αριθμό των φοιτητών που ζήτησαν κάθε μάθημα και "
+#~ "Η έκθεση αυτή δείχνει τον αριθμό των Καταρτιζόμενων που ζήτησαν κάθε μάθημα και "
 #~ "ο αριθμός του συνόλου των εδρών σε αυτή την πορεία. Τα μαθήματα "
 #~ "ομαδοποιούνται κατά θέμα."
 
@@ -9554,7 +9554,7 @@ msgstr "Νόμισμα"
 #~ msgid "This report allows you to print schedules for any number of students"
 #~ msgstr ""
 #~ "Αυτή η αναφορά σας επιτρέπει να εκτυπώσετε χρονοδιαγράμματα για "
-#~ "οποιοδήποτε αριθμό των φοιτητών"
+#~ "οποιοδήποτε αριθμό των Καταρτιζόμενων"
 
 #~ msgid ""
 #~ "You can search for students who requested or are enrolled in a specific "
@@ -9592,7 +9592,7 @@ msgstr "Νόμισμα"
 #~ "This report allows you to print requests sheets for any number of students"
 #~ msgstr ""
 #~ "Αυτή η αναφορά σας επιτρέπει να εκτυπώσετε τις αιτήσεις φύλλα για "
-#~ "οποιοδήποτε αριθμό των φοιτητών"
+#~ "οποιοδήποτε αριθμό των Καταρτιζόμενων"
 
 #~ msgid ""
 #~ "You can search for students who requested a specific course by clicking "
@@ -9712,7 +9712,7 @@ msgstr "Νόμισμα"
 #~ "Για μη σταθμισμένη ΣΔΣ, το Υπολογίστε ΣΔΣ πρόγραμμα λαμβάνει απλά την "
 #~ "αξία ΣΔΣ του βαθμού του σπουδαστή κερδίσει. Μετά την εύρεση των σημείων "
 #~ "ΣΔΣ κερδίσει για κάθε μάθημα, οι μέσοι όροι του προγράμματος αυτών των "
-#~ "αξιών για τον καθορισμό των φοιτητών ενημερωμένες ΣΔΣ. Στη συνέχεια "
+#~ "αξιών για τον καθορισμό των Καταρτιζόμενων ενημερωμένες ΣΔΣ. Στη συνέχεια "
 #~ "ταξινομεί αυτές τις τιμές για τον προσδιορισμό της κατάταξης της "
 #~ "κατηγορίας. Εάν περισσότερα από ένα μαθητή έχει την ίδια ΣΔΣ, θα "
 #~ "μοιράζονται μια θέση στην κατάταξη της κατηγορίας."
@@ -10119,7 +10119,7 @@ msgstr "Νόμισμα"
 #~ "students"
 #~ msgstr ""
 #~ "Η έκθεση αυτή που σας επιτρέπει να εκτυπώσετε τις εκθέσεις προόδου για "
-#~ "οποιοδήποτε αριθμό των φοιτητών"
+#~ "οποιοδήποτε αριθμό των Καταρτιζόμενων"
 
 #~ msgid ""
 #~ "You can choose to print the progress reports with mailing labels.  The "
@@ -10146,7 +10146,7 @@ msgstr "Νόμισμα"
 #~ "This utility allows you to print report cards for any number of students"
 #~ msgstr ""
 #~ "Αυτό το βοηθητικό πρόγραμμα σας επιτρέπει να εκτυπώσετε τις κάρτες έκθεση "
-#~ "για οποιοδήποτε αριθμό των φοιτητών"
+#~ "για οποιοδήποτε αριθμό των Καταρτιζόμενων"
 
 #~ msgid ""
 #~ "You can search for students who are enrolled in a specific course by "
@@ -10197,7 +10197,7 @@ msgstr "Νόμισμα"
 #~ "for any given day."
 #~ msgstr ""
 #~ "Αυτή η σελίδα σας επιτρέπει να δείτε και να αλλάξετε τις εγγραφές "
-#~ "φοιτητών συμμετοχής για κάθε συγκεκριμένη ημέρα."
+#~ "Καταρτιζόμενων συμμετοχής για κάθε συγκεκριμένη ημέρα."
 
 #~ msgid ""
 #~ "next to the attendance code pull-down menu.  If you select a second "
@@ -10278,8 +10278,8 @@ msgstr "Νόμισμα"
 #~ "αριθμό σπουδαστών. Μπορείτε να επιλέξετε όλους τους μαθητές στη λίστα "
 #~ "επιλέγοντας το πλαίσιο ελέγχου στο μπλε επικεφαλίδες στήλης πάνω από τη "
 #~ "λίστα. Μπορείτε επίσης να καθορίσετε τις περιόδους για τον εορτασμό των "
-#~ "επιλεγμένων φοιτητών, ο κωδικός δεν υπάρχει, ο λόγος απουσίας, καθώς και "
-#~ "την ημερομηνία στο κίτρινο κουτί πάνω από τη λίστα των φοιτητών. Αφού "
+#~ "επιλεγμένων Καταρτιζόμενων, ο κωδικός δεν υπάρχει, ο λόγος απουσίας, καθώς και "
+#~ "την ημερομηνία στο κίτρινο κουτί πάνω από τη λίστα των Καταρτιζόμενων. Αφού "
 #~ "έχετε επιλέξει κάθε επιθυμητή σπουδαστής από αυτή τη λίστα, όλες τις "
 #~ "επιθυμητές περιόδους, ο κωδικός δεν υπάρχει, δεν υπάρχει λόγος, και η "
 #~ "ημερομηνία της απουσίας, κάντε κλικ στο κουμπί Αποθήκευση στο πάνω μέρος "
@@ -10295,9 +10295,9 @@ msgstr "Νόμισμα"
 #~ "and the average number of students absent per day for any date range at "
 #~ "your school.  These numbers are broken down by grade."
 #~ msgstr ""
-#~ "Η έκθεση αυτή δείχνει τον αριθμό των φοιτητών, οι ημέρες είναι δυνατόν, ο "
+#~ "Η έκθεση αυτή δείχνει τον αριθμό των Καταρτιζόμενων, οι ημέρες είναι δυνατόν, ο "
 #~ "αριθμός των ημερών σπουδαστών του παρόντος, ο αριθμός των μαθητών "
-#~ "απουσιάζουν ημέρες, η μέση ημερήσια φοίτηση, ο μέσος αριθμός των φοιτητών "
+#~ "απουσιάζουν ημέρες, η μέση ημερήσια φοίτηση, ο μέσος αριθμός των Καταρτιζόμενων "
 #~ "στην προσέλευση ανά ημέρα, και ο μέσος αριθμός των μαθητών απουσιάζουν "
 #~ "την ημέρα για οποιοδήποτε χρονικό διάστημα στο σχολείο σας. Αυτοί οι "
 #~ "αριθμοί κατά βαθμό."
@@ -10323,7 +10323,7 @@ msgstr "Νόμισμα"
 #~ "Average Daily Attendance per day for any date range at your school.  "
 #~ "These numbers are broken down by grade."
 #~ msgstr ""
-#~ "Είναι μια έκθεση που δείχνει τον αριθμό των φοιτητών, των ημερών είναι "
+#~ "Είναι μια έκθεση που δείχνει τον αριθμό των Καταρτιζόμενων, των ημερών είναι "
 #~ "δυνατόν, ο αριθμός των ημερών σπουδαστών του παρόντος, ο αριθμός των "
 #~ "μαθητών απουσιάζουν ημέρες και η μέση ημερήσια Συμμετοχή ανά ημέρα για "
 #~ "οποιοδήποτε χρονικό διάστημα στο σχολείο σας. Αυτοί οι αριθμοί κατά βαθμό."
@@ -10336,7 +10336,7 @@ msgstr "Νόμισμα"
 #~ "for every date during any timeframe."
 #~ msgstr ""
 #~ "Η έκθεση αυτή δείχνει την καθημερινή κατάσταση συμμετοχή οποιουδήποτε "
-#~ "αριθμού των φοιτητών για κάθε ημέρα κατά τη διάρκεια οποιουδήποτε "
+#~ "αριθμού των Καταρτιζόμενων για κάθε ημέρα κατά τη διάρκεια οποιουδήποτε "
 #~ "χρονικού διαστήματος."
 
 #~ msgid ""
@@ -10365,7 +10365,7 @@ msgstr "Νόμισμα"
 #~ "κωδικός απουσία εμφανίζεται στον έγχρωμο κουτί."
 
 #~ msgid "Student Summary"
-#~ msgstr "Περίληψη Φοιτητών"
+#~ msgstr "Περίληψη Καταρτιζόμενων"
 
 #~ msgid "This report shows the days for which a student has an absence."
 #~ msgstr ""
@@ -10522,7 +10522,7 @@ msgstr "Νόμισμα"
 #~ "for every date during any timeframe"
 #~ msgstr ""
 #~ "Η έκθεση αυτή δείχνει την καθημερινή κατάσταση συμμετοχή οποιουδήποτε "
-#~ "αριθμού των φοιτητών για κάθε ημέρα κατά τη διάρκεια οποιουδήποτε "
+#~ "αριθμού των Καταρτιζόμενων για κάθε ημέρα κατά τη διάρκεια οποιουδήποτε "
 #~ "χρονικού διαστήματος"
 
 #~ msgid ""
@@ -10586,7 +10586,7 @@ msgstr "Νόμισμα"
 #~ "ineligible."
 #~ msgstr ""
 #~ "Πρέπει να επιλέξετε πρώτα ένα μαθητή με τη χρήση του Βρείτε μια οθόνη "
-#~ "αναζήτησης Φοιτητών. Μπορείτε να ψάξετε για τους φοιτητές που είναι "
+#~ "αναζήτησης Καταρτιζόμενων. Μπορείτε να ψάξετε για τους φοιτητές που είναι "
 #~ "εγγεγραμμένοι σε μια συγκεκριμένη πορεία, κάνοντας κλικ στο σύνδεσμο "
 #~ "Επιλογή δίπλα από την επιλογή αναζήτησης μαθήματος και επιλέγοντας ένα "
 #~ "μάθημα από το αναδυόμενο παράθυρο που εμφανίζεται. Μπορείτε επίσης να "
@@ -10711,7 +10711,7 @@ msgstr "Νόμισμα"
 #~ "number of students."
 #~ msgstr ""
 #~ "Η έκθεση αυτή δείχνει κάθε μάθημα και ο βαθμός επιλεξιμότητας έχει "
-#~ "τοποθετηθεί σε οποιοδήποτε αριθμό των φοιτητών."
+#~ "τοποθετηθεί σε οποιοδήποτε αριθμό των Καταρτιζόμενων."
 
 #~ msgid ""
 #~ "After searching for students, you can specify the eligibility timeframe "
@@ -10900,7 +10900,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Διεύθυνση Φοιτητικής"
 
 #~ msgid "Student Addresses"
-#~ msgstr "Διευθύνσεις Φοιτητών"
+#~ msgstr "Διευθύνσεις Καταρτιζόμενων"
 
 #~ msgid "delete"
 #~ msgstr "διαγράψετε"
@@ -11351,7 +11351,7 @@ msgstr "Νόμισμα"
 #~ "Ημέρες μέχρι Πέτρες βαθμολόγηση της εργασίας εμφανίζεται στο Μητρικής"
 
 #~ msgid "Student gradebook views"
-#~ msgstr "Θέα gradebook Φοιτητών"
+#~ msgstr "Θέα gradebook Καταρτιζόμενων"
 
 #~ msgid "Default comment code"
 #~ msgstr "Προεπιλεγμένος κωδικός σχόλιο"
@@ -11515,7 +11515,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Σύνολο πιστωτικών Δεδουλευμένα"
 
 #~ msgid "Include Student Picture"
-#~ msgstr "Περιλαμβάνουν εικόνα Φοιτητών"
+#~ msgstr "Περιλαμβάνουν εικόνα Καταρτιζόμενων"
 
 #~ msgid "First"
 #~ msgstr "Πρώτα"
@@ -11670,7 +11670,7 @@ msgstr "Νόμισμα"
 #~ "ανταποκρίνεται στις"
 
 #~ msgid "That course has been added to the selected students' schedules."
-#~ msgstr "Αυτό βέβαια έχει προστεθεί δρομολόγια των επιλεγμένων φοιτητών."
+#~ msgstr "Αυτό βέβαια έχει προστεθεί δρομολόγια των επιλεγμένων Καταρτιζόμενων."
 
 #~ msgid "Manual Override"
 #~ msgstr "Χειροκίνητη παράκαμψη"
@@ -11707,7 +11707,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Γήπεδο Όνομα Περίοδος"
 
 #~ msgid "Student Class Pictures"
-#~ msgstr "Εικόνες Class Φοιτητών"
+#~ msgstr "Εικόνες Class Καταρτιζόμενων"
 
 #~ msgid "Legal Size Paper"
 #~ msgstr "Νομική μέγεθος χαρτιού"
@@ -12095,7 +12095,7 @@ msgstr "Νόμισμα"
 #~ "μαθητές"
 
 #~ msgid "Student Advanced Report"
-#~ msgstr "Αναλυτική Έκθεση Φοιτητών"
+#~ msgstr "Αναλυτική Έκθεση Καταρτιζόμενων"
 
 #~ msgid "Powered by RosarioSIS"
 #~ msgstr "Powered by RosarioSIS"
@@ -12238,7 +12238,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Με την πρόοδο"
 
 #~ msgid "Student Letter"
-#~ msgstr "Επιστολή Φοιτητών"
+#~ msgstr "Επιστολή Καταρτιζόμενων"
 
 #~ msgid ""
 #~ "Avery Label 15660, 18660, 28660, 5630, 5660, 8660, 5620, 8620 compatible"
@@ -12258,16 +12258,16 @@ msgstr "Νόμισμα"
 #~ msgstr "Στόχοι Εκτύπωση &amp; Πρόοδος"
 
 #~ msgid "Upload Student Photo"
-#~ msgstr "Ανεβάστε Φωτογραφία Φοιτητών"
+#~ msgstr "Ανεβάστε Φωτογραφία Καταρτιζόμενων"
 
 #~ msgid "Update Student Photo"
-#~ msgstr "Ενημέρωση Φωτογραφία Φοιτητών"
+#~ msgstr "Ενημέρωση Φωτογραφία Καταρτιζόμενων"
 
 #~ msgid "Contact Field Categories"
 #~ msgstr "Επικοινωνία Κατηγορίες Πεδίο"
 
 #~ msgid "Student Information Report"
-#~ msgstr "Έκθεση Φοιτητών Πληροφορίες"
+#~ msgstr "Έκθεση Καταρτιζόμενων Πληροφορίες"
 
 #~ msgid "Personal Information"
 #~ msgstr "Προσωπικά Δεδομένα"
@@ -12360,7 +12360,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Επόμενη"
 
 #~ msgid "Cannot delete because student fields are associated."
-#~ msgstr "Δεν είναι δυνατή η διαγραφή, διότι οι συναφείς τομείς των φοιτητών."
+#~ msgstr "Δεν είναι δυνατή η διαγραφή, διότι οι συναφείς τομείς των Καταρτιζόμενων."
 
 #~ msgid "Cannot delete because field categories are associated."
 #~ msgstr ""
@@ -12386,10 +12386,10 @@ msgstr "Νόμισμα"
 #~ "Συμπεριλάβετε (πρέπει να μείνει κενό για τις περισσότερες κατηγορίες)"
 
 #~ msgid "Student Field Categories"
-#~ msgstr "Κατηγορίες Πεδίο Φοιτητών"
+#~ msgstr "Κατηγορίες Πεδίο Καταρτιζόμενων"
 
 #~ msgid "Student Labels"
-#~ msgstr "Ετικέτες Φοιτητών"
+#~ msgstr "Ετικέτες Καταρτιζόμενων"
 
 #~ msgid "Room No"
 #~ msgstr "Δωμάτιο Δεν"
@@ -12475,7 +12475,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Το ίδιο με μαθητές Διεύθυνση κατοικίας"
 
 #~ msgid "Same as Student's Home Address"
-#~ msgstr "Ίδια με την Διεύθυνση κατοικίας Φοιτητών"
+#~ msgstr "Ίδια με την Διεύθυνση κατοικίας Καταρτιζόμενων"
 
 #~ msgid "This is an Emergency Contact."
 #~ msgstr "Αυτό είναι ένα Επικοινωνία έκτακτης ανάγκης."
@@ -12598,7 +12598,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Πρωτογενή γλώσσα"
 
 #~ msgid "Update Student's Photo"
-#~ msgstr "Φωτογραφία Ενημέρωση Φοιτητών"
+#~ msgstr "Φωτογραφία Ενημέρωση Καταρτιζόμενων"
 
 #~ msgid "Will automatically be assigned"
 #~ msgstr "Αυτόματα θα αποδοθούν"
@@ -12610,7 +12610,7 @@ msgstr "Νόμισμα"
 #~ msgstr "Πληροφορίες Πρόσβαση"
 
 #~ msgid "Disable Student"
-#~ msgstr "Απενεργοποίηση Φοιτητών"
+#~ msgstr "Απενεργοποίηση Καταρτιζόμενων"
 
 #~ msgid "Enrollment Information"
 #~ msgstr "Πληροφορίες Εγγραφής"
