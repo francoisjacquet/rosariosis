@@ -7,6 +7,7 @@ Changes in 10.8
 ---------------
 - Fix MySQL Periods list in MasterScheduleReport.php
 - SQL explicitly list all columns instead of `SELECT *` in MenuItems.php, Menus.php, EditHistoryMarkingPeriods.php, EditReportcardGrades.php, ReportCardCommentCodes.php, ReportCardComments.php & ReportCardGrades.php
+- Add & use DBSQLCommaSeparatedResult() function (SQL result as comma separated list) in database.inc.php, Dashboard.inc.php, MasterScheduleReport.php & Export.php
 
 Changes in 10.7.1
 -----------------

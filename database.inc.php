@@ -800,3 +800,28 @@ function MySQLRemoveDelimiter( $sql )
 
 	return $sql_without_delimiter;
 }
+
+/**
+ * SQL result as comma separated list
+ *
+ * @since 10.8
+ * @link https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_group-concat
+ *
+ * @example "SELECT " . DBSQLCommaSeparatedResult( 's.STUDENT_ID' ) . " AS STUDENTS_LIST FROM STUDENTS s"
+ *
+ * @param string $column    SQL column.
+ * @param string $separator List separator, default to comma.
+ *
+ * @return string MySQL or PostgreSQL function
+ */
+function DBSQLCommaSeparatedResult( $column, $separator = ',' )
+{
+	global $DatabaseType;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		return "GROUP_CONCAT(" . $column . " SEPARATOR '" . DBEscapeString( $separator ) . "')";
+	}
+
+	return "ARRAY_TO_STRING(ARRAY_AGG(" . $column . "), '" . DBEscapeString( $separator ) . "')";
+}

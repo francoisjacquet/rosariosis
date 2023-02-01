@@ -30,32 +30,9 @@ if ( ! $is_include_inactive )
 	AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")";
 }
 
-/**
- * SQL result as comma separated list
- *
- * @since 9.3 Add MySQL support
- * @link https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_group-concat
- *
- * @param string $column    SQL column.
- * @param string $separator List separator, default to comma.
- *
- * @return string MySQL or PostgreSQL function
- */
-$sql_comma_separated_result = function( $column, $separator = ',' )
-{
-	global $DatabaseType;
-
-	if ( $DatabaseType === 'mysql' )
-	{
-		return "GROUP_CONCAT(" . $column . " SEPARATOR '" . DBEscapeString( $separator ) . "')";
-	}
-
-	return "ARRAY_TO_STRING(ARRAY_AGG(" . $column . "), '" . DBEscapeString( $separator ) . "')";
-};
-
 $sections_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE AS COURSE,cp.COURSE_ID,
 	cp.TEACHER_ID,cp.ROOM,cp.TOTAL_SEATS AS SEATS,cp.MARKING_PERIOD_ID,
-	(SELECT " . $sql_comma_separated_result( 'sp.TITLE', ', ' ) . "
+	(SELECT " . DBSQLCommaSeparatedResult( 'sp.TITLE', ', ' ) . "
 		FROM school_periods sp,course_period_school_periods cpsp
 		WHERE sp.SYEAR='" . UserSyear() . "'
 		AND cpsp.PERIOD_ID=sp.PERIOD_ID

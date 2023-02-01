@@ -322,32 +322,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( isset( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] )
 			&& $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
 		{
-			/**
-			 * SQL result as comma separated list
-			 *
-			 * @since 9.3 Add MySQL support
-			 * @link https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_group-concat
-			 *
-			 * @param string $column    SQL column.
-			 * @param string $separator List separator, default to comma.
-			 *
-			 * @return string MySQL or PostgreSQL function
-			 */
-			$sql_comma_separated_result = function( $column, $separator = ',' )
-			{
-				global $DatabaseType;
-
-				if ( $DatabaseType === 'mysql' )
-				{
-					return "GROUP_CONCAT(" . $column . " SEPARATOR '" . DBEscapeString( $separator ) . "')";
-				}
-
-				return "ARRAY_TO_STRING(ARRAY_AGG(" . $column . "), '" . DBEscapeString( $separator ) . "')";
-			};
-
 			//FJ multiple school periods for a course period
 			//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM staff st,schedule ss,course_periods cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
-			$extra['SELECT'] .= ",(SELECT " . $sql_comma_separated_result(
+			$extra['SELECT'] .= ",(SELECT " . DBSQLCommaSeparatedResult(
 				"CONCAT(st.FIRST_NAME, ' ', st.LAST_NAME, ' - ', coalesce(cp.ROOM,' '))",
 				'<br />'
 			) . "
