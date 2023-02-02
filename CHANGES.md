@@ -15,6 +15,7 @@ Changes in 10.8
 - Add Resource Visibility options in Resources.php
 - Move Resources functions to separate file & rename them in Resources.php & Resources.fnc.php
 - Update French & Spanish translations in rosariosis.po
+- CSS Fix Select2 dropdown hidden when inside colorBox (has z-index 9999) in stylesheet.css
 
 Changes in 10.7.1
 -----------------

@@ -1687,6 +1687,12 @@ input[type=checkbox].toggle {
 	margin-bottom: 0;
 }
 
+/* Fix Select2 dropdown hidden when inside colorBox (has z-index 9999) */
+
+.select2-dropdown {
+	z-index: 10051 !important;
+}
+
 /* Chosen/Select2 select: add 15px to original width so Chosen options ALL fit */
 
 .chosen-select,
