@@ -10,6 +10,7 @@ Changes in 10.8
 - JS Fix #319 Try a full match first to identify selected menu link in warehouse.js
 - Spanish translation add ¿ character before questions in rosariosis.po
 - HTML add "Check All" checkbox after Periods in AddAbsences.php
+- Truncate Assignment title to 36 chars in AnomalousGrades.php
 
 Changes in 10.7.1
 -----------------

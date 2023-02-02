@@ -138,7 +138,11 @@ if ( $_REQUEST['include_all_courses'] == 'Y' )
 	$extra['all_courses'] = 'Y';
 }
 
-$extra['functions'] = [ 'POINTS' => '_makePoints' ];
+$extra['functions'] = [
+	'POINTS' => '_makePoints',
+	'TYPE_TITLE' => '_makeTitle',
+	'TITLE' => '_makeTitle',
+];
 
 if ( ! UserStudentID() )
 {
@@ -253,4 +257,33 @@ function _makePoints( $value, $column )
 	}
 
 	return number_format(  ( $value / $THIS_RET['TOTAL_POINTS'] ) * 100, 0 ) . '%';
+}
+
+/**
+ * Make Assignment Title
+ * Truncate Assignment title to 36 chars
+ *
+ * Local function.
+ * GetStuList() DBGet() callback.
+ *
+ * @since 10.8
+ *
+ * @param  string $value  Title value.
+ * @param  string $column Column. Defaults to 'TITLE'.
+ *
+ * @return string         Assignment title truncated to 36 chars.
+ */
+function _makeTitle( $value, $column = 'TITLE' )
+{
+	if ( ! empty( $_REQUEST['LO_save'] ) )
+	{
+		// Export list.
+		return $value;
+	}
+
+	$title = mb_strlen( $value ) <= 36 ?
+		$value :
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+
+	return $title;
 }
