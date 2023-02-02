@@ -236,6 +236,10 @@ function Update()
 		case version_compare( $from_version, '10.6.1', '<' ) :
 
 			$return = _update1061();
+
+		case version_compare( $from_version, '10.8', '<' ) :
+
+			$return = _update108();
 	}
 
 	// Update version in DB config table.
@@ -1042,6 +1046,45 @@ function _update1061()
 		CHANGE credit_earned credit_earned numeric(22,16),
 		CHANGE gp_credits gp_credits numeric(22,16),
 		CHANGE cr_credits cr_credits numeric(22,16);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 10.8
+ *
+ * 1. resources table: Add PUBLISHED_PROFILES & PUBLISHED_GRADE_LEVELS columns.
+ *
+ * Local function
+ *
+ * @since 10.8
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update108()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. resources table: Add PUBLISHED_PROFILES & PUBLISHED_GRADE_LEVELS columns.
+	 */
+	$published_profiles_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( ! empty( $DatabaseType ) && $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='resources'
+		AND column_name='published_profiles';" );
+
+	if ( ! $published_profiles_column_exists )
+	{
+		DBQuery( "ALTER TABLE resources
+		ADD published_profiles text,
+		ADD published_grade_levels text;" );
 	}
 
 	return $return;

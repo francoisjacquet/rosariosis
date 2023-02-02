@@ -11,6 +11,7 @@ Changes in 10.8
 - Spanish translation add ¿ character before questions in rosariosis.po
 - HTML add "Check All" checkbox after Periods in AddAbsences.php
 - Truncate Assignment title to 36 chars in AnomalousGrades.php
+- SQL resources table: Add PUBLISHED_PROFILES & PUBLISHED_GRADE_LEVELS columns in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 10.7.1
 -----------------

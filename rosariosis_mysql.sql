@@ -1492,6 +1492,8 @@ CREATE TABLE resources (
     school_id integer NOT NULL,
     title text NOT NULL,
     link text,
+    published_profiles text,
+    published_grade_levels text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
 );
