@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-22 17:44+0200\n"
-"PO-Revision-Date: 2022-09-22 17:45+0200\n"
+"PO-Revision-Date: 2023-01-28 22:01+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -273,7 +273,7 @@ msgstr "El restablecimiento de contraseña no está activo para los estudiantes.
 
 #: PasswordReset.php:273 PasswordReset.php:278
 msgid "Forgot your password?"
-msgstr "Olvidó su contraseña?"
+msgstr "¿Olvidó su contraseña?"
 
 #: PasswordReset.php:282 ProgramFunctions/StudentsUsersInfo.fnc.php:48
 #: modules/Custom/CreateParents.php:316 modules/Custom/CreateParents.php:406
@@ -3185,7 +3185,7 @@ msgstr "De"
 
 #: modules/Attendance/FixDailyAttendance.php:10
 msgid "When do you want to recalculate the daily attendance?"
-msgstr "Cuándo quiere recalcular la asistencia diaria?"
+msgstr "¿Cuándo quiere recalcular la asistencia diaria?"
 
 #: modules/Attendance/FixDailyAttendance.php:14 modules/Attendance/Menu.php:23
 msgid "Recalculate Daily Attendance"
@@ -6930,7 +6930,7 @@ msgstr "Confirme el Copiar la Institución"
 #, php-format
 msgid "Are you sure you want to copy the data for %s to a new school?"
 msgstr ""
-"Está seguro que desea copiar la información de %s a la nueva institución?"
+"¿Está seguro que desea copiar la información de %s a la nueva institución?"
 
 #: modules/School_Setup/CopySchool.php:88
 #, php-format
@@ -8123,7 +8123,7 @@ msgstr "Confirmar Eliminar"
 #: modules/Users/Profiles.php:77
 #, php-format
 msgid "Are you sure you want to delete the user profile <i>%s</i>?"
-msgstr "Está seguro que quiere eliminar el perfil de usuario <i>%s</i>?"
+msgstr "¿Está seguro que quiere eliminar el perfil de usuario <i>%s</i>?"
 
 #: modules/Users/Profiles.php:78
 #, php-format
@@ -8454,19 +8454,19 @@ msgstr "Crear la Clase en Moodle"
 
 #: plugins/Moodle/functions.php:558
 msgid "Publish Event in Moodle?"
-msgstr "Publicar el Evento en Moodle?"
+msgstr "¿Publicar el Evento en Moodle?"
 
 #: plugins/Moodle/functions.php:626
 msgid "Publish Note in Moodle?"
-msgstr "Publicar la Nota en Moodle?"
+msgstr "¿Publicar la Nota en Moodle?"
 
 #: plugins/Moodle/includes/ImportUsers.fnc.php:535
 msgid ""
 "Are you absolutely ready to import users? Make sure you have backed up your "
 "database!"
 msgstr ""
-"Está listo para importar los usuarios? Asegúrese de haber hecho un backup de "
-"la base de datos!"
+"¿Está listo para importar los usuarios? Asegúrese de haber hecho un backup "
+"de la base de datos!"
 
 #: plugins/Moodle/includes/ImportUsers.fnc.php:545
 msgid "Stop"
