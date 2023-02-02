@@ -756,7 +756,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		return $multiple_value . FormatInputTitle( $title );
 	}
 
-	$multiple_html = '<table class="cellpadding-5"><tr class="st">';
+	$multiple_html = '<table class="cellspacing-0 cellpadding-5"><tr class="st">';
 
 	$i = 0;
 
