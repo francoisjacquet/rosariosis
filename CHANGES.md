@@ -7,6 +7,7 @@ Changes in 10.8
 - SQL explicitly list all columns instead of `SELECT *` in MenuItems.php, Menus.php, EditHistoryMarkingPeriods.php, EditReportcardGrades.php, ReportCardCommentCodes.php, ReportCardComments.php & ReportCardGrades.php
 - Add & use DBSQLCommaSeparatedResult() function (SQL result as comma separated list) in database.inc.php, Dashboard.inc.php, MasterScheduleReport.php & Export.php
 - HTML email input remove pattern, add maxlength in PasswordReset.php, StudentsUsersInfo.fnc.php, NotifyParents.php, CreateParents.php & General_Info.inc.php, Other_Info.inc.php
+- JS Fix #319 Try a full match first to identify selected menu link in warehouse.js
 
 Changes in 10.7.1
 -----------------

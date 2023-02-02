@@ -535,7 +535,14 @@ var openMenu = function() {
 
 	if (!window.modname || !modname || modname == 'misc/Portal.php') return;
 
-	$('.wp-submenu a[href$="' + modname + '"]').first().attr('id', 'selectedMenuLink');
+	// Fix #319 Try a full match first to identify selected menu link.
+	var $menuLink = $('.wp-submenu a[href="Modules.php' + window.location.search + '"]');
+
+	if ( ! $menuLink.length ) {
+		$menuLink = $('.wp-submenu a[href$="' + modname + '"]');
+	}
+
+	$menuLink.first().attr('id', 'selectedMenuLink');
 
 	// Add selectedModuleLink.
 	$('#selectedMenuLink').parents('.menu-module').children('.menu-top').attr('id', 'selectedModuleLink');
