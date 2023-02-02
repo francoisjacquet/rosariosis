@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.8
+-----------
+
+Resources
+- Resources: add Resource Visibility options, sponsored by @Hirama666
+
+
 New in 10.7
 -----------
 
