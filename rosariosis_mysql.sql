@@ -2840,10 +2840,10 @@ INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'N/A', 15, 0.00, NULL, NUL
 -- Data for Name: resources; Type: TABLE DATA;
 --
 
-INSERT INTO resources VALUES (NULL, 1, 'Print Handbook', 'Help.php', NULL, NULL);
-INSERT INTO resources VALUES (NULL, 1, 'Quick Setup Guide', 'https://www.rosariosis.org/quick-setup-guide/', NULL, NULL);
-INSERT INTO resources VALUES (NULL, 1, 'Forum', 'https://www.rosariosis.org/forum/', NULL, NULL);
-INSERT INTO resources VALUES (NULL, 1, 'Contribute', 'https://www.rosariosis.org/contribute/', NULL, NULL);
+INSERT INTO resources VALUES (NULL, 1, 'Print Handbook', 'Help.php', NULL, NULL, NULL, NULL);
+INSERT INTO resources VALUES (NULL, 1, 'Quick Setup Guide', 'https://www.rosariosis.org/quick-setup-guide/', NULL, NULL, NULL, NULL);
+INSERT INTO resources VALUES (NULL, 1, 'Forum', 'https://www.rosariosis.org/forum/', NULL, NULL, NULL, NULL);
+INSERT INTO resources VALUES (NULL, 1, 'Contribute', 'https://www.rosariosis.org/contribute/', NULL, NULL, NULL, NULL);
 
 
 --
