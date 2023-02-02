@@ -9,6 +9,7 @@ Changes in 10.8
 - HTML email input remove pattern, add maxlength in PasswordReset.php, StudentsUsersInfo.fnc.php, NotifyParents.php, CreateParents.php & General_Info.inc.php, Other_Info.inc.php
 - JS Fix #319 Try a full match first to identify selected menu link in warehouse.js
 - Spanish translation add ¿ character before questions in rosariosis.po
+- HTML add "Check All" checkbox after Periods in AddAbsences.php
 
 Changes in 10.7.1
 -----------------

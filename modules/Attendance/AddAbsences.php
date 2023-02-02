@@ -35,10 +35,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND PERIOD_ID IN (" . $periods_list . ")
 		AND STUDENT_ID IN (" . $students_list . ")", [], [ 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ] );
 
-		$state_code = DBGetOne( "SELECT STATE_CODE
-			FROM attendance_codes
-			WHERE ID='" . (int) $_REQUEST['absence_code'] . "'" );
-
 		$go = false;
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
@@ -116,8 +112,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					$course_period_id = issetVal( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] );
 
-					if ( $course_period_id
-						&& ! ( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] == 'Y' && $state_code == 'H' ) )
+					if ( $course_period_id )
 					{
 						if ( empty( $current_RET[$student_id][$date][$period_id] ) )
 						{
@@ -207,7 +202,10 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<td><label><input type="CHECKBOX" value="Y" name="period[' . $period['PERIOD_ID'] . ']"> ' . $period['SHORT_NAME'] . '</label></td>';
 		}
 
-		echo '</tr></table>' . FormatInputTitle( _( 'Add Absence to Periods' ), '', false, '' ) . '</td></tr>';
+		echo '</tr></table>' .
+			'&nbsp;<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'period\');">&nbsp;' .
+			_( 'Check All' ) . '</label>' .
+			FormatInputTitle( _( 'Add Absence to Periods' ) ) . '</td></tr>';
 
 		echo '<tr><td><label><select name="absence_code">';
 
