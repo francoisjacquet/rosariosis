@@ -13,6 +13,7 @@ Changes in 10.8
 - Truncate Assignment title to 36 chars in AnomalousGrades.php
 - SQL resources table: Add PUBLISHED_PROFILES & PUBLISHED_GRADE_LEVELS columns in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 - Add Resource Visibility options in Resources.php
+- Move Resources functions to separate file & rename them in Resources.php & Resources.fnc.php
 - Update French & Spanish translations in rosariosis.po
 
 Changes in 10.7.1
