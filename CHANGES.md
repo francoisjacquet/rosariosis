@@ -6,6 +6,7 @@ Changes in 10.8.1
 - Use CheckBoxOnclick() in StudentBalances.php & Schedule.inc.php
 - Fix SQL error when Quarter with Assignments is deleted in Portal.php
 - SQL Check requested assignment belongs to current Marking Period in Assignments.php
+- MySQL + MariaDB < 10.5 fix FOREIGN KEY constraint syntax in rosariosis_mysql.sql
 
 Changes in 10.8
 ---------------

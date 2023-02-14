@@ -348,13 +348,17 @@ CREATE TABLE course_periods (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     course_period_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    course_id integer NOT NULL REFERENCES courses(course_id),
+    course_id integer NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
     title text,
     short_name varchar(25) NOT NULL,
     mp varchar(3),
-    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
-    teacher_id integer NOT NULL REFERENCES staff(staff_id),
-    secondary_teacher_id integer REFERENCES staff(staff_id),
+    marking_period_id integer NOT NULL,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
+    teacher_id integer NOT NULL,
+    FOREIGN KEY (teacher_id) REFERENCES staff(staff_id),
+    secondary_teacher_id integer,
+    FOREIGN KEY (secondary_teacher_id) REFERENCES staff(staff_id),
     room varchar(10),
     total_seats numeric,
     filled_seats numeric,
@@ -418,7 +422,8 @@ CREATE TABLE accounting_incomes (
 --
 
 CREATE TABLE accounting_salaries (
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     assigned_date date,
     due_date date,
     comments text,
@@ -442,7 +447,8 @@ CREATE TABLE accounting_payments (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    staff_id integer REFERENCES staff(staff_id),
+    staff_id integer,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     amount numeric(14,2) NOT NULL,
     payment_date date,
     comments text,
@@ -590,7 +596,8 @@ CREATE TABLE attendance_codes (
 --
 
 CREATE TABLE attendance_completed (
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     table_name integer NOT NULL,
@@ -605,12 +612,14 @@ CREATE TABLE attendance_completed (
 --
 
 CREATE TABLE attendance_day (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     school_date date NOT NULL,
     minutes_present integer,
     state_value numeric(2,1),
     syear numeric(4,0),
-    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
+    marking_period_id integer,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
     comment text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
@@ -623,15 +632,18 @@ CREATE TABLE attendance_day (
 --
 
 CREATE TABLE attendance_period (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     attendance_code integer,
     attendance_teacher_code integer,
     attendance_reason varchar(100),
     admin varchar(1),
-    course_period_id integer REFERENCES course_periods(course_period_id),
-    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
+    course_period_id integer,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
+    marking_period_id integer,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
     comment varchar(100),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
@@ -644,7 +656,8 @@ CREATE TABLE attendance_period (
 --
 
 CREATE TABLE billing_fees (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     assigned_date date,
     due_date date,
     comments text,
@@ -669,7 +682,8 @@ CREATE TABLE billing_payments (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     amount numeric(14,2) NOT NULL,
     payment_date date,
     comments text,
@@ -726,7 +740,8 @@ CREATE VIEW course_details AS
 
 CREATE TABLE course_period_school_periods (
     course_period_school_periods_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
+    course_period_id integer NOT NULL,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     period_id integer NOT NULL,
     days varchar(7),
     created_at timestamp DEFAULT current_timestamp,
@@ -811,9 +826,11 @@ CREATE TABLE discipline_fields (
 CREATE TABLE discipline_referrals (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     school_id integer NOT NULL,
-    staff_id integer REFERENCES staff(staff_id),
+    staff_id integer,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     entry_date date,
     referral_date date,
     category_1 text,
@@ -833,12 +850,14 @@ CREATE TABLE discipline_referrals (
 --
 
 CREATE TABLE eligibility (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     syear numeric(4,0),
     school_date date,
     period_id integer,
     eligibility_code varchar(20),
-    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
+    course_period_id integer NOT NULL,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
 );
@@ -867,7 +886,8 @@ CREATE TABLE eligibility_activities (
 --
 
 CREATE TABLE eligibility_completed (
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
@@ -960,7 +980,8 @@ CREATE TABLE food_service_menus (
 --
 
 CREATE TABLE food_service_staff_accounts (
-    staff_id integer PRIMARY KEY REFERENCES staff(staff_id),
+    staff_id integer PRIMARY KEY,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     status varchar(25),
     barcode varchar(50) UNIQUE,
     balance numeric(9,2) NOT NULL,
@@ -992,7 +1013,8 @@ CREATE TABLE food_service_staff_transaction_items (
 
 CREATE TABLE food_service_staff_transactions (
     transaction_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     balance numeric(9,2),
@@ -1011,7 +1033,8 @@ CREATE TABLE food_service_staff_transactions (
 --
 
 CREATE TABLE food_service_student_accounts (
-    student_id integer PRIMARY KEY REFERENCES students(student_id),
+    student_id integer PRIMARY KEY,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     account_id integer NOT NULL,
     discount varchar(25),
     status varchar(25),
@@ -1045,7 +1068,8 @@ CREATE TABLE food_service_transaction_items (
 CREATE TABLE food_service_transactions (
     transaction_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     account_id integer NOT NULL,
-    student_id integer REFERENCES students(student_id),
+    student_id integer,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     discount varchar(25),
@@ -1066,8 +1090,10 @@ CREATE TABLE food_service_transactions (
 
 CREATE TABLE gradebook_assignment_types (
     assignment_type_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
-    course_id integer NOT NULL REFERENCES courses(course_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+    course_id integer NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
     title text NOT NULL,
     final_grade_percent numeric(6,5),
     sort_order numeric,
@@ -1084,10 +1110,14 @@ CREATE TABLE gradebook_assignment_types (
 
 CREATE TABLE gradebook_assignments (
     assignment_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
-    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
-    course_period_id integer REFERENCES course_periods(course_period_id),
-    course_id integer REFERENCES courses(course_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+    marking_period_id integer NOT NULL,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
+    course_period_id integer,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
+    course_id integer,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
     assignment_type_id integer NOT NULL,
     title text NOT NULL,
     assigned_date date,
@@ -1107,9 +1137,11 @@ CREATE TABLE gradebook_assignments (
 --
 
 CREATE TABLE gradebook_grades (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     period_id integer, -- @deprecated since 6.9 SQL gradebook_grades column PERIOD_ID.
-    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
+    course_period_id integer NOT NULL,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     assignment_id integer NOT NULL,
     points numeric(6,2),
     comment text,
@@ -1125,9 +1157,12 @@ CREATE TABLE gradebook_grades (
 -- Idea: could be dynamic, like a view?
 
 CREATE TABLE grades_completed (
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
-    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
-    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+    marking_period_id integer NOT NULL,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
+    course_period_id integer NOT NULL,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
     PRIMARY KEY (staff_id, marking_period_id, course_period_id)
@@ -1139,15 +1174,18 @@ CREATE TABLE grades_completed (
 --
 
 CREATE TABLE lunch_period (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     attendance_code integer,
     attendance_teacher_code integer,
     attendance_reason varchar(100),
     admin varchar(1),
-    course_period_id integer REFERENCES course_periods(course_period_id),
-    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
+    course_period_id integer,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
+    marking_period_id integer,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
     comment varchar(100),
     table_name integer,
     created_at timestamp DEFAULT current_timestamp,
@@ -1376,7 +1414,8 @@ CREATE TABLE report_card_comment_categories (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    course_id integer REFERENCES courses(course_id),
+    course_id integer,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
     sort_order numeric,
     title text NOT NULL,
     rollover_id integer,
@@ -1506,15 +1545,19 @@ CREATE TABLE resources (
 CREATE TABLE schedule (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     start_date date NOT NULL,
     end_date date,
     modified_date date, -- @deprecated since 5.0 Use updated_at.
     modified_by varchar(255),
-    course_id integer NOT NULL REFERENCES courses(course_id),
-    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
+    course_id integer NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
+    course_period_id integer NOT NULL,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     mp varchar(3),
-    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
+    marking_period_id integer,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
     scheduler_lock varchar(1),
     id integer, -- Any IDea?
     created_at timestamp DEFAULT current_timestamp,
@@ -1531,10 +1574,13 @@ CREATE TABLE schedule_requests (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     request_id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     subject_id integer,
-    course_id integer REFERENCES courses(course_id),
-    marking_period_id integer REFERENCES school_marking_periods(marking_period_id), -- Not used...
+    course_id integer,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id),
+    marking_period_id integer,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id), -- Not used...
     priority integer,
     with_teacher_id integer,
     not_teacher_id integer,
@@ -1607,7 +1653,8 @@ CREATE TABLE school_periods (
 --
 
 CREATE TABLE staff_exceptions (
-    user_id integer NOT NULL REFERENCES staff(staff_id),
+    user_id integer NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES staff(staff_id),
     modname varchar(150) NOT NULL,
     can_use varchar(1),
     can_edit varchar(1),
@@ -1660,8 +1707,9 @@ CREATE TABLE staff_fields (
 
 CREATE TABLE student_assignments (
     assignment_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
     data longtext,
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
     PRIMARY KEY (assignment_id, student_id)
@@ -1674,7 +1722,8 @@ CREATE TABLE student_assignments (
 
 CREATE TABLE student_eligibility_activities (
     syear numeric(4,0),
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     activity_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
@@ -1719,7 +1768,8 @@ CREATE TABLE student_field_categories (
 
 CREATE TABLE student_medical (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     type varchar(25),
     medical_date date,
     comments varchar(100),
@@ -1734,7 +1784,8 @@ CREATE TABLE student_medical (
 
 CREATE TABLE student_medical_alerts (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     title varchar(100),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
@@ -1747,7 +1798,8 @@ CREATE TABLE student_medical_alerts (
 
 CREATE TABLE student_medical_visits (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     school_date date,
     time_in varchar(20),
     time_out varchar(20),
@@ -1764,10 +1816,12 @@ CREATE TABLE student_medical_visits (
 --
 
 CREATE TABLE student_mp_comments (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     syear numeric(4,0) NOT NULL,
-    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
     comment text,
+    marking_period_id integer NOT NULL,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
     PRIMARY KEY (student_id, syear, marking_period_id)
@@ -1781,7 +1835,8 @@ CREATE TABLE student_mp_comments (
 --
 
 CREATE TABLE student_mp_stats (
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     marking_period_id integer NOT NULL, -- Can be History, so no REFERENCES school_marking_periods(marking_period_id).
     cum_weighted_factor numeric(22,16),
     cum_unweighted_factor numeric(22,16),
@@ -1816,11 +1871,14 @@ CREATE TABLE student_mp_stats (
 CREATE TABLE student_report_card_comments (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
-    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    course_period_id integer NOT NULL,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     report_card_comment_id integer NOT NULL,
     comment varchar(5),
-    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
+    marking_period_id integer NOT NULL,
+    FOREIGN KEY (marking_period_id) REFERENCES school_marking_periods(marking_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
     PRIMARY KEY (syear, student_id, course_period_id, marking_period_id, report_card_comment_id),
@@ -1835,8 +1893,10 @@ CREATE TABLE student_report_card_comments (
 CREATE TABLE student_report_card_grades (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
-    course_period_id integer REFERENCES course_periods(course_period_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    course_period_id integer,
+    FOREIGN KEY (course_period_id) REFERENCES course_periods(course_period_id),
     report_card_grade_id integer,
     report_card_comment_id integer,
     comment text,
@@ -1868,7 +1928,8 @@ CREATE TABLE student_enrollment (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     grade_id integer,
     start_date date,
     end_date date,
@@ -1898,7 +1959,8 @@ CREATE VIEW enroll_grade AS
 
 CREATE TABLE students_join_address (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     address_id integer NOT NULL,
     contact_seq numeric(10,0),
     gets_mail varchar(1),
@@ -1922,7 +1984,8 @@ CREATE TABLE students_join_address (
 
 CREATE TABLE students_join_people (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
     person_id integer NOT NULL,
     address_id integer,
     custody varchar(1),
@@ -1938,8 +2001,10 @@ CREATE TABLE students_join_people (
 --
 
 CREATE TABLE students_join_users (
-    student_id integer NOT NULL REFERENCES students(student_id),
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    student_id integer NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    staff_id integer NOT NULL,
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
     PRIMARY KEY (student_id, staff_id)
