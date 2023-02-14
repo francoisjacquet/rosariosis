@@ -487,17 +487,18 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! empty( $_REQUEST['assignment_id'] )
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
-		// SQL Check requested assignment belongs to teacher.
-		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
+		// SQL Check requested assignment belongs to teacher and current Marking Period.
+		$assignment_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
 			FROM gradebook_assignments
 			WHERE (COURSE_ID=(SELECT COURSE_ID
 				FROM course_periods
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
-			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
-		if ( ! $assignment_type_RET )
+		if ( ! $assignment_RET )
 		{
 			// Unset assignment & type IDs & redirect URL.
 			RedirectURL( [ 'assignment_type_id', 'assignment_id' ] );
@@ -506,7 +507,7 @@ if ( ! $_REQUEST['modfunc'] )
 			|| ! is_numeric( $_REQUEST['assignment_type_id'] ) )
 		{
 			// We have an Assignment ID but no type ID.
-			$_REQUEST['assignment_type_id'] = $assignment_type_RET[1]['ASSIGNMENT_TYPE_ID'];
+			$_REQUEST['assignment_type_id'] = $assignment_RET[1]['ASSIGNMENT_TYPE_ID'];
 		}
 	}
 
