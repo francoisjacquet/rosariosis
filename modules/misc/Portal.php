@@ -571,12 +571,14 @@ switch ( User( 'PROFILE' ) )
 		$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
 			a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 			c.TITLE AS COURSE,a.MARKING_PERIOD_ID
-		FROM gradebook_assignments a,courses c
+		FROM gradebook_assignments a,courses c,school_marking_periods mp
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 		AND a.DUE_DATE>=CURRENT_DATE
+		AND mp.MARKING_PERIOD_ID=a.MARKING_PERIOD_ID
+		AND mp.SYEAR='" . UserSyear() . "'
 		ORDER BY a.DUE_DATE,a.TITLE",
 			[
 				'DUE_DATE' => 'ProperDate',
@@ -837,7 +839,7 @@ switch ( User( 'PROFILE' ) )
 				FROM student_assignments sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-			FROM gradebook_assignments a,schedule s,courses c
+			FROM gradebook_assignments a,schedule s,courses c,school_marking_periods mp
 			WHERE (a.COURSE_ID=c.COURSE_ID
 			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
@@ -846,6 +848,8 @@ switch ( User( 'PROFILE' ) )
 			AND s.START_DATE<=CURRENT_DATE
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
+			AND mp.MARKING_PERIOD_ID=a.MARKING_PERIOD_ID
+			AND mp.SYEAR='" . UserSyear() . "'
 			ORDER BY a.DUE_DATE,a.TITLE",
 				[
 					'DUE_DATE' => 'MakeAssignmentDueDate',
@@ -1019,7 +1023,7 @@ switch ( User( 'PROFILE' ) )
 				FROM student_assignments sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-			FROM gradebook_assignments a,schedule s,courses c
+			FROM gradebook_assignments a,schedule s,courses c,school_marking_periods mp
 			WHERE (a.COURSE_ID=c.COURSE_ID
 			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
@@ -1028,6 +1032,8 @@ switch ( User( 'PROFILE' ) )
 			AND s.START_DATE<=CURRENT_DATE
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
+			AND mp.MARKING_PERIOD_ID=a.MARKING_PERIOD_ID
+			AND mp.SYEAR='" . UserSyear() . "'
 			ORDER BY a.DUE_DATE,a.TITLE",
 				[
 					'DUE_DATE' => 'MakeAssignmentDueDate',
