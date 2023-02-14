@@ -113,7 +113,8 @@ function core_calendar_create_calendar_events_response( $response )
 	)}
 	 */
 
-	if ( is_array( $response['warnings'][0] ) )
+	if ( isset( $response['warnings'][0] )
+		&& is_array( $response['warnings'][0] ) )
 	{
 		global $error;
 
