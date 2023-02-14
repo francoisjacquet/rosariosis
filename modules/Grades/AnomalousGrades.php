@@ -21,8 +21,7 @@ DrawHeader(
 		'include_all_courses',
 		_( 'Include All Courses' )
 	),
-	'',
-	'&nbsp;' . CheckBoxOnclick(
+	CheckBoxOnclick(
 		'include_inactive',
 		_( 'Include Inactive Students' )
 	)

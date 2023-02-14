@@ -7,15 +7,7 @@ $_REQUEST['all_schools'] = issetVal( $_REQUEST['all_schools'] );
 
 if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {
-	$all_schools_onclick_URL = ( $_REQUEST['all_schools'] == 'Y' ?
-		PreparePHP_SELF( $_REQUEST, [], [ 'all_schools' => '' ] ) :
-		PreparePHP_SELF( $_REQUEST, [], [ 'all_schools' => 'Y' ] ) );
-
-	$input_all_schools = '<input type="checkbox" name="all_schools" value="Y" onclick="' .
-		AttrEscape( 'ajaxLink(' . json_encode( $all_schools_onclick_URL ) . ');' ) . '"' .
-		( $_REQUEST['all_schools'] == 'Y' ? 'checked' : '' ) . ' />';
-
-	DrawHeader( '<label>' . $input_all_schools . ' ' . _( 'List Courses For All Schools' ) . '</label>' );
+	DrawHeader( CheckBoxOnclick( 'all_schools', _( 'List Courses For All Schools' ) ) );
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
@@ -55,28 +47,14 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	AND s.SYEAR=cp.SYEAR
 	ORDER BY c.TITLE,cp.SHORT_NAME,cp.TITLE", [ 'MARKING_PERIOD_ID' => 'GetMP' ], $group );
 
-	if ( $_REQUEST['all_schools'] == 'Y' )
-	{
-		ListOutput(
-			$schedule_RET,
-			$columns,
-			_( 'School' ),
-			_( 'Schools' ),
-			false,
-			$group
-		);
-	}
-	else
-	{
-		ListOutput(
-			$schedule_RET,
-			$columns,
-			'Course Period',
-			'Course Periods',
-			false,
-			$group
-		);
-	}
+	ListOutput(
+		$schedule_RET,
+		$columns,
+		'Course Period',
+		'Course Periods',
+		false,
+		$group
+	);
 
 	if ( $PopTable_opened )
 	{

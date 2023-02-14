@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.8.1
+-----------------
+- Use CheckBoxOnclick() in StudentBalances.php & Schedule.inc.php
+
 Changes in 10.8
 ---------------
 - Fix MySQL Periods list in MasterScheduleReport.php

@@ -31,16 +31,7 @@ $extra2 = $extra;
 if ( $_REQUEST['search_modfunc'] === 'list' )
 {
 	// @since 10.3 Add "Cumulative Balance over school years" checkbox.
-	$cumulative_balance_onclick_url = ( $_REQUEST['cumulative_balance'] === 'Y' ?
-		PreparePHP_SELF( $_REQUEST, [], [ 'cumulative_balance' => '' ] ) :
-		PreparePHP_SELF( $_REQUEST, [], [ 'cumulative_balance' => 'Y' ] ) );
-
-	$input_cumulative_balance = '<input type="checkbox" name="cumulative_balance" value="Y" onclick="' .
-		AttrEscape( 'ajaxLink(' . json_encode( $cumulative_balance_onclick_url ) . ');' ) . '"' .
-		( $_REQUEST['cumulative_balance'] === 'Y' ? 'checked' : '' ) . ' autocomplete="off" />';
-
-	DrawHeader( '<label class="checkbox-label">' . $input_cumulative_balance . ' ' .
-		_( 'Cumulative Balance over school years' ) . '</label>' );
+	DrawHeader( CheckBoxOnclick( 'cumulative_balance', _( 'Cumulative Balance over school years' ) ) );
 
 	// Call GetStuList() only so we calculate the $total.
 	GetStuList( $extra );
