@@ -43,13 +43,13 @@ if ( empty( $email_column ) )
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 	//get Student / Address fields
-	$student_columns = DBGet( "SELECT 's.CUSTOM_' || f.ID AS COLUMN_NAME, f.TITLE, c.TITLE AS CATEGORY
+	$student_columns = DBGet( "SELECT CONCAT('s.CUSTOM_',f.ID) AS COLUMN_NAME, f.TITLE, c.TITLE AS CATEGORY
 		FROM custom_fields f, student_field_categories c
 		WHERE f.TYPE='text'
 		AND c.ID=f.CATEGORY_ID
 		ORDER BY f.CATEGORY_ID, f.SORT_ORDER" );
 
-	$address_columns = DBGet( "SELECT 'a.CUSTOM_' || f.ID AS COLUMN_NAME, f.TITLE, c.TITLE AS CATEGORY
+	$address_columns = DBGet( "SELECT CONCAT('a.CUSTOM_',f.ID) AS COLUMN_NAME, f.TITLE, c.TITLE AS CATEGORY
 		FROM address_fields f, address_field_categories c
 		WHERE f.TYPE='text'
 		AND c.ID=f.CATEGORY_ID
