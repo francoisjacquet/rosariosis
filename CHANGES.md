@@ -8,6 +8,7 @@ Changes in 10.8.1
 - SQL Check requested assignment belongs to current Marking Period in Assignments.php
 - MySQL + MariaDB < 10.5 fix FOREIGN KEY constraint syntax in rosariosis_mysql.sql
 - SQL use CONCAT() instead of pipes || for MySQL compatibility in CreateParents.php
+- Fix SQL error cast attendance code to integer in TakeAttendance.php
 
 Changes in 10.8
 ---------------

@@ -226,17 +226,19 @@ if ( ! empty( $_REQUEST['attendance'] )
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $value )
 	{
+		$student_attendance_code = (int) mb_substr( $value, 5 );
+
 		if ( ! empty( $current_RET[$student_id] ) )
 		{
 			$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
-			" SET ATTENDANCE_TEACHER_CODE='" . mb_substr( $value, 5 ) . "',
+			" SET ATTENDANCE_TEACHER_CODE='" . $student_attendance_code . "',
 				COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
 
 			if ( $current_RET[$student_id][1]['ADMIN'] != 'Y'
 				// SQL Update ATTENDANCE_CODE (admin) when is NULL.
 				|| empty( $current_RET[$student_id][1]['ATTENDANCE_CODE'] ) )
 			{
-				$sql .= ",ATTENDANCE_CODE='" . mb_substr( $value, 5 ) . "'";
+				$sql .= ",ATTENDANCE_CODE='" . $student_attendance_code . "'";
 			}
 
 			if ( ! empty( $_REQUEST['comment'][$student_id] ) )
@@ -253,8 +255,8 @@ if ( ! empty( $_REQUEST['attendance'] )
 					ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT" .
 			( $table == 'lunch_period' ? ',TABLE_NAME' : '' ) . ")
 				values('" . $student_id . "','" . $date . "','" . $qtr_id . "','" . $_REQUEST['school_period'] .
-			"','" . UserCoursePeriod() . "','" . mb_substr( $value, 5 ) . "','" .
-			mb_substr( $value, 5 ) . "','" . $_REQUEST['comment'][$student_id] . "'" .
+			"','" . UserCoursePeriod() . "','" . $student_attendance_code . "','" .
+			$student_attendance_code . "','" . $_REQUEST['comment'][$student_id] . "'" .
 				( $table == 'lunch_period' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
 		}
 
