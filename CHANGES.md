@@ -9,6 +9,7 @@ Changes in 10.8.1
 - MySQL + MariaDB < 10.5 fix FOREIGN KEY constraint syntax in rosariosis_mysql.sql
 - SQL use CONCAT() instead of pipes || for MySQL compatibility in CreateParents.php
 - Fix SQL error cast attendance code to integer in TakeAttendance.php
+- Fix hide Contact Fields according to Emergency/Custody settings in Address.inc.php
 
 Changes in 10.8
 ---------------

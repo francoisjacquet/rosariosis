@@ -1415,12 +1415,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 					foreach ( (array) $categories_RET as $fields_RET )
 					{
-						if ( empty( $fields_RET['CUSTODY'] )
-							&& empty( $fields_RET['EMERGENCY'] )
-							|| $fields_RET['CUSTODY'] == 'Y'
-							&& $this_contact['CUSTODY'] == 'Y'
-							|| $fields_RET['EMERGENCY'] == 'Y'
-							&& $this_contact['EMERGENCY'] == 'Y' )
+						if ( ( empty( $fields_RET[1]['CUSTODY'] )
+								&& empty( $fields_RET[1]['EMERGENCY'] ) )
+							|| ( $fields_RET[1]['CUSTODY'] == 'Y'
+								&& $this_contact['CUSTODY'] == 'Y' )
+							|| ( $fields_RET[1]['EMERGENCY'] == 'Y'
+								&& $this_contact['EMERGENCY'] == 'Y' ) )
 						{
 							echo '<tr><td>';
 							echo '<fieldset><legend>' . ParseMLField( $fields_RET[1]['CATEGORY_TITLE'] ) . '</legend>';
