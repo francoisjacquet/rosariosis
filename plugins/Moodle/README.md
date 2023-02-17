@@ -37,7 +37,7 @@ Schedule
 
 - Subjects, courses & course periods are automatically created, updated & deleted in Moodle
 - Teacher users are automatically assigned the "Teacher" role for their courses in Moodle.
-- Automatically schedule or drop students from a course period in Moodle
+- Automatically (mass) schedule or drop students from a course period in Moodle
 
 School
 
@@ -49,7 +49,7 @@ Note: it is not possible to create a User or a Course, or enroll a Student in Mo
 
 Grades
 
-- Assignments are automatically added to & removed from the Moodle calendar
+- Assignments are automatically added to & removed from the Moodle calendar (provided a Due Date is set)
 
 ## Install
 
