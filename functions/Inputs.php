@@ -723,6 +723,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
  * @since 4.2
  * @since 4.5 Allow associative $options array.
  * @since 6.1 Allow numeric key (ID) in associative $options array.
+ * @since 10.8.1 Fix save all unchecked, add hidden empty checkbox
  *
  * @example MultipleCheckboxInput( $value, 'values[' . $id . '][' . $name . '][]' );
  *
@@ -785,7 +786,9 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 	$multiple_html .= '</tr></table>' . FormatInputTitle( $title, '', $required, '' );
 
-	if ( $value == ''
+	$multiple_html .= '<input type="hidden" name="' . AttrEscape( $name ) . '" value="">';
+
+	if ( trim( (string) $value, '|' ) == ''
 		|| ! $div )
 	{
 		return $multiple_html;

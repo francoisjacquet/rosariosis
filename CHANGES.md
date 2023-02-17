@@ -10,6 +10,7 @@ Changes in 10.8.1
 - SQL use CONCAT() instead of pipes || for MySQL compatibility in CreateParents.php
 - Fix SQL error cast attendance code to integer in TakeAttendance.php
 - Fix hide Contact Fields according to Emergency/Custody settings in Address.inc.php
+- Fix MultipleCheckboxInput() save all unchecked, add hidden empty checkbox in Inputs.php
 
 Changes in 10.8
 ---------------
