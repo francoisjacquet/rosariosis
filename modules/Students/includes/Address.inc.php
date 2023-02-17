@@ -1411,7 +1411,7 @@ if ( ! $_REQUEST['modfunc'] )
 					}
 
 					$request = 'values[people]';
-					echo '<table>';
+					echo '<table class="cellpadding-5">';
 
 					foreach ( (array) $categories_RET as $fields_RET )
 					{
@@ -1499,7 +1499,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 
 				$request = 'values[address]';
-				echo '<table>';
+				echo '<table class="cellpadding-5">';
 
 				foreach ( (array) $categories_RET as $fields_RET )
 				{
