@@ -465,7 +465,7 @@ function RegistrationAdminAddressFields( $name, $fields )
 	// Categories according to Residence / Mailing settings.
 	$fields_options_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 		FROM address_field_categories
-		WHERE RESIDENCE='Y' OR MAILING='Y'
+		WHERE RESIDENCE='Y' OR MAILING='Y' OR (MAILING IS NULL AND RESIDENCE IS NULL AND BUS IS NULL)
 		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 	$fields_options = [];
