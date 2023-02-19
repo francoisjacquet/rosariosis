@@ -149,7 +149,7 @@ function SetUserStaffID( $staff_id )
 	{
 		case 'parent':
 
-			if ( $staff_id !== User( 'STAFF_ID' ) )
+			if ( $staff_id != User( 'STAFF_ID' ) )
 			{
 				$isHack = true;
 			}
@@ -157,7 +157,7 @@ function SetUserStaffID( $staff_id )
 
 		case 'teacher':
 
-			if ( $staff_id !== User( 'STAFF_ID' ) )
+			if ( $staff_id != User( 'STAFF_ID' ) )
 			{
 				// Get teacher's related parents, include parents of inactive students.
 				$is_related_parent = DBGet( "SELECT 1
@@ -264,7 +264,7 @@ function SetUserStudentID( $student_id )
 	{
 		case 'student':
 
-			if ( $student_id !== $_SESSION['STUDENT_ID'] )
+			if ( $student_id != $_SESSION['STUDENT_ID'] )
 			{
 				$isHack = true;
 			}
