@@ -327,6 +327,7 @@ function _makeIncomesFileInput( $value, $column )
  * Save Salaries File
  *
  * @since 10.4
+ * @since 10.8.2 Add datetime to filename to make it harder to predict
  *
  * @param  int|string $id Salary ID or 'new'.
  *
@@ -344,12 +345,22 @@ function _saveSalariesFile( $id )
 		return '';
 	}
 
+	$file_name_no_ext = no_accents( mb_substr(
+		$_FILES[ $input ]['name'],
+		0,
+		mb_strrpos( $_FILES[ $input ]['name'], '.' )
+	) );
+
+	$file_name_no_ext .= '_' . date( 'Y-m-d_His' );
+
 	$file_attached = FileUpload(
 		$input,
 		$FileUploadsPath . UserSyear() . '/staff_' . UserStaffID() . '/',
 		FileExtensionWhiteList(),
 		0,
-		$error
+		$error,
+		'',
+		$file_name_no_ext
 	);
 
 	// Fix SQL error when quote in uploaded file name.
@@ -374,6 +385,7 @@ function _savePaymentsFile( $id )
  * Save Incomes File
  *
  * @since 10.4
+ * @since 10.8.2 Add datetime to filename to make it harder to predict
  *
  * @param  int|string $id Income ID or 'new'.
  *
@@ -391,12 +403,22 @@ function _saveIncomesFile( $id )
 		return '';
 	}
 
+	$file_name_no_ext = no_accents( mb_substr(
+		$_FILES[ $input ]['name'],
+		0,
+		mb_strrpos( $_FILES[ $input ]['name'], '.' )
+	) );
+
+	$file_name_no_ext .= '_' . date( 'Y-m-d_His' );
+
 	$file_attached = FileUpload(
 		$input,
 		$FileUploadsPath . UserSyear() . '/staff_' . User( 'STAFF_ID' ) . '/',
 		FileExtensionWhiteList(),
 		0,
-		$error
+		$error,
+		'',
+		$file_name_no_ext
 	);
 
 	// Fix SQL error when quote in uploaded file name.
