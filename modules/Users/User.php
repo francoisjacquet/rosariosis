@@ -707,9 +707,14 @@ if (  ( UserStaffID()
 		// Hook.
 		do_action( 'Users/User.php|header' );
 
-		$profile = DBGetOne( "SELECT PROFILE
-			FROM staff WHERE
-			STAFF_ID='" . UserStaffID() . "'" );
+		$profile = '';
+
+		if ( UserStaffID() )
+		{
+			$profile = DBGetOne( "SELECT PROFILE
+				FROM staff WHERE
+				STAFF_ID='" . UserStaffID() . "'" );
+		}
 
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 			FROM staff_field_categories
