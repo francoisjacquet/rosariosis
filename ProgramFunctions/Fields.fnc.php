@@ -388,7 +388,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			issetVal( $RET['TITLE'], '' ),
 			'tables[' . $id . '][TITLE]',
 			( empty( $RET['TITLE'] ) ? '<span class="legend-red">' : '' ) . _( 'Field Name' ) .
-				( empty( $RET['TITLE'] ) ? '</span>' : '' )
+				( empty( $RET['TITLE'] ) ? '</span>' : '' ),
+			'maxlength="200"'
 		) . '</td>';
 
 		if ( ! $type_options )
@@ -558,7 +559,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			issetVal( $RET['TITLE'], '' ),
 			'tables[' . $category_id . '][TITLE]',
 			( empty( $RET['TITLE'] ) ? '<span class="legend-red">' : '') . _( 'Title' ) .
-				( empty( $RET['TITLE'] ) ? '</span>' : '' )
+				( empty( $RET['TITLE'] ) ? '</span>' : '' ),
+			'maxlength="36"'
 		) . '</td>';
 
 		// Sort Order field.
