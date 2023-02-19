@@ -336,7 +336,7 @@ function MoodleUserImportStudent( $user )
 		$username = $user['email'];
 	}
 
-	// Check username unicity.
+	// Check username uniqueness.
 	$existing_username = DBGet( "SELECT 'exists'
 		FROM staff
 		WHERE USERNAME='" . $username . "'
@@ -447,7 +447,7 @@ function MoodleUserImportUser( $user, $profile )
 
 	$username = $user['username'];
 
-	// Check username unicity.
+	// Check username uniqueness.
 	$existing_username = DBGet( "SELECT 'exists'
 		FROM staff
 		WHERE USERNAME='" . $username . "'

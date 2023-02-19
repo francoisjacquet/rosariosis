@@ -224,14 +224,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$error[] = _( 'Please fill in the required fields' );
 		}
 
-		if ( isset( $_REQUEST['staff']['USERNAME'] ) )
+		if ( ! empty( $_REQUEST['staff']['USERNAME'] ) )
 		{
-			// Check username unicity.
+			// Check username uniqueness.
 			$existing_username = DBGet( "SELECT 'exists'
 				FROM staff
 				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND STAFF_ID!='" . UserStaffID() . "'
+				AND STAFF_ID!='" . (int) UserStaffID() . "'
 				UNION SELECT 'exists'
 				FROM students
 				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'" );

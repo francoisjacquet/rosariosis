@@ -6,6 +6,7 @@ Changes in 10.8.2
 - PHP<7 Fix add microseconds to filename to make it harder to predict in StudentAssignments.fnc.php, thanks to @jeffreygaor
 - Add datetime to filename to make it harder to predict in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 - HTML add maxlength to Field Category & Name inputs in Fields.fnc.php
+- Do not check username uniqueness if empty in Student.php & User.php
 
 Changes in 10.8.1
 -----------------
