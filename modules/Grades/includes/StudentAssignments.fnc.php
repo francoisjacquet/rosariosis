@@ -65,10 +65,8 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$files = issetVal( $old_data['files'] );
 
-	$timestamp = new \DateTime();
-
 	// @since 8.9.5 Add microseconds to filename format to make it harder to predict.
-	$timestamp = $timestamp->format( 'Y-m-d H:i:s.u' );
+	$timestamp = date( 'Y-m-d His' ) . '.' . substr( (string) microtime(), 2, 6 );
 
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
@@ -530,10 +528,8 @@ function UploadAssignmentTeacherFile( $assignment_id, $teacher_id, $file_input_i
 		return '';
 	}
 
-	$microseconds = new \DateTime();
-
 	// @since 9.0 Add microseconds to filename format to make it harder to predict.
-	$microseconds = $microseconds->format( 'u' );
+	$microseconds = substr( (string) microtime(), 2, 6 );
 
 	// Filename = [course_title]_[assignment_ID].ext.
 	$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '.' . $microseconds );

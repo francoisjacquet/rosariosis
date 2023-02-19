@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.8.2
+-----------------
+- PHP<7 Fix add microseconds to filename to make it harder to predict in StudentAssignments.fnc.php, thanks to @jeffreygaor
+
 Changes in 10.8.1
 -----------------
 - Use CheckBoxOnclick() in StudentBalances.php & Schedule.inc.php
