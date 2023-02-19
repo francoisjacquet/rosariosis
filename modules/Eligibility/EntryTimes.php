@@ -24,9 +24,9 @@ if ( AllowEdit()
 		{
 			ProgramConfig( 'eligibility', $title, $value );
 		}
-	}
 
-	$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
+		$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
+	}
 }
 
 echo ErrorMessage( $note, 'note' );
