@@ -7,6 +7,7 @@ Changes in 10.8.2
 - Add datetime to filename to make it harder to predict in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 - HTML add maxlength to Field Category & Name inputs in Fields.fnc.php
 - Do not check username uniqueness if empty in Student.php & User.php
+- CSS FLatSIS adjust fieldset border color & MD to HTML line-height in colors.css & stylesheet.css
 
 Changes in 10.8.1
 -----------------

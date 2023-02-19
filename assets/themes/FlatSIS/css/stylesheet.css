@@ -1087,6 +1087,10 @@ textarea {
 	padding: 5px;
 }
 
+.markdown-to-html {
+	line-height: 1.3;
+}
+
 .list.widefat td .markdown-to-html {
 	line-height: 1.236em;
 }
