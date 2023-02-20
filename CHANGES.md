@@ -9,6 +9,7 @@ Changes in 10.8.2
 - Do not check username uniqueness if empty in Student.php & User.php
 - CSS FLatSIS adjust fieldset border color & MD to HTML line-height in colors.css & stylesheet.css
 - Fix MySQL 8 syntax error, 'rank' is a reserved keyword in rosariosis_mysql.sql
+- Add MySQL global setting to allow function creation in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 10.8.1
 -----------------

@@ -80,15 +80,19 @@ Les instructions suivantes sont pour **PostgreSQL** (voir plus bas pour MySQL) :
 ```bash
 server$ sudo -u postgres psql
 ```
-2. Créez l'utilisateur rosariosis :
+2. Permettre la création de fonctions:
+```bash
+mysql> SET GLOBAL log_bin_trust_function_creators=1;
+```
+3. Créez l'utilisateur rosariosis :
 ```bash
 postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';
 ```
-3. Créez la base de données rosariosis :
+4. Créez la base de données rosariosis :
 ```bash
 postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;
 ```
-4. Déconnexion de PostgreSQL :
+5. Déconnexion de PostgreSQL :
 ```bash
 postgres=# \q
 ```

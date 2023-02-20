@@ -111,16 +111,20 @@ o
 ```bash
 server$ mysql -u root -p
 ```
-2. Crea el usuario rosariosis:
+2. Permitir la creación de funciones:
+```bash
+mysql> SET GLOBAL log_bin_trust_function_creators=1;
+```
+3. Crea el usuario rosariosis:
 ```bash
 mysql> CREATE USER 'rosariosis_user'@'localhost' IDENTIFIED BY 'rosariosis_user_password';
 ```
-3. Crea la base de datos rosariosis:
+4. Crea la base de datos rosariosis:
 ```bash
 mysql> CREATE DATABASE rosariosis_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 mysql> GRANT ALL PRIVILEGES ON rosariosis_db.* TO 'rosariosis_user'@'localhost';
 ```
-4. Salga de MySQL:
+5. Salga de MySQL:
 ```bash
 mysql> \q
 ```
