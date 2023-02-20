@@ -8,6 +8,7 @@ Changes in 10.8.2
 - HTML add maxlength to Field Category & Name inputs in Fields.fnc.php
 - Do not check username uniqueness if empty in Student.php & User.php
 - CSS FLatSIS adjust fieldset border color & MD to HTML line-height in colors.css & stylesheet.css
+- Fix MySQL 8 syntax error, 'rank' is a reserved keyword in rosariosis_mysql.sql
 
 Changes in 10.8.1
 -----------------

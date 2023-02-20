@@ -155,6 +155,7 @@ DELIMITER ;
 
 --
 -- Name: set_class_rank_mp(mp_id integer); Type: FUNCTION;
+-- @since 10.8.2 Fix MySQL 8 syntax error, 'rank' is a reserved keyword
 --
 
 DELIMITER $$
@@ -171,7 +172,7 @@ BEGIN
                 from student_mp_stats sgm2, student_enrollment se2
                 where sgm2.student_id = se2.student_id
                 and sgm2.marking_period_id = mp.marking_period_id
-                and se2.grade_id = se.grade_id)) as rank,
+                and se2.grade_id = se.grade_id)) as class_rank,
         (select count(*)
             from student_mp_stats sgm4
             where sgm4.marking_period_id = mp.marking_period_id
@@ -186,9 +187,9 @@ BEGIN
         and mp.marking_period_id = mp_id
         and se.syear = mp.syear
         and not sgm.cum_cr_weighted_factor is null
-    ) as rank
-    ON sms.marking_period_id = rank.marking_period_id and sms.student_id = rank.student_id
-    set sms.cum_rank = rank.rank, sms.class_size = rank.class_size;
+    ) as class_rank
+    ON sms.marking_period_id = class_rank.marking_period_id and sms.student_id = class_rank.student_id
+    set sms.cum_rank = class_rank.class_rank, sms.class_size = class_rank.class_size;
     RETURN 1;
 END$$
 DELIMITER ;
