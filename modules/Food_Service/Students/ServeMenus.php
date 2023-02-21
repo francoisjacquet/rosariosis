@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		$fields = 'ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 		$values = "'" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
-			UserSyear() . "','" . UserSchool() . "','" . $discount .
+			UserSyear() . "','" . UserSchool() . "','" . $student['DISCOUNT'] .
 			"',(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
 			"'),CURRENT_TIMESTAMP,'" . DBEscapeString( $menu_title ) . "','" .
 			DBEscapeString( $menu_title . ' - ' . DBDate() ) . "','" . User( 'STAFF_ID' ) . "'";
@@ -147,7 +147,8 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			AND fst.STUDENT_ID='" . UserStudentID() . "'
 			AND fst.SYEAR='" . UserSyear() . "'
 			AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
-			AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND 'tomorrow'
+			AND fst.TIMESTAMP BETWEEN  CURRENT_DATE
+			AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
 			AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID", $functions );
 
 		$columns = [

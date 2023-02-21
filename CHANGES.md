@@ -4,6 +4,7 @@
 Changes in 10.8.4
 -----------------
 - Fix SQL error escape menu title in DailyMenus.php, ServeMenus.php
+- Fix MySQL date interval in Food_Service/Students/ServeMenus.php
 
 Changes in 10.8.3
 -----------------
