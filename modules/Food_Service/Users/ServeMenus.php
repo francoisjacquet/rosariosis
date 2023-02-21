@@ -29,8 +29,8 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			"',(SELECT BALANCE
 			FROM food_service_staff_accounts
 			WHERE STAFF_ID='" . UserStaffID() . "'),CURRENT_TIMESTAMP,'" .
-			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
-			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
+			DBEscapeString( $menu_title ) . "','" .
+			DBEscapeString( $menu_title . ' - ' . DBDate() ) . "','" . User( 'STAFF_ID' ) . "'";
 
 		$sql = "INSERT INTO food_service_staff_transactions (" . $fields . ") values (" . $values . ")";
 
@@ -118,7 +118,7 @@ if ( UserStaffID()
 		FROM food_service_staff_transactions fst,food_service_staff_transaction_items fsti
 		WHERE fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.SYEAR='" . UserSyear() . "'
-		AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+		AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE
 		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID", $functions );
@@ -129,8 +129,8 @@ if ( UserStaffID()
 			'AMOUNT' => _( 'Amount' ),
 		];
 
-		$singular = sprintf( _( 'Earlier %s Sale' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
-		$plural = sprintf( _( 'Earlier %s Sales' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
+		$singular = sprintf( _( 'Earlier %s Sale' ), $menu_title );
+		$plural = sprintf( _( 'Earlier %s Sales' ), $menu_title );
 
 		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
 

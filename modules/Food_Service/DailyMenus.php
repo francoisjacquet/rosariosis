@@ -74,6 +74,8 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 }
 
+$menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
+
 if ( ! empty( $_REQUEST['submit']['save'] )
 	&& $_REQUEST['food_service']
 	&& $_POST['food_service']
@@ -84,7 +86,7 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'", [], [ 'SCHOOL_DATE' ] );
+	AND TITLE='" . DBEscapeString( $menu_title ) . "'", [], [ 'SCHOOL_DATE' ] );
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
 
 	foreach ( (array) $_REQUEST['food_service'] as $school_date => $description )
@@ -107,7 +109,7 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 		{
 			DBQuery( "INSERT INTO calendar_events (SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
 				VALUES('" . UserSyear() . "','" .
-				UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
+				UserSchool() . "','" . $school_date . "','" . DBEscapeString( $menu_title ) . "','" .
 				$description['text'] . issetVal( $description['select'], '' ) . "')" );
 		}
 	}
@@ -123,7 +125,7 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND (TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "' OR TITLE='No School')", [], [ 'SCHOOL_DATE' ] );
+	AND (TITLE='" . DBEscapeString( $menu_title ) . "' OR TITLE='No School')", [], [ 'SCHOOL_DATE' ] );
 
 	$skip = date( "w", $time );
 
@@ -143,8 +145,6 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 			echo '<tr class="center"><td colspan="3"><h3>' . SchoolInfo( 'TITLE' ) . '</h3></td></tr>';
 		}
 	}
-
-	$menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
 
 	// Remove dummy day from proper date.
 	$proper_month_year = ucfirst( strftime_compat(
@@ -264,7 +264,7 @@ else
 			FROM calendar_events
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+			AND TITLE='" . DBEscapeString( $menu_title ) . "'
 			AND DESCRIPTION IS NOT NULL
 			ORDER BY DESCRIPTION" );
 
@@ -295,7 +295,7 @@ else
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+	AND TITLE='" . DBEscapeString( $menu_title ) . "'
 	ORDER BY SCHOOL_DATE", [ 'DESCRIPTION' => 'makeDescriptionInput', 'SCHOOL_DATE' => 'ProperDate' ] );
 
 	$events_RET[0] = []; // make sure indexing from 1
@@ -355,8 +355,8 @@ else
 			'&menu_id=' . $_REQUEST['menu_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ),
 	];
 
-	$singular = sprintf( _( '%s Day' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
-	$plural = sprintf( _( '%s Days' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
+	$singular = sprintf( _( '%s Day' ), $menu_title );
+	$plural = sprintf( _( '%s Days' ), $menu_title );
 
 	ListOutput( $events_RET, $LO_columns, $singular, $plural, [], [], $extra );
 

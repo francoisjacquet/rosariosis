@@ -33,8 +33,8 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		$values = "'" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
 			UserSyear() . "','" . UserSchool() . "','" . $discount .
 			"',(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
-			"'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
-			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
+			"'),CURRENT_TIMESTAMP,'" . DBEscapeString( $menu_title ) . "','" .
+			DBEscapeString( $menu_title . ' - ' . DBDate() ) . "','" . User( 'STAFF_ID' ) . "'";
 
 		$sql = "INSERT INTO food_service_transactions (" . $fields . ") values (" . $values . ")";
 
@@ -146,7 +146,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			WHERE fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND fst.STUDENT_ID='" . UserStudentID() . "'
 			AND fst.SYEAR='" . UserSyear() . "'
-			AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+			AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 			AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND 'tomorrow'
 			AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID", $functions );
 
@@ -156,9 +156,9 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			'AMOUNT' => _( 'Amount' ),
 		];
 
-		$singular = sprintf( _( 'Earlier %s Sale' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
+		$singular = sprintf( _( 'Earlier %s Sale' ), $menu_title );
 
-		$plural = sprintf( _( 'Earlier %s Sales' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
+		$plural = sprintf( _( 'Earlier %s Sales' ), $menu_title );
 
 		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
 

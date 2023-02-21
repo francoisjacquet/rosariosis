@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.8.4
+-----------------
+- Fix SQL error escape menu title in DailyMenus.php, ServeMenus.php
+
 Changes in 10.8.3
 -----------------
 - Add assets/FileUploads/ directory
