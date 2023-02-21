@@ -66,7 +66,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	$files = issetVal( $old_data['files'] );
 
 	// @since 8.9.5 Add microseconds to filename format to make it harder to predict.
-	$timestamp = date( 'Y-m-d His' ) . '.' . substr( (string) microtime(), 2, 6 );
+	$timestamp = date( 'Y-m-d H:i:s' ) . '.' . substr( (string) microtime(), 2, 6 );
 
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 

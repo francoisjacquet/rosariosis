@@ -4,6 +4,7 @@
 Changes in 10.8.3
 -----------------
 - Add assets/FileUploads/ directory
+- Fix regression since 10.8.2 PHP fatal error $timestamp is not a valid date-time string in StudentAssignments.fnc.php
 
 Changes in 10.8.2
 -----------------
