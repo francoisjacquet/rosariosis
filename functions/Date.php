@@ -103,8 +103,15 @@ function ProperDate( $date, $length = 'long' )
  */
 function ProperDateTime( $datetime, $length = 'long' )
 {
-	// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
-	$locale_time = strftime_compat( '%X', $datetime );
+	try
+	{
+		// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
+		$locale_time = strftime_compat( '%X', $datetime );
+	}
+	catch ( \Exception $e )
+	{
+		$local_time = '12:00:00';
+	}
 
 	// Remove trailing seconds :00.
 	$locale_time = mb_substr( $locale_time, -3 ) === ':00' ? mb_substr( $locale_time, 0, -3 ) : $locale_time;
