@@ -99,7 +99,8 @@ if ( UserStaffID()
 		AND fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE
 		AND (CURRENT_DATE + INTERVAL " . ( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ")
-		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
+		ORDER BY fst.TRANSACTION_ID,fsti.ITEM_ID" );
 
 		// TODO: code duplication!
 		/**
