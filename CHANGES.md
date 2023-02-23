@@ -10,6 +10,7 @@ Changes in 10.8.4
 - Fix do not set empty Grade Points to 0 in Grades.php
 - Fix save multiple SelectInput() when none selected, add hidden empty input in Inputs.php
 - Fix check if Available Seats < selected students calculation in MassSchedule.php
+- SQL order Requests by Course in Requests.php
 
 Changes in 10.8.3
 -----------------

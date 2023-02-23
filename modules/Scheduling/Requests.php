@@ -186,7 +186,8 @@ function processRequest()
 		FROM schedule_requests r,courses c
 		WHERE r.COURSE_ID=c.COURSE_ID
 		AND r.SYEAR='" . UserSyear() . "'
-		AND r.STUDENT_ID='" . UserStudentID() . "'", $functions );
+		AND r.STUDENT_ID='" . UserStudentID() . "'
+		ORDER BY c.TITLE", $functions );
 
 	$columns = [
 		'COURSE' => _( 'Course' ),
