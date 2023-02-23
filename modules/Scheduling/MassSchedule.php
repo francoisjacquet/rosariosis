@@ -47,8 +47,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						{
 							$seats = calcSeats0( $course_period_RET[1], $start_date );
 
-							if ( $seats != ''
-								&& $seats >= $course_period_RET[1]['TOTAL_SEATS'] )
+							if ( ( $seats + count( $_REQUEST['student'] ) ) > $course_period_RET[1]['TOTAL_SEATS'] )
 							{
 								$warnings[] = _( 'The number of selected students exceeds the available seats.' );
 							}
@@ -58,8 +57,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						if ( empty( $warnings )
 							|| Prompt(
 								'Confirm',
-								_( 'There is a conflict.' ) . ' ' .
-									sprintf( _( 'Are you sure you want to add %s?' ), $course_to_add['course_period_title'] ),
+								sprintf( _( 'Are you sure you want to add %s?' ), $course_to_add['course_period_title'] ),
 								ErrorMessage( $warnings, 'warning' )
 							) )
 						{
