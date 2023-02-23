@@ -808,6 +808,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
  *
  * @since 5.6 Support option groups (`<optgroup>`) by adding 'group' to $extra.
  * @since 6.0 Support multiple values.
+ * @since 10.8.4 Fix save multiple SelectInput() when none selected, add hidden empty input
  *
  * @example SelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
  *
@@ -956,6 +957,11 @@ function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N
 	}
 
 	$select .= '</select>' . FormatInputTitle( $title, $id, $required );
+
+	if ( $is_multiple )
+	{
+		$select .= '<input type="hidden" name="' . AttrEscape( $name ) . '" value="">';
+	}
 
 	if ( ! isset( $values[0] )
 		|| $values[0] == ''

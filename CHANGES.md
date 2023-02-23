@@ -8,6 +8,7 @@ Changes in 10.8.4
 - SQL order Transactions by ID in Transactions.php
 - Fix regression since 10.6.2 SQL error invalid reference to FROM-clause entry for table "ssm" in Widget.php
 - Fix do not set empty Grade Points to 0 in Grades.php
+- Fix save multiple SelectInput() when none selected, add hidden empty input in Inputs.php
 
 Changes in 10.8.3
 -----------------
