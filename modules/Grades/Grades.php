@@ -150,7 +150,8 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		foreach ( (array) $assignments as $assignment_id => $columns )
 		{
-			if ( isset( $columns['POINTS'] ) )
+			if ( isset( $columns['POINTS'] )
+				&& $columns['POINTS'] != '' )
 			{
 				if ( $columns['POINTS'] == '*' )
 				{
