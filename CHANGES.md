@@ -6,6 +6,7 @@ Changes in 10.8.4
 - Fix SQL error escape menu title in DailyMenus.php, ServeMenus.php
 - Fix MySQL date interval in Food_Service/Students/ServeMenus.php
 - SQL order Transactions by ID in Transactions.php
+- Fix regression since 10.6.2 SQL error invalid reference to FROM-clause entry for table "ssm" in Widget.php
 
 Changes in 10.8.3
 -----------------

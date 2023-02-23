@@ -1136,10 +1136,12 @@ class Widget_reporter implements Widget
 
 		if ( mb_stripos( $extra['FROM'], 'discipline_referrals dr' ) === false )
 		{
-			$extra['FROM'] .= ' LEFT JOIN discipline_referrals dr
+			// Fix SQL error invalid reference to FROM-clause entry for table "ssm"
+			// Add JOIN just after JOIN student_enrollment ssm
+			$extra['FROM'] = ' LEFT JOIN discipline_referrals dr
 				ON (dr.STUDENT_ID=ssm.STUDENT_ID
 				AND dr.SYEAR=ssm.SYEAR
-				AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ';
+				AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ' . $extra['FROM'];
 		}
 
 		$extra['WHERE'] .= " AND dr.STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "'";
@@ -1227,10 +1229,12 @@ class Widget_incident_date implements Widget
 		{
 			if ( mb_stripos( $extra['FROM'], 'discipline_referrals dr' ) === false )
 			{
-				$extra['FROM'] .= ' LEFT JOIN discipline_referrals dr
+				// Fix SQL error invalid reference to FROM-clause entry for table "ssm"
+				// Add JOIN just after JOIN student_enrollment ssm
+				$extra['FROM'] = ' LEFT JOIN discipline_referrals dr
 					ON (dr.STUDENT_ID=ssm.STUDENT_ID
 					AND dr.SYEAR=ssm.SYEAR
-					AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ';
+					AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ' . $extra['FROM'];
 			}
 		}
 
@@ -1371,10 +1375,12 @@ class Widget_discipline_fields implements Widget
 
 		if ( mb_stripos( $extra['FROM'], 'discipline_referrals dr' ) === false )
 		{
-			$extra['FROM'] .= ' LEFT JOIN discipline_referrals dr
+			// Fix SQL error invalid reference to FROM-clause entry for table "ssm"
+			// Add JOIN just after JOIN student_enrollment ssm
+			$extra['FROM'] = ' LEFT JOIN discipline_referrals dr
 				ON (dr.STUDENT_ID=ssm.STUDENT_ID
 				AND dr.SYEAR=ssm.SYEAR
-				AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ';
+				AND dr.SCHOOL_ID=ssm.SCHOOL_ID) ' . $extra['FROM'];
 		}
 
 		$extra = $this->_discipline_fields_search( $extra );
