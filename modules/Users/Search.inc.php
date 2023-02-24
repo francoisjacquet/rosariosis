@@ -67,7 +67,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				// Restrict Search All Schools to user schools.
 
 				if ( SchoolInfo( 'SCHOOLS_NB' ) > 1
-					&& ( ! trim( User( 'SCHOOLS' ), ',' )
+					&& ( ! trim( (string) User( 'SCHOOLS' ), ',' )
 						|| mb_substr_count( User( 'SCHOOLS' ), ',' ) > 2 ) )
 				{
 					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"' .
