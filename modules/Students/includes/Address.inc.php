@@ -192,7 +192,10 @@ if ( ! empty( $_POST['values'] )
 
 			foreach ( (array) $_REQUEST['values']['people'] as $column => $value )
 			{
-				if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
+				if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+					&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+					&& $value != ''
+					&& ! is_numeric( $value ) )
 				{
 					$error[] = _( 'Please enter valid Numeric data.' );
 					continue;
