@@ -590,7 +590,7 @@ function _makeTipAssignment( $value, $column )
 	{
 		$colorbox_id = 'ASSIGNMENT_' . $THIS_RET['ASSIGNMENT_ID'];
 
-		$colorbox = '<div style="display:none;"><div id="' . $colorbox_id . '">';
+		$colorbox = '<div class="hide"><div id="' . $colorbox_id . '" style="min-width: 50vw;">';
 
 		// Format Assignment columns for StudentAssignmentDrawHeaders function.
 		$assignment = $THIS_RET;
