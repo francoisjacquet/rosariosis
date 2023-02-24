@@ -1,3 +1,21 @@
+/*Below Laptop MDPI screen*/
+
+@media only screen and (max-width:1270px) {
+	/*stackable Address & Contacts tables: stack before mobile as we have up to 4 large columns*/
+	tr.address.st > td {
+		float: left;
+		width: 100%;
+		box-sizing: border-box
+	}
+	tr.address > td {
+		border-style: none none dotted none;
+		padding: 12px 0 12px 0
+	}
+	tr.address > td:last-of-type {
+		border-style: none;
+	}
+}
+
 /*mobile + tablet vertical*/
 
 @media only screen and (max-width:874px) {
@@ -92,10 +110,6 @@
 	}
 	#modulesBody textarea {
 		width: 100% !important
-	}
-	tr.address > td {
-		border-style: none none dotted none;
-		padding: 12px 0 12px 0
 	}
 	/* Chart.js */
 	.chart {

@@ -14,6 +14,7 @@ Changes in 10.8.4
 - CSS set minimum colorBox width to 50% view width in StudentGrades.php
 - Fix SQL error when Phone > 30 chars in Address.inc.php
 - If City length > 22 without space, force stackable table in Address.inc.php
+- CSS responsive stack Address & Contacts table below Laptop MDPI screen in zresponsive.css
 
 Changes in 10.8.3
 -----------------
