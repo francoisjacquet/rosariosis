@@ -952,7 +952,7 @@ if ( ! $_REQUEST['modfunc'] )
 				issetVal( $this_address['PHONE'] ),
 				'values[address][PHONE]',
 				_( 'Phone' ),
-				$size ? 'size=13' : ''
+				$size ? 'maxlength=30 size=13' : 'maxlength=30'
 			) . '</td></tr>';
 
 			if ( $_REQUEST['address_id'] !== 'new' && $_REQUEST['address_id'] != '0' )
@@ -1699,7 +1699,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 	if ( $column === 'CITY'
 		|| $column === 'MAIL_CITY' )
 	{
-		$options = 'maxlength=200';
+		$options = 'maxlength=100';
 
 		$select_options = 'style="max-width:205px"';
 	}

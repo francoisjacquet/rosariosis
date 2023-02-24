@@ -12,6 +12,7 @@ Changes in 10.8.4
 - Fix check if Available Seats < selected students calculation in MassSchedule.php
 - SQL order Requests by Course in Requests.php
 - CSS set minimum colorBox width to 50% view width in StudentGrades.php
+- Fix SQL error when Phone > 30 chars in Address.inc.php
 
 Changes in 10.8.3
 -----------------
