@@ -732,18 +732,6 @@ class Widget_letter_grade implements Widget
 			return $extra;
 		}
 
-		$LetterGradeSearchTerms = '<b>' . GetMP( $_REQUEST['letter_grade_term'], 'TITLE' ) . ' &mdash; ' .
-			( isset( $_REQUEST['letter_grade_exclude'] )
-			&& $_REQUEST['letter_grade_exclude'] == 'Y' ?
-				_( 'Without' ) :
-				_( 'With' ) ) .
-			' ' . _( 'Report Card Grade' ) . ': </b>';
-
-		$letter_grades_RET = DBGet( "SELECT ID,TITLE
-			FROM report_card_grades
-			WHERE SCHOOL_ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
-
 		$letter_grades = '';
 
 		foreach ( (array) $_REQUEST['letter_grade'] as $grades )
@@ -756,12 +744,28 @@ class Widget_letter_grade implements Widget
 				}
 
 				$letter_grades .= ",'" . $grade . "'";
-
-				$LetterGradeSearchTerms .= $letter_grades_RET[ $grade ][1]['TITLE'] . ', ';
 			}
 		}
 
-		$LetterGradeSearchTerms = mb_substr( $LetterGradeSearchTerms, 0, -2 ) . '<br />';
+		if ( empty( $letter_grades ) )
+		{
+			return $extra;
+		}
+
+		$LetterGradeSearchTerms = '<b>' . GetMP( $_REQUEST['letter_grade_term'], 'TITLE' ) . ' &mdash; ' .
+			( isset( $_REQUEST['letter_grade_exclude'] )
+			&& $_REQUEST['letter_grade_exclude'] == 'Y' ?
+				_( 'Without' ) :
+				_( 'With' ) ) .
+			' ' . _( 'Report Card Grade' ) . ': </b>';
+
+		$letter_grade_titles = DBGetOne( "SELECT " . DBSQLCommaSeparatedResult( 'TITLE', ', ' ) . "
+			FROM report_card_grades
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND ID IN(" . mb_substr( $letter_grades, 1 ) . ")" );
+
+		$LetterGradeSearchTerms .= $letter_grade_titles . '<br />';
 
 		if ( ! $extra['NoSearchTerms'] )
 		{
