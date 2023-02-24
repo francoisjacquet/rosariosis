@@ -13,6 +13,7 @@ Changes in 10.8.4
 - SQL order Requests by Course in Requests.php
 - CSS set minimum colorBox width to 50% view width in StudentGrades.php
 - Fix SQL error when Phone > 30 chars in Address.inc.php
+- If City length > 22 without space, force stackable table in Address.inc.php
 
 Changes in 10.8.3
 -----------------

@@ -919,8 +919,17 @@ if ( ! $_REQUEST['modfunc'] )
 				$size ? 'required maxlength=255 size=20' : 'required maxlength=255' ) .
 				'</td></tr>';
 
+			$force_st = false;
+
+			if ( mb_strlen( $this_address['CITY'] ) > 22
+				&& mb_strpos( $this_address['CITY'], ' ' ) === false )
+			{
+				// If City length > 22 without space, force stackable table.
+				$force_st = true;
+			}
+
 			// City, State & Zip auto pull-downs.
-			echo '<tr><td>' .
+			echo '<tr class="st"><td>' .
 			_makeAutoSelectInputX(
 				issetVal( $this_address['CITY'] ),
 				'CITY',
@@ -928,6 +937,11 @@ if ( ! $_REQUEST['modfunc'] )
 				_( 'City' ),
 				$city_options
 			) . '</td>';
+
+			if ( $force_st )
+			{
+				echo '</tr><tr>';
+			}
 
 			echo '<td>' .
 			_makeAutoSelectInputX(
@@ -937,6 +951,11 @@ if ( ! $_REQUEST['modfunc'] )
 				_( 'State' ),
 				$state_options
 			) . '</td>';
+
+			if ( $force_st )
+			{
+				echo '</tr><tr>';
+			}
 
 			echo '<td>' .
 			_makeAutoSelectInputX(
