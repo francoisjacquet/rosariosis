@@ -923,7 +923,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$force_st = false;
 
-			if ( mb_strlen( $this_address['CITY'] ) > 22
+			if ( mb_strlen( (string) $this_address['CITY'] ) > 22
 				&& mb_strpos( $this_address['CITY'], ' ' ) === false )
 			{
 				// If City length > 22 without space, force stackable table.
