@@ -17,6 +17,7 @@ Changes in 10.8.4
 - CSS responsive stack Address & Contacts table below Laptop MDPI screen in zresponsive.css
 - Fix PHP fatal error Unsupported operand types: string - int when not a date in Date.php
 - Fix do not display Rollover default check warning if modfunc=remove in EnrollmentCodes.php
+- Fix check for Description & Value when saving new Contact Information in Address.inc.php
 
 Changes in 10.8.3
 -----------------

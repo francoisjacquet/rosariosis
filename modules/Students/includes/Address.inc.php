@@ -285,8 +285,7 @@ if ( ! empty( $_POST['values'] )
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 				DBQuery( $sql );
 			}
-			elseif ( $info_apd
-				|| ( $values['TITLE'] && $values['VALUE'] ) )
+			elseif ( $values['TITLE'] && $values['VALUE'] != '' )
 			{
 				$sql = "INSERT INTO people_join_contacts ";
 
