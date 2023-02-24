@@ -13,7 +13,7 @@ if ( ! empty( $_POST['values'] )
 {
 	if ( ! empty( $_REQUEST['values']['EXISTING'] ) )
 	{
-		if ( $_REQUEST['values']['EXISTING']['address_id'] && $_REQUEST['address_id'] == 'old' )
+		if ( ! empty( $_REQUEST['values']['EXISTING']['address_id'] ) && $_REQUEST['address_id'] == 'old' )
 		{
 			$_REQUEST['address_id'] = $_REQUEST['values']['EXISTING']['address_id'];
 
@@ -47,7 +47,7 @@ if ( ! empty( $_POST['values'] )
 				}
 			}
 		}
-		elseif ( $_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id'] == 'old' )
+		elseif ( ! empty( $_REQUEST['values']['EXISTING']['person_id'] ) && $_REQUEST['person_id'] == 'old' )
 		{
 			$_REQUEST['person_id'] = $_REQUEST['values']['EXISTING']['person_id'];
 
