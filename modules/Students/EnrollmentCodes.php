@@ -90,13 +90,12 @@ if ( ! $rollover_default_RET
 	$warning[] = _( 'There must be exactly one Rollover default enrollment code (of type Add).' );
 }
 
-// FJ fix SQL bug invalid sort order.
-echo ErrorMessage( $error );
-
-echo ErrorMessage( $warning, 'warning' );
-
 if ( ! $_REQUEST['modfunc'] )
 {
+	echo ErrorMessage( $error );
+
+	echo ErrorMessage( $warning, 'warning' );
+
 	$codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER
 		FROM student_enrollment_codes
 		WHERE SYEAR='" . UserSyear() . "'

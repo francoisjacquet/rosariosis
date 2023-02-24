@@ -16,6 +16,7 @@ Changes in 10.8.4
 - If City length > 22 without space, force stackable table in Address.inc.php
 - CSS responsive stack Address & Contacts table below Laptop MDPI screen in zresponsive.css
 - Fix PHP fatal error Unsupported operand types: string - int when not a date in Date.php
+- Fix do not display Rollover default check warning if modfunc=remove in EnrollmentCodes.php
 
 Changes in 10.8.3
 -----------------
