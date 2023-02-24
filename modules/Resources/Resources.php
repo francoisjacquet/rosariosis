@@ -36,13 +36,21 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			if ( isset( $columns['PUBLISHED_GRADE_LEVELS'] ) )
 			{
 				// @since 10.8 Add Resource Visibility options
-				$published_grade_levels = implode( ',', $columns['PUBLISHED_GRADE_LEVELS'] );
+				$published_grade_levels = '';
+
+				foreach ( (array) $columns['PUBLISHED_GRADE_LEVELS'] as $grade_level )
+				{
+					if ( $grade_level )
+					{
+						$published_grade_levels .= ',' . $grade_level;
+					}
+				}
 
 				$columns['PUBLISHED_GRADE_LEVELS'] = '';
 
 				if ( $published_grade_levels )
 				{
-					$columns['PUBLISHED_GRADE_LEVELS'] = ',' . $published_grade_levels . ',';
+					$columns['PUBLISHED_GRADE_LEVELS'] = $published_grade_levels . ',';
 				}
 			}
 
