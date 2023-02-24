@@ -45,8 +45,7 @@ function DBDate()
 function ProperDate( $date, $length = 'long' )
 {
 	if ( empty( $date )
-		|| mb_strlen( $date ) > 11
-		|| mb_strlen( $date ) < 9 )
+		|| ! VerifyDate( $date ) )
 	{
 		return '';
 	}
@@ -205,6 +204,12 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 		'submit' => false, // Submit onchange.
 		'required' => false, // Required fields.
 	];
+
+	if ( ! VerifyDate( $date ) )
+	{
+		// Fix PHP fatal error when not a date
+		$date = '';
+	}
 
 	$options = array_replace_recursive( $defaults, (array) $options );
 
@@ -497,7 +502,7 @@ function ExplodeDate( $date )
 		$year = mb_substr( $date, 6, 2 );
 
 		// Add 19 or 20 to complete 4 digits year.
-		$year .= 30 >= $year ? '19' : '20';
+		$year = 40 >= $year ? '19' . $year : '20' . $year;
 
 		$month = mb_substr( $date, 3, 2 );
 

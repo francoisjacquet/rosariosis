@@ -15,6 +15,7 @@ Changes in 10.8.4
 - Fix SQL error when Phone > 30 chars in Address.inc.php
 - If City length > 22 without space, force stackable table in Address.inc.php
 - CSS responsive stack Address & Contacts table below Laptop MDPI screen in zresponsive.css
+- Fix PHP fatal error Unsupported operand types: string - int when not a date in Date.php
 
 Changes in 10.8.3
 -----------------
