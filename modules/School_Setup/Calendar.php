@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (s.SCHOOLS IS NULL OR position(CONCAT(',', ac.SCHOOL_ID, ',') IN s.SCHOOLS)>0)
-		ORDER BY " . db_case( [ 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ] ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" );
+		ORDER BY " . db_case( [ 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ] ) . ",ac.DEFAULT_CALENDAR IS NULL,ac.DEFAULT_CALENDAR ASC,ac.TITLE" );
 
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
 	$copy_calendar_options = [];
@@ -965,7 +965,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$title_RET = DBGet( "SELECT CALENDAR_ID,TITLE,DEFAULT_CALENDAR
 			FROM attendance_calendars WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
+			ORDER BY DEFAULT_CALENDAR IS NULL,DEFAULT_CALENDAR ASC,TITLE" );
 
 		$defaults = 0;
 

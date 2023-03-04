@@ -174,7 +174,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		FROM attendance_calendars
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
+		ORDER BY DEFAULT_CALENDAR IS NULL,DEFAULT_CALENDAR ASC,TITLE" );
 
 	$options = [];
 
