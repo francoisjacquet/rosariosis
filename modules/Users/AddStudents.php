@@ -129,6 +129,19 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</td></tr><tr><td>';
 
+		$current_student_ids = [];
+
+		foreach ( $current_RET as $current_student )
+		{
+			$current_student_ids[] = $current_student['STUDENT_ID'];
+		}
+
+		if ( $current_student_ids )
+		{
+			// @since 10.9 Exclude already associated students from Search()
+			$extra['WHERE'] = " AND s.STUDENT_ID NOT IN(" . implode( ',', $current_student_ids ) . ")";
+		}
+
 		$extra['link'] = [ 'FULL_NAME' => false ];
 		$extra['SELECT'] = ",NULL AS CHECKBOX";
 		$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];

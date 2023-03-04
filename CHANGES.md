@@ -7,6 +7,7 @@ Changes in 10.9
 - Enrollment Start: No N/A option for first entry in StudentsUsersInfo.fnc.php
 - SQL ORDER BY DEFAULT_CALENDAR IS NULL,DEFAULT_CALENDAR ASC (nulls first) for consistency between PostgreSQL & MySQL in Courses.fnc.php, Calendar.php & Enrollment.inc.php
 - Simplify & harmonize code, use GetAllMP() in GPARankList.php, InputFinalGrades.php & TeacherCompletion.php
+- Exclude already associated parents/students from Search() in AddUsers.php & AddStudents.php
 
 Changes in 10.8.4
 -----------------

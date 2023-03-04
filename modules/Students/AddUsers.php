@@ -112,6 +112,20 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( AllowEdit() )
 		{
 			unset( $extra );
+
+			$current_parent_ids = [];
+
+			foreach ( $current_RET as $current_parent )
+			{
+				$current_parent_ids[] = $current_parent['STAFF_ID'];
+			}
+
+			if ( $current_parent_ids )
+			{
+				// @since 10.9 Exclude already associated parents from Search()
+				$extra['WHERE'] = " AND s.STAFF_ID NOT IN(" . implode( ',', $current_parent_ids ) . ")";
+			}
+
 			$extra['link'] = [ 'FULL_NAME' => false ];
 			$extra['SELECT'] = ",NULL AS CHECKBOX";
 			$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
