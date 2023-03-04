@@ -48,7 +48,7 @@ foreach ( (array) $periods_RET as $id => $period )
 }
 
 $period_select .= '</select>
-	<label for="period" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
+	<label for="period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . ' &mdash; ' . $period_select );
@@ -61,20 +61,22 @@ echo '</form>';
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
 	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
-	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
+	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,
 	(SELECT 'Y'
 		FROM attendance_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
 		AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "') AS COMPLETED
-	FROM staff s,course_periods cp,school_periods sp,attendance_calendar acc,course_period_school_periods cpsp
+	FROM staff s,course_periods cp,school_periods sp,attendance_calendar acc,
+		course_period_school_periods cpsp,courses c
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND	sp.PERIOD_ID=cpsp.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
 	AND cp.TEACHER_ID=s.STAFF_ID
 	AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date ) ) . ")
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
+	AND c.COURSE_ID=cp.COURSE_ID
 	AND s.PROFILE='teacher'
 	" . ( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) . "
 	AND acc.CALENDAR_ID=cp.CALENDAR_ID
@@ -103,7 +105,7 @@ else
 {
 	// @since 10.0 SQL use DAYOFWEEK() for MySQL or cast(extract(DOW)+1 AS int) for PostrgeSQL
 	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
-		sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
+		sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,
 		(SELECT 'Y'
 			FROM attendance_completed ac
 			WHERE ac.STAFF_ID=cp.TEACHER_ID
@@ -111,7 +113,7 @@ else
 			AND ac.PERIOD_ID=sp.PERIOD_ID
 			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "') AS COMPLETED
 		FROM staff s,course_periods cp,school_periods sp,attendance_calendar acc,
-			course_period_school_periods cpsp
+			course_period_school_periods cpsp,courses c
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND	sp.PERIOD_ID=cpsp.PERIOD_ID
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
@@ -119,6 +121,7 @@ else
 		AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date ) ) . ")
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND c.COURSE_ID=cp.COURSE_ID
 		AND s.PROFILE='teacher'" .
 	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	" AND acc.CALENDAR_ID=cp.CALENDAR_ID

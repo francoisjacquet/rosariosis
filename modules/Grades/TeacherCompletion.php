@@ -44,7 +44,7 @@ foreach ( (array) $periods_RET as $id => $period )
 }
 
 $period_select .= '</select>
-	<label for="period" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
+	<label for="period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
 
 $mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
 
@@ -81,13 +81,13 @@ AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE
 ORDER BY FULL_NAME";*/
 
 $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
-	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
+	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,
 	(SELECT 'Y'
 		FROM grades_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
 		AND ac.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 		AND ac.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AS COMPLETED
-	FROM staff s,course_periods cp,school_periods sp,course_period_school_periods cpsp
+	FROM staff s,course_periods cp,school_periods sp,course_period_school_periods cpsp,courses c
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND cp.GRADE_SCALE_ID IS NOT NULL
@@ -95,6 +95,7 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.RO
 	AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
+	AND c.COURSE_ID=cp.COURSE_ID
 	AND s.PROFILE='teacher'" .
 	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	" ORDER BY FULL_NAME", [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
@@ -118,11 +119,11 @@ if ( empty( $_REQUEST['period'] ) )
 					$staff_RET[$i][$period['PERIOD_ID']] = '';
 				}
 
-				$staff_RET[$i][$period['PERIOD_ID']] .= makeTipMessage(
+				$staff_RET[$i][$period['PERIOD_ID']] .= MakeTipMessage(
+					$period['CP_TITLE'],
 					$period['COURSE_TITLE'],
-					_( 'Course Title' ),
 					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
-				);
+				) . ' ';
 			}
 			else
 			{
@@ -171,7 +172,7 @@ else
 
 	ListOutput(
 		$RET,
-		[ 'FULL_NAME' => _( 'Teacher' ), 'COURSE_TITLE' => _( 'Course' ), 'COMPLETED' => _( 'Completed' ) ],
+		[ 'FULL_NAME' => _( 'Teacher' ), 'CP_TITLE' => _( 'Course Period' ), 'COMPLETED' => _( 'Completed' ) ],
 		sprintf( _( 'Teacher who enters grades for %s' ), $period_title ),
 		sprintf( _( 'Teachers who enter grades for %s' ), $period_title ),
 		false,

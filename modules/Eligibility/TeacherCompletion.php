@@ -99,23 +99,25 @@ AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE
 AND NOT EXISTS (SELECT '' FROM eligibility_completed ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
 ";*/
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,
-	s.STAFF_ID,s.ROLLOVER_ID,cp.TITLE AS CP_TITLE
-	FROM staff s,course_periods cp,school_periods sp,course_period_school_periods cpsp
+	s.STAFF_ID,s.ROLLOVER_ID,cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE
+	FROM staff s,course_periods cp,school_periods sp,course_period_school_periods cpsp,courses c
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID
 	AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $start_date ) ) . ")
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
+	AND c.COURSE_ID=cp.COURSE_ID
 	AND s.PROFILE='teacher'" .
 	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	"AND NOT EXISTS (SELECT ''
 		FROM eligibility_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
 		AND ac.PERIOD_ID=sp.PERIOD_ID
-		AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "')";
+		AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "')
+	ORDER BY FULL_NAME";
 
-$RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID', 'PERIOD_ID' ] );
+$RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
 
 $i = 0;
 

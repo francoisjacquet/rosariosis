@@ -8,6 +8,7 @@ Changes in 10.9
 - SQL ORDER BY DEFAULT_CALENDAR IS NULL,DEFAULT_CALENDAR ASC (nulls first) for consistency between PostgreSQL & MySQL in Courses.fnc.php, Calendar.php & Enrollment.inc.php
 - Simplify & harmonize code, use GetAllMP() in GPARankList.php, InputFinalGrades.php & TeacherCompletion.php
 - Exclude already associated parents/students from Search() in AddUsers.php & AddStudents.php
+- Replace "Course Title" in TipMessage with actual Course title in Attendance/, Eligibility/ & Grades/TeacherCompletion.php
 
 Changes in 10.8.4
 -----------------
