@@ -14,16 +14,17 @@ $_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
 
 DrawHeader( ProgramTitle() );
 
-$sem = GetParentMP( 'SEM', UserMP() );
-$fy = GetParentMP( 'FY', $sem );
-$pros = GetChildrenMP( 'PRO', UserMP() );
+// Get all the MP's associated with the current MP
+$all_mp_ids = explode( "','", trim( GetAllMP( 'PRO', UserMP() ), "'" ) );
 
-// If the UserMP has been changed, the REQUESTed MP may not work.
+if ( ! empty( $_REQUEST['mp'] )
+	&& ! in_array( $_REQUEST['mp'], $all_mp_ids ) )
+{
+	// Requested MP not found, reset.
+	RedirectURL( 'mp' );
+}
 
-if ( empty( $_REQUEST['mp'] )
-	|| mb_strpos(
-		$str = "'" . UserMP() . "','" . $sem . "','" . $fy . "'," . $pros,
-		"'" . $_REQUEST['mp'] . "'" ) === false )
+if ( empty( $_REQUEST['mp'] ) )
 {
 	$_REQUEST['mp'] = UserMP();
 }
@@ -1026,62 +1027,21 @@ $mps_select = '<select name="mp_select" id="mp_select" onchange="' .
 
 $allow_edit = false;
 
-if ( $pros != '' )
+foreach ( (array) $all_mp_ids as $mp_id )
 {
-	foreach ( explode( ',', str_replace( "'", '', $pros ) ) as $pro )
+	if ( $_REQUEST['mp'] == $mp_id
+		&& GetMP( $mp_id, 'POST_START_DATE' )
+		&& DBDate() >= GetMP( $mp_id, 'POST_START_DATE' )
+		&& DBDate() <= GetMP( $mp_id, 'POST_END_DATE' ) )
 	{
-		if ( $_REQUEST['mp'] == $pro
-			&& GetMP( $pro, 'POST_START_DATE' )
-			&& DBDate() >= GetMP( $pro, 'POST_START_DATE' )
-			&& DBDate() <= GetMP( $pro, 'POST_END_DATE' ) )
-		{
-			$allow_edit = true;
-		}
-
-		if ( GetMP( $pro, 'DOES_GRADES' ) == 'Y' )
-		{
-			$mps_select .= '<option value="' . AttrEscape( $pro ) . '"' . ( ( $pro == $_REQUEST['mp'] ) ? ' selected' : '' ) . ">" . GetMP( $pro ) . "</option>";
-		}
+		$allow_edit = true;
 	}
-}
 
-if ( $_REQUEST['mp'] == UserMP()
-	&& GetMP( UserMP(), 'POST_START_DATE' )
-	&& DBDate() >= GetMP( UserMP(), 'POST_START_DATE' )
-	&& DBDate() <= GetMP( UserMP(), 'POST_END_DATE' ) )
-{
-	$allow_edit = true;
-}
-
-$mps_select .= '<option value="' . AttrEscape( UserMP() ) . '"' . ( UserMP() == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
-	GetMP( UserMP() ) . '</option>';
-
-if ( $_REQUEST['mp'] == $sem
-	&& GetMP( $sem, 'POST_START_DATE' )
-	&& DBDate() >= GetMP( $sem, 'POST_START_DATE' )
-	&& DBDate() <= GetMP( $sem, 'POST_END_DATE' ) )
-{
-	$allow_edit = true;
-}
-
-if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
-{
-	$mps_select .= '<option value="' . AttrEscape( $sem ) . '"' . ( $sem == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
-		GetMP( $sem ) . '</option>';
-}
-
-if ( $_REQUEST['mp'] == $fy
-	&& GetMP( $fy, 'POST_START_DATE' )
-	&& DBDate() >= GetMP( $fy, 'POST_START_DATE' )
-	&& DBDate() <= GetMP( $fy, 'POST_END_DATE' ) )
-{
-	$allow_edit = true;
-}
-
-if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
-{
-	$mps_select .= '<option value="' . AttrEscape( $fy ) . '"' . ( $fy == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
-		GetMP( $fy ) . '</option>';
+	if ( GetMP( $mp_id, 'DOES_GRADES' ) == 'Y' || $mp_id == UserMP() )
+	{
+		$mps_select .= '<option value="' . AttrEscape( $mp_id ) . '"' .
+			( $mp_id == $_REQUEST['mp'] ? ' selected' : '' ) . '>' . GetMP( $mp_id ) . '</option>';
+	}
 }
 
 $mps_select .= '</select><label for="mp_select" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';

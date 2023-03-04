@@ -5,99 +5,34 @@ require_once 'modules/Grades/includes/ClassRank.inc.php';
 
 DrawHeader( ProgramTitle() );
 
+// Get all the MP's associated with the current MP
+$all_mp_ids = explode( "','", trim( GetAllMP( 'PRO', UserMP() ), "'" ) );
+
+if ( ! empty( $_REQUEST['mp'] )
+	&& ! in_array( $_REQUEST['mp'], $all_mp_ids ) )
+{
+	// Requested MP not found, reset.
+	RedirectURL( 'mp' );
+}
+
 if ( empty( $_REQUEST['mp'] ) )
 {
 	$_REQUEST['mp'] = UserMP();
 }
 
-// Get all the mp's associated with the current mp
-// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
-// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
-$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
-FROM school_marking_periods
-WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM school_marking_periods WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM school_marking_periods WHERE MARKING_PERIOD_ID='" . UserMP() . "'))
-AND MP='FY'
-UNION
-SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER
-FROM school_marking_periods
-WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM school_marking_periods WHERE MARKING_PERIOD_ID='" . UserMP() . "')
-AND MP='SEM'
-UNION
-SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER
-FROM school_marking_periods
-WHERE MARKING_PERIOD_ID='" . UserMP() . "'
-UNION
-SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER
-FROM school_marking_periods
-WHERE PARENT_ID='" . UserMP() . "'
-AND MP='PRO'
-ORDER BY 5,SORT_ORDER" );
-
 if ( $_REQUEST['search_modfunc'] === 'list' )
 {
-//FJ changed MP list to GradeBreakdown.php style
-	/*if ( ! $_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
-	$_REQUEST['mp'] = UserMP();
-	elseif (mb_strpos(GetAllMP('QTR',UserMP()),$_REQUEST['mp'])===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
-	$_REQUEST['mp'] = UserMP();
-
-	if ( ! $_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
-	$_REQUEST['mp'] = GetParentMP('SEM',UserMP());
-
-	$sem = GetParentMP('SEM',UserMP());
-
-	//FJ add year to the list
-	$year = GetParentMP('FY',$sem);
-	$pro = GetChildrenMP('PRO',UserMP());
-	$pros = explode(',',str_replace("'",'',$pro));
-	$pro_grading = false;
-	$pro_select = '';
-	foreach ( (array) $pros as $pro)
-	{
-	if (GetMP($pro,'DOES_GRADES')=='Y')
-	{
-	if ( empty( $_REQUEST['mp'] ) )
-	{
-	$_REQUEST['mp'] = $pro;
-	$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM student_report_card_grades g,course_periods cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'",array(),array('STUDENT_ID'));
-	}
-	$pro_grading = true;
-	$pro_select .='<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' selected':'').">".GetMP($pro)."</option>";
-	}
-	}
-
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('mp'));
-	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
-	$mps_select = '<select name="mp" onChange="ajaxPostForm(this.form,true);">';
-
-	if (GetMP(UserMP(),'DOES_GRADES')=='Y')
-	$mps_select .= '<option value="'.UserMP().'">'.GetMP(UserMP()).'</option>';
-	elseif ( $_REQUEST['mp']==UserMP())
-	$_REQUEST['mp'] = $sem;
-
-	if (GetMP($sem,'DOES_GRADES')=='Y')
-	$mps_select .= '<option value="'.$sem.'"'.($sem==$_REQUEST['mp']?' selected':'').">".GetMP($sem)."</option>";
-
-	//FJ add year to the list
-	if (GetMP($year,'DOES_GRADES')=='Y')
-	$mps_select .= '<option value="'.$year.'"'.($year==$_REQUEST['mp']?' selected':'').">".GetMP($year)."</option>";
-
-	if ( $pro_grading)
-	$mps_select .= $pro_select;
-
-	$mps_select .= '</select>';*/
-
-	//bjj keeping search terms
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="' . $PHP_tmp_SELF . '" method="POST">';
 
 	$mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
 
-	foreach ( (array) $mps_RET as $mp )
+	foreach ( (array) $all_mp_ids as $mp_id )
 	{
-		if ( $mp['DOES_GRADES'] == 'Y' || $mp['MARKING_PERIOD_ID'] == UserMP() )
+		if ( GetMP( $mp_id, 'DOES_GRADES' ) == 'Y' || $mp_id == UserMP() )
 		{
-			$mp_select .= '<option value="' . AttrEscape( $mp['MARKING_PERIOD_ID'] ) . '"' . ( $mp['MARKING_PERIOD_ID'] == $_REQUEST['mp'] ? ' selected' : '' ) . '>' . $mp['TITLE'] . '</option>';
+			$mp_select .= '<option value="' . AttrEscape( $mp_id ) . '"' .
+				( $mp_id == $_REQUEST['mp'] ? ' selected' : '' ) . '>' . GetMP( $mp_id ) . '</option>';
 		}
 	}
 
@@ -146,12 +81,12 @@ if ( User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student' )
 
 Search( 'student_id', $extra );
 
-foreach ( (array) $mps_RET as $mp )
+foreach ( (array) $all_mp_ids as $mp_id )
 {
-	if ( $mp['DOES_GRADES'] == 'Y' || $mp['MARKING_PERIOD_ID'] == UserMP() )
+	if ( GetMP( $mp_id, 'DOES_GRADES' ) == 'Y' || $mp_id == UserMP() )
 	{
 		// @since 4.7 Automatic Class Rank calculation.
-		ClassRankMaybeCalculate( $mp['MARKING_PERIOD_ID'] );
+		ClassRankMaybeCalculate( $mp_id );
 	}
 }
 

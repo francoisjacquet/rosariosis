@@ -4,16 +4,17 @@ require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-$sem = GetParentMP( 'SEM', UserMP() );
-$fy = GetParentMP( 'FY', $sem );
-$pros = GetChildrenMP( 'PRO', UserMP() );
+// Get all the MP's associated with the current MP
+$all_mp_ids = explode( "','", trim( GetAllMP( 'PRO', UserMP() ), "'" ) );
 
-$all_mp = GetAllMP( 'PRO', UserMP() );
+if ( ! empty( $_REQUEST['mp'] )
+	&& ! in_array( $_REQUEST['mp'], $all_mp_ids ) )
+{
+	// Requested MP not found, reset.
+	RedirectURL( 'mp' );
+}
 
-// If the UserMP has been changed, the REQUESTed MP may not work.
-
-if ( empty( $_REQUEST['mp'] )
-	|| mb_strpos( $all_mp, "'" . $_REQUEST['mp'] . "'" ) === false )
+if ( empty( $_REQUEST['mp'] ) )
 {
 	$_REQUEST['mp'] = UserMP();
 }
@@ -47,31 +48,18 @@ $period_select .= '</select>
 
 $mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
 
-if ( $pros != '' )
+foreach ( (array) $all_mp_ids as $mp_id )
 {
-	foreach ( explode( ',', str_replace( "'", '', $pros ) ) as $pro )
+	if ( GetMP( $mp_id, 'DOES_GRADES' ) == 'Y' || $mp_id == UserMP() )
 	{
-		if ( GetMP( $pro, 'DOES_GRADES' ) == 'Y' )
+		$mp_select .= '<option value="' . AttrEscape( $mp_id ) . '"' .
+			( $mp_id == $_REQUEST['mp'] ? ' selected' : '' ) . '>' . GetMP( $mp_id ) . '</option>';
+
+		if ( $mp_id === $_REQUEST['mp'] )
 		{
-			$mp_select .= '<option value="' . AttrEscape( $pro ) . '"' . (  ( $pro == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
-				GetMP( $pro ) . '</option>';
+			$user_mp_title = GetMP( $mp_id );
 		}
 	}
-}
-
-$mp_select .= '<option value="' . AttrEscape( UserMP() ) . '"' . (  ( UserMP() == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
-	GetMP( UserMP() ) . '</option>';
-
-if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
-{
-	$mp_select .= '<option value="' . AttrEscape( $sem ) . '"' . (  ( $sem == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
-		GetMP( $sem ) . '</option>';
-}
-
-if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
-{
-	$mp_select .= '<option value="' . AttrEscape( $fy ) . '"' . (  ( $fy == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
-		GetMP( $fy ) . '</option>';
 }
 
 $mp_select .= '</select>

@@ -4,7 +4,16 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// Set Marking Period
+// Get all the MP's associated with the current MP
+$all_mp_ids = explode( "','", trim( GetAllMP( 'PRO', UserMP() ), "'" ) );
+
+if ( ! empty( $_REQUEST['mp_id'] )
+	&& ! in_array( $_REQUEST['mp_id'], $all_mp_ids ) )
+{
+	// Requested MP not found, reset.
+	RedirectURL( 'mp_id' );
+}
+
 if ( empty( $_REQUEST['mp_id'] ) )
 {
 	$_REQUEST['mp_id'] = UserMP();
@@ -19,55 +28,26 @@ if ( ! isset( $_REQUEST['chart_type'] )
 	$_REQUEST['chart_type'] = 'line';
 }
 
-// Get all the mp's associated with the current mp
-// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
-// Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
-$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
-	FROM school_marking_periods
-	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID
-		FROM school_marking_periods
-		WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM school_marking_periods WHERE MARKING_PERIOD_ID='" . UserMP() . "'))
-	AND MP='FY'
-	UNION
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER
-	FROM school_marking_periods
-	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID
-		FROM school_marking_periods
-		WHERE MARKING_PERIOD_ID='" . UserMP() . "')
-	AND MP='SEM'
-	UNION
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER
-	FROM school_marking_periods
-	WHERE MARKING_PERIOD_ID='" . UserMP() . "'
-	UNION
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER
-	FROM school_marking_periods
-	WHERE PARENT_ID='" . UserMP() . "'
-	AND MP='PRO'
-	ORDER BY 5,SORT_ORDER" );
-
 echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'' ) . '" method="GET">';
 
 $mp_select = '<select name="mp_id" id="mp_id" onchange="ajaxPostForm(this.form,true);">';
 
-foreach ( (array) $mps_RET as $mp )
+foreach ( (array) $all_mp_ids as $mp_id )
 {
-	if ( $mp['DOES_GRADES'] === 'Y'
-		|| $mp['MARKING_PERIOD_ID'] === UserMP() )
+	if ( GetMP( $mp_id, 'DOES_GRADES' ) == 'Y' || $mp_id == UserMP() )
 	{
-		$mp_select .= '<option value="' . AttrEscape( $mp['MARKING_PERIOD_ID'] ) . '"' .
-			( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' .
-			$mp['TITLE'] . '</option>';
+		$mp_select .= '<option value="' . AttrEscape( $mp_id ) . '"' .
+			( $mp_id == $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' . GetMP( $mp_id ) . '</option>';
 
-		if ( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] )
+		if ( $mp_id === $_REQUEST['mp_id'] )
 		{
-			$user_mp_title = $mp['TITLE'];
+			$user_mp_title = GetMP( $mp_id );
 		}
 	}
 }
 
 $mp_select .= '</select>
-	<label for="mp_id" class="a11y-hidden">' . _( 'Marking Periods' ) . '</label>';
+	<label for="mp_id" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
 DrawHeader( $mp_select );
 
