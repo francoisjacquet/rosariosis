@@ -4,6 +4,7 @@
 Changes in 10.9
 ---------------
 - Fix do not add new Enrollment Record if existing has no Dropped date in Student.php, Enrollment.inc.php & SaveEnrollment.fnc.php
+- Enrollment Start: No N/A option for first entry in StudentsUsersInfo.fnc.php
 
 Changes in 10.8.4
 -----------------

@@ -829,7 +829,10 @@ function _makeStartInput( $value, $column )
 	global $THIS_RET,
 		$_ROSARIO;
 
-	static $add_codes = [];
+	static $add_codes = [],
+		$RET_i = 0;
+
+	$RET_i++;
 
 	$add = '';
 
@@ -839,7 +842,8 @@ function _makeStartInput( $value, $column )
 	{
 		$id = $THIS_RET['ID'];
 
-		if ( ! empty( $THIS_RET['END_DATE'] ) )
+		if ( ( $RET_i === 1 && ! empty( $value ) ) // @since 10.9 Enrollment Start: No N/A option for first entry.
+			|| ! empty( $THIS_RET['END_DATE'] ) )
 		{
 			// @since 5.4 Enrollment Start: No N/A option if already has Drop date.
 			$na = false;
@@ -909,7 +913,7 @@ function _makeStartInput( $value, $column )
 			'values[student_enrollment][' . $id . '][' . $column . ']',
 			'',
 			$div,
-			! empty( $na )
+			$na
 		) . ' - ' .
 		SelectInput(
 			issetVal( $THIS_RET['ENROLLMENT_CODE'] ),
