@@ -142,8 +142,7 @@ else
 
 $RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
 
-if ( ! isset( $_REQUEST['period'] )
-	|| ! $_REQUEST['period'] )
+if ( empty( $_REQUEST['period'] ) )
 {
 	$i = 0;
 
@@ -157,19 +156,24 @@ if ( ! isset( $_REQUEST['period'] )
 
 		foreach ( (array) $periods as $period )
 		{
+			if ( ! isset( $staff_RET[$i][$period['PERIOD_ID']] ) )
+			{
+				$staff_RET[$i][$period['PERIOD_ID']] = '';
+			}
+
 			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[$i][$period['PERIOD_ID']] = ( $period['COMPLETED'] === 'Y' ?
-					_( 'Yes' ) : _( 'No' ) );
+				$staff_RET[$i][$period['PERIOD_ID']] .= ( $period['COMPLETED'] === 'Y' ?
+					_( 'Yes' ) . ' ' : _( 'No' ) . ' ' );
 
 				continue;
 			}
 
-			$staff_RET[$i][$period['PERIOD_ID']] = MakeTipMessage(
+			$staff_RET[$i][$period['PERIOD_ID']] .= MakeTipMessage(
 				$period['CP_TITLE'],
-				_( 'Course Title' ),
+				$period['COURSE_TITLE'],
 				button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
-			);
+			) . ' ';
 		}
 	}
 

@@ -9,6 +9,7 @@ Changes in 10.9
 - Simplify & harmonize code, use GetAllMP() in GPARankList.php, InputFinalGrades.php & TeacherCompletion.php
 - Exclude already associated parents/students from Search() in AddUsers.php & AddStudents.php
 - Replace "Course Title" in TipMessage with actual Course title in Attendance/, Eligibility/ & Grades/TeacherCompletion.php
+- Handle multiple Course Periods on the same Period for same Teacher in Attendance/ & Eligibility/TeacherCompletion.php
 
 Changes in 10.8.4
 -----------------

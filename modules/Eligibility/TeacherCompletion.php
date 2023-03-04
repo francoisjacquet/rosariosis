@@ -119,66 +119,76 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 
 $RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
 
-$i = 0;
-
-$staff_RET = [];
-
-foreach ( (array) $RET as $staff_id => $periods )
+if ( empty( $_REQUEST['period'] ) )
 {
-	$i++;
+	$i = 0;
 
-	$staff_RET[$i]['FULL_NAME'] = $periods[key( $periods )][1]['FULL_NAME'];
+	$staff_RET = [];
 
-	if ( empty( $_REQUEST['period'] ) )
+	foreach ( (array) $RET as $staff_id => $periods )
 	{
-		foreach ( (array) $periods as $period_id => $course_periods )
+		$i++;
+
+		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
+
+		foreach ( (array) $periods as $period )
 		{
+			if ( ! isset( $staff_RET[$i][$period['PERIOD_ID']] ) )
+			{
+				$staff_RET[$i][$period['PERIOD_ID']] = '';
+			}
+
 			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[$i][$period_id] = _( 'No' );
+				$staff_RET[$i][$period['PERIOD_ID']] .= _( 'No' ) . ' ';
 
 				continue;
 			}
 
-			$cp_titles = [];
-
-			foreach ( (array) $course_periods as $course_period )
-			{
-				$cp_titles[] = $course_period['CP_TITLE'];
-			}
-
-			$staff_RET[$i][$period_id] = MakeTipMessage(
-				implode( '<br /><br />', $cp_titles ),
-				_( 'Course Periods' ),
+			$staff_RET[$i][$period['PERIOD_ID']] .= MakeTipMessage(
+				$period['CP_TITLE'],
+				$period['COURSE_TITLE'],
 				button( 'x' )
-			);
+			) . ' ';
 		}
 	}
-}
 
-$columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
+	$columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
 
-$period_title_column = 'TITLE';
+	$period_title_column = 'TITLE';
 
-if ( count( $periods_RET ) > 10 )
-{
-	// Use Period's Short Name when > 10 columns in the list.
-	$period_title_column = 'SHORT_TITLE';
-}
+	if ( count( $periods_RET ) > 10 )
+	{
+		// Use Period's Short Name when > 10 columns in the list.
+		$period_title_column = 'SHORT_TITLE';
+	}
 
-if ( empty( $_REQUEST['period'] ) )
-{
 	foreach ( (array) $periods_RET as $period )
 	{
 		$columns[$period['PERIOD_ID']] = $period[$period_title_column];
 	}
+
+	$group = [];
+}
+else
+{
+	$staff_RET = $RET;
+
+	$columns = [
+		'FULL_NAME' => _( 'Teacher' ),
+		'CP_TITLE' => _( 'Course Period' ),
+	];
+
+	$group = [ 'STAFF_ID' ];
 }
 
 ListOutput(
 	$staff_RET,
 	$columns,
 	'Teacher who hasn\'t entered eligibility',
-	'Teachers who haven\'t entered eligibility'
+	'Teachers who haven\'t entered eligibility',
+	false,
+	$group
 );
 
 /**
