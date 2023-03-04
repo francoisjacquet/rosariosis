@@ -214,6 +214,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 		}
 
+		// Add Enrollment / Drop dates.
+		AddRequestedDates( 'values' );
+
 		if ( UserStudentID() && ! $error )
 		{
 			// Hook.

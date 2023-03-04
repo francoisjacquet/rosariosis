@@ -13,7 +13,7 @@ function SaveEnrollment()
 	{
 		foreach ( (array) $_REQUEST['month_values']['student_enrollment'] as $stu_enrol_id => $stu_enrol_month )
 		{
-			if ( $stu_enrol_id == 'new' && ! $_REQUEST['values']['student_enrollment']['new']['ENROLLMENT_CODE'] && ! $_REQUEST['month_values']['student_enrollment']['new']['START_DATE'] )
+			if ( $stu_enrol_id == 'new' && ! $stu_enrol_month['START_DATE'] )
 			{
 				unset( $_REQUEST['values']['student_enrollment'][$stu_enrol_id] );
 				unset( $_REQUEST['day_values']['student_enrollment'][$stu_enrol_id] );
@@ -37,11 +37,7 @@ function SaveEnrollment()
 				{
 					$found_RET = 1;
 
-					$date = RequestedDate(
-						$_REQUEST['year_values']['student_enrollment'][$stu_enrol_id]['START_DATE'],
-						$_REQUEST['month_values']['student_enrollment'][$stu_enrol_id]['START_DATE'],
-						$_REQUEST['day_values']['student_enrollment'][$stu_enrol_id]['START_DATE']
-					);
+					$date = $_REQUEST['values']['student_enrollment'][$stu_enrol_id]['START_DATE'];
 
 					if ( $date )
 					{
@@ -69,11 +65,7 @@ function SaveEnrollment()
 			}
 			elseif ( UserStudentID() && ! empty( $stu_enrol_month['START_DATE'] ) )
 			{
-				$date = RequestedDate(
-					$_REQUEST['year_values']['student_enrollment'][$stu_enrol_id]['START_DATE'],
-					$_REQUEST['month_values']['student_enrollment'][$stu_enrol_id]['START_DATE'],
-					$_REQUEST['day_values']['student_enrollment'][$stu_enrol_id]['START_DATE']
-				);
+				$date = $_REQUEST['values']['student_enrollment'][$stu_enrol_id]['START_DATE'];
 
 				$found_RET = 1;
 

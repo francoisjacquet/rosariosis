@@ -21,10 +21,8 @@ $add = true;
 
 foreach ( (array) $enrollment_RET as $value )
 {
-	if ( ( $value['DROP_CODE'] == ''
-			|| ! $value['DROP_CODE'] )
-		&& ( $value['END'] == ''
-			|| ! $value['END'] ) )
+	if ( $value['END'] == ''
+		|| ! $value['END'] )
 	{
 		$add = false;
 	}

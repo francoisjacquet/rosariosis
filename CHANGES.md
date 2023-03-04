@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9
+---------------
+- Fix do not add new Enrollment Record if existing has no Dropped date in Student.php, Enrollment.inc.php & SaveEnrollment.fnc.php
+
 Changes in 10.8.4
 -----------------
 - Fix SQL error escape menu title in DailyMenus.php, ServeMenus.php
