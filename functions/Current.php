@@ -357,3 +357,107 @@ function SetUserStudentID( $student_id )
 
 	$_SESSION['student_id'] = (string) (int) $student_id;
 }
+
+
+/**
+ * Set Current User Course Period
+ * Set $_SESSION['UserCoursePeriod']
+ * Forbid hacking user period ID in URL
+ * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+ * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+ * Then teacher submits the form, data would be saved for CP B...
+ *
+ * @since 10.9
+ *
+ * Student & Parent:
+ * Forbidden
+ * Teacher:
+ * Check $course_period_id is currently taught by (Secondary) Teacher
+ * Admin:
+ * Check $course_period_id is taught in current School & Year
+ *
+ * @example if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );
+ *
+ * @param  int  $course_period_id Course Period ID.
+ *
+ * @return void exit to HackingLog if not permitted
+ */
+function SetUserCoursePeriod( $course_period_id )
+{
+	$isHack = false;
+
+	switch ( User( 'PROFILE' ) )
+	{
+		case 'student':
+		case 'parent':
+
+			$isHack = true;
+		break;
+
+		case 'teacher':
+
+			if ( $course_period_id == UserCoursePeriod() )
+			{
+				break;
+			}
+
+			// Note: Teacher may teach a CP in other MPs (not related to current MP).
+			$all_mp = GetAllMP( 'QTR', UserMP() );
+
+			$all_mp_sql = $all_mp ? " AND MARKING_PERIOD_ID IN (" . $all_mp . ")" : '';
+
+			// Get all the Course Periods associated with current Teacher
+			$is_teaching_course_period = DBGet( "SELECT 1
+				FROM course_periods
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+				AND (TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+					OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')" . $all_mp_sql );
+
+			if ( ! $is_teaching_course_period )
+			{
+				$isHack = true;
+			}
+		break;
+
+		case 'admin':
+
+			if ( $course_period_id == UserCoursePeriod() )
+			{
+				break;
+			}
+
+			// Get all the Course Periods taught in current School & Year
+			$is_course_period = DBGet( "SELECT 1
+				FROM course_periods
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
+
+			if ( ! $is_course_period )
+			{
+				$isHack = true;
+			}
+		break;
+
+		default:
+			// FJ create account.
+			if ( User( 'PROFILE' )
+				|| basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+			{
+				$isHack = true;
+			}
+
+		break;
+	}
+
+	if ( $isHack )
+	{
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
+
+		HackingLog();
+	}
+
+	$_SESSION['UserCoursePeriod'] = (string) (int) $course_period_id;
+}
