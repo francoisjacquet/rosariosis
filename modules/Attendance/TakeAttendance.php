@@ -369,8 +369,16 @@ if ( ! empty( $daily_comment ) )
 
 DrawHeader( $cp_title );
 
+/**
+ * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+ * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+ * Then teacher submits the form, data would be saved for CP B...
+ *
+ * Must be used in combination with
+ * `if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );`
+ */
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
-	'&table=' . $_REQUEST['table']  ) . '" method="POST">';
+	'&table=' . $_REQUEST['table'] . '&period=' . UserCoursePeriod() ) . '" method="POST">';
 
 DrawHeader( $school_periods_select, SubmitButton() );
 

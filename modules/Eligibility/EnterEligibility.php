@@ -235,7 +235,16 @@ if ( $cp_title )
 	DrawHeader( $cp_title );
 }
 
-echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
+/**
+ * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+ * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+ * Then teacher submits the form, data would be saved for CP B...
+ *
+ * Must be used in combination with
+ * `if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );`
+ */
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&period=' . UserCoursePeriod() ) . '" method="POST">';
 
 if ( $today > $END_DAY
 	| $today < $START_DAY

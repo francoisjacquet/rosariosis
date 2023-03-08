@@ -12,6 +12,7 @@ Changes in 10.9
 - Handle multiple Course Periods on the same Period for same Teacher in Attendance/ & Eligibility/TeacherCompletion.php
 - JS Remove "Go" button & submit form on select change in Eligibility/TeacherCompletion.php
 - Add SetUserCoursePeriod() function in Current.php
+- Add `'&period=' . UserCoursePeriod()` to Teacher form URL in TakeAttendance.php, EnterEligibility.php, Assignments.php, Grades.php, InputFinalGrades.php, ProgressReports.php, StudentAssignments.fnc.php & Portal.php
 
 Changes in 10.8.4
 -----------------

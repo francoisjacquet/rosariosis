@@ -670,6 +670,12 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 			$view_assignment_link .= '&marking_period_id=' . $THIS_RET['MARKING_PERIOD_ID'];
 		}
 
+		if ( ! empty( $THIS_RET['COURSE_PERIOD_ID'] ) )
+		{
+			// @since 10.9 Add CP to outside links (see Portal), so current CP is correct.
+			$view_assignment_link .= '&period=' . $THIS_RET['COURSE_PERIOD_ID'];
+		}
+
 		return '<a href="' . URLEscape( $view_assignment_link ) . '">' . $title . '</a>';
 	}
 }

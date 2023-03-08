@@ -570,7 +570,11 @@ switch ( User( 'PROFILE' ) )
 		// FJ Portal Assignments.
 		$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
 			a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
-			c.TITLE AS COURSE,a.MARKING_PERIOD_ID
+			c.TITLE AS COURSE,a.MARKING_PERIOD_ID,
+			(SELECT cp.COURSE_PERIOD_ID FROM course_periods cp
+				WHERE cp.COURSE_ID=c.COURSE_ID
+				AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+				LIMIT 1) AS COURSE_PERIOD_ID
 		FROM gradebook_assignments a,courses c,school_marking_periods mp
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
@@ -1218,8 +1222,6 @@ function _redirectTakeAttendance()
 
 		// Admin: Teacher Programs.
 		$modname .= '&staff_id=' . $cp_RET[1]['TEACHER_ID'];
-
-		$modname .= '&period=' . $_REQUEST['period'];
 	}
 	elseif ( ! AllowUse( $modname )
 		|| ( User( 'STAFF_ID' ) !== $cp_RET[1]['TEACHER_ID']
@@ -1229,12 +1231,8 @@ function _redirectTakeAttendance()
 		// Teachers cannot take others attendance?
 		return false;
 	}
-	else
-	{
-		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-	}
 
-	$modname .= '&school_period=' . $_REQUEST['school_period'];
+	$modname .= '&period=' . $_REQUEST['period'] . '&school_period=' . $_REQUEST['school_period'];
 
 	if ( UserSchool() != $cp_RET[1]['SCHOOL_ID'] )
 	{

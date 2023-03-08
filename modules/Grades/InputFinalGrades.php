@@ -1101,10 +1101,18 @@ $extra['DATE'] = GetMP( $_REQUEST['mp'], 'END_DATE' );
 
 $stu_RET = GetStuList( $extra );
 
+/**
+ * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+ * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+ * Then teacher submits the form, data would be saved for CP B...
+ *
+ * Must be used in combination with
+ * `if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );`
+ */
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' ?
 		'&tab_id=' . $_REQUEST['tab_id'] : '' ) .
-	'&mp=' . $_REQUEST['mp']  ) . '" method="POST">';
+	'&mp=' . $_REQUEST['mp'] . '&period=' . $course_period_id  ) . '" method="POST">';
 
 if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {

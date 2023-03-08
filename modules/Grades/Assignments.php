@@ -659,7 +659,15 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
-		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=gradebook_assignments&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+		/**
+		 * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+		 * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+		 * Then teacher submits the form, data would be saved for CP B...
+		 *
+		 * Must be used in combination with
+		 * `if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );`
+		 */
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=gradebook_assignments&assignment_type_id=' . $_REQUEST['assignment_type_id'] . '&period=' . UserCoursePeriod();
 
 		if ( $_REQUEST['assignment_id'] !== 'new' )
 		{
@@ -815,7 +823,16 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( ! empty( $_REQUEST['assignment_type_id'] ) )
 	{
-		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=gradebook_assignment_types';
+		/**
+		 * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+		 * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+		 * Then teacher submits the form, data would be saved for CP B...
+		 *
+		 * Must be used in combination with
+		 * `if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );`
+		 */
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&table=gradebook_assignment_types&period=' . UserCoursePeriod();
 
 		if ( $_REQUEST['assignment_type_id'] !== 'new' )
 		{

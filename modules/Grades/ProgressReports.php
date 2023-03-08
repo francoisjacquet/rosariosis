@@ -304,9 +304,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list_st' || UserStudentID() )
 	{
+		/**
+		 * Adding `'&period=' . UserCoursePeriod()` to the Teacher form URL will prevent the following issue:
+		 * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
+		 * Then teacher submits the form, data would be saved for CP B...
+		 *
+		 * Must be used in combination with
+		 * `if ( ! empty( $_REQUEST['period'] ) ) SetUserCoursePeriod( $_REQUEST['period'] );`
+		 */
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] .
-			'&_ROSARIO_PDF=true' ) . '" method="POST">';
+			'&period=' . UserCoursePeriod() . '&_ROSARIO_PDF=true' ) . '" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Progress Reports for Selected Students' ) );
 
