@@ -133,6 +133,10 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& $_REQUEST['mp'] != $_SESSION['UserMP'] )
 	{
 		$_SESSION['UserMP'] = (string) (int) $_REQUEST['mp'];
+
+		// Note: Teacher may teach CP in old MP but not in current MP.
+		// Remove period from URL.
+		unset( $_SESSION['_REQUEST_vars']['period'] );
 	}
 
 	// Update Teacher's current CoursePeriod.
@@ -141,6 +145,9 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& $_REQUEST['period'] != $old_period )
 	{
 		$_SESSION['UserCoursePeriod'] = (string) (int) $_REQUEST['period'];
+
+		// Remove period from URL.
+		unset( $_SESSION['_REQUEST_vars']['period'] );
 	}
 
 	// Update Parent's current Student.
@@ -184,6 +191,9 @@ if ( isset( $_REQUEST['sidefunc'] )
 			|| User( 'PROFILE' ) === 'teacher' ) )
 	{
 		unset( $_SESSION['UserPeriod'], $_SESSION['UserCoursePeriod'] );
+
+		// Remove period from URL.
+		unset( $_SESSION['_REQUEST_vars']['period'] );
 	}
 
 	// Remove current Student/User from menu if user clicked on red cross.

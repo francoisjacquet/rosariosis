@@ -13,6 +13,7 @@ Changes in 10.9
 - JS Remove "Go" button & submit form on select change in Eligibility/TeacherCompletion.php
 - Add SetUserCoursePeriod() function in Current.php
 - Add `'&period=' . UserCoursePeriod()` to Teacher form URL in TakeAttendance.php, EnterEligibility.php, Assignments.php, Grades.php, InputFinalGrades.php, ProgressReports.php, StudentAssignments.fnc.php & Portal.php
+- Remove period from URL when switching School / Year / MP / CP in Side.php
 
 Changes in 10.8.4
 -----------------
