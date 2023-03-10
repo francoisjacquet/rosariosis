@@ -1,5 +1,11 @@
 <?php
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 // @since 6.9 Set School Period per program.
 $school_period = DBGetOne( "SELECT PERIOD_ID
 	FROM course_period_school_periods

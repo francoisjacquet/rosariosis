@@ -5,6 +5,24 @@ if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 	UserImpersonateTeacher();
 }
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
+if ( ! empty( $_REQUEST['student_id'] ) )
+{
+	if ( $_REQUEST['student_id'] != UserStudentID() )
+	{
+		SetUserStudentID( $_REQUEST['student_id'] );
+	}
+}
+elseif ( UserStudentID() )
+{
+	unset( $_SESSION['student_id'] );
+}
+
 $_REQUEST['include_all_courses'] = issetVal( $_REQUEST['include_all_courses'], '' );
 $_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
 
@@ -46,52 +64,6 @@ DrawHeader(
 );
 
 echo '</form>';
-
-if ( ! empty( $_REQUEST['student_id'] ) )
-{
-	if ( $_REQUEST['student_id'] != UserStudentID() )
-	{
-		SetUserStudentID( $_REQUEST['student_id'] );
-
-		if ( $_REQUEST['period'] && $_REQUEST['period'] != UserCoursePeriod() )
-		{
-			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-		}
-	}
-}
-else
-{
-	if ( UserStudentID() )
-	{
-		unset( $_SESSION['student_id'] );
-
-		if ( isset( $_REQUEST['period'] )
-			&& $_REQUEST['period'] != UserCoursePeriod() )
-		{
-			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-		}
-	}
-}
-
-if ( ! empty( $_REQUEST['period'] ) )
-{
-	if ( $_REQUEST['period'] != UserCoursePeriod() )
-	{
-		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-
-		if ( ! empty( $_REQUEST['student_id'] ) )
-		{
-			if ( $_REQUEST['student_id'] != UserStudentID() )
-			{
-				SetUserStudentID( $_REQUEST['student_id'] );
-			}
-		}
-		else
-		{
-			unset( $_SESSION['student_id'] );
-		}
-	}
-}
 
 $extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 

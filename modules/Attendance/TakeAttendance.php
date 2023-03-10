@@ -14,6 +14,12 @@ DrawHeader( ProgramTitle() );
 // Set date.
 $date = RequestedDate( 'date', DBDate(), 'set' );
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 // Fix PostgreSQL error invalid ORDER BY, only result column names can be used
 // Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.
 // Fix MySQL 5.6 syntax error when WHERE without FROM clause, use dual table

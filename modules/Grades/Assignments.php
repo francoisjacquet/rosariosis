@@ -34,6 +34,12 @@ if ( ! UserCoursePeriod() )
 	echo ErrorMessage( [ _( 'No courses assigned to teacher.' ) ], 'fatal' );
 }
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
 $course_id = DBGetOne( "SELECT COURSE_ID

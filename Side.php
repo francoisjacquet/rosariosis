@@ -144,7 +144,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& isset( $_REQUEST['period'] )
 		&& $_REQUEST['period'] != $old_period )
 	{
-		$_SESSION['UserCoursePeriod'] = (string) (int) $_REQUEST['period'];
+		SetUserCoursePeriod( $_REQUEST['period'] );
 
 		// Remove period from URL.
 		unset( $_SESSION['_REQUEST_vars']['period'] );
@@ -190,7 +190,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) )
 	{
-		unset( $_SESSION['UserPeriod'], $_SESSION['UserCoursePeriod'] );
+		unset( $_SESSION['UserCoursePeriod'] );
 
 		// Remove period from URL.
 		unset( $_SESSION['_REQUEST_vars']['period'] );
@@ -537,6 +537,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			if ( ! UserCoursePeriod()
 				&& isset( $cp_RET[1] ) )
 			{
+				// Do not use SetUserCoursePeriod() here as this is safe.
 				$_SESSION['UserCoursePeriod'] = $cp_RET[1]['COURSE_PERIOD_ID'];
 			} ?>
 
@@ -606,6 +607,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			 */
 			if ( ! $current_cp_found )
 			{
+				// Do not use SetUserCoursePeriod() here as this is safe.
 				$_SESSION['UserCoursePeriod'] = $cp_RET[1]['COURSE_PERIOD_ID'];
 
 				unset( $_SESSION['student_id'] );

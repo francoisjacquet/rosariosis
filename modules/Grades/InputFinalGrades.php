@@ -29,6 +29,12 @@ if ( empty( $_REQUEST['mp'] ) )
 	$_REQUEST['mp'] = UserMP();
 }
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 $course_period_id = UserCoursePeriod();
 
 if ( empty( $course_period_id ) )

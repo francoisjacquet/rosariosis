@@ -13,6 +13,12 @@ if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 	UserImpersonateTeacher();
 }
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 $_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'] );
 
 $_REQUEST['include_all'] = issetVal( $_REQUEST['include_all'] );
@@ -104,9 +110,7 @@ if ( UserStudentID()
 
 if ( ! empty( $_REQUEST['values'] )
 	&& ! empty( $_POST['values'] )
-	// Fix use weak comparison "==" operator as $_SESSION['type_id'] maybe null.
-	 && $_SESSION['type_id'] == $_REQUEST['type_id']
-	&& $_SESSION['assignment_id'] == $_REQUEST['assignment_id'] )
+	&& $_REQUEST['assignment_id'] )
 {
 	include 'ProgramFunctions/_makePercentGrade.fnc.php';
 
@@ -213,9 +217,6 @@ if ( ! empty( $_REQUEST['values'] )
 
 	unset( $current_RET );
 }
-
-$_SESSION['type_id'] = ! empty( $_REQUEST['type_id'] ) ? $_REQUEST['type_id'] : null;
-$_SESSION['assignment_id'] = ! empty( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
 
 $LO_options = [ 'search' => false ];
 

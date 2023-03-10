@@ -7,6 +7,12 @@ if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 	UserImpersonateTeacher();
 }
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 $_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
 
 if ( $_REQUEST['modfunc'] === 'save' )

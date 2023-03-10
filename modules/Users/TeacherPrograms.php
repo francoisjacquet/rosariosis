@@ -69,15 +69,9 @@ if ( UserStaffID() )
 	 */
 	$fy_id = GetFullYearMP();
 
-	// Set current CoursePeriod.
 	if ( ! empty( $_REQUEST['period'] ) )
 	{
-		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-	}
-
-	if ( ! UserCoursePeriod() )
-	{
-		$_SESSION['UserCoursePeriod'] = isset( $cp_RET[1]['COURSE_PERIOD_ID'] ) ? $cp_RET[1]['COURSE_PERIOD_ID'] : null;
+		SetUserCoursePeriod( $_REQUEST['period'] );
 	}
 
 	$period_select = '<label for="period" class="a11y-hidden">' . _( 'Course Periods' ) . '</label>
@@ -123,7 +117,8 @@ if ( UserStaffID() )
 
 	if ( ! $current_cp_found )
 	{
-		$_SESSION['UserCoursePeriod'] = issetVal( $cp_RET[1]['COURSE_PERIOD_ID'], 0 );
+		// Do not use SetUserCoursePeriod() here as this is safe.
+		$_SESSION['UserCoursePeriod'] = issetVal( $cp_RET[1]['COURSE_PERIOD_ID'] );
 
 		if ( empty( $cp_RET[1]['COURSE_PERIOD_ID'] ) )
 		{
