@@ -31,20 +31,20 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND cp.SYEAR='" . UserSyear() . "')
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
-$period_select = '<select name="period" id="period" onchange="ajaxPostForm(this.form,true);">
+$period_select = '<select name="school_period" id="school_period" onchange="ajaxPostForm(this.form,true);">
 	<option value="">' . _( 'All' ) . '</option>';
 
-$_REQUEST['period'] = issetVal( $_REQUEST['period'], false );
+$_REQUEST['school_period'] = issetVal( $_REQUEST['school_period'], false );
 
 foreach ( (array) $periods_RET as $id => $period )
 {
 	$period_select .= '<option value="' . AttrEscape( $id ) . '"' .
-		(  ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . '>' .
+		(  ( $_REQUEST['school_period'] == $id ) ? ' selected' : '' ) . '>' .
 		$period[1]['TITLE'] . '</option>';
 }
 
 $period_select .= '</select>
-	<label for="period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
+	<label for="school_period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
 
 $mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
 
@@ -77,7 +77,7 @@ WHERE
 sp.PERIOD_ID = cp.PERIOD_ID AND cp.GRADE_SCALE_ID IS NOT NULL
 AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
 AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
-".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
+".(($_REQUEST['school_period'])?" AND cp.PERIOD_ID='".$_REQUEST['school_period']."'":'')."
 ORDER BY FULL_NAME";*/
 
 $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.ROLLOVER_ID,
@@ -97,10 +97,10 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.RO
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND c.COURSE_ID=cp.COURSE_ID
 	AND s.PROFILE='teacher'" .
-	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
+	( $_REQUEST['school_period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" : '' ) .
 	" ORDER BY FULL_NAME", [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
 
-if ( empty( $_REQUEST['period'] ) )
+if ( empty( $_REQUEST['school_period'] ) )
 {
 	$i = 0;
 
@@ -153,7 +153,7 @@ if ( empty( $_REQUEST['period'] ) )
 }
 else
 {
-	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
+	$period_title = $periods_RET[$_REQUEST['school_period']][1]['TITLE'];
 
 	foreach ( (array) $RET as $staff_id => $periods )
 	{

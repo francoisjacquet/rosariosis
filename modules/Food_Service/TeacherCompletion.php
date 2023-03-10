@@ -29,14 +29,16 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND DOES_FS_COUNTS='Y')
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 
-$period_select = '<select name="period"<option value="">' . _( 'All' ) . '</option>';
+$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form,true);">
+	<option value="">' . _( 'All' ) . '</option>';
 
 foreach ( (array) $periods_RET as $period )
 {
-	$period_select .= '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '"' . (  ( $_REQUEST['period'] == $period['PERIOD_ID'] ) ? ' selected' : '' ) . ">" . $period['TITLE'] . '</option>';
+	$period_select .= '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '"' . (  ( $_REQUEST['school_period'] == $period['PERIOD_ID'] ) ? ' selected' : '' ) . ">" . $period['TITLE'] . '</option>';
 }
 
-$period_select .= '</select>';
+$period_select .= '</select>
+	<label for="school_period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
 
 // FJ multiple school periods for a course period.
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,s.STAFF_ID
@@ -49,7 +51,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'
 	AND cp.DOES_FS_COUNTS='Y' " .
-	(  ( $_REQUEST['period'] ) ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
+	(  ( $_REQUEST['school_period'] ) ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" : '' ) .
 	" AND position('" . $day . "' in cpsp.DAYS)>0";
 
 $RET = DBGet( $sql, [], [ 'STAFF_ID', 'PERIOD_ID' ] );
@@ -66,7 +68,7 @@ if ( empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( [ 'There are no menus yet setup.' ], 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	else
@@ -145,7 +147,7 @@ if ( ! empty( $RET ) )
 
 $columns = [ 'FULL_NAME' => 'Teacher' ];
 
-if ( empty( $_REQUEST['period'] ) )
+if ( empty( $_REQUEST['school_period'] ) )
 {
 	foreach ( (array) $periods_RET as $period )
 	{
@@ -154,7 +156,7 @@ if ( empty( $_REQUEST['period'] ) )
 }
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
-DrawHeader( PrepareDate( $date, '_date' ) . ' : ' . $period_select . ' : <input type=submit value=' . _( 'Go' ) . '>' );
+DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . ' &mdash; ' . $period_select );
 echo '</form>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';

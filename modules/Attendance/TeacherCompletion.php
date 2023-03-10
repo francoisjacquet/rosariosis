@@ -3,7 +3,7 @@
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 $_REQUEST['table'] = issetVal( $_REQUEST['table'], '0' );
-$_REQUEST['period'] = issetVal( $_REQUEST['period'] );
+$_REQUEST['school_period'] = issetVal( $_REQUEST['school_period'] );
 
 // Set date.
 $date = RequestedDate( 'date', DBDate(), 'set' );
@@ -39,16 +39,16 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0)
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
-$period_select = '<select name="period" id="period" onChange="ajaxPostForm(this.form,true);">
+$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form,true);">
 	<option value="">' . _( 'All' ) .'</option>';
 
 foreach ( (array) $periods_RET as $id => $period )
 {
-	$period_select .= '<option value="' . AttrEscape( $id ) . '"' . ( ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . ">" . $period[1]['TITLE'] . '</option>';
+	$period_select .= '<option value="' . AttrEscape( $id ) . '"' . ( ( $_REQUEST['school_period'] == $id ) ? ' selected' : '' ) . ">" . $period[1]['TITLE'] . '</option>';
 }
 
 $period_select .= '</select>
-	<label for="period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
+	<label for="school_period" class="a11y-hidden">' . _( 'Period' ) . '</label>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . ' &mdash; ' . $period_select );
@@ -78,7 +78,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND c.COURSE_ID=cp.COURSE_ID
 	AND s.PROFILE='teacher'
-	" . ( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) . "
+	" . ( $_REQUEST['school_period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" : '' ) . "
 	AND acc.CALENDAR_ID=cp.CALENDAR_ID
 	AND acc.SCHOOL_DATE='" . $date . "'
 	AND acc.SYEAR='" . UserSyear() . "'
@@ -123,7 +123,7 @@ else
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND c.COURSE_ID=cp.COURSE_ID
 		AND s.PROFILE='teacher'" .
-	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
+	( $_REQUEST['school_period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" : '' ) .
 	" AND acc.CALENDAR_ID=cp.CALENDAR_ID
 		AND acc.SCHOOL_DATE='" . $date . "'
 		AND acc.SYEAR='" . UserSyear() . "'
@@ -142,7 +142,7 @@ else
 
 $RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
 
-if ( empty( $_REQUEST['period'] ) )
+if ( empty( $_REQUEST['school_period'] ) )
 {
 	$i = 0;
 
@@ -196,7 +196,7 @@ if ( empty( $_REQUEST['period'] ) )
 }
 else
 {
-	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
+	$period_title = $periods_RET[$_REQUEST['school_period']][1]['TITLE'];
 
 	// FJ display icon for completed column.
 

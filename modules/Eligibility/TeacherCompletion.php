@@ -1,7 +1,7 @@
 <?php
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-$_REQUEST['period'] = (int) issetVal( $_REQUEST['period'] );
+$_REQUEST['school_period'] = (int) issetVal( $_REQUEST['school_period'] );
 
 DrawHeader( ProgramTitle() );
 
@@ -47,13 +47,13 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND cp.SYEAR='" . UserSyear() . "')
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 
-$period_select = '<select name="period" id="period" onChange="ajaxPostForm(this.form,true);">
+$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form,true);">
 	<option value="">' . _( 'All' ) . '</option>';
 
 foreach ( (array) $periods_RET as $period )
 {
 	$period_select .= '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '"' .
-		( $_REQUEST['period'] == $period['PERIOD_ID'] ? ' selected' : '' ) . '>' .
+		( $_REQUEST['school_period'] == $period['PERIOD_ID'] ? ' selected' : '' ) . '>' .
 		$period['TITLE'] . '</option>';
 }
 
@@ -84,7 +84,7 @@ if ( $start
 $date_select = '<select name="start_date" id="start_date" onChange="ajaxPostForm(this.form,true);">' . $date_select . '</select>';
 
 DrawHeader( '<label for="start_date">' . _( 'Timeframe' ) . ':</label> ' . $date_select . ' &mdash; ' .
-	'<label for="period">' . _( 'Period' ) . ':</label> ' . $period_select );
+	'<label for="school_period">' . _( 'Period' ) . ':</label> ' . $period_select );
 
 echo '</form>';
 
@@ -95,7 +95,7 @@ WHERE
 sp.PERIOD_ID = cp.PERIOD_ID
 AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
 AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
-".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
+".(($_REQUEST['school_period'])?" AND cp.PERIOD_ID='".$_REQUEST['school_period']."'":'')."
 AND NOT EXISTS (SELECT '' FROM eligibility_completed ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
 ";*/
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,
@@ -109,7 +109,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND c.COURSE_ID=cp.COURSE_ID
 	AND s.PROFILE='teacher'" .
-	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
+	( $_REQUEST['school_period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" : '' ) .
 	"AND NOT EXISTS (SELECT ''
 		FROM eligibility_completed ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
@@ -119,7 +119,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 
 $RET = DBGet( $sql, [ 'FULL_NAME' => 'makePhotoTipMessage' ], [ 'STAFF_ID' ] );
 
-if ( empty( $_REQUEST['period'] ) )
+if ( empty( $_REQUEST['school_period'] ) )
 {
 	$i = 0;
 
