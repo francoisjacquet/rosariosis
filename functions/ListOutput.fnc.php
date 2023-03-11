@@ -279,7 +279,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	if ( $plural && $plural !== '.' )
 	{
 		$class = mb_strtolower( preg_replace(
-			'/([^\-a-z\/0-9]+)/i',
+			'/([^\-a-z0-9]+)/i',
 			'-',
 			$plural
 		) );
@@ -412,7 +412,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( $remove
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			echo '<th><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
+			echo '<th class="list-column-delete"><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
 
 			$i++;
 		}
@@ -425,9 +425,17 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				$i++;
 
+				// @since 10.9 CSS Add .list-column-[column_name] class
+				// Note: you can set column max-width using CSS .list-column-comment { width: 36%; }
+				$class = 'list-column-' . mb_strtolower( preg_replace(
+					'/([^\-a-z0-9]+)/i',
+					'-',
+					$key
+				) );
+
 				if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 				{
-					echo '<td style="background-color:' . $options['header_color'] . '; color:#fff;"><b>' .
+					echo '<td class="' . $class . '" style="background-color:' . $options['header_color'] . '; color:#fff;"><b>' .
 						ParseMLField( $value ) . '</b></td>';
 
 					continue;
@@ -437,7 +445,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					// Fix MakeChooseCheckbox() remove parent link to sort column
 					&& mb_strpos( $value, 'id="controller"' ) === false )
 				{
-					echo '<th><a href="' . $PHP_tmp_SELF . URLEscape( '&LO_page=' . $LO_page .
+					echo '<th class="' . $class . '"><a href="' . $PHP_tmp_SELF . URLEscape( '&LO_page=' . $LO_page .
 						'&LO_sort=' . $key . '&LO_dir=' . $direction .
 						'&LO_search=' . issetVal( $LO_search, '' ) ) . '">' .
 						ParseMLField( $value ) . '</a></th>';
@@ -445,7 +453,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					continue;
 				}
 
-				echo '<th>' . ParseMLField( $value ) . '</th>';
+				echo '<th class="' . $class . '">' . ParseMLField( $value ) . '</th>';
 			}
 		}
 
