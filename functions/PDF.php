@@ -59,6 +59,7 @@ function PDFStart( $options = [] )
  * @since 3.4 Handle HTML header & footer.
  * @since 4.3 CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes
  * @since 7.5 Use phpwkhtmltopdf class instead of Wkhtmltopdf (more reliable & faster)
+ * @since 10.9 CSS Add modname class, ie .grades-reportcards-php for modname=Grades/ReportCards.php
  * @link https://github.com/mikehaertl/phpwkhtmltopdf
  *
  * @global string $wkhtmltopdfPath
@@ -105,6 +106,17 @@ function PDFStop( $handle )
 		$orientation_class = 'wkhtmltopdf-landscape'; // 1405px, originally 1448px.
 	}
 
+	$modname_class = '';
+
+	if ( $_REQUEST['modname'] )
+	{
+		$modname_class = 'modname-' . mb_strtolower( preg_replace(
+			'/([^\-a-z0-9]+)/i',
+			'-',
+			$_REQUEST['modname']
+		) );
+	}
+
 	// Page title.
 	$page_title = str_replace( _( 'Print' ) . ' ', '', ProgramTitle() );
 
@@ -133,7 +145,7 @@ function PDFStop( $handle )
 	$_html['head'] .= '<title>' . $page_title . '</title>
 		</head>
 		<body>
-			<div class="wkhtmltopdf-body-wrapper ' . $orientation_class . '" id="pdf">';
+			<div class="wkhtmltopdf-body-wrapper ' . $orientation_class . ' ' . $modname_class . '" id="pdf">';
 
 	$_html['foot'] = '</div>
 		</body>

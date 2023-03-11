@@ -16,6 +16,7 @@ Changes in 10.9
 - Add `'&period=' . UserCoursePeriod()` to Teacher form URL in TakeAttendance.php, EnterEligibility.php, Assignments.php, Grades.php, InputFinalGrades.php, ProgressReports.php, StudentAssignments.fnc.php & Portal.php
 - Remove period from URL when switching School / Year / MP / CP in Side.php
 - HTML Rename "period" select input ID to "school_period" to avoid conflicts in Attendance/, Eligibility/, Food_Service/ & Grades/TeacherCompletion.php
+- CSS Add modname class, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php in PDF.php
 
 Changes in 10.8.4
 -----------------
