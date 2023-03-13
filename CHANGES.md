@@ -18,6 +18,7 @@ Changes in 10.9
 - HTML Rename "period" select input ID to "school_period" to avoid conflicts in Attendance/, Eligibility/, Food_Service/ & Grades/TeacherCompletion.php
 - CSS Add modname class, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php in PDF.php
 - CSS Add .list-column-[column_name] class in ListOutput.fnc.php
+- CSS Set Report Cards Comments column (max) width to 36% in wkhtmltopdf.css
 
 Changes in 10.8.4
 -----------------
