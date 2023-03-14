@@ -959,6 +959,13 @@ function _makeEndInput( $value, $column )
 		$id = $THIS_RET['ID'];
 	}
 
+	if ( empty( $THIS_RET['START_DATE'] )
+		&& empty( $value ) )
+	{
+		// @since 10.9 Hide End Date input for Inactive Students (no Attendance Start Date)
+		return '';
+	}
+
 	if ( ! $drop_codes )
 	{
 		$options_RET = DBGet( "SELECT ID,TITLE AS TITLE
