@@ -673,11 +673,11 @@ if ( ! empty( $_REQUEST['values'] )
 					AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'";
 			}
 		}
-		elseif ( $columns['percent'] != ''
+		elseif ( ( isset( $columns['percent'] ) && $columns['percent'] != '' )
 			|| $columns['grade']
 			|| $columns['comment'] )
 		{
-			if ( $columns['percent'] != '' )
+			if ( isset( $columns['percent'] ) && $columns['percent'] != '' )
 			{
 				// FJ bugfix SQL error invalid input syntax for type numeric.
 				$percent = trim( $columns['percent'], '%' );
@@ -1167,9 +1167,12 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 
 			$tiplabel = [];
 
-			foreach ( (array) $comment_codes_RET[$scale_id] as $comment )
+			if ( isset( $comment_codes_RET[$scale_id] ) )
 			{
-				$tipmsg .= $comment['TITLE'] . ': ' . $comment['COMMENT'] . '<br />';
+				foreach ( (array) $comment_codes_RET[$scale_id] as $comment )
+				{
+					$tipmsg .= $comment['TITLE'] . ': ' . $comment['COMMENT'] . '<br />';
+				}
 			}
 
 			foreach ( (array) $commentsAbis as $commentAbis )

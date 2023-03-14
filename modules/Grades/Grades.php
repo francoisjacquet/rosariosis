@@ -71,7 +71,7 @@ ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [ 'TITLE' => '_makeTitle' ], [ 'A
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
 if ( $_REQUEST['type_id']
-	&& ! $types_RET[$_REQUEST['type_id']] )
+	&& empty( $types_RET[$_REQUEST['type_id']] ) )
 {
 	// Unset type ID & redirect URL.
 	RedirectURL( 'type_id' );
@@ -103,7 +103,7 @@ DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) .
 
 if ( $_REQUEST['assignment_id']
 	&& $_REQUEST['assignment_id'] !== 'all'
-	&& ! $assignments_RET[$_REQUEST['assignment_id']] )
+	&& empty( $assignments_RET[$_REQUEST['assignment_id']] ) )
 {
 	// Unset assignment ID & redirect URL.
 	RedirectURL( 'assignment_id' );
