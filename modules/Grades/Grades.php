@@ -77,16 +77,26 @@ if ( $_REQUEST['type_id']
 	RedirectURL( 'type_id' );
 }
 
-//FJ default points
-$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,
-DUE_DATE,DEFAULT_POINTS," . _SQLUnixTimestamp( 'DUE_DATE' ) . " AS DUE_EPOCH,
-CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE
-FROM gradebook_assignments
-WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-AND ((COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-AND MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['type_id'] ? "
-AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) . "
-ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC,ASSIGNMENT_ID DESC,TITLE", [], [ 'ASSIGNMENT_ID' ] );
+$assignments_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,ga.ASSIGNMENT_TYPE_ID,ga.TITLE,ga.POINTS,ga.ASSIGNED_DATE,
+ga.DUE_DATE,ga.DEFAULT_POINTS," . _SQLUnixTimestamp( 'DUE_DATE' ) . " AS DUE_EPOCH,
+CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE)
+	AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE)
+	OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
+THEN 'Y' ELSE NULL END AS DUE
+FROM gradebook_assignments ga,gradebook_assignment_types gat
+WHERE ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+AND ((ga.COURSE_ID=(SELECT cp.COURSE_ID
+		FROM course_periods cp
+		WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+	AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "')
+	OR ga.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+AND ga.MARKING_PERIOD_ID='" . UserMP() . "'" .
+( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) .
+" AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
+ORDER BY gat.TITLE,ga." .
+// SQL ORDER BY Assignment Type first, then order Assignments.
+DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) .
+" DESC,ga.ASSIGNMENT_ID DESC,ga.TITLE", [], [ 'ASSIGNMENT_ID' ] );
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 // when changing course periods the assignment_id will be wrong except for '' (totals) and 'all'

@@ -21,6 +21,7 @@ Changes in 10.9
 - CSS Add .list-column-[column_name] class in ListOutput.fnc.php
 - CSS Set Report Cards Comments column (max) width to 36% in wkhtmltopdf.css
 - Temporary AllowEdit so SelectInput() is displayed to everyone in DailyTransactions.php
+- SQL ORDER BY Assignment Type first, then order Assignments in Grades.php
 
 Changes in 10.8.4
 -----------------
