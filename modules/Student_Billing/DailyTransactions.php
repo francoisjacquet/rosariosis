@@ -29,6 +29,7 @@ else
  * Local function
  *
  * @since 8.0
+ * @since 10.9 Temporary AllowEdit so SelectInput() is displayed to everyone
  *
  * @param  string $program Program: transactions|totals.
  *
@@ -36,6 +37,15 @@ else
  */
 function _programMenu( $program )
 {
+	global $_ROSARIO;
+
+	if ( ! AllowEdit() )
+	{
+		$_ROSARIO['allow_edit'] = true;
+
+		$allow_edit_tmp = true;
+	}
+
 	$link = PreparePHP_SELF(
 		[],
 		[ 'program' ]
@@ -53,6 +63,11 @@ function _programMenu( $program )
 		'onchange="' . AttrEscape( 'ajaxLink(' . json_encode( $link ) . ' + this.value);' ) . '" autocomplete="off"',
 		false
 	);
+
+	if ( ! empty( $allow_edit_tmp ) )
+	{
+		$_ROSARIO['allow_edit'] = false;
+	}
 
 	return $menu;
 }
