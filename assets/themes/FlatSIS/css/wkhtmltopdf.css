@@ -31,10 +31,10 @@ body {
 
 /* @since 10.9 */
 
-/* Set Report Cards Comments column (max) width to 36% */
+/* Set Report Cards Comments column (max) width to 33% */
 
 .modname-grades-reportcards-php .list .list-column-comment {
-	width: 36%;
+	width: 33%;
 }
 
 /* @since 4.3 */
