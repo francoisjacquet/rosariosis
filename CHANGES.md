@@ -22,6 +22,7 @@ Changes in 10.9
 - CSS Set Report Cards Comments column (max) width to 33% in wkhtmltopdf.css
 - Temporary AllowEdit so SelectInput() is displayed to everyone in DailyTransactions.php
 - SQL ORDER BY Assignment Type first, then order Assignments in Grades.php
+- Remove $count & $has_count_text variables in ListOutput.fnc.php
 
 Changes in 10.8.4
 -----------------

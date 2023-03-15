@@ -87,9 +87,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	{
 		$group_result = $result;
 
-		unset( $result );
-
-		$result[0] = '';
+		$result = [ 0 => '' ];
 
 		foreach ( (array) $group_result as $item1 )
 		{
@@ -130,7 +128,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---.
 	if ( $result_count != 0 )
 	{
-		$count = $remove = 0;
+		$remove = 0;
 
 		if ( isset( $link['remove']['variables'] ) )
 		{
@@ -308,8 +306,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		echo '<table class="list-nav"><tr class="st"><td>';
 
-		$has_count_text = false;
-
 		if ( $singular !== '.'
 			&& $plural !== '.'
 			&& $options['count'] )
@@ -322,12 +318,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
 					$display_count,
 					mb_strtolower( $result_text )
-				) . '</span>';
+				) . '</span> ';
 			}
 
 			echo empty( $where_message ) ? '' : $where_message;
-
-			$has_count_text = true;
 		}
 
 		if (  ( $options['count']
@@ -345,17 +339,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<b class="size-1">' . sprintf(
 				_( 'No %s were found.' ),
 				mb_strtolower( $result_text )
-			) . '</b>';
-
-			$has_count_text = true;
+			) . '</b> ';
 		}
 
 		if ( $options['save']
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
 			&& $result_count > 0 )
 		{
-			echo $has_count_text ? '&nbsp;' : '';
-
 			// Save / Export list button.
 			echo '<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
 			'&amp;LO_save=' . $options['save'] .
@@ -499,8 +489,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 
 				echo '</tr>';
-
-				$count++;
 			}
 		}
 
@@ -527,8 +515,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			}
 
 			echo '<tr>';
-
-			$count++;
 
 			if ( $remove && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
