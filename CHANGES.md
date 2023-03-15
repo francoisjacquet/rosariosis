@@ -24,6 +24,7 @@ Changes in 10.9
 - SQL ORDER BY Assignment Type first, then order Assignments in Grades.php
 - Remove $count & $has_count_text variables in ListOutput.fnc.php
 - Add pagination option (defaults to false) in ListOutput.fnc.php
+- Add pagination for list > 1000 Grades in ReportCardGrades.php
 
 Changes in 10.8.5
 -----------------

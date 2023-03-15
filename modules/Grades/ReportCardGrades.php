@@ -189,7 +189,8 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER";
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER
+			LIMIT 10101"; // 10100 is base 100 + 2 decimal places
 
 		$functions = [
 			'TITLE' => '_makeTextInput',
@@ -299,7 +300,16 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Grade', 'Grades', $link, [], $LO_options );
+		ListOutput(
+			$LO_ret,
+			$LO_columns,
+			'Grade',
+			'Grades',
+			$link,
+			[],
+			// @since 10.9 Add pagination for list > 1000 Grades
+			$LO_options + [ 'pagination' => true ]
+		);
 	}
 	else
 	{
