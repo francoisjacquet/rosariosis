@@ -19,6 +19,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'header_color' => Preferences( 'HEADER' ),
 		'responsive' => true,
 		'add' => true,
+		// @since 10.9 Add pagination option (defaults to false)
+		// Deactivated by default as yields strange results when multiple lists on same page.
+		'pagination' => false,
 	];
 
 	$options = empty( $options ) ?
@@ -48,15 +51,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	}
 
 	$result_count = $display_count = count( (array) $result );
-
-	if ( $result_count > 1000 )
-	{
-		// Limit to 1000!
-		$result_count = 1000;
-
-		// Remove results above 1000.
-		$result = array_slice( $result, 0, 1000, true );
-	}
 
 	$num_displayed = 1000;
 
@@ -119,14 +113,24 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		unset( $result[0] );
 
-		$result_count = count( $result );
+		$result_count = $display_count = count( $result );
 	}
 	// END UN-GROUPING
+
+	if ( $result_count > $num_displayed
+		&& ! $options['pagination'] )
+	{
+		// Limit to 1000!
+		$display_count = $num_displayed;
+
+		// Remove results above 1000.
+		$result = array_slice( $result, 0, $num_displayed, true );
+	}
 
 	$display_zero = false;
 
 	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---.
-	if ( $result_count != 0 )
+	if ( $result_count )
 	{
 		$remove = 0;
 
@@ -138,8 +142,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		$cols = count( $column_names );
 
 		// HANDLE SEARCHES ---.
-		if ( $result_count
-			&& $options['search']
+		if ( $options['search']
 			&& $LO_search !== '' )
 		{
 			// @since 5.8.
@@ -152,8 +155,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$column_names['RELEVANCE'] = _( 'Relevance' );
 			}
 
-			if ( is_array( $group )
-				&& count( $group ) )
+			if ( $group_count )
 			{
 				$options['count'] = false;
 
@@ -164,7 +166,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		// END SEARCHES ---.
 
 		if ( $LO_sort
-			&& isset( $result[1][$LO_sort] ) )
+			&& isset( $result[1][$LO_sort] )
+			&& $result_count > 1 )
 		{
 			foreach ( (array) $result as $sort )
 			{
@@ -189,26 +192,101 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				) );
 			}
 
-			$dir = $LO_dir == -1 ? SORT_DESC: SORT_ASC;
+			$dir = $LO_dir == -1 ? SORT_DESC : SORT_ASC;
 
-			if ( $result_count > 1 )
+			if ( is_int( $sort_array[1] )
+				|| is_double( $sort_array[1] ) )
 			{
-				if ( is_int( $sort_array[1] )
-					|| is_double( $sort_array[1] ) )
+				array_multisort( $sort_array, $dir, SORT_NUMERIC, $result );
+			}
+			else
+			{
+				array_multisort( $sort_array, $dir, $result );
+			}
+
+			array_unshift( $result, [ 'always_start_list_at_key_1' ] );
+
+			unset( $result[0] );
+		}
+	}
+
+	// HANDLE MISC ---.
+	if ( empty( $LO_dir ) )
+	{
+		$LO_dir = 1;
+	}
+
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] )
+		&& ( ( isset( $cols ) && $cols > 8 ) || ! empty( $_REQUEST['expanded_view'] ) ) )
+	{
+		// For wkhtmltopdf.
+		$_SESSION['orientation'] = 'landscape';
+	}
+	// END MISC ---.
+
+	// HANDLE PAGINATION ---.
+	if ( empty( $LO_page )
+		|| (string) (int) $LO_page != $LO_page
+		|| $LO_page < 1 )
+	{
+		$LO_page = 1;
+	}
+
+	if ( $result_count )
+	{
+		if ( $result_count >= $num_displayed )
+		{
+			$start = ( $LO_page - 1 ) * $num_displayed + 1;
+			$stop = $start + ( $num_displayed - 1 );
+
+			if ( $stop > $result_count )
+			{
+				$stop = $result_count;
+			}
+
+			$where_message = '<span class="size-1">' .
+				sprintf( _( 'Displaying %d through %d' ), $start, $stop ) . '. ';
+
+			if ( $options['pagination'] )
+			{
+				$total_pages = ceil( $result_count / $num_displayed );
+
+				$pagination = [ _( 'Page' ) . ':' ];
+
+				for ( $i = 1; $i <= $total_pages; $i++ )
 				{
-					array_multisort( $sort_array, $dir, SORT_NUMERIC, $result );
+					if ( $i == $LO_page )
+					{
+						$pagination[] = ' <b>&nbsp;' . $i . '&nbsp;</b> ';
+
+						continue;
+					}
+
+					$page_url = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ], [ 'LO_page' => $i ] );
+
+					$pagination[] = ' <a href="' . $page_url . '">&nbsp;' . $i . '&nbsp;</a> ';
 				}
-				else
-				{
-					array_multisort( $sort_array, $dir, $result );
-				}
+
+				$pagination[] = ' </span>';
+
+				$pagination = implode( '&nbsp;', $pagination );
+
+				// Remove results above $num_displayed (1000).
+				$result = array_slice( $result, $start - 1, $num_displayed );
 
 				array_unshift( $result, [ 'always_start_list_at_key_1' ] );
 
 				unset( $result[0] );
+
+				$display_count = count( $result );
 			}
 		}
+
+		// Reset start & stop after removing results above 1000.
+		$start = 1;
+		$stop = $display_count;
 	}
+	// END PAGINATION ---.
 
 	// List Before hook.
 	do_action( 'functions/ListOutput.fnc.php|list_before' );
@@ -223,54 +301,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	}
 
 	// END SAVING THE LIST ---.
-
-	if ( $result_count > 0
-		|| $LO_search !== '' )
-	{
-		if ( empty( $LO_dir ) )
-		{
-			$LO_dir = 1;
-		}
-
-		// HANDLE MISC ---.
-
-		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-		{
-			if ( empty( $LO_page )
-				|| (string) (int) $LO_page != $LO_page
-				|| $LO_page < 1 )
-			{
-				$LO_page = 1;
-			}
-
-			$start = ( $LO_page - 1 ) * $num_displayed + 1;
-			$stop = $start + ( $num_displayed - 1 );
-
-			if ( $stop > $result_count )
-			{
-				$stop = $result_count;
-			}
-
-			if ( $result_count >= $num_displayed )
-			{
-				$where_message = ' <span class="size-1">' .
-					sprintf( _( 'Displaying %d through %d' ), $start, $stop ) . '</span>';
-			}
-		}
-		else
-		{
-			$start = 1;
-			$stop = $result_count;
-
-			if ( $cols > 8 || ! empty( $_REQUEST['expanded_view'] ) )
-			{
-				// For wkhtmltopdf.
-				$_SESSION['orientation'] = 'landscape';
-			}
-		}
-
-		// END MISC ---.
-	}
 
 	$class = '';
 
@@ -312,17 +342,19 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( $display_count > 0 )
 			{
-				$result_text = ngettext( $singular, $plural, $display_count );
+				$result_text = ngettext( $singular, $plural, $result_count );
 
 				echo '<span class="size-1">' . sprintf(
-					ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
-					$display_count,
+					ngettext( '%d %s was found.', '%d %s were found.', $result_count ),
+					$result_count,
 					mb_strtolower( $result_text )
 				) . '</span> ';
 			}
 
 			echo empty( $where_message ) ? '' : $where_message;
 		}
+
+		echo empty( $pagination ) ? '' : $pagination;
 
 		if (  ( $options['count']
 			|| $display_zero )
