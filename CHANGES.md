@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.8.5
+-----------------
+- Fix "Folder not writable" error on add-on zip upload in Modules.inc.php & Plugins.inc.php
+
 Changes in 10.8.4
 -----------------
 - Fix SQL error escape menu title in DailyMenus.php, ServeMenus.php

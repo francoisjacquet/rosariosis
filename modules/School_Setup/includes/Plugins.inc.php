@@ -114,7 +114,8 @@ if ( $_REQUEST['modfunc'] === 'upload'
 			// Check add-on is not a core plugin...
 			if ( ! in_array( $addon_dir, $RosarioCorePlugins ) )
 			{
-				if ( _delTree( 'plugins/' . $addon_dir ) )
+				if ( ! file_exists( 'plugins/' . $addon_dir )
+					|| _delTree( 'plugins/' . $addon_dir ) )
 				{
 					// Remove warning if directory already exists: just overwrite.
 					rename( $addon_dir_path, 'plugins/' . $addon_dir );
