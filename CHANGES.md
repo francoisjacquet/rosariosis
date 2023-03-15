@@ -24,6 +24,10 @@ Changes in 10.9
 - SQL ORDER BY Assignment Type first, then order Assignments in Grades.php
 - Remove $count & $has_count_text variables in ListOutput.fnc.php
 
+Changes in 10.8.5
+-----------------
+- Fix "Folder not writable" error on add-on zip upload in Modules.inc.php & Plugins.inc.php
+
 Changes in 10.8.4
 -----------------
 - Fix SQL error escape menu title in DailyMenus.php, ServeMenus.php
