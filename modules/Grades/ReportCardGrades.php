@@ -307,7 +307,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'Grades',
 			$link,
 			[],
-			// @since 10.9 Add pagination for list > 1000 Grades
+			// @since 10.9 Add pagination for list > 1000 results
 			$LO_options + [ 'pagination' => true ]
 		);
 	}

@@ -65,7 +65,8 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM access_log
 		WHERE LOGIN_TIME >='" . $start_date . "'
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
-		ORDER BY LOGIN_TIME DESC", $access_logs_functions );
+		ORDER BY LOGIN_TIME DESC
+		LIMIT 3000", $access_logs_functions );
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete' ) . '" method="POST">';
 
@@ -85,7 +86,12 @@ if ( ! $_REQUEST['modfunc'] )
 		'Login records',
 		[],
 		[],
-		[ 'count' => true, 'save' => true ]
+		[
+			'count' => true,
+			'save' => true,
+			// @since 10.9 Add pagination for list > 1000 results
+			'pagination' => true,
+		]
 	);
 
 	echo '</form>';
