@@ -26,6 +26,7 @@ Changes in 10.9
 - Add pagination option (defaults to false) in ListOutput.fnc.php
 - Add pagination for list > 1000 results in AccessLog.php & ReportCardGrades.php
 - SQL gradebook_assignments table: Add WEIGHT column in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
+- Fix security issue, unset any FILE_ATTACHED column first in PortalNotes.php
 
 Changes in 10.8.5
 -----------------

@@ -122,6 +122,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
 				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
+				// @since 10.9 Fix security issue, unset any FILE_ATTACHED column first.
+				$columns['FILE_ATTACHED'] = '';
 
 				if ( isset( $_FILES['FILE_ATTACHED_FILE'] ) )
 				{
