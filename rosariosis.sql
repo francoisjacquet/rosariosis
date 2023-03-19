@@ -439,6 +439,22 @@ CREATE TABLE access_log (
     updated_at timestamp
 );
 
+--
+-- Name: accounting_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE accounting_categories (
+	id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL,
+	title text NOT NULL,
+	short_name varchar(10) DEFAULT NULL,
+	type integer(1) NOT NULL COMMENT 'common=0; income=1; expense=2',
+	sort_order decimal(10,0) DEFAULT NULL,
+	created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp NULL ON UPDATE current_timestamp,
+	FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+);
 
 --
 -- Name: accounting_incomes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
@@ -449,6 +465,7 @@ CREATE TABLE accounting_incomes (
     comments text,
     id serial PRIMARY KEY,
     title text,
+    category_id integer REFERENCES accounting_categories(id),
     amount numeric(14,2) NOT NULL,
     file_attached text,
     school_id integer NOT NULL,
@@ -489,6 +506,8 @@ CREATE TABLE accounting_payments (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     staff_id integer REFERENCES staff(staff_id),
+    title text NOT NULL,
+    category_id integer REFERENCES accounting_categories(id),
     amount numeric(14,2) NOT NULL,
     payment_date date,
     comments text,
@@ -2121,6 +2140,15 @@ INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marki
 --
 -- Data for Name: course_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
+
+
+
+--
+-- Data for Name: accounting_categories; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO accounting_categories VALUES (0, 2022, 1, '-', '-', 0, '', '', '');
+
 
 
 --

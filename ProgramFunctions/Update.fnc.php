@@ -1089,3 +1089,75 @@ function _update108()
 
 	return $return;
 }
+
+/**
+ * Update to version 10.X
+ *
+ * 1. Add accounting_categories table for extended Accounting Module
+ * 2. Update existing tables "accounting_incomes" & "accounting_payments"
+ *
+ * Local function
+ *
+ * @since 10.X
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update10X()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add accounting_categories table for extended Accounting Module
+	 */
+	DBQuery( "CREATE TABLE accounting_categories (
+		id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		syear numeric(4,0) NOT NULL,
+    	school_id integer NOT NULL,
+		title text NOT NULL,
+		short_name varchar(10) DEFAULT NULL,
+		type integer(1) NOT NULL COMMENT 'common=0; income=1; expense=2',
+		sort_order decimal(10,0) DEFAULT NULL,
+		created_at timestamp DEFAULT current_timestamp,
+    	updated_at timestamp NULL ON UPDATE current_timestamp,
+		FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;" );
+
+	/**
+	 * 2. Update existing tables "accounting_incomes" & "accounting_payments"
+	 */
+	//Add generic category for every school
+	$school_ids = DBGet( "SELECT ID,SYEAR FROM schools" );
+
+	foreach ( (array) $school_ids as $school_id )
+	{
+		DBQuery( "INSERT INTO accounting_categories 
+		(id, syear, school_id, title, short_name, type, sort_order, created_at, updated_at) 
+		VALUES (0, ". $school_id['SYEAR'] .", " . $school_id['ID'] . ", '-', '-', 0, '', '', '');" );
+	}
+
+	//Add columns to tables
+	DBQuery( "ALTER TABLE accounting_incomes ADD category_id INT NOT NULL AFTER title;");
+	DBQuery( "ALTER TABLE accounting_payments ADD title TEXT NOT NULL AFTER staff_id;");
+	DBQuery( "ALTER TABLE accounting_payments ADD category_id INT NOT NULL AFTER title;");
+  
+	//Add generic category to all existing incomes and expenses
+	$basic_category_ids = DBGet( "SELECT ID,SCHOOL_ID,SYEAR FROM accounting_categories" );
+
+	foreach ( (array) $basic_category_ids as $basic_category_id )
+	{
+		DBQuery( "UPDATE accounting_incomes
+			SET category_id = " . $basic_category_id['ID'] . "
+			WHERE syear = " . $basic_category_id['SYEAR'] . "
+			AND school_id = " . $basic_category_id['SCHOOL_ID'] . ";" );
+		DBQuery( "UPDATE accounting_payments
+			SET category_id = " . $basic_category_id['ID'] . "
+			WHERE syear = " . $basic_category_id['SYEAR'] . "
+			AND school_id = " . $basic_category_id['SCHOOL_ID'] . ";" );
+	}
+
+	return $return;
+}

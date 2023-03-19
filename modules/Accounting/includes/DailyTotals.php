@@ -19,7 +19,7 @@ echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" ' .
 	( ! isset( $_REQUEST['accounting'] )
 		|| $_REQUEST['accounting'] == 'true' ? 'checked ' : '' ) . '/> ' .
-	_( 'Expense' ) . ' & ' . _( 'Income' ) . '</label>&nbsp; ';
+	_( 'Income' ) . ' & ' . _( 'Expense' ) . '</label>&nbsp; ';
 
 $header_checkboxes .= '<label><input type="checkbox" value="true" name="staff_payroll" id="staff_payroll" ' .
 	( ! empty( $_REQUEST['staff_payroll'] ) ? 'checked ' : '' ) . '/> ' .
@@ -36,7 +36,7 @@ DrawHeader( $header_checkboxes, '' );
 
 DrawHeader( _( 'Report Timeframe' ) . ': ' .
 	PrepareDate( $start_date, '_start', false ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
-	PrepareDate( $end_date, '_end', false ) . ' ' . SubmitButton( _( 'Go' ) ) );
+	PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
 
 echo '</form>';
 
