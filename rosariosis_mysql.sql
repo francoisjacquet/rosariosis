@@ -1128,6 +1128,7 @@ CREATE TABLE gradebook_assignments (
     file text,
     default_points integer,
     submission varchar(1),
+    weight integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
 );
