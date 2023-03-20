@@ -184,7 +184,7 @@ Ensuite redémarrez le serveur.
 Instructions d'installation pour Ubuntu 20.04 (Focal):
 ```bash
 server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
-server$ sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
+server$ sudo apt install ./wkhtmltox_0.12.6-1.focal_amd64.deb
 ```
 
 Définir le chemin dans le fichier `config.inc.php`:

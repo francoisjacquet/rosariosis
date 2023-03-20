@@ -30,6 +30,7 @@ Changes in 10.9
 - Use `_makeAutoSelectInputX()` for Contact Information Description in Address.inc.php
 - SQL courses ORDER BY TITLE in Requests.php
 - HTML remove "Add a Request" & hide "Subject" input label in Requests.php
+- Update command to install wkhtmltopdf & dependencies in INSTALL.md
 
 Changes in 10.8.5
 -----------------
