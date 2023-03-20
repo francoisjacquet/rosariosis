@@ -2,6 +2,19 @@
 
 ## RosarioSIS Student Information System
 
+New in 10.9
+-----------
+
+Lists: add pagination if more than 1000 results. Deactivated by default, only activated for:
+- Grading Scales
+- Access Log
+
+Teacher Programs:
+- Prevent the following issue: If form is displayed for Course Period A, then Teacher opens a new browser tab and switches to Course Period B. Then teacher submits the form, data is saved for Course Period B.
+
+RosarioSIS can now be installed with [Softaculous](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-with-Softaculous)
+
+
 New in 10.8
 -----------
 
