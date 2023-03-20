@@ -8,7 +8,8 @@ if ( $_REQUEST['modfunc'] === 'XMLHttpRequest' )
 		( $_REQUEST['subject_id'] ? "c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "' AND " : '' ) .
 		"UPPER(c.TITLE) LIKE '" . mb_strtoupper( $_REQUEST['course_title'] ) .
 		"%' AND c.SYEAR='" . UserSyear() .
-		"' AND c.SCHOOL_ID='" . UserSchool() . "'" );
+		"' AND c.SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY c.TITLE" );
 
 	echo '<?phpxml version="1.0" standalone="yes"?><courses>';
 

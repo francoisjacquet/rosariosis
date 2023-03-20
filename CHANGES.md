@@ -28,6 +28,7 @@ Changes in 10.9
 - SQL gradebook_assignments table: Add WEIGHT column in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 - Fix security issue, unset any FILE_ATTACHED column first in PortalNotes.php
 - Use `_makeAutoSelectInputX()` for Contact Information Description in Address.inc.php
+- SQL courses ORDER BY TITLE in Requests.php
 
 Changes in 10.8.5
 -----------------
