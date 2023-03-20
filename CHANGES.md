@@ -29,6 +29,7 @@ Changes in 10.9
 - Fix security issue, unset any FILE_ATTACHED column first in PortalNotes.php
 - Use `_makeAutoSelectInputX()` for Contact Information Description in Address.inc.php
 - SQL courses ORDER BY TITLE in Requests.php
+- HTML remove "Add a Request" & hide "Subject" input label in Requests.php
 
 Changes in 10.8.5
 -----------------

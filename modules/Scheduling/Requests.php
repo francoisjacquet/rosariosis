@@ -202,7 +202,7 @@ function processRequest()
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
-	$subjects = '<select name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.value,this.form.course_title.value);">';
+	$subjects = '<select name="subject_id" id="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.value,this.form.course_title.value);">';
 	$subjects .= '<option value="">' . _( 'All Subjects' ) . '</option>';
 
 	foreach ( (array) $subjects_RET as $subject )
@@ -221,9 +221,9 @@ function processRequest()
 
 	DrawHeader( '', SubmitButton() );
 
-	$link['add']['span'] = ' <span class="size-1">' . _( 'Add a Request' ) .
-		'</span> &nbsp; <span class="nobr"> <label>' . _( 'Subject' ) . ' ' . $subjects .
-		'</label> <label>' . _( 'Course Title' ) .
+	$link['add']['span'] = '<span class="nobr"> <label for="subject_id" class="a11y-hidden">' .
+		_( 'Subject' ) . '</label>' . $subjects .
+		' <label>' . _( 'Course Title' ) .
 		' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></label></span>
 		<div id="courses_div"></div>';
 
