@@ -32,6 +32,7 @@ Changes in 10.9
 - HTML remove "Add a Request" & hide "Subject" input label in Requests.php
 - Update command to install wkhtmltopdf & dependencies in INSTALL.md
 - Add link to Softaculous installation directions in INSTALL.md
+- Fix wkhtmltopdf not rendering URL in CSS in PDF.php
 
 Changes in 10.8.5
 -----------------

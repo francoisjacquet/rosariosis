@@ -221,6 +221,9 @@ function PDFStop( $handle )
 	// Fix wkhtmltopdf error on Windows: prepend file:///.
 	$html = str_replace( '"modules/', '"file:///' . $RosarioPath . 'modules/', $html );
 
+	// Fix wkhtmltopdf not rendering URL in CSS
+	$html = str_replace( 'url(modules/', 'url(file:///' . $RosarioPath . 'modules/', $html );
+
 	// Set wkhtmltopdf options.
 	$pdf_options = [
 		'title' => $page_title,
