@@ -25,6 +25,7 @@ Instructions d'installation pour:
 - [**Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/Installer-RosarioSIS-sur-Windows)
 - [**Mac**](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-on-Mac-(macOS,-OS-X)) (en anglais)
 - [**cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel) (en anglais)
+- [**Softaculous**](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-with-Softaculous) (en anglais)
 - [**Docker**](https://github.com/francoisjacquet/docker-rosariosis) (en anglais)
 - **Ubuntu** (ou n'importe quelle distribution Linux basée sur Debian), voir ci-dessous
 

@@ -31,6 +31,7 @@ Changes in 10.9
 - SQL courses ORDER BY TITLE in Requests.php
 - HTML remove "Add a Request" & hide "Subject" input label in Requests.php
 - Update command to install wkhtmltopdf & dependencies in INSTALL.md
+- Add link to Softaculous installation directions in INSTALL.md
 
 Changes in 10.8.5
 -----------------
