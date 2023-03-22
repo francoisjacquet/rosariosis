@@ -2900,7 +2900,7 @@ INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D', 11, 1.00, 63, 'Below 
 INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D-', 12, 0.75, 60, NULL, 1, NULL, NULL, NULL);
 INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'F', 13, 0.00, 0, 'Failing', 1, NULL, NULL, NULL);
 INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'I', 14, 0.00, 0, 'Incomplete', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'N/A', 15, 0.00, NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'N/A', 15, NULL, NULL, NULL, 1, NULL, NULL, NULL);
 
 
 --

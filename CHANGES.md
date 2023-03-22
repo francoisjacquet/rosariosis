@@ -34,6 +34,7 @@ Changes in 10.9
 - Add link to Softaculous installation directions in INSTALL.md
 - Fix wkhtmltopdf not rendering URL in CSS in PDF.php
 - CSS Fix breaking words inside .header2 in stylesheet.css
+- SQL set N/A grade GPA to NULL in rosariosis.sql, rosariosis_es.sql, rosariosis_fr.sql & rosariosis_mysql.sql
 
 Changes in 10.8.5
 -----------------
