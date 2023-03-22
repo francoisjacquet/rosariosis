@@ -5,6 +5,8 @@
 New in 10.9
 -----------
 
+Add Portuguese (Brazil) translation, thanks to Emerson Barros
+
 Lists: add pagination if more than 1000 results. Deactivated by default, only activated for:
 - Grading Scales
 - Access Log

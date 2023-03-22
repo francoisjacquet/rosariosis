@@ -38,6 +38,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | nl_NL | Dutch (Netherlands)           | 32%       |                     |
 | nn_NO | Norwegian Nynorsk (Norway)    | 33%       |                     |
 | pl_PL | Polish (Poland)               | 33%       |                     |
+| pt_BR | Portuguese (Brazil)           | **100%**  | Emerson Barros      |
 | pt_PT | Portuguese (Portugal)         | 37%       |                     |
 | ro_RO | Romanian (Romania)            | 33%       |                     |
 | ru_RU | Russian (Russia)              | 32%       |                     |

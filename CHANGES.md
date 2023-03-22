@@ -35,6 +35,7 @@ Changes in 10.9
 - Fix wkhtmltopdf not rendering URL in CSS in PDF.php
 - CSS Fix breaking words inside .header2 in stylesheet.css
 - SQL set N/A grade GPA to NULL in rosariosis.sql, rosariosis_es.sql, rosariosis_fr.sql & rosariosis_mysql.sql
+- Add Portuguese (Brazil) translation in InstallDatabase.php, REFERENCE.md, locale/pt_BR.utf8/ & rosariosis_pt_BR.sql, thanks to Emerson Barros
 
 Changes in 10.8.5
 -----------------
