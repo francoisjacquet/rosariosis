@@ -23,7 +23,7 @@ $menu['Accounting']['admin'] = [
 	'Accounting/StaffBalances.php' => _( 'Staff Balances' ),
 	'Accounting/Statements.php' => _( 'Print Statements' ),
 	3 => _( 'Setup' ),
-	'Accounting/AccountingCategories.php' => _( 'Category' ) . ' ' . _( 'Category' ),
+	'Accounting/Categories.php' => _( 'Accounting' ) . ' ' . _( 'Categories' ),
 ];
 
 $menu['Accounting']['teacher'] = [
