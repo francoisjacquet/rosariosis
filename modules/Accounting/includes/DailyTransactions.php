@@ -20,8 +20,8 @@ if ( User( 'PROFILE' ) === 'admin' )
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&program=transactions&accounting=' ) . '" method="GET">';
 
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" ' .
-( ! isset( $_REQUEST['accounting'] )
-	|| $_REQUEST['accounting'] == 'true' ? 'checked ' : '' ) . '/> ' .
+( ((! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) && empty( $_REQUEST['student_billing'] ))
+	|| $_REQUEST['accounting'] == 'true') ? 'checked ' : '' ) . '/> ' .
 _( 'Income' ) . ' & ' . _( 'Expense' ) . '</label>&nbsp; ';
 
 $header_checkboxes .= '<label><input type="checkbox" value="true" name="staff_payroll" id="staff_payroll" ' .
@@ -52,7 +52,7 @@ else
 }
 
 // Only show menu for categories if accounting is active
-if ( ! isset( $_REQUEST['accounting'] )
+if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) && empty( $_REQUEST['student_billing'] ) )
 	|| $_REQUEST['accounting'] == 'true' )
 {
 	DrawHeader( _( 'Select') . ' ' . _( 'Category' ) . ': ' ._categoryMenu( $_REQUEST['category'] ) );
@@ -75,7 +75,7 @@ $RET = $debit_col = $credit_col = $name_col = [];
 
 // Accounting.
 
-if ( ! isset( $_REQUEST['accounting'] )
+if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) && empty( $_REQUEST['student_billing'] ) )
 	|| $_REQUEST['accounting'] == 'true' )
 {
 	$name_col_sql = '';
@@ -84,7 +84,6 @@ if ( ! isset( $_REQUEST['accounting'] )
 	{
 		$name_col_sql = "'' AS FULL_NAME,";
 	}
-
 
 	$income_SQL = "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,cat.TITLE AS CATEGORY
 	FROM accounting_incomes f
@@ -129,28 +128,21 @@ if ( ! isset( $_REQUEST['accounting'] )
 
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
-	$salaries_extra = $extra;
 	$name_col_sql = '';
 
 	if ( ! empty( $_REQUEST['student_billing'] ) )
 	{
-		$name_col_sql = ",'' AS STUDENT_NAME";
+		$name_col_sql = "'' AS STUDENT_NAME, ";
 	}
 
-	$salaries_extra['SELECT'] = issetVal( $salaries_extra['SELECT'], '' );
-	$salaries_extra['FROM'] = issetVal( $salaries_extra['FROM'], '' );
-	$salaries_extra['WHERE'] = issetVal( $salaries_extra['WHERE'], '' );
+	$salaries_SQL = "SELECT " . $name_col_sql . "'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY,".DisplayNameSQL( 's' )." AS FULL_NAME
+	FROM accounting_salaries f
+	LEFT JOIN staff s on s.STAFF_ID = f.STAFF_ID
+	WHERE f.SCHOOL_ID='" . UserSchool() . "'
+	AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
+	AND '" . $end_date . "'";
 
-	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY";
-
-	$salaries_extra['FROM'] .= ',accounting_salaries f';
-
-	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID
-		AND f.SYEAR=s.SYEAR
-		AND f.SCHOOL_ID='" . UserSchool() . "'
-		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
-
-	$salaries_RET = GetStaffList( $salaries_extra );
+	$salaries_RET = DBGet( $salaries_SQL, $extra['functions'] );
 
 	$i = count( $RET ) + 1;
 
@@ -159,22 +151,15 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		$RET[$i++] = $salary;
 	}
 
-	$staff_payments_extra = $extra;
+	$staff_payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY,".DisplayNameSQL( 's' )." AS FULL_NAME
+	FROM accounting_payments p
+	LEFT JOIN staff s on s.STAFF_ID = p.STAFF_ID
+	WHERE p.SCHOOL_ID='" . UserSchool() . "'
+	AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
+	AND '" . $end_date . "'
+	AND p.STAFF_ID IS NOT NULL";
 
-	$staff_payments_extra['SELECT'] = issetVal( $staff_payments_extra['SELECT'], '' );
-	$staff_payments_extra['FROM'] = issetVal( $staff_payments_extra['FROM'], '' );
-	$staff_payments_extra['WHERE'] = issetVal( $staff_payments_extra['WHERE'], '' );
-
-	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY";
-
-	$staff_payments_extra['FROM'] .= ',accounting_payments p';
-
-	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID
-		AND p.SYEAR=s.SYEAR
-		AND p.SCHOOL_ID='" . UserSchool() . "'
-		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
-
-	$staff_payments_RET = GetStaffList( $staff_payments_extra );
+	$staff_payments_RET = DBGet( $staff_payments_SQL, $extra['functions'] );
 
 	$i = count( $RET ) + 1;
 
