@@ -296,6 +296,7 @@ function _makeIncomeSelectInput( $value, $name )
 		ORDER BY SORT_ORDER" );
 	
 	$options = [];
+	$options[''] = _('N/A');
 	
 	foreach ( (array) $category_RET as $category )
 	{

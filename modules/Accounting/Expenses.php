@@ -138,8 +138,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,CATEGORY_ID,PAYMENT_DATE,TITLE,COMMENTS,FILE_ATTACHED
 		FROM accounting_payments
-		WHERE SYEAR='" . UserSyear() . "'
-		AND STAFF_ID IS NULL
+		WHERE STAFF_ID IS NULL
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
@@ -231,7 +230,6 @@ if ( ! $_REQUEST['modfunc'] )
 	$payments_total_unfiltered = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NULL
-		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
 	
 	$table = '<table class="align-right accounting-totals">';
@@ -265,7 +263,6 @@ if ( ! $_REQUEST['modfunc'] )
 	$staff_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NOT NULL
-		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
 
 	$table .= '<tr><td>& ' . _( 'Total from Staff Payments' ) . ': ' . '</td><td>' . Currency( $staff_payments_total ) . '</td></tr>';
@@ -308,6 +305,7 @@ function _makeExpensesSelectInput( $value, $name )
 		ORDER BY SORT_ORDER" );
 	
 	$options = [];
+	$options[''] = _('N/A');
 	
 	foreach ( (array) $category_RET as $category )
 	{
