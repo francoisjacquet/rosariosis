@@ -5,7 +5,8 @@ $extra['SELECT'] = ",(COALESCE(
 	(SELECT SUM(f.AMOUNT)
 		FROM accounting_salaries f
 		WHERE f.STAFF_ID=s.STAFF_ID
-		AND f.SCHOOL_ID='" . UserSchool() . "',0)
+		AND f.SCHOOL_ID='" . UserSchool() . "')
+	,0)
 	-COALESCE(
 	(SELECT SUM(p.AMOUNT)
 		FROM accounting_payments p
