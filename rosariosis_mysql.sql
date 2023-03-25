@@ -1151,6 +1151,7 @@ CREATE TABLE gradebook_assignments (
     file text,
     default_points integer,
     submission varchar(1),
+    weight integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
 );
@@ -2277,7 +2278,7 @@ INSERT INTO attendance_codes VALUES (NULL, 2022, 1, 'Excused Absence', 'E', 'off
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No', NULL, NULL);
-INSERT INTO config VALUES (0, 'VERSION', '10.8.4', NULL, NULL);
+INSERT INTO config VALUES (0, 'VERSION', '10.9', NULL, NULL);
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System', NULL, NULL);
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS', NULL, NULL);
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}', NULL, NULL);
@@ -2929,7 +2930,7 @@ INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D', 11, 1.00, 63, 'Below 
 INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D-', 12, 0.75, 60, NULL, 1, NULL, NULL, NULL);
 INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'F', 13, 0.00, 0, 'Failing', 1, NULL, NULL, NULL);
 INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'I', 14, 0.00, 0, 'Incomplete', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'N/A', 15, 0.00, NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'N/A', 15, NULL, NULL, NULL, 1, NULL, NULL, NULL);
 
 
 --

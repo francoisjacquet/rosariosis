@@ -23,6 +23,19 @@ Changes in 10.9
 - Temporary AllowEdit so SelectInput() is displayed to everyone in DailyTransactions.php
 - SQL ORDER BY Assignment Type first, then order Assignments in Grades.php
 - Remove $count & $has_count_text variables in ListOutput.fnc.php
+- Add pagination option (defaults to false) in ListOutput.fnc.php
+- Add pagination for list > 1000 results in AccessLog.php & ReportCardGrades.php
+- SQL gradebook_assignments table: Add WEIGHT column in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
+- Fix security issue, unset any FILE_ATTACHED column first in PortalNotes.php
+- Use `_makeAutoSelectInputX()` for Contact Information Description in Address.inc.php
+- SQL courses ORDER BY TITLE in Requests.php
+- HTML remove "Add a Request" & hide "Subject" input label in Requests.php
+- Update command to install wkhtmltopdf & dependencies in INSTALL.md
+- Add link to Softaculous installation directions in INSTALL.md
+- Fix wkhtmltopdf not rendering URL in CSS in PDF.php
+- CSS Fix breaking words inside .header2 in stylesheet.css
+- SQL set N/A grade GPA to NULL in rosariosis.sql, rosariosis_es.sql, rosariosis_fr.sql & rosariosis_mysql.sql
+- Add Portuguese (Brazil) translation in InstallDatabase.php, REFERENCE.md, locale/pt_BR.utf8/ & rosariosis_pt_BR.sql, thanks to Emerson Barros
 
 Changes in 10.8.5
 -----------------

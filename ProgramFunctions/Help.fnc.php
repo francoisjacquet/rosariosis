@@ -138,6 +138,12 @@ function HelpLoad( $force = false )
 
 	foreach ( $non_core_modules as $non_core_module )
 	{
+		if ( ! $RosarioModules[ $non_core_module ] )
+		{
+			// Module is not activated, skip.
+			continue;
+		}
+
 		$non_core_dir = 'modules/' . $non_core_module . '/';
 
 		if ( file_exists( $non_core_dir . $help_translated ) ) // FJ translated help.

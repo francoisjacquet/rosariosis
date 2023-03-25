@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '10.8.4', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '10.9', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -240,6 +240,10 @@ function Update()
 		case version_compare( $from_version, '10.8', '<' ) :
 
 			$return = _update108();
+
+		case version_compare( $from_version, '10.9', '<' ) :
+
+			$return = _update109();
 	}
 
 	// Update version in DB config table.
@@ -1076,7 +1080,7 @@ function _update108()
 	 */
 	$published_profiles_column_exists = DBGetOne( "SELECT 1
 		FROM information_schema.columns
-		WHERE table_schema=" . ( ! empty( $DatabaseType ) && $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
 		AND table_name='resources'
 		AND column_name='published_profiles';" );
 
@@ -1090,15 +1094,53 @@ function _update108()
 	return $return;
 }
 
+
 /**
- * Update to version 10.X
+ * Update to version 10.9
+ *
+ * 1. gradebook_assignments table: Add WEIGHT column.
+ *
+ * Local function
+ *
+ * @since 10.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update109()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. gradebook_assignments table: Add WEIGHT column.
+	 */
+	$weight_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='gradebook_assignments'
+		AND column_name='weight';" );
+
+	if ( ! $weight_column_exists )
+	{
+		DBQuery( "ALTER TABLE gradebook_assignments
+		ADD weight integer;" );
+	}
+
+	return $return;
+}
+
+/**
+ * Update to version 11.0
  *
  * 1. Add accounting_categories table for extended Accounting Module
  * 2. Update existing tables "accounting_incomes" & "accounting_payments"
  *
  * Local function
  *
- * @since 10.X
+ * @since 11.0
  *
  * @return boolean false if update failed or if not called by Update(), else true
  */

@@ -166,7 +166,7 @@ INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, 
 VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, 'I', 22, 0.0, 0, 'Incomplet', 1, NULL);
 
 INSERT INTO report_card_grades (syear, school_id, title, sort_order, gpa_value, break_off, comment, grade_scale_id, unweighted_gp)
-VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, 'N/D', 23, NULL, 0.0, NULL, 1, NULL);
+VALUES ((SELECT syear FROM schools WHERE id=1 LIMIT 1), 1, 'N/D', 23, NULL, NULL, NULL, 1, NULL);
 
 
 --

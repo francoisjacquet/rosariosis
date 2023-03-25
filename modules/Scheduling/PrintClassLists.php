@@ -43,6 +43,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	foreach ( (array) $course_periods_RET as $teacher_id => $course_period )
 	{
+		// Do NOT use SetUserCoursePeriod() here (even only for teachers) as CP may be in another Semester, Quarter, etc.
 		$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
 		$extra = [
@@ -105,6 +106,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 	}
 
+	// Do NOT use SetUserCoursePeriod() here (even only for teachers) as CP may be in another Semester, Quarter, etc.
 	$_SESSION['UserCoursePeriod'] = $PCL_UserCoursePeriod;
 
 	if ( $no_students_backprompt )

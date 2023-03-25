@@ -1,7 +1,7 @@
 --
 -- PostgreSQL & MySQL data update
 --
--- Translates database fields to Spanish
+-- Translates database fields to Portuguese (Brazil) by Emerson Barros
 --
 -- Note: Uncheck "Paginate results" when importing with phpPgAdmin
 --
@@ -11,7 +11,7 @@
 --
 
 UPDATE schools
-SET title='Institución Ejemplo', address='Calle 13', city='Madrid', state=NULL, zipcode='28037', principal='Sr. Principal', www_address='www.rosariosis.org/es', reporting_gp_scale=5
+SET title='Exemplo de Instituição', address='Rua 16', city='São Paulo', state=NULL, zipcode='28037111', principal='Sr. Diretor', www_address='www.rosariosis.org', reporting_gp_scale=5
 WHERE id=1;
 
 
@@ -29,7 +29,7 @@ WHERE calendar_id=1;
 --
 
 UPDATE config
-SET config_value='Rosario Student Information System|es_ES.utf8:Sistema de Información Estudiantil Rosario'
+SET config_value='Rosario Student Information System|pt_BR.utf8:Sistema de informações do aluno de Rosario'
 WHERE title='TITLE';
 
 --
@@ -37,27 +37,27 @@ WHERE title='TITLE';
 --
 
 UPDATE student_enrollment_codes
-SET title='Cambió de Locación', short_name='CAMB'
+SET title='Local alterado', short_name='MUDAR'
 WHERE id=1;
 
 UPDATE student_enrollment_codes
-SET title='Expulsado', short_name='EXP'
+SET title='Expulso', short_name='EXP'
 WHERE id=2;
 
 UPDATE student_enrollment_codes
-SET title='Comienzo de Año', short_name='ANO'
+SET title='Início do Ano', short_name='ANO'
 WHERE id=3;
 
 UPDATE student_enrollment_codes
-SET title='De otra Locación', short_name='OTRA'
+SET title='Outro local', short_name='OUTRO'
 WHERE id=4;
 
 UPDATE student_enrollment_codes
-SET title='Transferencia', short_name='TRAN'
+SET title='Transferido', short_name='TRAN'
 WHERE id=5;
 
 UPDATE student_enrollment_codes
-SET title='Transferencia', short_name='MANO'
+SET title='Transferido', short_name='MAO'
 WHERE id=6;
 
 
@@ -135,7 +135,7 @@ DELETE FROM report_card_grades WHERE id IN(14,15);
 --
 
 UPDATE school_marking_periods
-SET title='Año Completo', short_name='Año'
+SET title='Ano Completo', short_name='Ano'
 WHERE marking_period_id=1;
 
 UPDATE school_marking_periods
@@ -168,11 +168,11 @@ WHERE marking_period_id=7;
 --
 
 UPDATE school_periods
-SET title='Día Completo', short_name='DIA'
+SET title='Dia completo', short_name='DIA'
 WHERE period_id=1;
 
 UPDATE school_periods
-SET title='Mañana', short_name='AM'
+SET title='Manhã', short_name='AM'
 WHERE period_id=2;
 
 UPDATE school_periods
@@ -218,87 +218,87 @@ WHERE period_id=11;
 
 UPDATE templates
 SET template='<br /><br /><br />
-<div style="text-align: center;"><span style="font-size: xx-large;"><strong>__SCHOOL_ID__</strong><br /></span><br /><span style="font-size: xx-large;">Nosotros por medio de la presente reconocimos<br /><br /></span></div>
+<div style="text-align: center;"><span style="font-size: xx-large;"><strong>__SCHOOL_ID__</strong><br /></span><br /><span style="font-size: xx-large;">N&oacute;s, por meio deste, reconhecemos<br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__FIRST_NAME__ __LAST_NAME__</strong><br /><br /></span></div>
-<div style="text-align: center;"><span style="font-size: xx-large;">Quien ha completado todos los requisitos acad&eacute;micos para el <br />Cuadro de Honor</span></div>'
+<div style="text-align: center;"><span style="font-size: xx-large;">Quem completou todos os requisitos acad&ecirc;micos para o <br />Quadro de Honra</span></div>'
 WHERE modname='Grades/HonorRoll.php';
 
 UPDATE templates
-SET template='<div style="text-align: center;">__CLIPART__<br /><br /><strong><span style="font-size: xx-large;">__SCHOOL_ID__<br /></span></strong><br /><span style="font-size: xx-large;">Teniendo en Cuenta que<br /><br /></span></div>
+SET template='<div style="text-align: center;">__CLIPART__<br /><br /><strong><span style="font-size: xx-large;">__SCHOOL_ID__<br /></span></strong><br /><span style="font-size: xx-large;">Levando em conta que<br /><br /></span></div>
 <div style="text-align: center;"><strong><span style="font-size: xx-large;">__FIRST_NAME__ __LAST_NAME__<br /><br /></span></strong></div>
-<div style="text-align: center;"><span style="font-size: xx-large;">Obtuvo la Excelencia Acad&eacute;mica en<br />__SUBJECT__</span></div>'
+<div style="text-align: center;"><span style="font-size: xx-large;">Ele foi premiado com Excel&ecirc;ncia Acad&ecirc;mica em<br />__SUBJECT__</span></div>'
 WHERE modname='Grades/HonorRollSubject.php';
 
 UPDATE templates
-SET template='<h2 style="text-align: center;">Certificado de Estudios</h2>
-<p>La suscrita Rectora y Secretaria certifican:</p>
-<p>Que __FIRST_NAME__ __LAST_NAME__ identificada con D.I. __SSECURITY__ cursó en este plantel los estudios correspondientes al grado __GRADE_ID__ durante el año __YEAR__ con las calificaciones e intensidad horaria que a continuación detallamos.</p>
-<p>El Estudiante es promovido a grado __NEXT_GRADE_ID__.</p>
+SET template='<h2 style="text-align: center;">Certificado de Estudos</h2>
+<p>O Reitor e o Secret&aacute;rio abaixo assinados certificam:</p>
+<p>Que __FIRST_NAME__ __LAST_NAME__ identificado com DI __SSSECURITY__ estudou nesta escola para a s&eacute;rie __GRADE_ID__ durante o ano __YEAR__ com as notas e intensidade de horas detalhadas abaixo.</p>
+<p>O aluno &eacute; promovido &agrave; s&eacute;rie __NEXT_GRADE_ID__.</p>
 <p>__BLOCK2__</p>
 <p>&nbsp;</p>
 <table style="border-collapse: collapse; width: 100%;" border="0" cellpadding="10"><tbody><tr>
 <td style="width: 50%; text-align: center;"><hr />
-<p>Firma</p>
+<p>Assinatura</p>
 <p>&nbsp;</p><hr />
 <p>Título</p></td>
 <td style="width: 50%; text-align: center;"><hr />
-<p>Firma</p>
+<p>Assinatura</p>
 <p>&nbsp;</p><hr />
 <p>Título</p></td></tr></tbody></table>'
-WHERE modname='Grades/Transcripts.php';
+WHERE modname='Notas/Transcripts.php';
 
 UPDATE templates
-SET template='Estimado __PARENT_NAME__,
+SET template='Caro __PARENT_NAME__,
 
-Una cuenta de padres para el __SCHOOL_ID__ ha sido creada para acceder a la información de la institución y de los siguientes estudiantes:
-__ASSOCIATED_STUDENTS__
+Uma conta de pai ou respons&aacute;vel para __SCHOOL_ID__ foi criada para acessar as informa&ccedil;&otilde;es da institui&ccedil;&otilde;o e dos seguintes alunos:
+__ASSOCIADOS_ESTUDANTES__
 
-Sus datos de cuenta son:
-Nombre de usuario: __USERNAME__
-Contraseña: __PASSWORD__
+Os dados da sua conta s&atilde;o:
+Name de usu&aacute;rio: __USERNAME__
+Senha: __PASSWORD__
 
-Un enlace hacia el Sistema de Información Académica e instrucciones para el acceso están disponibles en el sitio de la institución.__BLOCK2__Estimado __PARENT_NAME__,
+Um link para o Sistema de Informações Académicas e instruções para acesso estão disponíveis no site da instituição.__BLOCK2__Caro __PARENT_NAME__,
 
-Los siguientes estudiantes han sido adicionados a su cuenta de padres en el Sistema de Información Académica:
-__ASSOCIATED_STUDENTS__'
+Os seguintes alunos foram adicionados &agrave; conta dos pais ou respons&aacute;vel no Sistema de Informa&ccedil;&otilde;es Acad&ecirc;micas:
+__ASSOCIADOS_ESTUDANTES__'
 WHERE modname='Custom/CreateParents.php';
 
 UPDATE templates
-SET template='Estimado __PARENT_NAME__,
+SET template='Caro __PARENT_NAME__,
 
-Una cuenta de padres para el __SCHOOL_ID__ ha sido creada para acceder a la información de la institución y de los siguientes estudiantes:
-__ASSOCIATED_STUDENTS__
+Uma conta de pai ou respons&aacute;vel para __SCHOOL_ID__ foi criada para acessar as informa&ccedil;&otilde;es da institui&ccedil;&atilde;o e dos seguintes alunos:
+__ASSOCIADOS_ESTUDANTES__
 
-Sus datos de cuenta son:
-Nombre de usuario: __USERNAME__
-Contraseña: __PASSWORD__
+Os dados da sua conta s&atilde; o:
+Name de usu&aacute;rio: __USERNAME__
+Senha: __PASSWORD__
 
-Un enlace hacia el Sistema de Información Académica e instrucciones para el acceso están disponibles en el sitio de la institución.'
+O link para o Sistema de Informação Académica e as instruções de acesso estão disponíveis no site da instituição.'
 WHERE modname='Custom/NotifyParents.php';
 
 
 --
--- Name: students; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+-- Name: students; Type: TABELA; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 UPDATE student_field_categories
-SET title='General Info|es_ES.utf8:Datos Personales'
+SET title='General Info|pt_BR.utf8:Dados pessoais'
 WHERE id=1;
 
 UPDATE student_field_categories
-SET title='Medical|es_ES.utf8:Médico'
+SET title='Medical|pt_BR.utf8:Médico'
 WHERE id=2;
 
 UPDATE student_field_categories
-SET title='Addresses & Contacts|es_ES.utf8:Direcciones & Contactos'
+SET title='Addresses & Contacts|pt_BR.utf8:Endereços & contatos'
 WHERE id=3;
 
 UPDATE student_field_categories
-SET title='Comments|es_ES.utf8:Comentarios'
+SET title='Comments|pt_BR.utf8:Comentários'
 WHERE id=4;
 
 UPDATE student_field_categories
-SET title='Food Service|es_ES.utf8:Servicio de Comida'
+SET title='Food Service|pt_BR.utf8:Serviço de alimentação'
 WHERE id=5;
 
 
@@ -307,15 +307,15 @@ WHERE id=5;
 --
 
 UPDATE staff_field_categories
-SET title='General Info|es_ES.utf8:Datos Personales'
+SET title='General Info|pt_BR.utf8:Dados pessoais'
 WHERE id=1;
 
 UPDATE staff_field_categories
-SET title='Schedule|es_ES.utf8:Horario'
+SET title='Schedule|pt_BR.utf8:Horário'
 WHERE id=2;
 
 UPDATE staff_field_categories
-SET title='Food Service|es_ES.utf8:Servicio de Comida'
+SET title='Food Service|pt_BR.utf8:Serviço de alimentação'
 WHERE id=3;
 
 
@@ -324,58 +324,59 @@ WHERE id=3;
 --
 
 UPDATE custom_fields
-SET title='Gender|es_ES.utf8:Sexo', select_options='Masculino
-Femenino'
+SET title='Gender|pt_BR.utf8:Sexo', select_options='Masculino
+Feminino'
 WHERE id=200000000;
 
 UPDATE custom_fields
-SET title='Ethnicity|es_ES.utf8:Origen étnico', select_options='Blanco, No Hispano
-Negro, No Hispano
-Indio Americano o Nativo de Alaska
-Asiático o de las Islas del Pacífico
-Hispano
-Otro'
+SET title='Ethnicity|pt_BR.utf8:Etnia', select_options='Branca, Não Hispânica
+Negro, não hispânico
+Índio Americano ou Nativo do Alasca
+Asiático ou ilhéu do Pacífico
+Hispânico
+Outro'
 WHERE id=200000001;
 
 UPDATE custom_fields
-SET title='Common Name|es_ES.utf8:Apodo'
+SET title='Common Name|pt_BR.utf8:Apelido'
 WHERE id=200000002;
 
 UPDATE custom_fields
-SET title='Identification Number|es_ES.utf8:Numero de Identificación'
+SET title='Identification Number|pt_BR.utf8:Número de Identificação'
 WHERE id=200000003;
 
 UPDATE custom_fields
-SET title='Birthdate|es_ES.utf8:Fecha de nacimiento'
+SET title='Birthdate|pt_BR.utf8:Data de nascimento'
 WHERE id=200000004;
 
 UPDATE custom_fields
-SET title='Language|es_ES.utf8:Lenguaje', select_options='Español
-Inglés'
+SET title='Language|pt_BR.utf8:Idioma', select_options='Espanhol
+Inglês
+Português'
 WHERE id=200000005;
 
 UPDATE custom_fields
-SET title='Physician|es_ES.utf8:Médico'
+SET title='Physician|pt_BR.utf8:Médico'
 WHERE id=200000006;
 
 UPDATE custom_fields
-SET title='Physician Phone|es_ES.utf8:Teléfono Médico'
+SET title='Physician Phone|pt_BR.utf8:Telefone do médico'
 WHERE id=200000007;
 
 UPDATE custom_fields
-SET title='Preferred Hospital|es_ES.utf8:Hospital Preferido'
+SET title='Preferred Hospital|pt_BR.utf8:Hospital preferido'
 WHERE id=200000008;
 
 UPDATE custom_fields
-SET title='Comments|es_ES.utf8:Comentarios'
+SET title='Comments|pt_BR.utf8:Comentários'
 WHERE id=200000009;
 
 UPDATE custom_fields
-SET title='Has Doctor''s Note|es_ES.utf8:Tiene una Nota del Doctor'
+SET title='Has Doctor''s Note|pt_BR.utf8:Tem atestado médico'
 WHERE id=200000010;
 
 UPDATE custom_fields
-SET title='Doctor''s Note Comments|es_ES.utf8:Comentarios de la Nota del Doctor'
+SET title='Doctor''s Note Comments|pt_BR.utf8:Comentários da nota médica'
 WHERE id=200000011;
 
 
@@ -384,11 +385,11 @@ WHERE id=200000011;
 --
 
 UPDATE staff_fields
-SET title='Email Address|es_ES.utf8:Email'
+SET title='Email Address|pt_BR.utf8:E-mail'
 WHERE id=200000000;
 
 UPDATE staff_fields
-SET title='Phone Number|es_ES.utf8:Número de Teléfono'
+SET title='Phone Number|pt_BR.utf8:Número de telefone'
 WHERE id=200000001;
 
 
@@ -397,11 +398,11 @@ WHERE id=200000001;
 --
 
 UPDATE school_gradelevels
-SET short_name='Jd', title='Jardin'
+SET short_name='Jd', title='Jardim'
 WHERE id=1;
 
 UPDATE school_gradelevels
-SET short_name='01', title='Primero'
+SET short_name='01', title='Primeiro'
 WHERE id=2;
 
 UPDATE school_gradelevels
@@ -409,11 +410,11 @@ SET short_name='02', title='Segundo'
 WHERE id=3;
 
 UPDATE school_gradelevels
-SET short_name='03', title='Tercero'
+SET short_name='03', title='Terceiro'
 WHERE id=4;
 
 UPDATE school_gradelevels
-SET short_name='04', title='Cuarto'
+SET short_name='04', title='Quarto'
 WHERE id=5;
 
 UPDATE school_gradelevels
@@ -425,11 +426,11 @@ SET short_name='06', title='Sexto'
 WHERE id=7;
 
 UPDATE school_gradelevels
-SET short_name='07', title='Septimo'
+SET short_name='07', title='Sétimo'
 WHERE id=8;
 
 UPDATE school_gradelevels
-SET short_name='08', title='Octavo'
+SET short_name='08', title='Oitavo'
 WHERE id=9;
 
 
@@ -438,7 +439,7 @@ WHERE id=9;
 --
 
 UPDATE students
-SET last_name='Estudiante', first_name='Student', custom_200000000='Masculino', custom_200000001='Hispano', custom_200000005='Español'
+SET last_name='Estudante', first_name='Estudante', custom_200000000='Masculino', custom_200000001='Hispânico', custom_200000005='Português'
 WHERE student_id=1;
 
 
@@ -451,11 +452,11 @@ SET last_name='Administrador'
 WHERE staff_id=1;
 
 UPDATE staff
-SET last_name='Docente'
+SET last_name='Professor'
 WHERE staff_id=2;
 
 UPDATE staff
-SET last_name='Padre'
+SET last_name='Pai'
 WHERE staff_id=3;
 
 
@@ -477,7 +478,7 @@ SET title='Tarde', short_name='T'
 WHERE id=3;
 
 UPDATE attendance_codes
-SET title='Ausencia Justificada', short_name='AJ'
+SET title='Ausência Justificada', short_name='AJ'
 WHERE id=4;
 
 
@@ -486,45 +487,45 @@ WHERE id=4;
 --
 
 UPDATE discipline_field_usage
-SET title='Padres contactados por el Docente'
+SET title='Pais ou responsáveis contatados pelo Professor'
 WHERE id=1;
 
 UPDATE discipline_field_usage
-SET title='Padres contactados por el Administrador'
+SET title='Pais ou responsáveis contatados pelo Administrador'
 WHERE id=2;
 
 UPDATE discipline_field_usage
-SET title='Comentarios'
+SET title='Comentários'
 WHERE id=3;
 
 UPDATE discipline_field_usage
-SET title='Violación', select_options='Faltar a Clases
-Blasfemia, vulgaridad, languaje ofensivo
-Insubordinación (Desobediencia, Comportamiento Irrespetuoso)
-Ebrio (Alcohol o Drogas)
-Habla fuera de Turno
-Acoso
-Se pelea
-Demostracion Publica de Afecto
-Otra'
+SET title='Violação', select_options='Faltar à aula
+Palavrões, vulgaridade, linguagem ofensiva
+Insubordinação (desobediência, comportamento desrespeitoso)
+Bêbado (álcool ou drogas)
+Fale fora de hora
+Assédio
+Lutas
+Atentado ao pudor
+Outro'
 WHERE id=4;
 
 UPDATE discipline_field_usage
-SET title='Castigo Asignado', select_options='10 Minutos
-20 Minutos
-30 Minutos
-Discutir Suspensión'
+SET title='Punição atribuída', select_options='10 Minutos
+20 minutos
+30 minutos
+Discutir Suspensão'
 WHERE id=5;
 
 UPDATE discipline_field_usage
-SET title='Suspensiones (Oficina Solamente)', select_options='Media Jornada
-Suspensión en la Escuela
-1 Día
-2 Días
-3 Días
-5 Días
-7 Días
-Expulsión'
+SET title='Suspensões (somente secretaria)', select_options='Tempo parcial
+Suspensão na escola
+1 dia
+2 dias
+3 dias
+5 dias
+7 dias
+Expulsão'
 WHERE id=6;
 
 
@@ -533,15 +534,15 @@ WHERE id=6;
 --
 
 UPDATE report_card_comments
-SET title='^n falla en conocer los Requerimientos de la Clase'
+SET title='^n não atende aos requisitos de classe'
 WHERE id=1;
 
 UPDATE report_card_comments
-SET title='^n viene a ^s Clase sin Preparar'
+SET title='^n não faz o dever de casa'
 WHERE id=2;
 
 UPDATE report_card_comments
-SET title='^n tiene Influencia Positiva en Clase'
+SET title='^n tem influência positiva na aula'
 WHERE id=3;
 
 
@@ -550,7 +551,7 @@ WHERE id=3;
 --
 
 UPDATE food_service_categories
-SET title='Elementos del Almuerzo'
+SET title='Itens de almoço'
 WHERE category_id=1;
 
 
@@ -559,11 +560,11 @@ WHERE category_id=1;
 --
 
 UPDATE food_service_items
-SET description='Almuerzo Estudiante'
+SET description='Almoço dos estudantes'
 WHERE item_id=1;
 
 UPDATE food_service_items
-SET description='Leche'
+SET description='Leite'
 WHERE item_id=2;
 
 UPDATE food_service_items
@@ -571,7 +572,7 @@ SET description='Sanduche'
 WHERE item_id=3;
 
 UPDATE food_service_items
-SET description='Pizza Extra'
+SET description='Pizza extra'
 WHERE item_id=4;
 
 
@@ -580,7 +581,7 @@ WHERE item_id=4;
 --
 
 UPDATE food_service_menus
-SET title='Almuerzo'
+SET title='Almoço'
 WHERE menu_id=1;
 
 
@@ -589,17 +590,17 @@ WHERE menu_id=1;
 --
 
 UPDATE resources
-SET title='Imprimir Manual de Usuario', link='Help.php'
+SET title='Imprimir manual do usuário', link='Help.php'
 WHERE id=1;
 
 UPDATE resources
-SET title='Guía de Configuración Rápida', link='https://www.rosariosis.org/es/quick-setup-guide/'
+SET title='Guia de configuração rápida', link='https://www.rosariosis.org/quick-setup-guide/'
 WHERE id=2;
 
 UPDATE resources
-SET title='Foro', link='https://www.rosariosis.org/forum/t/espanol'
+SET title='Fórum', link='https://www.rosariosis.org/forum/'
 WHERE id=3;
 
 UPDATE resources
-SET title='Contribuir', link='https://www.rosariosis.org/es/contribute/'
+SET title='Contribuir', link='https://www.rosariosis.org/contribute/'
 WHERE id=4;
