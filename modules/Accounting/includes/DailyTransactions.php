@@ -69,9 +69,9 @@ $totals = [
 ];
 
 
-$extra['functions'] = [ 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency', 'DATE' => 'ProperDate' ];
+$extra['functions'] = [ 'VALUE' => '_makeCurrency', 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency', 'DATE' => 'ProperDate' ];
 
-$RET = $debit_col = $credit_col = $name_col = [];
+$RET = $value_col = $debit_col = $credit_col = $name_col = [];
 
 // Accounting.
 
@@ -79,13 +79,8 @@ if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) 
 	|| $_REQUEST['accounting'] == 'true' )
 {
 	$name_col_sql = '';
-
-	if ( isset( $_REQUEST['staff_payroll'] ) || isset( $_REQUEST['student_billing'] ) )
-	{
-		$name_col_sql = "'' AS FULL_NAME,";
-	}
-
-	$income_SQL = "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,cat.TITLE AS CATEGORY
+	
+	$income_SQL = "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,'' AS VALUE,f.TITLE AS FULL_NAME,COALESCE(f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,cat.TITLE AS CATEGORY
 	FROM accounting_incomes f
 	LEFT JOIN accounting_categories cat on cat.ID = f.CATEGORY_ID
 	WHERE f.SCHOOL_ID='" . UserSchool() . "'
@@ -98,7 +93,7 @@ if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) 
 
 	$RET = DBGet( $income_SQL, $extra['functions'] );
 
-	$payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,CONCAT(p.TITLE,' ',COALESCE(p.COMMENTS,'')) AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,cat.TITLE AS CATEGORY
+	$payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,'' AS VALUE,p.TITLE AS FULL_NAME,COALESCE(p.COMMENTS,'') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,cat.TITLE AS CATEGORY
 	FROM accounting_payments p
 	LEFT JOIN accounting_categories cat on cat.ID = p.CATEGORY_ID
 	WHERE p.SCHOOL_ID='" . UserSchool() . "'
@@ -109,7 +104,6 @@ if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) 
 	if ( ! empty ( $_REQUEST['category'] ) && ! ( $_REQUEST['category'] == 'common' || $_REQUEST['category'] == 'expense' ) ) {
 		$payments_SQL .= " AND p.CATEGORY_ID='" .$_REQUEST['category'] ."'";
 	}
-	
 
 	$payments_RET = DBGet( $payments_SQL, $extra['functions'] );
 
@@ -120,6 +114,7 @@ if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) 
 		$RET[$i++] = $payment;
 	}
 
+	$name_col[] = _( 'Title');
 	$credit_col[] = _( 'Income' );
 	$debit_col[] = _( 'Expense' );
 }
@@ -128,14 +123,10 @@ if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) 
 
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
+	
 	$name_col_sql = '';
-
-	if ( ! empty( $_REQUEST['student_billing'] ) )
-	{
-		$name_col_sql = "'' AS STUDENT_NAME, ";
-	}
-
-	$salaries_SQL = "SELECT " . $name_col_sql . "'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY,".DisplayNameSQL( 's' )." AS FULL_NAME
+	
+	$salaries_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,f.AMOUNT AS VALUE,'' AS DEBIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY,".DisplayNameSQL( 's' )." AS FULL_NAME
 	FROM accounting_salaries f
 	LEFT JOIN staff s on s.STAFF_ID = f.STAFF_ID
 	WHERE f.SCHOOL_ID='" . UserSchool() . "'
@@ -151,7 +142,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		$RET[$i++] = $salary;
 	}
 
-	$staff_payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY,".DisplayNameSQL( 's' )." AS FULL_NAME
+	$staff_payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,'' AS VALUE,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY,".DisplayNameSQL( 's' )." AS FULL_NAME
 	FROM accounting_payments p
 	LEFT JOIN staff s on s.STAFF_ID = p.STAFF_ID
 	WHERE p.SCHOOL_ID='" . UserSchool() . "'
@@ -168,9 +159,9 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		$RET[$i++] = $staff_payment;
 	}
 
-	$credit_col[] = _( 'Salary' );
+	$name_col[] = _( 'Staff' );
+	$value_col[] = _( 'Salary' );
 	$debit_col[] = _( 'Staff Payment' );
-	$name_col = _( 'Staff' );
 }
 
 // Student Billing.
@@ -185,19 +176,11 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$fees_extra['ORDER_BY'] = 'FULL_NAME';
 
-	if ( ! empty( $_REQUEST['staff_payroll'] ) )
-	{
-		// FULL_NAME column already used for Staff Payroll, use STUDENT_NAME instead.
-		$name_col_sql = DisplayNameSQL( 's' ) . " AS STUDENT_NAME, '' AS FULL_NAME,";
-
-		$fees_extra['ORDER_BY'] = 'STUDENT_NAME';
-	}
-
 	$fees_extra['SELECT_ONLY'] = issetVal( $fees_extra['SELECT_ONLY'], '' );
 	$fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 	$fees_extra['WHERE'] = issetVal( $fees_extra['WHERE'], '' );
 
-	$fees_extra['SELECT_ONLY'] .= $name_col_sql . "f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Student Billing' ))."' AS CATEGORY";
+	$fees_extra['SELECT_ONLY'] .= $name_col_sql . "f.AMOUNT AS VALUE,'' AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Student Billing' ))."' AS CATEGORY";
 
 	$fees_extra['FROM'] .= ',billing_fees f';
 
@@ -218,7 +201,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	$student_payments_extra['FROM'] = issetVal( $student_payments_extra['FROM'], '' );
 	$student_payments_extra['WHERE'] = issetVal( $student_payments_extra['WHERE'], '' );
 
-	$student_payments_extra['SELECT_ONLY'] .= $name_col_sql . "'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Student Billing' ))."' AS CATEGORY";
+	$student_payments_extra['SELECT_ONLY'] .= $name_col_sql . "'' AS DEBIT,p.AMOUNT AS CREDIT,'' AS VALUE,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Student Billing' ))."' AS CATEGORY";
 
 	$student_payments_extra['FROM'] .= ',billing_payments p';
 
@@ -226,11 +209,6 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	// Fix PostgreSQL error ORDER BY "full_name" is ambiguous
 	$student_payments_extra['ORDER_BY'] = 'FULL_NAME';
-
-	if ( ! empty( $_REQUEST['staff_payroll'] ) )
-	{
-		$student_payments_extra['ORDER_BY'] = 'STUDENT_NAME';
-	}
 
 	$student_payments_RET = GetStuList( $student_payments_extra );
 
@@ -241,47 +219,70 @@ if ( ! empty( $_REQUEST['student_billing'] )
 		$RET[$i++] = $student_payment;
 	}
 
-	$credit_col[] = _( 'Fee' );
-	$debit_col[] = _( 'Student Payment' );
-
-	if ( empty( $_REQUEST['staff_payroll'] ) )
-	{
-		$name_col = _( 'Student' );
-	}
+	$name_col[] = _( 'Student' );
+	$value_col[] = _( 'Fee' );
+	$credit_col[] = _( 'Student Payment' );
 }
 
+$name_col = implode( ' / ', $name_col );
+$value_col = implode( ' / ', $value_col );
 $credit_col = implode( ' / ', $credit_col );
 $debit_col = implode( ' / ', $debit_col );
 
-$columns = [ 'FULL_NAME' => ( empty( $name_col ) ? _( 'Total' ) : $name_col ) ];
-
-if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
-{
-	$columns['STUDENT_NAME'] = _( 'Student' );
-}
-
-$columns = $columns + [
-	'CREDIT' => $credit_col,
-	'DEBIT' => $debit_col,
+$columns = [
 	'DATE' => _( 'Date' ),
+	'FULL_NAME' => ( empty( $name_col ) ? _( 'Total' ) : $name_col ),
 	'CATEGORY' => _( 'Category' ),
-	'EXPLANATION' => _( 'Comment' ),
 ];
 
 $link['add']['html'] = [
+	'DATE' => '&nbsp;',
 	'FULL_NAME' => ( empty( $name_col ) ? '' : _( 'Total' ) . ': ' ) .
 		'<b>' . Currency( $totals['CREDIT'] - $totals['DEBIT'] ) . '</b>',
 ];
 
-if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
+if ( isset( $_REQUEST['staff_payroll'] ) || isset( $_REQUEST['student_billing'] ) )
 {
-	$link['add']['html']['STUDENT_NAME'] = '&nbsp;';
+	$columns = $columns + [
+		'VALUE' => $value_col,
+	];
+
+	$link['add']['html'] = $link['add']['html'] + [
+		'VALUE' => '<b>' . Currency( $totals['VALUE'] ) . '</b>',
+	];
 }
 
+if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) && empty( $_REQUEST['student_billing'] ) )
+	|| $_REQUEST['accounting'] == 'true' 
+	|| isset( $_REQUEST['student_billing'] ))
+{
+	$columns = $columns + [
+		'CREDIT' => $credit_col,
+	];
+
+	$link['add']['html'] = $link['add']['html'] + [
+		'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>',
+	];
+}
+
+if ( (! isset( $_REQUEST['accounting'] ) && empty( $_REQUEST['staff_payroll'] ) && empty( $_REQUEST['student_billing'] ) )
+	|| $_REQUEST['accounting'] == 'true' 
+	|| isset( $_REQUEST['staff_payroll'] ))
+{
+	$columns = $columns + [
+		'DEBIT' => $debit_col,
+	];
+	
+	$link['add']['html'] = $link['add']['html'] + [
+		'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>',
+	];
+}
+
+$columns = $columns + [
+	'EXPLANATION' => _( 'Comment' ),
+];
+
 $link['add']['html'] = $link['add']['html'] + [
-	'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>',
-	'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>',
-	'DATE' => '&nbsp;',
 	'EXPLANATION' => '&nbsp;',
 ];
 
