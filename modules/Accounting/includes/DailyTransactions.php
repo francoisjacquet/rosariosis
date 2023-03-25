@@ -89,8 +89,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 	$income_SQL = "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,cat.TITLE AS CATEGORY
 	FROM accounting_incomes f
 	LEFT JOIN accounting_categories cat on cat.ID = f.CATEGORY_ID
-	WHERE f.SYEAR='" . UserSyear() . "'
-	AND f.SCHOOL_ID='" . UserSchool() . "'
+	WHERE f.SCHOOL_ID='" . UserSchool() . "'
 	AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'";
 
@@ -103,8 +102,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 	$payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,CONCAT(p.TITLE,' ',COALESCE(p.COMMENTS,'')) AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,cat.TITLE AS CATEGORY
 	FROM accounting_payments p
 	LEFT JOIN accounting_categories cat on cat.ID = p.CATEGORY_ID
-	WHERE p.SYEAR='" . UserSyear() . "'
-	AND p.SCHOOL_ID='" . UserSchool() . "'
+	WHERE p.SCHOOL_ID='" . UserSchool() . "'
 	AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'
 	AND STAFF_ID IS NULL";
@@ -143,7 +141,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	$salaries_extra['FROM'] = issetVal( $salaries_extra['FROM'], '' );
 	$salaries_extra['WHERE'] = issetVal( $salaries_extra['WHERE'], '' );
 
-	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'"._( 'Staff Payroll' )."' AS CATEGORY";
+	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY";
 
 	$salaries_extra['FROM'] .= ',accounting_salaries f';
 
@@ -167,7 +165,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	$staff_payments_extra['FROM'] = issetVal( $staff_payments_extra['FROM'], '' );
 	$staff_payments_extra['WHERE'] = issetVal( $staff_payments_extra['WHERE'], '' );
 
-	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'"._( 'Staff Payroll' )."' AS CATEGORY";
+	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Staff Payroll' ))."' AS CATEGORY";
 
 	$staff_payments_extra['FROM'] .= ',accounting_payments p';
 
@@ -214,11 +212,11 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	$fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 	$fees_extra['WHERE'] = issetVal( $fees_extra['WHERE'], '' );
 
-	$fees_extra['SELECT_ONLY'] .= $name_col_sql . "f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'"._( 'Student Billing' )."' AS CATEGORY";
+	$fees_extra['SELECT_ONLY'] .= $name_col_sql . "f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,'".DBEscapeString(_( 'Student Billing' ))."' AS CATEGORY";
 
 	$fees_extra['FROM'] .= ',billing_fees f';
 
-	$fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
+	$fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 	$fees_RET = GetStuList( $fees_extra );
 
@@ -235,11 +233,11 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	$student_payments_extra['FROM'] = issetVal( $student_payments_extra['FROM'], '' );
 	$student_payments_extra['WHERE'] = issetVal( $student_payments_extra['WHERE'], '' );
 
-	$student_payments_extra['SELECT_ONLY'] .= $name_col_sql . "'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'"._( 'Student Billing' )."' AS CATEGORY";
+	$student_payments_extra['SELECT_ONLY'] .= $name_col_sql . "'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,'".DBEscapeString(_( 'Student Billing' ))."' AS CATEGORY";
 
 	$student_payments_extra['FROM'] .= ',billing_payments p';
 
-	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
+	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 	// Fix PostgreSQL error ORDER BY "full_name" is ambiguous
 	$student_payments_extra['ORDER_BY'] = 'FULL_NAME';
