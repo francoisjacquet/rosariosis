@@ -129,7 +129,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$functions = [
 		'REMOVE' => '_makePaymentsRemove',
-		'CATEGORY_ID' => '_makeSelectInputCategory',
+		'CATEGORY_ID' => '_makeExpensesSelectInput',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsTextInput',
@@ -183,7 +183,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'TITLE' => _makeIncomesTextInput( '', 'TITLE' ),
-			'CATEGORY_ID' => _makeSelectInputCategory('', 'CATEGORY_ID'),
+			'CATEGORY_ID' => _makeExpensesSelectInput('', 'CATEGORY_ID'),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),
@@ -191,7 +191,7 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 	}
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] ) . '" method="GET">';
+	echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
 	DrawHeader( _( 'Report Timeframe' ) . ': ' .
 		PrepareDate( $start_date, '_start', false ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
 		PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&' . $_SERVER['QUERY_STRING'] ) . '" method="POST">';
+		echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = [];
 	}
@@ -220,15 +220,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$incomes_total_filtered = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM accounting_incomes f
-		WHERE f.SYEAR='" . UserSyear() . "'
-		AND f.SCHOOL_ID='" . UserSchool() . "'
+		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.assigned_date BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'" );
 		
 	$incomes_total_unfiltered = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM accounting_incomes f
-		WHERE f.SYEAR='" . UserSyear() . "'
-		AND f.SCHOOL_ID='" . UserSchool() . "'" );
+		WHERE f.SCHOOL_ID='" . UserSchool() . "'" );
 
 	$payments_total_unfiltered = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 		FROM accounting_payments p
@@ -253,8 +251,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$student_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 			FROM billing_payments p
-			WHERE p.SYEAR='" . UserSyear() . "'
-			AND p.SCHOOL_ID='" . UserSchool() . "'" );
+			WHERE p.SCHOOL_ID='" . UserSchool() . "'" );
 
 		$table .= '<tr><td>& ' . _( 'Total from Student Payments' ) . ': ' . '</td><td>' . Currency( $student_payments_total ) . '</td></tr>';
 	}
@@ -290,7 +287,7 @@ if ( ! $_REQUEST['modfunc'] )
  * @param $value
  * @param $name
  */
-function _makeSelectInputCategory( $value, $name )
+function _makeExpensesSelectInput( $value, $name )
 {
 	global $THIS_RET;
 
@@ -306,8 +303,7 @@ function _makeSelectInputCategory( $value, $name )
 	//TYPE: common=0; income=1; expense=2
 	$category_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 		FROM accounting_categories
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
+		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND ( TYPE='0' OR TYPE='2' )
 		ORDER BY SORT_ORDER" );
 	

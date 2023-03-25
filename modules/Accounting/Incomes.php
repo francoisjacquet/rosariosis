@@ -120,7 +120,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$functions = [
 		'REMOVE' => '_makeIncomesRemove',
-		'CATEGORY_ID' => '_makeSelectInputCategory',
+		'CATEGORY_ID' => '_makeIncomeSelectInput',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'COMMENTS' => '_makeIncomesTextInput',
 		'AMOUNT' => '_makeIncomesAmount',
@@ -130,8 +130,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.CATEGORY_ID,f.ASSIGNED_DATE,f.COMMENTS,
 		f.AMOUNT,f.FILE_ATTACHED
 		FROM accounting_incomes f
-		WHERE f.SYEAR='" . UserSyear() . "'
-		AND f.SCHOOL_ID='" . UserSchool() . "'
+		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
 		ORDER BY f.ASSIGNED_DATE, ID", $functions );
@@ -173,7 +172,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'TITLE' => _makeIncomesTextInput( '', 'TITLE' ),
-			'CATEGORY_ID' => _makeSelectInputCategory('', 'CATEGORY'),
+			'CATEGORY_ID' => _makeIncomeSelectInput('', 'CATEGORY'),
 			'AMOUNT' => _makeIncomesTextInput( '', 'AMOUNT' ),
 			'ASSIGNED_DATE' => _makeIncomesDateInput( DBDate(), 'ASSIGNED_DATE' ),
 			'COMMENTS' => _makeIncomesTextInput( '', 'COMMENTS' ),
@@ -181,7 +180,7 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 	}
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] ) . '" method="GET">';
+	echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
 	DrawHeader( _( 'Report Timeframe' ) . ': ' .
 		PrepareDate( $start_date, '_start', false ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
 		PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
@@ -189,7 +188,7 @@ if ( ! $_REQUEST['modfunc'] )
 	
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&' . $_SERVER['QUERY_STRING'] ) . '" method="POST">';
+		echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = [];
 	}
@@ -210,19 +209,16 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$incomes_total_unfiltered = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM accounting_incomes f
-		WHERE f.SYEAR='" . UserSyear() . "'
-		AND f.SCHOOL_ID='" . UserSchool() . "'" );
+		WHERE f.SCHOOL_ID='" . UserSchool() . "'" );
 
 	$payments_total_unfiltered = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NULL
-		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
 		
 	$payments_total_filtered = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NULL
-		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'
 		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'" );
@@ -244,8 +240,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$student_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 			FROM billing_payments p
-			WHERE p.SYEAR='" . UserSyear() . "'
-			AND p.SCHOOL_ID='" . UserSchool() . "'" );
+			WHERE p.SCHOOL_ID='" . UserSchool() . "'" );
 
 		$table .= '<tr><td>& ' . _( 'Total from Student Payments' ) . ': ' . '</td><td>' . Currency( $student_payments_total ) . '</td></tr>';
 	}
@@ -259,7 +254,6 @@ if ( ! $_REQUEST['modfunc'] )
 	$staff_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NOT NULL
-		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
 
 	$table .= '<tr><td>& ' . _( 'Total from Staff Payments' ) . ': ' . '</td><td>' . Currency( $staff_payments_total ) . '</td></tr>';
@@ -281,7 +275,7 @@ if ( ! $_REQUEST['modfunc'] )
  * @param $value
  * @param $name
  */
-function _makeSelectInputCategory( $value, $name )
+function _makeIncomeSelectInput( $value, $name )
 {
 	global $THIS_RET;
 
@@ -297,8 +291,7 @@ function _makeSelectInputCategory( $value, $name )
 	//TYPE: common=0; income=1; expense=2
 	$category_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 		FROM accounting_categories
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
+		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND ( TYPE='0' OR TYPE='1' )
 		ORDER BY SORT_ORDER" );
 	
