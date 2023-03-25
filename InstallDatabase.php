@@ -27,13 +27,6 @@ if ( empty( $DatabaseType ) )
 
 require_once 'database.inc.php';
 
-// rosariosis_[lang].sql files available for database translation.
-$lang = [
-	'fr' => 'French',
-	'pt_BR' => 'Portuguese (Brazil)',
-	'es' => 'Spanish',
-];
-
 // Test if database is already installed first.
 if ( _configTableCheck() )
 {
@@ -44,7 +37,6 @@ if ( _configTableCheck() )
 	$config_login = db_fetch_row( $result );
 
 	if ( empty( $_POST['lang'] )
-		|| ! in_array( $_POST['lang'], array_keys( $lang ) )
 		|| $config_login['CONFIG_VALUE'] !== 'No' )
 	{
 		die( 'Database already installed.' );
@@ -61,19 +53,27 @@ if ( _configTableCheck() )
 
 	$addons_sql = $rosariosis_sql = '';
 
-	$rosariosis_sql_file = 'rosariosis_' . $_POST['lang'] . '.sql';
-
-	$addons_sql_file = 'rosariosis_addons_' . $_POST['lang'] . '.sql';
-
 	// Translate Database.
-	if ( file_exists( $rosariosis_sql_file ) )
+	if ( $_POST['lang'] === 'fr'
+		&& file_exists( 'rosariosis_fr.sql' ) )
 	{
 		// Same translation files for both MySQL & PostgreSQL.
-		$rosariosis_sql = file_get_contents( $rosariosis_sql_file );
+		$rosariosis_sql = file_get_contents( 'rosariosis_fr.sql' );
 
-		if ( file_exists( $addons_sql_file ) )
+		if ( file_exists( 'rosariosis_addons_fr.sql' ) )
 		{
-			$addons_sql = _getAddonsSQL( $addons_sql_file );
+			$addons_sql = _getAddonsSQL( 'rosariosis_addons_fr.sql' );
+		}
+	}
+	elseif ( $_POST['lang'] === 'es'
+		&& file_exists( 'rosariosis_es.sql' ) )
+	{
+		// Same translation files for both MySQL & PostgreSQL.
+		$rosariosis_sql = file_get_contents( 'rosariosis_es.sql' );
+
+		if ( file_exists( 'rosariosis_addons_es.sql' ) )
+		{
+			$addons_sql = _getAddonsSQL( 'rosariosis_addons_es.sql' );
 		}
 	}
 
@@ -123,9 +123,8 @@ if ( file_exists( 'rosariosis_addons.sql' ) )
 <form method="POST">
 	Translate database to
 	<select name="lang">
-		<?php foreach ( $lang as $lang_code => $lang_name ) : ?>
-			<option value="<?php echo $lang_code; ?>"><?php echo $lang_name; ?></option>
-		<?php endforeach; ?>
+		<option value="es">Spanish</option>
+		<option value="fr">French</option>
 	</select>
 	<br />
 	<input type="submit" value="Submit" />

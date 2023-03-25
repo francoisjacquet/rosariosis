@@ -1343,14 +1343,12 @@ if ( ! $_REQUEST['modfunc'] )
 							_( 'Value' ),
 							'maxlength=100'
 						) . '<br />' . ( $info_apd && count( (array) $info_options ) > 1 ?
-							_makeAutoSelectInputX(
+							SelectInput(
 								'',
-								'TITLE',
-								'people_join_contacts',
+								'values[people_join_contacts][new][TITLE]',
 								_( 'Description' ),
 								$info_options,
-								'new',
-								false
+								'N/A'
 							) :
 							TextInput(
 								'',
@@ -1739,16 +1737,6 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 	{
 		$options = 'size=5 maxlength=10';
 	}
-	elseif ( $column === 'TITLE' )
-	{
-		$options = 'maxlength=100';
-
-		if ( $table === 'people_join_contacts'
-			&& $id !== 'new' )
-		{
-			$options .= ' required';
-		}
-	}
 	else
 	{
 		$options = 'maxlength=100';
@@ -1805,21 +1793,12 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			);
 		}
 
-		$na = 'N/A';
-
-		if ( $table === 'people_join_contacts'
-			&& $column === 'TITLE'
-			&& $id !== 'new' )
-		{
-			$na = false;
-		}
-
 		$return .= SelectInput(
 			$value,
 			$input_name,
 			$title,
 			$select,
-			$na,
+			'N/A',
 			$select_options . ' onchange="maybeEditTextInput(this);"',
 			$div
 		);

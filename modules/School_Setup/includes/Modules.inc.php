@@ -444,11 +444,6 @@ function _makeReadMe( $module_title, $activated = null )
 	else
 	{
 		$module_title_echo = _( str_replace( '_', ' ', $module_title ) );
-
-		if ( $module_title === 'School_Setup' )
-		{
-			$module_title_echo = _( 'School' );
-		}
 	}
 
 	$readme_path = 'modules/' . $module_title . '/README';

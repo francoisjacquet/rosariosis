@@ -25,7 +25,6 @@ Installation directions for:
 - [**Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-Windows)
 - [**Mac**](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-on-Mac-(macOS,-OS-X))
 - [**cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel)
-- [**Softaculous**](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/How-to-install-RosarioSIS-with-Softaculous)
 - [**Docker**](https://github.com/francoisjacquet/docker-rosariosis)
 - **Ubuntu** (or any Debian-based Linux distribution), see below
 
@@ -185,7 +184,7 @@ Then restart the server.
 Install instructions for Ubuntu 20.04 (Focal):
 ```bash
 server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
-server$ sudo apt install ./wkhtmltox_0.12.6-1.focal_amd64.deb
+server$ sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
 ```
 
 Set path in the `config.inc.php` file:

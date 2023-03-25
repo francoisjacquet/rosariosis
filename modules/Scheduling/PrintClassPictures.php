@@ -48,7 +48,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			continue;
 		}
 
-		// Do NOT use SetUserCoursePeriod() here (even only for teachers) as CP may be in another Semester, Quarter, etc.
 		$_SESSION['UserCoursePeriod'] = $course_period_id;
 
 		$extra = [
@@ -229,7 +228,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		echo '</table><div style="page-break-after: always;"></div>';
 	}
 
-	// Do NOT use SetUserCoursePeriod() here (even only for teachers) as CP may be in another Semester, Quarter, etc.
 	$_SESSION['UserCoursePeriod'] = $PCP_UserCoursePeriod;
 
 	if ( $no_students_backprompt )

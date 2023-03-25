@@ -867,10 +867,11 @@ h3 span {
 
 .header2 {
 	padding: 4px 8px;
-	word-break: break-word;
+	word-break: break-all;
 }
 
-.header2 .fixed-col {
+.header2 .fixed-col,
+.header2 .tooltip {
 	word-break: normal;
 }
 
