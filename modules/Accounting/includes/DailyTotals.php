@@ -46,16 +46,14 @@ if ( ! isset( $_REQUEST['accounting'] )
 {
 	$accounting_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
 		FROM accounting_payments
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
+		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
 		AND STAFF_ID IS NULL" );
 
 	$accounting_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM accounting_incomes f
-		WHERE f.SYEAR='" . UserSyear() . "'
-		AND f.SCHOOL_ID='" . UserSchool() . "'
+		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'" );
 }
@@ -65,23 +63,17 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
 	$staffpayroll_payments = DBGetOne( "SELECT sum(p.AMOUNT) AS AMOUNT
 		FROM accounting_payments p, staff s
-		WHERE p.SYEAR='" . UserSyear() . "'
-		AND s.SYEAR=p.SYEAR
-		AND p.SCHOOL_ID='" . UserSchool() . "'
+		WHERE p.SCHOOL_ID='" . UserSchool() . "'
 		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND p.STAFF_ID=s.STAFF_ID
-		AND p.SYEAR=s.SYEAR" );
+		AND p.STAFF_ID=s.STAFF_ID" );
 
 	$staffpayroll_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM accounting_salaries f, staff s
-		WHERE f.SYEAR='" . UserSyear() . "'
-		AND s.SYEAR=f.SYEAR
-		AND f.SCHOOL_ID='" . UserSchool() . "'
+		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND f.STAFF_ID=s.STAFF_ID
-		AND f.SYEAR=s.SYEAR" );
+		AND f.STAFF_ID=s.STAFF_ID" );
 }
 
 // Student Billing.
@@ -90,8 +82,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 {
 	$billing_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
 		FROM billing_payments
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
+		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'" );
 

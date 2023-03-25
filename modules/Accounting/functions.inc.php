@@ -147,11 +147,9 @@ function _makePaymentsCommentsInput( $value, $name )
 	$salaries_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
 		FROM accounting_salaries sal
 		WHERE STAFF_ID='" . UserStaffID() . "'
-		AND SYEAR='" . UserSyear() . "'
 		AND NOT EXISTS(SELECT 1
 			FROM accounting_payments
 			WHERE STAFF_ID='" . UserStaffID() . "'
-			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=sal.AMOUNT
 			AND (COMMENTS=sal.TITLE OR COMMENTS LIKE CONCAT('%',sal.TITLE) OR COMMENTS LIKE CONCAT(sal.TITLE,'%'))
 			AND PAYMENT_DATE>=sal.ASSIGNED_DATE)

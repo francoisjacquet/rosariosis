@@ -134,7 +134,6 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		f.AMOUNT,f.FILE_ATTACHED
 		FROM accounting_salaries f
 		WHERE f.STAFF_ID='" . UserStaffID() . "'
-		AND f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY f.ASSIGNED_DATE",
 		$functions
@@ -219,7 +218,6 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 			FROM accounting_payments p
 			WHERE p.STAFF_ID='" . UserStaffID() . "'
-			AND p.SYEAR='" . UserSyear() . "'
 			AND p.SCHOOL_ID='" . UserSchool() . "'" );
 
 		$table = '<table class="align-right accounting-staff-payroll-totals"><tr><td>' . _( 'Total from Salaries' ) . ': ' . '</td><td>' . Currency( $salaries_total ) . '</td></tr>';

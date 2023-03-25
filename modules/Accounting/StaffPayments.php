@@ -136,7 +136,6 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS,FILE_ATTACHED
 		FROM accounting_payments
 		WHERE STAFF_ID='" . UserStaffID() . "'
-		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY ID", $functions );
 
@@ -209,7 +208,6 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	$salaries_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM accounting_salaries f
 		WHERE f.STAFF_ID='" . UserStaffID() . "'
-		AND f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'" );
 
 	$table = '<table class="align-right accounting-staff-payroll-totals"><tr><td>' . _( 'Total from Salaries' ) . ': ' . '</td><td>' . Currency( $salaries_total ) . '</td></tr>';
