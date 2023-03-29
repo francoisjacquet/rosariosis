@@ -7,7 +7,11 @@ Changes in 11.0
 - Add Weight field in Assignments.php & MassCreateAssignments.php
 - Calculate Weighted Grade in Grades.php, InputFinalGrades.php & ProgressReports.php
 - Add Assignment Weight in StudentGrades.php & StudentAssignments.fnc.php
+
+Changes in 10.9.1
+-----------------
 - Fix Anonymous Statistics bar overflow in StudentGrades.php
+- SQL Show Gradebook Grades of Inactive Students (Course status, maybe dropped as of today) in StudentGrades.php
 
 Changes in 10.9
 ---------------
