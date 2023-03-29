@@ -31,8 +31,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		if ( $accessfunc === 'grant' )
 		{
+			// @since 11.0 More defined replacement just in case the "username" contains the prefix; e.g. de in 'destudent' = 'stund' 
 			$update_sql = "UPDATE students
-				SET USERNAME=REPLACE(USERNAME,'" . $username_prefix_add . "','')
+				SET USERNAME=CONCAT(REPLACE(SUBSTR(USERNAME, 1, LENGTH('" . $username_prefix_add . "')),'" . $username_prefix_add . "',''),SUBSTR(USERNAME, LENGTH('" . $username_prefix_add . "')+1, 100))
 				WHERE STUDENT_ID IN (" . $st_list . ")";
 		}
 
