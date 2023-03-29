@@ -289,6 +289,8 @@ function StudentAssignmentDrawHeaders( $assignment )
 		return;
 	}
 
+	$gradebook_config = ProgramUserConfig( 'Gradebook', $assignment['STAFF_ID'] );
+
 	// Past due, in red.
 	$due_date = $assignment['DUE_DATE'] ? MakeAssignmentDueDate( $assignment['DUE_DATE'] ) : _( 'N/A' );
 
@@ -366,11 +368,21 @@ function StudentAssignmentDrawHeaders( $assignment )
 		_( 'File' ) . ': ' . GetAssignmentFileLink( $assignment['FILE'] ) :
 		'';
 
+	// @since 11.0 Add Weight Assignments option
+	$weight_header = ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) ?
+		_( 'Weight' ) . ': <b>' . issetVal( $assignment['WEIGHT'], 0 ) . '</b>' :
+		'';
+
 	// Points.
 	DrawHeader(
 		_( 'Points' ) . ': <b>' . $assignment['POINTS'] . '</b>',
-		$file_header
+		$file_header ? $file_header : $weight_header
 	);
+
+	if ( $file_header && $weight_header )
+	{
+		DrawHeader( $weight_header );
+	}
 
 	if ( $assignment['DESCRIPTION'] )
 	{
@@ -436,7 +448,7 @@ function GetAssignment( $assignment_id )
 	}
 
 	$assignment_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
-		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
+		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS, ga.WEIGHT,
 		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS CATEGORY, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
 		FROM gradebook_assignments ga,courses c,gradebook_assignment_types gat

@@ -351,7 +351,7 @@ if ( UserStudentID()
 
 			//FJ assigments appear after assigned date and not due date
 			$assignments_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,gg.POINTS,gg.COMMENT,ga.TITLE,
-				ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,
+				ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,ga.WEIGHT,
 				at.TITLE AS CATEGORY,at.COLOR AS ASSIGNMENT_TYPE_COLOR,ga.STAFF_ID,ga.FILE,
 				ga.COURSE_ID,'" . DBEscapeString( $course['COURSE_TITLE'] ) . "' AS COURSE_TITLE
 			FROM gradebook_assignments ga
