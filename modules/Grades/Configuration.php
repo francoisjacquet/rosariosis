@@ -146,7 +146,16 @@ echo '<tr><td>' . RadioInput(
 echo '<tr><td><hr>' . CheckboxInput(
 	( array_key_exists( 'WEIGHT', $gradebook_config ) ? $gradebook_config['WEIGHT'] : '' ),
 	'values[WEIGHT]',
-	_( 'Weight Grades' ),
+	_( 'Weight Assignment Categories' ),
+	'',
+	( ! array_key_exists( 'WEIGHT', $gradebook_config ) )
+) . '</td></tr>';
+
+// @since 11.0 Add Weight Assignments option
+echo '<tr><td>' . CheckboxInput(
+	( array_key_exists( 'WEIGHT_ASSIGNMENTS', $gradebook_config ) ? $gradebook_config['WEIGHT_ASSIGNMENTS'] : '' ),
+	'values[WEIGHT_ASSIGNMENTS]',
+	_( 'Weight Assignments' ),
 	'',
 	( ! array_key_exists( 'WEIGHT', $gradebook_config ) )
 ) . '</td></tr>';
