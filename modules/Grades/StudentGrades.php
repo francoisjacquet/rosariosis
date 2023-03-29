@@ -14,7 +14,12 @@ $_ROSARIO['allow_edit'] = false;
 
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
-Search( 'student_id' );
+// @since 10.9.1 Show Gradebook Grades of Inactive Students (School status)
+// Maintain "Include Inactive Students" user choice in URL.
+$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&include_inactive=' . $_REQUEST['include_inactive'];
+
+Search( 'student_id', $extra );
 
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
@@ -274,7 +279,10 @@ if ( UserStudentID()
 			$link = [
 				'TITLE' => [
 					'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
-					( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ),
+					( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) .
+					// @since 10.9.1 Show Gradebook Grades of Inactive Students (School status)
+					// Maintain "Include Inactive Students" user choice in URL.
+					'&include_inactive=' . $_REQUEST['include_inactive'],
 					'variables' => [ 'id' => 'ID' ],
 				],
 			];
@@ -315,7 +323,10 @@ if ( UserStudentID()
 					mb_strrpos( str_replace( ' - ', ' ^ ', $req_course_title ), ' ^' )
 				),
 				'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
-				( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) ) . '">' .
+				( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) .
+				// @since 10.9.1 Show Gradebook Grades of Inactive Students (School status)
+				// Maintain "Include Inactive Students" user choice in URL.
+				'&include_inactive=' . $_REQUEST['include_inactive'] ) . '">' .
 				_( 'Back to Totals' ) . '</a>'
 			);
 		}

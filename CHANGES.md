@@ -12,6 +12,7 @@ Changes in 10.9.1
 -----------------
 - Fix Anonymous Statistics bar overflow in StudentGrades.php
 - SQL Show Gradebook Grades of Inactive Students (Course status, maybe dropped as of today) in StudentGrades.php
+- Show Gradebook Grades of Inactive Students (School status) in StudentGrades.php
 
 Changes in 10.9
 ---------------
