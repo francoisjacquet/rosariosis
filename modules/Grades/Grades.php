@@ -78,7 +78,7 @@ if ( $_REQUEST['type_id']
 }
 
 $assignments_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,ga.ASSIGNMENT_TYPE_ID,ga.TITLE,ga.POINTS,ga.ASSIGNED_DATE,
-ga.DUE_DATE,ga.DEFAULT_POINTS," . _SQLUnixTimestamp( 'DUE_DATE' ) . " AS DUE_EPOCH,
+ga.DUE_DATE,ga.DEFAULT_POINTS," . _SQLUnixTimestamp( 'DUE_DATE' ) . " AS DUE_EPOCH,ga.WEIGHT,
 CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE)
 	AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE)
 	OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
@@ -285,7 +285,7 @@ if ( UserStudentID() )
 	$count_assignments = count( (array) $assignments_RET );
 
 	$extra['SELECT'] = ",ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,ga.TITLE,ga.POINTS AS TOTAL_POINTS,
-		ga.SUBMISSION,'' AS PERCENT_GRADE,'' AS LETTER_GRADE,
+		ga.SUBMISSION,'' AS PERCENT_GRADE,'' AS LETTER_GRADE,ga.WEIGHT,
 		CASE WHEN (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 			AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE)
 			OR CURRENT_DATE>(SELECT END_DATE FROM school_marking_periods WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
@@ -454,6 +454,13 @@ else
 				sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", "''", db_case( [ 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.DEFAULT_POINTS' ] ), 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,
 				sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", "''", db_case( [ 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.POINTS' ] ), 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
+			if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+			{
+				// @since 11.0 Add Weight Assignments option
+				$extra['SELECT_ONLY'] .= ",sum(" . db_case( [ 'ga.WEIGHT', "''", "'0'", "ga.WEIGHT" ] ) . ") AS PARTIAL_WEIGHT,
+					sum((gg.POINTS/ga.POINTS)*ga.WEIGHT) AS PARTIAL_WEIGHTED_GRADE";
+			}
+
 			$extra['FROM'] = " JOIN gradebook_assignments ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
 				AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
 			LEFT OUTER JOIN gradebook_grades gg ON (gg.STUDENT_ID=s.STUDENT_ID
@@ -468,6 +475,13 @@ else
 					FROM school_marking_periods
 					WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))" .
 			( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' );
+
+			if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+			{
+				// @since 11.0 Add Weight Assignments option
+				// Exclude Extra Credit assignments.
+				$extra['WHERE'] .= " AND ga.POINTS>0";
+			}
 
 			if ( empty( $_REQUEST['include_all'] ) )
 			{
@@ -835,7 +849,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 		case 'PERCENT_GRADE':
 			if ( ! $assignment_id )
 			{
-				$total = $total_percent = 0;
+				$total = $total_percent = $total_weighted_grade = $total_weights = 0;
 
 				if ( ! empty( $points_RET[$THIS_RET['STUDENT_ID']] ) )
 				{
@@ -858,12 +872,31 @@ function _makeExtraAssnCols( $assignment_id, $column )
 							$total_percent += ( ! empty( $gradebook_config['WEIGHT'] ) ?
 								$partial_points['FINAL_GRADE_PERCENT'] :
 								$partial_points['PARTIAL_TOTAL'] );
+
+							if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+							{
+								// @since 11.0 Add Weight Assignments option
+								$total_weighted_grade += ( ! empty( $gradebook_config['WEIGHT'] ) ?
+									$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHTED_GRADE'] :
+									$partial_points['PARTIAL_WEIGHTED_GRADE'] );
+
+								$total_weights += ( ! empty( $gradebook_config['WEIGHT'] ) ?
+									$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHT'] :
+									$partial_points['PARTIAL_WEIGHT'] );
+							}
 						}
 					}
 
 					if ( $total_percent != 0 )
 					{
 						$total /= $total_percent;
+					}
+
+					if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] )
+						&& $total_weights > 0 )
+					{
+						// @since 11.0 Add Weight Assignments option
+						$total = $total_weighted_grade / $total_weights;
 					}
 				}
 

@@ -243,6 +243,13 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" .
 			db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
+			if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+			{
+				// @since 11.0 Add Weight Assignments option
+				$extra['SELECT_ONLY'] .= ",sum(" . db_case( [ 'ga.WEIGHT', "''", "'0'", "ga.WEIGHT" ] ) . ") AS PARTIAL_WEIGHT,
+					sum((gg.POINTS/ga.POINTS)*ga.WEIGHT) AS PARTIAL_WEIGHTED_GRADE";
+			}
+
 			$extra['FROM'] = " JOIN gradebook_assignments ga ON
 				(((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 						OR ga.COURSE_ID=cp.COURSE_ID)
@@ -270,6 +277,13 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 					AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE))
 				AND (ga.DUE_DATE>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
+
+			if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+			{
+				// @since 11.0 Add Weight Assignments option
+				// Exclude Extra Credit assignments.
+				$extra['WHERE'] .= " AND ga.POINTS>0";
+			}
 
 			if ( GetMP( $_REQUEST['mp'], 'MP' ) === 'PRO' )
 			{
@@ -299,7 +313,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			{
 				foreach ( (array) $points_RET as $student_id => $student )
 				{
-					$total = $total_percent = 0;
+					$total = $total_percent = $total_weighted_grade = $total_weights = 0;
 
 					foreach ( (array) $student as $partial_points )
 					{
@@ -321,12 +335,31 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 								$partial_points['FINAL_GRADE_PERCENT'] :
 								$partial_points['PARTIAL_TOTAL']
 							);
+
+							if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+							{
+								// @since 11.0 Add Weight Assignments option
+								$total_weighted_grade += ( ! empty( $gradebook_config['WEIGHT'] ) ?
+									$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHTED_GRADE'] :
+									$partial_points['PARTIAL_WEIGHTED_GRADE'] );
+
+								$total_weights += ( ! empty( $gradebook_config['WEIGHT'] ) ?
+									$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHT'] :
+									$partial_points['PARTIAL_WEIGHT'] );
+							}
 						}
 					}
 
 					if ( $total_percent != 0 )
 					{
 						$total /= $total_percent;
+					}
+
+					if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] )
+						&& $total_weights > 0 )
+					{
+						// @since 11.0 Add Weight Assignments option
+						$total = $total_weighted_grade / $total_weights;
 					}
 
 					$import_RET[$student_id] = [

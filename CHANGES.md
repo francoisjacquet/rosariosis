@@ -5,6 +5,7 @@ Changes in 11.0
 ---------------
 - Add Weight Assignments option in Grades/Configuration.php, Assignments.php & MassCreateAssignments.php
 - Add Weight field in Assignments.php & MassCreateAssignments.php
+- Calculate Weighted Grade in Grades.php, InputFinalGrades.php & ProgressReports.php
 
 Changes in 10.9
 ---------------
