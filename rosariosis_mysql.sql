@@ -400,6 +400,24 @@ CREATE TABLE access_log (
 
 
 --
+-- Name: accounting_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE accounting_categories (
+	id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL,
+	title text NOT NULL,
+	short_name varchar(10) DEFAULT NULL,
+	type integer(1) NOT NULL COMMENT 'common=0; income=1; expense=2',
+	sort_order decimal(10,0) DEFAULT NULL,
+	created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp NULL ON UPDATE current_timestamp,
+	FOREIGN KEY (syear,school_id) REFERENCES schools(syear,id)
+);
+
+
+--
 -- Name: accounting_incomes; Type: TABLE;
 --
 
@@ -408,13 +426,15 @@ CREATE TABLE accounting_incomes (
     comments text,
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title text,
+    category_id integer DEFAULT NULL,
     amount numeric(14,2) NOT NULL,
     file_attached text,
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
-    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+    FOREIGN KEY (syear,school_id) REFERENCES schools(syear,id),
+    FOREIGN KEY category_id REFERENCES accounting_categories(id)
 );
 
 
@@ -449,14 +469,17 @@ CREATE TABLE accounting_payments (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     staff_id integer,
-    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+    title text NOT NULL,
+    category_id integer DEFAULT NULL,
     amount numeric(14,2) NOT NULL,
     payment_date date,
     comments text,
     file_attached text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
-    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear),
+    FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+    FOREIGN KEY (category_id) REFERENCES accounting_categories(id),
 );
 
 
@@ -2138,6 +2161,13 @@ INSERT INTO school_marking_periods VALUES (NULL, 2022, 'QTR', 1, 3, 'Quarter 4',
 --
 -- Data for Name: course_periods; Type: TABLE DATA;
 --
+
+
+
+--
+-- Data for Name: accounting_categories; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
 
 
 --

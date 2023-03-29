@@ -5,7 +5,7 @@ function _makeIncomesRemove( $value, $column )
 
 	return button(
 		'remove',
-		_( 'Delete' ),
+		'',
 		'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' . $THIS_RET['ID'] ) . '"'
 	);
 }
@@ -147,11 +147,9 @@ function _makePaymentsCommentsInput( $value, $name )
 	$salaries_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
 		FROM accounting_salaries sal
 		WHERE STAFF_ID='" . UserStaffID() . "'
-		AND SYEAR='" . UserSyear() . "'
 		AND NOT EXISTS(SELECT 1
 			FROM accounting_payments
 			WHERE STAFF_ID='" . UserStaffID() . "'
-			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=sal.AMOUNT
 			AND (COMMENTS=sal.TITLE OR COMMENTS LIKE CONCAT('%',sal.TITLE) OR COMMENTS LIKE CONCAT(sal.TITLE,'%'))
 			AND PAYMENT_DATE>=sal.ASSIGNED_DATE)
@@ -244,10 +242,17 @@ function _makeSalariesFileInput( $value, $column )
 	global $THIS_RET;
 
 	if ( empty( $THIS_RET['ID'] ) )
-	{
-		return FileInput(
-			'FILE_ATTACHED'
+	{	
+		$file_input_html = FileInput(
+			'FILE_ATTACHED',
+			'',
+			'style="width: 230px; padding: 0;"'
 		);
+
+		$button = button( 'add' );
+
+		return InputDivOnclick( 'FILE_ATTACHED_new', $file_input_html, $button, '' );
+
 	}
 
 	if ( empty( $value )
@@ -260,10 +265,17 @@ function _makeSalariesFileInput( $value, $column )
 		}
 
 		// Add hidden FILE_ATTACHED input so it gets saved even if no other columns to save.
-		return '<input type="hidden" name="values[' . $THIS_RET['ID'] . '][FILE_ATTACHED]" value="" />' .
-		FileInput(
-			'FILE_ATTACHED_' . $THIS_RET['ID']
+		$file_input_html = FileInput(
+			'FILE_ATTACHED_' . $THIS_RET['ID'],
+			'',
+			'style="width: 230px; padding: 0;"'
 		);
+
+		$button = button( 'add' );
+		
+		return '<input type="hidden" name="values[' . $THIS_RET['ID'] . '][FILE_ATTACHED]" value="" />' .
+
+		InputDivOnclick( 'FILE_ATTACHED_' . $THIS_RET['ID'], $file_input_html, $button, '' );
 	}
 
 	if ( ! empty( $_REQUEST['LO_save'] ) )
@@ -285,7 +297,7 @@ function _makeSalariesFileInput( $value, $column )
 
 	$file = button(
 		'download',
-		$file_name_display,
+		'',
 		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . AttrEscape( $file_name . ' (' . $file_size . ')' ) . '"',
 		'bigger'
 	);

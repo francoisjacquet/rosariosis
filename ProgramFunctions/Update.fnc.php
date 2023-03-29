@@ -1089,3 +1089,51 @@ function _update108()
 
 	return $return;
 }
+
+/**
+ * Update to version 10.X
+ *
+ * 1. Add accounting_categories table for extended Accounting Module
+ * 2. Update existing tables "accounting_incomes" & "accounting_payments"
+ *
+ * Local function
+ *
+ * @since 10.X
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update110()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add accounting_categories table for extended Accounting Module
+	 */
+	DBQuery( "CREATE TABLE accounting_categories (
+		id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		syear numeric(4,0) NOT NULL,
+		school_id integer NOT NULL,
+		title text NOT NULL,
+		short_name varchar(10) DEFAULT NULL,
+		type integer(1) NOT NULL COMMENT 'common=0; income=1; expense=2',
+		sort_order decimal(10,0) DEFAULT NULL,
+		created_at timestamp DEFAULT current_timestamp,
+		updated_at timestamp NULL ON UPDATE current_timestamp,
+		FOREIGN KEY (syear,school_id) REFERENCES schools(syear,id)
+	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;" );
+
+	/**
+	 * 2. Update existing tables "accounting_incomes" & "accounting_payments"
+	 */
+	
+	//Add columns to tables
+	DBQuery( "ALTER TABLE accounting_incomes ADD category_id INT DEFAULT NULL AFTER title;");
+	DBQuery( "ALTER TABLE accounting_payments ADD title TEXT NOT NULL AFTER staff_id;");
+	DBQuery( "ALTER TABLE accounting_payments ADD category_id INT DEFAULT NULL AFTER title;");
+
+	return $return;
+}
