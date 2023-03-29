@@ -9,6 +9,9 @@ DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 // Add eventual Dates to $_REQUEST['tables'].
 AddRequestedDates( 'tables', 'post' );
 
+// Get admin's Gradebook Configuration. Empty if does not override individual teacher configuration.
+$gradebook_config = ProgramUserConfig( 'Gradebook' );
+
 // TODO: add Warning before create!!
 if ( isset( $_POST['tables'] )
 	&& ! empty( $_POST['tables'] ) )
@@ -300,14 +303,25 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
+		$points_min = 0;
+
+		$points_tooltip = '<div id="points_tooltip" class="tooltip"><i>' .
+			_( 'Enter 0 so you can give students extra credit' ) .
+			'</i></div>';
+
+		if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+		{
+			// Disable Extra Credit assignments if "Weight Assignments".
+			$points_min = 1;
+
+			$points_tooltip = '';
+		}
+
 		$header .= '<td>' . TextInput(
 			'',
 			'tables[new][POINTS]',
-			_( 'Points' ) .
-				'<div class="tooltip"><i>' .
-					_( 'Enter 0 so you can give students extra credit' ) .
-				'</i></div>',
-			' type="number" min="0" max="9999" required'
+			_( 'Points' ) . $points_tooltip,
+			' type="number" min="' . (int) $points_min . '" max="9999" required'
 		) . '</td>';
 
 		$header .= '<td>' . TextInput(
@@ -319,6 +333,44 @@ if ( ! $_REQUEST['modfunc'] )
 				'</i></div>',
 			' size=4 maxlength=4'
 		) . '</td>';
+
+		if ( empty( $gradebook_config )
+			|| ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+		{
+			// @since 11.0 Add Weight Assignments option
+			$header .= '</tr><tr class="st">';
+
+			$required = ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) ? ' required' : '';
+
+			$header .= '<td colspan="2">' . TextInput(
+				'',
+				'tables[new][WEIGHT]',
+				_( 'Weight' ),
+				' type="number" min="0" max="100"' . $required
+			) . '</td>';
+
+			if ( ! $required )
+			{
+				ob_start();
+
+				// JS handle case: Weight is set => Set min Points to 1 & hide tooltip.
+				?>
+				<script>
+					$('#tablesnewWEIGHT').change(function() {
+						if ($(this).val() != '') {
+							$('#tablesnewPOINTS').attr('min', 1);
+							$('#points_tooltip').hide();
+						} else {
+							$('#tablesnewPOINTS').attr('min', 0);
+							$('#points_tooltip').show().css('display', 'inline-block');
+						}
+					});
+				</script>
+				<?php
+
+				$header .= ob_get_clean();
+			}
+		}
 
 		$header .= '</tr><tr class="st">';
 
@@ -379,15 +431,19 @@ if ( ! $_REQUEST['modfunc'] )
 			'required maxlength=100 size=20'
 		) . '</td>';
 
-		$header .= '<td>' . TextInput(
-			'',
-			'tables[new][FINAL_GRADE_PERCENT]',
-			_( 'Percent of Final Grade' )/* .
-			'<div class="tooltip"><i>' .
-				_( 'Will be applied only if teacher configured his gradebook so grades are Weighted' ) .
-			'</i></div>'*/,
-			'maxlength="5" size="4"'
-		) . '</td>';
+		if ( empty( $gradebook_config )
+			|| $gradebook_config['WEIGHT'] == 'Y' )
+		{
+			$header .= '<td>' . TextInput(
+				'',
+				'tables[new][FINAL_GRADE_PERCENT]',
+				_( 'Percent of Final Grade' )/* .
+				'<div class="tooltip"><i>' .
+					_( 'Will be applied only if teacher configured his gradebook so grades are Weighted' ) .
+				'</i></div>'*/,
+				'maxlength="5" size="4"'
+			) . '</td>';
+		}
 
 		$header .= '<td>' . ColorInput(
 			'',

@@ -562,7 +562,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
 		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,
-			DESCRIPTION,FILE,DEFAULT_POINTS,SUBMISSION,
+			DESCRIPTION,FILE,DEFAULT_POINTS,SUBMISSION,WEIGHT,
 		CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
 		CASE WHEN ASSIGNED_DATE>(SELECT END_DATE
 			FROM school_marking_periods
@@ -710,8 +710,28 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
+		$points_min = 0;
+
+		$points_tooltip = '<div class="tooltip"><i>' .
+			_( 'Enter 0 so you can give students extra credit' ) .
+			'</i></div>';
+
+		if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+		{
+			// Disable Extra Credit assignments if weighting assignments.
+			$points_min = 1;
+
+			$points_tooltip = '';
+
+			if ( isset( $RET['POINTS'] )
+				&& $RET['POINTS'] === '0' )
+			{
+				$RET['POINTS'] = '';
+			}
+		}
+
 		/**
-		 * Note: If the Gradebook is configured to Weight Grades,
+		 * Note: If the Gradebook is configured to Weight Assignment Categories,
 		 * and if there is 1 Extra Credit assignment alone,
 		 * it is useless because Total Points sum 0:
 		 * Division by zero is impossible.
@@ -720,11 +740,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<td>' . TextInput(
 			issetVal( $RET['POINTS'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][POINTS]',
-			_( 'Points' ) .
-			'<div class="tooltip"><i>' .
-			_( 'Enter 0 so you can give students extra credit' ) .
-			'</i></div>',
-			' type="number" min="0" max="9999" required'
+			_( 'Points' ) . $points_tooltip,
+			' type="number" min="' . (int) $points_min . '" max="9999" required'
 		) . '</td>';
 
 		// FJ default points.
@@ -747,6 +764,19 @@ if ( ! $_REQUEST['modfunc'] )
 			'</i></div>',
 			' size=4 maxlength=4'
 		) . '</td>';
+
+		if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
+		{
+			// @since 11.0 Add Weight Assignments option
+			$header .= '</tr><tr class="st">';
+
+			$header .= '<td colspan="2">' . TextInput(
+				issetVal( $RET['WEIGHT'] ),
+				'tables[' . $_REQUEST['assignment_id'] . '][WEIGHT]',
+				_( 'Weight' ),
+				' type="number" min="0" max="100" required'
+			) . '</td>';
+		}
 
 		$header .= '</tr><tr class="st">';
 
