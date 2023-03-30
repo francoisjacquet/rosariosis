@@ -163,6 +163,11 @@ if ( isset( $Timezone ) )
 		}
 	}
 }
+else
+{
+	// Fix PHP error if date.timezone ini setting is an invalid time zone identifier.
+	date_default_timezone_set( date_default_timezone_get() );
+}
 
 // Send email on PHP fatal error.
 register_shutdown_function( 'ErrorSendEmail' );
