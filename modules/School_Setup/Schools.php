@@ -239,7 +239,7 @@ if ( ! $_REQUEST['modfunc'] )
 	TextInput(
 		$schooldata['ZIPCODE'],
 		'values[ZIPCODE]',
-		_( 'Zip' ),
+		_( 'Zip Code' ),
 		'maxlength=10 size=5'
 	) . '</td></tr>';
 

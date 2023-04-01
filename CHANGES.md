@@ -7,6 +7,7 @@ Changes in 11.0
 - Add Weight field in Assignments.php & MassCreateAssignments.php
 - Calculate Weighted Grade in Grades.php, InputFinalGrades.php & ProgressReports.php
 - Add Assignment Weight in StudentGrades.php & StudentAssignments.fnc.php
+- Translate "Zip" & "Zipcode" to "Zip Code" in GetStuList.fnc.php, MyReport.php, Registration.fnc.php, Schools.php & Address.inc.php
 
 Changes in 10.9.1
 -----------------

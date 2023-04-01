@@ -301,7 +301,7 @@ function RegistrationAddress( $name )
 
 	echo '<td>' . TextInput( '', $name . '[STATE]', _( 'State' ), 'size="3" maxlength="50"' ) . '</td>';
 
-	echo '<td>' . TextInput( '', $name . '[ZIPCODE]', _( 'Zip' ), 'size="6" maxlength="10"' ) .
+	echo '<td>' . TextInput( '', $name . '[ZIPCODE]', _( 'Zip Code' ), 'size="6" maxlength="10"' ) .
 		'</td></tr></table>';
 
 	echo TextInput( '', $name . '[PHONE]', _( 'Phone' ), 'maxlength="30"' );

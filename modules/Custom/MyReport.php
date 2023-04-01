@@ -113,7 +113,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'ADDRESS' => _( 'Street' ),
 			'CITY' => _( 'City' ),
 			'STATE' => _( 'State' ),
-			'ZIPCODE' => _( 'Zipcode' ),
+			'ZIPCODE' => _( 'Zip Code' ),
 			'PHONE' => _( 'Phone' ),
 		];
 

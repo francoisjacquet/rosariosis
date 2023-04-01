@@ -964,7 +964,7 @@ if ( ! $_REQUEST['modfunc'] )
 				issetVal( $this_address['ZIPCODE'] ),
 				'ZIPCODE',
 				'address',
-				_( 'Zip' ),
+				_( 'Zip Code' ),
 				$zip_options
 			) . '</td></tr>';
 
@@ -1108,7 +1108,7 @@ if ( ! $_REQUEST['modfunc'] )
 					$this_address['MAIL_ZIPCODE'],
 					'MAIL_ZIPCODE',
 					'address',
-					_( 'Zip' ),
+					_( 'Zip Code' ),
 					[]
 				) . '</td></tr>';
 

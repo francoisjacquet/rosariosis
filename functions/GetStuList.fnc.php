@@ -148,7 +148,7 @@ function GetStuList( &$extra = [] )
 				'ADDRESS' => _( 'Mailing Address' ),
 				'CITY' => _( 'City' ),
 				'STATE' => _( 'State' ),
-				'ZIPCODE' => _( 'Zipcode' ) ]
+				'ZIPCODE' => _( 'Zip Code' ) ]
 				+ $extra['columns_after'];
 
 			// Add Gender + Ethnicity fields if exist.
@@ -322,7 +322,7 @@ function GetStuList( &$extra = [] )
 					'ADDRESS' => _( ucwords( mb_strtolower( str_replace( '_', ' ', $view_address_RET ) ) ) ) . ' ' . _( 'Address' ),
 					'CITY' => _( 'City' ),
 					'STATE' => _( 'State' ),
-					'ZIPCODE' => _( 'Zipcode' ) ];
+					'ZIPCODE' => _( 'Zip Code' ) ];
 
 				if ( $view_address_RET != 'MAILING' )
 				{
