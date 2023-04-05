@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.2
+-----------------
+- Fix Format Contact Field value based on its Type in ViewContact.php
+
 Changes in 10.9.1
 -----------------
 - Fix Anonymous Statistics bar overflow in StudentGrades.php
