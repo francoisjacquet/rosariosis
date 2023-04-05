@@ -1065,7 +1065,7 @@ function DeCodeds( $value, $column, $table = 'auto' )
 
 	if ( $decodeds[ $column ]['SELECT_OPTIONS'][ $value ] != '' )
 	{
-		if ( $_REQUEST['_ROSARIO_PDF']
+		if ( isset( $_REQUEST['_ROSARIO_PDF'] )
 			&& $_REQUEST['LO_save'] )
 		{
 			return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
