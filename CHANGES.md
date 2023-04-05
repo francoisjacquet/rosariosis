@@ -9,6 +9,10 @@ Changes in 11.0
 - Add Assignment Weight in StudentGrades.php & StudentAssignments.fnc.php
 - Translate "Zip" & "Zipcode" to "Zip Code" in GetStuList.fnc.php, MyReport.php, Registration.fnc.php, Schools.php & Address.inc.php
 
+Changes in 10.9.2
+-----------------
+- Fix Format Contact Field value based on its Type in ViewContact.php
+
 Changes in 10.9.1
 -----------------
 - Fix Anonymous Statistics bar overflow in StudentGrades.php
