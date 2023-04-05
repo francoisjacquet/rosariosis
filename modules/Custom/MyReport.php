@@ -150,6 +150,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$LO_columns[ $field_key ] = ParseMLField( $field['TITLE'] );
 		}
 
+		$students_RET = GetStuList( $extra );
+
 		for ( $i = 1; $i <= $maxTV; $i++ )
 		{
 			$LO_columns += [
@@ -157,8 +159,6 @@ if ( ! $_REQUEST['modfunc'] )
 				'VALUE_' . $i => _( 'Value' ) . ' ' . $i,
 			];
 		}
-
-		$students_RET = GetStuList( $extra );
 
 		DrawHeader( $header_left );
 

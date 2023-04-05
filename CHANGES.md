@@ -12,6 +12,7 @@ Changes in 11.0
 Changes in 10.9.2
 -----------------
 - Fix Format Contact Field value based on its Type in ViewContact.php
+- Fix regression add Contact Info columns to list in MyReport.php
 
 Changes in 10.9.1
 -----------------
