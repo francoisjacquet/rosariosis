@@ -8,6 +8,7 @@ Changes in 11.0
 - Calculate Weighted Grade in Grades.php, InputFinalGrades.php & ProgressReports.php
 - Add Assignment Weight in StudentGrades.php & StudentAssignments.fnc.php
 - Translate "Zip" & "Zipcode" to "Zip Code" in GetStuList.fnc.php, MyReport.php, Registration.fnc.php, Schools.php & Address.inc.php
+- HTML Text input min size is 2 in Inputs.php
 
 Changes in 10.9.2
 -----------------

@@ -276,7 +276,8 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['assignment_type']
 		&& $_REQUEST['assignment_type'] !== 'new' )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=gradebook_assignments' ) . '" method="POST">';
+		// Fix URL encode assignment_type value to encode "/"
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . urlencode( $_REQUEST['assignment_type'] ) . '&table=gradebook_assignments' ) . '" method="POST">';
 
 		$submit_button = SubmitButton( _( 'Create Assignment for Selected Course Periods' ) );
 

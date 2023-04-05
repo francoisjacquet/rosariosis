@@ -591,7 +591,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 					foreach ( (array) $link[$key]['variables'] as $var => $val )
 					{
-						$link_url .= '&' . $var . '=' . $item[$val];
+						// Fix URL encode link variable value to encode "/"
+						$link_url .= '&' . $var . '=' . urlencode( $item[$val] );
 					}
 
 					$link_url = URLEscape( $link_url );
