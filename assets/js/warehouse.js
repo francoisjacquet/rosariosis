@@ -490,6 +490,18 @@ var ajaxPopState = function() {
 	}, false);
 };
 
+/**
+ * Fix browser loading cached page when page full reload (F5) + logout + Back button
+ * This will go forward to the last page in the history.
+ * Handle cases when current page was -X steps back in the history
+ *
+ * @link https://stackoverflow.com/questions/21619199/why-is-cache-control-not-working
+ * @link https://huntr.dev/bounties/efe6ef47-d17c-4773-933a-4836c32db85c/
+ */
+for (var historyPage=window.history.length - 1; historyPage>0; historyPage--) {
+	window.history.go(historyPage);
+}
+
 // onunload: Fix for Firefox to execute Javascript on history back.
 window.onunload = function() {};
 
