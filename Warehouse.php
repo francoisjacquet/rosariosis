@@ -908,7 +908,13 @@ function ETagCache( $mode = '' )
 		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] )
 			&& $_SERVER['HTTP_IF_NONE_MATCH'] === $etag )
 		{
-			header( "Cache-Control: private, must-revalidate" );
+			/**
+			 * private means can be stored only in a private cache (e.g. local caches in browsers)
+			 * no-cache does not mean "do not cache" but requires the cache to revalidate it before reuse
+			 *
+			 * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+			 */
+			header( "Cache-Control: private, no-cache" );
 
 			// Page cached: send 304 + empty content.
 			header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
@@ -921,7 +927,7 @@ function ETagCache( $mode = '' )
 
 			if ( ! headers_sent() )
 			{
-				header( "Cache-Control: private, must-revalidate" );
+				header( "Cache-Control: private, no-cache" );
 
 				// Send ETag + content (buffer).
 				header( 'ETag: ' . $etag );

@@ -14,6 +14,7 @@ Changes in 10.9.2
 -----------------
 - Fix Format Contact Field value based on its Type in ViewContact.php
 - Fix regression add Contact Info columns to list in MyReport.php
+- ETag + Cache-Control header: use no-cache directive in Warehouse.php
 
 Changes in 10.9.1
 -----------------
