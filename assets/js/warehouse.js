@@ -492,15 +492,33 @@ var ajaxPopState = function() {
 
 /**
  * Fix browser loading cached page when page full reload (F5) + logout + Back button
- * This will go forward to the last page in the history.
- * Handle cases when current page was -X steps back in the history
+ * This will reload the page
  *
- * @link https://stackoverflow.com/questions/21619199/why-is-cache-control-not-working
+ * @link https://stackoverflow.com/questions/17432899/javascript-bfcache-pageshow-event-event-persisted-always-set-to-false
  * @link https://huntr.dev/bounties/efe6ef47-d17c-4773-933a-4836c32db85c/
  */
-for (var historyPage=window.history.length - 1; historyPage>0; historyPage--) {
-	window.history.go(historyPage);
+if (window.performance && (performance.navigation.type == 2
+	|| (performance.getEntriesByType
+		&& performance.getEntriesByType("navigation")[0]
+		&& performance.getEntriesByType("navigation")[0].type === 'back_forward'))) {
+	location.reload();
 }
+
+window.onpageshow=function(event) {
+	/**
+	 * Same as above for Safari (does not execute Javascript on history back)
+	 * persisted indicates if the document is loading from a cache (not reliable)
+	 *
+	 * @link https://web.dev/bfcache/
+	 */
+	if (event.persisted
+		|| window.performance && (performance.navigation.type == 2
+			|| (performance.getEntriesByType
+				&& performance.getEntriesByType("navigation")[0]
+				&& performance.getEntriesByType("navigation")[0].type === 'back_forward'))) {
+		location.reload();
+	}
+};
 
 // onunload: Fix for Firefox to execute Javascript on history back.
 window.onunload = function() {};
