@@ -367,12 +367,15 @@ function SetUserStudentID( $student_id )
  * If form is displayed for CP A, then Teacher opens a new browser tab and switches to CP B
  * Then teacher submits the form, data would be saved for CP B...
  *
+ * Note: use BEFORE UserImpersonateTeacher()
+ *
  * @since 10.9
  *
  * Student & Parent:
  * Forbidden
  * Teacher:
  * Check $course_period_id is currently taught by (Secondary) Teacher
+ * Set `$_SESSION['is_secondary_teacher']`
  * Admin:
  * Check $course_period_id is taught in current School & Year
  *
@@ -407,7 +410,7 @@ function SetUserCoursePeriod( $course_period_id )
 			$all_mp_sql = $all_mp ? " AND MARKING_PERIOD_ID IN (" . $all_mp . ")" : '';
 
 			// Get all the Course Periods associated with current Teacher
-			$is_teaching_course_period = DBGet( "SELECT 1
+			$is_teaching_course_period = DBGet( "SELECT SECONDARY_TEACHER_ID
 				FROM course_periods
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
@@ -418,6 +421,10 @@ function SetUserCoursePeriod( $course_period_id )
 			if ( ! $is_teaching_course_period )
 			{
 				$isHack = true;
+			}
+			else
+			{
+				$_SESSION['is_secondary_teacher'] = $is_teaching_course_period[1]['SECONDARY_TEACHER_ID'] == User( 'STAFF_ID' );
 			}
 		break;
 
