@@ -4,6 +4,12 @@ require_once 'modules/Grades/includes/ClassRank.inc.php';
 require_once 'modules/Grades/includes/Grades.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period before Secondary Teacher logic.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 {
 	// @since 6.9 Add Secondary Teacher: set User to main teacher.
@@ -27,12 +33,6 @@ if ( ! empty( $_REQUEST['mp'] )
 if ( empty( $_REQUEST['mp'] ) )
 {
 	$_REQUEST['mp'] = UserMP();
-}
-
-if ( ! empty( $_REQUEST['period'] ) )
-{
-	// @since 10.9 Set current User Course Period.
-	SetUserCoursePeriod( $_REQUEST['period'] );
 }
 
 $course_period_id = UserCoursePeriod();
