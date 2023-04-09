@@ -4,12 +4,6 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
-if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
-{
-	// @since 6.9 Add Secondary Teacher: set User to main teacher.
-	UserImpersonateTeacher();
-}
-
 $_REQUEST['assignment_id'] = issetVal( $_REQUEST['assignment_id'], '' );
 $_REQUEST['assignment_type_id'] = issetVal( $_REQUEST['assignment_type_id'], '' );
 
@@ -27,17 +21,23 @@ if ( ! empty( $_REQUEST['assignment_id'] )
 	RedirectURL( 'marking_period_id' );
 }
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period before Secondary Teacher logic.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
+if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
+{
+	// @since 6.9 Add Secondary Teacher: set User to main teacher.
+	UserImpersonateTeacher();
+}
+
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 if ( ! UserCoursePeriod() )
 {
 	echo ErrorMessage( [ _( 'No courses assigned to teacher.' ) ], 'fatal' );
-}
-
-if ( ! empty( $_REQUEST['period'] ) )
-{
-	// @since 10.9 Set current User Course Period.
-	SetUserCoursePeriod( $_REQUEST['period'] );
 }
 
 $gradebook_config = ProgramUserConfig( 'Gradebook' );

@@ -3,6 +3,12 @@
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 require_once 'ProgramFunctions/SchoolPeriodsSelectInput.fnc.php';
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period before Secondary Teacher logic.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 {
 	// @since 6.9 Add Secondary Teacher: set User to main teacher.
@@ -13,12 +19,6 @@ DrawHeader( ProgramTitle() );
 
 // Set date.
 $date = RequestedDate( 'date', DBDate(), 'set' );
-
-if ( ! empty( $_REQUEST['period'] ) )
-{
-	// @since 10.9 Set current User Course Period.
-	SetUserCoursePeriod( $_REQUEST['period'] );
-}
 
 // Fix PostgreSQL error invalid ORDER BY, only result column names can be used
 // Do not use ORDER BY SORT_ORDER IS NULL,SORT_ORDER (nulls last) in UNION.

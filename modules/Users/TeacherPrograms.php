@@ -71,6 +71,7 @@ if ( UserStaffID() )
 
 	if ( ! empty( $_REQUEST['period'] ) )
 	{
+		// @since RosarioSIS 10.9 Set current User Course Period before Secondary Teacher logic.
 		SetUserCoursePeriod( $_REQUEST['period'] );
 	}
 

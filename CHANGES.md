@@ -16,6 +16,7 @@ Changes in 10.9.2
 - Fix regression add Contact Info columns to list in MyReport.php
 - ETag + Cache-Control header: use no-cache directive in Warehouse.php
 - Set `$_SESSION['is_secondary_teacher']` in SetUserCoursePeriod() in Current.php
+- Fix Set current User Course Period before Secondary Teacher logic in TakeAttendance.php, AnomalousGrades.php, Assignments.php, Grades.php, InputFinalGrades.php & ProgressReports.php
 - Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
 
 Changes in 10.9.1

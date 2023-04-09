@@ -7,16 +7,16 @@
 require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
+if ( ! empty( $_REQUEST['period'] ) )
+{
+	// @since 10.9 Set current User Course Period before Secondary Teacher logic.
+	SetUserCoursePeriod( $_REQUEST['period'] );
+}
+
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 {
 	// @since 6.9 Add Secondary Teacher: set User to main teacher.
 	UserImpersonateTeacher();
-}
-
-if ( ! empty( $_REQUEST['period'] ) )
-{
-	// @since 10.9 Set current User Course Period.
-	SetUserCoursePeriod( $_REQUEST['period'] );
 }
 
 $_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'] );
