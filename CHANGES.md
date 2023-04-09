@@ -10,6 +10,10 @@ Changes in 11.0
 - Translate "Zip" & "Zipcode" to "Zip Code" in GetStuList.fnc.php, MyReport.php, Registration.fnc.php, Schools.php & Address.inc.php
 - HTML Text input min size is 2 in Inputs.php
 
+Changes in 10.9.3
+-----------------
+- Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
+
 Changes in 10.9.2
 -----------------
 - Fix Format Contact Field value based on its Type in ViewContact.php
@@ -17,7 +21,6 @@ Changes in 10.9.2
 - ETag + Cache-Control header: use no-cache directive in Warehouse.php
 - Set `$_SESSION['is_secondary_teacher']` in SetUserCoursePeriod() in Current.php
 - Fix Set current User Course Period before Secondary Teacher logic in TakeAttendance.php, AnomalousGrades.php, Assignments.php, Grades.php, InputFinalGrades.php & ProgressReports.php
-- Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
 
 Changes in 10.9.1
 -----------------

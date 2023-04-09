@@ -497,27 +497,31 @@ var ajaxPopState = function() {
  * @link https://stackoverflow.com/questions/17432899/javascript-bfcache-pageshow-event-event-persisted-always-set-to-false
  * @link https://huntr.dev/bounties/efe6ef47-d17c-4773-933a-4836c32db85c/
  */
-if (window.performance && (performance.navigation.type == 2
-	|| (performance.getEntriesByType
-		&& performance.getEntriesByType("navigation")[0]
-		&& performance.getEntriesByType("navigation")[0].type === 'back_forward'))) {
-	location.reload();
-}
+function browserHistoryCacheBuster(event) {
+	if (location.href.indexOf('Modules.php?') === -1) {
+		// Current page is not Modules.php, no login required, skip.
+		return;
+	}
 
-window.onpageshow=function(event) {
-	/**
-	 * Same as above for Safari (does not execute Javascript on history back)
-	 * persisted indicates if the document is loading from a cache (not reliable)
-	 *
-	 * @link https://web.dev/bfcache/
-	 */
-	if (event.persisted
+	// persisted indicates if the document is loading from a cache (not reliable)
+	if ((event && event.persisted)
 		|| window.performance && (performance.navigation.type == 2
 			|| (performance.getEntriesByType
 				&& performance.getEntriesByType("navigation")[0]
 				&& performance.getEntriesByType("navigation")[0].type === 'back_forward'))) {
 		location.reload();
 	}
+}
+
+browserHistoryCacheBuster();
+
+/**
+ * onpageshow: Same as above for Safari (does not execute Javascript on history back)
+ *
+ * @link https://web.dev/bfcache/
+ */
+window.onpageshow=function(event) {
+	browserHistoryCacheBuster(event);
 };
 
 // onunload: Fix for Firefox to execute Javascript on history back.
