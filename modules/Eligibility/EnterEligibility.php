@@ -2,7 +2,7 @@
 
 if ( ! empty( $_REQUEST['period'] ) )
 {
-	// @since 10.9 Set current User Course Period.
+	// @since 10.9 Set current User Course Period before Secondary Teacher logic.
 	SetUserCoursePeriod( $_REQUEST['period'] );
 }
 
