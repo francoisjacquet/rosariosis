@@ -9,6 +9,7 @@ Changes in 11.0
 - Add Assignment Weight in StudentGrades.php & StudentAssignments.fnc.php
 - Translate "Zip" & "Zipcode" to "Zip Code" in GetStuList.fnc.php, MyReport.php, Registration.fnc.php, Schools.php & Address.inc.php
 - HTML Text input min size is 2 in Inputs.php
+- Skip School Period column if has no students scheduled for selected date in Administration.php
 
 Changes in 10.9.3
 -----------------

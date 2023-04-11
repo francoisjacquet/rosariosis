@@ -490,8 +490,32 @@ else
 	$extra['Redirect'] = false;
 	$extra['new'] = true;
 
+	$students_RET = GetStuList( $extra );
+
+	$student_ids = [];
+
+	foreach ( $students_RET as $student )
+	{
+		$student_ids[] = $student['STUDENT_ID'];
+	}
+
+	if ( $student_ids )
+	{
+		$current_schedules_RET = DBGet( str_replace(
+			"='__student_id__'",
+			" IN('" . implode( "','", $student_ids ) . "')",
+			$current_schedule_Q
+		), [], [ 'PERIOD_ID' ] );
+	}
+
 	foreach ( (array) $periods_RET as $period )
 	{
+		if ( empty( $current_schedules_RET[ $period['PERIOD_ID'] ] ) )
+		{
+			// @since 11.0 Skip School Period column if has no students scheduled for selected date
+			continue;
+		}
+
 		$extra['SELECT'] .= ",s.STUDENT_ID AS PERIOD_" . $period['PERIOD_ID'];
 		$extra['functions']['PERIOD_' . $period['PERIOD_ID']] = '_makeCodePulldown';
 		$extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period['SHORT_NAME'];
