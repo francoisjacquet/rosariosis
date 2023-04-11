@@ -7,6 +7,7 @@ Changes in 10.9.2
 - Fix regression add Contact Info columns to list in MyReport.php
 - Set `$_SESSION['is_secondary_teacher']` in SetUserCoursePeriod() in Current.php
 - Fix Set current User Course Period before Secondary Teacher logic in TakeAttendance.php, AnomalousGrades.php, Assignments.php, Grades.php, InputFinalGrades.php & ProgressReports.php
+- SQL Show Gradebook Grades of Inactive Students (Only if has grades) in StudentGrades.php
 
 Changes in 10.9.1
 -----------------
