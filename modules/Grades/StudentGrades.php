@@ -27,13 +27,18 @@ if ( UserStudentID()
 	//FJ multiple school periods for a course period
 	/*$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM schedule s,course_periods cp,courses c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User( 'PROFILE' ) === 'teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM school_periods WHERE PERIOD_ID=cp.PERIOD_ID)",array(),array('COURSE_PERIOD_ID'));*/
 
-	// @since 10.9.1 SQL Show Gradebook Grades of Inactive Students (Course status, maybe dropped as of today)
+	// @since 10.9.1 SQL Show Gradebook Grades of Inactive Students (Course status, maybe dropped as of today) (Only if has grades)
 	$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID
 	FROM schedule s,course_periods cp,courses c
 	WHERE s.SYEAR='" . UserSyear() . "'
 	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 	AND s.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 	AND '" . DBDate() . "'>=s.START_DATE
+	AND ((s.END_DATE IS NULL OR '" . DBDate() . "'<=s.END_DATE)
+		OR EXISTS(SELECT 1 FROM gradebook_grades gg
+		WHERE gg.STUDENT_ID=s.STUDENT_ID
+		AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		LIMIT 1))
 	AND s.STUDENT_ID='" . UserStudentID() . "'
 	AND cp.GRADE_SCALE_ID IS NOT NULL" .
 		( User( 'PROFILE' ) === 'teacher' ? ' AND cp.TEACHER_ID=\'' . User( 'STAFF_ID' ) . '\'' : '' ) . "
