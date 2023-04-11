@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.3
+-----------------
+- Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
+
 Changes in 10.9.2
 -----------------
 - Fix Format Contact Field value based on its Type in ViewContact.php
