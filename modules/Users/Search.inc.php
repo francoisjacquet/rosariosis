@@ -293,7 +293,8 @@ else
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
-			if ( $_SESSION['Back_PHP_SELF'] != 'staff' )
+			if ( ! isset( $_SESSION['Back_PHP_SELF'] )
+				|| $_SESSION['Back_PHP_SELF'] !== 'staff' )
 			{
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset( $_SESSION['Search_PHP_SELF'] );
