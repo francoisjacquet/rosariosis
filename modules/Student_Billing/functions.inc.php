@@ -429,7 +429,8 @@ function _saveFeesFile( $id )
 		mb_strrpos( $_FILES[ $input ]['name'], '.' )
 	) );
 
-	$file_name_no_ext .= '_' . date( 'Y-m-d_His' );
+	// @since 11.0 Add microseconds to filename format to make it harder to predict.
+	$file_name_no_ext .= '_' . date( 'Y-m-d_His' ) . '.' . substr( (string) microtime(), 2, 6 );
 
 	$file_attached = FileUpload(
 		$input,

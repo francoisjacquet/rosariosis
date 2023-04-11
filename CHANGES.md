@@ -10,6 +10,7 @@ Changes in 11.0
 - Translate "Zip" & "Zipcode" to "Zip Code" in GetStuList.fnc.php, MyReport.php, Registration.fnc.php, Schools.php & Address.inc.php
 - HTML Text input min size is 2 in Inputs.php
 - Skip School Period column if has no students scheduled for selected date in Administration.php
+- Add microseconds to filename format to make it harder to predict in FileUpload.fnc.php, Accounting/functions.php, PortalNotes.php & Student_Billing/functions.php
 
 Changes in 10.9.3
 -----------------

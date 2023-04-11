@@ -408,7 +408,8 @@ function FilesUploadUpdate( $table, $request, $path, $id = 0 )
 			mb_strrpos( $_FILES[ $input ]['name'], '.' )
 		) );
 
-		$file_name_no_ext .= '_' . date( 'Y-m-d_His' );
+		// @since 11.0 Add microseconds to filename format to make it harder to predict.
+		$file_name_no_ext .= '_' . date( 'Y-m-d_His' ) . '.' . substr( (string) microtime(), 2, 6 );
 
 		$new_file = FileUpload(
 			$input,

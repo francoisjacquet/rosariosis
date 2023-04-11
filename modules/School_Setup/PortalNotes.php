@@ -127,12 +127,24 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				if ( isset( $_FILES['FILE_ATTACHED_FILE'] ) )
 				{
+					$file_name_no_ext = no_accents( mb_substr(
+						$_FILES['FILE_ATTACHED_FILE']['name'],
+						0,
+						mb_strrpos( $_FILES['FILE_ATTACHED_FILE']['name'], '.' )
+					) );
+
+					// @since 11.0 Add microseconds to filename format to make it harder to predict.
+					$file_name_no_ext .= '_' . date( 'Y-m-d_His' ) . '.' . substr( (string) microtime(), 2, 6 );
+
+					// File attached to portal notes
 					$columns['FILE_ATTACHED'] = FileUpload(
 						'FILE_ATTACHED_FILE',
 						$PortalNotesFilesPath,
 						FileExtensionWhiteList(),
 						0,
-						$error
+						$error,
+						'',
+						$file_name_no_ext
 					);
 
 					// @since 6.8 Fix SQL error when quote in uploaded file name.
