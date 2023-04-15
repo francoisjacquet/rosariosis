@@ -490,7 +490,9 @@ else
 	$extra['Redirect'] = false;
 	$extra['new'] = true;
 
-	$students_RET = GetStuList( $extra );
+	$extra3 = $extra;
+
+	$students_RET = GetStuList( $extra3 );
 
 	$student_ids = [];
 
