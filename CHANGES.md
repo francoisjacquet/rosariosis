@@ -11,6 +11,7 @@ Changes in 11.0
 - HTML Text input min size is 2 in Inputs.php
 - Skip School Period column if has no students scheduled for selected date in Administration.php
 - Add microseconds to filename format to make it harder to predict in FileUpload.fnc.php, Accounting/functions.php, PortalNotes.php & Student_Billing/functions.php
+- Remove UserCoursePeriodSchoolPeriod() & UserPeriod() functions in Current.php
 
 Changes in 10.9.3
 -----------------

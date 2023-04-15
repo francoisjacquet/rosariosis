@@ -42,26 +42,6 @@ function UserMP()
 
 
 /**
- * User Period
- *
- * @deprecated since 6.9 is not used anymore.
- *
- * @return int Current User Period ID or null
- */
-function UserPeriod()
-{
-	if ( ! UserCoursePeriod() )
-	{
-		return null;
-	}
-
-	return DBGetOne( "SELECT PERIOD_ID
-		FROM course_period_school_periods
-		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );;
-}
-
-
-/**
  * User Course Period
  * (Teachers & Admins using Teacher Programs only)
  *
@@ -70,30 +50,6 @@ function UserPeriod()
 function UserCoursePeriod()
 {
 	return issetVal( $_SESSION['UserCoursePeriod'] );
-}
-
-
-/**
- * User Course Period School Period
- * (Teachers & Admins using Teacher Programs only)
- *
- * FJ multiple school periods for a course period
- *
- * @deprecated since 6.9 Use UserPeriod() + UserCoursePeriod() instead.
- *
- * @return int Current User Course Period School Period ID or null
- */
-function UserCoursePeriodSchoolPeriod()
-{
-	if ( ! UserCoursePeriod() )
-	{
-		return null;
-	}
-
-	return DBGetOne( "SELECT COURSE_PERIOD_SCHOOL_PERIODS_ID
-		FROM course_period_school_periods
-		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
-		( UserPeriod() ? "AND PERIOD_ID='" . UserPeriod() . "'" : "" ) );
 }
 
 
