@@ -390,7 +390,7 @@ CREATE TABLE access_log (
     syear numeric(4,0) NOT NULL,
     username varchar(100),
     profile varchar(30),
-    login_time datetime,
+    login_time datetime, -- @deprecated since 11.0 use created_at instead
     ip_address varchar(50),
     user_agent text,
     status varchar(50),

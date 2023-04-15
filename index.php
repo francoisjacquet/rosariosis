@@ -176,7 +176,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			COUNT(CASE WHEN STATUS IS NULL OR STATUS='B' THEN 1 END) AS FAILED_COUNT,
 			COUNT(CASE WHEN STATUS='B' THEN 1 END) AS BANNED_COUNT
 			FROM access_log
-			WHERE LOGIN_TIME > (CURRENT_TIMESTAMP - INTERVAL " . ( $DatabaseType === 'mysql' ? '10 minute' : "'10 minute'" ) . ")
+			WHERE CREATED_AT > (CURRENT_TIMESTAMP - INTERVAL " . ( $DatabaseType === 'mysql' ? '10 minute' : "'10 minute'" ) . ")
 			AND USER_AGENT='" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) . "'
 			AND IP_ADDRESS='" . $ip . "'" );
 
@@ -282,11 +282,10 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( ! function_exists( 'AccessLogRecord' ) )
 	{
 		DBQuery( "INSERT INTO access_log
-			(SYEAR,USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,USER_AGENT,STATUS)
+			(SYEAR,USERNAME,PROFILE,IP_ADDRESS,USER_AGENT,STATUS)
 			values('" . Config( 'SYEAR' ) . "',
 			'" . $username . "',
 			'" . User( 'PROFILE' ) . "',
-			CURRENT_TIMESTAMP,
 			'" . $ip . "',
 			'" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) .
 			"','" . $login_status . "' )" );

@@ -56,16 +56,16 @@ if ( ! $_REQUEST['modfunc'] )
 		'STATUS' => '_makeAccessLogStatus', // Translate status.
 		'PROFILE' => '_makeAccessLogProfile', // Translate profile.
 		'USERNAME' => '_makeAccessLogUsername', // Add link to user info.
-		'LOGIN_TIME' => 'ProperDateTime', // Display localized & preferred Date & Time.
+		'CREATED_AT' => 'ProperDateTime', // Display localized & preferred Date & Time.
 		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
 	];
 
 	$access_logs_RET = DBGet( "SELECT
-		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS,USER_AGENT
+		DISTINCT USERNAME,PROFILE,CREATED_AT,IP_ADDRESS,STATUS,USER_AGENT
 		FROM access_log
-		WHERE LOGIN_TIME >='" . $start_date . "'
-		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
-		ORDER BY LOGIN_TIME DESC
+		WHERE CREATED_AT >='" . $start_date . "'
+		AND CREATED_AT <='" . $end_date . ' 23:59:59' . "'
+		ORDER BY CREATED_AT DESC
 		LIMIT 3000", $access_logs_functions );
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete' ) . '" method="POST">';
@@ -75,7 +75,7 @@ if ( ! $_REQUEST['modfunc'] )
 	ListOutput(
 		$access_logs_RET,
 		[
-			'LOGIN_TIME' => _( 'Date' ),
+			'CREATED_AT' => _( 'Date' ),
 			'USERNAME' => _( 'Username' ),
 			'PROFILE' => _( 'User Profile' ),
 			'STATUS' => _( 'Status' ),

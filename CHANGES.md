@@ -12,6 +12,7 @@ Changes in 11.0
 - Skip School Period column if has no students scheduled for selected date in Administration.php
 - Add microseconds to filename format to make it harder to predict in FileUpload.fnc.php, Accounting/functions.php, PortalNotes.php & Student_Billing/functions.php
 - Remove UserCoursePeriodSchoolPeriod() & UserPeriod() functions in Current.php
+- SQL access_log: deprecate LOGIN_TIME column, use CREATED_AT instead in index.php, AccessLog.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 10.9.3
 -----------------
