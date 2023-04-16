@@ -18,6 +18,7 @@ Changes in 11.0
 Changes in 10.9.3
 -----------------
 - Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
+- Fix Edge browser detection in UserAgent.fnc.php
 
 Changes in 10.9.2
 -----------------

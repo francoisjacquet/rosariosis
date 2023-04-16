@@ -69,7 +69,7 @@ function GetUserAgentBrowser( $user_agent )
 	{
 		return 'Opera';
 	}
-	elseif ( strpos( $user_agent, 'Edge' ) )
+	elseif ( strpos( $user_agent, 'Edg/' ) )
 	{
 		return 'Edge';
 	}
