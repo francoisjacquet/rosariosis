@@ -115,14 +115,14 @@ DashboardOutput();
 $portal_LO_options = [ 'save' => false, 'search' => false ];
 
 $notes_LO_columns = [
-	'PUBLISHED_DATE' => _( 'Date Posted' ),
+	'CREATED_AT' => _( 'Date Posted' ),
 	'TITLE' => _( 'Title' ),
 	'CONTENT' => _( 'Note' ),
 	'FILE_ATTACHED' => _( 'File Attached' ),
 ];
 
 $polls_LO_columns = [
-	'PUBLISHED_DATE' => _( 'Date Posted' ),
+	'CREATED_AT' => _( 'Date Posted' ),
 	'TITLE' => _( 'Title' ),
 	'OPTIONS' => _( 'Poll' ),
 ];
@@ -184,8 +184,8 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
-		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC",array('CREATED_AT' => 'ProperDate','CONTENT' => '_formatContent'));
+		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM portal_notes pn,schools s,staff st
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
@@ -195,9 +195,9 @@ switch ( User( 'PROFILE' ) )
 		AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",
+		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC",
 			[
-				'PUBLISHED_DATE' => 'ProperDate',
+				'CREATED_AT' => 'ProperDate',
 				'CONTENT' => 'makeTextarea',
 				'FILE_ATTACHED' => 'makeFileAttached',
 			] );
@@ -216,7 +216,7 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		//FJ Portal Polls
-		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
+		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
 		FROM portal_polls pp,schools s,staff st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
@@ -225,7 +225,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pp.SCHOOL_ID, ',') IN st.SCHOOLS)>0)
 		AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pp.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
+		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -484,8 +484,8 @@ switch ( User( 'PROFILE' ) )
 	case 'teacher':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 		//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
-		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC",array('CREATED_AT' => 'ProperDate','CONTENT' => '_formatContent'));
+		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pn.TITLE, '</b>') AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM portal_notes pn,schools s,staff st
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
@@ -496,7 +496,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
+		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
 
 		if ( $notes_RET )
 		{
@@ -512,7 +512,7 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ Portal Polls.
-		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
+		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
 		FROM portal_polls pp,schools s,staff st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
@@ -523,7 +523,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(CONCAT(',', st.PROFILE_ID, ',') IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
+		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -748,8 +748,8 @@ switch ( User( 'PROFILE' ) )
 	case 'parent':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM students_join_users sju, student_enrollment se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
-		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,pn.TITLE,pn.CONTENT FROM portal_notes pn,schools s,staff st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM students_join_users sju, student_enrollment se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(CONCAT(',', pn.SCHOOL_ID, ',') IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC",array('CREATED_AT' => 'ProperDate','CONTENT' => '_formatContent'));
+		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM portal_notes pn,schools s,staff st
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
@@ -760,7 +760,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(CONCAT(',', st.PROFILE_ID, ',') IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
+		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
 
 		if ( $notes_RET )
 		{
@@ -776,7 +776,7 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ Portal Polls.
-		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
+		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.CREATED_AT) AS CREATED_AT,CONCAT('<b>', pp.TITLE, '</b>') AS TITLE,'options' AS OPTIONS,pp.ID
 		FROM portal_polls pp,schools s,staff st
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
@@ -787,7 +787,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(CONCAT(',', st.PROFILE_ID, ',') IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
+		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -937,8 +937,8 @@ switch ( User( 'PROFILE' ) )
 	case 'student':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
-		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM portal_notes pn,schools s WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
-		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,pn.TITLE,pn.CONTENT FROM portal_notes pn,schools s WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC",array('CREATED_AT' => 'ProperDate','CONTENT' => '_formatContent'));
+		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.CREATED_AT) AS CREATED_AT,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM portal_notes pn,schools s
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
@@ -947,7 +947,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(',0,' IN pn.PUBLISHED_PROFILES)>0
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
+		ORDER BY pn.SORT_ORDER IS NULL,pn.SORT_ORDER,pn.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
 
 		if ( $notes_RET )
 		{
@@ -964,7 +964,7 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Polls.
 		// FJ Portal Polls add students teacher.
-		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,pp.TITLE,'options' AS OPTIONS,pp.ID
+		$polls_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pp.CREATED_AT) AS CREATED_AT,pp.TITLE,'options' AS OPTIONS,pp.ID
 		FROM portal_polls pp,schools s
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
@@ -974,7 +974,7 @@ switch ( User( 'PROFILE' ) )
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
 		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM schedule sch, course_periods cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
-		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
+		ORDER BY pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.CREATED_AT DESC", [ 'CREATED_AT' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{

@@ -143,9 +143,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 				'';
 
 				$sql = "INSERT INTO portal_polls ";
-				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
+				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_USER,';
 
-				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
+				$values = "'" . UserSchool() . "','" . UserSyear() . "','" . User( 'STAFF_ID' ) . "',";
 
 				$go = 0;
 				$sql_question = "INSERT INTO portal_poll_questions ";
@@ -259,7 +259,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM portal_polls pp
 			WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 			AND pp.SYEAR='" . UserSyear() . "'
-			ORDER BY EXPIRED DESC,pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",
+			ORDER BY EXPIRED DESC,pp.SORT_ORDER IS NULL,pp.SORT_ORDER,pp.CREATED_AT DESC",
 		[
 			'TITLE' => '_makeTextInput',
 			'OPTIONS' => '_makeOptionsInputs',

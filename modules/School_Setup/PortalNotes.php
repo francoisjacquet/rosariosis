@@ -119,9 +119,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "INSERT INTO portal_notes ";
 
 				//FJ file attached to portal notes
-				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
+				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_USER,';
 
-				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
+				$values = "'" . UserSchool() . "','" . UserSyear() . "','" . User( 'STAFF_ID' ) . "',";
 				// @since 10.9 Fix security issue, unset any FILE_ATTACHED column first.
 				$columns['FILE_ATTACHED'] = '';
 
@@ -229,7 +229,7 @@ if ( ! $_REQUEST['modfunc'] )
 	FROM portal_notes
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	ORDER BY EXPIRED DESC,SORT_ORDER IS NULL,SORT_ORDER,PUBLISHED_DATE DESC", [
+	ORDER BY EXPIRED DESC,SORT_ORDER IS NULL,SORT_ORDER,CREATED_AT DESC", [
 		'TITLE' => '_makeTextInput',
 		'CONTENT' => '_makeContentInput',
 		'SORT_ORDER' => '_makeTextInput',

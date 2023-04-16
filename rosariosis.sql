@@ -1328,7 +1328,7 @@ CREATE TABLE portal_notes (
     content text,
     sort_order numeric,
     published_user integer,
-    published_date timestamp, -- TODO use created_at instead
+    published_date timestamp, -- @deprecated since 11.0 use created_at instead
     start_date date,
     end_date date,
     published_profiles text,
@@ -1368,7 +1368,7 @@ CREATE TABLE portal_polls (
     display_votes varchar(1),
     sort_order numeric,
     published_user integer,
-    published_date timestamp, -- TODO use created_at instead
+    published_date timestamp, -- @deprecated since 11.0 use created_at instead
     start_date date,
     end_date date,
     published_profiles text,
