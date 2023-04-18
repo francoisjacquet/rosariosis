@@ -173,6 +173,9 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				else
 				{
+					// Handle Points decimal with comma instead of point, ie "10,5"
+					$columns['POINTS'] = str_replace( ',', '.', $columns['POINTS'] );
+
 					if ( mb_substr( $columns['POINTS'], -1 ) == '%' )
 					{
 						$columns['POINTS'] = mb_substr( $columns['POINTS'], 0, -1 ) * $assignments_RET[$assignment_id][1]['POINTS'] / 100;
