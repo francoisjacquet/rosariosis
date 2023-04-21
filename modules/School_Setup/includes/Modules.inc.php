@@ -217,13 +217,23 @@ if ( $_REQUEST['modfunc'] === 'activate'
 				DBQuery( $install_sql );
 			}
 
-			$locale_code = mb_substr( $locale, 0, 2 );
+			// @since 10.9.3 Add-on SQL translation file can be named "install_es.sql" or "install_pt_BR.sql"
+			$install_locale_paths = [
+				'modules/' . $_REQUEST['module'] . '/install_' . mb_substr( $locale, 0, 2 ) . '.sql',
+				'modules/' . $_REQUEST['module'] . '/install_' . mb_substr( $locale, 0, 5 ) . '.sql',
+			];
 
-			if ( file_exists( 'modules/' . $_REQUEST['module'] . '/install_' . $locale_code . '.sql' ) )
+			foreach ( $install_locale_paths as $install_locale_path )
 			{
-				// @since 7.3 Translate database on add-on install: run 'install_fr.sql' file.
-				$install_locale_sql = file_get_contents( 'modules/' . $_REQUEST['module'] . '/install_' . $locale_code . '.sql' );
-				DBQuery( $install_locale_sql );
+				if ( file_exists( $install_locale_path ) )
+				{
+					// @since 7.3 Translate database on add-on install: run 'install_fr.sql' file.
+					$install_locale_sql = file_get_contents( $install_locale_path );
+
+					DBQuery( $install_locale_sql );
+
+					break;
+				}
 			}
 
 			$update_RosarioModules = true;

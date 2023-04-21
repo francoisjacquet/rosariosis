@@ -21,6 +21,7 @@ Changes in 10.9.3
 -----------------
 - Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
 - Fix Edge browser detection in UserAgent.fnc.php
+- Add-on SQL translation file can be named "install_es.sql" or "install_pt_BR.sql" in Modules.inc.php & Plugins.inc.php
 
 Changes in 10.9.2
 -----------------
