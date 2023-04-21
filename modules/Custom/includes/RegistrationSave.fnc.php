@@ -178,7 +178,7 @@ function RegistrationSaveStudent( $config, $values )
 		return false;
 	}
 
-	$category_ids = "'" . str_replace( '||', "','", mb_substr( $config['fields'], 2, -2 ) ) . "'";
+	$category_ids = "'" . str_replace( '||', "','", trim( $config['fields'], '||' ) ) . "'";
 
 	$custom_fields_RET = DBGet( "SELECT ID
 		FROM custom_fields

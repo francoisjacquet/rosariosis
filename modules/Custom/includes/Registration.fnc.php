@@ -316,7 +316,7 @@ function RegistrationAddress( $name )
  */
 function RegistrationContactInfo( $name, $info, $info_required )
 {
-	$fields = explode( '||', mb_substr( $info, 2, -2 ) );
+	$fields = explode( '||', trim( $info, '||' ) );
 
 	$required = $info_required ? ' required' : '';
 
@@ -348,7 +348,7 @@ function RegistrationContactFields( $name, $categories )
 	global $request,
 		$field;
 
-	$category_ids = "'" . str_replace( '||', "','", mb_substr( $categories, 2, -2 ) ) . "'";
+	$category_ids = "'" . str_replace( '||', "','", trim( $categories, '||' ) ) . "'";
 
 	$request = $name . '[fields]';
 
@@ -416,7 +416,7 @@ function RegistrationAddressFields( $name, $categories )
 	global $request,
 		$field;
 
-	$category_ids = "'" . str_replace( '||', "','", mb_substr( $categories, 2, -2 ) ) . "'";
+	$category_ids = "'" . str_replace( '||', "','", trim( $categories, '||' ) ) . "'";
 
 	$request = $name . '[fields]';
 
@@ -477,7 +477,7 @@ function RegistrationStudentFields( $name, $categories )
 	global $field,
 		$value;
 
-	$category_ids = explode( '||', mb_substr( $categories, 2, -2 ) );
+	$category_ids = explode( '||', trim( $categories, '||' ) );
 
 	$separator = '';
 
