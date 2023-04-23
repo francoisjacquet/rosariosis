@@ -16,6 +16,7 @@ Changes in 11.0
 - SQL portal_notes & portal_polls: deprecate PUBLISHED_DATE column, use CREATED_AT instead in PortalNotes.php, PortalPolls.php, Portal.php, rosariosis.sql & rosariosis_mysql.sql
 - Truncate column title to 36 chars if > 36 chars in MyReport.php
 - Handle Points decimal with comma instead of point, ie "10,5" in Grades.php
+- Increase default Password Strength from 1 to 2 in rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 10.9.4
 -----------------
