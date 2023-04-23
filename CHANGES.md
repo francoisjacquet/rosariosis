@@ -19,6 +19,7 @@ Changes in 11.0
 
 Changes in 10.9.4
 -----------------
+- Fix save multiple SelectInput() when none selected, add hidden empty input (only if $allow_na) in Inputs.php
 - Save when none selected, add hidden empty input (Grade Levels) in Resources.php & Resources.fnc.php
 
 Changes in 10.9.3
