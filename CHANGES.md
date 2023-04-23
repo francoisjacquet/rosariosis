@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.4
+-----------------
+- Save when none selected, add hidden empty input (Grade Levels) in Resources.php & Resources.fnc.php
+
 Changes in 10.9.3
 -----------------
 - Security Fix browser loading cached page when page full reload (F5) + logout + Back button in warehouse.js, thanks to @b1tch3s
