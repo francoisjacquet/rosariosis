@@ -18,6 +18,7 @@ Changes in 11.0
 - Handle Points decimal with comma instead of point, ie "10,5" in Grades.php
 - Increase default Password Strength from 1 to 2 in rosariosis.sql & rosariosis_mysql.sql
 - PostgreSQL rename "rank" to "class_rank" in set_class_rank_mp() for consistency with MySQL in rosariosis.sql
+- HTML put "" around the link href if no spaces in $link & no other attributes in Buttons.php & program wide
 
 Changes in 10.9.4
 -----------------

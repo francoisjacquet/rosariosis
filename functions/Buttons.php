@@ -35,14 +35,15 @@ function Buttons( $submit_value, $reset_value = '' )
  * Image button with optional text & link
  *
  * @example echo button( 'x', '', '', 'bigger' );
- * @example echo button( 'remove', '', '"' . URLEscape( 'remove_url.php' ) . '"' );
+ * @example echo button( 'remove', '', URLEscape( 'remove_url.php' ) );
  * @example echo button( 'add', '', '"#!" onclick="javascript:popup.open();"' );
  *
  * @since 4.0 Allow for button files missing the "_button" suffix.
+ * @since 11.0 HTML put "" around the link href if no spaces in $link & no other attributes
  *
  * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image.
  * @param  string $text  button text (optional).
- * @param  string $link  button link (optional). Use URLEscape() to encode URL! Add double quotes '"' around URL!
+ * @param  string $link  button link (optional). Use URLEscape() to encode URL!
  * @param  string $class CSS classes (optional).
  *
  * @return string        button HTML
@@ -59,6 +60,13 @@ function button( $type, $text = '', $link = '', $class = '' )
 			&& ! $text )
 		{
 			$title = ' title="' . AttrEscape( _( 'Delete' ) ) . '"';
+		}
+
+		if ( mb_strpos( $link, ' ' ) === false
+			&& mb_strpos( $link, '"' ) === false )
+		{
+			// HTML put "" around the link href if no spaces in $link & no other attributes.
+			$link = '"' . $link . '"';
 		}
 
 		// Dont put "" around the link href to allow Javascript code insert.

@@ -999,7 +999,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$links_right = button(
 			'add',
 			_( 'Create' ),
-			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '"'
+			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' )
 		);
 
 		if ( $_REQUEST['calendar_id'] )
@@ -1008,12 +1008,12 @@ if ( ! $_REQUEST['modfunc'] )
 			button(
 				'pencil',
 				_( 'Edit' ),
-				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
+				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] )
 			) . ' &nbsp; ' .
 			button(
 				'remove',
 				_( 'Delete' ),
-				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
+				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] )
 			);
 		}
 	}

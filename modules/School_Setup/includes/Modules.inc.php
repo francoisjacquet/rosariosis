@@ -393,7 +393,7 @@ function _makeDelete( $module_title, $activated = null )
 			$return = button(
 				'remove',
 				_( 'Deactivate' ),
-				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=deactivate&module=' . $module_title ) . '"'
+				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=deactivate&module=' . $module_title )
 			);
 		}
 	}
@@ -404,7 +404,7 @@ function _makeDelete( $module_title, $activated = null )
 			$return = button(
 				'add',
 				_( 'Activate' ),
-				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=activate&module=' . $module_title ) . '"'
+				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=activate&module=' . $module_title )
 			);
 
 			// @since 8.0 Add-on disable delete.
@@ -422,7 +422,7 @@ function _makeDelete( $module_title, $activated = null )
 				button(
 					'remove',
 					_( 'Delete' ),
-					'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=delete&module=' . $module_title ) . '"'
+					URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=delete&module=' . $module_title )
 				);
 			}
 		}
