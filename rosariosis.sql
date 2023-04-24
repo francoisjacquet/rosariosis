@@ -175,7 +175,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION set_class_rank_mp(mp_id integer) RETURNS integer AS $$
 BEGIN
 update student_mp_stats
-set cum_rank = rank.rank, class_size = rank.class_size
+set cum_rank = class_rank.class_rank, class_size = class_rank.class_size
 from (select mp.marking_period_id, sgm.student_id,
     (select count(*)+1
         from student_mp_stats sgm3
@@ -185,7 +185,7 @@ from (select mp.marking_period_id, sgm.student_id,
             from student_mp_stats sgm2, student_enrollment se2
             where sgm2.student_id = se2.student_id
             and sgm2.marking_period_id = mp.marking_period_id
-            and se2.grade_id = se.grade_id)) as rank,
+            and se2.grade_id = se.grade_id)) as class_rank,
     (select count(*)
         from student_mp_stats sgm4
         where sgm4.marking_period_id = mp.marking_period_id
@@ -199,9 +199,9 @@ from (select mp.marking_period_id, sgm.student_id,
     and sgm.marking_period_id = mp.marking_period_id
     and mp.marking_period_id = mp_id
     and se.syear = mp.syear
-    and not sgm.cum_cr_weighted_factor is null) as rank
-where student_mp_stats.marking_period_id = rank.marking_period_id
-and student_mp_stats.student_id = rank.student_id;
+    and not sgm.cum_cr_weighted_factor is null) as class_rank
+where student_mp_stats.marking_period_id = class_rank.marking_period_id
+and student_mp_stats.student_id = class_rank.student_id;
 RETURN 1;
 END;
 $$ LANGUAGE plpgsql;

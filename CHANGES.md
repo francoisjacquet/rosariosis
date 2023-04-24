@@ -17,10 +17,11 @@ Changes in 11.0
 - Truncate column title to 36 chars if > 36 chars in MyReport.php
 - Handle Points decimal with comma instead of point, ie "10,5" in Grades.php
 - Increase default Password Strength from 1 to 2 in rosariosis.sql & rosariosis_mysql.sql
+- PostgreSQL rename "rank" to "class_rank" in set_class_rank_mp() for consistency with MySQL in rosariosis.sql
 
 Changes in 10.9.4
 -----------------
-- Fix save multiple SelectInput() when none selected, add hidden empty input (only if $allow_na) in Inputs.php
+- Fix regression since 10.8.4 save multiple SelectInput() when none selected, add hidden empty input (only if $allow_na) in Inputs.php
 - Save when none selected, add hidden empty input (Grade Levels) in Resources.php & Resources.fnc.php
 
 Changes in 10.9.3
