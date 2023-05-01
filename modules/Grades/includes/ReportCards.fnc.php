@@ -686,6 +686,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			asort( $comments_arr, SORT_NUMERIC );
 
+			// Fix SQL error table name "sam" specified more than once (when Expanded View)
+			$extra2 = [];
+
 			// Student Info.
 			$extra2['WHERE'] = " AND s.STUDENT_ID='" . (int) $student_id . "'";
 
