@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.5
+-----------------
+- Fix SQL error table name "sam" specified more than once in ReportCards.fnc.php
+
 Changes in 10.9.4
 -----------------
 - Fix regression since 10.8.4 save multiple SelectInput() when none selected, add hidden empty input (only if $allow_na) in Inputs.php
