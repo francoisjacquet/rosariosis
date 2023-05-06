@@ -564,12 +564,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		<input type="hidden" name="redirect_to" value="<?php echo URLEscape( $_REQUEST['redirect_to'] ); ?>" />
 	<?php endif; ?>
 	</form>
-	<input class="toggle" type="checkbox" id="toggle1" />
-	<label class="toggle" for="toggle1"><?php
-	// @todo Use <detail><summary> & remove CSS hack.
-	// @link https://caniuse.com/#search=details
-	echo _( 'About' ); ?></label>
-	<div class="about-rosariosis toggle-me">
+	<details class="about-rosariosis">
+		<summary><?php echo _( 'About' ); ?></summary>
 		<?php // System disclaimer. ?>
 		<p class="size-3">
 			<?php
@@ -586,7 +582,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			&copy; 2004-2009 The Miller Group &amp; Learners Circle
 			<br />&copy; 2012-2023 <a href="https://www.rosariosis.org" noreferrer>RosarioSIS</a>
 		</p>
-	</div>
+	</details>
 
 <?php PopTable( 'footer' );
 

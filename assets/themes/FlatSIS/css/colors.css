@@ -298,6 +298,10 @@ a:focus,
 	outline: 1px dotted #0090c3;
 }
 
+summary:focus {
+	outline: 1px dotted #000;
+}
+
 .adminmenu a,
 a.menu-top:hover,
 a.menu-top:focus,

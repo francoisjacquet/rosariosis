@@ -239,7 +239,8 @@ a:focus {
 }
 
 input[type="checkbox"]:focus,
-input[type="radio"]:focus {
+input[type="radio"]:focus,
+summary:focus {
 	outline: 1px dotted #000;
 }
 

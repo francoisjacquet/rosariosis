@@ -317,6 +317,14 @@ sup {
 	font-size: smaller;
 }
 
+summary {
+	cursor: pointer;
+}
+
+summary::marker {
+	cursor: pointer;
+}
+
 /* Fix place cellpadding-5 before widefat */
 
 .cellpadding-5 td {
@@ -1530,7 +1538,7 @@ a > .tipmsg-label {
 	opacity: 1
 }
 
-/* Toggle, CSS checkbox hack */
+/* @deprecated since 10.0 Toggle, CSS checkbox hack */
 
 .toggle {
 	cursor: pointer;
