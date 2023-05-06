@@ -917,6 +917,7 @@ function _listSearch( $result, $LO_search )
  * @example _listSave( $result, $column_names, Preferences( 'DELIMITER' ) );
  * @since 2.9
  * @since 5.8 Export list to Excel using MicrosoftXML (more reliable).
+ * @since 10.9.5 Security: prevent CSV Injection via formulas
  *
  * @param  array  $result       ListOutput $result
  * @param  array  $column_names ListOutput $column_names
@@ -1000,6 +1001,8 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 	$i = $extension === 'xls' ? 1 : 0;
 
+	$formula_start_characters = [ '=', '-', '+', '@', "\t", "\r" ];
+
 	// Format Results.
 	foreach ( (array) $result as $item )
 	{
@@ -1020,6 +1023,21 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				$replace_br = $extension === 'xml' ? '[br]' : ' ';
 
 				$value = str_replace( '[br]', $replace_br, $value );
+			}
+
+			if ( $extension === 'csv'
+				&& mb_strlen( $value ) > 1
+				&& in_array( substr( $value, 0, 1 ), $formula_start_characters, true ) )
+			{
+				/**
+				 * Security: prevent CSV Injection via formulas
+				 * Use single quote to escape formulas
+				 *
+				 * @since 10.9.5
+				 *
+				 * @link https://symfony.com/blog/cve-2021-41270-prevent-csv-injection-via-formulas
+				 */
+				$value = "'" . $value;
 			}
 
 			if ( $extension === 'csv' )

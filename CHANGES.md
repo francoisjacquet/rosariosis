@@ -23,6 +23,7 @@ Changes in 11.0
 Changes in 10.9.5
 -----------------
 - Fix SQL error table name "sam" specified more than once in ReportCards.fnc.php
+- Security: prevent CSV Injection via formulas in ListOutput.fnc.php, thanks to Ranjeet Jaiswal
 
 Changes in 10.9.4
 -----------------
