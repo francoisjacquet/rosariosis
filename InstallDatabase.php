@@ -166,6 +166,7 @@ function _configTableCheck()
  * and SQL inside \include files.
  *
  * @since 10.0
+ * @since 10.9.6 Do not use strtok(), can't handle nested calls for multiple files
  *
  * @global $DatabaseType  Database type: mysql or postgresql
  *
@@ -176,16 +177,14 @@ function _getAddonsSQL( $file )
 {
 	global $DatabaseType;
 
-	$sql_addons = file_get_contents( $file );
-
 	$sql_addons_queries = '';
 
 	// https://stackoverflow.com/questions/1462720/iterate-over-each-line-in-a-string-in-php
-	$separator = "\r\n";
+	$separator = PHP_EOL;
 
-	$line = strtok( $sql_addons, $separator );
+	$lines = file( $file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
-	while ( $line !== false )
+	foreach ( $lines as $line )
 	{
 		if ( strpos( $line, '\include' ) !== false )
 		{
@@ -214,8 +213,6 @@ function _getAddonsSQL( $file )
 		{
 			$sql_addons_queries .= $line . $separator;
 		}
-
-		$line = strtok( $separator );
 	}
 
 	return $sql_addons_queries;

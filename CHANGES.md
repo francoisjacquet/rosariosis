@@ -22,6 +22,10 @@ Changes in 11.0
 - HTML5 CSS use details + summary instead of .toggle hack in index.php, stylesheet.css & colors.css
 - SQL add TITLE column in GetTeacher.fnc.php
 
+Changes in 10.9.6
+-----------------
+- Do not use strtok(), can't handle nested calls for multiple files in InstallDatabase.php & database.inc.php
+
 Changes in 10.9.5
 -----------------
 - Fix SQL error table name "sam" specified more than once in ReportCards.fnc.php

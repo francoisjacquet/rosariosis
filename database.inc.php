@@ -754,15 +754,15 @@ function DBEscapeIdentifier( $identifier )
 function MySQLRemoveDelimiter( $sql )
 {
 	// https://stackoverflow.com/questions/1462720/iterate-over-each-line-in-a-string-in-php
-	$separator = "\r\n";
+	$separator = PHP_EOL;
 
-	$line = strtok( $sql, $separator );
+	$lines = explode( $separator, $sql );
 
 	$sql_without_delimiter = '';
 
 	$delimiter = ';';
 
-	while ( $line !== false )
+	foreach ( $lines as $line )
 	{
 		if ( stripos( $line, 'DELIMITER' ) !== false )
 		{
@@ -779,8 +779,6 @@ function MySQLRemoveDelimiter( $sql )
 				$delimiter = trim( $line_exploded[1] );
 			}
 
-			$line = strtok( $separator );
-
 			// DELIMITER declaration, skip.
 			continue;
 		}
@@ -794,8 +792,6 @@ function MySQLRemoveDelimiter( $sql )
 		}
 
 		$sql_without_delimiter .= $line_without_delimiter . $separator;
-
-		$line = strtok( $separator );
 	}
 
 	return $sql_without_delimiter;
