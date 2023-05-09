@@ -180,7 +180,7 @@ function _getAddonsSQL( $file )
 	$sql_addons_queries = '';
 
 	// https://stackoverflow.com/questions/1462720/iterate-over-each-line-in-a-string-in-php
-	$separator = PHP_EOL;
+	$separator = "\r\n";
 
 	$lines = file( $file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
