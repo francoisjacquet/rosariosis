@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.6
+-----------------
+- Do not use strtok(), can't handle nested calls for multiple files in InstallDatabase.php & database.inc.php
+
 Changes in 10.9.5
 -----------------
 - Fix SQL error table name "sam" specified more than once in ReportCards.fnc.php
