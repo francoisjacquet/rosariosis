@@ -18,6 +18,7 @@ $menu['Grades']['admin'] = [
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
 	1 => _( 'Reports' ),
 	'Grades/StudentGrades.php' => _( 'Student Grades' ),
+	'Grades/ProgressReports.php' => _( 'Progress Reports' ),
 	'Grades/TeacherCompletion.php' => _( 'Teacher Completion' ),
 	'Grades/GradeBreakdown.php' => _( 'Grade Breakdown' ),
 	'Grades/FinalGrades.php' => _( 'Final Grades' ),
@@ -75,6 +76,5 @@ if ( $RosarioModules['Users'] )
 		'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),
-		'Users/TeacherPrograms.php&include=Grades/ProgressReports.php' => _( 'Progress Reports' ),
 	];
 }

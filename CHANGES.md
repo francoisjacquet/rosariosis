@@ -24,6 +24,7 @@ Changes in 11.0
 - Cache Class average percent in Grades.fnc.php
 - Add GetClassRank() function (for Course Period) in Grades.fnc.php
 - Add Class Average & Class Rank (Course Period) in ReportCards.fnc.php
+- Move "Progress Reports" from Teacher Programs to Grades menu (admin) in Grades/Menu.php, ProgressReports.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 10.9.6
 -----------------

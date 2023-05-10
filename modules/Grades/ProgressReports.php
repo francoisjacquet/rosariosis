@@ -91,7 +91,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	// Parent: associated students.
 	$extra2['ASSOCIATED'] = User( 'STAFF_ID' );
 
-	$extra2['ORDER_BY'] = "ga.ASSIGNMENT_ID";
+	$extra2['ORDER_BY'] = "ga.DUE_DATE DESC,ga.ASSIGNMENT_ID";
+
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		$extra2['ORDER_BY'] = "ga." . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC";
+	}
 
 	$LO_group = [];
 
@@ -135,8 +140,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$student['MAILING_LABEL'] . '</td></tr></table><br />';
 		}
 
-		if ( ! UserCoursePeriod()
-			&& UserStudentID() )
+		if ( User( 'PROFILE' ) !== 'teacher' )
 		{
 			// @since 5.4 Is Parent or Student: display all Course Period Assignments.
 			$cp_RET = DBGet( "SELECT ss.COURSE_PERIOD_ID

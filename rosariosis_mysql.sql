@@ -2614,6 +2614,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Grades/HonorRoll.php', 'Y', 'Y', NULL
 INSERT INTO profile_exceptions VALUES (1, 'Grades/FixGPA.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Grades/Transcripts.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Grades/StudentGrades.php', 'Y', 'Y', NULL, NULL);
+INSERT INTO profile_exceptions VALUES (1, 'Grades/ProgressReports.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Grades/TeacherCompletion.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Grades/GradeBreakdown.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Grades/FinalGrades.php', 'Y', 'Y', NULL, NULL);
@@ -2628,7 +2629,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Grades/MassCreateAssignments.php', 'Y
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/Grades.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php', 'Y', 'Y', NULL, NULL);
-INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/ProgressReports.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/Administration.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/AddAbsences.php', 'Y', 'Y', NULL, NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/TeacherCompletion.php', 'Y', 'Y', NULL, NULL);
