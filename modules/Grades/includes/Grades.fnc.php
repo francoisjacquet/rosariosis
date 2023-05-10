@@ -290,3 +290,68 @@ function GetClassAveragePercent( $course_period_id, $marking_period_id )
 
 	return $percent_average;
 }
+
+
+/**
+ * Get Class Rank (for Course Period)
+ * Used by ReportCardsGenerate().
+ *
+ * @example $grades_RET[$i][$mp] .= '<br />' . GetClassRank( $student_id, $course_period_id, $mp );
+ *
+ * @since 11.0
+ *
+ * @param int   $student_id Student ID.
+ * @param int   $course_period_id  Course Period ID.
+ * @param int   $marking_period_id Marking Period ID.
+ * @param bool  $add_class_size    Display Class Size. Optional, defaults to true.
+ *
+ * @return string Class Rank.
+ */
+function GetClassRank( $student_id, $course_period_id, $marking_period_id, $add_class_size = true )
+{
+	$class_rank_RET = DBGet( "SELECT sg.STUDENT_ID,sg.COURSE_PERIOD_ID,mp.MARKING_PERIOD_ID,
+	(SELECT COUNT(*)+1
+		FROM student_report_card_grades sg2
+		WHERE sg2.GRADE_PERCENT>sg.GRADE_PERCENT
+		AND sg2.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID
+		AND sg2.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
+		AND sg2.STUDENT_ID IN (SELECT DISTINCT sg3.STUDENT_ID
+			FROM student_report_card_grades sg3,student_enrollment se2
+			WHERE sg3.STUDENT_ID=se2.STUDENT_ID
+			AND sg3.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID
+			AND sg3.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
+			AND sg3.SYEAR=mp.SYEAR)) AS CLASS_RANK,
+	(SELECT COUNT(*)
+		FROM student_report_card_grades sg4
+		WHERE sg4.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID
+		AND sg4.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
+		AND sg4.STUDENT_ID IN (SELECT DISTINCT sg5.STUDENT_ID
+			FROM student_report_card_grades sg5,student_enrollment se3
+			WHERE sg5.STUDENT_ID=se3.STUDENT_ID
+			AND sg5.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID
+			AND sg5.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
+			AND sg5.SYEAR=mp.SYEAR)) AS CLASS_SIZE
+	FROM student_enrollment se,student_report_card_grades sg,marking_periods mp
+	WHERE se.STUDENT_ID=sg.STUDENT_ID
+	AND se.STUDENT_ID='" . (int) $student_id . "'
+	AND sg.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID
+	AND mp.MARKING_PERIOD_ID='" . (int) $marking_period_id . "'
+	AND sg.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+	AND se.SYEAR=mp.SYEAR
+	AND sg.SYEAR=mp.SYEAR
+	AND NOT sg.GRADE_PERCENT IS NULL" );
+
+	if ( ! $class_rank_RET )
+	{
+		return '';
+	}
+
+	$class_rank = $class_rank_RET[1]['CLASS_RANK'];
+
+	if ( $add_class_size )
+	{
+		$class_rank .= ' / ' . $class_rank_RET[1]['CLASS_SIZE'];
+	}
+
+	return $class_rank;
+}

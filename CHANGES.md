@@ -22,6 +22,7 @@ Changes in 11.0
 - HTML5 CSS use details + summary instead of .toggle hack in index.php, stylesheet.css & colors.css
 - SQL add TITLE column in GetTeacher.fnc.php
 - Cache Class average percent in Grades.fnc.php
+- Add GetClassRank() function (for Course Period) in Grades.fnc.php
 
 Changes in 10.9.6
 -----------------
