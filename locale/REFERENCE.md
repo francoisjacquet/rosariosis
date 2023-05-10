@@ -13,8 +13,8 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | bn_BD | Bengali (Bangladesh)          | 32%       |                     |
 | cs_CZ | Czech (Czech Republic)        | 32%       |                     |
 | da_DK | Danish (Denmark)              | 32%       |                     |
-| de_DE | German (Germany)              | **55%**   | Heike Gutsche       |
 | el_GR | Greek (Greece)                | 33%       |                     |
+| de_DE | German (Germany)              | **99%**   | Heike Gutsche, @0xD0M1M0 |
 | en_CA | English (Canada)              | 1%        | RDH Associates Inc. |
 | es_ES | Spanish (Spain)               | **100%**  | RosarioSIS          |
 | et_EE | Estonian (Estonia)            | 33%       |                     |
