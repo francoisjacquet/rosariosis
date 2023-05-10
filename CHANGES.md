@@ -21,6 +21,7 @@ Changes in 11.0
 - HTML put "" around the link href if no spaces in $link & no other attributes in Buttons.php & program wide
 - HTML5 CSS use details + summary instead of .toggle hack in index.php, stylesheet.css & colors.css
 - SQL add TITLE column in GetTeacher.fnc.php
+- Cache Class average percent in Grades.fnc.php
 
 Changes in 10.9.6
 -----------------

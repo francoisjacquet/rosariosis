@@ -243,6 +243,7 @@ function GetClassAverage( $course_period_id, $marking_period_id, $letter_or_perc
  * Get raw percent value
  *
  * @since 9.1
+ * @since 11.0 Cache Class average percent
  *
  * @param int $course_period_id  Course Period ID.
  * @param int $marking_period_id Marking Period ID.
@@ -251,6 +252,13 @@ function GetClassAverage( $course_period_id, $marking_period_id, $letter_or_perc
  */
 function GetClassAveragePercent( $course_period_id, $marking_period_id )
 {
+	static $percent_averages = [];
+
+	if ( isset( $percent_averages[ $course_period_id ][ $marking_period_id ] ) )
+	{
+		return $percent_averages[ $course_period_id ][ $marking_period_id ];
+	}
+
 	$extra['SELECT_ONLY'] = "sg1.GRADE_PERCENT";
 
 	$extra['FROM'] = ",student_report_card_grades sg1,course_periods rc_cp";
@@ -277,6 +285,8 @@ function GetClassAveragePercent( $course_period_id, $marking_period_id )
 	}
 
 	$percent_average = $total_percent / $grades_i;
+
+	$percent_averages[ $course_period_id ][ $marking_period_id ] = $percent_average;
 
 	return $percent_average;
 }
