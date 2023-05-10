@@ -756,7 +756,7 @@ function MySQLRemoveDelimiter( $sql )
 	// https://stackoverflow.com/questions/1462720/iterate-over-each-line-in-a-string-in-php
 	$separator = "\r\n";
 
-	$lines = explode( $separator, $sql );
+	$lines = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $sql ) );
 
 	$sql_without_delimiter = '';
 
