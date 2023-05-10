@@ -18,6 +18,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @since 7.1 Add Credits (only for Report Cards).
 	 * @since 10.7 Add Class Average row.
 	 * @since 10.7 Add Student Photo
+	 * @since 11.0 Add Class Average & Class Rank (Course Period)
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -77,6 +78,16 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			// Credits.
 			$return .= '<td><label><input type="checkbox" name="elements[credits]" value="Y"> ' .
 			_( 'Credits' ) . '</label></td>';
+
+			// @since 11.0 Add Class Average (Course Period)
+			$return .= '<td><label><input type="checkbox" name="elements[average]" value="Y"> ' .
+			_( 'Class average' ) . '</label></td>';
+
+			$return .= '</tr><tr class="st">';
+
+			// @since 11.0 Add Class Rank (Course Period)
+			$return .= '<td><label><input type="checkbox" name="elements[rank]" value="Y"> ' .
+			_( 'Class Rank' ) . '</label></td>';
 		}
 
 		$return .= '</tr><tr class="st">';
@@ -295,6 +306,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 8.0 Add Class Rank row.
 	 * @since 10.7 Add Class Average row.
 	 * @since 10.7 Add Student Photo
+	 * @since 11.0 Add Class Average & Class Rank (Course Period)
 	 *
 	 * @param  array         $student_array Students IDs
 	 * @param  array         $mp_array      Marking Periods IDs
@@ -469,6 +481,20 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				$grades_RET[$i]['COURSE_PERIOD_ID'] = $course_period_id;
 				$grades_RET[$i]['TEACHER_ID'] = GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] );
 
+				if ( ! empty( $_REQUEST['elements']['average'] ) )
+				{
+					// @since 11.0 Add Class Average (Course Period)
+					// Add "small" line below Course Title.
+					$grades_RET[$i]['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class average' ) . '</span>';
+				}
+
+				if ( ! empty( $_REQUEST['elements']['rank'] ) )
+				{
+					// @since 11.0 Add Class Rank (Course Period)
+					// Add "small" line below Course Title.
+					$grades_RET[$i]['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class Rank' ) . '</span>';
+				}
+
 				foreach ( (array) $mp_array as $mp )
 				{
 					if ( ! isset( $mps[$mp] ) )
@@ -487,6 +513,39 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						&& $grade['GRADE_PERCENT'] > 0 )
 					{
 						$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . (float) $grade['GRADE_PERCENT'] . '%';
+					}
+
+					if ( ! empty( $_REQUEST['elements']['average'] ) )
+					{
+						// @since 11.0 Add Class Average (Course Period)
+						// Add "small" line below MP Grade.
+						$grades_RET[$i][$mp] .= '<br /><span class="size-1"><b>' . GetClassAverage(
+							$course_period_id,
+							$mp,
+							-1
+						) . '</b>';
+
+						if ( ! empty( $_REQUEST['elements']['percents'] ) )
+						{
+							$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . GetClassAverage(
+								$course_period_id,
+								$mp,
+								1
+							);
+						}
+
+						$grades_RET[$i][$mp] .= '</span>';
+					}
+
+					if ( ! empty( $_REQUEST['elements']['rank'] ) )
+					{
+						// @since 11.0 Add Class Rank (Course Period)
+						// Add "small" line below MP Grade.
+						$grades_RET[$i][$mp] .= '<br /><span class="size-1">' . GetClassRank(
+							$student_id,
+							$course_period_id,
+							$mp
+						) . '</span>';
 					}
 
 					// @since 5.0 Add GPA or Total row.

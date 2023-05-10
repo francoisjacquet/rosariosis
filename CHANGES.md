@@ -23,6 +23,7 @@ Changes in 11.0
 - SQL add TITLE column in GetTeacher.fnc.php
 - Cache Class average percent in Grades.fnc.php
 - Add GetClassRank() function (for Course Period) in Grades.fnc.php
+- Add Class Average & Class Rank (Course Period) in ReportCards.fnc.php
 
 Changes in 10.9.6
 -----------------
