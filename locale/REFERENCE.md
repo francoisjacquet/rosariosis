@@ -50,7 +50,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | th_TH | Thai (Thailand)               | 33%       |                     |
 | tr_TR | Turkish (Turkey)              | 32%       |                     |
 | uk_UA | Ukrainian (Ukraine)           | 33%       |                     |
-| vi_VN | Vietnamese (Vietnam)          | 32%       |                     |
+| vi_VN | Vietnamese (Vietnam)          | **99%**   | Steven M. Haag & Trân Thi Kim Thanh |
 | wa_BE | Walloon (Belgium)             | 33%       |                     |
 | zh_CN | Chinese (Simplified, China)   | 32%       |                     |
 | zh_TW | Chinese (Traditional, Taiwan) | 33%       |                     |
