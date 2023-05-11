@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "POT-Creation-Date: 2023-03-13 13:19-0300\n"
-"PO-Revision-Date: 2023-03-21 22:32+0100\n"
+"PO-Revision-Date: 2023-05-11 11:32+0200\n"
 "Last-Translator: Emerson Barros\n"
 "Language-Team: RosarioSIS <info@rosariosis.org>\n"
 "Language: pt_BR\n"
@@ -4663,7 +4663,7 @@ msgstr "Você só pode inserir a elegibilidade de %s %s a %s %s."
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Eligibility/EnterEligibility.php:251
 msgid "Use Gradebook Grades"
-msgstr "Usar notas do boletim de notas"
+msgstr "Usar notas do livro"
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Eligibility/EnterEligibility.php:265
 msgid "You already have entered eligibility this week for this course period."
@@ -5770,11 +5770,11 @@ msgstr "Pedido"
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/Configuration.php:36
 msgid "The gradebook configuration has been modified."
-msgstr "A configuração do boletim de notas foi modificada."
+msgstr "A configuração do livro de notas foi modificada."
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/Configuration.php:46
 msgid "The gradebook configuration is defined by administrators."
-msgstr "A configuração do boletim de notas é definida pelos administradores."
+msgstr "A configuração do livro de notas é definida pelos administradores."
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/Configuration.php:65
 msgid "Override individual teacher configuration?"
@@ -5829,7 +5829,7 @@ msgstr "Data de vencimento padrão para hoje"
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/Configuration.php:176
 msgid "Hide letter grades for all gradebook assignments"
-msgstr "Ocultar notas de letras para todas as tarefas do boletim de notas"
+msgstr "Ocultar notas de letras para todas as tarefas do livro de notas"
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/Configuration.php:185
 msgid "Hide previous quarters assignment types"
@@ -6163,7 +6163,7 @@ msgstr "Você pode editar essas notas."
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/InputFinalGrades.php:1240
 msgid "Get Gradebook Grades."
-msgstr "Obter notas do boletim de notas."
+msgstr "Obter notas do livro de notas."
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/Grades/InputFinalGrades.php:1264
 #, php-format
@@ -7598,7 +7598,7 @@ msgstr ""
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/School_Setup/Configuration.php:678
 msgid "Allow Teachers to edit gradebook grades for past quarters"
 msgstr ""
-"Permitir que os professores editem as notas do boletim de notas dos últimos "
+"Permitir que os professores editem as notas do livro de notas dos últimos "
 "trimestres"
 
 #: rosariosis-v10.8.4/rosariosis-v10.8.4/modules/School_Setup/Configuration.php:693
