@@ -31,6 +31,7 @@ Changes in 10.9.6
 - Do not use strtok(), can't handle nested calls for multiple files in InstallDatabase.php & database.inc.php
 - Add Vietnamese (Vietnam) translation in locale/vi_VN.utf8/ & locale/REFERENCE.md
 - Update German (Germany) translation in locale/de_DE.utf8/ & locale/REFERENCE.md
+- Fix Portuguese (Brazil) translation for "Gradebook": "livro de notas" in locale/pt_BR.utf8/
 
 Changes in 10.9.5
 -----------------
