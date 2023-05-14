@@ -13,7 +13,7 @@
 }
 
 #menu {
-	width: 217px;
+	width: 223px;
 	border-width: 0 1px 0 0;
 	border-style: solid
 }
@@ -728,8 +728,8 @@ label {
 	transition-delay: .15s;
 	z-index: 20;
 	top: 0;
-	left: 217px;
-	width: 217px;
+	left: 223px;
+	width: 223px;
 	overflow: visible;
 	word-wrap: break-word;
 	min-height: 36px;
@@ -740,8 +740,8 @@ label {
 	transition-delay: .15s;
 	z-index: 20;
 	top: 0;
-	left: 217px;
-	width: 217px;
+	left: 223px;
+	width: 223px;
 	overflow: visible;
 	word-wrap: break-word;
 	min-height: 36px;
