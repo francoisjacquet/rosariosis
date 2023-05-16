@@ -60,17 +60,29 @@ $grouped_sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 	AND cp.SYEAR=s.SYEAR
 	AND cp.SYEAR=g.SYEAR
 	AND cp.SYEAR='" . UserSyear() . "'
+	AND g.REPORT_CARD_GRADE_ID IS NOT NULL
 	AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp_id'] . "'
 	ORDER BY FULL_NAME";
 
 $grouped_RET = DBGet( $grouped_sql, [], [ 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ] );
 
-$grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
-	FROM report_card_grades rg,report_card_grade_scales rs
-	WHERE rg.SCHOOL_ID='" . UserSchool() . "'
-	AND rg.SYEAR='" . UserSyear() . "'
-	AND rs.ID=rg.GRADE_SCALE_ID
-	ORDER BY rs.SORT_ORDER IS NULL,rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER IS NULL,rg.SORT_ORDER" );
+// @since 11.0 SQL select Grading Scales by Teacher, only the ones having student grades.
+$grades_RET = [];
+
+foreach ( (array) $grouped_RET as $staff_id => $grades )
+{
+	$report_card_grade_ids = array_keys( $grades );
+
+	$grades_RET[ $staff_id ] = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
+		FROM report_card_grades rg,report_card_grade_scales rs
+		WHERE rg.SCHOOL_ID='" . UserSchool() . "'
+		AND rg.SYEAR='" . UserSyear() . "'
+		AND rs.ID=rg.GRADE_SCALE_ID
+		AND rg.GRADE_SCALE_ID IN (SELECT GRADE_SCALE_ID
+			FROM report_card_grades
+			WHERE ID IN('" . implode( "','", $report_card_grade_ids ) . "'))
+		ORDER BY rs.SORT_ORDER IS NULL,rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER IS NULL,rg.SORT_ORDER" );
+}
 
 // Chart.js charts.
 if ( $grouped_RET )
@@ -84,8 +96,18 @@ if ( $grouped_RET )
 		]
 	];
 
-	// Allow bar chart only if grades count <=21.
-	if ( empty( $grades_RET ) || count( $grades_RET ) <= 21 )
+	// Allow bar chart only if grades count <=42 (allows for Grading Scale from 0 to 20 with half points).
+	$grades_count = 0;
+
+	foreach ( $grades_RET as $staff_id => $grades )
+	{
+		if ( count( $grades ) > $grades_count )
+		{
+			$grades_count = count( $grades );
+		}
+	}
+
+	if ( $grades_count <= 42 )
 	{
 		$tabs[] = [
 			'title' => _( 'Column' ),
@@ -107,29 +129,31 @@ if ( $grouped_RET )
 	{
 		$LO_columns = [ 'GRADES' => _( 'Grades' ) ];
 
-		$i = $j = 0;
-
-		foreach ( (array) $grades_RET as $grade )
+		foreach ( (array) $grades_RET as $staff_id => $grades )
 		{
-			$i++;
-
-			$teachers_RET[ $i ]['GRADES'] = $grade['TITLE'];
+			foreach ( (array) $grades as $grade )
+			{
+				$teachers_RET[ $grade['ID'] ]['GRADES'] = $grade['TITLE'];
+			}
 		}
 
 		foreach ( (array) $grouped_RET as $staff_id => $grades )
 		{
-			$j = 0;
-
 			$LO_columns[ $staff_id ] = $grades[key( $grades )][1]['FULL_NAME'];
 
-			foreach ( (array) $grades_RET as $grade )
+			foreach ( (array) $grades_RET[ $staff_id ] as $grade )
 			{
-				$j++;
-
-				$teachers_RET[ $j ][ $staff_id ] = empty( $grades[$grade['ID']] ) ?
+				$teachers_RET[ $grade['ID'] ][ $staff_id ] = empty( $grades[$grade['ID']] ) ?
 					0 : count( $grades[$grade['ID']] );
 			}
 		}
+
+		// Reset $teachers_RET array keys.
+		$teachers_RET = array_values( $teachers_RET );
+
+		// Start with key 1 for ListOutput().
+		array_unshift( $teachers_RET, 'dummy' );
+		unset( $teachers_RET[0] );
 
 		$LO_options['responsive'] = false;
 
@@ -144,7 +168,7 @@ if ( $grouped_RET )
 
 			$chart_title = $grades[key($grades)][1]['FULL_NAME'] . ' - ' . $user_mp_title . ' - ' . _( 'Grade Breakdown' );
 
-			foreach ( (array) $grades_RET as $grade )
+			foreach ( (array) $grades_RET[ $staff_id ] as $grade )
 			{
 				if ( $_REQUEST['chart_type'] === 'bar' )
 				{

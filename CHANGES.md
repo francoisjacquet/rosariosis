@@ -27,6 +27,7 @@ Changes in 11.0
 - Move "Progress Reports" from Teacher Programs to Grades menu (admin) in Grades/Menu.php, ProgressReports.php, rosariosis.sql & rosariosis_mysql.sql
 - CSS FlatSIS enlarge left menu width by 6px for German in stylesheet.css
 - SQL add ORDER BY to GetChildrenMP() in GetMP.php
+- SQL select Grading Scales by Teacher, only the ones having student grades in GradeBreakdown.php
 
 Changes in 10.9.6
 -----------------
