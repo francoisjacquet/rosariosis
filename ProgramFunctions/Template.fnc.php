@@ -107,21 +107,12 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 		return false;
 	}*/
 
-	if ( ! isset( $is_template_update[ $staff_id ] ) )
-	{
-		// Default template only, insert user template.
-		DBQuery( "INSERT INTO templates (MODNAME,STAFF_ID,TEMPLATE)
-			VALUES('" . $modname . "','" . $staff_id . "',
-			'" . $template . "')" );
-	}
-	else
-	{
-		// Update user template.
-		DBQuery( "UPDATE templates
-			SET TEMPLATE='" . $template . "'
-			WHERE MODNAME='" . $modname . "'
-			AND STAFF_ID='" . (int) $staff_id . "'" );
-	}
+	DBUpsert(
+		'templates',
+		[ 'TEMPLATE' => $template ],
+		[ 'MODNAME' => $modname, 'STAFF_ID' => (int) $staff_id ],
+		! isset( $is_template_update[ $staff_id ] ) ? 'insert' : 'update'
+	);
 
 	return true;
 }

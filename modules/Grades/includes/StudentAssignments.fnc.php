@@ -121,17 +121,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$data = DBEscapeString( serialize( $data ) );
 
-	// Save assignment submission.
-	// Update or insert?
-	if ( $old_submission )
-	{
-		// Update.
-		$assignment_submission_sql = "UPDATE student_assignments
-			SET DATA='" . $data . "'
-			WHERE STUDENT_ID='" . UserStudentID() . "'
-			AND ASSIGNMENT_ID='" . (int) $assignment_id . "'";
-	}
-	else
+	if ( ! $old_submission )
 	{
 		// If no file & no message.
 		if ( $message = ''
@@ -139,14 +129,16 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		{
 			return false;
 		}
-
-		// Insert.
-		$assignment_submission_sql = "INSERT INTO student_assignments
-			(STUDENT_ID, ASSIGNMENT_ID, DATA)
-			VALUES ('" . UserStudentID() . "', '" . $assignment_id . "', '" . $data . "')";
 	}
 
-	DBQuery( $assignment_submission_sql );
+	// Save assignment submission.
+	// Update or insert? Upsert
+	DBUpsert(
+		'student_assignments',
+		[ 'DATA' => $data ],
+		[ 'STUDENT_ID' => UserStudentID(), 'ASSIGNMENT_ID' => (int) $assignment_id ],
+		$old_submission ? 'update' : 'insert'
+	);
 
 	return empty( $error );
 }
