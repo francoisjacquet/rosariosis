@@ -22,8 +22,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				if ( empty( $current_RET[$student_id] ) )
 				{
-					$sql .= "INSERT INTO student_eligibility_activities (SYEAR,STUDENT_ID,ACTIVITY_ID)
-						VALUES('" . UserSyear() . "','" . $student_id . "','" . $_REQUEST['activity_id'] . "');";
+					$sql .= DBInsertSQL(
+						'student_eligibility_activities',
+						[
+							'SYEAR' => UserSyear(),
+							'STUDENT_ID' => (int) $student_id,
+							'ACTIVITY_ID' => (int) $_REQUEST['activity_id'],
+						]
+					);
 				}
 			}
 

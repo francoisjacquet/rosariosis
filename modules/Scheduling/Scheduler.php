@@ -313,10 +313,21 @@ if ( $confirm_ok )
 					if ( empty( $locked_RET[$student_id][$course_period['REQUEST_ID']] )
 						&& ! ( in_array( $course_period['COURSE_PERIOD_ID'], $course_periods_temp ) ) )
 					{
-						db_trans_query( "INSERT INTO schedule (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
-							VALUES('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
-							$date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] .
-							"','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
+						$insert_sql = DBInsertSQL(
+							'schedule',
+							[
+								'SYEAR' => UserSyear(),
+								'SCHOOL_ID' => UserSchool(),
+								'STUDENT_ID' => (int) $student_id,
+								'COURSE_ID' => (int) $course_period['COURSE_ID'],
+								'COURSE_PERIOD_ID' => (int) $course_period['COURSE_PERIOD_ID'],
+								'MP' => $course_period['MP'],
+								'MARKING_PERIOD_ID' => (int) $course_period['MARKING_PERIOD_ID'],
+								'START_DATE' => $date,
+							]
+						);
+
+						db_trans_query( $insert_sql );
 
 						// Hook.
 						do_action( 'Scheduling/Scheduler.php|schedule_student' );

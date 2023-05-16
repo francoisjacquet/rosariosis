@@ -16,11 +16,19 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			foreach ( (array) $_REQUEST['student'] as $student_id )
 			{
-				$sql .= "INSERT INTO billing_fees (STUDENT_ID,TITLE,AMOUNT,SYEAR,SCHOOL_ID,ASSIGNED_DATE,DUE_DATE,COMMENTS)
-					VALUES('" . $student_id . "',
-					'" . $_REQUEST['title'] . "','" . preg_replace( '/[^0-9.-]/', '', $_REQUEST['amount'] ) . "',
-					'" . UserSyear() . "','" . UserSchool() . "','" . DBDate() . "','" . $due_date . "',
-					'" . $_REQUEST['comments'] . "');";
+				$sql .= DBInsertSQL(
+					'billing_fees',
+					[
+						'SYEAR' => UserSyear(),
+						'SCHOOL_ID' => UserSchool(),
+						'STUDENT_ID' => (int) $student_id,
+						'TITLE' => $_REQUEST['title'],
+						'AMOUNT' => preg_replace( '/[^0-9.-]/', '', $_REQUEST['amount'] ),
+						'ASSIGNED_DATE' => DBDate(),
+						'DUE_DATE' => $due_date,
+						'COMMENTS' => $_REQUEST['comments'],
+					]
+				);
 			}
 
 			if ( $sql )

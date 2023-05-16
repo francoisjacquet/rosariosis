@@ -30,6 +30,7 @@ Changes in 11.0
 - SQL select Grading Scales by Teacher, only the ones having student grades in GradeBreakdown.php
 - Add Insert into or Update DB functions in DBUpsert.php
 - Use DBUpsert() function in Template.fnc.php, Config.fnc.php & StudentAssignments.fnc.php
+- Use DBInsertSQL() function in AddActivity.php, Scheduler.php, Calendar.php, MarkingPeriods.php, MassAssignFees.php & MassAssignPayments.php
 
 Changes in 10.9.6
 -----------------

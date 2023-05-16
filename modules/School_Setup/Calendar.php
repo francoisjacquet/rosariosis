@@ -355,9 +355,16 @@ if ( $_REQUEST['modfunc'] === 'create'
 			{
 				if ( $_REQUEST['weekdays'][ $weekday ] == 'Y' )
 				{
-					$sql_calendar_days .= "INSERT INTO attendance_calendar
-						(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
-						VALUES('" . UserSyear() . "','" . UserSchool() . "','" . date( 'Y-m-d', $i ) . "'," . $minutes . ",'" . $calendar_id . "');";
+					$sql_calendar_days .= DBInsertSQL(
+						'attendance_calendar',
+						[
+							'SYEAR' => UserSyear(),
+							'SCHOOL_ID' => UserSchool(),
+							'SCHOOL_DATE' => date( 'Y-m-d', $i ),
+							'MINUTES' => $minutes,
+							'CALENDAR_ID' => (int) $calendar_id,
+						]
+					);
 				}
 
 				$weekday++;

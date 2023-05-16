@@ -139,31 +139,26 @@ if ( ! empty( $_POST['tables'] )
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO school_marking_periods ";
-
-			$fields = "MP,SYEAR,SCHOOL_ID,";
-
-			$values = "'" . $_REQUEST['mp_term'] . "','" . UserSyear() . "','" . UserSchool() . "',";
+			$insert_columns = [
+				'MP' => $_REQUEST['mp_term'],
+				'SYEAR' => UserSyear(),
+				'SCHOOL_ID' => UserSchool(),
+			];
 
 			switch ( $_REQUEST['mp_term'] )
 			{
 				case 'SEM':
-					$fields .= "PARENT_ID,";
-					$values .= "'" . $_REQUEST['year_id'] . "',";
+					$insert_columns['PARENT_ID'] = (int) $_REQUEST['year_id'];
 					break;
 
 				case 'QTR':
-					$fields .= "PARENT_ID,";
-					$values .= "'" . $_REQUEST['semester_id'] . "',";
+					$insert_columns['PARENT_ID'] = (int) $_REQUEST['semester_id'];
 					break;
 
 				case 'PRO':
-					$fields .= "PARENT_ID,";
-					$values .= "'" . $_REQUEST['quarter_id'] . "',";
+					$insert_columns['PARENT_ID'] = (int) $_REQUEST['quarter_id'];
 					break;
 			}
-
-			$go = false;
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -198,19 +193,14 @@ if ( ! empty( $_POST['tables'] )
 						break 2;
 					}
 				}
-
-				if ( ! empty( $value )
-					|| $value === '0' )
-				{
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-
-					$values .= "'" . $value . "',";
-
-					$go = true;
-				}
 			}
 
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+			$go = true;
+
+			$sql = DBInsertSQL(
+				'school_marking_periods',
+				$insert_columns + $columns
+			);
 		}
 
 		// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
