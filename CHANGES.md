@@ -28,6 +28,7 @@ Changes in 11.0
 - CSS FlatSIS enlarge left menu width by 6px for German in stylesheet.css
 - SQL add ORDER BY to GetChildrenMP() in GetMP.php
 - SQL select Grading Scales by Teacher, only the ones having student grades in GradeBreakdown.php
+- Add Insert into or Update DB functions in DBUpsert.php
 
 Changes in 10.9.6
 -----------------
