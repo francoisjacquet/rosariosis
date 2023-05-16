@@ -305,7 +305,8 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'";
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE";
 
 		switch ( $mp )
 		{
@@ -362,7 +363,8 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 					FROM school_marking_periods
 					WHERE MP='PRO'
 					AND SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PARENT_ID' ] );
+					AND SCHOOL_ID='" . UserSchool() . "'
+					ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE", [], [ 'PARENT_ID' ] );
 
 				foreach ( $pro_RET as $qtr => $pros )
 				{
