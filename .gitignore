@@ -275,6 +275,7 @@ modules/Student_Pickup*
 modules/Student_ID_Card*
 modules/Meeting*
 modules/Embedded_Resources*
+modules/Slovenian_Class_Diary*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
@@ -296,4 +297,5 @@ plugins/Google_Social_Login*
 plugins/Tutor_Report_Card_Comments*
 plugins/Savio_Transcripts*
 plugins/PCS_Report_Cards*
+plugins/Assignment_Max_Points*
 locale/fr_FR.utf8_ParisComSup
