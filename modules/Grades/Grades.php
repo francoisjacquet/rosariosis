@@ -331,6 +331,7 @@ if ( UserStudentID() )
 	$extra['ORDER_BY'] = DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC";
 
 	$extra['functions'] = [
+		'TYPE_TITLE' => '_makeTitle',
 		'POINTS' => '_makeExtraStuCols',
 		'PERCENT_GRADE' => '_makeExtraStuCols',
 		'LETTER_GRADE' => '_makeExtraStuCols',

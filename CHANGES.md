@@ -14,7 +14,7 @@ Changes in 11.0
 - Remove UserCoursePeriodSchoolPeriod() & UserPeriod() functions in Current.php
 - SQL access_log: deprecate LOGIN_TIME column, use CREATED_AT instead in index.php, AccessLog.php, Dashboard.inc.php, rosariosis.sql & rosariosis_mysql.sql
 - SQL portal_notes & portal_polls: deprecate PUBLISHED_DATE column, use CREATED_AT instead in PortalNotes.php, PortalPolls.php, Portal.php, rosariosis.sql & rosariosis_mysql.sql
-- Truncate column title to 36 chars if > 36 chars in MyReport.php
+- Truncate column title to 36 chars if > 36 chars in MyReport.php & Grades.php
 - Handle Points decimal with comma instead of point, ie "10,5" in Grades.php
 - Increase default Password Strength from 1 to 2 in rosariosis.sql & rosariosis_mysql.sql
 - PostgreSQL rename "rank" to "class_rank" in set_class_rank_mp() for consistency with MySQL in rosariosis.sql
