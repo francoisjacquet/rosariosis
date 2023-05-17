@@ -105,37 +105,49 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				foreach ( (array) $_REQUEST['period'] as $period_id => $yes )
 				{
-					if ( ! $yes )
+					$course_period_id = issetVal( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] );
+
+					if ( ! $yes
+						|| ! $course_period_id )
 					{
 						continue;
 					}
 
-					$course_period_id = issetVal( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] );
-
-					if ( $course_period_id )
+					if ( empty( $current_RET[$student_id][$date][$period_id] ) )
 					{
-						if ( empty( $current_RET[$student_id][$date][$period_id] ) )
-						{
-							$sql = "INSERT INTO attendance_period
-							(STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
-							VALUES('" . $student_id . "','" . $date . "','" . $period_id . "','" .
-							$current_mp . "','" . $course_period_id . "','" . $_REQUEST['absence_code'] . "','" .
-							$_REQUEST['absence_reason'] . "','Y')";
-						}
-						else
-						{
-							$sql = "UPDATE attendance_period
-							SET ATTENDANCE_CODE='" . $_REQUEST['absence_code'] . "',ATTENDANCE_REASON='" .
-							$_REQUEST['absence_reason'] . "',ADMIN='Y',COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-							WHERE STUDENT_ID='" . (int) $student_id . "'
-							AND SCHOOL_DATE='" . $date . "'
-							AND PERIOD_ID='" . (int) $period_id . "'";
-						}
-
-						$go = true;
-
-						DBQuery( $sql );
+						DBInsert(
+							'attendance_period',
+							[
+								'STUDENT_ID' => (int) $student_id,
+								'SCHOOL_DATE' => $date,
+								'PERIOD_ID' => (int) $period_id,
+								'MARKING_PERIOD_ID' => (int) $current_mp,
+								'COURSE_PERIOD_ID' => (int) $course_period_id,
+								'ATTENDANCE_CODE' => $_REQUEST['absence_code'],
+								'ATTENDANCE_REASON' => $_REQUEST['absence_reason'],
+								'ADMIN' => 'Y',
+							]
+						);
 					}
+					else
+					{
+						DBUpdate(
+							'attendance_period',
+							[
+								'ATTENDANCE_CODE' => $_REQUEST['absence_code'],
+								'ATTENDANCE_REASON' => $_REQUEST['absence_reason'],
+								'ADMIN' => 'Y',
+								'COURSE_PERIOD_ID' => (int) $course_period_id,
+							],
+							[
+								'STUDENT_ID' => (int) $student_id,
+								'SCHOOL_DATE' => $date,
+								'PERIOD_ID' => (int) $period_id,
+							]
+						);
+					}
+
+					$go = true;
 				}
 
 				UpdateAttendanceDaily(

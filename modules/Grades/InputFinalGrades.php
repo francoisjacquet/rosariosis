@@ -575,10 +575,10 @@ if ( ! empty( $_REQUEST['values'] )
 
 	foreach ( (array) $_REQUEST['values'] as $student_id => $columns )
 	{
-		$sql = $sep = '';
-
 		if ( ! empty( $current_RET[$student_id] ) )
 		{
+			$update_columns = [];
+
 			if ( isset( $columns['percent'] )
 				&& $columns['percent'] != '' )
 			{
@@ -628,16 +628,17 @@ if ( ! empty( $_REQUEST['values'] )
 					$grade = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
 				}
 
-				$sql .= "GRADE_PERCENT='" . $percent . "'";
-				$sql .= ",REPORT_CARD_GRADE_ID='" . (int) $grade . "',GRADE_LETTER='" . $letter .
-					"',WEIGHTED_GP='" . $weighted . "',UNWEIGHTED_GP='" . $unweighted .
-					"',GP_SCALE='" . $scale . "'";
-
-				// bjj can we use $percent all the time?  TODO: rework this so updates to credits occur when grade is changed
-				$sql .= ",COURSE_TITLE='" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "'";
-				$sql .= ",CREDIT_ATTEMPTED='" . $course_RET[1]['CREDITS'] . "'";
-				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
-				$sep = ',';
+				$update_columns = [
+					'GRADE_PERCENT' => $percent,
+					'REPORT_CARD_GRADE_ID' => $grade,
+					'GRADE_LETTER' => $letter,
+					'WEIGHTED_GP' => $weighted,
+					'UNWEIGHTED_GP' => $unweighted,
+					'GP_SCALE' => $scale,
+					'COURSE_TITLE' => DBEscapeString( $course_RET[1]['COURSE_NAME'] ),
+					'CREDIT_ATTEMPTED' => $course_RET[1]['CREDITS'],
+					'CREDIT_EARNED' => ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ),
+				];
 			}
 			elseif ( ! empty( $columns['grade'] ) )
 			{
@@ -660,28 +661,34 @@ if ( ! empty( $_REQUEST['values'] )
 
 				$gp_passing = $grades_RET[$grade][1]['GP_PASSING_VALUE'];
 
-				$sql .= "GRADE_PERCENT='" . $percent . "'";
-				$sql .= ",REPORT_CARD_GRADE_ID='" . (int) $grade . "',GRADE_LETTER='" . $letter .
-					"',WEIGHTED_GP='" . $weighted . "',UNWEIGHTED_GP='" . $unweighted .
-					"',GP_SCALE='" . $scale . "'";
-				$sql .= ",COURSE_TITLE='" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "'";
-				$sql .= ",CREDIT_ATTEMPTED='" . $course_RET[1]['CREDITS'] . "'";
-				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
-				$sep = ',';
+				$update_columns = [
+					'GRADE_PERCENT' => $percent,
+					'REPORT_CARD_GRADE_ID' => $grade,
+					'GRADE_LETTER' => $letter,
+					'WEIGHTED_GP' => $weighted,
+					'UNWEIGHTED_GP' => $unweighted,
+					'GP_SCALE' => $scale,
+					'COURSE_TITLE' => DBEscapeString( $course_RET[1]['COURSE_NAME'] ),
+					'CREDIT_ATTEMPTED' => $course_RET[1]['CREDITS'],
+					'CREDIT_EARNED' => ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ),
+				];
 			}
 			elseif ( isset( $columns['percent'] )
 				|| isset( $columns['grade'] ) )
 			{
 				$percent = $grade = '';
-				$sql .= "GRADE_PERCENT=NULL";
-				// FJ bugfix SQL bug 'NULL' instead of NULL.
-				//$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP='NULL',UNWEIGHTED_GP='NULL',GP_SCALE='NULL'";
-				$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP=NULL,
-					UNWEIGHTED_GP=NULL,GP_SCALE=NULL";
-				$sql .= ",COURSE_TITLE='" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "'";
-				$sql .= ",CREDIT_ATTEMPTED='" . $course_RET[1]['CREDITS'] . "'";
-				$sql .= ",CREDIT_EARNED='0'";
-				$sep = ',';
+
+				$update_columns = [
+					'GRADE_PERCENT' => '',
+					'REPORT_CARD_GRADE_ID' => '',
+					'GRADE_LETTER' => '',
+					'WEIGHTED_GP' => '',
+					'UNWEIGHTED_GP' => '',
+					'GP_SCALE' => '',
+					'COURSE_TITLE' => DBEscapeString( $course_RET[1]['COURSE_NAME'] ),
+					'CREDIT_ATTEMPTED' => $course_RET[1]['CREDITS'],
+					'CREDIT_EARNED' => '0',
+				];
 			}
 			else
 			{
@@ -691,19 +698,23 @@ if ( ! empty( $_REQUEST['values'] )
 
 			if ( isset( $columns['comment'] ) )
 			{
-				$sql .= $sep . "COMMENT='" . $columns['comment'] . "'";
+				$update_columns['COMMENT'] = $columns['comment'];
 			}
 
-			if ( $sql )
+			if ( $update_columns )
 			{
 				// Reset Class Rank based on current CP Does Class Rank parameter.
-				$sql .= ",CLASS_RANK='" . $course_RET[1]['CLASS_RANK'] . "'";
+				$update_columns['CLASS_RANK'] = $course_RET[1]['CLASS_RANK'];
 
-				$sql = "UPDATE student_report_card_grades
-					SET " . $sql . "
-					WHERE STUDENT_ID='" . (int) $student_id . "'
-					AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-					AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'";
+				DBUpdate(
+					'student_report_card_grades',
+					$update_columns,
+					[
+						'STUDENT_ID' => (int) $student_id,
+						'COURSE_PERIOD_ID' => (int) $course_period_id,
+						'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+					]
+				);
 			}
 		}
 		elseif ( ( isset( $columns['percent'] ) && $columns['percent'] != '' )
@@ -777,31 +788,32 @@ if ( ! empty( $_REQUEST['values'] )
 				$percent = $grade = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
 			}
 
-			//FJ fix bug SQL ID=NULL
-			//FJ add CLASS_RANK
-			//FJ add Credit Hours
-			$sql = "INSERT INTO student_report_card_grades (SYEAR,SCHOOL_ID,STUDENT_ID,
-			COURSE_PERIOD_ID,MARKING_PERIOD_ID,REPORT_CARD_GRADE_ID,GRADE_PERCENT,COMMENT,
-			GRADE_LETTER,WEIGHTED_GP,UNWEIGHTED_GP,GP_SCALE,COURSE_TITLE,CREDIT_ATTEMPTED,
-			CREDIT_EARNED,CLASS_RANK,CREDIT_HOURS)
-			VALUES('" .
-			UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
-			$course_period_id . "','" . $_REQUEST['mp'] . "','" . $grade . "','" . $percent . "','" .
-			$columns['comment'] . "','" . $grades_RET[$grade][1]['TITLE'] . "','" . $weighted . "','" .
-			$unweighted . "','" . $scale . "','" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "','" .
-			$course_RET[1]['CREDITS'] . "','" .
-			( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "','" .
-			$course_RET[1]['CLASS_RANK'] . "'," .
-			( is_null( $course_RET[1]['CREDIT_HOURS'] ) ? 'NULL' : $course_RET[1]['CREDIT_HOURS'] ) . ")";
+			DBInsert(
+				'student_report_card_grades',
+				[
+					'SYEAR' => UserSyear(),
+					'SCHOOL_ID' => UserSchool(),
+					'STUDENT_ID' => (int) $student_id,
+					'COURSE_PERIOD_ID' => (int) $course_period_id,
+					'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+					'REPORT_CARD_GRADE_ID' => $grade,
+					'GRADE_PERCENT' => $percent,
+					'COMMENT' => $columns['comment'],
+					'GRADE_LETTER' => DBEscapeString( $grades_RET[$grade][1]['TITLE'] ),
+					'WEIGHTED_GP' => $weighted,
+					'UNWEIGHTED_GP' => $unweighted,
+					'GP_SCALE' => $scale,
+					'COURSE_TITLE' => DBEscapeString( $course_RET[1]['COURSE_NAME'] ),
+					'CREDIT_ATTEMPTED' => $course_RET[1]['CREDITS'],
+					'CREDIT_EARNED' => ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ),
+					'CLASS_RANK' => $course_RET[1]['CLASS_RANK'],
+					'CREDIT_HOURS' => $course_RET[1]['CREDIT_HOURS'],
+				]
+			);
 		}
 		else
 		{
 			$percent = $grade = '';
-		}
-
-		if ( $sql )
-		{
-			DBQuery( $sql );
 		}
 
 		//DBQuery("DELETE FROM student_report_card_grades WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'");
@@ -830,12 +842,16 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					if ( $comment )
 					{
-						DBQuery( "UPDATE student_report_card_comments
-							SET COMMENT='" . $comment . "'
-							WHERE STUDENT_ID='" . (int) $student_id . "'
-							AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-							AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
-							AND REPORT_CARD_COMMENT_ID='" . (int) $id . "'" );
+						DBUpdate(
+							'student_report_card_comments',
+							[ 'COMMENT' => $comment ],
+							[
+								'STUDENT_ID' => (int) $student_id,
+								'COURSE_PERIOD_ID' => (int) $course_period_id,
+								'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+								'REPORT_CARD_COMMENT_ID' => (int) $id,
+							]
+						);
 					}
 					else
 					{
@@ -848,9 +864,18 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				elseif ( $comment )
 				{
-					DBQuery( "INSERT INTO student_report_card_comments
-					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID, COMMENT)
-					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $course_period_id . "','" . $_REQUEST['mp'] . "','" . (int) $id . "','" . $comment . "')" );
+					DBInsert(
+						'student_report_card_comments',
+						[
+							'SYEAR' => UserSyear(),
+							'SCHOOL_ID' => UserSchool(),
+							'STUDENT_ID' => (int) $student_id,
+							'COURSE_PERIOD_ID' => (int) $course_period_id,
+							'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+							'REPORT_CARD_COMMENT_ID' => (int) $id,
+							'COMMENT' => $comment,
+						]
+					);
 				}
 			}
 		}
@@ -959,12 +984,16 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					if ( $comment['REPORT_CARD_COMMENT_ID'] != $current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'] )
 					{
-						DBQuery( "UPDATE student_report_card_comments
-						SET REPORT_CARD_COMMENT_ID='" . (int) $comment['REPORT_CARD_COMMENT_ID'] . "'
-						WHERE STUDENT_ID='" . (int) $student_id . "'
-						AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-						AND MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
-						AND REPORT_CARD_COMMENT_ID='" . (int) $current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'] . "'" );
+						DBUpdate(
+							'student_report_card_comments',
+							[ 'REPORT_CARD_COMMENT_ID' => (int) $comment['REPORT_CARD_COMMENT_ID'] ],
+							[
+								'STUDENT_ID' => (int) $student_id,
+								'COURSE_PERIOD_ID' => (int) $course_period_id,
+								'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+								'REPORT_CARD_COMMENT_ID' => (int) $current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'],
+							]
+						);
 					}
 				}
 				else
@@ -978,9 +1007,17 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 			elseif ( $comment['REPORT_CARD_COMMENT_ID'] )
 			{
-				DBQuery( "INSERT INTO student_report_card_comments
-					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID)
-					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $course_period_id . "','" . $_REQUEST['mp'] . "','" . $comment['REPORT_CARD_COMMENT_ID'] . "')" );
+				DBInsert(
+					'student_report_card_comments',
+					[
+						'SYEAR' => UserSyear(),
+						'SCHOOL_ID' => UserSchool(),
+						'STUDENT_ID' => (int) $student_id,
+						'COURSE_PERIOD_ID' => (int) $course_period_id,
+						'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+						'REPORT_CARD_COMMENT_ID' => (int) $comment['REPORT_CARD_COMMENT_ID'],
+					]
+				);
 			}
 		}
 	}
@@ -992,8 +1029,14 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( ! $current_completed )
 		{
-			DBQuery( "INSERT INTO grades_completed (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID)
-				values('" . User( 'STAFF_ID' ) . "','" . $_REQUEST['mp'] . "','" . $course_period_id . "')" );
+			DBInsert(
+				'grades_completed',
+				[
+					'STAFF_ID' => User( 'STAFF_ID' ),
+					'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
+					'COURSE_PERIOD_ID' => (int) $course_period_id,
+				]
+			);
 		}
 	}
 	elseif ( $current_completed )
@@ -1612,7 +1655,7 @@ function _makeCommentsA( $value, $column )
 			$select,
 			'values[' . $THIS_RET['STUDENT_ID'] . '][commentsA][' . $value . ']',
 			'',
-			$commentsA_select[$THIS_RET['CAC' . $value]],
+			issetVal( $commentsA_select[$THIS_RET['CAC' . $value]], [] ),
 			_( 'N/A' ),
 			'',
 			$div

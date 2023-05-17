@@ -196,31 +196,32 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 			}
 
-			$sql = '';
-
 			if ( ! empty( $current_RET[$student_id][$assignment_id] ) )
 			{
-				$sql = "UPDATE gradebook_grades SET ";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . (int) $student_id . "'
-					AND ASSIGNMENT_ID='" . (int) $assignment_id . "'
-					AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
+				DBUpdate(
+					'gradebook_grades',
+					$columns,
+					[
+						'STUDENT_ID' => (int) $student_id,
+						'COURSE_PERIOD_ID' => UserCoursePeriod(),
+						'ASSIGNMENT_ID' => (int) $assignment_id,
+					]
+				);
 			}
-			elseif ( $columns['POINTS'] != '' || $columns['COMMENT'] )
+			elseif ( $columns['POINTS'] != ''
+				|| ( isset( $columns['COMMENT'] ) && $columns['COMMENT'] != '' ) )
 			{
 				// @deprecated since 6.9 SQL gradebook_grades column PERIOD_ID.
-				$sql = "INSERT INTO gradebook_grades (STUDENT_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT)
-					values('" . $student_id . "','" . UserCoursePeriod() . "','" . $assignment_id . "','" . $columns['POINTS'] . "','" . $columns['COMMENT'] . "')";
-			}
-
-			if ( $sql )
-			{
-				DBQuery( $sql );
+				DBInsert(
+					'gradebook_grades',
+					[
+						'STUDENT_ID' => (int) $student_id,
+						'COURSE_PERIOD_ID' => UserCoursePeriod(),
+						'ASSIGNMENT_ID' => (int) $assignment_id,
+						'POINTS' => $columns['POINTS'],
+						'COMMENT' => issetVal( $columns['COMMENT'], '' ),
+					]
+				);
 			}
 		}
 	}

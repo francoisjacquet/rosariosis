@@ -65,29 +65,46 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 
 	if ( empty( $current_RET ) )
 	{
-		DBQuery( "INSERT INTO attendance_day (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT)
-			VALUES('" . UserSyear() . "','" . $student_id . "','" . $date . "','" . (int) $total . "','" .
-			$length . "','" . GetCurrentMP( 'QTR', $date, false ) . "','" . $comment . "')" );
+		DBInsert(
+			'attendance_day',
+			[
+				'SYEAR' => UserSyear(),
+				'STUDENT_ID' => (int) $student_id,
+				'SCHOOL_DATE' => $date,
+				'MINUTES_PRESENT' => (int) $total,
+				'STATE_VALUE' => $length,
+				'MARKING_PERIOD_ID' => GetCurrentMP( 'QTR', $date, false ),
+				'COMMENT' => $comment,
+			]
+		);
 
 		return;
 	}
 
+	$where_columns = [
+		'STUDENT_ID' => (int) $student_id,
+		'SCHOOL_DATE' => $date,
+	];
+
 	if ( $current_RET[1]['MINUTES_PRESENT'] != $total
 		|| $current_RET[1]['STATE_VALUE'] != $length )
 	{
-		DBQuery( "UPDATE attendance_day
-			SET MINUTES_PRESENT='" . (int) $total . "',STATE_VALUE='" . $length . "'" .
-			( $comment !== false ? ",COMMENT='" . $comment . "'" : '' ) . "
-			WHERE STUDENT_ID='" . (int) $student_id . "'
-			AND SCHOOL_DATE='" . $date . "'" );
+		$columns = [
+			'MINUTES_PRESENT' => (int) $total,
+			'STATE_VALUE' => $length,
+		];
+
+		if ( $comment !== false )
+		{
+			$columns += [ 'COMMENT' => $comment ];
+		}
+
+		DBUpdate( 'attendance_day', $columns, $where_columns );
 	}
 	elseif ( $comment !== false
 		&& $current_RET[1]['COMMENT'] != $comment )
 	{
-		DBQuery( "UPDATE attendance_day
-			SET COMMENT='" . $comment . "'
-			WHERE STUDENT_ID='" . (int) $student_id . "'
-			AND SCHOOL_DATE='" . $date . "'" );
+		DBUpdate( 'attendance_day', [ 'COMMENT' => $comment ], $where_columns );
 	}
 }
 

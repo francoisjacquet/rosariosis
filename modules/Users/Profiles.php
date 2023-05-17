@@ -163,48 +163,34 @@ if ( $_REQUEST['modfunc'] === 'update'
 					&& $modname !== 'default'
 					&& $modname !== 'title' )
 				{
+					$can_edit = issetVal( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] );
+
+					$can_use = issetVal( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] );
+
 					if ( empty( $exceptions_RET[$modname] )
-						&& ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
-							|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) ) )
+						&& ( $can_edit || $can_use ) )
 					{
-						DBQuery( "INSERT INTO profile_exceptions (PROFILE_ID,MODNAME)
-							values('" . $_REQUEST['profile_id'] . "','" . $modname . "')" );
+						DBInsert(
+							'profile_exceptions',
+							[ 'PROFILE_ID' => (int) $_REQUEST['profile_id'], 'MODNAME' => $modname ]
+						);
 					}
 					elseif ( ! empty( $exceptions_RET[$modname] )
-						&& empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
-						&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+						&& ! $can_use
+						&& ! $can_edit )
 					{
 						DBQuery( "DELETE FROM profile_exceptions
 							WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'
 							AND MODNAME='" . $modname . "'" );
 					}
 
-					if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
-						|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+					if ( $can_edit || $can_use )
 					{
-						$update = "UPDATE profile_exceptions SET ";
-
-						if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] ) )
-						{
-							$update .= "CAN_EDIT='Y',";
-						}
-						else
-						{
-							$update .= "CAN_EDIT=NULL,";
-						}
-
-						if ( ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
-						{
-							$update .= "CAN_USE='Y'";
-						}
-						else
-						{
-							$update .= "CAN_USE=NULL";
-						}
-
-						$update .= " WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "' AND MODNAME='" . $modname . "'";
-
-						DBQuery( $update );
+						DBUpdate(
+							'profile_exceptions',
+							[ 'CAN_EDIT' => $can_edit, 'CAN_USE' => $can_use ],
+							[ 'PROFILE_ID' => (int) $_REQUEST['profile_id'], 'MODNAME' => $modname ]
+						);
 					}
 				}
 			}
@@ -246,10 +232,11 @@ if ( $_REQUEST['modfunc']
 		$xprofile = 'parent';
 	}
 
-	DBQuery( "INSERT INTO user_profiles (TITLE,PROFILE)
-		values('" . $_REQUEST['new_profile_title'] . "','" . $xprofile . "')" );
-
-	$id = DBLastInsertID();
+	$id = DBInsert(
+		'user_profiles',
+		[ 'TITLE' => $_REQUEST['new_profile_title'], 'PROFILE' => $xprofile ],
+		'id'
+	);
 
 	$_REQUEST['profile_id'] = $id;
 
@@ -419,14 +406,14 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 						// POST disabled checkbox: retain checked values using hidden fields.
 						echo '<input type="hidden" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true" />';
+							str_replace( '.', '_', $file ) . ']" value="Y" />';
 
 						echo '<input type="hidden" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true" />';
+							str_replace( '.', '_', $file ) . ']" value="Y" />';
 					}
 
 					echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-					str_replace( '.', '_', $file ) . ']" value="true"' .
+					str_replace( '.', '_', $file ) . ']" value="Y"' .
 						( $can_use === 'Y' ? ' checked' : '' ) .
 						( AllowEdit() ? '' : ' disabled' ) . ' /></td>';
 
@@ -435,7 +422,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							&& $file === 'Scheduling/Requests.php' ) )
 					{
 						echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-						str_replace( '.', '_', $file ) . ']" value="true"' .
+						str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit === 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' disabled' ) . ' /></td>';
 					}
@@ -469,12 +456,12 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 							//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
 							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
@@ -511,12 +498,12 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
@@ -533,12 +520,12 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 								$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_use == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 								echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_edit == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
@@ -551,12 +538,12 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 								$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_use == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 								echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_edit == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
@@ -577,12 +564,12 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 

@@ -371,7 +371,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
 						}
 
-						$sql = "UPDATE " . DBEscapeIdentifier( $table_name ) . " SET ";
+						$update_columns = [];
 
 						if ( $table_name == 'course_periods' )
 						{
@@ -381,9 +381,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$base_title = CoursePeriodTitleGenerate( $id, $columns );
 
-							$base_title = DBEscapeString( $base_title );
-
-							$sql .= "TITLE='" . $base_title . "',";
+							$update_columns['TITLE'] = DBEscapeString( $base_title );
 
 							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
 							{
@@ -434,9 +432,11 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$title = $title_add . $base_title;
 
-							DBQuery( "UPDATE course_periods
-								SET TITLE='" . $title . "'
-								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
+							DBUpdate(
+								'course_periods',
+								[ 'TITLE' => DBEscapeString( $title ) ],
+								[ 'COURSE_PERIOD_ID' => (int) $_REQUEST['course_period_id'] ]
+							);
 
 							if ( empty( $columns['DAYS'] ) ) //delete school period
 							{
@@ -451,15 +451,11 @@ if ( ! empty( $_REQUEST['tables'] )
 							}
 						}
 
-						foreach ( (array) $columns as $column => $value )
-						{
-							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-						}
-
-						$sql = mb_substr( $sql, 0, -1 ) .
-							" WHERE " . DBEscapeIdentifier( $where[$table_name] ) . "='" . $id . "'";
-
-						DBQuery( $sql );
+						DBUpdate(
+							$table_name,
+							$update_columns + $columns,
+							[ $where[$table_name] => (int) $id ]
+						);
 
 						if ( $table_name === 'course_subjects' )
 						{
@@ -486,26 +482,23 @@ if ( ! empty( $_REQUEST['tables'] )
 					}
 					else
 					{
-						$sql = "INSERT INTO " . DBEscapeIdentifier( $table_name ) . " ";
-
 						if ( $table_name == 'course_subjects' )
 						{
-							$fields = 'SCHOOL_ID,SYEAR,';
-							$values = "'" . UserSchool() . "','" . UserSyear() . "',";
+							$insert_columns = [
+								'SYEAR' => UserSyear(),
+								'SCHOOL_ID' => UserSchool(),
+							];
 						}
 						elseif ( $table_name == 'courses' )
 						{
-							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
-							$values = "'" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
-							/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
-							$values = "'".$id."','".UserSchool()."','".UserSyear()."',";*/
+							$insert_columns = [
+								'SYEAR' => UserSyear(),
+								'SCHOOL_ID' => UserSchool(),
+								'SUBJECT_ID' => (int) $_REQUEST['subject_id'],
+							];
 						}
 						elseif ( $table_name == 'course_periods' )
 						{
-							$fields = 'SYEAR,SCHOOL_ID,COURSE_ID,TITLE,FILLED_SEATS,';
-
-							$mp_title = '';
-
 							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
 							{
 								if ( GetMP( $columns['MARKING_PERIOD_ID'], 'MP' ) == 'FY' )
@@ -524,15 +517,19 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$base_title = CoursePeriodTitleGenerate( 0, $columns );
 
-							$base_title = DBEscapeString( $base_title );
-
-							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
+							$insert_columns = [
+								'SYEAR' => UserSyear(),
+								'SCHOOL_ID' => UserSchool(),
+								'COURSE_ID' => (int) $_REQUEST['course_id'],
+								'TITLE' => DBEscapeString( $base_title ),
+								'FILLED_SEATS' => '0',
+							];
 						}
 
 						//FJ multiple school period for a course period
 						elseif ( $table_name == 'course_period_school_periods' )
 						{
-							//FJ add new school period to existing course period
+							// Add new school period to existing course period
 
 							if ( isset( $columns['PERIOD_ID'] ) && empty( $columns['PERIOD_ID'] ) )
 							{
@@ -549,10 +546,6 @@ if ( ! empty( $_REQUEST['tables'] )
 							}
 
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
-
-							$fields = 'COURSE_PERIOD_ID,';
-
-							$values = "'" . $_REQUEST['course_period_id'] . "',";
 
 							$title_add = CoursePeriodSchoolPeriodsTitlePartGenerate(
 								0,
@@ -576,31 +569,23 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$title = $title_add . $base_title;
 
-							DBQuery( "UPDATE course_periods
-								SET TITLE='" . $title . "'
-								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
+							DBUpdate(
+								'course_periods',
+								[ 'TITLE' => DBEscapeString( $title ) ],
+								[ 'COURSE_PERIOD_ID' => (int) $_REQUEST['course_period_id'] ]
+							);
+
+							$insert_columns = [ 'COURSE_PERIOD_ID' => (int) $_REQUEST['course_period_id'] ];
 						}
 
-						$go = 0;
+						$id = DBInsert(
+							$table_name,
+							$insert_columns + $columns,
+							'id'
+						);
 
-						foreach ( (array) $columns as $column => $value )
+						if ( $id )
 						{
-							if ( isset( $value ) )
-							{
-								$fields .= DBEscapeIdentifier( $column ) . ',';
-								$values .= "'" . $value . "',";
-								$go = true;
-							}
-						}
-
-						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-						if ( $go )
-						{
-							DBQuery( $sql );
-
-							$id = DBLastInsertID();
-
 							if ( $table_name == 'course_subjects' )
 							{
 								$_REQUEST['subject_id'] = $id;

@@ -100,48 +100,34 @@ if ( $_REQUEST['modfunc'] === 'update'
 				&& $modname !== 'default'
 				&& $modname !== 'title' )
 			{
+				$can_edit = issetVal( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] );
+
+				$can_use = issetVal( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] );
+
 				if ( empty( $exceptions_RET[$modname] )
-					&& ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
-						|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) ) )
+					&& ( $can_edit || $can_use ) )
 				{
-					DBQuery( "INSERT INTO staff_exceptions (USER_ID,MODNAME)
-						VALUES('" . $user_id . "','" . $modname . "')" );
+					DBInsert(
+						'staff_exceptions',
+						[ 'USER_ID' => (int) $user_id, 'MODNAME' => $modname ]
+					);
 				}
 				elseif ( ! empty( $exceptions_RET[$modname] )
-					&& empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
-					&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+					&& ! $can_use
+					&& ! $can_edit )
 				{
 					DBQuery( "DELETE FROM staff_exceptions
 						WHERE USER_ID='" . (int) $user_id . "'
 						AND MODNAME='" . $modname . "'" );
 				}
 
-				if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
-					|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+				if ( $can_edit || $can_use )
 				{
-					$update = "UPDATE staff_exceptions SET ";
-
-					if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] ) )
-					{
-						$update .= "CAN_EDIT='Y',";
-					}
-					else
-					{
-						$update .= "CAN_EDIT=NULL,";
-					}
-
-					if ( ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
-					{
-						$update .= "CAN_USE='Y'";
-					}
-					else
-					{
-						$update .= "CAN_USE=NULL";
-					}
-
-					$update .= " WHERE USER_ID='" . (int) $user_id . "' AND MODNAME='" . $modname . "'";
-
-					DBQuery( $update );
+					DBUpdate(
+						'staff_exceptions',
+						[ 'CAN_EDIT' => $can_edit, 'CAN_USE' => $can_use ],
+						[ 'USER_ID' => (int) $user_id, 'MODNAME' => $modname ]
+					);
 				}
 			}
 		}
@@ -175,7 +161,7 @@ if ( UserStaffID()
 
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
-			$values = $profiles[$staff_RET[1]['PROFILE']];
+			$values = issetVal( $profiles[$staff_RET[1]['PROFILE']] );
 
 			if ( empty( $values ) )
 			{
@@ -245,7 +231,7 @@ if ( UserStaffID()
 					$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 					echo '<td class="align-right"><input type="checkbox" name="can_use[' .
-					str_replace( '.', '_', $file ) . ']" value="true"' .
+					str_replace( '.', '_', $file ) . ']" value="Y"' .
 						( $can_use === 'Y' ? ' checked' : '' ) .
 						( AllowEdit() ? '' : ' disabled' ) . '></td>';
 
@@ -254,7 +240,7 @@ if ( UserStaffID()
 							&& $file === 'Scheduling/Requests.php' ) )
 					{
 						echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-						str_replace( '.', '_', $file ) . ']" value="true"' .
+						str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit === 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' disabled' ) . '></td>';
 					}
@@ -281,12 +267,12 @@ if ( UserStaffID()
 							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
@@ -323,12 +309,12 @@ if ( UserStaffID()
 							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
@@ -345,12 +331,12 @@ if ( UserStaffID()
 								$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_use == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 								echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_edit == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
@@ -364,12 +350,12 @@ if ( UserStaffID()
 								$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_use == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 								echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-								str_replace( '.', '_', $file ) . ']" value="true"' .
+								str_replace( '.', '_', $file ) . ']" value="Y"' .
 								( $can_edit == 'Y' ? ' checked' : '' ) .
 								( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 
@@ -390,12 +376,12 @@ if ( UserStaffID()
 							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
 
 							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
-							str_replace( '.', '_', $file ) . ']" value="true"' .
+							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_edit == 'Y' ? ' checked' : '' ) .
 							( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
 

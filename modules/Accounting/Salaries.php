@@ -27,64 +27,44 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE accounting_salaries SET ";
-
 			$columns['FILE_ATTACHED'] = _saveSalariesFile( $id );
 
 			if ( ! $columns['FILE_ATTACHED'] )
 			{
 				unset( $columns['FILE_ATTACHED'] );
-
-				if ( empty( $columns ) )
-				{
-					// No file, and FILE_ATTACHED was the only column, skip.
-					continue;
-				}
 			}
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE STAFF_ID='" . UserStaffID() . "' AND ID='" . (int) $id . "'";
-			DBQuery( $sql );
+			DBUpdate(
+				'accounting_salaries',
+				$columns,
+				[ 'STAFF_ID' => UserStaffID(), 'ID' => (int) $id ]
+			);
 		}
 
 		// New: check for Title & Amount.
 		elseif ( $columns['TITLE']
 			&& $columns['AMOUNT'] != '' )
 		{
-			$sql = "INSERT INTO accounting_salaries ";
+			$insert_columns = [
+				'STAFF_ID' => UserStaffID(),
+				'SYEAR' => UserSyear(),
+				'SCHOOL_ID' => UserSchool(),
+				'ASSIGNED_DATE' => DBDate(),
+			];
 
-			$fields = 'STAFF_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
-			$values = "'" . UserStaffID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
+			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
+
+			if ( ! is_numeric( $columns['AMOUNT'] ) )
+			{
+				$columns['AMOUNT'] = 0;
+			}
 
 			$columns['FILE_ATTACHED'] = _saveSalariesFile( $id );
 
-			$go = 0;
-
-			foreach ( (array) $columns as $column => $value )
-			{
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					if ( $column == 'AMOUNT' )
-					{
-						$value = preg_replace( '/[^0-9.-]/', '', $value );
-					}
-
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
-			}
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBInsert(
+				'accounting_salaries',
+				$insert_columns + $columns
+			);
 		}
 	}
 

@@ -12,10 +12,6 @@ AddRequestedDates( 'values', 'post' );
 if ( ! empty( $_POST['values'] )
 	&& AllowEdit() )
 {
-	$sql = "UPDATE discipline_referrals SET ";
-
-	$go = 0;
-
 	$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
 		FROM discipline_fields df,discipline_field_usage du
 		WHERE du.SYEAR='" . UserSyear() . "'
@@ -23,55 +19,51 @@ if ( ! empty( $_POST['values'] )
 		AND du.DISCIPLINE_FIELD_ID=df.ID
 		ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER", [], [ 'ID' ] );
 
+	$update_columns = [];
+
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value )
 	{
 		$column_data_type = $categories_RET[str_replace( 'CATEGORY_', '', $column_name )][1]['DATA_TYPE'];
-
-		//FJ check numeric fields
 
 		if ( $column_data_type === 'numeric'
 			&& $value !== ''
 			&& ! is_numeric( $value ) )
 		{
+			// Check numeric fields.
 			$error[] = _( 'Please enter valid Numeric data.' );
+
 			continue;
 		}
 
-		// FJ textarea fields MarkDown sanitize.
-
 		if ( $column_data_type === 'textarea' )
 		{
+			// Textarea fields MarkDown sanitize.
 			$value = DBEscapeString( SanitizeMarkDown( $_POST['values'][$column_name] ) );
 		}
 
-		if ( ! is_array( $value ) )
+		if ( is_array( $value ) )
 		{
-			$sql .= DBEscapeIdentifier( $column_name ) . "='" . $value . "',";
-		}
-		else
-		{
-			$sql .= DBEscapeIdentifier( $column_name ) . "='||";
+			$value_f = '||';
 
 			foreach ( (array) $value as $val )
 			{
-				if ( $val )
+				if ( $val !== '' )
 				{
-					$sql .= $val . '||';
+					$value_f .= $val . '||';
 				}
 			}
 
-			$sql .= "',";
+			$value = trim( $value_f, '|' ) === '' ? '' : $value_f;
 		}
 
-		$go = true;
+		$update_columns[ $column_name ] = $value;
 	}
 
-	$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $_REQUEST['referral_id'] . "'";
-
-	if ( $go )
-	{
-		DBQuery( $sql );
-	}
+	DBUpdate(
+		'discipline_referrals',
+		$update_columns,
+		[ 'ID' => (int) $_REQUEST['referral_id'] ]
+	);
 
 	// Unset values & redirect URL.
 	RedirectURL( 'values' );

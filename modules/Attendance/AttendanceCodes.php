@@ -29,61 +29,35 @@ if ( $_REQUEST['modfunc'] === 'update'
 						AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 				}
 
+				$table = $_REQUEST['table'] !== 'new' ? 'attendance_codes' : 'attendance_code_categories';
+
 				if ( $id !== 'new' )
 				{
-					if ( $_REQUEST['table'] !== 'new' )
-					{
-						$sql = "UPDATE attendance_codes SET ";
-					}
-					else
-					{
-						$sql = "UPDATE attendance_code_categories SET ";
-					}
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-					DBQuery( $sql );
+					DBUpdate(
+						$table,
+						$columns,
+						[ 'ID' => (int) $id ]
+					);
 				}
 
 				// New: check for Title & Short Name.
 				elseif ( $columns['TITLE']
 					&& ( $_REQUEST['table'] === 'new' || $columns['SHORT_NAME'] ) )
 				{
+					$insert_columns = [
+						'SCHOOL_ID' => UserSchool(),
+						'SYEAR' => UserSyear(),
+					];
+
 					if ( $_REQUEST['table'] !== 'new' )
 					{
-						$sql = "INSERT INTO attendance_codes ";
-						$fields = 'SCHOOL_ID,SYEAR,TABLE_NAME,';
-						$values = "'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['table'] . "',";
-					}
-					else
-					{
-						$sql = "INSERT INTO attendance_code_categories ";
-						$fields = 'SCHOOL_ID,SYEAR,';
-						$values = "'" . UserSchool() . "','" . UserSyear() . "',";
+						$insert_columns += [ 'TABLE_NAME' => (int) $_REQUEST['table'] ];
 					}
 
-					$go = false;
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						if ( isset( $value ) && $value != '' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
-						}
-					}
-
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-					if ( $go )
-					{
-						DBQuery( $sql );
-					}
+					DBInsert(
+						$table,
+						$insert_columns + $columns
+					);
 				}
 			}
 			else

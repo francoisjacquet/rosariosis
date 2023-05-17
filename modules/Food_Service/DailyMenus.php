@@ -95,9 +95,11 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 		{
 			if ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 			{
-				DBQuery( "UPDATE calendar_events
-					SET DESCRIPTION='" . $description['text'] . $description['select'] . "'
-					WHERE ID='" . (int) $events_RET[$school_date][1]['ID'] . "'" );
+				DBUpdate(
+					'calendar_events',
+					[ 'DESCRIPTION' => $description['text'] . issetVal( $description['select'], '' ) ],
+					[ 'ID' => (int) $events_RET[$school_date][1]['ID'] ]
+				);
 			}
 			else
 			{
@@ -107,10 +109,16 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 		}
 		elseif ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 		{
-			DBQuery( "INSERT INTO calendar_events (SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
-				VALUES('" . UserSyear() . "','" .
-				UserSchool() . "','" . $school_date . "','" . DBEscapeString( $menu_title ) . "','" .
-				$description['text'] . issetVal( $description['select'], '' ) . "')" );
+			DBInsert(
+				'calendar_events',
+				[
+					'SYEAR' => UserSyear(),
+					'SCHOOL_ID' => UserSchool(),
+					'SCHOOL_DATE' => $school_date,
+					'TITLE' => DBEscapeString( $menu_title ),
+					'DESCRIPTION' => $description['text'] . issetVal( $description['select'], '' ),
+				]
+			);
 		}
 	}
 

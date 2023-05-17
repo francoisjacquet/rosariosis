@@ -76,18 +76,14 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		foreach ( (array) $_REQUEST['values'] as $request_id => $columns )
 		{
-			$sql = "UPDATE schedule_requests SET ";
-
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) .
-				" WHERE STUDENT_ID='" . UserStudentID() . "'
-				AND REQUEST_ID='" . (int) $request_id . "'";
-
-			DBQuery( $sql );
+			DBUpdate(
+				'schedule_requests',
+				$columns,
+				[
+					'STUDENT_ID' => UserStudentID(),
+					'REQUEST_ID' => (int) $request_id,
+				]
+			);
 		}
 	}
 

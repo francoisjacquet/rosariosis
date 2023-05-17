@@ -16,96 +16,47 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 				{
+					$table = $_REQUEST['tab_id'] !== 'new' ? 'food_service_categories' : 'food_service_menus';
+
+					if ( isset( $columns['TITLE'] ) )
+					{
+						$title_exists = DBGetOne( "SELECT 1
+							FROM " . DBEscapeIdentifier( $table ) . "
+							WHERE TITLE='" . $columns['TITLE'] . "'" );
+
+						if ( $title_exists )
+						{
+							// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
+							$columns['TITLE'] .= ' (2)';
+						}
+					}
+
 					if ( $id !== 'new' )
 					{
-						if ( $_REQUEST['tab_id'] !== 'new' )
-						{
-							$sql = "UPDATE food_service_categories SET ";
-						}
-						else
-						{
-							$sql = "UPDATE food_service_menus SET ";
-						}
+						$where_columns = $_REQUEST['tab_id'] !== 'new' ?
+							[ 'CATEGORY_ID' => (int) $id ] : [ 'MENU_ID' => (int) $id ];
 
-						foreach ( (array) $columns as $column => $value )
-						{
-							if ( $column === 'TITLE'
-								&& $_REQUEST['tab_id'] === 'new' )
-							{
-								$menu_title_exists = DBGetOne( "SELECT 1
-									FROM food_service_menus
-									WHERE TITLE='" . $value . "'" );
-
-								// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
-								if ( $menu_title_exists )
-								{
-									$value = $value . ' (2)';
-								}
-							}
-
-							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-						}
-
-						if ( $_REQUEST['tab_id'] !== 'new' )
-						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE CATEGORY_ID='" . (int) $id . "'";
-						}
-						else
-						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ID='" . (int) $id . "'";
-						}
-
-						DBQuery( $sql );
+						DBUpdate(
+							$table,
+							$columns,
+							$where_columns
+						);
 					}
 
 					// New: check for Title
 					elseif ( $columns['TITLE'] )
 					{
+						$insert_columns = [ 'SCHOOL_ID' => UserSchool() ];
+
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = 'INSERT INTO food_service_categories ';
-							$fields = 'MENU_ID,SCHOOL_ID,';
-							$values = "'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
-						}
-						else
-						{
-							$sql = 'INSERT INTO food_service_menus ';
-							$fields = 'SCHOOL_ID,';
-							$values = "'" . UserSchool() . "',";
+							$insert_columns += [ 'MENU_ID' => (int) $_REQUEST['tab_id'] ];
 						}
 
-						$go = false;
-
-						foreach ( (array) $columns as $column => $value )
-						{
-							if ( ! empty( $value ) || $value == '0' )
-							{
-								if ( $column === 'TITLE'
-									&& $_REQUEST['tab_id'] === 'new' )
-								{
-									$menu_title_exists = DBGetOne( "SELECT 1
-										FROM food_service_menus
-										WHERE TITLE='" . $value . "'" );
-
-									// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
-									if ( $menu_title_exists )
-									{
-										$value = $value . ' (2)';
-									}
-								}
-
-								$fields .= DBEscapeIdentifier( $column ) . ',';
-								$values .= "'" . $value . "',";
-								$go = true;
-							}
-						}
-
-						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-						if ( $go )
-						{
-							DBQuery( $sql );
-						}
+						DBInsert(
+							$table,
+							$insert_columns + $columns
+						);
 					}
 				}
 				else

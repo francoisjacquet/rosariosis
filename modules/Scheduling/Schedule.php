@@ -55,8 +55,6 @@ if ( $_REQUEST['modfunc'] === 'modify'
 	{
 		foreach ( (array) $start_dates as $start_date => $columns )
 		{
-			$sql = "UPDATE schedule SET ";
-
 			if ( isset( $columns['MARKING_PERIOD_ID'] ) )
 			{
 				$mp = GetMP( $columns['MARKING_PERIOD_ID'], 'MP' );
@@ -68,16 +66,15 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				}
 			}
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'
-			AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-			AND START_DATE='" . $start_date . "'";
-
-			DBQuery( $sql );
+			DBUpdate(
+				'schedule',
+				$columns,
+				[
+					'STUDENT_ID' => UserStudentID(),
+					'COURSE_PERIOD_ID' => (int) $course_period_id,
+					'START_DATE' => $start_date,
+				]
+			);
 
 			if ( ! empty( $columns['START_DATE'] ) || ! empty( $columns['END_DATE'] ) )
 			{
@@ -486,10 +483,19 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		if ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'warning' ) ) )
 		{
-			DBQuery( "INSERT INTO schedule (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
-				VALUES('" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "','" .
-				$date . "','" . $_REQUEST['course_id'] . "','" . $_REQUEST['course_period_id'] . "','" .
-				$mp_RET[1]['MP'] . "','" . $mp_RET[1]['MARKING_PERIOD_ID'] . "')" );
+			DBInsert(
+				'schedule',
+				[
+					'SYEAR' => UserSyear(),
+					'SCHOOL_ID' => UserSchool(),
+					'STUDENT_ID' => UserStudentID(),
+					'COURSE_ID' => (int) $_REQUEST['course_id'],
+					'COURSE_PERIOD_ID' => (int) $_REQUEST['course_period_id'],
+					'MP' => $mp_RET[1]['MP'],
+					'MARKING_PERIOD_ID' => (int) $mp_RET[1]['MARKING_PERIOD_ID'],
+					'START_DATE' => $date,
+				]
+			);
 
 			// Hook.
 			do_action( 'Scheduling/Schedule.php|schedule_student' );

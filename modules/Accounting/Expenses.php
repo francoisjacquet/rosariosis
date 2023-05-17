@@ -21,68 +21,37 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE accounting_payments SET ";
-
 			$columns['FILE_ATTACHED'] = _saveExpensesFile( $id );
 
 			if ( ! $columns['FILE_ATTACHED'] )
 			{
 				unset( $columns['FILE_ATTACHED'] );
-
-				if ( empty( $columns ) )
-				{
-					// No file, and FILE_ATTACHED was the only column, skip.
-					continue;
-				}
 			}
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-			DBQuery( $sql );
+			DBUpdate(
+				'accounting_payments',
+				$columns,
+				[ 'ID' => (int) $id ]
+			);
 		}
 		elseif ( $columns['AMOUNT'] !== ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$sql = "INSERT INTO accounting_payments ";
+			$insert_columns = [ 'SYEAR' => UserSyear(), 'SCHOOL_ID' => UserSchool() ];
 
-			$fields = 'SYEAR,SCHOOL_ID,';
-			$values = "'" . UserSyear() . "','" . UserSchool() . "',";
+			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
+
+			if ( ! is_numeric( $columns['AMOUNT'] ) )
+			{
+				$columns['AMOUNT'] = 0;
+			}
 
 			$columns['FILE_ATTACHED'] = _saveExpensesFile( $id );
 
-			$go = 0;
-
-			foreach ( (array) $columns as $column => $value )
-			{
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					if ( $column == 'AMOUNT' )
-					{
-						$value = preg_replace( '/[^0-9.-]/', '', $value );
-						// FJ fix SQL bug invalid amount.
-
-						if ( ! is_numeric( $value ) )
-						{
-							$value = 0;
-						}
-					}
-
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
-			}
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBInsert(
+				'accounting_payments',
+				$insert_columns + $columns
+			);
 		}
 	}
 

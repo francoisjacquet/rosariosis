@@ -32,6 +32,7 @@ Changes in 11.0
 - Use DBUpsert() function in Template.fnc.php, Config.fnc.php & StudentAssignments.fnc.php
 - Use DBInsertSQL() function in AddActivity.php, Scheduler.php, Calendar.php, MarkingPeriods.php, MassAssignFees.php & MassAssignPayments.php
 - Use DBUpdateSQL() function in MarkingPeriods.php
+- Use DBUpdate() & DBInsert() functions, program wide
 
 Changes in 10.9.6
 -----------------

@@ -13,43 +13,22 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE eligibility_activities SET ";
-
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-			DBQuery( $sql );
+			DBUpdate(
+				'eligibility_activities',
+				$columns,
+				[ 'ID' => (int) $id ]
+			);
 		}
 
 		// New: check for Title
 		elseif ( $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO eligibility_activities ";
+			$insert_columns = [ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ];
 
-			$fields = 'SCHOOL_ID,SYEAR,';
-			$values = "'" . UserSchool() . "','" . UserSyear() . "',";
-
-			$go = 0;
-
-			foreach ( (array) $columns as $column => $value )
-			{
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
-			}
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBInsert(
+				'eligibility_activities',
+				$insert_columns + $columns
+			);
 		}
 	}
 

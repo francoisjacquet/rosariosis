@@ -43,43 +43,21 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE school_periods SET ";
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERIOD_ID='" . (int) $id . "'";
-
-					DBQuery( $sql );
+					DBUpdate(
+						'school_periods',
+						$columns,
+						[ 'PERIOD_ID' => (int) $id ]
+					);
 				}
 				// New: check for Title.
 				elseif ( $columns['TITLE'] )
 				{
-					$sql = "INSERT INTO school_periods ";
+					$insert_columns = [ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ];
 
-					$fields = 'SCHOOL_ID,SYEAR,';
-					$values = "'" . UserSchool() . "','" . UserSyear() . "',";
-
-					$go = false;
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						if ( ! empty( $value )
-							|| $value === '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
-						}
-					}
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-					if ( $go )
-					{
-						DBQuery( $sql );
-					}
+					DBInsert(
+						'school_periods',
+						$insert_columns + $columns
+					);
 				}
 			}
 			else

@@ -31,51 +31,35 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				{
 					if ( $id !== 'new' )
 					{
-						$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
-
-						foreach ( (array) $columns as $column => $value )
-						{
-							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-						}
-
-						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-						DBQuery( $sql );
+						DBUpdate(
+							$table,
+							$columns,
+							[ 'ID' => (int) $id ]
+						);
 					}
 
 					// New: check for Title
 					elseif ( $columns['TITLE'] )
 					{
-						$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
+						$insert_columns = [
+							'SCHOOL_ID' => UserSchool(),
+							'SYEAR' => UserSyear(),
+							'COURSE_ID' => ( $_REQUEST['tab_id'] == 'new' ?
+								(int) $_REQUEST['course_id'] : ( $_REQUEST['tab_id'] == '-1' ?
+									'' : ( $_REQUEST['tab_id'] == '0' ?
+										'0' : (int) $_REQUEST['course_id'] ) ) ),
+						];
 
-						$fields = "SCHOOL_ID,SYEAR,COURSE_ID," . ( $_REQUEST['tab_id'] == 'new' ? '' : "CATEGORY_ID," );
-
-						$values = "'" . UserSchool() . "','" . UserSyear() . "'," .
-						( $_REQUEST['tab_id'] == 'new' ?
-							"'" . $_REQUEST['course_id'] . "'" :
-							( $_REQUEST['tab_id'] == '-1' ?
-								"NULL,NULL" :
-								( $_REQUEST['tab_id'] == '0' ?
-									"'0',NULL" :
-									"'" . $_REQUEST['course_id'] . "','" . $_REQUEST['tab_id'] . "'" ) ) ) . ",";
-
-						$go = false;
-
-						foreach ( (array) $columns as $column => $value )
+						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							if ( ! empty( $value ) || $value == '0' )
-							{
-								$fields .= DBEscapeIdentifier( $column ) . ',';
-								$values .= "'" . $value . "',";
-								$go = true;
-							}
+							$insert_columns['CATEGORY_ID'] = ( $_REQUEST['tab_id'] > 0 ?
+								(int) $_REQUEST['tab_id'] : '' );
 						}
 
-						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-						if ( $go )
-						{
-							DBQuery( $sql );
-						}
+						DBInsert(
+							$table,
+							$insert_columns + $columns
+						);
 					}
 				}
 				else

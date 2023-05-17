@@ -22,8 +22,6 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE billing_fees SET ";
-
 			$columns['FILE_ATTACHED'] = _saveFeesFile( $id );
 
 			if ( ! $columns['FILE_ATTACHED'] )
@@ -37,49 +35,32 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 			}
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "' AND ID='" . (int) $id . "'";
-			DBQuery( $sql );
+			DBUpdate(
+				'billing_fees',
+				$columns,
+				[ 'STUDENT_ID' => UserStudentID(), 'ID' => (int) $id ]
+			);
 		}
 
 		// New: check for Title & Amount.
 		elseif ( $columns['TITLE']
 			&& $columns['AMOUNT'] != '' )
 		{
-			$sql = "INSERT INTO billing_fees ";
-
-			$fields = 'STUDENT_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
-			$values = "'" . UserStudentID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
+			$insert_columns = [
+				'STUDENT_ID' => UserStudentID(),
+				'SCHOOL_ID' => UserSchool(),
+				'SYEAR' => UserSyear(),
+				'ASSIGNED_DATE' => DBDate(),
+			];
 
 			$columns['FILE_ATTACHED'] = _saveFeesFile( $id );
 
-			$go = 0;
+			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					if ( $column == 'AMOUNT' )
-					{
-						$value = preg_replace( '/[^0-9.-]/', '', $value );
-					}
-
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
-			}
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBInsert(
+				'billing_fees',
+				$insert_columns + $columns
+			);
 		}
 	}
 
@@ -125,16 +106,19 @@ if ( $_REQUEST['modfunc'] === 'waive'
 			FROM billing_fees
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
-		DBQuery( "INSERT INTO billing_fees (SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
-			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
-			VALUES ('" . UserSyear() . "','" .
-			UserSchool() . "','" .
-			DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' ) ) . "','" .
-			( $fee_RET[1]['AMOUNT'] * -1 ) . "','" .
-			(int) $_REQUEST['id'] . "','" .
-			UserStudentID() . "','" .
-			DBDate() . "','" .
-			DBEscapeString( _( 'Waiver' ) ) . "')" );
+		DBInsert(
+			'billing_fees',
+			[
+				'SYEAR' => UserSyear(),
+				'SCHOOL_ID' => UserSchool(),
+				'TITLE' => DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' ) ),
+				'AMOUNT' => ( $fee_RET[1]['AMOUNT'] * -1 ),
+				'WAIVED_FEE_ID' => (int) $_REQUEST['id'],
+				'STUDENT_ID' => UserStudentID(),
+				'ASSIGNED_DATE' => DBDate(),
+				'COMMENTS' => DBEscapeString( _( 'Waiver' ) ),
+			]
+		);
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

@@ -22,8 +22,10 @@ if ( ! empty( $_POST['values'] )
 				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID)
-					values('" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
+				DBInsert(
+					'students_join_address',
+					[ 'STUDENT_ID' => UserStudentID(), 'ADDRESS_ID' => (int) $_REQUEST['address_id'] ]
+				);
 
 				if ( $DatabaseType === 'mysql' )
 				{
@@ -69,8 +71,10 @@ if ( ! empty( $_POST['values'] )
 						WHERE ADDRESS_ID='0'
 						AND STUDENT_ID='" . UserStudentID() . "'" ) )
 				{
-					DBQuery( "INSERT INTO students_join_address (ADDRESS_ID,STUDENT_ID)
-						values ('0','" . UserStudentID() . "')" );
+					DBInsert(
+						'students_join_address',
+						[ 'STUDENT_ID' => UserStudentID(), 'ADDRESS_ID' => '0' ]
+					);
 				}
 			}
 		}
@@ -86,13 +90,11 @@ if ( ! empty( $_POST['values'] )
 
 		if ( $_REQUEST['address_id'] !== 'new' )
 		{
-			$sql = "UPDATE address SET ";
-
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM address_fields
 				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
-			$go = 0;
+			$update_columns = [];
 
 			foreach ( (array) $_REQUEST['values']['address'] as $column => $value )
 			{
@@ -113,16 +115,16 @@ if ( ! empty( $_POST['values'] )
 					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 				}
 
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-
-				$go = true;
+				$update_columns[$column] = $value;
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'";
-
-			if ( $go )
+			if ( $update_columns )
 			{
-				DBQuery( $sql );
+				DBUpdate(
+					'address',
+					$update_columns,
+					[ 'ADDRESS_ID' => (int) $_REQUEST['address_id'] ]
+				);
 
 				//hook
 				do_action( 'Students/Student.php|update_student_address' );
@@ -130,12 +132,7 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$sql = "INSERT INTO address ";
-
-			$fields = '';
-			$values = '';
-
-			$go = 0;
+			$insert_columns = [];
 
 			foreach ( (array) $_REQUEST['values']['address'] as $column => $value )
 			{
@@ -145,24 +142,24 @@ if ( ! empty( $_POST['values'] )
 					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 				}
 
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
+				$insert_columns[$column] = $value;
 			}
 
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+			$id = DBInsert(
+				'address',
+				$insert_columns,
+				'id'
+			);
 
-			if ( $go )
+			if ( $id )
 			{
-				DBQuery( $sql );
-
-				$id = DBLastInsertID();
-
-				DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
-					values('" . UserStudentID() . "','" . $id . "','" . $_REQUEST['values']['students_join_address']['RESIDENCE'] . "','" . $_REQUEST['values']['students_join_address']['MAILING'] . "','" . $_REQUEST['values']['students_join_address']['BUS_PICKUP'] . "','" . $_REQUEST['values']['students_join_address']['BUS_DROPOFF'] . "')" );
+				DBInsert(
+					'students_join_address',
+					[
+						'STUDENT_ID' => UserStudentID(),
+						'ADDRESS_ID' => (int) $id,
+					] + $_REQUEST['values']['students_join_address']
+				);
 
 				$_REQUEST['address_id'] = $id;
 
@@ -182,13 +179,11 @@ if ( ! empty( $_POST['values'] )
 
 		if ( $_REQUEST['person_id'] !== 'new' )
 		{
-			$sql = "UPDATE people SET ";
-
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM people_fields
 				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
-			$go = 0;
+			$update_columns = [];
 
 			foreach ( (array) $_REQUEST['values']['people'] as $column => $value )
 			{
@@ -207,25 +202,18 @@ if ( ! empty( $_POST['values'] )
 					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 				}
 
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				$go = true;
+				$update_columns[$column] = $value;
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'";
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBUpdate(
+				'people',
+				$update_columns,
+				[ 'PERSON_ID' => (int) $_REQUEST['person_id'] ]
+			);
 		}
 		else
 		{
-			$sql = "INSERT INTO people ";
-
-			$fields = '';
-			$values = '';
-
-			$go = 0;
+			$insert_columns = [];
 
 			foreach ( (array) $_REQUEST['values']['people'] as $column => $value )
 			{
@@ -235,24 +223,25 @@ if ( ! empty( $_POST['values'] )
 					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 				}
 
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
+				$insert_columns[$column] = $value;
 			}
 
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+			$id = DBInsert(
+				'people',
+				$insert_columns,
+				'id'
+			);
 
-			if ( $go )
+			if ( $id )
 			{
-				DBQuery( $sql );
-
-				$id = DBLastInsertID();
-
-				DBQuery( "INSERT INTO students_join_people (PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY)
-					values('" . $id . "','" . UserStudentID() . "','" . $_REQUEST['address_id'] . "','" . $_REQUEST['values']['students_join_people']['CUSTODY'] . "','" . $_REQUEST['values']['students_join_people']['EMERGENCY'] . "')" );
+				DBInsert(
+					'students_join_people',
+					[
+						'STUDENT_ID' => UserStudentID(),
+						'PERSON_ID' => (int) $id,
+						'ADDRESS_ID' => (int) $_REQUEST['address_id'],
+					] + $_REQUEST['values']['students_join_people']
+				);
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
@@ -260,8 +249,10 @@ if ( ! empty( $_POST['values'] )
 						WHERE ADDRESS_ID='0'
 						AND STUDENT_ID='" . UserStudentID() . "'" ) )
 				{
-					DBQuery( "INSERT INTO students_join_address (ADDRESS_ID,STUDENT_ID)
-						values ('0','" . UserStudentID() . "')" );
+					DBInsert(
+						'students_join_address',
+						[ 'STUDENT_ID' => UserStudentID(), 'ADDRESS_ID' => '0' ]
+					);
 				}
 
 				$_REQUEST['person_id'] = $id;
@@ -275,41 +266,18 @@ if ( ! empty( $_POST['values'] )
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE people_join_contacts SET ";
-
-				foreach ( (array) $values as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-				DBQuery( $sql );
+				DBUpdate(
+					'people_join_contacts',
+					$values,
+					[ 'ID' => (int) $id ]
+				);
 			}
 			elseif ( $values['TITLE'] && $values['VALUE'] != '' )
 			{
-				$sql = "INSERT INTO people_join_contacts ";
-
-				$fields = 'PERSON_ID,';
-				$vals = "'" . $_REQUEST['person_id'] . "',";
-
-				$go = 0;
-
-				foreach ( (array) $values as $column => $value )
-				{
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$vals .= "'" . $value . "',";
-						$go = true;
-					}
-				}
-
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $vals, 0, -1 ) . ')';
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-				}
+				DBInsert(
+					'people_join_contacts',
+					[ 'PERSON_ID' => (int) $_REQUEST['person_id'] ] + $values
+				);
 			}
 		}
 	}
@@ -317,29 +285,21 @@ if ( ! empty( $_POST['values'] )
 	if ( ! empty( $_REQUEST['values']['students_join_people'] )
 		&& $_REQUEST['person_id'] !== 'new' )
 	{
-		$sql = "UPDATE students_join_people SET ";
-
-		foreach ( (array) $_REQUEST['values']['students_join_people'] as $column => $value )
-		{
-			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-		}
-
-		$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "' AND STUDENT_ID='" . UserStudentID() . "'";
-		DBQuery( $sql );
+		DBUpdate(
+			'students_join_people',
+			$_REQUEST['values']['students_join_people'],
+			[ 'PERSON_ID' => (int) $_REQUEST['person_id'], 'STUDENT_ID' => UserStudentID() ]
+		);
 	}
 
 	if ( ! empty( $_REQUEST['values']['students_join_address'] )
 		&& $_REQUEST['address_id'] !== 'new' )
 	{
-		$sql = "UPDATE students_join_address SET ";
-
-		foreach ( (array) $_REQUEST['values']['students_join_address'] as $column => $value )
-		{
-			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-		}
-
-		$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "' AND STUDENT_ID='" . UserStudentID() . "'";
-		DBQuery( $sql );
+		DBUpdate(
+			'students_join_address',
+			$_REQUEST['values']['students_join_address'],
+			[ 'ADDRESS_ID' => (int) $_REQUEST['address_id'], 'STUDENT_ID' => UserStudentID() ]
+		);
 	}
 
 	if ( $required_error )

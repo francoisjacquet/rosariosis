@@ -45,20 +45,29 @@ if ( UserStudentID() )
 
 			if ( empty( $sms_RET ) )
 			{
-				DBQuery( "INSERT INTO student_mp_stats (STUDENT_ID,MARKING_PERIOD_ID)
-					VALUES ('" . $student_id . "','" . $_REQUEST['new_sms'] . "')" );
+				DBInsert(
+					'student_mp_stats',
+					[
+						'STUDENT_ID' => (int) $student_id,
+						'MARKING_PERIOD_ID' => (int) $_REQUEST['new_sms'],
+					]
+				);
 			}
 
-			$mp_id = issetVal( $_REQUEST['new_sms'] );
+			$mp_id = $_REQUEST['new_sms'];
 		}
 
 		if ( ! empty( $_REQUEST['SMS_GRADE_LEVEL'] )
 			&& $mp_id )
 		{
-			DBQuery( "UPDATE student_mp_stats
-				SET GRADE_LEVEL_SHORT='" . $_REQUEST['SMS_GRADE_LEVEL'] . "'
-				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'
-				AND STUDENT_ID='" . (int) $student_id . "'" );
+			DBUpdate(
+				'student_mp_stats',
+				[ 'GRADE_LEVEL_SHORT' => $_REQUEST['SMS_GRADE_LEVEL'] ],
+				[
+					'STUDENT_ID' => (int) $student_id,
+					'MARKING_PERIOD_ID' => (int) $mp_id,
+				]
+			);
 		}
 
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
@@ -69,33 +78,27 @@ if ( UserStudentID() )
 			{
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE student_report_card_grades SET ";
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-					DBQuery( $sql );
-
-					$go = true;
+					$go = DBUpdate(
+						'student_report_card_grades',
+						$columns,
+						[ 'ID' => (int) $id ]
+					);
 				}
 
 				// New: check for Title.
 				elseif ( $columns['COURSE_TITLE'] )
 				{
-					$sql = 'INSERT INTO student_report_card_grades ';
-
-					// FJ fix bug SQL SYEAR=NULL.
+					// Fix bug SQL SYEAR=NULL.
 					$syear = DBGetOne( "SELECT SYEAR
 						FROM marking_periods
 						WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'" );
 
-					$fields = 'SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
-
-					$values = "'" . UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
+					$insert_columns = [
+						'SCHOOL_ID' => UserSchool(),
+						'STUDENT_ID' => (int) $student_id,
+						'MARKING_PERIOD_ID' => (int) $mp_id,
+						'SYEAR' => $syear,
+					];
 
 					if ( empty( $columns['GP_SCALE'] ) )
 					{
@@ -125,25 +128,10 @@ if ( UserStudentID() )
 						$columns['CLASS_RANK'] = 'Y';
 					}
 
-					$go = false;
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						if ( ! empty( $value )
-							|| $value == '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
-						}
-					}
-
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-					if ( $go && $mp_id && $student_id )
-					{
-						DBQuery( $sql );
-					}
+					$go = DBInsert(
+						'student_report_card_grades',
+						$insert_columns + $columns
+					);
 				}
 
 				if ( $go )

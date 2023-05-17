@@ -103,9 +103,11 @@ if ( $confirm_ok )
 	{
 		$seats = calcSeats0( $period );
 
-		DBQuery( "UPDATE course_periods
-			SET FILLED_SEATS='" . $seats . "'
-			WHERE COURSE_PERIOD_ID='" . (int) $period['COURSE_PERIOD_ID'] . "'" );
+		DBUpdate(
+			'course_periods',
+			[ 'FILLED_SEATS' => $seats ],
+			[ 'COURSE_PERIOD_ID' => (int) $period['COURSE_PERIOD_ID'] ]
+		);
 	}
 
 	$count = DBGet( "SELECT COUNT(*) AS COUNT

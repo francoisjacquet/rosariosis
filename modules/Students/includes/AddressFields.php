@@ -40,21 +40,16 @@ if ( isset( $_POST['tables'] )
 						$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
 					}
 
-					$sql = 'UPDATE ' . DBEscapeIdentifier( $table ) . ' SET ';
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-					$go = true;
+					DBUpdate(
+						$table,
+						$columns,
+						[ 'ID' => (int) $id ]
+					);
 				}
 				// New Field / Category.
 				else
 				{
-					$sql = 'INSERT INTO ' . DBEscapeIdentifier( $table ) . ' ';
+					$insert_columns = [];
 
 					// New Field.
 					if ( $table === 'address_fields' )
@@ -66,43 +61,17 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$fields = 'CATEGORY_ID,';
-
-						$values = "'" . $_REQUEST['category_id'] . "',";
-					}
-					// New Category.
-					elseif ( $table === 'address_field_categories' )
-					{
-						$fields = '';
-
-						$values = '';
+						$insert_columns = [ 'CATEGORY_ID' => (int) $_REQUEST['category_id'] ];
 					}
 
-					$go = false;
+					$id = DBInsert(
+						$table,
+						$insert_columns + $columns,
+						'id'
+					);
 
-					foreach ( (array) $columns as $column => $value )
+					if ( $id )
 					{
-						if ( ! empty( $value )
-							|| $value == '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-
-							$values .= "'" . $value . "',";
-
-							$go = true;
-						}
-					}
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-				}
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-
-					if ( $id === 'new' )
-					{
-						$id = DBLastInsertID();
-
 						if ( $table === 'address_fields' )
 						{
 							AddDBField( 'address', $id, $columns['TYPE'] );

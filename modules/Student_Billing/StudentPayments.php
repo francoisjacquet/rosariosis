@@ -22,8 +22,6 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE billing_payments SET ";
-
 			$columns['FILE_ATTACHED'] = _savePaymentsFile( $id );
 
 			if ( ! $columns['FILE_ATTACHED'] )
@@ -37,55 +35,29 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 			}
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-			DBQuery( $sql );
+			DBUpdate(
+				'billing_payments',
+				$columns,
+				[ 'STUDENT_ID' => UserStudentID(), 'ID' => (int) $id ]
+			);
 		}
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$sql = "INSERT INTO billing_payments ";
-
-			$fields = 'STUDENT_ID,SYEAR,SCHOOL_ID,';
-			$values = "'" . UserStudentID() . "','" . UserSyear() . "','" . UserSchool() . "',";
+			$insert_columns = [
+				'STUDENT_ID' => UserStudentID(),
+				'SCHOOL_ID' => UserSchool(),
+				'SYEAR' => UserSyear(),
+			];
 
 			$columns['FILE_ATTACHED'] = _savePaymentsFile( $id );
 
-			$go = 0;
+			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					if ( $column == 'AMOUNT' )
-					{
-						$value = preg_replace( '/[^0-9.-]/', '', $value );
-
-						//FJ fix SQL bug invalid amount
-
-						if ( ! is_numeric( $value ) )
-						{
-							$value = 0;
-						}
-					}
-
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
-			}
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBInsert(
+				'billing_payments',
+				$insert_columns + $columns
+			);
 		}
 	}
 
@@ -133,15 +105,18 @@ if ( $_REQUEST['modfunc'] === 'refund'
 			$payment_RET[1]['COMMENTS'] . ' &mdash; ' . _( 'Refund' ) :
 			_( 'Refund' );
 
-		DBQuery( "INSERT INTO billing_payments (SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
-			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
-			VALUES('" . UserSyear() . "','" .
-			UserSchool() . "','" .
-			UserStudentID() . "','" .
-			( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
-			DBDate() . "','" .
-			DBEscapeString( $comments ) . "','" .
-			(int) $_REQUEST['id'] . "')" );
+		DBInsert(
+			'billing_payments',
+			[
+				'SYEAR' => UserSyear(),
+				'SCHOOL_ID' => UserSchool(),
+				'STUDENT_ID' => UserStudentID(),
+				'AMOUNT' => ( $payment_RET[1]['AMOUNT'] * -1 ),
+				'PAYMENT_DATE' => DBDate(),
+				'COMMENTS' => DBEscapeString( $comments ),
+				'REFUNDED_PAYMENT_ID' => (int) $_REQUEST['id'],
+			]
+		);
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

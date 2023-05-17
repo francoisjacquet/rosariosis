@@ -340,9 +340,7 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
 		$mp_title = GetMP( $marking_period_id, 'SHORT_NAME' ) . ' - ';
 	}
 
-	$base_title = $mp_title . $short_name . ' - ';
-
-	$base_title = DBEscapeString( $base_title . GetTeacher( $staff_id ) );
+	$base_title = $mp_title . $short_name . ' - ' . GetTeacher( $staff_id );
 
 	$periods_title = '';
 

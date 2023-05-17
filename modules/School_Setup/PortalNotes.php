@@ -72,16 +72,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE portal_notes SET ";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-				DBQuery( $sql );
+				DBUpdate(
+					'portal_notes',
+					$columns,
+					[ 'ID' => (int) $id ]
+				);
 
 				//hook
 				do_action( 'School_Setup/PortalNotes.php|update_portal_note' );
@@ -116,12 +111,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 				',' . $_REQUEST['values']['new']['PUBLISHED_PROFILES'] :
 				'';
 
-				$sql = "INSERT INTO portal_notes ";
-
-				//FJ file attached to portal notes
-				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_USER,';
-
-				$values = "'" . UserSchool() . "','" . UserSyear() . "','" . User( 'STAFF_ID' ) . "',";
 				// @since 10.9 Fix security issue, unset any FILE_ATTACHED column first.
 				$columns['FILE_ATTACHED'] = '';
 
@@ -157,26 +146,20 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				unset( $columns['FILE_ATTACHED_EMBED'] );
 
-				$go = 0;
+				$insert_columns = [
+					'SCHOOL_ID' => UserSchool(),
+					'SYEAR' => UserSyear(),
+					'PUBLISHED_USER' => User( 'STAFF_ID' ),
+				];
 
-				foreach ( (array) $columns as $column => $value )
+				if ( empty( $error ) )
 				{
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$values .= "'" . $value . "',";
-						$go = true;
-					}
-				}
-
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-				if ( $go && empty( $error ) )
-				{
-					DBQuery( $sql );
-
 					// Global var used by Moodle plugin.
-					$portal_note_id = DBLastInsertID();
+					$portal_note_id = DBInsert(
+						'portal_notes',
+						$insert_columns + $columns,
+						'id'
+					);
 
 					//hook
 					do_action( 'School_Setup/PortalNotes.php|create_portal_note' );

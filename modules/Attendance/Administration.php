@@ -130,55 +130,38 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 
 		foreach ( (array) $values as $period_id => $columns )
 		{
+			$course_period_id = $current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID'];
+
 			if ( ! empty( $current_RET[$student_id][$period_id] ) )
 			{
-				$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
-					" SET ADMIN='Y',
-					COURSE_PERIOD_ID='" . (int) $current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID'] . "',";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $date . "'
-					AND PERIOD_ID='" . (int) $period_id . "'
-					AND STUDENT_ID='" . (int) $student_id . "'" .
-					$extra_sql;
-
-				DBQuery( $sql );
+				DBUpdate(
+					$table,
+					[
+						'ADMIN' => 'Y',
+						'COURSE_PERIOD_ID' => (int) $course_period_id,
+					] + $columns,
+					[
+						'STUDENT_ID' => (int) $student_id,
+						'SCHOOL_DATE' => $date,
+						'PERIOD_ID' => (int) $period_id,
+					]
+				);
 			}
 			else
 			{
-				$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
+				$insert_columns = [
+					'STUDENT_ID' => (int) $student_id,
+					'SCHOOL_DATE' => $date,
+					'PERIOD_ID' => (int) $period_id,
+					'MARKING_PERIOD_ID' => (int) $current_mp,
+					'ADMIN' => 'Y',
+					'COURSE_PERIOD_ID' => (int) $course_period_id,
+				];
 
-				$fields = 'STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,ADMIN,COURSE_PERIOD_ID,';
-				$values = "'" . $student_id . "','" . $date . "','" . $period_id . "','" . $current_mp . "','Y','" . $current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID'] . "',";
-
-				if ( $table == 'lunch_period' )
-				{
-					$fields .= 'TABLE_NAME,';
-					$values .= "'" . $_REQUEST['table'] . "',";
-				}
-
-				$go = 0;
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$values .= "'" . $value . "',";
-						$go = true;
-					}
-				}
-
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-				}
+				DBInsert(
+					$table,
+					$insert_columns + $columns
+				);
 			}
 		}
 

@@ -51,109 +51,60 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					}
 				}
 
+				$table = $_REQUEST['tab_id'] !== 'new' ? 'food_service_menu_items' : 'food_service_items';
+
 				if ( $id !== 'new' )
 				{
-					//FJ fix SQL bug PRICE_STAFF & PRICE not null
-					//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
-
+					// Fix SQL bug PRICE_STAFF & PRICE not null
+					// Fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
 					if ( $_REQUEST['tab_id'] !== 'new'
 						|| ( ( empty( $columns['PRICE_FREE'] ) || is_numeric( $columns['PRICE_FREE'] ) )
 							&& ( empty( $columns['PRICE_REDUCED'] ) || is_numeric( $columns['PRICE_REDUCED'] ) )
 							&& ( empty( $columns['PRICE_STAFF'] ) || is_numeric( $columns['PRICE_STAFF'] ) )
 							&& ( empty( $columns['PRICE'] ) || is_numeric( $columns['PRICE'] ) ) ) )
 					{
-						if ( $_REQUEST['tab_id'] !== 'new' )
-						{
-							$sql = "UPDATE food_service_menu_items SET ";
-						}
-						else
-						{
-							$sql = "UPDATE food_service_items SET ";
-						}
+						$where_columns = $_REQUEST['tab_id'] !== 'new' ?
+							[ 'MENU_ITEM_ID' => (int) $id ] : [ 'ITEM_ID' => (int) $id ];
 
-						$go = false;
-
-						foreach ( (array) $columns as $column => $value )
-						{
-							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-							$go = true;
-						}
-
-						if ( $_REQUEST['tab_id'] !== 'new' )
-						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ITEM_ID='" . (int) $id . "'";
-						}
-						else
-						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ITEM_ID='" . (int) $id . "'";
-						}
-
-						if ( $go )
-						{
-							DBQuery( $sql );
-						}
+						DBUpdate(
+							$table,
+							$columns,
+							$where_columns
+						);
 					}
 					else
 					{
 						$error[] = _( 'Please enter valid Numeric data.' );
 					}
 				}
-				elseif ( $_REQUEST['tab_id'] !== 'new'
+				elseif ( ( $_REQUEST['tab_id'] !== 'new'
+						&& ! empty( $columns['ITEM_ID'] ) )
 					|| ( ! empty( $columns['DESCRIPTION'] )
 						&& ! empty( $columns['SHORT_NAME'] ) ) )
 				{
+					if ( $_REQUEST['tab_id'] === 'new'
+						&& ( ( ! empty( $columns['PRICE_FREE'] ) && ! is_numeric( $columns['PRICE_FREE'] ) )
+							|| ( ! empty( $columns['PRICE_REDUCED'] ) && ! is_numeric( $columns['PRICE_REDUCED'] ) )
+							|| ! is_numeric( $columns['PRICE_STAFF'] ) || ! is_numeric( $columns['PRICE'] ) ) )
+					{
+						// Fix SQL bug PRICE_STAFF & PRICE not null
+						// Fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
+						$error[] = _( 'Please enter valid Numeric data.' );
+
+						continue;
+					}
+
+					$insert_columns = [ 'SCHOOL_ID' => UserSchool() ];
+
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = 'INSERT INTO food_service_menu_items ';
-						$fields = 'MENU_ID,SCHOOL_ID,';
-						$values = "'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
-					}
-					else
-					{
-						$sql = 'INSERT INTO food_service_items ';
-						$fields = 'SCHOOL_ID,';
-						$values = "'" . UserSchool() . "',";
+						$insert_columns += [ 'MENU_ID' => (int) $_REQUEST['tab_id'] ];
 					}
 
-					$go = false;
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						if ( ! empty( $value ) || $value == '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
-						}
-					}
-
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-					//FJ fix SQL bug MENU_ITEM not null
-
-					if ( $_REQUEST['tab_id'] !== 'new'
-						&& empty( $columns['ITEM_ID'] ) )
-					{
-						$go = false;
-					}
-
-					if ( $go )
-					{
-						//FJ fix SQL bug PRICE_STAFF & PRICE not null
-						//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
-
-						if ( $_REQUEST['tab_id'] !== 'new'
-							|| (  ( empty( $columns['PRICE_FREE'] ) || is_numeric( $columns['PRICE_FREE'] ) )
-								&& ( empty( $columns['PRICE_REDUCED'] ) || is_numeric( $columns['PRICE_REDUCED'] ) )
-								&& is_numeric( $columns['PRICE_STAFF'] ) && is_numeric( $columns['PRICE'] ) ) )
-						{
-							DBQuery( $sql );
-						}
-						else
-						{
-							$error[] = _( 'Please enter valid Numeric data.' );
-						}
-					}
+					DBInsert(
+						$table,
+						$insert_columns + $columns
+					);
 				}
 			}
 			else
@@ -224,7 +175,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		if ( $_SESSION['FSA_menu_id'] )
+		if ( ! empty( $_SESSION['FSA_menu_id'] ) )
 		{
 			if ( $menus_RET[$_SESSION['FSA_menu_id']] )
 			{

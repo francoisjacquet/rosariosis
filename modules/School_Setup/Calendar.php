@@ -223,10 +223,14 @@ if ( $_REQUEST['modfunc'] === 'create'
 	{
 		if ( ! empty( $_REQUEST['default'] ) )
 		{
-			DBQuery( "UPDATE attendance_calendars
-				SET DEFAULT_CALENDAR=NULL
-				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+			DBUpdate(
+				'attendance_calendars',
+				[ 'DEFAULT_CALENDAR' => '' ],
+				[
+					'SYEAR' => UserSyear(),
+					'SCHOOL_ID' => UserSchool(),
+				]
+			);
 		}
 
 		// Recreate
@@ -234,19 +238,29 @@ if ( $_REQUEST['modfunc'] === 'create'
 		{
 			$calendar_id = $_REQUEST['calendar_id'];
 
-			DBQuery( "UPDATE attendance_calendars
-				SET TITLE='" . $_REQUEST['title'] . "',DEFAULT_CALENDAR='" . $_REQUEST['default'] . "'
-				WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
+			DBUpdate(
+				'attendance_calendars',
+				[
+					'TITLE' => $_REQUEST['title'],
+					'DEFAULT_CALENDAR' => $_REQUEST['default'],
+				],
+				[ 'CALENDAR_ID' => (int) $calendar_id ]
+			);
 		}
 		// Create
 		else
 		{
-			DBQuery( "INSERT INTO attendance_calendars
-				(SYEAR,SCHOOL_ID,TITLE,DEFAULT_CALENDAR)
-				values('" . UserSyear() . "','" . UserSchool() . "','" . $_REQUEST['title'] . "','" . $_REQUEST['default'] . "')" );
-
 			// Set Calendar ID
-			$calendar_id = DBLastInsertID();
+			$calendar_id = DBInsert(
+				'attendance_calendars',
+				[
+					'SYEAR' => UserSyear(),
+					'SCHOOL_ID' => UserSchool(),
+					'TITLE' => $_REQUEST['title'],
+					'DEFAULT_CALENDAR' => $_REQUEST['default'],
+				],
+				'id'
+			);
 		}
 
 		//FJ fix bug MINUTES not numeric
@@ -479,16 +493,11 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			// Update Event.
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
-				$sql = "UPDATE calendar_events SET ";
-
-				foreach ( (array) $_REQUEST['values'] as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $_REQUEST['event_id'] . "'";
-
-				DBQuery( $sql );
+				DBUpdate(
+					'calendar_events',
+					$_REQUEST['values'],
+					[ 'ID' => (int) $_REQUEST['event_id'] ]
+				);
 
 				// Hook.
 				do_action('School_Setup/Calendar.php|update_calendar_event');
@@ -512,33 +521,16 @@ if ( $_REQUEST['modfunc'] === 'detail' )
  						);
 					}
 
-					$sql = "INSERT INTO calendar_events ";
+					$insert_columns = [ 'SYEAR' => UserSyear() , 'SCHOOL_ID' => UserSchool() ];
 
-					$fields = 'SYEAR,SCHOOL_ID,';
+					$calendar_event_id = DBInsert(
+						'calendar_events',
+						$insert_columns + $_REQUEST['values'],
+						'id'
+					);
 
-					$values = "'" . UserSyear() . "','" . UserSchool() . "',";
-
-					$go = false;
-
-					foreach ( (array) $_REQUEST['values'] as $column => $value )
+					if ( $calendar_event_id )
 					{
-						if ( ! empty( $value )
-							|| $value == '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
-						}
-					}
-
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-					if ( $go )
-					{
-						DBQuery( $sql );
-
-						$calendar_event_id = DBLastInsertID();
-
 						// Hook.
 						do_action( 'School_Setup/Calendar.php|create_calendar_event' );
 					}
@@ -843,12 +835,16 @@ if ( ! $_REQUEST['modfunc'] )
 				//FJ fix bug MINUTES not numeric
 				if ( intval( $minutes ) > 0 )
 				{
-					DBQuery( "UPDATE attendance_calendar
-						SET MINUTES='" . intval( $minutes ) . "'
-						WHERE SCHOOL_DATE='" . $date . "'
-						AND SYEAR='" . UserSyear() . "'
-						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
+					DBUpdate(
+						'attendance_calendar',
+						[ 'MINUTES' => intval( $minutes ) ],
+						[
+							'SCHOOL_DATE' => $date,
+							'SYEAR' => UserSyear(),
+							'SCHOOL_ID' => UserSchool(),
+							'CALENDAR_ID' => (int) $_REQUEST['calendar_id'],
+						]
+					);
 				}
 				else
 				{
@@ -895,12 +891,16 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				if ( ! empty( $calendar_RET[ $date ] ) )
 				{
-					DBQuery( "UPDATE attendance_calendar
-						SET MINUTES='999'
-						WHERE SCHOOL_DATE='" . $date . "'
-						AND SYEAR='" . UserSyear() . "'
-						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
+					DBUpdate(
+						'attendance_calendar',
+						[ 'MINUTES' => '999' ],
+						[
+							'SCHOOL_DATE' => $date,
+							'SYEAR' => UserSyear(),
+							'SCHOOL_ID' => UserSchool(),
+							'CALENDAR_ID' => (int) $_REQUEST['calendar_id'],
+						]
+					);
 				}
 				else
 				{

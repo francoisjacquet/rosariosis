@@ -48,43 +48,22 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE resources SET ";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-				DBQuery( $sql );
+				DBUpdate(
+					'resources',
+					$columns,
+					[ 'ID' => (int) $id ]
+				);
 			}
 
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$sql = "INSERT INTO resources ";
+				$insert_columns = [ 'SCHOOL_ID' => UserSchool() ];
 
-				$fields = 'SCHOOL_ID,';
-				$values = "'" . UserSchool() . "',";
-
-				$go = 0;
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$values .= "'" . $value . "',";
-						$go = true;
-					}
-				}
-
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-				}
+				DBInsert(
+					'resources',
+					$insert_columns + $columns
+				);
 			}
 		}
 	}

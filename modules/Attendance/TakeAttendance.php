@@ -236,37 +236,53 @@ if ( ! empty( $_REQUEST['attendance'] )
 
 		if ( ! empty( $current_RET[$student_id] ) )
 		{
-			$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
-			" SET ATTENDANCE_TEACHER_CODE='" . $student_attendance_code . "',
-				COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
+			$columns = [
+				'ATTENDANCE_TEACHER_CODE' => $student_attendance_code,
+				'COURSE_PERIOD_ID' => UserCoursePeriod(),
+			];
 
 			if ( $current_RET[$student_id][1]['ADMIN'] != 'Y'
 				// SQL Update ATTENDANCE_CODE (admin) when is NULL.
 				|| empty( $current_RET[$student_id][1]['ATTENDANCE_CODE'] ) )
 			{
-				$sql .= ",ATTENDANCE_CODE='" . $student_attendance_code . "'";
+				$columns += [ 'ATTENDANCE_CODE' => $student_attendance_code ];
 			}
 
-			if ( ! empty( $_REQUEST['comment'][$student_id] ) )
+			if ( isset( $_REQUEST['comment'][$student_id] ) )
 			{
-				$sql .= ",COMMENT='" . trim( $_REQUEST['comment'][$student_id] ) . "'";
+				$columns += [ 'COMMENT' => trim( $_REQUEST['comment'][$student_id] ) ];
 			}
 
-			$sql .= " WHERE SCHOOL_DATE='" . $date . "' AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "' AND STUDENT_ID='" . (int) $student_id . "'";
+			DBUpdate(
+				$table,
+				$columns,
+				[
+					'STUDENT_ID' => (int) $student_id,
+					'SCHOOL_DATE' => $date,
+					'PERIOD_ID' => (int) $_REQUEST['school_period'],
+				]
+			);
 		}
 		else
 		{
-			$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) .
-			" (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,
-					ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT" .
-			( $table == 'lunch_period' ? ',TABLE_NAME' : '' ) . ")
-				values('" . $student_id . "','" . $date . "','" . $qtr_id . "','" . $_REQUEST['school_period'] .
-			"','" . UserCoursePeriod() . "','" . $student_attendance_code . "','" .
-			$student_attendance_code . "','" . $_REQUEST['comment'][$student_id] . "'" .
-				( $table == 'lunch_period' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
-		}
+			$columns = [
+				'STUDENT_ID' => (int) $student_id,
+				'SCHOOL_DATE' => $date,
+				'PERIOD_ID' => (int) $_REQUEST['school_period'],
+				'MARKING_PERIOD_ID' => (int) $qtr_id,
+				'COURSE_PERIOD_ID' => UserCoursePeriod(),
+				'ATTENDANCE_CODE' => $student_attendance_code,
+				'ATTENDANCE_TEACHER_CODE' => $student_attendance_code,
+				'COMMENT' => trim( $_REQUEST['comment'][$student_id] ),
+			];
 
-		DBQuery( $sql );
+			if ( $table === 'lunch_period' )
+			{
+				$columns += [ 'TABLE_NAME' => (int) $_REQUEST['table'] ];
+			}
+
+			DBInsert( $table, $columns );
+		}
 
 		if ( $_REQUEST['table'] == '0' )
 		{
@@ -283,12 +299,15 @@ if ( ! empty( $_REQUEST['attendance'] )
 
 	if ( empty( $completed_RET ) )
 	{
-		DBQuery( "INSERT INTO attendance_completed (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME)
-			values(
-			'" . User( 'STAFF_ID' ) . "',
-			'" . $date . "',
-			'" . $_REQUEST['school_period'] . "',
-			'" . $_REQUEST['table'] . "')" );
+		DBInsert(
+			'attendance_completed',
+			[
+				'STAFF_ID' => User( 'STAFF_ID' ),
+				'SCHOOL_DATE' => $date,
+				'PERIOD_ID' => (int) $_REQUEST['school_period'],
+				'TABLE_NAME' => (int) $_REQUEST['table'],
+			]
+		);
 
 		// Hook.
 		do_action( 'Attendance/TakeAttendance.php|insert_attendance' );

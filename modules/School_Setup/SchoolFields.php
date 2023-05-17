@@ -40,55 +40,23 @@ if ( isset( $_POST['tables'] )
 				// Update Field.
 				if ( $id !== 'new' )
 				{
-					$sql = 'UPDATE ' . DBEscapeIdentifier( $table ) . ' SET ';
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-					$go = true;
+					DBUpdate(
+						$table,
+						$columns,
+						[ 'ID' => (int) $id ]
+					);
 				}
 				// New Field.
 				else
 				{
-					$sql = 'INSERT INTO ' . DBEscapeIdentifier( $table ) . ' ';
+					$id = DBInsert(
+						$table,
+						$columns,
+						'id'
+					);
 
-					// New Field.
-					if ( $table === 'school_fields' )
+					if ( $id )
 					{
-						$fields = '';
-
-						$values = '';
-					}
-
-					$go = false;
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						if ( ! empty( $value )
-							|| $value == '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-
-							$values .= "'" . $value . "',";
-
-							$go = true;
-						}
-					}
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-				}
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-
-					if ( $id === 'new' )
-					{
-						$id = DBLastInsertID();
-
 						if ( $table === 'school_fields' )
 						{
 							AddDBField( 'schools', $id, $columns['TYPE'] );

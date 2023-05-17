@@ -14,44 +14,21 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE school_gradelevels SET ";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-				DBQuery( $sql );
+				DBUpdate(
+					'school_gradelevels',
+					$columns,
+					[ 'ID' => (int) $id ]
+				);
 			}
 
 			// New: check for Title and Short Name.
 			elseif ( $columns['TITLE']
 				&& $columns['SHORT_NAME'] )
 			{
-				$sql = "INSERT INTO school_gradelevels ";
-
-				$fields = 'SCHOOL_ID,';
-				$values = "'" . UserSchool() . "',";
-
-				$go = 0;
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$values .= "'" . $value . "',";
-						$go = true;
-					}
-				}
-
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-				}
+				DBInsert(
+					'school_gradelevels',
+					[ 'SCHOOL_ID' => UserSchool() ] + $columns
+				);
 			}
 		}
 		else

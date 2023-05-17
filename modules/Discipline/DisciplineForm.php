@@ -14,69 +14,44 @@ if ( ! empty( $_REQUEST['values'] )
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE discipline_field_usage SET ";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-				DBQuery( $sql );
+				DBUpdate(
+					'discipline_field_usage',
+					$columns,
+					[ 'ID' => (int) $id ]
+				);
 			}
 
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$sql = "INSERT INTO discipline_fields ";
-
-				$fields = "COLUMN_NAME,";
-				$values = "'CATEGORY_',"; // ID is added to CATEGORY_ after INSERT, when we retrieve the ID...
-
-				$go = 0;
+				$insert_columns = [
+					// ID is added to CATEGORY_ after INSERT, when we retrieve the ID...
+					'COLUMN_NAME' => 'CATEGORY_',
+				];
 
 				foreach ( (array) $columns as $column => $value )
 				{
 					if ( $value && $column != 'SORT_ORDER' && $column != 'SELECT_OPTIONS' )
 					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$values .= "'" . $value . "',";
-						$go = true;
+						$insert_columns[ $column ] = $value;
 					}
 				}
 
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+				$id = DBInsert(
+					'discipline_fields',
+					$insert_columns,
+					'id'
+				);
 
-				if ( ! $go )
+				if ( ! $id )
 				{
 					continue;
 				}
-
-				DBQuery( $sql );
-
-				$id = DBLastInsertID();
 
 				// Update CATEGORY_ with ID now we have it.
 				DBQuery( "UPDATE discipline_fields
 					SET COLUMN_NAME='CATEGORY_" . $id . "'
 					WHERE ID='" . (int) $id . "'" );
-
-				$usage_sql = "INSERT INTO discipline_field_usage ";
-
-				$fields = "DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
-				$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "',";
-
-				foreach ( (array) $columns as $column => $value )
-				{
-					if ( $value && $column != 'DATA_TYPE' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-						$values .= "'" . $value . "',";
-					}
-				}
-
-				$usage_sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 				$create_index = true;
 
@@ -167,7 +142,24 @@ if ( ! empty( $_REQUEST['values'] )
 						DBEscapeIdentifier( 'CATEGORY_' . (int) $id ) . $key_length . ')' );
 				}
 
-				DBQuery( $usage_sql );
+				$usage_columns = [];
+
+				foreach ( (array) $columns as $column => $value )
+				{
+					if ( $value && $column != 'DATA_TYPE' )
+					{
+						$usage_columns[ $column ] = $value;
+					}
+				}
+
+				DBInsert(
+					'discipline_field_usage',
+					[
+						'DISCIPLINE_FIELD_ID' => (int) $id,
+						'SYEAR' => UserSyear(),
+						'SCHOOL_ID' => UserSchool(),
+					] + $usage_columns
+				);
 			}
 		}
 		else

@@ -21,62 +21,38 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE accounting_incomes SET ";
-
 			$columns['FILE_ATTACHED'] = _saveIncomesFile( $id );
 
 			if ( ! $columns['FILE_ATTACHED'] )
 			{
 				unset( $columns['FILE_ATTACHED'] );
-
-				if ( empty( $columns ) )
-				{
-					// No file, and FILE_ATTACHED was the only column, skip.
-					continue;
-				}
 			}
 
-			foreach ( (array) $columns as $column => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-			DBQuery( $sql );
+			DBUpdate(
+				'accounting_incomes',
+				$columns,
+				[ 'ID' => (int) $id ]
+			);
 		}
 		elseif ( $columns['AMOUNT'] !== ''
-			&& $columns['ASSIGNED_DATE'] )
+			&& $columns['ASSIGNED_DATE']
+			&& $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO accounting_incomes ";
+			$insert_columns = [ 'SYEAR' => UserSyear(), 'SCHOOL_ID' => UserSchool() ];
 
-			$fields = 'SCHOOL_ID,SYEAR,';
-			$values = "'" . UserSchool() . "','" . UserSyear() . "',";
+			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
+
+			if ( ! is_numeric( $columns['AMOUNT'] ) )
+			{
+				$columns['AMOUNT'] = 0;
+			}
 
 			$columns['FILE_ATTACHED'] = _saveIncomesFile( $id );
 
-			$go = 0;
-
-			foreach ( (array) $columns as $column => $value )
-			{
-				if ( ! empty( $value ) || $value == '0' )
-				{
-					if ( $column == 'AMOUNT' )
-					{
-						$value = preg_replace( '/[^0-9.-]/', '', $value );
-					}
-
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-					$values .= "'" . $value . "',";
-					$go = true;
-				}
-			}
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-			}
+			DBInsert(
+				'accounting_incomes',
+				$insert_columns + $columns
+			);
 		}
 	}
 

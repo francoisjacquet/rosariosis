@@ -67,18 +67,15 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			if ( $id !== 'new' )
 			{
-				$sql = "UPDATE portal_polls SET ";
-				$sql_question = "UPDATE portal_poll_questions SET ";
-
-				$sql_questions = [];
-				$id_questions = [];
+				$update_questions_columns = [];
 
 				foreach ( (array) $columns as $column => $value )
 				{
 					if ( is_array( $value ) )
 					{
-						$id_questions[] = $column;
-						$sql_question_cols = '';
+						$id_question = $column;
+
+						$update_questions_columns[ $id_question ] = [];
 
 						if ( isset( $value['OPTIONS'] )
 							&& $value['OPTIONS'] )
@@ -89,27 +86,28 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 						foreach ( (array) $value as $col => $val )
 						{
-							$sql_question_cols .= DBEscapeIdentifier( $col ) . "='" . $val . "',";
+							$update_questions_columns[ $id_question ][ $col ] = $val;
 						}
-
-						$sql_questions[] = $sql_question . $sql_question_cols;
 					}
 					else
 					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+						$update_columns[ $column ] = $value;
 					}
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-				DBQuery( $sql );
+				DBUpdate(
+					'portal_polls',
+					$update_columns,
+					[ 'ID' => (int) $id ]
+				);
 
-				$q = 0;
-
-				foreach ( (array) $sql_questions as $sql_question )
+				foreach ( (array) $update_questions_columns as $id_question => $update_question_columns )
 				{
-					$sql_question = mb_substr( $sql_question, 0, -1 ) . " WHERE ID='" . (int) $id_questions[$q] . "'";
-					DBQuery( $sql_question );
-					$q++;
+					DBUpdate(
+						'portal_poll_questions',
+						$update_question_columns,
+						[ 'ID' => (int) $id_question ]
+					);
 				}
 			}
 
@@ -142,76 +140,60 @@ if ( $_REQUEST['modfunc'] === 'update'
 				',' . $_REQUEST['values']['new']['PUBLISHED_PROFILES'] :
 				'';
 
-				$sql = "INSERT INTO portal_polls ";
-				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_USER,';
+				$poll_columns = [];
 
-				$values = "'" . UserSchool() . "','" . UserSyear() . "','" . User( 'STAFF_ID' ) . "',";
-
-				$go = 0;
-				$sql_question = "INSERT INTO portal_poll_questions ";
-				$sql_questions = [];
+				$insert_questions_columns = [];
 
 				foreach ( (array) $columns as $column => $value )
 				{
-					if ( ! empty( $value ) || $value == '0' )
+					if ( mb_strpos( $column, 'new' ) !== false )
 					{
-						if ( mb_strpos( $column, 'new' ) !== false )
+						if ( ! $value['QUESTION'] )
 						{
-							if ( ! $value['QUESTION'] )
+							continue;
+						}
+
+						$insert_question_column = [];
+
+						foreach ( (array) $value as $col => $val )
+						{
+							if ( $val )
 							{
-								continue;
-							}
-
-							$go_question = 0;
-							$fields_question = 'PORTAL_POLL_ID,';
-
-							// Substitution code so we can replace with actual Poll ID
-							// when we retrieve it using DBLastInsertID(), see below.
-							$values_question = "__PORTAL_POLL_ID__,";
-
-							foreach ( (array) $value as $col => $val )
-							{
-								if ( $val )
-								{
-									$fields_question .= DBEscapeIdentifier( $col ) . ',';
-									$values_question .= "'" . $val . "',";
-									$go_question = true;
-								}
-							}
-
-							if ( $go_question )
-							{
-								$sql_questions[] = $sql_question . '(' . mb_substr( $fields_question, 0, -1 ) .
-									') values(' . mb_substr( $values_question, 0, -1 ) . ')';
+								$insert_question_columns[ $col ] = $val;
 							}
 						}
-						else
+
+						if ( $insert_question_columns )
 						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
+							$insert_questions_columns[] = $insert_question_columns;
 						}
+					}
+					else
+					{
+						$poll_columns[ $column ] = $value;
 					}
 				}
 
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-				if ( $go )
+				if ( $poll_columns )
 				{
-					DBQuery( $sql );
+					$insert_columns = [
+						'SCHOOL_ID' => UserSchool(),
+						'SYEAR' => UserSyear(),
+						'PUBLISHED_USER' => User( 'STAFF_ID' ),
+					];
 
-					$portal_poll_id = DBLastInsertID();
+					$portal_poll_id = DBInsert(
+						'portal_polls',
+						$insert_columns + $poll_columns,
+						'id'
+					);
 
-					foreach ( (array) $sql_questions as $sql_question )
+					foreach ( (array) $insert_questions_columns as $insert_question_columns )
 					{
-						// Replace substitution code with actual Poll ID.
-						$sql_question_with_poll_id = str_replace(
-							'__PORTAL_POLL_ID__',
-							"'" . $portal_poll_id . "'",
-							$sql_question
+						DBInsert(
+							'portal_poll_questions',
+							[ 'PORTAL_POLL_ID' => (int) $portal_poll_id ] + $insert_question_columns
 						);
-
-						DBQuery( $sql_question_with_poll_id );
 					}
 				}
 			}
