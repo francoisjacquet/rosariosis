@@ -33,6 +33,7 @@ Changes in 11.0
 - Use DBInsertSQL() function in AddActivity.php, Scheduler.php, Calendar.php, MarkingPeriods.php, MassAssignFees.php & MassAssignPayments.php
 - Use DBUpdateSQL() function in MarkingPeriods.php
 - Use DBUpdate() & DBInsert() functions, program wide
+- Create missing Food Service Student Account in Accounts.php
 
 Changes in 10.9.6
 -----------------

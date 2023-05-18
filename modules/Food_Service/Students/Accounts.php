@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			}
 		}
 
-		if ( ! $account_id
+		if ( empty( $account_id )
 			|| Prompt( 'Confirm', $question, $message ) )
 		{
 			if ( ! isset( $_REQUEST['food_service']['ACCOUNT_ID'] )
@@ -92,6 +92,41 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	}
 }
 
+if ( $_REQUEST['modfunc'] === 'create' )
+{
+	if ( UserStudentID()
+		&& AllowEdit()
+		&& ! DBGet( "SELECT 1
+			FROM food_service_student_accounts
+			WHERE STUDENT_ID='" . UserStudentID() . "'" ) )
+	{
+		if ( (string) (int) $_REQUEST['food_service']['ACCOUNT_ID'] === $_REQUEST['food_service']['ACCOUNT_ID']
+				&& $_REQUEST['food_service']['ACCOUNT_ID'] > 0 )
+		{
+			DBInsert(
+				'food_service_student_accounts',
+				[ 'STUDENT_ID' => UserStudentID() ] + $_REQUEST['food_service']
+			);
+
+			DBInsert(
+				'food_service_accounts',
+				[
+					'ACCOUNT_ID' => (int) $_REQUEST['food_service']['ACCOUNT_ID'],
+					'BALANCE' => '0.00',
+					'TRANSACTION_ID' => '0',
+				]
+			);
+		}
+		else
+		{
+			$error[] = _( 'Please enter valid Numeric data.' );
+		}
+	}
+
+	// Unset modfunc & food service & redirect URL.
+	RedirectURL( [ 'modfunc', 'food_service' ] );
+}
+
 Widgets( 'fsa_discount' );
 Widgets( 'fsa_status' );
 Widgets( 'fsa_barcode' );
@@ -117,11 +152,15 @@ echo ErrorMessage( $error );
 if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 {
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-		fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,
-		(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE
-		FROM students s,food_service_student_accounts fssa
-		WHERE s.STUDENT_ID='" . UserStudentID() . "'
-		AND fssa.STUDENT_ID=s.STUDENT_ID" );
+		(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID
+			FROM food_service_student_accounts
+			WHERE STUDENT_ID=s.STUDENT_ID)) AS BALANCE,
+		(SELECT ACCOUNT_ID FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS ACCOUNT_ID,
+		(SELECT STATUS FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS STATUS,
+		(SELECT DISCOUNT FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS DISCOUNT,
+		(SELECT BARCODE FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS BARCODE
+		FROM students s
+		WHERE s.STUDENT_ID='" . UserStudentID() . "'" );
 
 	$student = $student[1];
 
@@ -138,15 +177,23 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		AND SYEAR='" . UserSyear() . "'
 		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
+	if ( $student['ACCOUNT_ID'] )
+	{
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
-	DrawHeader(
-		CheckBoxOnclick(
-			'include_inactive',
-			_( 'Include Inactive Students in Shared Account' )
-		),
-		SubmitButton()
-	);
+		DrawHeader(
+			CheckBoxOnclick(
+				'include_inactive',
+				_( 'Include Inactive Students in Shared Account' )
+			),
+			SubmitButton()
+		);
+	}
+	else
+	{
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '" method="POST">';
+		DrawHeader( '', SubmitButton( _( 'Create Account' ) ) );
+	}
 
 	echo '<br />';
 
@@ -160,8 +207,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	echo NoInput( red( $student['BALANCE'] ), _( 'Balance' ) );
 
-	echo '</td></tr></table>';
-	echo '<hr>';
+	echo '</td></tr></table><hr>';
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
@@ -169,17 +215,17 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		$student['ACCOUNT_ID'],
 		'food_service[ACCOUNT_ID]',
 		_( 'Account ID' ),
-		'required size=8 maxlength=9'
+		'type="number" required min="1" max="999999999"'
 	);
 
 	// warn if account non-existent (balance query failed)
 
 	if ( $student['BALANCE'] == '' )
 	{
-		echo MakeTipMessage(
+		echo ' ' . MakeTipMessage(
 			_( 'Non-existent account!' ),
 			_( 'Warning' ),
-			button( 'warning', '', '', 'bigger' )
+			button( 'warning' )
 		);
 	}
 
@@ -202,16 +248,35 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	}
 
 	echo '</td>';
+
 	$options = [ 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) ];
-	echo '<td>' . SelectInput( $student['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) . '</td>';
-	echo '</tr><tr>';
+
+	echo '<td>' . SelectInput(
+		$student['STATUS'],
+		'food_service[STATUS]',
+		_( 'Status' ),
+		$options,
+		_( 'Active' )
+	) . '</td></tr>';
+
 	$options = [ 'Reduced' => _( 'Reduced' ), 'Free' => _( 'Free' ) ];
-	echo '<td>' . SelectInput( $student['DISCOUNT'], 'food_service[DISCOUNT]', _( 'Discount' ), $options, _( 'Full' ) ) . '</td>';
-	echo '<td>' . TextInput( $student['BARCODE'], 'food_service[BARCODE]', _( 'Barcode' ), 'size=12 maxlength=25' ) . '</td>';
-	echo '</tr></table>';
+
+	echo '<tr><td>' . SelectInput(
+		$student['DISCOUNT'],
+		'food_service[DISCOUNT]',
+		_( 'Discount' ),
+		$options,
+		_( 'Full' )
+	) . '</td>';
+
+	echo '<td>' . TextInput(
+		$student['BARCODE'],
+		'food_service[BARCODE]',
+		_( 'Barcode' ),
+		'size=12 maxlength=25'
+	) . '</td></tr></table>';
 
 	PopTable( 'footer' );
 
-	echo '<br /><div class="center">' . SubmitButton() . '</div>';
-	echo '</form>';
+	echo '<br /><div class="center">' . SubmitButton( $student['ACCOUNT_ID'] ? '' : _( 'Create Account' ) ) . '</div></form>';
 }
