@@ -609,7 +609,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		if ( ! empty( $_REQUEST['person_id'] ) )
 		{
-			$file = $FileUploadsPath . 'People/' . $_REQUEST['person_id'] . '/' . $filename;
+			$file = $FileUploadsPath . 'Contact/' . $_REQUEST['person_id'] . '/' . $filename;
 
 			DBQuery( "UPDATE people
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
