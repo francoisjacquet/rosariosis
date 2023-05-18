@@ -679,6 +679,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				$last_row_i = $i + 1;
 
+				$credits_total_done = false;
+
 				foreach ( $_REQUEST['elements']['last_row'] as $last_row )
 				{
 					if ( $last_row === 'total'
