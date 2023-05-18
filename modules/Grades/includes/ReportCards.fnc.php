@@ -506,7 +506,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					$grades_RET[$i][$mp] = '<B>' . $grade['GRADE_TITLE'] . '</B>';
 
-					$grades_RET[$i]['CREDITS'] = $grade['CREDITS'];
+					$grades_RET[$i]['CREDITS'] = (float) $grade['CREDITS'];
 
 					if ( isset( $_REQUEST['elements']['percents'] )
 						&& $_REQUEST['elements']['percents'] === 'Y'
