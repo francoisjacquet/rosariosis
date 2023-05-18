@@ -15,6 +15,8 @@
  */
 function RegistrationSave( $config, $values )
 {
+	global $FileUploadsPath;
+
 	static $student_join_no_address = false;
 
 	if ( ! $config
@@ -28,6 +30,16 @@ function RegistrationSave( $config, $values )
 
 	$address_id = RegistrationSaveAddress( $config['address'], $values['address'] );
 
+	if ( $address_id
+		&& ! empty( $_FILES ) )
+	{
+		$uploaded = FilesUploadUpdate(
+			'address',
+			'addressfields',
+			$FileUploadsPath . 'Address/' . $address_id . '/'
+		);
+	}
+
 	foreach ( (array) $config['parent'] as $id => $config_parent )
 	{
 		if ( empty( $values['parent'][ $id ] ) )
@@ -38,6 +50,16 @@ function RegistrationSave( $config, $values )
 		$values['parent'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'people_fields', 'parent', $id, 'fields' );
 
 		$contact_id = RegistrationSaveContact( $config_parent, issetVal( $values['parent'][ $id ] ) );
+
+		if ( $contact_id
+			&& ! empty( $_FILES ) )
+		{
+			$uploaded = FilesUploadUpdate(
+				'people',
+				'parent' . $id . 'fields',
+				$FileUploadsPath . 'Contact/' . $contact_id . '/'
+			);
+		}
 
 		$contact_address_id = 0;
 
@@ -80,6 +102,16 @@ function RegistrationSave( $config, $values )
 		$values['contact'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'people_fields', 'contact', $id, 'fields' );
 
 		$contact_id = RegistrationSaveContact( [], issetVal( $values['contact'][ $id ] ) );
+
+		if ( $contact_id
+			&& ! empty( $_FILES ) )
+		{
+			$uploaded = FilesUploadUpdate(
+				'people',
+				'contact' . $id . 'fields',
+				$FileUploadsPath . 'Contact/' . $contact_id . '/'
+			);
+		}
 
 		$contact_address_id = 0;
 

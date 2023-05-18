@@ -37,6 +37,7 @@ Changes in 11.0
 - Fix PHP warning if Food Service Student Account missing in Student.inc.php, Accounts.php, ServeMenus.php, Statements.php & Transactions.php
 - Let user edit inputs on Food Service User Account creation in Accounts.php
 - Fix Contact file path (delete) in Student.php
+- Upload Address & Contact files in RegistrationSave.fnc.php
 
 Changes in 10.9.6
 -----------------
