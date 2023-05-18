@@ -80,11 +80,15 @@ if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
 	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-	fsa.ACCOUNT_ID,fsa.STATUS,
-	(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
-	FROM students s,food_service_student_accounts fsa
-	WHERE s.STUDENT_ID='" . UserStudentID() . "'
-	AND fsa.STUDENT_ID=s.STUDENT_ID" );
+		(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID
+			FROM food_service_student_accounts
+			WHERE STUDENT_ID=s.STUDENT_ID)) AS BALANCE,
+		(SELECT ACCOUNT_ID FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS ACCOUNT_ID,
+		(SELECT STATUS FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS STATUS,
+		(SELECT DISCOUNT FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS DISCOUNT,
+		(SELECT BARCODE FROM food_service_student_accounts WHERE STUDENT_ID=s.STUDENT_ID) AS BARCODE
+		FROM students s
+		WHERE s.STUDENT_ID='" . UserStudentID() . "'" );
 
 	$student = $student[1];
 
