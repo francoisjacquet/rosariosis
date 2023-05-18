@@ -180,7 +180,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( ! $staff['ACCOUNT_ID'] )
 	{
-		echo '<br />' . MakeTipMessage(
+		echo ' ' . MakeTipMessage(
 			_( 'This user does not have a Meal Account.' ),
 			_( 'Warning' ),
 			button( 'warning' )
@@ -191,21 +191,28 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	echo NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) );
 
-	echo '</td></tr></table>';
-	echo '<hr>';
+	echo '</td></tr></table><hr>';
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
 	$options = [ 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) ];
-	echo ( $staff['ACCOUNT_ID'] ? SelectInput( $staff['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) : NoInput( '-', _( 'Status' ) ) );
-	echo '</td>';
-	echo '<td>';
-	echo ( $staff['ACCOUNT_ID'] ? TextInput( $staff['BARCODE'], 'food_service[BARCODE]', _( 'Barcode' ), 'size=12 maxlength=25' ) : NoInput( '-', _( 'Barcode' ) ) );
-	echo '</td>';
-	echo '</tr></table>';
+
+	echo SelectInput(
+		$staff['STATUS'],
+		'food_service[STATUS]',
+		_( 'Status' ),
+		$options,
+		_( 'Active' )
+	) . '</td><td>';
+
+	echo TextInput(
+		$staff['BARCODE'],
+		'food_service[BARCODE]',
+		_( 'Barcode' ),
+		'size=12 maxlength=25'
+	) . '</td></tr></table>';
 
 	PopTable( 'footer' );
 
-	echo '<br /><div class="center">' . SubmitButton() . '</div>';
-	echo '</form>';
+	echo '<br /><div class="center">' . SubmitButton( $staff['ACCOUNT_ID'] ? '' : _( 'Create Account' ) ) . '</div></form>';
 }
