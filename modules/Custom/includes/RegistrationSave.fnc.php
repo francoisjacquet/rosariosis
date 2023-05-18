@@ -36,7 +36,8 @@ function RegistrationSave( $config, $values )
 		$uploaded = FilesUploadUpdate(
 			'address',
 			'addressfields',
-			$FileUploadsPath . 'Address/' . $address_id . '/'
+			$FileUploadsPath . 'Address/' . $address_id . '/',
+			$address_id
 		);
 	}
 
@@ -57,7 +58,8 @@ function RegistrationSave( $config, $values )
 			$uploaded = FilesUploadUpdate(
 				'people',
 				'parent' . $id . 'fields',
-				$FileUploadsPath . 'Contact/' . $contact_id . '/'
+				$FileUploadsPath . 'Contact/' . $contact_id . '/',
+				$contact_id
 			);
 		}
 
@@ -109,7 +111,8 @@ function RegistrationSave( $config, $values )
 			$uploaded = FilesUploadUpdate(
 				'people',
 				'contact' . $id . 'fields',
-				$FileUploadsPath . 'Contact/' . $contact_id . '/'
+				$FileUploadsPath . 'Contact/' . $contact_id . '/',
+				$contact_id
 			);
 		}
 
