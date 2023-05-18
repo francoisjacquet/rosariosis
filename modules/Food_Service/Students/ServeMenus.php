@@ -77,13 +77,17 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 				}
 			}
 
-			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-
-			$values = "'" . $item_id++ . "','" . $transaction_id . "','-" . $price . "','" . $discount . "','" . $items_RET[$item_sn][1]['SHORT_NAME'] . "','" . $items_RET[$item_sn][1]['DESCRIPTION'] . "'";
-
-			$sql = "INSERT INTO food_service_transaction_items (" . $fields . ") values (" . $values . ")";
-
-			DBQuery( $sql );
+			DBInsert(
+				'food_service_transaction_items',
+				[
+					'ITEM_ID' => $item_id++,
+					'TRANSACTION_ID' => (int) $transaction_id,
+					'AMOUNT' => '-' . $price,
+					'DISCOUNT' => $discount,
+					'SHORT_NAME' => DBEscapeString( $items_RET[$item_sn][1]['SHORT_NAME'] ),
+					'DESCRIPTION' => DBEscapeString( $items_RET[$item_sn][1]['DESCRIPTION'] ),
+				]
+			);
 		}
 
 		DBQuery( "UPDATE food_service_accounts

@@ -281,14 +281,17 @@ elseif ( isset( $_POST['USERNAME'] )
 	// Access Log.
 	if ( ! function_exists( 'AccessLogRecord' ) )
 	{
-		DBQuery( "INSERT INTO access_log
-			(SYEAR,USERNAME,PROFILE,IP_ADDRESS,USER_AGENT,STATUS)
-			values('" . Config( 'SYEAR' ) . "',
-			'" . $username . "',
-			'" . User( 'PROFILE' ) . "',
-			'" . $ip . "',
-			'" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) .
-			"','" . $login_status . "' )" );
+		DBInsert(
+			'access_log',
+			[
+				'SYEAR' => Config( 'SYEAR' ),
+				'USERNAME' => $username,
+				'PROFILE' => User( 'PROFILE' ),
+				'IP_ADDRESS' => $ip,
+				'USER_AGENT' => DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ),
+				'STATUS' => $login_status,
+			]
+		);
 	}
 
 	// Set current SchoolYear on login.

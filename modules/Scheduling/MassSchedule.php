@@ -77,14 +77,19 @@ if ( $_REQUEST['modfunc'] === 'save'
 									continue;
 								}
 
-								DBQuery( "INSERT INTO schedule
-									(SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,
-										MARKING_PERIOD_ID,START_DATE)
-									values('" . UserSyear() . "','" . UserSchool() . "',
-										'" . $student_id . "','" . $course_to_add['course_id'] . "',
-										'" . $course_to_add['course_period_id'] . "',
-										'" . $mp_table . "','" . $_REQUEST['marking_period_id'] . "',
-										'" . $start_date . "')" );
+								DBInsert(
+									'schedule',
+									[
+										'SYEAR' => UserSyear(),
+										'SCHOOL_ID' => UserSchool(),
+										'STUDENT_ID' => (int) $student_id,
+										'COURSE_ID' => (int) $course_to_add['course_id'],
+										'COURSE_PERIOD_ID' => (int) $course_to_add['course_period_id'],
+										'MP' => $mp_table,
+										'MARKING_PERIOD_ID' => (int) $_REQUEST['marking_period_id'],
+										'START_DATE' => $start_date,
+									]
+								);
 
 								// Hook.
 								do_action( 'Scheduling/MassSchedule.php|schedule_student' );

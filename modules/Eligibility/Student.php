@@ -25,7 +25,14 @@ if ( $_REQUEST['modfunc'] === 'add'
 	}
 	else
 	{
-		DBQuery( "INSERT INTO student_eligibility_activities (STUDENT_ID,ACTIVITY_ID,SYEAR) values('" . UserStudentID() . "','" . $_REQUEST['new_activity'] . "','" . UserSyear() . "')" );
+		DBInsert(
+			'student_eligibility_activities',
+			[
+				'SYEAR' => UserSyear(),
+				'STUDENT_ID' => UserStudentID(),
+				'ACTIVITY_ID' => (int) $_REQUEST['new_activity'],
+			]
+		);
 	}
 
 	// Unset modfunc & new activity & redirect URL.

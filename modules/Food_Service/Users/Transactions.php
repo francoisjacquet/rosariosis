@@ -29,15 +29,16 @@ if ( ! empty( $_REQUEST['values'] )
 
 			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
 
-			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,SHORT_NAME,DESCRIPTION';
-
-			$values = "'0','" . $transaction_id . "','" .
-			( $_REQUEST['values']['TYPE'] == 'Debit' ? -$amount : $amount ) . "','" .
-			mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
-
-			$sql = "INSERT INTO food_service_staff_transaction_items (" . $fields . ") values (" . $values . ")";
-
-			DBQuery( $sql );
+			DBInsert(
+				'food_service_staff_transaction_items',
+				[
+					'ITEM_ID' => '0',
+					'TRANSACTION_ID' => (int) $transaction_id,
+					'AMOUNT' => ( $_REQUEST['values']['TYPE'] === 'Debit' ? -$amount : $amount ),
+					'SHORT_NAME' => mb_strtoupper( $_REQUEST['values']['OPTION'] ),
+					'DESCRIPTION' => $full_description,
+				]
+			);
 
 			DBQuery( "UPDATE food_service_staff_accounts
 				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)

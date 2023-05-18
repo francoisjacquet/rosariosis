@@ -15,113 +15,100 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
+		$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
+			FROM discipline_fields df,discipline_field_usage du
+			WHERE du.SYEAR='" . UserSyear() . "'
+			AND du.SCHOOL_ID='" . UserSchool() . "'
+			AND du.DISCIPLINE_FIELD_ID=df.ID
+			ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER", [], [ 'ID' ] );
+
+		$insert_columns = [];
+
+		foreach ( (array) $_REQUEST['values'] as $column => $value )
+		{
+			$column_data_type = isset( $categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'] ) ?
+				$categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'] :
+				'';
+
+			if ( $column_data_type === 'numeric'
+				&& $value !== ''
+				&& ! is_numeric( $value ) )
+			{
+				// Check numeric fields.
+				$error[] = _( 'Please enter valid Numeric data.' );
+
+				continue;
+			}
+
+			if ( $column_data_type === 'textarea' )
+			{
+				// Textarea fields MarkDown sanitize.
+				$value = DBEscapeString( SanitizeMarkDown( $_POST['values'][$column] ) );
+			}
+
+			if ( is_array( $value ) )
+			{
+				$value_f = '||';
+
+				foreach ( (array) $value as $val )
+				{
+					if ( $val !== '' )
+					{
+						$value_f .= $val . '||';
+					}
+				}
+
+				$value = trim( $value_f, '|' ) === '' ? '' : $value_f;
+			}
+
+			$insert_columns[ $column ] = $value;
+		}
+
 		$email_sent = false;
 
 		foreach ( $_REQUEST['st_arr'] as $student_id )
 		{
-			$sql = "INSERT INTO discipline_referrals ";
-
-			$fields = "SYEAR,SCHOOL_ID,STUDENT_ID,";
-			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";
-
 			if ( User( 'PROFILE' ) === 'teacher' )
 			{
 				// Limit relator to Teacher.
 				$_REQUEST['values']['STAFF_ID'] = $_POST['values']['STAFF_ID'] = User( 'STAFF_ID' );
 			}
 
-			$go = 0;
+			$referral_id = DBInsert(
+				'discipline_referrals',
+				[
+					'SYEAR' => UserSyear(),
+					'SCHOOL_ID' => UserSchool(),
+					'STUDENT_ID' => (int) $student_id,
+					'REFERRAL_DATE' => DBDate(),
+				] + $insert_columns,
+				'id'
+			);
 
-			$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM discipline_fields df,discipline_field_usage du WHERE du.SYEAR='" . UserSyear() . "' AND du.SCHOOL_ID='" . UserSchool() . "' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER IS NULL,du.SORT_ORDER", [], [ 'ID' ] );
-
-			foreach ( (array) $_REQUEST['values'] as $column => $value )
+			if ( $referral_id
+				&& ( isset( $_REQUEST['admin_emails'] )
+					|| isset( $_REQUEST['teacher_emails'] ) ) )
 			{
-				if ( ! empty( $value ) || $value == '0' )
+				// Email Discipline Referral feature.
+				require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
+
+				$emails = array_merge(
+					(array) $_REQUEST['admin_emails'],
+					(array) $_REQUEST['teacher_emails']
+				);
+
+				if ( EmailReferral( $referral_id, $emails ) )
 				{
-					$column_data_type = isset( $categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'] ) ?
-						$categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'] :
-						'';
-
-					// Check numeric fields.
-
-					if ( $column_data_type === 'numeric'
-						&& ! is_numeric( $value ) )
-					{
-						$error[] = _( 'Please enter valid Numeric data.' );
-						$go = 0;
-						break;
-					}
-
-					// FJ textarea fields MarkDown sanitize.
-
-					if ( $column_data_type === 'textarea' )
-					{
-						$value = DBEscapeString( SanitizeMarkDown( $_POST['values'][$column] ) );
-					}
-
-					$fields .= DBEscapeIdentifier( $column ) . ',';
-
-					if ( ! is_array( $value ) )
-					{
-						$values .= "'" . $value . "',";
-					}
-					else
-					{
-						$values .= "'||";
-
-						foreach ( (array) $value as $val )
-						{
-							if ( $val )
-							{
-								$values .= $val . '||';
-							}
-						}
-
-						$values .= "',";
-					}
-
-					$go = true;
+					$email_sent = true;
 				}
-			}
-
-			// Insert Referral date (fixed to today, != entry date).
-			$fields .= 'REFERRAL_DATE,';
-
-			$values .= "'" . DBDate() . "',";
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-			if ( $go )
-			{
-				DBQuery( $sql );
-
-				$referral_id = DBLastInsertID();
-
-				// FJ email Discipline Referral feature.
-
-				if ( isset( $_REQUEST['admin_emails'] )
-					|| isset( $_REQUEST['teacher_emails'] ) )
+				elseif ( ROSARIO_DEBUG )
 				{
-					require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
-
-					$emails = array_merge(
-						(array) $_REQUEST['admin_emails'],
-						(array) $_REQUEST['teacher_emails']
-					);
-
-					if ( EmailReferral( $referral_id, $emails ) )
-					{
-						$email_sent = true;
-					}
-					elseif ( ROSARIO_DEBUG )
-					{
-						echo 'Referral not emailed: ' . var_dump( $referral_id );
-					}
+					echo 'Referral not emailed: ' . var_dump( $referral_id );
 				}
 			}
 		}
 
-		if ( $go )
+		if ( $referral_id )
 		{
 			$note[] = _( 'That discipline incident has been referred to an administrator.' );
 

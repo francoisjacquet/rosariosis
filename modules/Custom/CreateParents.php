@@ -199,19 +199,21 @@ if ( $_REQUEST['modfunc'] === 'save'
 					{
 						$password_encrypted = encrypt_password( $password );
 
-						$sql = "INSERT INTO staff (SYEAR,PROFILE,PROFILE_ID,
-							FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values (
-							'" . UserSyear() . "','parent','" . $profile_id . "',
-							'" . DBEscapeString( $user['FIRST_NAME'] ) . "',
-							'" . DBEscapeString( $user['MIDDLE_NAME'] ) . "',
-							'" . DBEscapeString( $user['LAST_NAME'] ) . "',
-							'" . $username . "','" . $password_encrypted . "',
-							'" . $students[1]['EMAIL'] . "')";
-
-						DBQuery( $sql );
-
-						// Get Staff ID.
-						$id = DBLastInsertID();
+						$id = DBInsert(
+							'staff',
+							[
+								'SYEAR' => UserSyear(),
+								'PROFILE' => 'parent',
+								'PROFILE_ID' => (int) $profile_id,
+								'FIRST_NAME' => DBEscapeString( $user['FIRST_NAME'] ),
+								'MIDDLE_NAME' => DBEscapeString( $user['MIDDLE_NAME'] ),
+								'LAST_NAME' => DBEscapeString( $user['LAST_NAME'] ),
+								'USERNAME' => DBEscapeString( $username ),
+								'PASSWORD' => $password_encrypted,
+								'EMAIL' => DBEscapeString( $students[1]['EMAIL'] ),
+							],
+							'id'
+						);
 
 						// Hook.
 						do_action( 'Custom/CreateParents.php|create_user' );
@@ -272,8 +274,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 					&& ! $parent_associated_to_student_RET )
 				{
 					// Join user to student.
-					DBQuery( "INSERT INTO students_join_users (STAFF_ID,STUDENT_ID)
-						VALUES ('" . $id . "','" . $student['STUDENT_ID'] . "')" );
+					DBInsert(
+						'students_join_users',
+						[
+							'STAFF_ID' => (int) $id,
+							'STUDENT_ID' => (int) $student['STUDENT_ID'],
+						]
+					);
 
 					// Hook.
 					do_action( 'Custom/CreateParents.php|user_assign_role' );

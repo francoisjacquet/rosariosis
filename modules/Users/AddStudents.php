@@ -17,8 +17,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 		{
 			if ( empty( $current_RET[$student_id] ) )
 			{
-				DBQuery( "INSERT INTO students_join_users (STUDENT_ID,STAFF_ID)
-					VALUES('" . $student_id . "','" . UserStaffID() . "')" );
+				DBInsert(
+					'students_join_users',
+					[ 'STUDENT_ID' => (int) $student_id, 'STAFF_ID' => UserStaffID() ]
+				);
 
 				//hook
 				do_action( 'Users/AddStudents.php|user_assign_role' );

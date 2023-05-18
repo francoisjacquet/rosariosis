@@ -122,6 +122,8 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 
 			$grade = $grades_RET[_makeLetterGrade( $total, 0, 0, 'ID' )][1];
 
+			$code = 'PASSING';
+
 			if ( $grade['GPA_VALUE'] == '0' || ! $grade['GPA_VALUE'] )
 			{
 				$code = 'FAILING';
@@ -130,25 +132,29 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			{
 				$code = 'BORDERLINE';
 			}
-			else
-			{
-				$code = 'PASSING';
-			}
 
 			if ( ! empty( $current_RET[$student_id] ) )
 			{
-				$sql = "UPDATE eligibility
+				DBQuery( "UPDATE eligibility
 					SET ELIGIBILITY_CODE='" . $code . "'
 					WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 					AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-					AND STUDENT_ID='" . (int) $student_id . "'";
+					AND STUDENT_ID='" . (int) $student_id . "'" );
 			}
 			else
 			{
-				$sql = "INSERT INTO eligibility (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $code . "')";
+				DBInsert(
+					'eligibility',
+					[
+						'STUDENT_ID' => (int) $student_id,
+						'SCHOOL_DATE' => DBDate(),
+						'SYEAR' => UserSyear(),
+						'PERIOD_ID' => (int) $school_period,
+						'COURSE_PERIOD_ID' => (int) $course_period_id,
+						'ELIGIBILITY_CODE' => $code,
+					]
+				);
 			}
-
-			DBQuery( $sql );
 		}
 
 		$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
@@ -170,19 +176,26 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( ! empty( $current_RET[$student_id] ) )
 		{
-			$sql = "UPDATE eligibility
+			DBQuery( "UPDATE eligibility
 				SET ELIGIBILITY_CODE='" . $value . "'
 				WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-				AND STUDENT_ID='" . (int) $student_id . "'";
+				AND STUDENT_ID='" . (int) $student_id . "'" );
 		}
 		else
 		{
-			$sql = "INSERT INTO eligibility (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE)
-				values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $value . "')";
+			DBInsert(
+				'eligibility',
+				[
+					'STUDENT_ID' => (int) $student_id,
+					'SCHOOL_DATE' => DBDate(),
+					'SYEAR' => UserSyear(),
+					'PERIOD_ID' => (int) $school_period,
+					'COURSE_PERIOD_ID' => (int) $course_period_id,
+					'ELIGIBILITY_CODE' => $value,
+				]
+			);
 		}
-
-		DBQuery( $sql );
 	}
 
 	$completed_RET = DBGet( "SELECT 'completed' AS COMPLETED

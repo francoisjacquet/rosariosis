@@ -65,7 +65,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				}
 			}
 
-			if ( ! $account_id
+			if ( empty( $account_id )
 				|| Prompt( 'Confirm', $question, $message ) )
 			{
 				$sql = 'UPDATE food_service_staff_accounts SET ';
@@ -105,20 +105,14 @@ if ( $_REQUEST['modfunc'] === 'create' )
 			FROM food_service_staff_accounts
 			WHERE STAFF_ID='" . UserStaffID() . "'" ) )
 	{
-		$fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
-		$values = "'" . UserStaffID() . "','0.00','0',";
-
-		foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
-		{
-			$fields .= DBEscapeIdentifier( $column_name ) . ',';
-
-			$values .= "'" . trim( $value ) . "',";
-		}
-
-		$sql = 'INSERT INTO food_service_staff_accounts (' . mb_substr( $fields, 0, -1 ) .
-		') VALUES (' . mb_substr( $values, 0, -1 ) . ')';
-
-		DBQuery( $sql );
+		DBInsert(
+			'food_service_staff_accounts',
+			[
+				'STAFF_ID' => UserStaffID(),
+				'BALANCE' => '0.00',
+				'TRANSACTION_ID' => '0',
+			] + $_REQUEST['food_service']
+		);
 	}
 
 	// Unset modfunc & food service & redirect URL.

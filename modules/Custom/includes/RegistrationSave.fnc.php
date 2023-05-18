@@ -23,6 +23,9 @@ function RegistrationSave( $config, $values )
 		return false;
 	}
 
+	// Textarea fields MarkDown sanitize.
+	$values['address']['fields'] = FilterCustomFieldsMarkdown( 'address_fields', 'address', 'fields' );
+
 	$address_id = RegistrationSaveAddress( $config['address'], $values['address'] );
 
 	foreach ( (array) $config['parent'] as $id => $config_parent )
@@ -148,12 +151,10 @@ function RegistrationSaveSiblingContacts( $student_id )
 
 	foreach ( (array) $contacts_RET as $contact )
 	{
-		$sql_values = "'" . UserStudentID() . "','" .
-			$contact['PERSON_ID'] . "','" . $contact['ADDRESS_ID'] . "','" . $contact['CUSTODY'] . "','" .
-			$contact['EMERGENCY'] . "','" . $contact['STUDENT_RELATION'] . "'";
-
-		DBQuery( "INSERT INTO students_join_people (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
-			VALUES(" . $sql_values . ")" );
+		DBInsert(
+			'students_join_people',
+			[ 'STUDENT_ID' => UserStudentID() ] + $contact
+		);
 	}
 }
 
@@ -258,15 +259,6 @@ function RegistrationSaveAddress( $config, $values )
 		return $inserted_addresses[ $address_key ];
 	}
 
-	$sql = "INSERT INTO address ";
-
-	$fields = 'ADDRESS,CITY,STATE,ZIPCODE,';
-
-	$values_sql = "'" . trim( $values['ADDRESS'] ) . "','" . trim( $values['CITY'] ) . "','" . trim( $values['STATE'] ) . "','" . trim( $values['ZIPCODE'] ) . "',";
-
-	// Textarea fields MarkDown sanitize.
-	$values = FilterCustomFieldsMarkdown( 'address_fields', 'address' );
-
 	if ( $config
 		&& ! empty( $values['fields'] ) )
 	{
@@ -275,24 +267,21 @@ function RegistrationSaveAddress( $config, $values )
 			if ( is_array( $value ) )
 			{
 				// Select Multiple from Options field type format.
-				$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
-			}
-
-			if ( ! empty( $value )
-				|| $value == '0' )
-			{
-				$fields .= DBEscapeIdentifier( $column ) . ',';
-
-				$values_sql .= "'" . $value . "',";
+				$values['fields'][ $column ] = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 			}
 		}
 	}
 
-	$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values_sql, 0, -1 ) . ')';
-
-	DBQuery( $sql );
-
-	$address_id = DBLastInsertID();
+	$address_id = DBInsert(
+		'address',
+		[
+			'ADDRESS' => trim( $values['ADDRESS'] ),
+			'CITY' => trim( $values['CITY'] ),
+			'STATE' => trim( $values['STATE'] ),
+			'ZIPCODE' => trim( $values['ZIPCODE'] ),
+		] + issetVal( $values['fields'], [] ),
+		'id'
+	);
 
 	RegistrationSaveJoinAddress( $address_id );
 
@@ -332,13 +321,13 @@ function RegistrationSaveJoinAddress( $address_id )
 		$inserted_address = true;
 	}
 
-	DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID,
-		RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
-		values('" . UserStudentID() . "','" . $address_id . "','" .
-			$students_join_address['MAILING'] . "','" .
-			$students_join_address['RESIDENCE'] . "','" .
-			$students_join_address['BUS_PICKUP'] . "','" .
-			$students_join_address['BUS_DROPOFF'] . "')" );
+	DBInsert(
+		'students_join_address',
+		[
+			'STUDENT_ID' => UserStudentID(),
+			'ADDRESS_ID' => (int) $address_id,
+		] + $students_join_address
+	);
 }
 
 /**
@@ -382,14 +371,17 @@ function RegistrationSaveJoinContact( $contact_id, $address_id, $config )
 		return false;
 	}
 
-	$sql_values = "'" . UserStudentID() . "','" .
-		$contact_id . "','" . $address_id . "','" . issetVal( $config['custody'] ) . "','" .
-		issetVal( $config['emergency'] ) . "','" . $config['relation'] . "'";
-
-	DBQuery( "INSERT INTO students_join_people (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
-		VALUES(" . $sql_values . ")" );
-
-	return true;
+	return DBInsert(
+		'students_join_people',
+		[
+			'STUDENT_ID' => UserStudentID(),
+			'PERSON_ID' => (int) $contact_id,
+			'ADDRESS_ID' => (int) $address_id,
+			'CUSTODY' => issetVal( $config['custody'] ),
+			'EMERGENCY' => issetVal( $config['emergency'] ),
+			'STUDENT_RELATION' => $config['relation'],
+		]
+	);
 }
 
 /**
@@ -408,12 +400,6 @@ function RegistrationSaveContactNameFields( $config, $values )
 		return 0;
 	}
 
-	$sql = "INSERT INTO people ";
-
-	$fields = 'LAST_NAME,FIRST_NAME,MIDDLE_NAME,';
-
-	$values_sql = "'" . trim( $values['LAST_NAME'] ) . "','" . trim( $values['FIRST_NAME'] ) . "','" . trim( $values['MIDDLE_NAME'] ) . "',";
-
 	if ( $config
 		&& ! empty( $values['fields'] ) )
 	{
@@ -422,24 +408,20 @@ function RegistrationSaveContactNameFields( $config, $values )
 			if ( is_array( $value ) )
 			{
 				// Select Multiple from Options field type format.
-				$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
-			}
-
-			if ( ! empty( $value )
-				|| $value == '0' )
-			{
-				$fields .= DBEscapeIdentifier( $column ) . ',';
-
-				$values_sql .= "'" . $value . "',";
+				$values['fields'][ $column ] = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 			}
 		}
 	}
 
-	$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values_sql, 0, -1 ) . ')';
-
-	DBQuery( $sql );
-
-	$person_id = DBLastInsertID();
+	$person_id = DBInsert(
+		'people',
+		[
+			'LAST_NAME' => trim( $values['LAST_NAME'] ),
+			'FIRST_NAME' => trim( $values['FIRST_NAME'] ),
+			'MIDDLE_NAME' => trim( $values['MIDDLE_NAME'] ),
+		] + issetVal( $values['fields'], [] ),
+		'id'
+	);
 
 	return $person_id;
 }
@@ -463,15 +445,14 @@ function RegistrationSaveContactInfo( $contact_id, $config, $values )
 		if ( ! empty( $value )
 			|| $value == '0' )
 		{
-			$sql = "INSERT INTO people_join_contacts ";
-
-			$fields = 'PERSON_ID,TITLE,VALUE,';
-
-			$values_sql = "'" . $contact_id . "','" . $column . "','" . $value . "',";
-
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values_sql, 0, -1 ) . ')';
-
-			DBQuery( $sql );
+			DBInsert(
+				'people_join_contacts',
+				[
+					'PERSON_ID' => (int) $contact_id,
+					'TITLE' => $column,
+					'VALUE' => $value,
+				]
+			);
 		}
 	}
 }

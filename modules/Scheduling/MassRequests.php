@@ -27,18 +27,21 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						continue;
 					}
 
-					$sql = "INSERT INTO schedule_requests (SYEAR,SCHOOL_ID,
-						STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,
-						NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
-						values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
-						$_SESSION['MassRequests.php']['subject_id'] . "','" .
-						$_SESSION['MassRequests.php']['course_id'] . "',NULL,'" .
-						$_REQUEST['with_teacher_id'] . "','" .
-						$_REQUEST['without_teacher_id'] . "','" .
-						$_REQUEST['with_period_id'] . "','" .
-						$_REQUEST['without_period_id'] . "')";
-
-					DBQuery( $sql );
+					DBInsert(
+						'schedule_requests',
+						[
+							'SYEAR' => UserSyear(),
+							'SCHOOL_ID' => UserSchool(),
+							'STUDENT_ID' => (int) $student_id,
+							'SUBJECT_ID' => (int) $_SESSION['MassRequests.php']['subject_id'],
+							'COURSE_ID' => (int) $_SESSION['MassRequests.php']['course_id'],
+							'MARKING_PERIOD_ID' => '',
+							'WITH_TEACHER_ID' => $_REQUEST['with_teacher_id'],
+							'NOT_TEACHER_ID' => $_REQUEST['without_teacher_id'],
+							'WITH_PERIOD_ID' => $_REQUEST['with_period_id'],
+							'NOT_PERIOD_ID' => $_REQUEST['without_period_id'],
+						]
+					);
 				}
 
 				$note[] = button( 'check' ) . '&nbsp;' .
