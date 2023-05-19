@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.7
+-----------------
+- Fix SQL for Class Average calculation, exclude NULL grades in Grades.fnc.php
+
 Changes in 10.9.6
 -----------------
 - Do not use strtok(), can't handle nested calls for multiple files in InstallDatabase.php & database.inc.php
