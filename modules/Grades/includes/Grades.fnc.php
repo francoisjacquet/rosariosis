@@ -266,7 +266,8 @@ function GetClassAveragePercent( $course_period_id, $marking_period_id )
 	$extra['WHERE'] = " AND sg1.MARKING_PERIOD_ID='" . (int) $marking_period_id . "'
 		AND rc_cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-		AND sg1.STUDENT_ID=ssm.STUDENT_ID";
+		AND sg1.STUDENT_ID=ssm.STUDENT_ID
+		AND sg1.GRADE_PERCENT IS NOT NULL";
 
 	$students_RET = GetStuList( $extra );
 
