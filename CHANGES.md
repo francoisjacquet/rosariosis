@@ -42,6 +42,7 @@ Changes in 11.0
 Changes in 10.9.7
 -----------------
 - Fix SQL for Class Average calculation, exclude NULL grades in Grades.fnc.php
+- Fix Total Credits reset for each student in ReportCards.fnc.php
 
 Changes in 10.9.6
 -----------------
