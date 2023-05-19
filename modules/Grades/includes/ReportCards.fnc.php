@@ -504,7 +504,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					$grade = $mps[$mp][1];
 
-					$grades_RET[$i][$mp] = '<B>' . $grade['GRADE_TITLE'] . '</B>';
+					$grades_RET[$i][$mp] = '<B>' . issetVal( $grade['GRADE_TITLE'], '&nbsp;' ) . '</B>';
 
 					$grades_RET[$i]['CREDITS'] = (float) $grade['CREDITS'];
 

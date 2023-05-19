@@ -43,6 +43,7 @@ Changes in 10.9.7
 -----------------
 - Fix SQL for Class Average calculation, exclude NULL grades in Grades.fnc.php
 - Fix Total Credits reset for each student in ReportCards.fnc.php
+- Fix NULL grade display when Min. and Max. Grades in ReportCards.fnc.php
 
 Changes in 10.9.6
 -----------------
