@@ -307,14 +307,14 @@ function _makeType( $value, $name )
 	}
 
 	$new_options = [
-		'checkbox' => _( 'Checkbox' ),
-		'text' => _( 'Text' ),
-		'multiple_checkbox' => _( 'Select Multiple from Options' ),
-		'multiple_radio' => _( 'Select One from Options' ),
 		'select' => _( 'Pull-Down' ),
-		'date' => _( 'Date' ),
-		'numeric' => _( 'Number' ),
+		'multiple_radio' => _( 'Select One from Options' ),
+		'multiple_checkbox' => _( 'Select Multiple from Options' ),
+		'text' => _( 'Text' ),
 		'textarea' => _( 'Long Text' ),
+		'checkbox' => _( 'Checkbox' ),
+		'numeric' => _( 'Number' ),
+		'date' => _( 'Date' ),
 	];
 
 	if ( ! empty( $THIS_RET['ID'] ) )
