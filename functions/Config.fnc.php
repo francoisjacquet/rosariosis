@@ -110,7 +110,8 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 	global $_ROSARIO;
 
 	if ( ! $program
-		|| ! $item )
+		|| ! $item
+		|| ! UserSchool() )
 	{
 		return '';
 	}
