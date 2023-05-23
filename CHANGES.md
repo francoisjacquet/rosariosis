@@ -39,6 +39,7 @@ Changes in 11.0
 - Fix Contact file path (delete) in Student.php
 - Upload Address & Contact files in RegistrationSave.fnc.php
 - Security: use URLEscape() for PHP redirection in index.php & Portal.php
+- Use `$_REQUEST['search_terms']` to allow GET param in URL in Courses.php
 
 Changes in 10.9.7
 -----------------
