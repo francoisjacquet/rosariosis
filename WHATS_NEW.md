@@ -9,6 +9,8 @@ Add Portuguese (Brazil) translation, thanks to Emerson Barros
 
 Add Vietnamese (Vietnam) translation, thanks to Steven M. Haag & Trân Thi Kim Thanh
 
+Update German (Germany) translation, thanks to @0xD0M1M0
+
 Lists: add pagination if more than 1000 results. Deactivated by default, only activated for:
 - Grading Scales
 - Access Log
