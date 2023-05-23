@@ -1261,7 +1261,7 @@ function _redirectTakeAttendance()
 	$take_attendance_url = 'Modules.php?modname=' . $modname . '&table=' . $_REQUEST['table'] .
 		'&month_date=' . $date['month'] . '&day_date=' . $date['day'] . '&year_date=' . $date['year'];
 
-	header( 'Location: ' . $take_attendance_url );
+	header( 'Location: ' . URLEscape( $take_attendance_url ) );
 
 	// echo '<script>ajaxLink(' . json_encode( $take_attendance_url ) . ');</script>';
 

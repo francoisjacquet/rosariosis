@@ -18,11 +18,11 @@ if ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'logout' )
 {
 	// Redirect to index.php with same locale as old session & eventual reason & redirect to URL.
-	header( 'Location: index.php?locale=' . $_SESSION['locale'] .
+	header( 'Location: ' . URLEscape( 'index.php?locale=' . $_SESSION['locale'] .
 		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) .
 		( isset( $_REQUEST['redirect_to'] ) ?
 			'&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) :
-			'' ) );
+			'' ) ) );
 
 	if ( ! empty( $_REQUEST['token'] )
 		&& $_SESSION['token'] === $_REQUEST['token'] )
@@ -612,7 +612,7 @@ elseif ( ! isset( $_REQUEST['create_account'] ) )
 			$_REQUEST['redirect_to']
 		);
 
-	header( 'Location: Modules.php?' . $redirect_to );
+	header( 'Location: ' . URLEscape( 'Modules.php?' . $redirect_to ) );
 
 	exit;
 }

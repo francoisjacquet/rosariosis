@@ -38,6 +38,7 @@ Changes in 11.0
 - Let user edit inputs on Food Service User Account creation in Accounts.php
 - Fix Contact file path (delete) in Student.php
 - Upload Address & Contact files in RegistrationSave.fnc.php
+- Security: use URLEscape() for PHP redirection in index.php & Portal.php
 
 Changes in 10.9.7
 -----------------
