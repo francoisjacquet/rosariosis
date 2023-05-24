@@ -601,7 +601,7 @@ function StudentAssignmentsListOutput()
 			OR ( ga.DUE_DATE>=ss.START_DATE
 				AND ( ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE ) ) )
 		AND c.COURSE_ID=ss.COURSE_ID
-		ORDER BY ga.SUBMISSION, ga.DUE_DATE";
+		ORDER BY ga.SUBMISSION IS NULL,ga.SUBMISSION,ga.DUE_DATE IS NULL,ga.DUE_DATE,c.TITLE,ga.TITLE";
 
 	$assignments_RET = DBGet(
 		DBQuery( $assignments_sql ),
