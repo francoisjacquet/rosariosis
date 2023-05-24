@@ -40,6 +40,7 @@ Changes in 11.0
 - Upload Address & Contact files in RegistrationSave.fnc.php
 - Security: use URLEscape() for PHP redirection in index.php & Portal.php
 - Use `$_REQUEST['search_terms']` to allow GET param in URL in Courses.php
+- Move from serialize() to json_encode() in StudentAssignments.fnc.php & Comments.inc.php
 
 Changes in 10.9.7
 -----------------

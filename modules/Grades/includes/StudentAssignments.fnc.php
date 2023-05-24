@@ -58,7 +58,13 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	if ( $old_submission )
 	{
-		$old_data = unserialize( $old_submission['DATA'] );
+		// @since 11.0 Move from serialize() to json_encode()
+		$old_data = json_decode( $old_submission['DATA'], true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE )
+		{
+			$old_data = unserialize( $old_submission['DATA'] );
+		}
 	}
 
 	// TODO: check if Student not dropped?
@@ -119,12 +125,13 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	// Serialize Assignment Data.
 	$data = [ 'files' => $files, 'message' => $message, 'date' => $timestamp ];
 
-	$data = DBEscapeString( serialize( $data ) );
+	// @since 11.0 Move from serialize() to json_encode()
+	$data = DBEscapeString( json_encode( $data ) );
 
 	if ( ! $old_submission )
 	{
 		// If no file & no message.
-		if ( $message = ''
+		if ( $message === ''
 			&& ! $files )
 		{
 			return false;
@@ -191,7 +198,13 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 
 	if ( isset( $submission['DATA'] ) )
 	{
-		$data = unserialize( $submission['DATA'] );
+		// @since 11.0 Move from serialize() to json_encode()
+		$data = json_decode( $submission['DATA'], true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE )
+		{
+			$data = unserialize( $submission['DATA'] );
+		}
 
 		$old_file = issetVal( $data['files'][0], '' );
 
@@ -221,7 +234,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		if ( $old_message )
 		{
 			// Display assignment message.
-			DrawHeader( $old_message . $message .
+			DrawHeader( $old_message .
 				FormatInputTitle( _( 'Message' ), '', false, '' ) );
 		}
 
@@ -751,7 +764,13 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 
 	if ( $submission )
 	{
-		$data = unserialize( $submission['DATA'] );
+		// @since 11.0 Move from serialize() to json_encode()
+		$data = json_decode( $submission['DATA'], true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE )
+		{
+			$data = unserialize( $submission['DATA'] );
+		}
 
 		$file = issetVal( $data['files'][0], '' );
 

@@ -35,8 +35,16 @@ if ( AllowEdit()
 
 		if ( $existing_comment )
 		{
+			// @since 11.0 Move from serialize() to json_encode()
+			$existing_comment_decoded = json_decode( $existing_comment, true );
+
+			if ( json_last_error() !== JSON_ERROR_NONE )
+			{
+				$existing_comment_decoded = unserialize( $existing_comment );
+			}
+
 			// Add Comment to Existing ones.
-			$comment = array_merge( $comment, (array) unserialize( $existing_comment ) );
+			$comment = array_merge( $comment, (array) $existing_comment_decoded );
 		}
 		else
 		{
@@ -49,7 +57,7 @@ if ( AllowEdit()
 				'')" );
 		}
 
-		$_REQUEST['values']['student_mp_comments'][ UserStudentID() ]['COMMENT'] = DBEscapeString( serialize( $comment ) );
+		$_REQUEST['values']['student_mp_comments'][ UserStudentID() ]['COMMENT'] = DBEscapeString( json_encode( $comment ) );
 
 		SaveData(
 			[
@@ -89,13 +97,19 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SYEAR='" . UserSyear() . "'
 		AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'" );
 
-	$comments = unserialize( $comments );
+	// @since 11.0 Move from serialize() to json_encode()
+	$comments_decoded = json_decode( $comments, true );
 
-	if ( $comments )
+	if ( json_last_error() !== JSON_ERROR_NONE )
+	{
+		$comments_decoded = unserialize( $comments );
+	}
+
+	if ( $comments_decoded )
 	{
 		$comments_HTML = $staff_name = [];
 
-		foreach ( (array) $comments as $comment )
+		foreach ( (array) $comments_decoded as $comment )
 		{
 			$id = $comment['staff_id'];
 

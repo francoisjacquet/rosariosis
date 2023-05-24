@@ -1719,7 +1719,7 @@ CREATE TABLE staff_fields (
 CREATE TABLE student_assignments (
     assignment_id integer NOT NULL,
     student_id integer NOT NULL REFERENCES students(student_id),
-    data text,
+    data text, -- @since 11.0 Use JSON instead of PHP serialize
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (assignment_id, student_id)
@@ -1825,7 +1825,7 @@ CREATE TABLE student_mp_comments (
     student_id integer NOT NULL REFERENCES students(student_id),
     syear numeric(4,0) NOT NULL,
     marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
-    comment text,
+    comment text, -- @since 11.0 Use JSON instead of PHP serialize
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (student_id, syear, marking_period_id)
