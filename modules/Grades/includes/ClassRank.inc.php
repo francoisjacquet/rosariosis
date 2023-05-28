@@ -2,7 +2,7 @@
 /**
  * Class Rank functions & AJAX modfunc.
  *
- * @see GPARankList.php, Transcripts.php, InputFinalGrades.php & EditReportCardGrades.php
+ * @see GPARankList.php, Transcripts.php, InputFinalGrades.php, ReportCards.php & EditReportCardGrades.php
  *
  * @package RosarioSIS
  * @subpackage modules

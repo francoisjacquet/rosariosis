@@ -41,6 +41,7 @@ Changes in 11.0
 - Security: use URLEscape() for PHP redirection in index.php & Portal.php
 - Use `$_REQUEST['search_terms']` to allow GET param in URL in Courses.php
 - Move from serialize() to json_encode() in StudentAssignments.fnc.php & Comments.inc.php
+- SQL calculate Class Rank for Progress Periods in ReportCards.php
 
 Changes in 10.9.7
 -----------------

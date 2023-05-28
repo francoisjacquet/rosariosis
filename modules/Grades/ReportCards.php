@@ -109,11 +109,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</form>';
 
-		// SYear & Semester MPs only, including History MPs.
+		// MPs, including History MPs, only for current School Year.
 		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM marking_periods
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			AND MP_TYPE IN ('semester','year','quarter')
+			AND SYEAR='" . UserSyear() . "'
 			AND DOES_GRADES='Y'" );
 
 		foreach ( (array) $mps_RET as $mp )

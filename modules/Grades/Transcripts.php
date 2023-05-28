@@ -108,7 +108,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<br /><div class="center">' . Buttons( _( 'Create Transcripts for Selected Students' ) ) . '</div>';
 		echo '</form>';
 
-		// SYear & Semester MPs only, including History MPs.
+		// MPs, including History MPs, excluding Progress Periods.
 		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM marking_periods
 			WHERE SCHOOL_ID='" . UserSchool() . "'
