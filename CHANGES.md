@@ -34,6 +34,7 @@ Changes in 11.0
 - Use DBUpdateSQL() function in MarkingPeriods.php
 - Use DBUpdate() & DBInsert() functions, program wide
 - Create missing Food Service Student Account in Accounts.php
+- Fix SQL display Students with no Food Service account in the list in Accounts.php
 - Fix PHP warning if Food Service Student Account missing in Student.inc.php, Accounts.php, ServeMenus.php, Statements.php & Transactions.php
 - Let user edit inputs on Food Service User Account creation in Accounts.php
 - Fix Contact file path (delete) in Student.php

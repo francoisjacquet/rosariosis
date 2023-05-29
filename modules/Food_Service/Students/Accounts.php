@@ -132,14 +132,12 @@ Widgets( 'fsa_status' );
 Widgets( 'fsa_barcode' );
 Widgets( 'fsa_account_id' );
 
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
-$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-
-if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
-{
-	$extra['FROM'] .= ",food_service_student_accounts fssa";
-	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
-}
+$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "')
+	FROM food_service_student_accounts
+	WHERE STUDENT_ID=s.STUDENT_ID) AS STATUS";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID
+	FROM food_service_student_accounts
+	WHERE STUDENT_ID=s.STUDENT_ID)) AS BALANCE";
 
 $extra['functions'] += [ 'BALANCE' => 'red' ];
 $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
