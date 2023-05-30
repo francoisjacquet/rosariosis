@@ -1344,6 +1344,8 @@ a > .button {
 
 input + .loading {
 	vertical-align: bottom;
+	width: 26px;
+	height: 26px;
 }
 
 /* Adjust File input size with spinner on its right */
