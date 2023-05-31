@@ -46,8 +46,9 @@ Changes in 11.0
 - SQL Fix replacement in case the "username" contains the prefix in Removeaccess.php, thanks to @0xD0M1M0
 - SQL add accounting_categories table in rosariosis.sql & rosariosis_mysql.sql
 - Add Categories program to Accounting module in Categories.php, Menu.php, rosariosis.sql & rosariosis_mysql.sql
-- Add `_makePaymentsCategory()` & `_makeIncomesCategory()` functions in Accounting/functions.php
-- Reuse `_makeIncomesTextInput()` function in `_makePaymentsTextInput()` in Accounting/functions.php
+- Add `_makePaymentsCategory()` & `_makeIncomesCategory()` functions in Accounting/functions.inc.php
+- Reuse `_makeIncomesTextInput()` function in `_makePaymentsTextInput()` in Accounting/functions.inc.php
+- Use button only for File Attached input & download in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 
 Changes in 10.9.7
 -----------------

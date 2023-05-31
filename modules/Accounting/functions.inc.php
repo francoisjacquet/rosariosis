@@ -5,7 +5,7 @@ function _makeIncomesRemove( $value, $column )
 
 	return button(
 		'remove',
-		_( 'Delete' ),
+		'',
 		URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' . $THIS_RET['ID'] )
 	);
 }
@@ -225,8 +225,11 @@ function _makeSalariesFileInput( $value, $column )
 
 	if ( empty( $THIS_RET['ID'] ) )
 	{
-		return FileInput(
-			'FILE_ATTACHED'
+		return InputDivOnclick(
+			'FILE_ATTACHED',
+			FileInput( 'FILE_ATTACHED' ),
+			button( 'add' ),
+			''
 		);
 	}
 
@@ -241,9 +244,12 @@ function _makeSalariesFileInput( $value, $column )
 
 		// Add hidden FILE_ATTACHED input so it gets saved even if no other columns to save.
 		return '<input type="hidden" name="values[' . $THIS_RET['ID'] . '][FILE_ATTACHED]" value="" />' .
-		FileInput(
-			'FILE_ATTACHED_' . $THIS_RET['ID']
-		);
+			InputDivOnclick(
+				'FILE_ATTACHED_' . $THIS_RET['ID'],
+				FileInput( 'FILE_ATTACHED_' . $THIS_RET['ID'] ),
+				button( 'add' ),
+				''
+			);
 	}
 
 	if ( ! empty( $_REQUEST['LO_save'] ) )
@@ -258,14 +264,9 @@ function _makeSalariesFileInput( $value, $column )
 
 	$file_size = HumanFilesize( filesize( $file_path ) );
 
-	// Truncate file name if > 36 chars.
-	$file_name_display = mb_strlen( $file_name ) <= 36 ?
-		$file_name :
-		mb_substr( $file_name, 0, 30 ) . '..' . mb_strrchr( $file_name, '.' );
-
 	$file = button(
 		'download',
-		$file_name_display,
+		'',
 		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . AttrEscape( $file_name . ' (' . $file_size . ')' ) . '"',
 		'bigger'
 	);
