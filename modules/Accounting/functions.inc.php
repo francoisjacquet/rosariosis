@@ -324,6 +324,118 @@ function _makeIncomesFileInput( $value, $column )
 }
 
 /**
+ * Make Payments Category Select Input
+ *
+ * @since 11.0
+ *
+ * @param  string $value  Category ID.
+ * @param  string $column Column name, 'CATEGORY_ID'.
+ *
+ * @return string         Select Input HTML.
+ */
+function _makePaymentsCategory( $value, $column )
+{
+	global $THIS_RET;
+
+	$id = 'new';
+
+	$div = false;
+
+	if ( ! empty( $THIS_RET['ID'] ) )
+	{
+		$id = $THIS_RET['ID'];
+
+		$div = true;
+	}
+
+	// Types: common, incomes, expenses
+	$category_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
+		FROM accounting_categories
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND (TYPE='common' OR TYPE='expenses')
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,SHORT_NAME" );
+
+	$options = [ '0' => _( 'N/A' ) ];
+
+	foreach ( (array) $category_RET as $category )
+	{
+		$options[$category['ID']] = $category['SHORT_NAME'];
+	}
+
+	if ( empty( $value ) )
+	{
+		// Set N/A value to 0 to enable $div param & search list by Category.
+		$value = '0';
+	}
+
+	return SelectInput(
+		$value,
+		'values[' . $id . '][' . $column . ']',
+		'',
+		$options,
+		false,
+		'',
+		$div
+	);
+}
+
+/**
+ * Make Incomes Category Select Input
+ *
+ * @since 11.0
+ *
+ * @param  string $value  Category ID.
+ * @param  string $column Column name, 'CATEGORY_ID'.
+ *
+ * @return string         Select Input HTML.
+ */
+function _makeIncomesCategory( $value, $column )
+{
+	global $THIS_RET;
+
+	$id = 'new';
+
+	$div = false;
+
+	if ( ! empty( $THIS_RET['ID'] ) )
+	{
+		$id = $THIS_RET['ID'];
+
+		$div = true;
+	}
+
+	// Types: common, incomes, expenses
+	$category_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
+		FROM accounting_categories
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND (TYPE='common' OR TYPE='incomes')
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,SHORT_NAME" );
+
+	$options = [ '0' => _( 'N/A' ) ];
+
+	foreach ( (array) $category_RET as $category )
+	{
+		$options[$category['ID']] = $category['SHORT_NAME'];
+	}
+
+	if ( empty( $value ) )
+	{
+		// Set N/A value to 0 to enable $div param & search list by Category.
+		$value = '0';
+	}
+
+	return SelectInput(
+		$value,
+		'values[' . $id . '][' . $column . ']',
+		'',
+		$options,
+		false,
+		'',
+		$div
+	);
+}
+
+/**
  * Save Salaries File
  *
  * @since 10.4

@@ -46,6 +46,7 @@ Changes in 11.0
 - SQL Fix replacement in case the "username" contains the prefix in Removeaccess.php, thanks to @0xD0M1M0
 - SQL add accounting_categories table in rosariosis.sql & rosariosis_mysql.sql
 - Add Categories program to Accounting module in Categories.php, Menu.php, rosariosis.sql & rosariosis_mysql.sql
+- Add `_makePaymentsCategory()` & `_makeIncomesCategory()` functions in Accounting/functions.php
 
 Changes in 10.9.7
 -----------------
