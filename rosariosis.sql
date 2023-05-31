@@ -441,6 +441,22 @@ CREATE TABLE access_log (
 
 
 --
+-- Name: accounting_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE accounting_categories (
+    id serial PRIMARY KEY,
+    school_id integer NOT NULL,
+    title text NOT NULL,
+    short_name varchar(10),
+    type varchar(100),
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
+
+
+--
 -- Name: accounting_incomes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -448,7 +464,8 @@ CREATE TABLE accounting_incomes (
     assigned_date date,
     comments text,
     id serial PRIMARY KEY,
-    title text,
+    title text NOT NULL,
+    category_id integer REFERENCES accounting_categories(id),
     amount numeric(14,2) NOT NULL,
     file_attached text,
     school_id integer NOT NULL,
@@ -489,6 +506,8 @@ CREATE TABLE accounting_payments (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     staff_id integer REFERENCES staff(staff_id),
+    title text,
+    category_id integer REFERENCES accounting_categories(id),
     amount numeric(14,2) NOT NULL,
     payment_date date,
     comments text,
@@ -2122,6 +2141,13 @@ INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marki
 --
 -- Data for Name: course_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
+
+
+
+--
+-- Data for Name: accounting_categories; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
 
 
 --

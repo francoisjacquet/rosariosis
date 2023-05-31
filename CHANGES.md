@@ -44,6 +44,7 @@ Changes in 11.0
 - Move from serialize() to json_encode() in StudentAssignments.fnc.php & Comments.inc.php
 - SQL calculate Class Rank for Progress Periods in ReportCards.php
 - SQL Fix replacement in case the "username" contains the prefix in Removeaccess.php, thanks to @0xD0M1M0
+- SQL add accounting_categories table in rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 10.9.7
 -----------------

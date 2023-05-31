@@ -403,11 +403,29 @@ CREATE TABLE access_log (
 -- Name: accounting_incomes; Type: TABLE;
 --
 
+CREATE TABLE accounting_categories (
+    id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    school_id integer NOT NULL,
+    title text NOT NULL,
+    short_name varchar(10),
+    type varchar(100),
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp NULL ON UPDATE current_timestamp
+);
+
+
+--
+-- Name: accounting_incomes; Type: TABLE;
+--
+
 CREATE TABLE accounting_incomes (
     assigned_date date,
     comments text,
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title text,
+    title text NOT NULL,
+    category_id integer,
+    FOREIGN KEY (category_id) REFERENCES accounting_categories(id),
     amount numeric(14,2) NOT NULL,
     file_attached text,
     school_id integer NOT NULL,
@@ -450,6 +468,9 @@ CREATE TABLE accounting_payments (
     school_id integer NOT NULL,
     staff_id integer,
     FOREIGN KEY (staff_id) REFERENCES staff(staff_id),
+    title text,
+    category_id integer,
+    FOREIGN KEY (category_id) REFERENCES accounting_categories(id),
     amount numeric(14,2) NOT NULL,
     payment_date date,
     comments text,
@@ -2139,6 +2160,13 @@ INSERT INTO school_marking_periods VALUES (NULL, 2022, 'QTR', 1, 3, 'Quarter 4',
 --
 -- Data for Name: course_periods; Type: TABLE DATA;
 --
+
+
+
+--
+-- Data for Name: accounting_categories; Type: TABLE DATA;
+--
+
 
 
 --
