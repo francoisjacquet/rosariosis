@@ -53,6 +53,7 @@ Changes in 11.0
 - Add Category column in Expenses.php & Incomes.php
 - Add Title column in Expenses.php
 - Fix display Go button for all users (no AllowEdit() required) in DailyTotals.php & DailyTransactions.php
+- Add Category filter in DailyTransactions.php
 
 Changes in 10.9.7
 -----------------
