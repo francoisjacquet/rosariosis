@@ -43,6 +43,7 @@ Changes in 11.0
 - Use `$_REQUEST['search_terms']` to allow GET param in URL in Courses.php
 - Move from serialize() to json_encode() in StudentAssignments.fnc.php & Comments.inc.php
 - SQL calculate Class Rank for Progress Periods in ReportCards.php
+- SQL Fix replacement in case the "username" contains the prefix in Removeaccess.php, thanks to @0xD0M1M0
 
 Changes in 10.9.7
 -----------------
