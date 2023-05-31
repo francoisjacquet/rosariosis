@@ -25,6 +25,13 @@ if ( ! empty( $_REQUEST['values'] )
 
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
+		if ( isset( $columns['CATEGORY_ID'] )
+			&& $columns['CATEGORY_ID'] === '0' )
+		{
+			// Category ID 0 is N/A, reset to NULL.
+			$columns['CATEGORY_ID'] = '';
+		}
+
 		if ( $id !== 'new' )
 		{
 			$columns['FILE_ATTACHED'] = _saveExpensesFile( $id );
@@ -41,7 +48,8 @@ if ( ! empty( $_REQUEST['values'] )
 			);
 		}
 		elseif ( $columns['AMOUNT'] !== ''
-			&& $columns['PAYMENT_DATE'] )
+			&& $columns['PAYMENT_DATE']
+			&& $columns['TITLE'] )
 		{
 			$insert_columns = [ 'SYEAR' => UserSyear(), 'SCHOOL_ID' => UserSchool() ];
 
@@ -95,13 +103,15 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$functions = [
 		'REMOVE' => '_makePaymentsRemove',
+		'CATEGORY_ID' => '_makePaymentsCategory',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsTextInput',
 		'FILE_ATTACHED' => '_makePaymentsFileInput',
 	];
 
-	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS,FILE_ATTACHED
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,TITLE,CATEGORY_ID,AMOUNT,PAYMENT_DATE,
+		COMMENTS,FILE_ATTACHED
 		FROM accounting_payments
 		WHERE SYEAR='" . UserSyear() . "'
 		AND STAFF_ID IS NULL
@@ -130,6 +140,8 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$columns += [
+		'TITLE' => _( 'Expense' ),
+		'CATEGORY_ID' => _( 'Category' ),
 		'AMOUNT' => _( 'Amount' ),
 		'PAYMENT_DATE' => _( 'Date' ),
 		'COMMENTS' => _( 'Comment' ),
@@ -145,6 +157,8 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
+			'TITLE' => _makePaymentsTextInput( '', 'TITLE' ),
+			'CATEGORY_ID' => _makePaymentsCategory( '', 'CATEGORY_ID' ),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),

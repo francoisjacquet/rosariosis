@@ -50,6 +50,8 @@ Changes in 11.0
 - Reuse `_makeIncomesTextInput()` function in `_makePaymentsTextInput()` in Accounting/functions.inc.php
 - Use button only for File Attached input & download in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 - Add Timeframe start / end date filters in Expenses.php & Incomes.php
+- Add Category column in Expenses.php & Incomes.php
+- Add Title column in Expenses.php
 
 Changes in 10.9.7
 -----------------

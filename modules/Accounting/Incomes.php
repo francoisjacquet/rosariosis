@@ -25,6 +25,13 @@ if ( ! empty( $_REQUEST['values'] )
 
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
+		if ( isset( $columns['CATEGORY_ID'] )
+			&& $columns['CATEGORY_ID'] === '0' )
+		{
+			// Category ID 0 is N/A, reset to NULL.
+			$columns['CATEGORY_ID'] = '';
+		}
+
 		if ( $id !== 'new' )
 		{
 			$columns['FILE_ATTACHED'] = _saveIncomesFile( $id );
@@ -96,13 +103,14 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$functions = [
 		'REMOVE' => '_makeIncomesRemove',
+		'CATEGORY_ID' => '_makeIncomesCategory',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'COMMENTS' => '_makeIncomesTextInput',
 		'AMOUNT' => '_makeIncomesAmount',
 		'FILE_ATTACHED' => '_makeIncomesFileInput',
 	];
 
-	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,
+	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.CATEGORY_ID,f.ASSIGNED_DATE,f.COMMENTS,
 		f.AMOUNT,f.FILE_ATTACHED
 		FROM accounting_incomes f
 		WHERE f.SYEAR='" . UserSyear() . "'
@@ -132,8 +140,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$columns += [
 		'TITLE' => _( 'Income' ),
+		'CATEGORY_ID' => _( 'Category' ),
 		'AMOUNT' => _( 'Amount' ),
-		'ASSIGNED_DATE' => _( 'Assigned' ),
+		'ASSIGNED_DATE' => _( 'Date' ),
 		'COMMENTS' => _( 'Comment' ),
 	];
 
@@ -147,6 +156,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'TITLE' => _makeIncomesTextInput( '', 'TITLE' ),
+			'CATEGORY_ID' => _makeIncomesCategory( '', 'CATEGORY_ID' ),
 			'AMOUNT' => _makeIncomesTextInput( '', 'AMOUNT' ),
 			'ASSIGNED_DATE' => _makeIncomesDateInput( DBDate(), 'ASSIGNED_DATE' ),
 			'COMMENTS' => _makeIncomesTextInput( '', 'COMMENTS' ),
@@ -175,7 +185,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$options = [ 'center' => false ];
+		$options = [ 'center' => false, 'add' => false ];
 	}
 
 	ListOutput( $RET, $columns, 'Income', 'Incomes', $link, [], $options );
