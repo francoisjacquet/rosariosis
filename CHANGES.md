@@ -52,6 +52,7 @@ Changes in 11.0
 - Add Timeframe start / end date filters in Expenses.php & Incomes.php
 - Add Category column in Expenses.php & Incomes.php
 - Add Title column in Expenses.php
+- Fix display Go button for all users (no AllowEdit() required) in DailyTotals.php & DailyTransactions.php
 
 Changes in 10.9.7
 -----------------

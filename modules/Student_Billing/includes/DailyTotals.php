@@ -18,7 +18,7 @@ echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']
 
 DrawHeader( _( 'Report Timeframe' ) . ': ' .
 	PrepareDate( $start_date, '_start', false ) . ' ' . _( 'to' ) . ' ' .
-	PrepareDate( $end_date, '_end', false ) . ' ' . SubmitButton( _( 'Go' ) ) );
+	PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
 
 echo '</form>';
 
