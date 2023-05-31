@@ -2,6 +2,30 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.0
+-----------
+
+Grades
+- Report Cards: Add Class Average & Class Rank (Course Period)
+- Progress Reports: move from Teacher Programs to Grades menu (admin)
+- Configuration: Add Weight Assignments option
+
+[Assignment Max Points](https://gitlab.com/francoisjacquet/Assignment_Max_Points) plugin
+
+The above enhancements are sponsored by École Étoile du Matin, France
+
+Accounting
+- Incomes: fiter by date, assign categories
+- Expenses: fiter by date, assign categories
+- Daily Transactions: filter by category
+- Add Categories
+
+Thanks to @0xD0M1M0 for the above enhancements
+
+Food Service
+- Accounts: Create missing Food Service Student Account
+
+
 New in 10.9
 -----------
 
