@@ -47,6 +47,7 @@ Changes in 11.0
 - SQL add accounting_categories table in rosariosis.sql & rosariosis_mysql.sql
 - Add Categories program to Accounting module in Categories.php, Menu.php, rosariosis.sql & rosariosis_mysql.sql
 - Add `_makePaymentsCategory()` & `_makeIncomesCategory()` functions in Accounting/functions.php
+- Reuse `_makeIncomesTextInput()` function in `_makePaymentsTextInput()` in Accounting/functions.php
 
 Changes in 10.9.7
 -----------------

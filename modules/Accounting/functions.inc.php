@@ -49,6 +49,16 @@ function _makeIncomesTextInput( $value, $column )
 	return TextInput( $value, 'values[' . $id . '][' . $column . ']', '', $extra, $div );
 }
 
+function _makePaymentsTextInput( $value, $column )
+{
+	return _makeIncomesTextInput( $value, $column );
+}
+
+function _makeSalariesTextInput( $value, $name )
+{
+	return _makeIncomesTextInput( $value, $name );
+}
+
 
 function _makeIncomesDateInput( $value, $column )
 {
@@ -69,11 +79,6 @@ function _makePaymentsDateInput( $value, $name )
 	return _makeIncomesDateInput( $value, $name );
 }
 
-function _makeSalariesTextInput( $value, $name )
-{
-	return _makeIncomesTextInput( $value, $name );
-}
-
 function _makeSalariesDateInput( $value, $name )
 {	global $THIS_RET;
 
@@ -89,31 +94,6 @@ function _makeSalariesDateInput( $value, $name )
 	$name = 'values[' . $id . '][' . $name . ']';
 
 	return DateInput( $value, $name );
-}
-
-function _makePaymentsTextInput( $value, $name )
-{
-	global $THIS_RET;
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-		$id = 'new';
-
-	$extra = 'maxlength=255';
-
-	if ( $name === 'AMOUNT' )
-	{
-		$extra = ' type="number" step="0.01" max="999999999999" min="-999999999999"';
-	}
-	elseif ( ! $value )
-	{
-		$extra .= ' size=15';
-	}
-
-	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
 
