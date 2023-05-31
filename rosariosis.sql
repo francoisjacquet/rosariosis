@@ -2673,6 +2673,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Accounting/Salaries.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/StaffBalances.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/StaffPayments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/Statements.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Accounting/Categories.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (2, 'School_Setup/Schools.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'School_Setup/MarkingPeriods.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'School_Setup/Calendar.php', 'Y', NULL);

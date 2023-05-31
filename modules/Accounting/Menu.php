@@ -22,6 +22,8 @@ $menu['Accounting']['admin'] = [
 	'Accounting/DailyTransactions.php' => _( 'Daily Transactions' ),
 	'Accounting/StaffBalances.php' => _( 'Staff Balances' ),
 	'Accounting/Statements.php' => _( 'Print Statements' ),
+	3 => _( 'Setup' ),
+	'Accounting/Categories.php' => _( 'Categories' ),
 ];
 
 $menu['Accounting']['teacher'] = [
