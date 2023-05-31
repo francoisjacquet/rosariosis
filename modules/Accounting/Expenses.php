@@ -5,6 +5,12 @@ require_once 'modules/Accounting/functions.inc.php';
 
 $_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
 
+// Set start date.
+$start_date = RequestedDate( 'start', '' );
+
+// Set end date.
+$end_date = RequestedDate( 'end', DBDate() );
+
 if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
@@ -55,8 +61,8 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 	}
 
-	// Unset values & redirect URL.
-	RedirectURL( 'values' );
+	// Unset values & dates & redirect URL.
+	RedirectURL( [ 'values', 'month_values', 'day_values', 'year_values' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
@@ -100,7 +106,9 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND STAFF_ID IS NULL
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY ID", $functions );
+		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'
+		ORDER BY PAYMENT_DATE,ID", $functions );
 
 	$i = 1;
 	$RET = [];
@@ -144,9 +152,20 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 	}
 
+	if ( ! $_REQUEST['print_statements'] )
+	{
+		echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
+
+		DrawHeader( _( 'Timeframe' ) . ': ' .
+			PrepareDate( $start_date, '_start', true ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
+			PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
+
+		echo '</form>';
+	}
+
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
+		echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = [];
 	}
@@ -167,7 +186,9 @@ if ( ! $_REQUEST['modfunc'] )
 	$incomes_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM accounting_incomes f
 		WHERE f.SYEAR='" . UserSyear() . "'
-		AND f.SCHOOL_ID='" . UserSchool() . "'" );
+		AND f.SCHOOL_ID='" . UserSchool() . "'
+		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'" );
 
 	$table = '<table class="align-right accounting-totals"><tr><td>' . _( 'Total from Incomes' ) . ': ' . '</td><td>' . Currency( $incomes_total ) . '</td></tr>';
 
@@ -183,7 +204,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$student_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 			FROM billing_payments p
 			WHERE p.SYEAR='" . UserSyear() . "'
-			AND p.SCHOOL_ID='" . UserSchool() . "'" );
+			AND p.SCHOOL_ID='" . UserSchool() . "'
+			AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
+			AND '" . $end_date . "'" );
 
 		$table .= '<tr><td>& ' . _( 'Total from Student Payments' ) . ': ' . '</td><td>' . Currency( $student_payments_total ) . '</td></tr>';
 	}
@@ -198,7 +221,9 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NOT NULL
 		AND p.SYEAR='" . UserSyear() . "'
-		AND p.SCHOOL_ID='" . UserSchool() . "'" );
+		AND p.SCHOOL_ID='" . UserSchool() . "'
+		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'" );
 
 	$table .= '<tr><td>& ' . _( 'Total from Staff Payments' ) . ': ' . '</td><td>' . Currency( $staff_payments_total ) . '</td></tr>';
 
