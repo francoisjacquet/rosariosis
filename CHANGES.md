@@ -59,6 +59,7 @@ Changes in 11.0
 - SQL Update v11.0: Add TITLE column to accounting_payments table in Update.fnc.php
 - SQL Update v11.0: Add CATEGORY_ID column to accounting_incomes & accounting_payments tables in Update.fnc.php
 - SQL Update v11.0: Give admin profile access to Accounting > Categories program in Update.fnc.php
+- Add & translate help texts for Weight Assignments option in Help_en.php, help.pot & help.po
 
 Changes in 10.9.7
 -----------------
