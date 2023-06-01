@@ -54,6 +54,11 @@ Changes in 11.0
 - Add Title column in Expenses.php
 - Fix display Go button for all users (no AllowEdit() required) in DailyTotals.php & DailyTransactions.php
 - Add Category filter in DailyTransactions.php
+- SQL Update v11.0: Move "Progress Reports" from Teacher Programs to Grades menu (admin) in Update.fnc.php
+- SQL Update v11.0: Add accounting_categories table in Update.fnc.php
+- SQL Update v11.0: Add TITLE column to accounting_payments table in Update.fnc.php
+- SQL Update v11.0: Add CATEGORY_ID column to accounting_incomes & accounting_payments tables in Update.fnc.php
+- SQL Update v11.0: Give admin profile access to Accounting > Categories program in Update.fnc.php
 
 Changes in 10.9.7
 -----------------

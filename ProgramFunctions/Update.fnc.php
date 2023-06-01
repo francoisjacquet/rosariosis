@@ -244,6 +244,10 @@ function Update()
 		case version_compare( $from_version, '10.9', '<' ) :
 
 			$return = _update109();
+
+		case version_compare( $from_version, '11.0', '<' ) :
+
+			$return = _update110();
 	}
 
 	// Update version in DB config table.
@@ -1128,6 +1132,130 @@ function _update109()
 		DBQuery( "ALTER TABLE gradebook_assignments
 		ADD weight integer;" );
 	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 11.0
+ *
+ * 1. Move "Progress Reports" from Teacher Programs to Grades menu (admin)
+ * 2. Add accounting_categories table
+ * 3. Add TITLE column to accounting_payments table
+ * 4. Add CATEGORY_ID column to accounting_incomes & accounting_payments tables
+ * 5. Give admin profile access to Accounting > Categories program
+ *
+ * Local function
+ *
+ * @since 11.0
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update110()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Move "Progress Reports" from Teacher Programs to Grades menu (admin)
+	 */
+	DBQuery( "UPDATE profile_exceptions
+		SET MODNAME='Grades/ProgressReports.php'
+		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php'
+		AND PROFILE_ID='1'
+		AND NOT EXISTS(SELECT 1 FROM profile_exceptions
+			WHERE MODNAME='Grades/ProgressReports.php'
+			AND PROFILE_ID='1');
+		UPDATE staff_exceptions se1
+		SET MODNAME='Grades/ProgressReports.php'
+		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php'
+		AND NOT EXISTS(SELECT 1 FROM staff_exceptions se2
+			WHERE MODNAME='Grades/ProgressReports.php'
+			AND se2.USER_ID=se1.USER_ID);" );
+
+	/**
+	 * 2. Add accounting_categories table
+	 */
+	$accounting_categories_table_exists = DBGetOne( "SELECT 1
+		FROM information_schema.tables
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='accounting_categories';" );
+
+	if ( ! $accounting_categories_table_exists )
+	{
+		if ( $DatabaseType === 'mysql' )
+		{
+			DBQuery( "CREATE TABLE accounting_categories (
+				id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				school_id integer NOT NULL,
+				title text NOT NULL,
+				short_name varchar(10),
+				type varchar(100),
+				sort_order numeric,
+				created_at timestamp DEFAULT current_timestamp,
+				updated_at timestamp NULL ON UPDATE current_timestamp
+			);" );
+		}
+		else
+		{
+			DBQuery( "CREATE TABLE accounting_categories (
+				id serial PRIMARY KEY,
+				school_id integer NOT NULL,
+				title text NOT NULL,
+				short_name varchar(10),
+				type varchar(100),
+				sort_order numeric,
+				created_at timestamp DEFAULT current_timestamp,
+				updated_at timestamp
+			);" );
+		}
+	}
+
+	/**
+	 * 3. Add TITLE column to accounting_payments table
+	 */
+	$title_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='accounting_payments'
+		AND column_name='title';" );
+
+	if ( ! $title_column_exists )
+	{
+		DBQuery( "ALTER TABLE accounting_payments ADD title text" );
+	}
+
+	/**
+	 * 4. Add CATEGORY_ID column to accounting_incomes & accounting_payments tables
+	 */
+	$category_id_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='accounting_incomes'
+		AND column_name='category_id';" );
+
+	if ( ! $category_id_column_exists )
+	{
+		DBQuery( "ALTER TABLE accounting_incomes ADD category_id integer,
+			ADD FOREIGN KEY (category_id) REFERENCES accounting_categories(id);
+			ALTER TABLE accounting_payments ADD category_id integer,
+			ADD FOREIGN KEY (category_id) REFERENCES accounting_categories(id);" );
+	}
+
+	/**
+	 * 5. Give admin profile access to Accounting > Categories program
+	 */
+	DBQuery( "INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit)
+		SELECT 1, 'Accounting/Categories.php', 'Y', 'Y'
+		FROM DUAL
+		WHERE NOT EXISTS (SELECT profile_id
+			FROM profile_exceptions
+			WHERE modname='Accounting/Categories.php'
+			AND profile_id=1);" );
 
 	return $return;
 }
