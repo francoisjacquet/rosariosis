@@ -20,13 +20,13 @@ $tables = [
 	'courses' => _( 'Courses' ),
 	'student_enrollment_codes' => _( 'Student Enrollment Codes' ),
 	'student_enrollment' => _( 'Students' ),
-	'report_card_grades' => _( 'Report Card Grade Codes' ),
-	'report_card_comments' => _( 'Report Card Comment Codes' ),
+	'report_card_grades' => _( 'Grading Scales' ),
+	'report_card_comments' => _( 'Report Card Comments' ),
 	'program_config' => _( 'School Configuration' ),
 ];
 
 $tables_tooltip = [
-	'courses' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
+	'courses' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.' ),
 	'student_enrollment' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
 	'report_card_comments' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 ];
