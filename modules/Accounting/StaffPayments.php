@@ -109,7 +109,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY ID", $functions );
+		ORDER BY PAYMENT_DATE,ID", $functions );
 
 	$i = 1;
 	$RET = [];
