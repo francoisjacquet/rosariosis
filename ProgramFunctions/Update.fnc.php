@@ -1163,19 +1163,22 @@ function _update110()
 	/**
 	 * 1. Move "Progress Reports" from Teacher Programs to Grades menu (admin)
 	 */
-	DBQuery( "UPDATE profile_exceptions
+	$profile_exception_exists = DBGetOne( "SELECT 1
+		FROM profile_exceptions
+		WHERE MODNAME='Grades/ProgressReports.php'
+		AND PROFILE_ID='1'" );
+
+	if ( ! $profile_exception_exists )
+	{
+		DBQuery( "UPDATE profile_exceptions
+			SET MODNAME='Grades/ProgressReports.php'
+			WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php'
+			AND PROFILE_ID='1'" );
+	}
+
+	DBQuery( "UPDATE staff_exceptions se1
 		SET MODNAME='Grades/ProgressReports.php'
-		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php'
-		AND PROFILE_ID='1'
-		AND NOT EXISTS(SELECT 1 FROM profile_exceptions
-			WHERE MODNAME='Grades/ProgressReports.php'
-			AND PROFILE_ID='1');
-		UPDATE staff_exceptions se1
-		SET MODNAME='Grades/ProgressReports.php'
-		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php'
-		AND NOT EXISTS(SELECT 1 FROM staff_exceptions se2
-			WHERE MODNAME='Grades/ProgressReports.php'
-			AND se2.USER_ID=se1.USER_ID);" );
+		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php';" );
 
 	/**
 	 * 2. Add accounting_categories table
