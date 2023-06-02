@@ -8,6 +8,9 @@ $_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
 // Set start date.
 $start_date = RequestedDate( 'start', '' );
 
+// Fix PostgreSQL error if BETWEEN date is empty.
+$start_date_sql = $start_date ? $start_date : '1900-01-01';
+
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate() );
 
@@ -115,7 +118,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM accounting_incomes f
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'
-		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
+		AND f.ASSIGNED_DATE BETWEEN '" . $start_date_sql . "'
 		AND '" . $end_date . "'
 		ORDER BY f.ASSIGNED_DATE,f.ID", $functions );
 
@@ -203,7 +206,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE p.STAFF_ID IS NULL
 		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'
-		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
+		AND p.PAYMENT_DATE BETWEEN '" . $start_date_sql . "'
 		AND '" . $end_date . "'" );
 
 	$table = '<table class="align-right accounting-totals"><tr><td>' . _( 'Total from Incomes' ) . ': ' . '</td><td>' . Currency( $incomes_total ) . '</td></tr>';
@@ -221,7 +224,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM billing_payments p
 			WHERE p.SYEAR='" . UserSyear() . "'
 			AND p.SCHOOL_ID='" . UserSchool() . "'
-			AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
+			AND p.PAYMENT_DATE BETWEEN '" . $start_date_sql . "'
 			AND '" . $end_date . "'" );
 
 		$table .= '<tr><td>& ' . _( 'Total from Student Payments' ) . ': ' . '</td><td>' . Currency( $student_payments_total ) . '</td></tr>';
@@ -238,7 +241,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE p.STAFF_ID IS NOT NULL
 		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'
-		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
+		AND p.PAYMENT_DATE BETWEEN '" . $start_date_sql . "'
 		AND '" . $end_date . "'" );
 
 	$table .= '<tr><td>& ' . _( 'Total from Staff Payments' ) . ': ' . '</td><td>' . Currency( $staff_payments_total ) . '</td></tr>';
