@@ -64,10 +64,10 @@ if ( $_REQUEST['modfunc'] === 'upload'
 			// Remove path.
 			$addon_dir = str_replace( $FileUploadsPath . 'upload-module/', '', $addon_dir_path );
 
-			if ( mb_substr( $addon_dir, -1, 7 ) === '-master' )
+			if ( mb_substr( $addon_dir, -7, 7 ) === '-master' )
 			{
 				// Remove trailing '-master'.
-				$addon_dir = mb_substr( $addon_dir, -1, 7 );
+				$addon_dir = mb_substr( $addon_dir, 0, mb_strlen( $addon_dir ) -7 );
 			}
 
 			// Check add-on is not a core module...

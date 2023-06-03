@@ -62,6 +62,9 @@ Changes in 11.0
 - Add & translate help texts for Weight Assignments option in Help_en.php, help.pot & help.po
 - Translate Weight Assignments option to French & Spanish in rosariosis.pot & rosariosis.po
 
+Changes in 10.9.8
+-----------------
+- Fix remove "-master" suffix from add-on folder in Modules.inc.php & Plugins.inc.php
 Changes in 10.9.7
 -----------------
 - Fix SQL for Class Average calculation, exclude NULL grades in Grades.fnc.php
