@@ -1176,9 +1176,20 @@ function _update110()
 			AND PROFILE_ID='1'" );
 	}
 
-	DBQuery( "UPDATE staff_exceptions se1
+	$staff_exceptions_user_ids = DBGetOne( "SELECT " . DBSQLCommaSeparatedResult( 'USER_ID' ) . " AS USER_IDS
+		FROM staff_exceptions
+		WHERE MODNAME='Grades/ProgressReports.php'" );
+
+	$where_not_user_id_sql = '';
+
+	if ( $staff_exceptions_user_ids )
+	{
+		$where_not_user_id_sql = " AND USER_ID NOT IN(" . $staff_exceptions_user_ids . ")";
+	}
+
+	DBQuery( "UPDATE staff_exceptions
 		SET MODNAME='Grades/ProgressReports.php'
-		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php';" );
+		WHERE MODNAME='Users/TeacherPrograms.php&include=Grades/ProgressReports.php'" . $where_not_user_id_sql );
 
 	/**
 	 * 2. Add accounting_categories table
