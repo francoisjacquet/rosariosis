@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 10.9.8
+-----------------
+- Fix remove "-master" suffix from add-on folder in Modules.inc.php & Plugins.inc.php
+
 Changes in 10.9.7
 -----------------
 - Fix SQL for Class Average calculation, exclude NULL grades in Grades.fnc.php
