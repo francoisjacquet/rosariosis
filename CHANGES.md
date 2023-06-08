@@ -62,6 +62,7 @@ Changes in 11.0
 - Add & translate help texts for Weight Assignments option in Help_en.php, help.pot & help.po
 - Translate Weight Assignments option to French & Spanish in rosariosis.pot & rosariosis.po
 - CSS Add .rbr class, responsive `<br>` does not break line, use inside responsive table in zresponsive.css, DisciplineForm.php & Student_Billing/functions.inc.php
+- Enable Test Mode by default in case of accidental run in Scheduler.php
 
 Changes in 10.9.8
 -----------------

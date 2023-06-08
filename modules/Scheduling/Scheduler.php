@@ -15,7 +15,7 @@ if ( $_REQUEST['modname'] == 'Scheduling/Scheduler.php' && empty( $_REQUEST['run
 
 $confirm_html = '<table class="width-100p"><tr><td>' .
 	CheckboxInput(
-		'',
+		'Y',
 		'test_mode',
 		_( 'Test Mode' ),
 		'',
