@@ -4,6 +4,7 @@
 Changes in 10.9.8
 -----------------
 - Fix remove "-master" suffix from add-on folder in Modules.inc.php & Plugins.inc.php
+- Update Default School Year to 2023 in config.inc.sample.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 10.9.7
 -----------------
