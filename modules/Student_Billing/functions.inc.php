@@ -25,11 +25,11 @@ function _makeFeesRemove( $value, $column )
 			_( 'Waive' ),
 			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=waive&id=' . $THIS_RET['ID'] )
-		) . '<br>';
+		) . '<br class="rbr"> ';
 	}
 	elseif ( ! empty( $waived_fees_RET[ $THIS_RET['ID'] ] ) )
 	{
-		$return = '<span style="color:#00A642">' . _( 'Waived' ) . '</span><br>';
+		$return = '<span style="color:#00A642">' . _( 'Waived' ) . '</span><br class="rbr"> ';
 	}
 
 	return $return . button(
@@ -69,12 +69,12 @@ function _makePaymentsRemove( $value, $column )
 				_( 'Refund' ),
 				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 					'&modfunc=refund&id=' . $THIS_RET['ID'] )
-			) . '<br>';
+			) . '<br class="rbr"> ';
 		}
 	}
 	elseif ( ! empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{
-		$return = '<span style="color:#00A642">' . _( 'Refunded' ) . '</span><br>';
+		$return = '<span style="color:#00A642">' . _( 'Refunded' ) . '</span><br class="rbr"> ';
 	}
 
 	if ( AllowEdit( 'Student_Billing/StudentPayments.php&modfunc=remove' ) )

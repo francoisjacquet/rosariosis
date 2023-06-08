@@ -446,7 +446,7 @@ function _makeRemove( $value, $column )
 				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_usage&id=' . $THIS_RET['USAGE_ID'] )
 			);
 
-			$return .= '<br />' . button(
+			$return .= '<br class="rbr"> ' . button(
 				'remove',
 				_( 'Delete' ),
 				URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&id=' . $THIS_RET['ID'] )

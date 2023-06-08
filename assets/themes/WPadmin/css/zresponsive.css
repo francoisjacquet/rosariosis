@@ -187,6 +187,10 @@
 }
 
 @media only screen and (max-width:1023px) {
+	/*responsive <br> does not break line, use inside responsive table*/
+	.rbr {
+		display: none;
+	}
 	/*responsive tables*/
 	.rt {
 		display: block;

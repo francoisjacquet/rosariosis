@@ -195,6 +195,10 @@
 	#body {
 		padding: 0 6px 0;
 	}
+	/*responsive <br> does not break line, use inside responsive table*/
+	.rbr {
+		display: none;
+	}
 	/*responsive tables*/
 	.rt {
 		display: block;
