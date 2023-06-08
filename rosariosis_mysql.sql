@@ -2117,7 +2117,7 @@ CREATE TABLE user_profiles (
 -- Data for Name: schools; Type: TABLE DATA;
 --
 
-INSERT INTO schools VALUES (2022, NULL, 'Default School', '500 S. Street St.', 'Springfield', 'IL', '62704', NULL, 'Mr. Principal', 'www.rosariosis.org', NULL, NULL, 4, NULL, NULL, NULL);
+INSERT INTO schools VALUES (2023, NULL, 'Default School', '500 S. Street St.', 'Springfield', 'IL', '62704', NULL, 'Mr. Principal', 'www.rosariosis.org', NULL, NULL, 4, NULL, NULL, NULL);
 
 
 
@@ -2132,22 +2132,22 @@ INSERT INTO students VALUES (NULL, 'Student', 'Student', 'S', NULL, 'student', '
 -- Data for Name: staff; Type: TABLE DATA;
 --
 
-INSERT INTO staff VALUES (2022, NULL, 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', NULL, ',1,', NULL, NULL, 1, NULL, NULL, NULL);
-INSERT INTO staff VALUES (2022, NULL, 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', NULL, ',1,', NULL, NULL, 2, NULL, NULL, NULL);
-INSERT INTO staff VALUES (2022, NULL, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$6$947c923597601364$Kgbb0Ey3lYTYnqM66VkFRgJVFDW48cBAfNF7t0CVjokL7drcEFId61whqpLrRI1w0q2J2VPfg86Obaf1tG2Ng1', NULL, NULL, 'parent', NULL, NULL, NULL, NULL, 3, NULL, NULL, NULL);
+INSERT INTO staff VALUES (2023, NULL, 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', NULL, ',1,', NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO staff VALUES (2023, NULL, 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', NULL, ',1,', NULL, NULL, 2, NULL, NULL, NULL);
+INSERT INTO staff VALUES (2023, NULL, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$6$947c923597601364$Kgbb0Ey3lYTYnqM66VkFRgJVFDW48cBAfNF7t0CVjokL7drcEFId61whqpLrRI1w0q2J2VPfg86Obaf1tG2Ng1', NULL, NULL, 'parent', NULL, NULL, NULL, NULL, 3, NULL, NULL, NULL);
 
 
 --
 -- Data for Name: school_marking_periods; Type: TABLE DATA;
 -- Note: keep 06-15 and 06-13 as first and last day of the year!
 
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2022-06-14', '2023-06-12', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2022-06-14', '2022-12-31', '2022-12-28', '2022-12-31', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2023-01-01', '2023-06-12', '2023-06-11', '2023-06-12', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2022-06-14', '2022-09-13', '2022-09-11', '2022-09-13', 'Y', 'Y', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2022-09-14', '2022-12-31', '2022-12-28', '2022-12-31', 'Y', 'Y', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2023-01-01', '2023-03-14', '2023-03-12', '2023-03-14', 'Y', 'Y', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NULL, 2022, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2023-03-15', '2023-06-12', '2023-06-11', '2023-06-12', 'Y', 'Y', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2023-06-14', '2024-06-12', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2023-06-14', '2023-12-31', '2023-12-28', '2023-12-31', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2024-01-01', '2024-06-12', '2024-06-11', '2024-06-12', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2023-06-14', '2023-09-13', '2023-09-11', '2023-09-13', 'Y', 'Y', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2023-09-14', '2023-12-31', '2023-12-28', '2023-12-31', 'Y', 'Y', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2024-01-01', '2024-03-14', '2024-03-12', '2024-03-14', 'Y', 'Y', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NULL, 2023, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2024-03-15', '2024-06-12', '2024-06-11', '2024-06-12', 'Y', 'Y', NULL, NULL, NULL);
 
 
 
@@ -2216,7 +2216,7 @@ INSERT INTO address VALUES (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, N
 -- Data for Name: attendance_calendars; Type: TABLE DATA;
 --
 
-INSERT INTO attendance_calendars VALUES (1, 'Main', 2022, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO attendance_calendars VALUES (1, 'Main', 2023, NULL, 'Y', NULL, NULL, NULL);
 
 
 --
@@ -2229,10 +2229,10 @@ INSERT INTO attendance_calendars VALUES (1, 'Main', 2022, NULL, 'Y', NULL, NULL,
 -- Data for Name: attendance_codes; Type: TABLE DATA;
 --
 
-INSERT INTO attendance_codes VALUES (NULL, 2022, 1, 'Absent', 'A', 'teacher', 'A', NULL, 0, NULL, NULL, NULL);
-INSERT INTO attendance_codes VALUES (NULL, 2022, 1, 'Present', 'P', 'teacher', 'P', 'Y', 0, NULL, NULL, NULL);
-INSERT INTO attendance_codes VALUES (NULL, 2022, 1, 'Tardy', 'T', 'teacher', 'P', NULL, 0, NULL, NULL, NULL);
-INSERT INTO attendance_codes VALUES (NULL, 2022, 1, 'Excused Absence', 'E', 'official', 'A', NULL, 0, NULL, NULL, NULL);
+INSERT INTO attendance_codes VALUES (NULL, 2023, 1, 'Absent', 'A', 'teacher', 'A', NULL, 0, NULL, NULL, NULL);
+INSERT INTO attendance_codes VALUES (NULL, 2023, 1, 'Present', 'P', 'teacher', 'P', 'Y', 0, NULL, NULL, NULL);
+INSERT INTO attendance_codes VALUES (NULL, 2023, 1, 'Tardy', 'T', 'teacher', 'P', NULL, 0, NULL, NULL, NULL);
+INSERT INTO attendance_codes VALUES (NULL, 2023, 1, 'Excused Absence', 'E', 'official', 'A', NULL, 0, NULL, NULL, NULL);
 
 
 --
@@ -2354,10 +2354,10 @@ INSERT INTO custom_fields VALUES (NULL, 'textarea', 'Doctor''s Note Comments', 1
 -- Data for Name: discipline_field_usage; Type: TABLE DATA;
 --
 
-INSERT INTO discipline_field_usage VALUES (NULL, 3, 2022, 1, 'Parents Contacted by Teacher', '', 4, NULL, NULL);
-INSERT INTO discipline_field_usage VALUES (NULL, 4, 2022, 1, 'Parent Contacted by Administrator', '', 5, NULL, NULL);
-INSERT INTO discipline_field_usage VALUES (NULL, 6, 2022, 1, 'Comments', '', 6, NULL, NULL);
-INSERT INTO discipline_field_usage VALUES (NULL, 1, 2022, 1, 'Violation', 'Skipping Class
+INSERT INTO discipline_field_usage VALUES (NULL, 3, 2023, 1, 'Parents Contacted by Teacher', '', 4, NULL, NULL);
+INSERT INTO discipline_field_usage VALUES (NULL, 4, 2023, 1, 'Parent Contacted by Administrator', '', 5, NULL, NULL);
+INSERT INTO discipline_field_usage VALUES (NULL, 6, 2023, 1, 'Comments', '', 6, NULL, NULL);
+INSERT INTO discipline_field_usage VALUES (NULL, 1, 2023, 1, 'Violation', 'Skipping Class
 Profanity, vulgarity, offensive language
 Insubordination (Refusal to Comply, Disrespectful Behavior)
 Inebriated (Alcohol or Drugs)
@@ -2366,11 +2366,11 @@ Harassment
 Fighting
 Public Display of Affection
 Other', 1, NULL, NULL);
-INSERT INTO discipline_field_usage VALUES (NULL, 2, 2022, 1, 'Detention Assigned', '10 Minutes
+INSERT INTO discipline_field_usage VALUES (NULL, 2, 2023, 1, 'Detention Assigned', '10 Minutes
 20 Minutes
 30 Minutes
 Discuss Suspension', 2, NULL, NULL);
-INSERT INTO discipline_field_usage VALUES (NULL, 5, 2022, 1, 'Suspensions (Office Only)', 'Half Day
+INSERT INTO discipline_field_usage VALUES (NULL, 5, 2023, 1, 'Suspensions (Office Only)', 'Half Day
 In School Suspension
 1 Day
 2 Days
@@ -2408,9 +2408,9 @@ INSERT INTO discipline_fields VALUES (NULL, 'Comments', '', 'textarea', 'CATEGOR
 -- Data for Name: eligibility_activities; Type: TABLE DATA;
 --
 
-INSERT INTO eligibility_activities VALUES (NULL, 2022, 1, 'Boy''s Basketball', '2022-10-01', '2023-04-12', NULL, NULL, NULL);
-INSERT INTO eligibility_activities VALUES (NULL, 2022, 1, 'Chess Team', '2022-09-03', '2023-06-05', NULL, NULL, NULL);
-INSERT INTO eligibility_activities VALUES (NULL, 2022, 1, 'Girl''s Basketball', '2022-10-01', '2023-04-12', NULL, NULL, NULL);
+INSERT INTO eligibility_activities VALUES (NULL, 2023, 1, 'Boy''s Basketball', '2023-10-01', '2024-04-12', NULL, NULL, NULL);
+INSERT INTO eligibility_activities VALUES (NULL, 2023, 1, 'Chess Team', '2023-09-03', '2024-06-05', NULL, NULL, NULL);
+INSERT INTO eligibility_activities VALUES (NULL, 2023, 1, 'Girl''s Basketball', '2023-10-01', '2024-04-12', NULL, NULL, NULL);
 
 
 --
@@ -2844,31 +2844,31 @@ INSERT INTO profile_exceptions VALUES (1, 'Students/StudentBreakdown.php', 'Y', 
 -- Data for Name: program_config; Type: TABLE DATA;
 --
 
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'START_DAY', '1', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'START_HOUR', '23', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'START_MINUTE', '30', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'START_M', 'PM', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'END_DAY', '5', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'END_HOUR', '23', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'END_MINUTE', '30', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'eligibility', 'END_M', 'PM', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'grades', 'GRADES_DOES_LETTER_PERCENT', '0', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'grades', 'GRADES_TEACHER_ALLOW_EDIT', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT', 'Y', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS', 'Y', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'students', 'STUDENTS_USE_BUS', 'Y', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'students', 'STUDENTS_USE_CONTACT', 'Y', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'students', 'STUDENTS_SEMESTER_COMMENTS', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'moodle', 'MOODLE_URL', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'moodle', 'MOODLE_TOKEN', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'moodle', 'MOODLE_PARENT_ROLE_ID', NULL, NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'food_service', 'FOOD_SERVICE_BALANCE_WARNING', '5', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM', '-40', NULL, NULL);
-INSERT INTO program_config VALUES (2022, 1, 'food_service', 'FOOD_SERVICE_BALANCE_TARGET', '19', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'START_DAY', '1', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'START_HOUR', '23', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'START_MINUTE', '30', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'START_M', 'PM', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'END_DAY', '5', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'END_HOUR', '23', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'END_MINUTE', '30', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'eligibility', 'END_M', 'PM', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'grades', 'GRADES_DOES_LETTER_PERCENT', '0', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'grades', 'GRADES_TEACHER_ALLOW_EDIT', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT', 'Y', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS', 'Y', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'students', 'STUDENTS_USE_BUS', 'Y', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'students', 'STUDENTS_USE_CONTACT', 'Y', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'students', 'STUDENTS_SEMESTER_COMMENTS', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_URL', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_TOKEN', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_PARENT_ROLE_ID', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'food_service', 'FOOD_SERVICE_BALANCE_WARNING', '5', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM', '-40', NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'food_service', 'FOOD_SERVICE_BALANCE_TARGET', '19', NULL, NULL);
 
 
 --
@@ -2899,37 +2899,37 @@ INSERT INTO program_config VALUES (2022, 1, 'food_service', 'FOOD_SERVICE_BALANC
 -- Data for Name: report_card_comments; Type: TABLE DATA;
 --
 
-INSERT INTO report_card_comments VALUES (NULL, 2022, 1, NULL, NULL, NULL, 1, '^n Fails to Meet Course Requirements', NULL, NULL);
-INSERT INTO report_card_comments VALUES (NULL, 2022, 1, NULL, NULL, NULL, 2, '^n Comes to ^s Class Unprepared', NULL, NULL);
-INSERT INTO report_card_comments VALUES (NULL, 2022, 1, NULL, NULL, NULL, 3, '^n Exerts Positive Influence in Class', NULL, NULL);
+INSERT INTO report_card_comments VALUES (NULL, 2023, 1, NULL, NULL, NULL, 1, '^n Fails to Meet Course Requirements', NULL, NULL);
+INSERT INTO report_card_comments VALUES (NULL, 2023, 1, NULL, NULL, NULL, 2, '^n Comes to ^s Class Unprepared', NULL, NULL);
+INSERT INTO report_card_comments VALUES (NULL, 2023, 1, NULL, NULL, NULL, 3, '^n Exerts Positive Influence in Class', NULL, NULL);
 
 
 --
 -- Data for Name: report_card_grade_scales; Type: TABLE DATA;
 --
 
-INSERT INTO report_card_grade_scales VALUES (NULL, 2022, 1, 'Main', NULL, NULL, NULL, 1, NULL, 4, 0, NULL, NULL, NULL);
+INSERT INTO report_card_grade_scales VALUES (NULL, 2023, 1, 'Main', NULL, NULL, NULL, 1, NULL, 4, 0, NULL, NULL, NULL);
 
 
 --
 -- Data for Name: report_card_grades; Type: TABLE DATA;
 --
 
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'A+', 1, 4.00, 97, 'Consistently superior', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'A', 2, 4.00, 93, 'Superior', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'A-', 3, 3.75, 90, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'B+', 4, 3.50, 87, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'B', 5, 3.00, 83, 'Above average', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'B-', 6, 2.75, 80, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'C+', 7, 2.50, 77, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'C', 8, 2.00, 73, 'Average', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'C-', 9, 1.75, 70, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D+', 10, 1.50, 67, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D', 11, 1.00, 63, 'Below average', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'D-', 12, 0.75, 60, NULL, 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'F', 13, 0.00, 0, 'Failing', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'I', 14, 0.00, 0, 'Incomplete', 1, NULL, NULL, NULL);
-INSERT INTO report_card_grades VALUES (NULL, 2022, 1, 'N/A', 15, NULL, NULL, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'A+', 1, 4.00, 97, 'Consistently superior', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'A', 2, 4.00, 93, 'Superior', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'A-', 3, 3.75, 90, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'B+', 4, 3.50, 87, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'B', 5, 3.00, 83, 'Above average', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'B-', 6, 2.75, 80, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'C+', 7, 2.50, 77, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'C', 8, 2.00, 73, 'Average', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'C-', 9, 1.75, 70, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'D+', 10, 1.50, 67, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'D', 11, 1.00, 63, 'Below average', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'D-', 12, 0.75, 60, NULL, 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'F', 13, 0.00, 0, 'Failing', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'I', 14, 0.00, 0, 'Incomplete', 1, NULL, NULL, NULL);
+INSERT INTO report_card_grades VALUES (NULL, 2023, 1, 'N/A', 15, NULL, NULL, NULL, 1, NULL, NULL, NULL);
 
 
 --
@@ -2973,17 +2973,17 @@ INSERT INTO school_gradelevels VALUES (NULL, 1, '08', '8th', NULL, 9, NULL, NULL
 -- Data for Name: school_periods; Type: TABLE DATA;
 --
 
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 1, 'Full Day', 'FD', 300, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 2, 'Half Day AM', 'AM', 150, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 3, 'Half Day PM', 'PM', 150, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 4, 'Period 1', '01', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 5, 'Period 2', '02', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 6, 'Period 3', '03', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 7, 'Period 4', '04', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 8, 'Period 5', '05', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 9, 'Period 6', '06', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 10, 'Period 7', '07', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
-INSERT INTO school_periods VALUES (NULL, 2022, 1, 11, 'Period 8', '08', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 1, 'Full Day', 'FD', 300, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 2, 'Half Day AM', 'AM', 150, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 3, 'Half Day PM', 'PM', 150, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 4, 'Period 1', '01', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 5, 'Period 2', '02', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 6, 'Period 3', '03', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 7, 'Period 4', '04', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 8, 'Period 5', '05', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 9, 'Period 6', '06', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 10, 'Period 7', '07', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
+INSERT INTO school_periods VALUES (NULL, 2023, 1, 11, 'Period 8', '08', 50, NULL, NULL, NULL, 'Y', NULL, NULL, NULL);
 
 
 --
@@ -3020,12 +3020,12 @@ INSERT INTO staff_fields VALUES (NULL, 'text', 'Phone Number', 1, NULL, 1, NULL,
 -- Data for Name: student_enrollment_codes; Type: TABLE DATA;
 --
 
-INSERT INTO student_enrollment_codes VALUES (NULL, 2022, 'Moved from District', 'MOVE', 'Drop', NULL, 1, NULL, NULL);
-INSERT INTO student_enrollment_codes VALUES (NULL, 2022, 'Expelled', 'EXP', 'Drop', NULL, 2, NULL, NULL);
-INSERT INTO student_enrollment_codes VALUES (NULL, 2022, 'Beginning of Year', 'EBY', 'Add', 'Y', 3, NULL, NULL);
-INSERT INTO student_enrollment_codes VALUES (NULL, 2022, 'From Other District', 'OTHER', 'Add', NULL, 4, NULL, NULL);
-INSERT INTO student_enrollment_codes VALUES (NULL, 2022, 'Transferred in District', 'TRAN', 'Drop', NULL, 5, NULL, NULL);
-INSERT INTO student_enrollment_codes VALUES (NULL, 2022, 'Transferred in District', 'EMY', 'Add', NULL, 6, NULL, NULL);
+INSERT INTO student_enrollment_codes VALUES (NULL, 2023, 'Moved from District', 'MOVE', 'Drop', NULL, 1, NULL, NULL);
+INSERT INTO student_enrollment_codes VALUES (NULL, 2023, 'Expelled', 'EXP', 'Drop', NULL, 2, NULL, NULL);
+INSERT INTO student_enrollment_codes VALUES (NULL, 2023, 'Beginning of Year', 'EBY', 'Add', 'Y', 3, NULL, NULL);
+INSERT INTO student_enrollment_codes VALUES (NULL, 2023, 'From Other District', 'OTHER', 'Add', NULL, 4, NULL, NULL);
+INSERT INTO student_enrollment_codes VALUES (NULL, 2023, 'Transferred in District', 'TRAN', 'Drop', NULL, 5, NULL, NULL);
+INSERT INTO student_enrollment_codes VALUES (NULL, 2023, 'Transferred in District', 'EMY', 'Add', NULL, 6, NULL, NULL);
 
 
 --
@@ -3084,7 +3084,7 @@ INSERT INTO student_field_categories VALUES (NULL, 'Food Service', 5, NULL, 'Foo
 -- Data for Name: student_enrollment; Type: TABLE DATA;
 --
 
-INSERT INTO student_enrollment VALUES (NULL, 2022, 1, 1, 7, '2022-06-10', NULL, 3, NULL, 1, 1, 1, NULL, NULL);
+INSERT INTO student_enrollment VALUES (NULL, 2023, 1, 1, 7, '2023-06-09', NULL, 3, NULL, 1, 1, 1, NULL, NULL);
 
 
 
