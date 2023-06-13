@@ -63,6 +63,7 @@ Changes in 11.0
 - Translate Weight Assignments option to French & Spanish in rosariosis.pot & rosariosis.po
 - CSS Add .rbr class, responsive `<br>` does not break line, use inside responsive table in zresponsive.css, DisciplineForm.php & Student_Billing/functions.inc.php
 - Enable Test Mode by default in case of accidental run in Scheduler.php
+- Fix PHP fatal error if openssl PHP extension is missing in Warehouse.php, index.php, Student.php & User.php
 
 Changes in 10.9.8
 -----------------

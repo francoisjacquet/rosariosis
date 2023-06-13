@@ -443,7 +443,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 				[],
 				'.jpg',
 				// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
-				UserStaffID() . '.' . bin2hex( openssl_random_pseudo_bytes( 16 ) )
+				// @since 11.0 Fix PHP fatal error if openssl PHP extension is missing
+				UserStaffID() . '.' . bin2hex( function_exists( 'openssl_random_pseudo_bytes' ) ?
+					openssl_random_pseudo_bytes( 16 ) :
+					( function_exists( 'random_bytes' ) ? random_bytes( 16 ) :
+						mb_substr( sha1( rand( 999999999, 9999999999 ), true ), 0, 16 ) ) )
 			);
 
 			if ( $new_photo_file )

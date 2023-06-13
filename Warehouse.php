@@ -222,9 +222,13 @@ if ( empty( $_SESSION['token'] ) )
 	 * Add CSRF token to protect unauthenticated requests
 	 *
 	 * @since 9.0
+	 * @since 11.0 Fix PHP fatal error if openssl PHP extension is missing
 	 * @link https://stackoverflow.com/questions/5207160/what-is-a-csrf-token-what-is-its-importance-and-how-does-it-work
 	 */
-	$_SESSION['token'] = bin2hex( openssl_random_pseudo_bytes( 16 ) );
+	$_SESSION['token'] = bin2hex( function_exists( 'openssl_random_pseudo_bytes' ) ?
+		openssl_random_pseudo_bytes( 16 ) :
+		( function_exists( 'random_bytes' ) ? random_bytes( 16 ) :
+			mb_substr( sha1( rand( 999999999, 9999999999 ), true ), 0, 16 ) ) );
 }
 
 if ( empty( $_SESSION['STAFF_ID'] )
