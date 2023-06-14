@@ -404,21 +404,18 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['marking_period_id'] !== 'new' )
 	{
 		// Is Single Marking Period? Do NOT delete.
+		$not_single_mp = $_REQUEST['mp_term'] !== 'FY' || $_REQUEST['mp_term'] === 'PRO';
 
 		if ( $_REQUEST['mp_term'] !== 'FY'
 			&& $_REQUEST['mp_term'] !== 'PRO' )
 		{
-			$not_single_mp_RET = DBGet( "SELECT COUNT( MARKING_PERIOD_ID ) > 1 AS NOT_SINGLE_MP
+			$mp_count = DBGetOne( "SELECT COUNT(MARKING_PERIOD_ID)
 				FROM school_marking_periods
 				WHERE MP='" . $_REQUEST['mp_term'] . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			$not_single_mp = $not_single_mp_RET[1]['NOT_SINGLE_MP'] !== 'f';
-		}
-		else
-		{
-			$not_single_mp = $_REQUEST['mp_term'] !== 'FY' || $_REQUEST['mp_term'] === 'PRO';
+			$not_single_mp = $mp_count > 1;
 		}
 
 		if ( $not_single_mp )
