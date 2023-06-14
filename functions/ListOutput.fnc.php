@@ -707,7 +707,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $value )
 				{
-					echo '<th>' . str_replace( ' ', '&nbsp;', $value ) . '</th>';
+					echo '<th>' . ParseMLField( $value ) . '</th>';
 				}
 
 				echo '</tr></thead><tbody><tr><td>';
