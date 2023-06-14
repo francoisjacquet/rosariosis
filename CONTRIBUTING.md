@@ -20,7 +20,7 @@ Before reporting an [issue](https://gitlab.com/francoisjacquet/rosariosis/issues
 
 8. **Email support**: to get professional help with installation problems, or RosarioSIS configuration, please head to https://www.rosariosis.org/services/
 
-You have PHP web development skills? Please head to the next section & send a [merge request](https://docs.gitlab.com/ee/gitlab-basics/add-merge-request.html).
+You have PHP web development skills? Please head to the next section & send a [merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html).
 
 
 ## Contributing to RosarioSIS
