@@ -80,7 +80,7 @@ function ProperDate( $date, $length = 'long' )
 	return $comment .
 		'<span class="proper-date">' . strftime_compat(
 			Preferences( 'DATE' ),
-			strtotime( $date_exploded['year'] . '-' . $date_exploded['month'] . '-' . $date_exploded['day'] )
+			$date_exploded['year'] . '-' . $date_exploded['month'] . '-' . $date_exploded['day']
 		) . '</span>';
 }
 

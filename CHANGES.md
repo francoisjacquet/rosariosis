@@ -65,6 +65,7 @@ Changes in 11.0
 - Enable Test Mode by default in case of accidental run in Scheduler.php
 - Fix PHP fatal error if openssl PHP extension is missing in Warehouse.php, index.php, Student.php & User.php
 - MySQL fix not single MP check in MarkingPeriods.php
+- Fix exception strtotime() returns false for year >= 2038 (PHP 32-bit) in Date.php
 
 Changes in 10.9.8
 -----------------
