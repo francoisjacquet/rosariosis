@@ -23,7 +23,7 @@ if ( ! empty( $_POST['values'] )
 
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value )
 	{
-		$column_data_type = $categories_RET[str_replace( 'CATEGORY_', '', $column_name )][1]['DATA_TYPE'];
+		$column_data_type = issetVal( $categories_RET[str_replace( 'CATEGORY_', '', $column_name )][1]['DATA_TYPE'] );
 
 		if ( $column_data_type === 'numeric'
 			&& $value !== ''
