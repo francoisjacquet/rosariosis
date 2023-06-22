@@ -150,7 +150,7 @@ if ( isset( $Timezone ) )
 			 * @link https://stackoverflow.com/questions/25086456/php-convert-string-timezone-format-to-offset-integer#25086526
 			 */
 			$date_time_zone = new DateTimeZone( $Timezone );
-			$date = new DateTime( null, $date_time_zone );
+			$date = new DateTime( '', $date_time_zone );
 			$offset = $date_time_zone->getOffset( $date );
 			$offset = ( $offset < 0 ? '-' : '+' ) . gmdate( 'H:i', abs( $offset ) );
 

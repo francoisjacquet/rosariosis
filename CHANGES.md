@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.0.1
+-----------------
+- Fix PHP deprecated passing null to parameter #1 ($datetime) of type string in Warehouse.php
+
 Changes in 11.0
 ---------------
 - Add Weight Assignments option in Grades/Configuration.php, Assignments.php & MassCreateAssignments.php
