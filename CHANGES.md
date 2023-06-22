@@ -4,6 +4,7 @@
 Changes in 11.0.1
 -----------------
 - Fix PHP deprecated passing null to parameter #1 ($datetime) of type string in Warehouse.php
+- MySQL fix infinite loop, emulate PostgreSQL's nextval() in database.inc.php
 
 Changes in 11.0
 ---------------

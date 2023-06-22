@@ -298,6 +298,8 @@ function db_seq_nextval( $seqname )
  *
  * @deprecated since 9.2.1 Use DBLastInsertID() instead (with the exception of student ID)
  *
+ * @since 11.0.1 MySQL fix infinite loop, emulate PostgreSQL's nextval()
+ *
  * @example $id = DBSeqNextID( 'people_person_id_seq' );
  *
  * @global $DatabaseType  Database type: mysql or postgresql
@@ -309,6 +311,8 @@ function db_seq_nextval( $seqname )
 function DBSeqNextID( $seqname )
 {
 	global $DatabaseType;
+
+	static $auto_increment = [];
 
 	if ( $DatabaseType === 'mysql' )
 	{
@@ -323,6 +327,32 @@ function DBSeqNextID( $seqname )
 
 		// Return 0 if query failed. 0 in a MySQL query is valid for an AUTO_INCREMENT ID column.
 		$seq_next_id = empty( $seq_next_RET ) ? 0 : $seq_next_RET['AUTO_INCREMENT'];
+
+		if ( $seq_next_id )
+		{
+			if ( empty( $auto_increment[ $table_name ] ) )
+			{
+				$auto_increment[ $table_name ] = $seq_next_id;
+			}
+			elseif ( $auto_increment[ $table_name ] === $seq_next_id )
+			{
+				/**
+				 * Manually increment AUTO_INCREMENT
+				 *
+				 * @since 11.0.1 MySQL fix infinite loop, emulate PostgreSQL's nextval()
+				 */
+				$seq_next_id++;
+
+				DBQuery( "ALTER TABLE " . DBEscapeIdentifier( $table_name ) . "
+					AUTO_INCREMENT=" . (int) $seq_next_id );
+
+				$auto_increment[ $table_name ] = $seq_next_id;
+			}
+			else
+			{
+				unset( $auto_increment[ $table_name ] );
+			}
+		}
 	}
 	else
 	{
