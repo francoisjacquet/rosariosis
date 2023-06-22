@@ -334,7 +334,7 @@ function DBSeqNextID( $seqname )
 			{
 				$auto_increment[ $table_name ] = $seq_next_id;
 			}
-			elseif ( $auto_increment[ $table_name ] === $seq_next_id )
+			elseif ( $auto_increment[ $table_name ] == $seq_next_id )
 			{
 				/**
 				 * Manually increment AUTO_INCREMENT
