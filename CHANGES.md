@@ -6,6 +6,7 @@ Changes in 11.0.1
 - Fix PHP deprecated passing null to parameter #1 ($datetime) of type string in Warehouse.php
 - MySQL fix infinite loop, emulate PostgreSQL's nextval() in database.inc.php
 - Fix Apache 414 Request-URI Too Long, use POST method instead of GET in Administration.php
+- Fix display result count when no singular/plural set in ListOutput.fnc.php
 
 Changes in 11.0
 ---------------

@@ -245,13 +245,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			}
 
 			$where_message = '<span class="size-1">' .
-				sprintf( _( 'Displaying %d through %d' ), $start, $stop ) . '. ';
+				sprintf( _( 'Displaying %d through %d' ), $start, $stop ) . '.</span> ';
 
 			if ( $options['pagination'] )
 			{
 				$total_pages = ceil( $result_count / $num_displayed );
 
-				$pagination = [ _( 'Page' ) . ':' ];
+				$pagination = [ '<span class="size-1">' . _( 'Page' ) . ':' ];
 
 				for ( $i = 1; $i <= $total_pages; $i++ )
 				{
@@ -336,20 +336,20 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		echo '<table class="list-nav"><tr class="st"><td>';
 
-		if ( $singular !== '.'
-			&& $plural !== '.'
-			&& $options['count'] )
+		if ( $options['count']
+			&& $display_count > 0 )
 		{
-			if ( $display_count > 0 )
-			{
-				$result_text = ngettext( $singular, $plural, $result_count );
+			$result_text = ngettext(
+				( $singular === '.' ? _( 'Result' ) : $singular ),
+				( $plural === '.' ? _( 'Results' ) : $plural ),
+				$result_count
+			);
 
-				echo '<span class="size-1">' . sprintf(
-					ngettext( '%d %s was found.', '%d %s were found.', $result_count ),
-					$result_count,
-					mb_strtolower( $result_text )
-				) . '</span> ';
-			}
+			echo '<span class="size-1">' . sprintf(
+				ngettext( '%d %s was found.', '%d %s were found.', $result_count ),
+				$result_count,
+				mb_strtolower( $result_text )
+			) . '</span> ';
 
 			echo empty( $where_message ) ? '' : $where_message;
 		}
