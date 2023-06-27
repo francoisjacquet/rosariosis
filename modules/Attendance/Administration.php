@@ -39,9 +39,7 @@ $current_mp = GetCurrentMP( 'QTR', $date, false );
 
 if ( ! $current_mp )
 {
-	echo '<form action="' .
-		PreparePHP_SELF( $_REQUEST, [ 'codes', 'month_date', 'day_date', 'year_date' ] ) .
-		'" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate( $date, '_date', false, [ 'submit' => true ] )
@@ -223,7 +221,7 @@ $headerl = '';
 
 if ( ! empty( $categories_RET ) )
 {
-	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST, [ 'table', 'codes' ] );
+	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST );
 
 	$headerl .= '<a href="' . $tmp_PHP_SELF . '&table=0">';
 
@@ -325,9 +323,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		'COMMENT' => _( 'Teacher Comment' ),
 	];
 
-	echo '<form action="' .
-		PreparePHP_SELF( $_REQUEST, [ 'codes', 'month_date', 'day_date', 'year_date' ] ) .
-		'" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate( $date, '_date', false, [ 'submit' => true ] ),
@@ -524,9 +520,7 @@ else
 		$code_pulldowns = _makeCodeSearch();
 	}
 
-	echo '<form action="' .
-		PreparePHP_SELF( $_REQUEST, [ 'codes', 'month_date', 'day_date', 'year_date' ] ) .
-		'" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate( $date, '_date', false, [ 'submit' => true ] ),
