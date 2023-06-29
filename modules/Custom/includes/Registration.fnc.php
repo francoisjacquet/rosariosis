@@ -196,17 +196,20 @@ function RegistrationFormOutput( $config )
 
 	echo '<table><tr class="st">';
 
-	foreach ( $config['contact'] as $id => $config_contact )
+	if ( is_array( $config['contact'] ) )
 	{
-		echo '<td>';
-
-		RegistrationContact( 'contact[' . $id . ']', $config_contact );
-
-		echo '</td>';
-
-		if ( $id % 2 !== 0 )
+		foreach ( $config['contact'] as $id => $config_contact )
 		{
-			echo '</tr><tr class="st">';
+			echo '<td>';
+
+			RegistrationContact( 'contact[' . $id . ']', $config_contact );
+
+			echo '</td>';
+
+			if ( $id % 2 !== 0 )
+			{
+				echo '</tr><tr class="st">';
+			}
 		}
 	}
 
