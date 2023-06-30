@@ -7,6 +7,7 @@ Changes in 11.0.1
 - MySQL fix infinite loop, emulate PostgreSQL's nextval() in database.inc.php
 - Fix Apache 414 Request-URI Too Long, use POST method instead of GET in Administration.php
 - Fix display result count when no singular/plural set in ListOutput.fnc.php
+- Fix SQL drop order by School Period, allow Course Periods with no Periods in ReportCards.fnc.php
 
 Changes in 11.0
 ---------------

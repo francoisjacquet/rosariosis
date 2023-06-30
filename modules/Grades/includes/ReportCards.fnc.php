@@ -1057,7 +1057,7 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 
 		$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,WEIGHTED_GP,GP_SCALE,
 			sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
-			sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,rc_cp.CREDITS,sp.SORT_ORDER";
+			sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,rc_cp.CREDITS";
 
 		if ( isset( $_REQUEST['elements']['period_absences'] )
 			&& $_REQUEST['elements']['period_absences'] === 'Y' )
@@ -1077,20 +1077,18 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
 		}
 
+		// Fix SQL drop order by School Period, allow Course Periods with no Periods
 		// FJ multiple school periods for a course period.
 		//$extra['FROM'] .= ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,school_periods sp";
-		$extra['FROM'] = ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,
-			school_periods sp,course_period_school_periods cpsp";
+		$extra['FROM'] = ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/
 		$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (" . $mp_list . ")
 			AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-			AND sg1.STUDENT_ID=ssm.STUDENT_ID
-			AND sp.PERIOD_ID=cpsp.PERIOD_ID
-			AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
+			AND sg1.STUDENT_ID=ssm.STUDENT_ID";
 
-		$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,sg1.COURSE_TITLE,sp.SORT_ORDER";
+		$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,sg1.COURSE_TITLE";
 
 		$extra['group'] = [ 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ];
 
