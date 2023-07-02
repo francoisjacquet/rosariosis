@@ -218,7 +218,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 				'DISCOUNT' => $discount,
 				'ELLIGIBLE' => number_format( $value['ELLIGIBLE'], 1 ),
 				'DAYS_POSSIBLE' => number_format(  ( ! empty( $value['ELLIGIBLE'] ) ? $value['DAYS'] / $value['ELLIGIBLE'] : 0 ), 1 ),
-				'TOTAL_ELLIGIBLE' => $value['DAYS'],
+				'TOTAL_ELLIGIBLE' => issetVal( $value['DAYS'] ),
 				'PARTICIPATED' => $value['PARTICIPATED'],
 				'TOTAL' => '<b>' . format( $total ) . '</b>',
 			] + array_map( 'format', $types[$user][$discount] );
@@ -231,7 +231,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 			'DISCOUNT' => '<b>' . _( 'Totals' ) . '</b>',
 			'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>',
 			'DAYS_POSSIBLE' => '<b>' . number_format(  ( ! empty( $users_totals[$user]['ELLIGIBLE'] ) ? $users_totals[$user]['DAYS'] / $users_totals[$user]['ELLIGIBLE'] : 0 ), 1 ) . '</b>',
-			'TOTAL_ELLIGIBLE' => '<b>' . $users_totals[$user]['DAYS'] . '</b>',
+			'TOTAL_ELLIGIBLE' => '<b>' . issetVal( $users_totals[$user]['DAYS'] ) . '</b>',
 			'PARTICIPATED' => '<b>' . $users_totals[$user]['PARTICIPATED'] . '</b>',
 			'TOTAL' => '<b>' . format( $total ) . '</b>',
 		] + array_map( 'bold_format', $types_totals[$user] );
@@ -338,7 +338,7 @@ else
 		'TYPE' => '<b>' . _( 'Totals' ) . '</b>',
 		'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>',
 		'DAYS_POSSIBLE' => '<b>' . number_format( ( empty( $users_totals['']['ELLIGIBLE'] ) ? 0 : $users_totals['']['DAYS'] / $users_totals['']['ELLIGIBLE'] ), 1 ) . '</b>',
-		'TOTAL_ELLIGIBLE' => '<b>' . $users_totals['']['DAYS'] . '</b>',
+		'TOTAL_ELLIGIBLE' => '<b>' . issetVal( $users_totals['']['DAYS'] ) . '</b>',
 		'PARTICIPATED' => '<b>' . $users_totals['']['PARTICIPATED'] . '</b>',
 	] + array_map( 'bold', $types_totals[''] ) ];
 

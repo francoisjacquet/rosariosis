@@ -190,6 +190,12 @@ function bump_items_count( $value )
 	if ( $types[ $THIS_RET['TRANSACTION_SHORT_NAME'] ]['ITEMS'][ $value ] )
 	{
 		$types[ $THIS_RET['TRANSACTION_SHORT_NAME'] ]['ITEMS'][ $value ][1]['COUNT']++;
+
+		if ( ! isset( $types[ $THIS_RET['TRANSACTION_SHORT_NAME'] ]['ITEMS'][ $value ][1]['AMOUNT'] ) )
+		{
+			$types[ $THIS_RET['TRANSACTION_SHORT_NAME'] ]['ITEMS'][ $value ][1]['AMOUNT'] = 0;
+		}
+
 		$types[ $THIS_RET['TRANSACTION_SHORT_NAME'] ]['ITEMS'][ $value ][1]['AMOUNT'] += $THIS_RET['AMOUNT'];
 	}
 	else
