@@ -276,6 +276,7 @@ modules/Student_ID_Card*
 modules/Meeting*
 modules/Embedded_Resources*
 modules/Slovenian_Class_Diary*
+modules/Slovenian_Discipline*
 modules/Marking_Period_Groups*
 plugins/Email_SMTP*
 plugins/Public_Pages*
