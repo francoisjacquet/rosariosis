@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.0.2
+-----------------
+- Fix SQL error escape Menu title in MenuReports.php & TakeMenuCounts.php
+
 Changes in 11.0.1
 -----------------
 - Fix PHP deprecated passing null to parameter #1 ($datetime) of type string in Warehouse.php

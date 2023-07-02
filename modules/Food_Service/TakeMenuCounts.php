@@ -172,7 +172,7 @@ $meal_description = DBGetOne( "SELECT DESCRIPTION
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND SCHOOL_DATE='" . $date . "'
-	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'" );
+	AND TITLE='" . DBEscapeString( $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] ) . "'" );
 
 if ( $meal_description )
 {

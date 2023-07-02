@@ -68,6 +68,8 @@ else
 	}
 }
 
+$menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
+
 $users = [
 	'Student' => [
 		'' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
@@ -159,7 +161,7 @@ GROUP BY ac.CALENDAR_ID", [ 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ] );
 $RET = DBGet( "SELECT 1 AS PARTICIPATED,'Student' AS TYPE,DISCOUNT
 FROM food_service_transactions
 WHERE SYEAR='" . UserSyear() . "'
-AND SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+AND SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 AND TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 AND SCHOOL_ID='" . UserSchool() . "'
 GROUP BY STUDENT_ID,DISCOUNT", [ 'PARTICIPATED' => 'bump_dep' ] );
@@ -167,7 +169,7 @@ GROUP BY STUDENT_ID,DISCOUNT", [ 'PARTICIPATED' => 'bump_dep' ] );
 $RET = DBGet( "SELECT 1 AS PARTICIPATED,'User' AS TYPE,'' AS DISCOUNT
 FROM food_service_staff_transactions
 WHERE SYEAR='" . UserSyear() . "'
-AND SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+AND SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 AND TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 AND SCHOOL_ID='" . UserSchool() . "'
 GROUP BY STAFF_ID", [ 'PARTICIPATED' => 'bump_dep' ] );
@@ -185,9 +187,10 @@ if ( 'sales' == $_REQUEST['type_select'] )
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
-	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+	AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
+
 	$RET = DBGet( "SELECT 'User' AS TYPE,fsti.SHORT_NAME,'' AS DISCOUNT,-sum((SELECT sum(AMOUNT)
 		FROM food_service_staff_transaction_items
 		WHERE TRANSACTION_ID=fsti.TRANSACTION_ID
@@ -196,7 +199,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
-	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+	AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 	GROUP BY fsti.SHORT_NAME", [ 'SHORT_NAME' => 'bump_count' ] );
 
@@ -273,7 +276,7 @@ else
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
-	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+	AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
 
@@ -282,7 +285,7 @@ else
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
-	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+	AND fst.SHORT_NAME='" . DBEscapeString( $menu_title ) . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 	GROUP BY fsti.SHORT_NAME", [ 'SHORT_NAME' => 'bump_count' ] );
 
