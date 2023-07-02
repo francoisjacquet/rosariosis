@@ -271,7 +271,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 }
 else
 {
-	$RET = DBGet( "SELECT 'Student' AS TYPE,fst.DISCOUNT,fsti.SHORT_NAME,count(*)
+	$RET = DBGet( "SELECT 'Student' AS TYPE,fst.DISCOUNT,fsti.SHORT_NAME,count(*) AS COUNT
 	FROM food_service_transactions fst,food_service_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
@@ -280,7 +280,7 @@ else
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
 
-	$RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,fsti.SHORT_NAME,count(*)
+	$RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,fsti.SHORT_NAME,count(*) AS COUNT
 	FROM food_service_staff_transactions fst,food_service_staff_transaction_items fsti
 	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 	AND fst.SYEAR='" . UserSyear() . "'
