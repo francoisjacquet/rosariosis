@@ -297,6 +297,19 @@ if ( ! $_REQUEST['modfunc'] )
 
 	foreach ( $modules as $module )
 	{
+		if ( mb_substr( $module, -7, 7 ) === '-master'
+			&& is_writable( $module ) )
+		{
+			// @since 11.0.2 Remove "-master" suffix from manually uploaded add-ons
+			$module_without_master = mb_substr( $module, 0, mb_strlen( $module ) -7 );
+
+			if ( ! file_exists( $module_without_master )
+				&& @rename( $module, $module_without_master ) )
+			{
+				$module = $module_without_master;
+			}
+		}
+
 		$module_title = str_replace( 'modules/', '', $module );
 
 		$THIS_RET = [];

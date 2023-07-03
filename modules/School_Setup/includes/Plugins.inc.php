@@ -279,11 +279,24 @@ if ( ! $_REQUEST['modfunc'] )
 		$directories_bypass[] = 'plugins/' . $plugin_title;
 	}
 
-	// scan plugins/ folder for uninstalled plugins
+	// Scan plugins/ folder for uninstalled plugins.
 	$plugins = array_diff( glob( 'plugins/*', GLOB_ONLYDIR ), $directories_bypass );
 
 	foreach ( $plugins as $plugin )
 	{
+		if ( mb_substr( $plugin, -7, 7 ) === '-master'
+			&& is_writable( $plugin ) )
+		{
+			// @since 11.0.2 Remove "-master" suffix from manually uploaded add-ons
+			$plugin_without_master = mb_substr( $plugin, 0, mb_strlen( $plugin ) -7 );
+
+			if ( ! file_exists( $plugin_without_master )
+				&& @rename( $plugin, $plugin_without_master ) )
+			{
+				$plugin = $plugin_without_master;
+			}
+		}
+
 		$plugin_title = str_replace( 'plugins/', '', $plugin );
 
 		$THIS_RET = [];

@@ -5,6 +5,7 @@ Changes in 11.0.2
 -----------------
 - Fix SQL error escape Menu title in MenuReports.php & TakeMenuCounts.php
 - MySQL fix specify COUNT column name in MenuReports.php
+- Remove "-master" suffix from manually uploaded add-ons in Modules.inc.php & Plugins.inc.php
 
 Changes in 11.0.1
 -----------------
