@@ -108,14 +108,22 @@ if ( $_REQUEST['modfunc'] === 'create' )
 				[ 'STUDENT_ID' => UserStudentID() ] + $_REQUEST['food_service']
 			);
 
-			DBInsert(
-				'food_service_accounts',
-				[
-					'ACCOUNT_ID' => (int) $_REQUEST['food_service']['ACCOUNT_ID'],
-					'BALANCE' => '0.00',
-					'TRANSACTION_ID' => '0',
-				]
-			);
+			// Fix SQL error, Check if Account ID already exists
+			$account_id_exists = DBGetOne( "SELECT 1
+				FROM food_service_accounts
+				WHERE ACCOUNT_ID='" . (int) $_REQUEST['food_service']['ACCOUNT_ID'] . "'" );
+
+			if ( ! $account_id_exists )
+			{
+				DBInsert(
+					'food_service_accounts',
+					[
+						'ACCOUNT_ID' => (int) $_REQUEST['food_service']['ACCOUNT_ID'],
+						'BALANCE' => '0.00',
+						'TRANSACTION_ID' => '0',
+					]
+				);
+			}
 		}
 		else
 		{

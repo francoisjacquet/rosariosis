@@ -6,6 +6,7 @@ Changes in 11.0.2
 - Fix SQL error escape Menu title in MenuReports.php & TakeMenuCounts.php
 - MySQL fix specify COUNT column name in MenuReports.php
 - Remove "-master" suffix from manually uploaded add-ons in Modules.inc.php & Plugins.inc.php
+- Fix SQL error, Check if Account ID already exists in Student.php & Food_Service/Students/Accounts.php
 
 Changes in 11.0.1
 -----------------
