@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.0.3
+-----------------
+- Fix SQL error when no MPs in calcSeats0.fnc.php
+
 Changes in 11.0.2
 -----------------
 - Fix SQL error escape Menu title in MenuReports.php & TakeMenuCounts.php

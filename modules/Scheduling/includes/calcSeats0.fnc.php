@@ -4,7 +4,7 @@
  *
  * Used in Courses.php, MassSchedule.php, Schedule.php, Scheduler.php & UnfilledRequests.php
  *
- * @since 4.1 Fix SQL error when no MPs
+ * @since 11.0.3 Fix SQL error when no MPs
  *
  * @param  array  $period Course Period.
  * @param  string $date   Date. Defaults to current date.
@@ -16,6 +16,11 @@ function calcSeats0( $period, $date = '' )
 	$mp = $period['MARKING_PERIOD_ID'];
 
 	$all_mp = GetAllMP( GetMP( $mp, 'MP' ), $mp );
+
+	if ( ! $all_mp )
+	{
+		return '0';
+	}
 
 	$filled_seats = DBGetOne( "SELECT
 		max((SELECT count(1)
