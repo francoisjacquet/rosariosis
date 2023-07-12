@@ -5,6 +5,7 @@ Changes in 11.0.3
 -----------------
 - Fix SQL error when no MPs in calcSeats0.fnc.php
 - Choose Checkbox uncheck by default to prevent accidental creations in MassCreateAssignments.php
+- HTML display Courses list next to Assignment Types list in MassCreateAssignments.php
 
 Changes in 11.0.2
 -----------------

@@ -525,7 +525,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$LO_options
 	);
 
-	echo '</div>';
+	echo '</div><div class="st">';
 
 	if ( $header )
 	{
@@ -609,7 +609,7 @@ if ( ! $_REQUEST['modfunc'] )
 			);
 		}
 
-		echo '<div class="center">' . $submit_button . '</div>';
+		echo '</div><div class="center" style="clear: left">' . $submit_button . '</div>';
 		echo '</form>';
 	}
 }
