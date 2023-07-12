@@ -164,7 +164,8 @@ if ( isset( $_POST['tables'] )
 
 		$sql = '';
 
-		if ( $table === 'gradebook_assignments' )
+		if ( $table === 'gradebook_assignments'
+			&& ! empty( $_REQUEST['cp_arr'] ) )
 		{
 			foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
 			{
@@ -201,7 +202,8 @@ if ( isset( $_POST['tables'] )
 					') values(' . mb_substr( $values_final, 0, -1 ) . ');';
 			}
 		}
-		elseif ( $table === 'gradebook_assignment_types' )
+		elseif ( $table === 'gradebook_assignment_types'
+			&& ! empty( $_REQUEST['c_arr'] ) )
 		{
 			foreach ( (array) $_REQUEST['c_arr'] as $c_id )
 			{
@@ -530,7 +532,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['assignment_type'] === 'new' )
 		{
 			$columns = [
-				'COURSE_ID' => MakeChooseCheckbox( 'Y', '', 'c_arr' ),
+				'COURSE_ID' => MakeChooseCheckbox( '', '', 'c_arr' ),
 				'TITLE' => _( 'Course' ),
 				'SUBJECT' => _( 'Subject' ),
 			];
@@ -576,7 +578,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
 			$columns = [
-				'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ),
+				'COURSE_PERIOD_ID' => MakeChooseCheckbox( '', '', 'cp_arr' ),
 				'COURSE' => _( 'Course' ),
 				'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 				'MARKING_PERIOD_ID' => _( 'Marking Period' ),
