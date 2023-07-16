@@ -2,6 +2,21 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.1
+-----------
+
+Scheduling
+- Courses:
+  - Automatically update teacher: Fix the false "Missing attendance" portal alerts
+  - Automatically update credits (attempted and earned); will also recalculate GPA
+
+[Grades Import](https://www.rosariosis.org/modules/grades-import/)
+- Import Final Grades, sponsored by Univers Frère Raphaël, Haiti
+
+[Students Import Premium](https://www.rosariosis.org/modules/students-import/#premium-module)
+- Create Food Service Accounts (and assign a Barcode)
+
+
 New in 11.0
 -----------
 
