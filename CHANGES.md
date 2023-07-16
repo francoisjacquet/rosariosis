@@ -15,7 +15,7 @@ Changes in 11.1
 - SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods in Grades/Configuration.php, ReportCards.fnc.php, Courses.php, MassDrops.php, MassSchedule.php & PrintSchedules.php
 - Allow override GetFullYearMP(), GetAllMP(), GetParentMP(), GetChildrenMP() & GetCurrentMP() functions in GetMP.php
 - SQL set min Credits to 0 & fix division by zero error in Courses.fnc.php, rosariosis.sql & rosariosis_mysql.sql
-- Update to version 11.1 in Update.fnc.php
+- SQL Update to version 11.1 in Update.fnc.php
 - Add timestamp (including microseconds) to filename to make it harder to predict in FileUpload.fnc.php, Accounting/functions.inc.php, StudentAssignments.fnc.php, PortalNotes.php, Student_Billing/functions.inc.php
 - Copy $DefaultSyear global var to session (once) to prevent errors when edited in Warehouse.php & Config.fnc.php
 - Add "Probably a module. Move it to the modules/ folder." error in Plugins.inc.php
@@ -23,6 +23,7 @@ Changes in 11.1
 - Move `_updateSchedulesCPMP()` to includes/Courses.fnc.php & rename CoursePeriodUpdateMP() in Courses.php & Courses.fnc.php
 - Automatically update teacher: attendance_completed + grades_completed in Courses.php & Courses.fnc.php
 - Automatically update credits (attempted and earned); will also recalculate GPA in Courses.php & Courses.fnc.php
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 11.0.2
 -----------------
