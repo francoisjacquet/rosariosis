@@ -12,6 +12,7 @@
  * @example User( 'PROFILE' )
  *
  * @since 7.6.1 Remove use of `$_SESSION['STAFF_ID'] === '-1'`.
+ * @since 11.1 Return EMAIL column for students too (empty if "Student email field" not set)
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['User']
  *
@@ -57,8 +58,17 @@ function User( $item )
 		elseif ( ! empty( $_SESSION['STUDENT_ID'] )
 			&& $_SESSION['STUDENT_ID'] > 0 )
 		{
+			$email_column = "''";
+
+			if ( Config( 'STUDENTS_EMAIL_FIELD' ) )
+			{
+				$email_column = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
+					's.USERNAME' : 's.CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
+			}
+
 			$sql = "SELECT '0' AS STAFF_ID,s.USERNAME," . DisplayNameSQL( 's' ) . " AS NAME,
 				'student' AS PROFILE,'0' AS PROFILE_ID,LAST_LOGIN,
+				" . $email_column . " AS EMAIL,
 				CONCAT(',', se.SCHOOL_ID, ',') AS SCHOOLS,se.SYEAR,se.SCHOOL_ID
 				FROM students s,student_enrollment se
 				WHERE s.STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'
