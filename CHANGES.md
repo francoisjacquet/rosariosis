@@ -18,6 +18,7 @@ Changes in 11.1
 - Add timestamp (including microseconds) to filename to make it harder to predict in FileUpload.fnc.php, Accounting/functions.inc.php, StudentAssignments.fnc.php, PortalNotes.php, Student_Billing/functions.inc.php
 - Copy $DefaultSyear global var to session (once) to prevent errors when edited in Warehouse.php & Config.fnc.php
 - Add "Probably a module. Move it to the modules/ folder." error in Plugins.inc.php
+- Make Course Periods number link in Periods.php
 
 Changes in 11.0.2
 -----------------

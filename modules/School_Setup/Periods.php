@@ -95,7 +95,14 @@ if ( ! $_REQUEST['modfunc'] )
 			AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND cp.SYEAR='" . UserSyear() . "'
 			AND cp.SCHOOL_ID='" . UserSchool() . "'
-			LIMIT 1) AS REMOVE
+			LIMIT 1) AS REMOVE,
+		(SELECT COUNT(1)
+			FROM course_period_school_periods cpsp,course_periods cp
+			WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
+			AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND cp.SYEAR='" . UserSyear() . "'
+			AND cp.SCHOOL_ID='" . UserSchool() . "'
+			LIMIT 1) AS COURSE_PERIODS
 		FROM school_periods sp
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
@@ -107,6 +114,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'SORT_ORDER' => '_makeTextInput',
 		'BLOCK' => '_makeTextInput',
 		'LENGTH' => '_makeTextInput',
+		'COURSE_PERIODS' => '_makeCoursePeriods',
 	] ); //	'ATTENDANCE' => '_makeCheckboxInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
 
 	$columns = [];
@@ -123,6 +131,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'SORT_ORDER' => _( 'Sort Order' ),
 		'LENGTH' => _( 'Length (minutes)' ),
 		'BLOCK' => _( 'Block' ),
+		'COURSE_PERIODS' => _( 'Course Periods' ),
 	]; // 'ATTENDANCE' => _('Used for Attendance'),'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
 
 	$link['add']['html'] = [
@@ -320,4 +329,39 @@ function _makeRemoveButton( $value, $column )
 		$THIS_RET['PERIOD_ID'];
 
 	return button( 'remove', '', URLEscape( $button_link ) );
+}
+
+/**
+ * Make Course Periods number link
+ * Link to Scheduling > Courses program & search for Period's "TITLE"
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 11.1
+ *
+ * @param  string $value  Value.
+ * @param  string $column Column name, 'COURSE_PERIODS'.
+ *
+ * @return string         Empty if no Course Periods, else Course Periods link.
+ */
+function _makeCoursePeriods( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( ! $value )
+	{
+		return '';
+	}
+
+	if ( ! AllowUse( 'Scheduling/Courses.php' )
+		|| ! $THIS_RET['TITLE'] )
+	{
+		return $value;
+	}
+
+	$link = 'Modules.php?modname=Scheduling/Courses.php&course_modfunc=search&last_year=&search_term=' .
+		urlencode( $THIS_RET['TITLE'] );
+
+	return '<a href="' . URLEscape( $link ) . '">' . $value . '</a>';
 }
