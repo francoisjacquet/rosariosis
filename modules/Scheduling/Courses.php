@@ -956,10 +956,20 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 
 			//$header .= '<td>' . SelectInput($RET['MP'],'tables[course_periods]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY' => 'Full Year','SEM' => 'Semester','QTR' => 'Marking Period')) . '</td>';
+
+			// @since 11.1 SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods
+			$fy_and_children_mp = "'" . GetFullYearMP() . "'";
+
+			if ( GetChildrenMP( 'FY' ) )
+			{
+				$fy_and_children_mp .= "," . GetChildrenMP( 'FY' );
+			}
+
 			$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,SHORT_NAME," .
 				db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
 				FROM school_marking_periods
 				WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
+				AND MARKING_PERIOD_ID IN(" . $fy_and_children_mp . ")
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
 				ORDER BY TBL,SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );

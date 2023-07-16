@@ -202,11 +202,13 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		}
 
 		// Get the title instead of the short marking period name.
+		// @since 11.1 SQL Use GetChildrenMP() function to limit Marking Periods
 		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
 			FROM school_marking_periods
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
+			AND MARKING_PERIOD_ID IN(" . ( GetChildrenMP( 'FY' ) ? GetChildrenMP( 'FY' ) : '0' ) . ")
 			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE", [], [ 'PARENT_ID' ] );
 
 		// Marking Periods.

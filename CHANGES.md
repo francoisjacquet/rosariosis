@@ -12,6 +12,7 @@ Changes in 11.1
 - Return EMAIL column for students too (empty if "Student email field" not set) in User.fnc.php
 - Fix SQL error if delete Student email field, reset in StudentFields.php
 - Add SideMarkingPeriodSelect() function in Side.php
+- SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods in Grades/Configuration.php, ReportCards.fnc.php, Courses.php, MassDrops.php, MassSchedule.php & PrintSchedules.php
 
 Changes in 11.0.2
 -----------------

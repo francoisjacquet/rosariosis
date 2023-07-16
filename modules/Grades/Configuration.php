@@ -338,11 +338,13 @@ if ( ! empty( $grades ) )
 	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );
 }
 
+// @since 11.1 SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods
 $year = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
 	FROM school_marking_periods
 	WHERE MP='FY'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
+	AND MARKING_PERIOD_ID='" . GetFullYearMP() . "'
 	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $semesters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
@@ -350,6 +352,7 @@ $semesters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
 	WHERE MP='SEM'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
+	AND MARKING_PERIOD_ID IN(" . ( GetChildrenMP( 'FY' ) ? GetChildrenMP( 'FY' ) : '0' ) . ")
 	ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
 $quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
@@ -357,6 +360,7 @@ $quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
 	WHERE MP='QTR'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
+	AND MARKING_PERIOD_ID IN(" . ( GetChildrenMP( 'FY' ) ? GetChildrenMP( 'FY' ) : '0' ) . ")
 	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'PARENT_ID' ] );
 
 echo '<fieldset><legend>' . _( 'Final Grading Percentages' ) . '</legend><table>';
