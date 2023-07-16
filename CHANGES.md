@@ -14,6 +14,7 @@ Changes in 11.1
 - Add SideMarkingPeriodSelect() function in Side.php
 - SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods in Grades/Configuration.php, ReportCards.fnc.php, Courses.php, MassDrops.php, MassSchedule.php & PrintSchedules.php
 - SQL set min Credits to 0 & fix division by zero error in Courses.fnc.php, rosariosis.sql & rosariosis_mysql.sql
+- Update to version 11.1 in Update.fnc.php
 
 Changes in 11.0.2
 -----------------

@@ -248,6 +248,10 @@ function Update()
 		case version_compare( $from_version, '11.0', '<' ) :
 
 			$return = _update110();
+
+		case version_compare( $from_version, '11.1', '<' ) :
+
+			$return = _update111();
 	}
 
 	// Update version in DB config table.
@@ -1270,6 +1274,139 @@ function _update110()
 			FROM profile_exceptions
 			WHERE modname='Accounting/Categories.php'
 			AND profile_id=1);" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 11.1
+ *
+ * 0. Drop calc_cum_cr_gpa & calc_cum_gpa procedures (MySQL only)
+ * 0. Create plpgsql language in case it does not exist (PostgreSQL only)
+ * 1. SQL set min Credits to 0 & fix division by zero error
+ *
+ * Local function
+ *
+ * @since 11.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update111()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		/**
+		 * MySQL
+		 *
+		 * 0. Drop calc_cum_cr_gpa & calc_cum_gpa procedures
+		 * 1. SQL set min Credits to 0 & fix division by zero error
+		 */
+		$mysql_no_delimiter = MySQLRemoveDelimiter( "DROP PROCEDURE IF EXISTS calc_cum_cr_gpa;
+		DROP PROCEDURE IF EXISTS calc_cum_gpa;
+
+		--
+		-- Name: calc_cum_cr_gpa(mp_id integer, s_id integer); Type: FUNCTION;
+		-- @since 11.1 SQL set min Credits to 0 & fix division by zero error
+		--
+
+		DELIMITER $$
+		CREATE PROCEDURE calc_cum_cr_gpa(mp_id integer, s_id integer)
+		BEGIN
+			UPDATE student_mp_stats
+			SET cum_cr_weighted_factor = (case when cr_credits = '0' THEN '0' ELSE cr_weighted_factors/cr_credits END),
+				cum_cr_unweighted_factor = (case when cr_credits = '0' THEN '0' ELSE cr_unweighted_factors/cr_credits END)
+			WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
+		END$$
+		DELIMITER ;
+
+
+		--
+		-- Name: calc_cum_gpa(mp_id integer, s_id integer); Type: FUNCTION;
+		-- @since 11.1 SQL set min Credits to 0 & fix division by zero error
+		--
+
+		DELIMITER $$
+		CREATE PROCEDURE calc_cum_gpa(mp_id integer, s_id integer)
+		BEGIN
+			UPDATE student_mp_stats
+			SET cum_weighted_factor = (case when gp_credits = '0' THEN '0' ELSE sum_weighted_factors/gp_credits END),
+				cum_unweighted_factor = (case when gp_credits = '0' THEN '0' ELSE sum_unweighted_factors/gp_credits END)
+			WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
+		END$$
+		DELIMITER ;" );
+
+		DBQuery( $mysql_no_delimiter );
+
+		return $return;
+	}
+
+	/**
+	 * PostgreSQL
+	 *
+	 * 0. Create plpgsql language in case it does not exist
+	 * 1. SQL set min Credits to 0 & fix division by zero error
+	 */
+	DBQuery( "CREATE OR REPLACE FUNCTION create_language_plpgsql() RETURNS boolean AS $$
+		CREATE LANGUAGE plpgsql;
+		SELECT TRUE;
+	$$ LANGUAGE SQL;
+
+	SELECT CASE WHEN NOT
+		(
+			SELECT  TRUE AS exists
+			FROM    pg_language
+			WHERE   lanname = 'plpgsql'
+			UNION
+			SELECT  FALSE AS exists
+			ORDER BY exists DESC
+			LIMIT 1
+		)
+	THEN
+		create_language_plpgsql()
+	ELSE
+		FALSE
+	END AS plpgsql_created;
+
+	DROP FUNCTION create_language_plpgsql();
+
+
+	--
+	-- Name: calc_cum_cr_gpa(mp_id integer, s_id integer); Type: FUNCTION; Schema: public; Owner: postgres
+	-- @since 11.1 SQL set min Credits to 0 & fix division by zero error
+	--
+
+	CREATE OR REPLACE FUNCTION calc_cum_cr_gpa(mp_id integer, s_id integer) RETURNS integer AS $$
+	BEGIN
+		UPDATE student_mp_stats
+		SET cum_cr_weighted_factor = (case when cr_credits = '0' THEN '0' ELSE cr_weighted_factors/cr_credits END),
+			cum_cr_unweighted_factor = (case when cr_credits = '0' THEN '0' ELSE cr_unweighted_factors/cr_credits END)
+		WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
+		RETURN 1;
+	END;
+	$$ LANGUAGE plpgsql;
+
+
+	--
+	-- Name: calc_cum_gpa(mp_id integer, s_id integer); Type: FUNCTION; Schema: public; Owner: postgres
+	-- @since 11.1 SQL set min Credits to 0 & fix division by zero error
+	--
+
+	CREATE OR REPLACE FUNCTION calc_cum_gpa(mp_id integer, s_id integer) RETURNS integer AS $$
+	BEGIN
+		UPDATE student_mp_stats
+		SET cum_weighted_factor = (case when gp_credits = '0' THEN '0' ELSE sum_weighted_factors/gp_credits END),
+			cum_unweighted_factor = (case when gp_credits = '0' THEN '0' ELSE sum_unweighted_factors/gp_credits END)
+		WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
+		RETURN 1;
+	END;
+	$$ LANGUAGE plpgsql;" );
 
 	return $return;
 }
