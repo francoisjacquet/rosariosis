@@ -11,9 +11,10 @@
  * @package RosarioSIS
  * @subpackage assets/js
  * @since 4.4
+ * @since 11.1 Add userInputs param to prevent using App name, username, or email in the password
  */
 
-$.fn.passwordStrength = function(minStrength, requiredText) {
+$.fn.passwordStrength = function(minStrength, requiredText, userInputs = []) {
 
 	var $password = this;
 
@@ -29,9 +30,9 @@ $.fn.passwordStrength = function(minStrength, requiredText) {
 		var password = $password.val(),
 			score = 0;
 
-		// console.log(password, minStrength);
+		// console.log(password, minStrength, userInputs);
 
-		var result = zxcvbn(password),
+		var result = zxcvbn(password, userInputs),
 			score = result.score;
 
 		// console.log(result, (minStrength <= score));

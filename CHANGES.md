@@ -8,6 +8,7 @@ Changes in 11.1
 - HTML display Courses list next to Assignment Types list in MassCreateAssignments.php
 - Set email for default admin user so he can reset his password in InstallDatabase.php
 - Prevent using App name, username, or email in the password in PasswordReset.php, FirstLogin.fnc.php, Inputs.php & Preferences.php
+- JS Add userInputs param to prevent using App name, username, or email in the password in jquery-passwordstrength.js
 
 Changes in 11.0.2
 -----------------
