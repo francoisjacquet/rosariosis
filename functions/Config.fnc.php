@@ -16,7 +16,6 @@
  * @since 6.0 Handle single quotes in $value with DBEscapeString().
  *
  * @global array  $_ROSARIO     Sets $_ROSARIO['Config']
- * @global string $DefaultSyear
  *
  * @param  string $item  Config title.
  * @param  string $value Value to INSERT or UPDATE. Defaults to null.
@@ -25,8 +24,7 @@
  */
 function Config( $item, $value = null )
 {
-	global $_ROSARIO,
-		$DefaultSyear;
+	global $_ROSARIO;
 
 	if ( ! $item )
 	{
@@ -46,7 +44,7 @@ function Config( $item, $value = null )
 			FROM config
 			WHERE " . $school_where, [], [ 'TITLE' ] );
 
-		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $DefaultSyear;
+		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $_SESSION['DefaultSyear'];
 	}
 
 	if ( ! is_null( $value ) )

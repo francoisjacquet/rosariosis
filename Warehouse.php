@@ -216,6 +216,12 @@ session_cache_limiter( 'nocache' );
 
 session_start();
 
+if ( empty( $_SESSION['DefaultSyear'] ) )
+{
+	// @since 11.1 Copy $DefaultSyear global var to session (once) to prevent errors when edited
+	$_SESSION['DefaultSyear'] = $DefaultSyear;
+}
+
 if ( empty( $_SESSION['token'] ) )
 {
 	/**
