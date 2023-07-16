@@ -700,3 +700,64 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 
 	return true;
 }
+
+/**
+ * Automatically update credits:
+ * Recalculate Credits (attempted and earned); will also recalculate GPA
+ *
+ * @since 11.1
+ *
+ * @param  int $cp_id       Course Period ID.
+ * @param  int $old_credits Old Credits.
+ * @param  int $new_credits New Credits.
+ *
+ * @return bool True if credits updated.
+ */
+function CoursePeriodUpdateCredits( $cp_id, $old_credits, $new_credits )
+{
+	global $DatabaseType;
+
+	if ( ! $cp_id
+		|| ! $old_credits
+		|| ! $new_credits
+		|| $old_credits == $new_credits )
+	{
+		return false;
+	}
+
+	$cp_mp_id = DBGetOne( "SELECT MARKING_PERIOD_ID
+		FROM course_periods
+		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
+
+	if ( ! $cp_mp_id )
+	{
+		return false;
+	}
+
+	$gp_passing_value = DBGetOne( "SELECT gs.GP_PASSING_VALUE
+		FROM course_periods cp,report_card_grade_scales gs
+		WHERE cp.COURSE_PERIOD_ID='" . (int) $cp_id . "'
+		AND cp.GRADE_SCALE_ID=gs.ID" );
+
+	// Get all the MP's associated with the course period MP
+	$mp_ids = explode( "','", trim( GetChildrenMP( GetMP( $cp_mp_id, 'MP' ), $cp_mp_id ), "'" ) );
+
+	$mp_ids[] = $cp_mp_id;
+
+	foreach ( (array) $mp_ids as $mp_id )
+	{
+		// Update student_report_card_grades will trigger t_update_mp_stats() SQL procedure.
+		DBQuery( "UPDATE student_report_card_grades
+			SET CREDIT_ATTEMPTED=credit('" . (int) $cp_id . "','" . (int) $mp_id . "'),
+				CREDIT_EARNED=(SELECT CASE WHEN (WEIGHTED_GP>0
+					AND WEIGHTED_GP>='" . (float) $gp_passing_value . "')
+					THEN credit('" . (int) $cp_id . "','" . (int) $mp_id . "')
+					ELSE '0' END)
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND COURSE_PERIOD_ID='" . (int) $cp_id . "'
+			AND MARKING_PERIOD_ID='" . (int) $mp_id . "'" );
+	}
+
+	return true;
+}

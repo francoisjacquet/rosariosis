@@ -21,6 +21,7 @@ Changes in 11.1
 - Make Course Periods number link in Periods.php
 - Move `_updateSchedulesCPMP()` to includes/Courses.fnc.php & rename CoursePeriodUpdateMP() in Courses.php & Courses.fnc.php
 - Automatically update teacher: attendance_completed + grades_completed in Courses.php & Courses.fnc.php
+- Automatically update credits (attempted and earned); will also recalculate GPA in Courses.php & Courses.fnc.php
 
 Changes in 11.0.2
 -----------------

@@ -485,6 +485,17 @@ if ( ! empty( $_REQUEST['tables'] )
 								);
 							}
 
+							if ( isset( $columns['CREDITS'] )
+								&& $current_cp[1]['CREDITS'] !== $columns['CREDITS'] )
+							{
+								// Update student_report_card_grades.
+								CoursePeriodUpdateCredits(
+									$id,
+									$current_cp[1]['CREDITS'],
+									$columns['CREDITS']
+								);
+							}
+
 							// Hook.
 							do_action( 'Scheduling/Courses.php|update_course_period' );
 						}
