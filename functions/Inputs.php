@@ -139,6 +139,9 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
  *
  * @since 4.4
  * @since 5.5.1 Fill input value if $value != '********'.
+ * @since 11.1 Prevent using App name, username, or email in the password
+ *
+ * @global $_ROSARIO['PasswordInput']['user_inputs'] used in PasswordReset.php, FirstLogin.fnc.php & Preferences.php
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
@@ -156,6 +159,8 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
  */
 function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 {
+	global $_ROSARIO;
+
 	$id = GetInputID( $name );
 
 	$strength = ( mb_strpos( $extra, 'strength' ) !== false );
@@ -207,6 +212,13 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 		</div>';
 	}
 
+	// @since 11.1 Prevent using App name, username, or email in the password
+	$user_inputs = array_merge(
+		[ Config( 'NAME' ) ],
+		// Add username & email to this global var before calling PasswordInput().
+		issetVal( $_ROSARIO['PasswordInput']['user_inputs'], [] )
+	);
+
 	ob_start();
 
 	// Call our jQuery PasswordStrength plugin based on zxcvbn.
@@ -215,7 +227,8 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 		$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(
 			<?php echo (int) $min_required_strength; ?>,
 			// Error message when trying to submit the form.
-			<?php echo json_encode( _( 'Your password must be stronger.' ) ); ?>
+			<?php echo json_encode( _( 'Your password must be stronger.' ) ); ?>,
+			<?php echo json_encode( $user_inputs ); ?>
 		);
 	</script>
 	<?php

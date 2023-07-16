@@ -188,6 +188,12 @@ if ( isset( $_REQUEST['h'] )
 
 				$user_profile = $staff['PROFILE_ID'];
 
+				// @since 11.1 Prevent using App name, username, or email in the password
+				$_ROSARIO['PasswordInput']['user_inputs'] = [
+					$staff['USERNAME'],
+					$staff['EMAIL'],
+				];
+
 				break;
 			}
 		}
@@ -205,6 +211,12 @@ if ( isset( $_REQUEST['h'] )
 				$user_id = $student['ID'];
 
 				$user_type = 'student';
+
+				// @since 11.1 Prevent using App name, username, or email in the password
+				$_ROSARIO['PasswordInput']['user_inputs'] = [
+					$student['USERNAME'],
+					$student['EMAIL'],
+				];
 
 				break;
 			}

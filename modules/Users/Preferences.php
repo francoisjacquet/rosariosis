@@ -475,6 +475,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</td></tr><tr><td>';
 
+		// @since 11.1 Prevent using App name, username, or email in the password
+		$_ROSARIO['PasswordInput']['user_inputs'] = [
+			User( 'USERNAME' ),
+			User( 'EMAIL' ),
+		];
+
 		// New Password.
 		echo PasswordInput( '', 'values[new]', _( 'New Password' ), 'required strength' );
 

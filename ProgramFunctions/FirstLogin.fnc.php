@@ -189,6 +189,7 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 	 *
 	 * @since 4.0
 	 * @since 5.3 Add $mode param.
+	 * @since 11.1 Prevent using App name, username, or email in the password
 	 *
 	 * @param string $mode force_password_change|after_install.
 	 *
@@ -212,6 +213,12 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 			|| $mode === 'force_password_change' )
 		{
 			$_ROSARIO['allow_edit'] = true;
+
+			// @since 11.1 Prevent using App name, username, or email in the password
+			$_ROSARIO['PasswordInput']['user_inputs'] = [
+				User( 'USERNAME' ),
+				User( 'EMAIL' ),
+			];
 
 			// Set password on first login.
 			$fields[] = PasswordInput(
