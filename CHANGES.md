@@ -13,6 +13,7 @@ Changes in 11.1
 - Fix SQL error if delete Student email field, reset in StudentFields.php
 - Add SideMarkingPeriodSelect() function in Side.php
 - SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods in Grades/Configuration.php, ReportCards.fnc.php, Courses.php, MassDrops.php, MassSchedule.php & PrintSchedules.php
+- Allow override GetFullYearMP(), GetAllMP(), GetParentMP(), GetChildrenMP() & GetCurrentMP() functions in GetMP.php
 - SQL set min Credits to 0 & fix division by zero error in Courses.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 - Update to version 11.1 in Update.fnc.php
 - Add timestamp (including microseconds) to filename to make it harder to predict in FileUpload.fnc.php, Accounting/functions.inc.php, StudentAssignments.fnc.php, PortalNotes.php, Student_Billing/functions.inc.php
