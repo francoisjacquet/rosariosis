@@ -142,6 +142,12 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		{
 			DeleteDBField( 'students', $_REQUEST['id'] );
 
+			if ( Config( 'STUDENTS_EMAIL_FIELD' ) === $_REQUEST['id'] )
+			{
+				// Fix SQL error if delete Student email field, reset.
+				Config( 'STUDENTS_EMAIL_FIELD', '' );
+			}
+
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
 		}
