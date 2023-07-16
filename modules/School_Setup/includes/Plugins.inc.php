@@ -419,7 +419,8 @@ function _makeDelete( $plugin_title, $activated = null )
 	}
 	else
 	{
-		if ( file_exists( 'plugins/' . $plugin_title . '/functions.php' ) )
+		if ( file_exists( 'plugins/' . $plugin_title . '/functions.php' )
+			&& ! file_exists( 'plugins/' . $plugin_title . '/Menu.php' ) )
 		{
 			$return = button(
 				'add',
@@ -447,8 +448,14 @@ function _makeDelete( $plugin_title, $activated = null )
 		}
 		else
 		{
-			$return = '<span style="color:red">' .
-			sprintf( _( '%s file missing or wrong permissions.' ), 'functions.php' ) . '</span>';
+			$error_msg = sprintf( _( '%s file missing or wrong permissions.' ), 'functions.php' );
+
+			if ( file_exists( 'plugins/' . $plugin_title . '/Menu.php' ) )
+			{
+				$error_msg = _( 'Probably a module. Move it to the modules/ folder.' );
+			}
+
+			$return = '<span style="color:red">' . $error_msg . '</span>';
 		}
 	}
 
