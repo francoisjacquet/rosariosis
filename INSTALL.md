@@ -4,7 +4,7 @@
 
 RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and a PostgreSQL or MySQL/MariaDB database server.
 
-For RosarioSIS to work you must first have your web server working, PostgreSQL (or MySQL/MariaDB) working, PHP working (including the `pgsql`, `mysql`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` extensions). Setting these up varies a lot with operating system so it is well beyond the scope of this brief install document.
+For RosarioSIS to work you must first have your web server working, PostgreSQL (or MySQL/MariaDB) working, PHP working (including the `pgsql`, `mysqli`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` extensions). Setting these up varies a lot with operating system so it is well beyond the scope of this brief install document.
 
 RosarioSIS was tested on:
 
@@ -159,12 +159,26 @@ server$ sudo apt-get install php-pgsql php-mysql gettext php-intl php-mbstring p
 php.ini
 -------
 
-Recommended PHP configuration settings. Edit the `php.ini` file as follows:
+Recommended PHP configuration. Edit the [`php.ini`](https://www.php.net/manual/en/ini.list.php) file as follows:
 ```
+; Maximum time in seconds a PHP script is allowed to run
 max_execution_time = 240
+
+; Maximum accepted input variables ($_GET, $_POST)
+; 4000 allows submitting lists of up to 1000 elements, each with multiple inputs
 max_input_vars = 4000
-memory_limit = 768M
+
+; Maximum memory (RAM) allocated to a PHP script
+memory_limit = 512M
+
+; Session timeout: 1 hour
 session.gc_maxlifetime = 3600
+
+; Maximum allowed size for uploaded files
+upload_max_filesize = 50M
+
+; Must be greater than or equal to upload_max_filesize
+post_max_size = 51M
 ```
 Restart PHP and Apache.
 

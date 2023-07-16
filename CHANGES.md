@@ -24,6 +24,7 @@ Changes in 11.1
 - Automatically update teacher: attendance_completed + grades_completed in Courses.php & Courses.fnc.php
 - Automatically update credits (attempted and earned); will also recalculate GPA in Courses.php & Courses.fnc.php
 - Update French & Spanish translations in rosariosis.po
+- Update Recommended PHP configuration in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 11.0.2
 -----------------
