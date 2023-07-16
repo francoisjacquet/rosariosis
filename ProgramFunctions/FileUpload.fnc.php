@@ -10,6 +10,7 @@
  * File Upload
  *
  * @example FileUpload( 'FILE_ATTACHED', $FileUploadsPath . UserSyear() . '/staff_' . User( 'STAFF_ID' ) . '/', FileExtensionWhiteList(), 0, $error );
+ * @example $file_attached = FileUpload( $input, $path, FileExtensionWhiteList(), 0, $error, '', FileNameTimestamp( $_FILES[ $input ]['name'] ) );
  *
  * @global $_FILES
  *
@@ -402,15 +403,6 @@ function FilesUploadUpdate( $table, $request, $path, $id = 0 )
 			continue;
 		}
 
-		$file_name_no_ext = no_accents( mb_substr(
-			$_FILES[ $input ]['name'],
-			0,
-			mb_strrpos( $_FILES[ $input ]['name'], '.' )
-		) );
-
-		// @since 11.0 Add microseconds to filename format to make it harder to predict.
-		$file_name_no_ext .= '_' . date( 'Y-m-d_His' ) . '.' . substr( (string) microtime(), 2, 6 );
-
 		$new_file = FileUpload(
 			$input,
 			$path,
@@ -418,7 +410,7 @@ function FilesUploadUpdate( $table, $request, $path, $id = 0 )
 			0,
 			$error,
 			'',
-			$file_name_no_ext
+			FileNameTimestamp( $_FILES[ $input ]['name'] )
 		);
 
 		if ( $new_file )
@@ -711,6 +703,49 @@ function no_accents( $string )
 }
 
 
+/**
+ * Add timestamp (including microseconds) to filename to make it harder to predict
+ * For example: my_file.jpg => my_file_2023-04-11_185030.123456.jpg
+ *
+ * @link https://huntr.dev/bounties/42f38a84-8954-484d-b5ff-706ca0918194/
+ *
+ * @since 11.1
+ *
+ * @uses no_accents()
+ *
+ * @param string $file_name File name. Can be empty.
+ * @param bool   $keep_ext  Keep extension. Defaults to false.
+ *
+ * @return string File name with timestamp.
+ */
+function FileNameTimestamp( $file_name, $keep_ext = false )
+{
+	$file_name_safe = no_accents( $file_name );
+
+	$file_ext_pos = mb_strrpos( $file_name_safe, '.' );
+
+	$file_name_no_ext = $file_name_safe;
+
+	if ( $file_ext_pos )
+	{
+		$file_name_no_ext = mb_substr( $file_name_safe, 0, $file_ext_pos );
+	}
+
+	// @since 11.0 Add microseconds to filename format to make it harder to predict.
+	$timestamp = date( 'Y-m-d_His' ) . '.' . substr( (string) microtime(), 2, 6 );
+
+	$file_name_timestamp = $file_name_no_ext ? $file_name_no_ext . '_' . $timestamp : $timestamp;
+
+	if ( ! $keep_ext
+		|| ! $file_ext_pos )
+	{
+		return $file_name_timestamp;
+	}
+
+	$file_ext = mb_substr( $file_name_safe, $file_ext_pos );
+
+	return $file_name_timestamp . $file_ext;
+}
 
 /**
  * Get server maximum file upload size (Mb)

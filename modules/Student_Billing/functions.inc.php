@@ -424,15 +424,6 @@ function _saveFeesFile( $id )
 		return '';
 	}
 
-	$file_name_no_ext = no_accents( mb_substr(
-		$_FILES[ $input ]['name'],
-		0,
-		mb_strrpos( $_FILES[ $input ]['name'], '.' )
-	) );
-
-	// @since 11.0 Add microseconds to filename format to make it harder to predict.
-	$file_name_no_ext .= '_' . date( 'Y-m-d_His' ) . '.' . substr( (string) microtime(), 2, 6 );
-
 	$file_attached = FileUpload(
 		$input,
 		$FileUploadsPath . UserSyear() . '/student_' . UserStudentID() . '/',
@@ -440,7 +431,7 @@ function _saveFeesFile( $id )
 		0,
 		$error,
 		'',
-		$file_name_no_ext
+		FileNameTimestamp( $_FILES[ $input ]['name'] )
 	);
 
 	// Fix SQL error when quote in uploaded file name.

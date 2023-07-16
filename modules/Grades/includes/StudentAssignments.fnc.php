@@ -27,7 +27,6 @@ if ( ! isset( $AssignmentsFilesPath ) )
  * @uses FileUpload()
  * @uses SanitizeHTML()
  * @since 2.9
- * @since 8.9.5 Add microseconds to filename format to make it harder to predict.
  *
  * @param  string  $assignment_id Assignment ID.
  * @param  array   $error         Global errors array.
@@ -71,9 +70,6 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$files = issetVal( $old_data['files'] );
 
-	// @since 8.9.5 Add microseconds to filename format to make it harder to predict.
-	$timestamp = date( 'Y-m-d H:i:s' ) . '.' . substr( (string) microtime(), 2, 6 );
-
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
 	// Check if file submitted.
@@ -84,8 +80,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
-		$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' .
-			$student_name . '_' . $timestamp );
+		$file_name_no_ext = FileNameTimestamp( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' . $student_name );
 
 		// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
 		$file = FileUpload(
@@ -123,7 +118,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	$message = isset( $_POST['message'] ) ? SanitizeHTML( $_POST['message'], $assignments_path ) : '';
 
 	// Serialize Assignment Data.
-	$data = [ 'files' => $files, 'message' => $message, 'date' => $timestamp ];
+	$data = [ 'files' => $files, 'message' => $message, 'date' => date( 'Y-m-d H:i:s' ) ];
 
 	// @since 11.0 Move from serialize() to json_encode()
 	$data = DBEscapeString( json_encode( $data ) );
