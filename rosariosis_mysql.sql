@@ -18,14 +18,15 @@ SET default_storage_engine=InnoDB;
 
 --
 -- Name: calc_cum_cr_gpa(mp_id integer, s_id integer); Type: FUNCTION;
+-- @since 11.1 SQL set min Credits to 0 & fix division by zero error
 --
 
 DELIMITER $$
 CREATE PROCEDURE calc_cum_cr_gpa(mp_id integer, s_id integer)
 BEGIN
     UPDATE student_mp_stats
-    SET cum_cr_weighted_factor = cr_weighted_factors/cr_credits,
-        cum_cr_unweighted_factor = cr_unweighted_factors/cr_credits
+    SET cum_cr_weighted_factor = (case when cr_credits = '0' THEN '0' ELSE cr_weighted_factors/cr_credits END),
+        cum_cr_unweighted_factor = (case when cr_credits = '0' THEN '0' ELSE cr_unweighted_factors/cr_credits END)
     WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
 END$$
 DELIMITER ;
@@ -33,14 +34,15 @@ DELIMITER ;
 
 --
 -- Name: calc_cum_gpa(mp_id integer, s_id integer); Type: FUNCTION;
+-- @since 11.1 SQL set min Credits to 0 & fix division by zero error
 --
 
 DELIMITER $$
 CREATE PROCEDURE calc_cum_gpa(mp_id integer, s_id integer)
 BEGIN
     UPDATE student_mp_stats
-    SET cum_weighted_factor = sum_weighted_factors/gp_credits,
-        cum_unweighted_factor = sum_unweighted_factors/gp_credits
+    SET cum_weighted_factor = (case when gp_credits = '0' THEN '0' ELSE sum_weighted_factors/gp_credits END),
+        cum_unweighted_factor = (case when gp_credits = '0' THEN '0' ELSE sum_unweighted_factors/gp_credits END)
     WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
 END$$
 DELIMITER ;

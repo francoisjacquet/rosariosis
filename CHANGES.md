@@ -13,6 +13,7 @@ Changes in 11.1
 - Fix SQL error if delete Student email field, reset in StudentFields.php
 - Add SideMarkingPeriodSelect() function in Side.php
 - SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods in Grades/Configuration.php, ReportCards.fnc.php, Courses.php, MassDrops.php, MassSchedule.php & PrintSchedules.php
+- SQL set min Credits to 0 & fix division by zero error in Courses.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.0.2
 -----------------
