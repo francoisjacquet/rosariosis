@@ -612,3 +612,91 @@ function CoursePeriodUpdateMP( $cp_id, $mp_id )
 		mysqli_affected_rows( $db_connection ) :
 		pg_affected_rows( $update );
 }
+
+/**
+ * Automatically update teacher:
+ * In attendance_completed & grades_completed tables
+ * Fix the false "Missing attendance" portal alerts
+ *
+ * @since 11.1
+ *
+ * @param  int $cp_id          Course Period ID.
+ * @param  int $old_teacher_id Old Teacher ID.
+ * @param  int $new_teacher_id New Teacher ID.
+ *
+ * @return bool True if teacher updated.
+ */
+function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
+{
+	global $DatabaseType;
+
+	if ( ! $cp_id
+		|| ! $old_teacher_id
+		|| ! $new_teacher_id
+		|| $old_teacher_id == $new_teacher_id )
+	{
+		return false;
+	}
+
+	$where_days_sql = " AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM " .
+		( $DatabaseType === 'mysql' ?
+			"DAYOFWEEK(acc.SCHOOL_DATE)" :
+			"cast(extract(DOW FROM acc.SCHOOL_DATE)+1 AS int)" ) .
+		" FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))";
+
+	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
+	{
+		$where_days_sql = " AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
+			(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+			FROM attendance_calendar
+			WHERE SCHOOL_DATE<=acc.SCHOOL_DATE
+			AND SCHOOL_DATE>=(SELECT START_DATE
+				FROM school_marking_periods
+				WHERE START_DATE<=acc.SCHOOL_DATE
+				AND END_DATE>=acc.SCHOOL_DATE
+				AND MP='QTR'
+				AND SCHOOL_ID=acc.SCHOOL_ID
+				AND SYEAR=acc.SYEAR)
+			AND CALENDAR_ID=cp.CALENDAR_ID)
+			" . ( $DatabaseType === 'mysql' ? "AS UNSIGNED)" : "AS INT)" ) .
+			" FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))";
+	}
+
+	// Get School Periods
+	$periods_RET = DBGet( "SELECT PERIOD_ID
+		FROM course_period_school_periods
+		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
+
+	foreach ( $periods_RET as $period )
+	{
+		// Update attendance_completed.
+		DBQuery( "UPDATE attendance_completed ac SET ac.STAFF_ID='" . (int) $new_teacher_id . "'
+			WHERE ac.STAFF_ID='" . (int) $old_teacher_id . "'
+			AND ac.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
+			AND SCHOOL_DATE IN(SELECT acc.SCHOOL_DATE
+				FROM attendance_calendar acc,school_periods sp,course_periods cp,course_period_school_periods cpsp
+				WHERE cpsp.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
+				AND sp.PERIOD_ID=cpsp.PERIOD_ID
+				AND cp.COURSE_PERIOD_ID='" . (int) $cp_id . "'
+				AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+				AND acc.CALENDAR_ID=cp.CALENDAR_ID
+				" . $where_days_sql . ")
+			AND SCHOOL_DATE BETWEEN (SELECT START_DATE
+				FROM school_marking_periods
+				WHERE MARKING_PERIOD_ID=(SELECT MARKING_PERIOD_ID FROM course_periods
+					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'))
+			AND (SELECT END_DATE
+				FROM school_marking_periods
+				WHERE MARKING_PERIOD_ID=(SELECT MARKING_PERIOD_ID FROM course_periods
+					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'))" );
+	}
+
+	// Update grades_completed.
+	DBUpdate(
+		'grades_completed',
+		[ 'STAFF_ID' => (int) $new_teacher_id ],
+		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_PERIOD_ID' => (int) $cp_id ]
+	);
+
+	return true;
+}

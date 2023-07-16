@@ -20,6 +20,7 @@ Changes in 11.1
 - Add "Probably a module. Move it to the modules/ folder." error in Plugins.inc.php
 - Make Course Periods number link in Periods.php
 - Move `_updateSchedulesCPMP()` to includes/Courses.fnc.php & rename CoursePeriodUpdateMP() in Courses.php & Courses.fnc.php
+- Automatically update teacher: attendance_completed + grades_completed in Courses.php & Courses.fnc.php
 
 Changes in 11.0.2
 -----------------

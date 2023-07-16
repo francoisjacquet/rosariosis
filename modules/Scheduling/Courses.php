@@ -373,7 +373,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						if ( $table_name == 'course_periods' )
 						{
-							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
+							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME,TEACHER_ID,CREDITS
 								FROM course_periods
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
@@ -414,7 +414,7 @@ if ( ! empty( $_REQUEST['tables'] )
 								$columns
 							);
 
-							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
+							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME,TEACHER_ID,CREDITS
 								FROM course_periods
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
@@ -472,6 +472,17 @@ if ( ! empty( $_REQUEST['tables'] )
 							{
 								// Update schedules marking period too.
 								CoursePeriodUpdateMP( $id, $columns['MARKING_PERIOD_ID'] );
+							}
+
+							if ( isset( $columns['TEACHER_ID'] )
+								&& $current_cp[1]['TEACHER_ID'] !== $columns['TEACHER_ID'] )
+							{
+								// Update attendance_completed + grades_completed too.
+								CoursePeriodUpdateTeacher(
+									$id,
+									$current_cp[1]['TEACHER_ID'],
+									$columns['TEACHER_ID']
+								);
 							}
 
 							// Hook.
@@ -551,7 +562,7 @@ if ( ! empty( $_REQUEST['tables'] )
 								$columns
 							);
 
-							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
+							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME,TEACHER_ID,CREDITS
 								FROM course_periods
 								WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
