@@ -471,7 +471,7 @@ if ( ! empty( $_REQUEST['tables'] )
 								&& $current_cp[1]['MARKING_PERIOD_ID'] !== $columns['MARKING_PERIOD_ID'] )
 							{
 								// Update schedules marking period too.
-								_updateSchedulesCPMP( $id, $columns['MARKING_PERIOD_ID'] );
+								CoursePeriodUpdateMP( $id, $columns['MARKING_PERIOD_ID'] );
 							}
 
 							// Hook.
@@ -1779,6 +1779,7 @@ function calcSeats1( &$periods, $date )
  * Local function.
  *
  * @since 3.7.1
+ * @deprecated since 11.1 Move _updateSchedulesCPMP() to includes/Courses.fnc.php & rename CoursePeriodUpdateMP()
  *
  * @param  string $cp_id Course Period ID.
  * @param  string $mp_id Marking Period ID.
@@ -1786,44 +1787,5 @@ function calcSeats1( &$periods, $date )
  */
 function _updateSchedulesCPMP( $cp_id, $mp_id )
 {
-	global $db_connection,
-		$DatabaseType;
-
-	// Get CP MP.
-	$cp_mp = GetMP( $mp_id, 'MP' );
-
-	if ( ! $cp_id
-		|| ! $mp_id
-		|| ! $cp_mp )
-	{
-		return 0;
-	}
-
-	if ( $cp_mp === 'FY' )
-	{
-		// CP MP is Full Year, no need to update.
-		return 0;
-	}
-
-	if ( $cp_mp !== 'SEM'
-		&& $cp_mp !== 'QTR' )
-	{
-		// CP MP is not a Semester neither a Quarter...!
-		return 0;
-	}
-
-	$schedule_mp_in = ( $cp_mp === 'QTR' ? "'FY','SEM'" : "'FY'" );
-
-	// Update Schedules for CP where MP is of greater type
-	// than the new course period marking period.
-	$update = DBQuery( "UPDATE schedule SET
-		MP='" . $cp_mp . "',
-		MARKING_PERIOD_ID='" . (int) $mp_id . "'
-		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
-		AND MP IN (" . $schedule_mp_in . ")" );
-
-	// Return number of updated schedules.
-	return $DatabaseType === 'mysql' ?
-		mysqli_affected_rows( $db_connection ) :
-		pg_affected_rows( $update );
+	return CoursePeriodUpdateMP( $cp_id, $mp_id );
 }

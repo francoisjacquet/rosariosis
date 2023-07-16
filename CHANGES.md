@@ -19,6 +19,7 @@ Changes in 11.1
 - Copy $DefaultSyear global var to session (once) to prevent errors when edited in Warehouse.php & Config.fnc.php
 - Add "Probably a module. Move it to the modules/ folder." error in Plugins.inc.php
 - Make Course Periods number link in Periods.php
+- Move `_updateSchedulesCPMP()` to includes/Courses.fnc.php & rename CoursePeriodUpdateMP() in Courses.php & Courses.fnc.php
 
 Changes in 11.0.2
 -----------------
