@@ -11,6 +11,7 @@ Changes in 11.1
 - JS Add userInputs param to prevent using App name, username, or email in the password in jquery-passwordstrength.js
 - Return EMAIL column for students too (empty if "Student email field" not set) in User.fnc.php
 - Fix SQL error if delete Student email field, reset in StudentFields.php
+- Add SideMarkingPeriodSelect() function in Side.php
 
 Changes in 11.0.2
 -----------------

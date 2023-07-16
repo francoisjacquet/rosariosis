@@ -9,6 +9,65 @@
 
 require_once 'Warehouse.php';
 
+if ( ! function_exists( 'SideMarkingPeriodSelect' ) ) :
+/**
+ * Marking Period Select Input
+ * Reset UserMP if invalid
+ *
+ * Override this function in your add-on's functions.php file
+ *
+ * @since 11.1
+ *
+ * @return string HTML Select Input
+ */
+function SideMarkingPeriodSelect()
+{
+	$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
+		FROM school_marking_periods
+		WHERE MP='QTR'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'
+		ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
+
+	ob_start();
+
+	?>
+	<label for="mp" class="a11y-hidden"><?php echo _( 'Marking Period' ); ?></label>
+	<select name="mp" id="mp" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
+	<?php if ( count( $mp_RET ) ) :
+
+		$mp_array = [];
+
+		foreach ( $mp_RET as $quarter ) : ?>
+			<option value="<?php echo AttrEscape( $quarter['MARKING_PERIOD_ID'] ); ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' selected' : '' ); ?>><?php
+				echo $quarter['TITLE'];
+			?></option>
+		<?php $mp_array[] = $quarter['MARKING_PERIOD_ID'];
+
+		endforeach;
+
+		// Reset UserMP if invalid.
+		if ( ! UserMP()
+			|| ! in_array( UserMP(), $mp_array ) ) :
+
+			$_SESSION['UserMP'] = $mp_RET[1]['MARKING_PERIOD_ID'];
+		endif;
+
+	// Error if no quarters.
+	else : ?>
+
+			<option value=""><?php
+				echo _( 'Error' ) . ': ' . _( 'No quarters found' );
+			?></option>
+
+	<?php endif; ?>
+	</select>
+	<?php
+
+	return ob_get_clean();
+}
+endif;
+
 $old_school = UserSchool();
 $old_syear = UserSyear();
 $old_period = UserCoursePeriod();
@@ -467,47 +526,9 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			</select>
 		</span>
 
-		<?php // MarkingPeriod SELECT.
-		$RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
-			FROM school_marking_periods
-			WHERE MP='QTR'
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,START_DATE" );
-		?>
-
 		<span class="br-after">
-			<label for="mp" class="a11y-hidden"><?php echo _( 'Marking Period' ); ?></label>
-			<select name="mp" id="mp" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
-		<?php if ( count( $RET ) ) :
-
-			$mp_array = [];
-
-			foreach ( $RET as $quarter ) : ?>
-				<option value="<?php echo AttrEscape( $quarter['MARKING_PERIOD_ID'] ); ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' selected' : '' ); ?>><?php
-					echo $quarter['TITLE'];
-				?></option>
-			<?php $mp_array[] = $quarter['MARKING_PERIOD_ID'];
-
-			endforeach;
-
-			// Reset UserMP if invalid.
-			if ( ! UserMP()
-				|| ! in_array( UserMP(), $mp_array ) ) :
-
-				$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
-			endif;
-
-		// Error if no quarters.
-		else : ?>
-
-				<option value=""><?php
-					echo _( 'Error' ) . ': ' . _( 'No quarters found' );
-				?></option>
-
-		<?php endif; ?>
-
-			</select>
+			<?php // @since 11.1 Move Marking Period Select to SideMarkingPeriodSelect() function
+			echo SideMarkingPeriodSelect(); ?>
 		</span>
 
 		<?php // CoursePeriod SELECT (Teachers only).
@@ -515,6 +536,8 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 
 			// @since 6.9 Add Secondary Teacher.
 			$_SESSION['is_secondary_teacher'] = false;
+
+			$all_mp = GetAllMP( 'QTR', UserMP() );
 
 			$cp_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,
 				c.TITLE AS COURSE_TITLE,cp.SHORT_NAME AS CP_SHORT_NAME,cp.SECONDARY_TEACHER_ID
@@ -524,7 +547,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
 				AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 					OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')
-				AND cp.MARKING_PERIOD_ID IN (" . ( count( $RET ) ? GetAllMP( 'QTR', UserMP() ) : '0' ) . ")
+				AND cp.MARKING_PERIOD_ID IN (" . ( $all_mp ? $all_mp : '0' ) . ")
 				ORDER BY c.TITLE,cp.SHORT_NAME" );
 
 			/**
