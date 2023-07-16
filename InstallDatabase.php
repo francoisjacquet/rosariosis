@@ -110,6 +110,14 @@ if ( $DatabaseType === 'mysql' )
 
 db_query( $rosariosis_sql );
 
+if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+{
+	// @since 11.1 Set email for default admin user so he can reset his password
+	db_query( "UPDATE staff
+		SET EMAIL='" . DBEscapeString( $RosarioNotifyAddress ) . "'
+		WHERE USERNAME='admin';" );
+}
+
 if ( file_exists( 'rosariosis_addons.sql' ) )
 {
 	// @since 5.1 Install add-ons.

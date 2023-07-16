@@ -1,11 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 11.0.3
------------------
+Changes in 11.1
+---------------
 - Fix SQL error when no MPs in calcSeats0.fnc.php
 - Choose Checkbox uncheck by default to prevent accidental creations in MassCreateAssignments.php
 - HTML display Courses list next to Assignment Types list in MassCreateAssignments.php
+- Set email for default admin user so he can reset his password in InstallDatabase.php
 
 Changes in 11.0.2
 -----------------
