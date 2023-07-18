@@ -25,6 +25,7 @@ Changes in 11.1
 - Automatically update credits (attempted and earned); will also recalculate GPA in Courses.php & Courses.fnc.php
 - Update French & Spanish translations in rosariosis.po
 - Update Recommended PHP configuration in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- CSS WPadmin: remove opensans EOT font files in font.css & `themes/WPadmin/fonts/opensans/*.eot`
 
 Changes in 11.0.2
 -----------------

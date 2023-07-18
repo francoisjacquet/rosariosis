@@ -2,41 +2,35 @@
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/Regular.eot');
-	src: url('fonts/opensans/Regular.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/Regular.woff') format('woff'), url('fonts/opensans/Regular.ttf') format('truetype');
+	src: url('fonts/opensans/Regular.woff') format('woff'), url('fonts/opensans/Regular.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/Italic.eot');
-	src: url('fonts/opensans/Italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/Italic.woff') format('woff'), url('fonts/opensans/Italic.ttf') format('truetype');
+	src: url('fonts/opensans/Italic.woff') format('woff'), url('fonts/opensans/Italic.ttf') format('truetype');
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/BoldItalic.eot');
-	src: url('fonts/opensans/BoldItalic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/BoldItalic.woff') format('woff'), url('fonts/opensans/BoldItalic.ttf') format('truetype');
+	src: url('fonts/opensans/BoldItalic.woff') format('woff'), url('fonts/opensans/BoldItalic.ttf') format('truetype');
 	font-weight: 700;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/Bold.eot');
-	src: url('fonts/opensans/Bold.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/Bold.woff') format('woff'), url('fonts/opensans/Bold.ttf') format('truetype');
+	src: url('fonts/opensans/Bold.woff') format('woff'), url('fonts/opensans/Bold.ttf') format('truetype');
 	font-weight: 700;
 	font-style: normal;
 }
 
 /*@font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/ExtraBoldItalic.eot');
-	src: url('fonts/opensans/ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/ExtraBoldItalic.woff') format('woff'),
+	src: url('fonts/opensans/ExtraBoldItalic.woff') format('woff'),
 		 url('fonts/opensans/ExtraBoldItalic.ttf') format('truetype');
 	font-weight: 800;
 	font-style: italic;
@@ -44,9 +38,7 @@
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/ExtraBold.eot');
-	src: url('fonts/opensans/ExtraBold.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/ExtraBold.woff') format('woff'),
+	src: url('fonts/opensans/ExtraBold.woff') format('woff'),
 		 url('fonts/opensans/ExtraBold.ttf') format('truetype');
 	font-weight: 800;
 	font-style: normal;
@@ -54,9 +46,7 @@
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/LightItalic.eot');
-	src: url('fonts/opensans/LightItalic.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/LightItalic.woff') format('woff'),
+	src: url('fonts/opensans/LightItalic.woff') format('woff'),
 		 url('fonts/opensans/LightItalic.ttf') format('truetype');
 	font-weight: 300;
 	font-style: italic;
@@ -64,9 +54,7 @@
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/Light.eot');
-	src: url('fonts/opensans/Light.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/Light.woff') format('woff'),
+	src: url('fonts/opensans/Light.woff') format('woff'),
 		 url('fonts/opensans/Light.ttf') format('truetype');
 	font-weight: 300;
 	font-style: normal;
@@ -74,9 +62,7 @@
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/SemiboldItalic.eot');
-	src: url('fonts/opensans/SemiboldItalic.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/SemiboldItalic.woff') format('woff'),
+	src: url('fonts/opensans/SemiboldItalic.woff') format('woff'),
 		 url('fonts/opensans/SemiboldItalic.ttf') format('truetype');
 	font-weight: 600;
 	font-style: italic;
@@ -84,9 +70,7 @@
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/Semibold.eot');
-	src: url('fonts/opensans/Semibold.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/Semibold.woff') format('woff'),
+	src: url('fonts/opensans/Semibold.woff') format('woff'),
 		 url('fonts/opensans/Semibold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;
