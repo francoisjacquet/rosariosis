@@ -490,7 +490,12 @@ select,
 }
 
 .widefat td p {
-	margin: 2px 0 .8em
+	margin: 0 0 .8em
+}
+
+.widefat td ul {
+	margin-top: 0;
+	padding-left: 20px;
 }
 
 /* Lists */
