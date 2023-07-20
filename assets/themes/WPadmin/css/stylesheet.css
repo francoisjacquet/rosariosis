@@ -187,7 +187,8 @@ div.chosen-container,
 body,
 textarea,
 input,
-select {
+select,
+.tooltip {
 	font-family: 'Open Sans', sans-serif;
 	line-height: 1.4em
 }
@@ -1505,7 +1506,9 @@ a > .tipmsg-label {
 	position: absolute;
 	display: inline-block;
 	margin-left: 5px;
-	cursor: help
+	cursor: help;
+	text-shadow: none;
+	font-size: 14px;
 }
 
 .tooltip:before {
@@ -1535,7 +1538,7 @@ a > .tipmsg-label {
 	transition: opacity .3s;
 	text-align: left;
 	font-size: 1em;
-	line-height: 1.5
+	line-height: 1.5;
 }
 
 .tooltip:hover > i {

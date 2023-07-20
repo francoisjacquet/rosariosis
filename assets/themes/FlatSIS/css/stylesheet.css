@@ -1626,7 +1626,8 @@ a .button + b {
 	position: absolute;
 	display: inline-block;
 	margin-left: 5px;
-	cursor: help
+	cursor: help;
+	text-transform: none;
 }
 
 .tooltip:before {

@@ -27,6 +27,7 @@ Changes in 11.1
 - Update Recommended PHP configuration in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - CSS WPadmin: remove opensans EOT font files in font.css & `themes/WPadmin/fonts/opensans/*.eot`
 - CSS themes: reduce list margin & padding when inside .widefat table in stylesheet.css
+- CSS themes: force .tooltip styles when inside .widefat table head in stylesheet.css
 
 Changes in 11.0.2
 -----------------
