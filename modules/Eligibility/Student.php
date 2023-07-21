@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'add'
 	{
 		echo ErrorMessage( [ _( 'The activity you selected is already assigned to this student!' ) ] );
 	}
-	else
+	elseif ( UserStudentID() )
 	{
 		DBInsert(
 			'student_eligibility_activities',

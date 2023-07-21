@@ -28,6 +28,7 @@ Changes in 11.1
 - CSS WPadmin: remove opensans EOT font files in font.css & `themes/WPadmin/fonts/opensans/*.eot`
 - CSS themes: reduce list margin & padding when inside .widefat table in stylesheet.css
 - CSS themes: force .tooltip styles when inside .widefat table head in stylesheet.css
+- Fix SQL error null value in column "student_id" in Eligibility/Student.php
 
 Changes in 11.0.2
 -----------------
