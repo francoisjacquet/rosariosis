@@ -62,9 +62,9 @@ if ( ! $_REQUEST['modfunc'] )
 	// Advanced Search.
 	Widgets( 'all', $extra );
 
-	$extra['WHERE'] .= appendSQL( '', $extra );
-
-	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
+	// Fix SQL error Unknown column 'a.ADDRESS' in 'where clause'
+	// Use GetStuList() instead of appendSQL() + CustomFields()
+	GetStuList( $extra );
 
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
@@ -82,7 +82,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_ROSARIO['SearchTerms'] )
 	{
-		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
+		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 	}
 
 	if ( $_REQUEST['list_by_day'] == 'true' )
@@ -90,7 +90,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$cal_days = 1;
 
 		$student_days_absent = DBGet( "SELECT ad.SCHOOL_DATE,ssm.GRADE_ID,COALESCE(sum(ad.STATE_VALUE-1)*-1,0) AS STATE_VALUE
-		FROM attendance_day ad,student_enrollment ssm,students s" . $extra['FROM'] . "
+		FROM attendance_day ad,students s,student_enrollment ssm" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -102,7 +102,7 @@ if ( ! $_REQUEST['modfunc'] )
 		GROUP BY ad.SCHOOL_DATE,ssm.GRADE_ID", [ '' ], [ 'SCHOOL_DATE', 'GRADE_ID' ] );
 
 		$student_days_possible = DBGet( "SELECT ac.SCHOOL_DATE,ssm.GRADE_ID,'' AS DAYS_POSSIBLE,count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
-		FROM student_enrollment ssm,attendance_calendar ac,students s" . $extra['FROM'] . "
+		FROM attendance_calendar ac,students s,student_enrollment ssm" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ac.SYEAR=ssm.SYEAR
@@ -158,7 +158,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['WHERE'] .= " GROUP BY ssm.GRADE_ID,ssm.CALENDAR_ID";
 
 		$student_days_absent = DBGet( "SELECT ssm.GRADE_ID,ssm.CALENDAR_ID,COALESCE(sum(ad.STATE_VALUE-1)*-1,0) AS STATE_VALUE
-		FROM attendance_day ad,student_enrollment ssm,students s" . $extra['FROM'] . "
+		FROM attendance_day ad,students s,student_enrollment ssm" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
@@ -170,7 +170,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$student_days_possible = DBGet( "SELECT ssm.GRADE_ID,ssm.CALENDAR_ID,'' AS DAYS_POSSIBLE,
 			count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,
 			'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
-		FROM student_enrollment ssm,attendance_calendar ac,students s" . $extra['FROM'] . "
+		FROM attendance_calendar ac,students s,student_enrollment ssm" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ac.SYEAR=ssm.SYEAR
@@ -205,13 +205,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$link['add']['html'] = [
 			'GRADE_ID' => '<b>' . _( 'Total' ) . '</b>',
-			'STUDENTS' => round( $sum['STUDENTS'], 1 ),
+			'STUDENTS' => round( issetVal( $sum['STUDENTS'], 0 ), 1 ),
 			'DAYS_POSSIBLE' => $cal_days[key( $cal_days )][1]['COUNT'],
-			'PRESENT' => $sum['PRESENT'],
-			'ADA' => _Percent(  (  ( $sum['PRESENT'] + $sum['ABSENT'] ) > 0 ? ( $sum['PRESENT'] ) / ( $sum['PRESENT'] + $sum['ABSENT'] ) : 0 ) ),
+			'PRESENT' => issetVal( $sum['PRESENT'] ),
+			'ADA' => _Percent(  (  ( $sum['PRESENT'] + issetVal( $sum['ABSENT'] ) ) > 0 ? ( $sum['PRESENT'] ) / ( $sum['PRESENT'] + $sum['ABSENT'] ) : 0 ) ),
 			'ABSENT' => $sum['ABSENT'],
-			'AVERAGE_ATTENDANCE' => round( $sum['AVERAGE_ATTENDANCE'], 1 ),
-			'AVERAGE_ABSENT' => round( $sum['AVERAGE_ABSENT'], 1 ),
+			'AVERAGE_ATTENDANCE' => round( issetVal( $sum['AVERAGE_ATTENDANCE'], 0 ), 1 ),
+			'AVERAGE_ABSENT' => round( issetVal( $sum['AVERAGE_ABSENT'], 0 ), 1 ),
 		];
 
 		ListOutput(
