@@ -30,6 +30,7 @@ Changes in 11.1
 - CSS themes: force .tooltip styles when inside .widefat table head in stylesheet.css
 - Fix SQL error null value in column "student_id" in Eligibility/Student.php
 - Fix SQL error Unknown column 'a.ADDRESS' in 'where clause' in Percent.php
+- CSS Fix PDF Frame background when multiple pages in HonorRoll.fnc.php
 
 Changes in 11.0.2
 -----------------

@@ -129,19 +129,25 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 			}
 		}
 
+		// Frame height is a few pixels below page height & depends on page format (A4 or US Letter)
+		$frame_height = Preferences( 'PAGE_SIZE' ) === 'A4' ? '992' : '1085';
+
 		echo '<style type="text/css">
 			body {
 				margin:0;
 				padding:0;
-				width:100%;
-				height:100%;
+			}
+			.pdf-frame {
+				width: 1405px;
+				height: ' . $frame_height . 'px;
+				page-break-before: always;
 				' . $frame_image_css . '
 			}
 		</style>';
 
 		foreach ( (array) $RET as $student)
 		{
-			echo '<table style="margin:auto auto;">';
+			echo '<div class="pdf-frame"><table style="margin:auto auto;">';
 
 			$substitutions = [
 				'__FULL_NAME__' => $student['FULL_NAME'],
@@ -182,8 +188,6 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 				<span style="font-size:medium;">' . _( 'Date' ) . '</span></td></tr>';
 
 			echo '</table></div>';
-
-			echo '<div style="page-break-after: always;"></div>';
 		}
 
 		PDFStop( $handle );
