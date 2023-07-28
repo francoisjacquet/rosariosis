@@ -260,7 +260,7 @@ function RegistrationContact( $name, $contact )
 		echo '</td></tr>';
 	}
 
-	if ( ! empty( $contact['fields'] ) )
+	if ( ! empty( trim( $contact['fields'], '||' ) ) )
 	{
 		echo '<tr><td>';
 
@@ -357,7 +357,12 @@ function RegistrationContactFields( $name, $categories )
 	global $request,
 		$field;
 
-	$category_ids = "'" . str_replace( '||', "','", trim( $categories, '||' ) ) . "'";
+	$category_ids = "'0'";
+
+	if ( trim( $categories, '||' ) )
+	{
+		$category_ids = "'" . str_replace( '||', "','", trim( $categories, '||' ) ) . "'";
+	}
 
 	$request = $name . '[fields]';
 
@@ -398,7 +403,7 @@ function RegistrationYourAddress( $address )
 
 	RegistrationAddress( 'address' );
 
-	if ( ! empty( $address['fields'] ) )
+	if ( ! empty( trim( $address['fields'], '||' ) ) )
 	{
 		echo '</td></tr><tr><td>';
 
@@ -425,7 +430,12 @@ function RegistrationAddressFields( $name, $categories )
 	global $request,
 		$field;
 
-	$category_ids = "'" . str_replace( '||', "','", trim( $categories, '||' ) ) . "'";
+	$category_ids = "'0'";
+
+	if ( trim( $categories, '||' ) )
+	{
+		$category_ids = "'" . str_replace( '||', "','", trim( $categories, '||' ) ) . "'";
+	}
 
 	$request = $name . '[fields]';
 

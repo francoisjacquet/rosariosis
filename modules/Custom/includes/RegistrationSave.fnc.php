@@ -209,6 +209,7 @@ function RegistrationSaveStudent( $config, $values )
 	global $FileUploadsPath;
 
 	if ( ! $config['fields']
+		|| ! trim( $config['fields'], '||' )
 		|| ! $values )
 	{
 		return false;

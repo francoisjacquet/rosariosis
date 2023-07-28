@@ -31,6 +31,7 @@ Changes in 11.1
 - Fix SQL error null value in column "student_id" in Eligibility/Student.php
 - Fix SQL error Unknown column 'a.ADDRESS' in 'where clause' in Percent.php
 - CSS Fix PDF Frame background when multiple pages in HonorRoll.fnc.php
+- Fix SQL error invalid input syntax for type integer: "" in Registration.fnc.php & RegistrationSave.fnc.php
 
 Changes in 11.0.2
 -----------------
