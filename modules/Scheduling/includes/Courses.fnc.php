@@ -670,9 +670,9 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 	foreach ( $periods_RET as $period )
 	{
 		// Update attendance_completed.
-		DBQuery( "UPDATE attendance_completed ac SET ac.STAFF_ID='" . (int) $new_teacher_id . "'
-			WHERE ac.STAFF_ID='" . (int) $old_teacher_id . "'
-			AND ac.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
+		DBQuery( "UPDATE attendance_completed SET STAFF_ID='" . (int) $new_teacher_id . "'
+			WHERE STAFF_ID='" . (int) $old_teacher_id . "'
+			AND PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
 			AND SCHOOL_DATE IN(SELECT acc.SCHOOL_DATE
 				FROM attendance_calendar acc,school_periods sp,course_periods cp,course_period_school_periods cpsp
 				WHERE cpsp.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
