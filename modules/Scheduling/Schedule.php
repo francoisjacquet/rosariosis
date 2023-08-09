@@ -136,8 +136,8 @@ if ( $_REQUEST['modfunc'] === 'modify'
 					DBQuery( "DELETE FROM attendance_period
 						WHERE STUDENT_ID='" . UserStudentID() . "'
 						AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
-						AND (" . ( $columns['START_DATE'] ? "SCHOOL_DATE<'" . $columns['START_DATE'] . "'" : 'FALSE' ) .
-							' OR ' . ( $columns['END_DATE'] ? "SCHOOL_DATE>'" . $columns['END_DATE'] . "'" : 'FALSE' ) . ")" );
+						AND (" . ( ! empty( $columns['START_DATE'] ) ? "SCHOOL_DATE<'" . $columns['START_DATE'] . "'" : 'FALSE' ) .
+							' OR ' . ( ! empty( $columns['END_DATE'] ) ? "SCHOOL_DATE>'" . $columns['END_DATE'] . "'" : 'FALSE' ) . ")" );
 				}
 			}
 		}
@@ -146,14 +146,16 @@ if ( $_REQUEST['modfunc'] === 'modify'
 	if ( empty( $schedule_deletion_pending ) )
 	{
 		// Unset modfunc & schedule & redirect URL.
-		RedirectURL( [ 'modfunc', 'schedule' ] );
+		RedirectURL( [ 'modfunc', 'schedule', 'day_schedule', 'month_schedule', 'year_schedule' ] );
 	}
 }
 
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify' ) . '" method="POST">';
+	$form_url = PreparePHP_SELF( $_REQUEST, [], [ 'modfunc' => 'modify' ] );
+
+	echo '<form action="' . $form_url . '" method="POST">';
 
 	DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ), SubmitButton() );
 

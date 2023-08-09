@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.1.2
+-----------------
+- Maintain list preferences as GET params in form URL (save) in Schedule.php
+
 Changes in 11.1.1
 -----------------
 - Fix PostgreSQL error column "ac" of relation "attendance_completed" does not exist in Courses.fnc.php
