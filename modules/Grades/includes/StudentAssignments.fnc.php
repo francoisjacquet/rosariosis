@@ -823,7 +823,7 @@ function GetAssignmentFileLink( $file_path )
 		return '';
 	}
 
-	$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );
+	$file_name = basename( $file_path );
 
 	$file_size = HumanFilesize( filesize( $file_path ) );
 

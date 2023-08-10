@@ -260,7 +260,7 @@ function _makeSalariesFileInput( $value, $column )
 
 	$file_path = $value;
 
-	$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );
+	$file_name = basename( $file_path );
 
 	$file_size = HumanFilesize( filesize( $file_path ) );
 

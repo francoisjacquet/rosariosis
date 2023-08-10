@@ -516,7 +516,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 			continue;
 		}
 
-		$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );
+		$file_name = basename( $file_path );
 
 		$file_size = HumanFilesize( filesize( $file_path ) );
 
