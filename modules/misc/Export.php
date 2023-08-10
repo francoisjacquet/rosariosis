@@ -531,7 +531,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			DrawHeader( $header_left );
 		}
 
-		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
+		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{

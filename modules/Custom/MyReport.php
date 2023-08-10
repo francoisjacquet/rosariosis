@@ -162,7 +162,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		DrawHeader( $header_left );
 
-		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
+		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
 		if ( empty( $_REQUEST['LO_save'] ) )
 		{
