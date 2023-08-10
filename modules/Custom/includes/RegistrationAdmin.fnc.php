@@ -27,27 +27,27 @@ function RegistrationFormConfigSave( $values )
 			'||' . implode( '||', $checked_array ) : '';
 	};
 
-	$values['parent'][0]['info'] = $formatMultipleCheckbox( $values['parent'][0]['info'] );
+	$values['parent'][0]['info'] = $formatMultipleCheckbox( issetVal( $values['parent'][0]['info'] ) );
 
-	$values['parent'][0]['fields'] = $formatMultipleCheckbox( $values['parent'][0]['fields'] );
+	$values['parent'][0]['fields'] = $formatMultipleCheckbox( issetVal( $values['parent'][0]['fields'] ) );
 
 	if ( ! empty( $values['parent'][1] ) )
 	{
-		$values['parent'][1]['info'] = $formatMultipleCheckbox( $values['parent'][1]['info'] );
+		$values['parent'][1]['info'] = $formatMultipleCheckbox( issetVal( $values['parent'][1]['info'] ) );
 
-		$values['parent'][1]['fields'] = $formatMultipleCheckbox($values['parent'][1]['fields'] );
+		$values['parent'][1]['fields'] = $formatMultipleCheckbox( issetVal( $values['parent'][1]['fields'] ) );
 	}
 
-	$values['address']['fields'] = $formatMultipleCheckbox( $values['address']['fields'] );
+	$values['address']['fields'] = $formatMultipleCheckbox( issetVal( $values['address']['fields'] ) );
 
 	foreach ( (array) $values['contact'] as $i => $contact )
 	{
-		$values['contact'][$i]['info'] = $formatMultipleCheckbox( $values['contact'][$i]['info'] );
+		$values['contact'][$i]['info'] = $formatMultipleCheckbox( issetVal( $values['contact'][$i]['info'] ) );
 
-		$values['contact'][$i]['fields'] = $formatMultipleCheckbox( $values['contact'][$i]['fields'] );
+		$values['contact'][$i]['fields'] = $formatMultipleCheckbox( issetVal( $values['contact'][$i]['fields'] ) );
 	}
 
-	$values['student']['fields'] = $formatMultipleCheckbox( $values['student']['fields'] );
+	$values['student']['fields'] = $formatMultipleCheckbox( issetVal( $values['student']['fields'] ) );
 
 	Config( 'REGISTRATION_FORM', serialize( $values ) );
 

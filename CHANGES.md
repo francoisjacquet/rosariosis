@@ -5,6 +5,7 @@ Changes in 11.1.2
 -----------------
 - Maintain list preferences as GET params in form URL (save) in Schedule.php
 - Use basename() to extract file name from path in StudentsUsersInfo.fnc.php, Accounting/functions.inc.php, StudentAssignments.fnc.php & Student_Billing/functions.inc.php
+- Fix PHP warning undefined array index in RegistrationAdmin.fnc.php
 
 Changes in 11.1.1
 -----------------
