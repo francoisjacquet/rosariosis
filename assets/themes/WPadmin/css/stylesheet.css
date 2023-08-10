@@ -1500,6 +1500,13 @@ a > .tipmsg-label {
 	cursor: pointer;
 }
 
+.tipmsg-label .button + b,
+a .button + b {
+	font-weight: normal;
+	text-transform: uppercase;
+	font-size: 13px;
+}
+
 /* Tooltip */
 
 .tooltip {
