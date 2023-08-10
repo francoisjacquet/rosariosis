@@ -470,10 +470,6 @@ select,
 	font-weight: normal;
 }
 
-.widefat.files td .button + b {
-	font-weight: normal;
-}
-
 .widefat tfoot th {
 	border-bottom: none
 }
