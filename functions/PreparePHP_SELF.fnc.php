@@ -109,28 +109,32 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  * Redirect URL
  * Will update the requested URL in the browser,
  * (soft redirection using the X-Redirect-Url header)
- * removing the requested parameters passed as argument.
+ * removing/adding the requested parameters passed as argument.
  * Use after a successful remove / delete / update / save operation.
  * Prevents showing an obsolete & confusing delete confirmation screen on page reload.
+ * Adding some parameters to URL maybe useful to maintain state from a POST form.
  *
  * @since 3.3
+ * @since 11.2 Add $add_post argument, POST parameters to add to the URL (optional)
  *
- * @example RedirectURL( array( 'modfunc', 'id' ) );
+ * @example RedirectURL( [ 'modfunc', 'id' ] );
  *
  * @uses X-Redirect-Url header.
  * @uses PreparePHP_SELF
  *
  * @see warehouse.js check for X-Redirect-Url
  *
- * @param array|string $remove Parameters to remove from the $_REQUEST & $_SESSION['_REQUEST_vars'] arrays.
+ * @param array|string $remove   Parameters to remove from the $_REQUEST & $_SESSION['_REQUEST_vars'] arrays.
+ * @param array|string $add_post POST parameters to add to the URL (optional).
  *
  * @return boolean     False if nothing to remove, else true.
  */
-function RedirectURL( $remove )
+function RedirectURL( $remove, $add_post = [] )
 {
-	static $remove_all = [];
+	static $add_post_all = [];
 
-	if ( ! $remove )
+	if ( ! $remove
+		&& ! $add_post )
 	{
 		return false;
 	}
@@ -150,9 +154,17 @@ function RedirectURL( $remove )
 		}
 	}
 
-	$remove_all = array_unique( array_merge( $remove_all, (array) $remove ) );
+	foreach ( (array) $add_post as $post_key )
+	{
+		if ( ! isset( $_POST[ $post_key ] ) )
+		{
+			continue;
+		}
 
-	$redirect_url = PreparePHP_SELF( $_GET, $remove_all );
+		$add_post_all[ $post_key ] = $post_key;
+	}
+
+	$redirect_url = PreparePHP_SELF( $_REQUEST, array_diff( array_keys( $_POST ), $add_post_all ) );
 
 	// Redirect URL.
 	header( 'X-Redirect-Url: ' . $redirect_url );
