@@ -12,6 +12,7 @@ Changes in 11.2
 - Do NOT create Assignment Type if already exists for Course & Teacher in MassCreateAssignments.php
 - Add RosarioURL() function in Prepare_PHP_SELF.fnc.php
 - Use RosarioURL() instead of local function in PasswordReset.php, MarkDownHTML.fnc.php & SendNotification.fnc.php
+- Security remove $wkhtmltopdfAssetsPath & --enable-local-file-access, use base URL instead in INSTALL.md, INSTALL_es.md, INSTALL_fr.md & PDF.php
 
 Changes in 11.1.2
 -----------------

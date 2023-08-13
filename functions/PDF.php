@@ -59,12 +59,12 @@ function PDFStart( $options = [] )
  * @since 3.4 Handle HTML header & footer.
  * @since 4.3 CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes
  * @since 7.5 Use phpwkhtmltopdf class instead of Wkhtmltopdf (more reliable & faster)
- * @since 10.9 CSS Add modname class, ie .grades-reportcards-php for modname=Grades/ReportCards.php
+ * @since 10.9 CSS Add modname class, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php
+ * @since 11.2 Security remove $wkhtmltopdfAssetsPath & --enable-local-file-access, use base URL instead
+ *
  * @link https://github.com/mikehaertl/phpwkhtmltopdf
  *
  * @global string $wkhtmltopdfPath
- * @global string $wkhtmltopdfAssetsPath
- * @global string $RosarioPath
  *
  * @param  array $handle from PDFStart(), PDF options.
  *
@@ -72,9 +72,7 @@ function PDFStart( $options = [] )
  */
 function PDFStop( $handle )
 {
-	global $wkhtmltopdfPath,
-		$wkhtmltopdfAssetsPath,
-		$RosarioPath;
+	global $wkhtmltopdfPath;
 
 	static $file_number = 1;
 
@@ -126,7 +124,8 @@ function PDFStop( $handle )
 	$_html['head'] = '<!doctype html>
 		<html lang="' . $lang_2_chars . '" ' . $dir_RTL . '>
 		<head>
-			<meta charset="UTF-8">';
+			<meta charset="UTF-8">
+			<base href="' . RosarioURL() . '" />';
 
 	if ( $handle['css'] )
 	{
@@ -180,18 +179,6 @@ function PDFStop( $handle )
 		}
 
 		// Save.
-		$base_url = sprintf(
-			'%s://%s%s/',
-			isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-			$_SERVER['SERVER_NAME'],
-			dirname( $_SERVER['PHP_SELF'] )
-		);
-
-		// Set Absolute URLs to images, CSS...
-		$html = str_replace( '"assets/', '"' . $base_url . 'assets/', $html );
-
-		$html = str_replace( '"modules/', '"' . $base_url . 'modules/', $html );
-
 		file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
 
 		return $path . DIRECTORY_SEPARATOR . $filename . '.html';
@@ -203,32 +190,9 @@ function PDFStop( $handle )
 	require_once 'classes/phpwkhtmltopdf/Command.php';
 	require_once 'classes/phpwkhtmltopdf/Pdf.php';
 
-	// You can override the Path definition in the config.inc.php file.
-	if ( ! isset( $wkhtmltopdfAssetsPath ) )
-	{
-		// Way wkhtmltopdf accesses the assets/ directory, empty string means no translation.
-		$wkhtmltopdfAssetsPath = $RosarioPath . 'assets/';
-	}
-
-	if ( ! empty( $wkhtmltopdfAssetsPath ) )
-	{
-		// Fix wkhtmltopdf error on Windows: prepend file:///.
-		$html = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $html );
-
-		$_html['head'] = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $_html['head'] );
-	}
-
-	// Fix wkhtmltopdf error on Windows: prepend file:///.
-	$html = str_replace( '"modules/', '"file:///' . $RosarioPath . 'modules/', $html );
-
-	// Fix wkhtmltopdf not rendering URL in CSS
-	$html = str_replace( 'url(modules/', 'url(file:///' . $RosarioPath . 'modules/', $html );
-
 	// Set wkhtmltopdf options.
 	$pdf_options = [
 		'title' => $page_title,
-		// Fix System error "blocked access to local file" with wkhtmltopdf 0.12.6.
-		'enable-local-file-access',
 	];
 
 	if ( Preferences( 'PAGE_SIZE' ) != 'A4' )

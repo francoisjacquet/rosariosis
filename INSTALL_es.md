@@ -52,7 +52,6 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 
 - `$DatabasePort` Número de puerto para acceder a la base de datos. Por defecto: 5432 para PostgreSQL y 3306 para MySQL.
 - `$RosarioPath` Camino completo hacia la instalación de RosarioSIS.
-- `$wkhtmltopdfAssetsPath` Camino a la carpeta `assets/` para wkhtmltopdf. Puede ser diferente de como el navegador la encuentra. Una cadena vacía significa sin traslado.
 - `$StudentPicturesPath` Camino hacia las fotos de los estudiantes.
 - `$UserPicturesPath` Camino hacia las fotos de los usuarios.
 - `$PortalNotesFilesPath` Camino hacia los archivos adjuntos a las notas del portal.
