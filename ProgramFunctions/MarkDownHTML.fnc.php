@@ -275,50 +275,10 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 
 		$image_path = ImageUpload( $data, $target_dim, $image_path );
 
-		/**
-		 * RosarioSIS login page URL
-		 * Removes part beginning with 'Modules.php' or 'index.php' from URI.
-		 *
-		 * Local function
-		 *
-		 * @since 8.3
-		 *
-		 * @return string Login page URL.
-		 */
-		$rosarioLoginURL = function()
-		{
-			$page_url = 'http';
-
-			if ( isset( $_SERVER['HTTPS'] )
-				&& $_SERVER['HTTPS'] == 'on' )
-			{
-				$page_url .= 's';
-			}
-
-			$page_url .= '://';
-
-			$root_pos = strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) ?
-				strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) : strpos( $_SERVER['REQUEST_URI'], 'index.php' );
-
-			$root_uri = substr( $_SERVER['REQUEST_URI'], 0, $root_pos );
-
-			if ( $_SERVER['SERVER_PORT'] != '80'
-				&& $_SERVER['SERVER_PORT'] != '443' )
-			{
-				$page_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $root_uri;
-			}
-			else
-			{
-				$page_url .= $_SERVER['SERVER_NAME'] . $root_uri;
-			}
-
-			return $page_url;
-		};
-
 		if ( $add_url_to_image_path )
 		{
 			// Add URL to image path.
-			$image_path = $rosarioLoginURL() . $image_path;
+			$image_path = RosarioURL() . $image_path;
 		}
 
 		$base64_images[1][ $key ] = $image_path;

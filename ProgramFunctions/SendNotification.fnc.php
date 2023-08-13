@@ -197,7 +197,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 		return false;
 	}
 
-	$rosario_url = _rosarioLoginURL();
+	$rosario_url = RosarioURL();
 
 	if ( ( strpos( $rosario_url, '127.0.0.1' ) !== false
 			|| strpos( $rosario_url, 'localhost' ) !== false )
@@ -264,7 +264,7 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 		return false;
 	}
 
-	$rosario_url = _rosarioLoginURL();
+	$rosario_url = RosarioURL();
 
 	if ( ( strpos( $rosario_url, '127.0.0.1' ) !== false
 			|| strpos( $rosario_url, 'localhost' ) !== false )
@@ -336,7 +336,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 		return false;
 	}
 
-	$rosario_url = _rosarioLoginURL();
+	$rosario_url = RosarioURL();
 
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
@@ -402,7 +402,7 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 		return false;
 	}
 
-	$rosario_url = _rosarioLoginURL();
+	$rosario_url = RosarioURL();
 
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
@@ -429,35 +429,11 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
  * Local function
  *
  * @since 5.9
+ * @deprecated since 11.2 Use RosarioURL() instead of local function
  *
  * @return string Login page URL.
  */
 function _rosarioLoginURL()
 {
-	$page_url = 'http';
-
-	if ( isset( $_SERVER['HTTPS'] )
-		&& $_SERVER['HTTPS'] == 'on' )
-	{
-		$page_url .= 's';
-	}
-
-	$page_url .= '://';
-
-	$root_pos = strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) ?
-		strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) : strpos( $_SERVER['REQUEST_URI'], 'index.php' );
-
-	$root_uri = substr( $_SERVER['REQUEST_URI'], 0, $root_pos );
-
-	if ( $_SERVER['SERVER_PORT'] != '80'
-		&& $_SERVER['SERVER_PORT'] != '443' )
-	{
-		$page_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $root_uri;
-	}
-	else
-	{
-		$page_url .= $_SERVER['SERVER_NAME'] . $root_uri;
-	}
-
-	return $page_url;
+	return RosarioURL();
 }

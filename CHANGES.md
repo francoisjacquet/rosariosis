@@ -11,6 +11,7 @@ Changes in 11.2
 - Expanded View: Add Created by & Created at columns in MassAssignFees.php, MassAssignPayments.php, StudentFees.php, StudentPayments.php & DailyTransactions.php
 - Do NOT create Assignment Type if already exists for Course & Teacher in MassCreateAssignments.php
 - Add RosarioURL() function in Prepare_PHP_SELF.fnc.php
+- Use RosarioURL() instead of local function in PasswordReset.php, MarkDownHTML.fnc.php & SendNotification.fnc.php
 
 Changes in 11.1.2
 -----------------
