@@ -10,6 +10,7 @@ Changes in 11.2
 - SQL Add CREATED_BY column to billing_fees & billing_payments tables in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 - Expanded View: Add Created by & Created at columns in MassAssignFees.php, MassAssignPayments.php, StudentFees.php, StudentPayments.php & DailyTransactions.php
 - Do NOT create Assignment Type if already exists for Course & Teacher in MassCreateAssignments.php
+- Add RosarioURL() function in Prepare_PHP_SELF.fnc.php
 
 Changes in 11.1.2
 -----------------
