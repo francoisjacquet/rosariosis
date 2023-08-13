@@ -9,6 +9,7 @@ Changes in 11.2
 - CSS WPadmin theme remove bold from MD preview tabs in stylesheet.css
 - SQL Add CREATED_BY column to billing_fees & billing_payments tables in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 - Expanded View: Add Created by & Created at columns in MassAssignFees.php, MassAssignPayments.php, StudentFees.php, StudentPayments.php & DailyTransactions.php
+- Do NOT create Assignment Type if already exists for Course & Teacher in MassCreateAssignments.php
 
 Changes in 11.1.2
 -----------------

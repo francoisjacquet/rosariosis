@@ -209,11 +209,23 @@ if ( isset( $_POST['tables'] )
 			{
 				foreach ( (array) $assignment_courses_teachers_RET[ $c_id ] as $assignment_course_teacher )
 				{
+					$c_teacher = $assignment_course_teacher['TEACHER_ID'];
+
+					// @since 11.2 Do NOT create Assignment Type if already exists for Course & Teacher
+					$assignment_type_exists = DBGetOne( "SELECT 1
+						FROM " . DBEscapeIdentifier( $table ) . "
+						WHERE COURSE_ID='" . (int) $c_id . "'
+						AND STAFF_ID='" . (int) $c_teacher . "'
+						AND TRIM(TITLE)=TRIM('" . $columns['TITLE'] . "')" );
+
+					if ( $assignment_type_exists )
+					{
+						continue;
+					}
+
 					$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
 					$fields_final = $fields . 'COURSE_ID,STAFF_ID,';
-
-					$c_teacher = $assignment_course_teacher['TEACHER_ID'];
 
 					$values_final = $values . "'" . $c_id . "','" . $c_teacher . "',";
 
