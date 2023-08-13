@@ -252,6 +252,10 @@ function Update()
 		case version_compare( $from_version, '11.1', '<' ) :
 
 			$return = _update111();
+
+		case version_compare( $from_version, '11.2', '<' ) :
+
+			$return = _update112();
 	}
 
 	// Update version in DB config table.
@@ -1407,6 +1411,44 @@ function _update111()
 		RETURN 1;
 	END;
 	$$ LANGUAGE plpgsql;" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 11.2
+ *
+ * 1. Add CREATED_BY column to billing_fees & billing_payments tables
+ *
+ * Local function
+ *
+ * @since 11.2
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update112()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add CREATED_BY column to billing_fees & billing_payments tables
+	 */
+	$created_by_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='billing_fees'
+		AND column_name='created_by';" );
+
+	if ( ! $created_by_column_exists )
+	{
+		DBQuery( "ALTER TABLE billing_fees ADD created_by text;
+			ALTER TABLE billing_payments ADD created_by text;" );
+	}
 
 	return $return;
 }

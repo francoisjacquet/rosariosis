@@ -7,6 +7,7 @@ Changes in 11.2
 - Fix Apache 414 Request-URI Too Long, move st from `$_REQUEST` to `$_SESSION` in FinalGrades.php
 - Add `$_POST` elements, ytd_tardies_code, mp_tardies_code & mp_arr to URL in FinalGrades.php
 - CSS WPadmin theme remove bold from MD preview tabs in stylesheet.css
+- SQL Add CREATED_BY column to billing_fees & billing_payments tables in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.1.2
 -----------------

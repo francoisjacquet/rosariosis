@@ -722,6 +722,7 @@ CREATE TABLE billing_fees (
     waived_fee_id integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
+    created_by text,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
 
@@ -743,6 +744,7 @@ CREATE TABLE billing_payments (
     file_attached text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
+    created_by text,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
 
