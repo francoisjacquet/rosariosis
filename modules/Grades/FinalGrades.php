@@ -36,12 +36,22 @@ elseif ( ! empty( $_REQUEST['delete_cancel'] )
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
+	if ( ! empty( $_REQUEST['st'] ) )
+	{
+		// Fix Apache 414 Request-URI Too Long, move st from $_REQUEST to $_SESSION.
+		$_SESSION['FinalGrades.php']['st'] = $_REQUEST['st'];
+
+		// Unset st & redirect URL.
+		// @since 11.2 Add $_POST elements, ytd_tardies_code, mp_tardies_code & mp_arr to URL.
+		RedirectURL( 'st', [ 'elements', 'ytd_tardies_code', 'mp_tardies_code', 'mp_arr' ] );
+	}
+
 	if ( ! empty( $_REQUEST['mp_arr'] )
-		&& ! empty( $_REQUEST['st'] ) )
+		&& ! empty( $_SESSION['FinalGrades.php']['st'] ) )
 	{
 		$mp_list = "'" . implode( "','", $_REQUEST['mp_arr'] ) . "'";
 
-		$st_list = "'" . implode( "','", $_REQUEST['st'] ) . "'";
+		$st_list = "'" . implode( "','", $_SESSION['FinalGrades.php']['st'] ) . "'";
 
 		$last_mp = end( $_REQUEST['mp_arr'] );
 
@@ -533,7 +543,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' .
 			issetVal( $_REQUEST['include_inactive'], '' ) .
-			'' ) . '" method="GET">';
+			'' ) . '" method="POST">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Grade Lists for Selected Students' ) );
 

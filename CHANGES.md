@@ -4,6 +4,8 @@
 Changes in 11.2
 ---------------
 - Add $add_post argument, POST parameters to add to the URL (optional) in Prepare_PHP_SELF.fnc.php
+- Fix Apache 414 Request-URI Too Long, move st from `$_REQUEST` to `$_SESSION` in FinalGrades.php
+- Add `$_POST` elements, ytd_tardies_code, mp_tardies_code & mp_arr to URL in FinalGrades.php
 
 Changes in 11.1.2
 -----------------
