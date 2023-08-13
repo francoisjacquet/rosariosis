@@ -163,7 +163,7 @@ echo TextInput(
 	issetVal( $staff['USERNAME'], '' ),
 	'staff[USERNAME]',
 	_( 'Username' ),
-	'size=12 maxlength=100 autocomplete="off" ' . ( $required ? 'required' : '' ),
+	'size=22 maxlength=100 autocomplete="off" ' . ( $required ? 'required' : '' ),
 	empty( $_REQUEST['moodle_create_user'] )
 );
 
