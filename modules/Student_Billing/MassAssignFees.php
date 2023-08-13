@@ -27,6 +27,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						'ASSIGNED_DATE' => DBDate(),
 						'DUE_DATE' => $due_date,
 						'COMMENTS' => $_REQUEST['comments'],
+						// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
+						'CREATED_BY' => DBEscapeString( User( 'NAME' ) ),
 					]
 				);
 			}

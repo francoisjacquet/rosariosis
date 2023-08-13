@@ -8,6 +8,7 @@ Changes in 11.2
 - Add `$_POST` elements, ytd_tardies_code, mp_tardies_code & mp_arr to URL in FinalGrades.php
 - CSS WPadmin theme remove bold from MD preview tabs in stylesheet.css
 - SQL Add CREATED_BY column to billing_fees & billing_payments tables in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
+- Expanded View: Add Created by & Created at columns in MassAssignFees.php, MassAssignPayments.php, StudentFees.php, StudentPayments.php & DailyTransactions.php
 
 Changes in 11.1.2
 -----------------

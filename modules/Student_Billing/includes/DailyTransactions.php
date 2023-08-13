@@ -19,8 +19,21 @@ if ( User( 'PROFILE' ) === 'admin' )
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&program=transactions'  ) . '" method="GET">';
 
+if ( ! isset( $_REQUEST['expanded_view'] )
+	|| $_REQUEST['expanded_view'] !== 'true' )
+{
+	$expanded_view_header = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'true' ] ) . '">' .
+	_( 'Expanded View' ) . '</a>';
+}
+else
+{
+	$expanded_view_header = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'false' ] ) . '">' .
+	_( 'Original View' ) . '</a>';
+}
+
 DrawHeader( _( 'Report Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
-	' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
+	' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ),
+	$expanded_view_header );
 
 echo '</form>';
 
@@ -35,12 +48,17 @@ if ( empty( $_REQUEST['LO_sort'] ) )
 
 $totals = [ 'DEBIT' => 0, 'CREDIT' => 0 ];
 
-$extra['functions'] = [ 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency', 'DATE' => 'ProperDate' ];
+$extra['functions'] = [
+	'DEBIT' => '_makeCurrency',
+	'CREDIT' => '_makeCurrency',
+	'DATE' => 'ProperDate',
+	'CREATED_AT' => 'ProperDateTime',
+];
 
 $fees_extra = $extra;
 
 $fees_extra['SELECT'] = issetVal( $fees_extra['SELECT'], '' );
-$fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE, ' ', COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+$fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE, ' ', COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID,f.CREATED_BY,f.CREATED_AT";
 
 $fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 $fees_extra['FROM'] .= ',billing_fees f';
@@ -54,7 +72,7 @@ $RET = GetStuList( $fees_extra );
 $payments_extra = $extra;
 
 $payments_extra['SELECT'] = issetVal( $payments_extra['SELECT'], '' );
-$payments_extra['SELECT'] .= ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,'') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
+$payments_extra['SELECT'] .= ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,'') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID,p.CREATED_BY,p.CREATED_AT";
 
 $payments_extra['FROM'] = issetVal( $payments_extra['FROM'], '' );
 $payments_extra['FROM'] .= ',billing_payments p';
@@ -81,6 +99,16 @@ $columns = [
 	'DATE' => _( 'Date' ),
 	'EXPLANATION' => _( 'Comment' ),
 ];
+
+if ( isset( $_REQUEST['expanded_view'] )
+	&& $_REQUEST['expanded_view'] === 'true' )
+{
+	// @since 11.2 Expanded View: Add Created by & Created at columns.
+	$columns += [
+		'CREATED_BY' => _( 'Created by' ),
+		'CREATED_AT' => _( 'Created at' ),
+	];
+}
 
 $link['add']['html'] = [
 	'FULL_NAME' => _( 'Total' ) . ': ' .

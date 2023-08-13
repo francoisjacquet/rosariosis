@@ -57,6 +57,9 @@ if ( ! empty( $_REQUEST['values'] )
 
 			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
 
+			// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
+			$columns['CREATED_BY'] = DBEscapeString( User( 'NAME' ) );
+
 			DBInsert(
 				'billing_fees',
 				$insert_columns + $columns
@@ -64,8 +67,8 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 	}
 
-	// Unset values & redirect URL.
-	RedirectURL( 'values' );
+	// Unset values, month_values, day_values, year_values & redirect URL.
+	RedirectURL( [ 'values', 'month_values', 'day_values', 'year_values' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
@@ -117,6 +120,8 @@ if ( $_REQUEST['modfunc'] === 'waive'
 				'STUDENT_ID' => UserStudentID(),
 				'ASSIGNED_DATE' => DBDate(),
 				'COMMENTS' => DBEscapeString( _( 'Waiver' ) ),
+				// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
+				'CREATED_BY' => DBEscapeString( User( 'NAME' ) ),
 			]
 		);
 
@@ -139,17 +144,20 @@ if ( UserStudentID()
 		'COMMENTS' => '_makeFeesTextInput',
 		'AMOUNT' => '_makeFeesAmount',
 		'FILE_ATTACHED' => '_makeFeesFileInput',
+		'CREATED_AT' => 'ProperDateTime',
 	];
 
 	$waived_fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
-		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
+		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED,
+		CREATED_BY,CREATED_AT
 		FROM billing_fees f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND f.WAIVED_FEE_ID IS NOT NULL", $functions, [ 'WAIVED_FEE_ID' ] );
 
 	$fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
-		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
+		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED,
+		CREATED_BY,CREATED_AT
 		FROM billing_fees f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
@@ -195,6 +203,16 @@ if ( UserStudentID()
 		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
+	if ( isset( $_REQUEST['expanded_view'] )
+		&& $_REQUEST['expanded_view'] === 'true' )
+	{
+		// @since 11.2 Expanded View: Add Created by & Created at columns.
+		$columns += [
+			'CREATED_BY' => _( 'Created by' ),
+			'CREATED_AT' => _( 'Created at' ),
+		];
+	}
+
 	$link = [];
 
 	if ( empty( $_REQUEST['print_statements'] ) )
@@ -217,7 +235,19 @@ if ( UserStudentID()
 
 		if ( AllowEdit() )
 		{
-			DrawHeader( '', SubmitButton() );
+			if ( ! isset( $_REQUEST['expanded_view'] )
+				|| $_REQUEST['expanded_view'] !== 'true' )
+			{
+				$expanded_view_header = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'true' ] ) . '">' .
+				_( 'Expanded View' ) . '</a>';
+			}
+			else
+			{
+				$expanded_view_header = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'false' ] ) . '">' .
+				_( 'Original View' ) . '</a>';
+			}
+
+			DrawHeader( $expanded_view_header, SubmitButton() );
 		}
 
 		$options = [];

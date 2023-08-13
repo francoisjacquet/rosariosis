@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.2
+-----------
+
+Student Billing
+- Fees + Payments + Daily Transactions: Expanded View (Created by & Created at columns), sponsored by Rousseau International, Cameroon
+
 New in 11.1
 -----------
 
@@ -15,6 +21,9 @@ Scheduling
 
 [Students Import Premium](https://www.rosariosis.org/modules/students-import/#premium-module)
 - Create Food Service Accounts (and assign a Barcode)
+
+[Billing Elements](https://www.rosariosis.org/modules/billing-elements/)
+- Mass Assign Elements: Assign Elements by Grade Level, sponsored by Rousseau International, Cameroon
 
 
 New in 11.0

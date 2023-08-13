@@ -10,14 +10,14 @@ if ( empty( $_REQUEST['print_statements'] ) )
 	Search( 'student_id', issetVal( $extra ) );
 }
 
-// Add eventual Dates to $_REQUEST['values'].
-AddRequestedDates( 'values', 'post' );
-
 if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit()
 	&& UserStudentID() )
 {
+	// Add eventual Dates to $_REQUEST['values'].
+	AddRequestedDates( 'values', 'post' );
+
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id !== 'new' )
@@ -54,6 +54,9 @@ if ( ! empty( $_REQUEST['values'] )
 
 			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
 
+			// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
+			$columns['CREATED_BY'] = DBEscapeString( User( 'NAME' ) );
+
 			DBInsert(
 				'billing_payments',
 				$insert_columns + $columns
@@ -61,8 +64,8 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 	}
 
-	// Unset values & redirect URL.
-	RedirectURL( 'values' );
+	// Unset values, month_values, day_values, year_values, billing_fees & redirect URL.
+	RedirectURL( [ 'values', 'month_values', 'day_values', 'year_values', 'billing_fees' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
@@ -115,6 +118,8 @@ if ( $_REQUEST['modfunc'] === 'refund'
 				'PAYMENT_DATE' => DBDate(),
 				'COMMENTS' => DBEscapeString( $comments ),
 				'REFUNDED_PAYMENT_ID' => (int) $_REQUEST['id'],
+				// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
+				'CREATED_BY' => DBEscapeString( User( 'NAME' ) ),
 			]
 		);
 
@@ -137,17 +142,20 @@ if ( UserStudentID()
 		'COMMENTS' => '_makePaymentsCommentsInput',
 		'LUNCH_PAYMENT' => '_lunchInput',
 		'FILE_ATTACHED' => '_makePaymentsFileInput',
+		'CREATED_AT' => 'ProperDateTime',
 	];
 
 	$refunded_payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
-		AMOUNT,PAYMENT_DATE,COMMENTS
+		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT,FILE_ATTACHED,
+		CREATED_BY,CREATED_AT
 		FROM billing_payments
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND (REFUNDED_PAYMENT_ID IS NOT NULL)", $functions, [ 'REFUNDED_PAYMENT_ID' ] );
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
-		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT,FILE_ATTACHED
+		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT,FILE_ATTACHED,
+		CREATED_BY,CREATED_AT
 		FROM billing_payments
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -191,6 +199,16 @@ if ( UserStudentID()
 		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
+	if ( isset( $_REQUEST['expanded_view'] )
+		&& $_REQUEST['expanded_view'] === 'true' )
+	{
+		// @since 11.2 Expanded View: Add Created by & Created at columns.
+		$columns += [
+			'CREATED_BY' => _( 'Created by' ),
+			'CREATED_AT' => _( 'Created at' ),
+		];
+	}
+
 	$link = [];
 
 	if ( empty( $_REQUEST['print_statements'] )
@@ -216,7 +234,19 @@ if ( UserStudentID()
 
 		if ( AllowEdit() )
 		{
-			DrawHeader( '', SubmitButton() );
+			if ( ! isset( $_REQUEST['expanded_view'] )
+				|| $_REQUEST['expanded_view'] !== 'true' )
+			{
+				$expanded_view_header = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'true' ] ) . '">' .
+				_( 'Expanded View' ) . '</a>';
+			}
+			else
+			{
+				$expanded_view_header = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'false' ] ) . '">' .
+				_( 'Original View' ) . '</a>';
+			}
+
+			DrawHeader( $expanded_view_header, SubmitButton() );
 		}
 
 		$options = [];
