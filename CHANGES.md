@@ -14,6 +14,7 @@ Changes in 11.2
 - Use RosarioURL() instead of local function in PasswordReset.php, MarkDownHTML.fnc.php & SendNotification.fnc.php
 - Security remove $wkhtmltopdfAssetsPath & --enable-local-file-access, use base URL instead in INSTALL.md, INSTALL_es.md, INSTALL_fr.md & PDF.php
 - HTML increase Username input size (suitable for email address) in General_Info.inc.php
+- Fix Attendance State Code: rename "Half Day" to "Half" in AttendanceCodes.php, AttendanceCodes.fnc.php & AttendanceSummary.php
 
 Changes in 11.1.2
 -----------------

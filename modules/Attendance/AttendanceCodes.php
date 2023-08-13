@@ -321,7 +321,7 @@ function _makeSelectInput( $value, $name )
 		$options = [
 			'P' => _( 'Present' ),
 			'A' => _( 'Absent' ),
-			'H' => _( 'Half Day' ),
+			'H' => _( 'Half' ),
 		];
 	}
 

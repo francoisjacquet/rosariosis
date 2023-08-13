@@ -173,7 +173,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			// Attendance codes.
 			'P' => _( 'Present' ),
 			'A' => _( 'Absent' ),
-			'H' => _( 'Half Day' ),
+			'H' => _( 'Half' ),
 			// Daily attendance.
 			'1.0' => _( 'Present' ),
 			'0.0' => _( 'Absent' ),
