@@ -612,27 +612,30 @@ function Rollover( $table, $mode = 'delete' )
 				}
 			}
 
-			// Fix MySQL syntax error: no FROM allowed inside UPDATE, use subquery
-			DBQuery( "UPDATE program_user_config puc
-				SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
-					FROM staff s
+			if ( $mp_next )
+			{
+				// Fix MySQL syntax error: no FROM allowed inside UPDATE, use subquery
+				DBQuery( "UPDATE program_user_config puc
+					SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
+						FROM staff s
+						WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
+						AND puc.PROGRAM='Gradebook'
+						AND puc.USER_ID=s.STAFF_ID
+						AND s.SYEAR='" . $next_syear . "')
 					WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
 					AND puc.PROGRAM='Gradebook'
-					AND puc.USER_ID=s.STAFF_ID
-					AND s.SYEAR='" . $next_syear . "')
-				WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
-				AND puc.PROGRAM='Gradebook'
-				AND puc.USER_ID IN (SELECT s2.STAFF_ID
-					FROM staff s2
-					WHERE s2.SYEAR='" . $next_syear . "')" );
+					AND puc.USER_ID IN (SELECT s2.STAFF_ID
+						FROM staff s2
+						WHERE s2.SYEAR='" . $next_syear . "')" );
 
-			// @since 10.7 ROLL Gradebook Config's Final Grading Percentages for Admin (overridden)
-			DBQuery( "INSERT INTO program_user_config (USER_ID,PROGRAM,TITLE,VALUE)
-				SELECT puc.USER_ID,puc.PROGRAM,(" . db_case( $db_case_array ) . "),puc.VALUE
-				FROM program_user_config puc
-				WHERE puc.USER_ID='-1'
-				AND puc.PROGRAM='Gradebook'
-				AND puc.TITLE IN(" . implode( ',', $mp_titles ) . ")" );
+				// @since 10.7 ROLL Gradebook Config's Final Grading Percentages for Admin (overridden)
+				DBQuery( "INSERT INTO program_user_config (USER_ID,PROGRAM,TITLE,VALUE)
+					SELECT puc.USER_ID,puc.PROGRAM,(" . db_case( $db_case_array ) . "),puc.VALUE
+					FROM program_user_config puc
+					WHERE puc.USER_ID='-1'
+					AND puc.PROGRAM='Gradebook'
+					AND puc.TITLE IN(" . implode( ',', $mp_titles ) . ")" );
+			}
 
 			break;
 

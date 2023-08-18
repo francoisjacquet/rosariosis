@@ -16,6 +16,7 @@ Changes in 11.2
 - HTML increase Username input size (suitable for email address) in General_Info.inc.php
 - Fix Attendance State Code: rename "Half Day" to "Half" in AttendanceCodes.php, AttendanceCodes.fnc.php & AttendanceSummary.php
 - CSS themes adjust tooltip height to fit inside PopTable in stylesheet.css & zresponsive.css
+- Fix SQL error when school has no MPs in Rollover.php
 
 Changes in 11.1.2
 -----------------
