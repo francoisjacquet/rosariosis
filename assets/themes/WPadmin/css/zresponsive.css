@@ -153,13 +153,9 @@
 	}
 	/* Smaller tooltip size */
 	.tooltip > i {
-		bottom: 150%;
-		left: -55px;
-		width: 120px;
-		padding: 5px;
-		border-radius: 3px;
-		font-size: 0.9em;
-		line-height: 1.5
+		left: -70px;
+		width: 140px;
+		font-size: 0.85em;
 	}
 	/* Login, First login & Password Reset pages */
 	.login,

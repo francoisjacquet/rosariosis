@@ -1543,8 +1543,8 @@ a .button + b {
 	border-radius: 3px;
 	transition: opacity .3s;
 	text-align: left;
-	font-size: 1em;
-	line-height: 1.5;
+	font-size: 0.9em;
+	line-height: 1.4;
 }
 
 .tooltip:hover > i {

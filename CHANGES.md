@@ -15,6 +15,7 @@ Changes in 11.2
 - Security remove $wkhtmltopdfAssetsPath & --enable-local-file-access, use base URL instead in INSTALL.md, INSTALL_es.md, INSTALL_fr.md & PDF.php
 - HTML increase Username input size (suitable for email address) in General_Info.inc.php
 - Fix Attendance State Code: rename "Half Day" to "Half" in AttendanceCodes.php, AttendanceCodes.fnc.php & AttendanceSummary.php
+- CSS themes adjust tooltip height to fit inside PopTable in stylesheet.css & zresponsive.css
 
 Changes in 11.1.2
 -----------------
