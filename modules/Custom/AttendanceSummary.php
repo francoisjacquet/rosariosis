@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
+
 if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( empty( $_REQUEST['st_arr'] ) )
@@ -71,13 +73,29 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	foreach ( (array) $RET as $student )
 	{
+		$full_day_minutes = Config( 'ATTENDANCE_FULL_DAY_MINUTES' );
+
+		if ( ! $full_day_minutes )
+		{
+			// @since 11.2 Dynamic Daily Attendance calculation based on total course period minutes
+			$full_day_minutes = "(" . AttendanceDailyTotalMinutesSQL(
+				$student['STUDENT_ID'],
+				'ac.SCHOOL_DATE'
+			) . ")";
+		}
+		else
+		{
+			// Prevent SQL injection, add quotes around minutes.
+			$full_day_minutes = "'" . $full_day_minutes . "'";
+		}
+
 		// @since 9.2.1 SQL use extract() instead of to_char() for MySQL compatibility
 		$calendar_RET = DBGet( "SELECT CASE WHEN
-			MINUTES>=" . Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) .
-					" THEN '1.0' ELSE '0.5' END AS POS,
+			MINUTES>=" . $full_day_minutes .
+				" THEN '1.0' ELSE '0.5' END AS POS,
 			extract(MONTH from SCHOOL_DATE) AS MON,
 			extract(DAY from SCHOOL_DATE) AS DAY
-			FROM attendance_calendar
+			FROM attendance_calendar ac
 			WHERE CALENDAR_ID='" . (int) $student['CALENDAR_ID'] . "'
 			AND SCHOOL_DATE>='" . $student['START_DATE'] . "'" .
 			( $student['END_DATE'] ? " AND SCHOOL_DATE<='" . $student['END_DATE'] . "'" : '' ),
