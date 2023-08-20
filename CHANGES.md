@@ -28,6 +28,7 @@ Changes in 11.2
 - MarkDown: remove two spaces before line break in Markdownify/Converter.php
 - Only allow column names of string type (not empty) in DBUpsert.php
 - Fix SQL error when $columns is false in DBUpsert.php
+- Update French & Spanish translations in rosariosis.po & help.po
 
 Changes in 11.1.2
 -----------------
