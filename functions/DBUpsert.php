@@ -200,6 +200,7 @@ function DBUpdate( $table, $columns, $where_columns )
  * @example DBUpsert( 'config', [ 'CONFIG_VALUE' => $value ], [ 'TITLE' => $item, 'SCHOOL_ID' => (int) $school_id ], $mode );
  *
  * @since 11.0
+ * @since 11.2 Fix SQL error when $columns is false
  *
  * @uses DBInsert()
  * @uses DBUpdate()
@@ -213,6 +214,12 @@ function DBUpdate( $table, $columns, $where_columns )
  */
 function DBUpsert( $table, $columns, $where_columns, $mode )
 {
+	if ( ! $table
+		|| ! $columns )
+	{
+		return false;
+	}
+
 	if ( $mode === 'insert' )
 	{
 		return DBInsert( $table, (array) $columns + (array) $where_columns );
