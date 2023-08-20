@@ -23,6 +23,7 @@ Changes in 11.2
 - Breaking Change: use AttendanceDailyTotalMinutesPresent() instead of AttendanceDailyTotalMinutes() in UpdateAttendanceDaily.fnc.php
 - Add Action hook, filter Total Minutes Present in UpdateAttendanceDaily.fnc.php & Actions.php
 - Dynamic Daily Attendance calculation based on total course period minutes in UpdateAttendanceDaily.fnc.php & Configuration.php
+- Add help text for Dynamic Daily Attendance calculation in Help_en.php
 
 Changes in 11.1.2
 -----------------

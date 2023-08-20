@@ -188,7 +188,8 @@ if ( User( 'PROFILE' ) === 'admin' ):
 		</li>
 		<li>' . _help( 'The Attendance module:' ) .
 	'<ul>
-				<li>' . _help( '<i>Minutes in a Full School Day</i>: if a student attends school for 300 minutes or more, RosarioSIS will automatically mark him Present for the day. If a student attends school for 150 minutes to 299 minutes, RosarioSIS will marked him Half Day present. If a student attends school for less than 150 minutes, RosarioSIS will mark him Absent. If your School Day is not 300 minutes long, then please adjust the Minutes in a Full School Day' ) . '</li>
+				<li>' . _help( '<i>Minutes in a Full School Day</i>: if a student attends school for 300 minutes or more, RosarioSIS will automatically mark him Present for the day. If a student attends school for 150 minutes to 299 minutes, RosarioSIS will marked him Half Day present. If a student attends school for less than 150 minutes, RosarioSIS will mark him Absent. If your School Day is not 300 minutes long, then please adjust the Minutes in a Full School Day' ) . '<br />' .
+				_help( 'Set to 0 for dynamic Daily Attendance calculation based on total course period minutes. That is, the sum of the lengths of each course period during the day. Period lengths (in minutes) are defined in the School > Periods program.' ) . '</li>
 				<li>' . _help( '<i>Number of days before / after the school date teachers can edit attendance</i>: leave the fields blank to always allow teachers to edit attendance' ) . '</li>
 			</ul>
 		</li>
