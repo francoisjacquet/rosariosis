@@ -1058,7 +1058,11 @@ class Converter
 	 */
 	protected function handleTag_br()
 	{
-		$this->out("  \n" . $this->indent, true);
+		// FJ remove two spaces before line break.
+		// @link https://github.com/Elephant418/Markdownify/issues/45
+		// Will work because $Parsedown->setBreaksEnabled( true ) + marked.setOptions({ breaks: true })
+		//$this->out("  \n" . $this->indent, true);
+		$this->out("\n" . $this->indent, true);
 		$this->parser->html = ltrim($this->parser->html);
 	}
 
