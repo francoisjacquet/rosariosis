@@ -549,16 +549,6 @@ function FileUploadMultiple( $input )
  */
 function no_accents( $string )
 {
-	if ( ! preg_match( '/[\x80-\xff]/', $string) )
-	{
-		// Replace characters others than letters, space, numbers & points with underscores  "_".
-		$string = preg_replace(
-			'/([^ _\-.a-z0-9]+)/i',
-			'_',
-			$string
-		);
-	}
-
 	if ( function_exists( 'transliterator_transliterate' ) )
 	{
 		/**
