@@ -78,7 +78,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 				'SYEAR' => UserSyear(),
 				'STUDENT_ID' => (int) $student_id,
 				'SCHOOL_DATE' => $date,
-				'MINUTES_PRESENT' => (int) $total,
+				'MINUTES_PRESENT' => (int) $total_present,
 				'STATE_VALUE' => $length,
 				'MARKING_PERIOD_ID' => GetCurrentMP( 'QTR', $date, false ),
 				'COMMENT' => $comment,
@@ -93,11 +93,11 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		'SCHOOL_DATE' => $date,
 	];
 
-	if ( $current_RET[1]['MINUTES_PRESENT'] != $total
+	if ( $current_RET[1]['MINUTES_PRESENT'] != $total_present
 		|| $current_RET[1]['STATE_VALUE'] != $length )
 	{
 		$columns = [
-			'MINUTES_PRESENT' => (int) $total,
+			'MINUTES_PRESENT' => (int) $total_present,
 			'STATE_VALUE' => $length,
 		];
 
