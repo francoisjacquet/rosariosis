@@ -18,6 +18,7 @@ Changes in 11.2
 - CSS themes adjust tooltip height to fit inside PopTable in stylesheet.css & zresponsive.css
 - Fix SQL error when school has no MPs in Rollover.php
 - HTML add arrow to indicate sub-option in Configuration.php
+- Rename "Registration" fieldset to "Public Registration" in Configuration.php
 
 Changes in 11.1.2
 -----------------

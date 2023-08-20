@@ -288,8 +288,7 @@ else
 				true
 			) . '</td></tr></table></td></tr>';
 
-			// FJ add Registration to Configuration.
-			echo '<tr><td><br /><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
+			echo '<tr><td><br /><fieldset><legend>' . _( 'Public Registration' ) . '</legend><table>';
 
 			echo '<tr><td colspan="2">' . CheckboxInput(
 				Config( 'CREATE_USER_ACCOUNT' ),
