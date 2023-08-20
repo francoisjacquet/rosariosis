@@ -713,10 +713,15 @@ else
 
 		if ( $_REQUEST['tab'] === 'attendance' )
 		{
+			// @since 11.2 Dynamic Daily Attendance calculation based on total course period minutes
+			$tooltip = '<div class="tooltip"><i>' .
+				_( 'Set to 0 for dynamic Daily Attendance calculation based on total course period minutes.' ) .
+				'</i></div>';
+
 			echo '<table class="cellpadding-5"><tr><td>' . TextInput(
 				Config( 'ATTENDANCE_FULL_DAY_MINUTES' ),
 				'values[config][ATTENDANCE_FULL_DAY_MINUTES]',
-				_( 'Minutes in a Full School Day' ),
+				_( 'Minutes in a Full School Day' ) . $tooltip,
 				' type="number" min="0" max="999"'
 			) . '</td></tr>';
 

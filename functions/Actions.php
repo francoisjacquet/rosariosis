@@ -404,6 +404,17 @@ $RosarioActions = [];
 	 * @since 10.4
 	 */
 	/*'functions/StaffWidgets.fnc.php|widgets_init' => array(),
+
+	/**
+	 * Filter Total Minutes Present
+	 *
+	 * @since 11.2
+	 *
+	 * @example add_action( 'Attendance/includes/UpdateAttendanceDaily.fnc.php|total_minutes', 'MyFilter', 5 );
+	 * @example function MyFilter( $tag, &$total_present, $total_minutes, $total_absent, $total_half ) { $total_present = ... }
+	 *
+	 */
+	/*'Attendance/includes/UpdateAttendanceDaily.fnc.php|total_minutes_present' => array(),
 );*/
 
 /**

@@ -5,8 +5,17 @@
 New in 11.2
 -----------
 
+School
+- Configuration, Attendance tab: Dynamic Daily Attendance calculation based on total course period minutes (when "Minutes in a Full School Day" is set to 0)
+
 Student Billing
 - Fees + Payments + Daily Transactions: Expanded View (Created by & Created at columns), sponsored by Rousseau International, Cameroon
+
+[Lesson Plan](https://www.rosariosis.org/modules/lesson-plan/) module, sponsored by Rousseau International, Cameroon
+
+[Class Diary Premium](https://www.rosariosis.org/modules/class-diary/#premium-module)
+- Attach multiple files, sponsored by Paris'Com Sup
+
 
 New in 11.1
 -----------
