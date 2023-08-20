@@ -13,6 +13,7 @@
  * @example $sql = DBInsertSQL( 'config', [ 'CONFIG_VALUE' => $value, 'TITLE' => $item, 'SCHOOL_ID' => $school_id ] );
  *
  * @since 11.0
+ * @since 11.2 Only allow column names of string type (not empty)
  *
  * @param string $table   DB table (unescaped).
  * @param array  $columns Columns (values escaped). Associative array, [ 'COLUMN' => 'value' ].
@@ -35,6 +36,13 @@ function DBInsertSQL( $table, $columns )
 
 	foreach ( (array) $columns as $column => $value )
 	{
+		if ( ! is_string( $column )
+			|| $column === '' )
+		{
+			// Only allow column names of string type (not empty).
+			continue;
+		}
+
 		if ( ! empty( $value ) || $value == '0' )
 		{
 			$fields .= DBEscapeIdentifier( $column ) . ',';
@@ -97,6 +105,7 @@ function DBInsert( $table, $columns, $return = 'true' )
  * @example $sql = DBUpdateSQL( 'config', [ 'CONFIG_VALUE' => $value ], [ 'TITLE' => $item, 'SCHOOL_ID' => (int) $school_id ] );
  *
  * @since 11.0
+ * @since 11.2 Only allow column names of string type (not empty)
  *
  * @param string $table         DB table (unescaped).
  * @param array  $columns       Columns (values escaped). Associative array, [ 'COLUMN' => 'value' ].
@@ -115,10 +124,17 @@ function DBUpdateSQL( $table, $columns, $where_columns )
 
 	$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
 
-	$fields = $values = '';
+	$go = false;
 
 	foreach ( (array) $columns as $column => $value )
 	{
+		if ( ! is_string( $column )
+			|| $column === '' )
+		{
+			// Only allow column names of string type (not empty).
+			continue;
+		}
+
 		if ( ! empty( $value ) || $value == '0' )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
@@ -127,6 +143,13 @@ function DBUpdateSQL( $table, $columns, $where_columns )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "=NULL,";
 		}
+
+		$go = true;
+	}
+
+	if ( ! $go )
+	{
+		return '';
 	}
 
 	$sql = mb_substr( $sql, 0, -1 ) . " WHERE ";

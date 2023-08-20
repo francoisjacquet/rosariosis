@@ -26,6 +26,7 @@ Changes in 11.2
 - Add help text for Dynamic Daily Attendance calculation in Help_en.php
 - SQL new default is 0 for ATTENDANCE_FULL_DAY_MINUTES Config option in rosariosis.sql & rosariosis_mysql.sql
 - MarkDown: remove two spaces before line break in Markdownify/Converter.php
+- Only allow column names of string type (not empty) in DBUpsert.php
 
 Changes in 11.1.2
 -----------------
