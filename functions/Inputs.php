@@ -1971,7 +1971,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
  * @see GetInputID() to escape id attribute
  *
  * @example $html = '<span title="' . AttrEscape( $value ) . '">' . _( 'Text' ) . '</span>';
- * @example <span title="<?php echo AttrEscape( $value ); ?>"><?php echo _( 'Text' ); ?></span>
+ * @example <span title="<?php echo AttrEscape( $value ); ?\>"><?php echo _( 'Text' ); ?\></span>
  *
  * @uses htmlspecialchars
  *
