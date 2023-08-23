@@ -322,10 +322,11 @@ ul {
 	list-style-type: square;
 }
 
-/*ul,ol{
-	padding:0
+ul,
+ol {
+	margin-top: 0;
+	padding-left: 20px;
 }
-*/
 
 code {
 	font-family: Consolas, Monaco, monospace;
@@ -487,11 +488,6 @@ select,
 
 .widefat td p {
 	margin: 0 0 .8em
-}
-
-.widefat td ul {
-	margin-top: 0;
-	padding-left: 20px;
 }
 
 /* Lists */

@@ -29,6 +29,7 @@ Changes in 11.2
 - Only allow column names of string type (not empty) in DBUpsert.php
 - Fix SQL error when $columns is false in DBUpsert.php
 - Update French & Spanish translations in rosariosis.po & help.po
+- CSS themes apply list margin/padding outside widefat tables + fix .size-1 in stylesheet.css
 
 Changes in 11.1.2
 -----------------
