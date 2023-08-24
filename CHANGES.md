@@ -31,6 +31,7 @@ Changes in 11.2
 - Update French & Spanish translations in rosariosis.po & help.po
 - CSS themes apply list margin/padding outside widefat tables + fix .size-1 in stylesheet.css
 - HTML Fix Menu description overflow hidden + allow MarkDown in DailyMenus.php
+- Add Action hook Filter each menu item in the loop in Kiosk.php & Actions.php
 
 Changes in 11.1.2
 -----------------

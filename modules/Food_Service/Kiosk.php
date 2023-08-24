@@ -101,12 +101,14 @@ if ( isset( $categories_RET[$_REQUEST['menu_id']] ) )
 	}
 }
 
-$items_RET = DBGet( "SELECT (SELECT DESCRIPTION FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS DESCRIPTION,
+$items_RET = DBGet( "SELECT MENU_ITEM_ID,
+	(SELECT DESCRIPTION FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS DESCRIPTION,
 	(SELECT ICON FROM food_service_items WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
 FROM food_service_menu_items fsmi
 WHERE MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 AND CATEGORY_ID='" . (int) $_REQUEST['cat_id'] . "'
-ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER IS NULL,SORT_ORDER" );
+ORDER BY (SELECT SORT_ORDER FROM food_service_categories WHERE CATEGORY_ID=fsmi.CATEGORY_ID),
+SORT_ORDER IS NULL,SORT_ORDER" );
 
 echo '<br />';
 
@@ -130,8 +132,13 @@ if ( ! empty( $items_RET ) )
 			$i = $per_row;
 		}
 
-		echo '<td style="border: 1px solid" title="' . AttrEscape( $item['DESCRIPTION'] ) . '">' .
+		$kiosk_menu_item = '<td style="border: 1px solid" title="' . AttrEscape( $item['DESCRIPTION'] ) . '">' .
 			makeIcon( $item['ICON'], '', '128' ) . '</td>';
+
+		// @since 11.2 Action hook Filter each menu item in the loop
+		do_action( 'Food_Service/Kiosk.php|menu_item_loop', [ &$kiosk_menu_item, $item ] );
+
+		echo $kiosk_menu_item;
 		$i--;
 
 		if ( ! $i )

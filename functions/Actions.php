@@ -415,6 +415,17 @@ $RosarioActions = [];
 	 *
 	 */
 	/*'Attendance/includes/UpdateAttendanceDaily.fnc.php|total_minutes_present' => array(),
+
+	/**
+	 * Filter each menu item in the loop
+	 *
+	 * @since 11.2
+	 *
+	 * @example add_action( 'Food_Service/Kiosk.php|menu_item_loop', 'MyFilter', 3 );
+	 * @example function MyFilter( $tag, &$kiosk_menu_item, $item ) { $kiosk_menu_item = ... }
+	 *
+	 */
+	/*'Food_Service/Kiosk.php|menu_item_loop' => array(),
 );*/
 
 /**
