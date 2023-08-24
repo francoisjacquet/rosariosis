@@ -241,7 +241,8 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 					echo '<i>' . $event['TITLE'] . '</i><br />';
 				}
 
-				echo AttrEscape( $event['DESCRIPTION'] );
+				// Allow MarkDown (& HTML) in Description
+				echo makeTextarea( $event['DESCRIPTION'], 'DESCRIPTION' );
 			}
 		}
 
@@ -260,7 +261,8 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 		echo '<td colspan="' . ( 7 - $skip % 7 ) . '" class="calendar-skip">&nbsp;</td></tr>';
 	}
 
-	echo '</tbody></table></p>';
+	// Fix description overflow hidden.
+	echo '</tbody></table><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
 }
 else
 {

@@ -30,6 +30,7 @@ Changes in 11.2
 - Fix SQL error when $columns is false in DBUpsert.php
 - Update French & Spanish translations in rosariosis.po & help.po
 - CSS themes apply list margin/padding outside widefat tables + fix .size-1 in stylesheet.css
+- HTML Fix Menu description overflow hidden + allow MarkDown in DailyMenus.php
 
 Changes in 11.1.2
 -----------------
