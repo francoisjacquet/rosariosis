@@ -11,6 +11,8 @@ function SaveEnrollment()
 	if ( ! empty( $_POST['month_values']['student_enrollment'] )
 		|| ! empty( $_POST['values']['student_enrollment'] ) )
 	{
+		issetVal( $_REQUEST['month_values']['student_enrollment'] );
+
 		foreach ( (array) $_REQUEST['month_values']['student_enrollment'] as $stu_enrol_id => $stu_enrol_month )
 		{
 			if ( $stu_enrol_id == 'new' && ! $stu_enrol_month['START_DATE'] )
