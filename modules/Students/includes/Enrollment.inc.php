@@ -100,8 +100,8 @@ else
 	$id = 'new';
 
 	$next_school = UserSchool();
-	$calendar = $calendars_RET[1]['CALENDAR_ID'];
-	$gradelevel_id = $gradelevels_RET[1]['ID'];
+	$calendar = issetVal( $calendars_RET[1]['CALENDAR_ID'] );
+	$gradelevel_id = issetVal( $gradelevels_RET[1]['ID'] );
 
 	$div = false;
 }
