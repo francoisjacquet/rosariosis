@@ -253,7 +253,7 @@ label {
 }
 
 legend {
-	font-weight: bold
+	text-transform: uppercase;
 }
 
 li,
