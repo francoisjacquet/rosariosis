@@ -614,6 +614,11 @@ else
 
 			foreach ( (array) $categories_RET as $category )
 			{
+				if ( empty( $address_RET[$category['ID']] ) )
+				{
+					continue;
+				}
+
 				foreach ( (array) $address_RET[$category['ID']] as $field )
 				{
 					$fields_list['Address']['ADDRESS_' . $field['ID']] = $field['TITLE'];
