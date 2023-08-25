@@ -207,6 +207,8 @@ else
 
 	if ( ! empty( $_REQUEST['address_group'] ) )
 	{
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+
 		$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM students_join_address WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 		$extra['group'] = $extra['LO_group'] = [ 'FAMILY_ID' ];
 	}
