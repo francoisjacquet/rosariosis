@@ -41,7 +41,8 @@ if ( ! empty( $_REQUEST['values'] )
 				[ 'STUDENT_ID' => UserStudentID(), 'ID' => (int) $id ]
 			);
 		}
-		elseif ( $columns['AMOUNT'] != ''
+		elseif ( isset( $columns['AMOUNT'] )
+			&& $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
 			$insert_columns = [
