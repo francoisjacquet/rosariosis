@@ -32,6 +32,7 @@ Changes in 11.2
 - CSS themes apply list margin/padding outside widefat tables + fix .size-1 in stylesheet.css
 - HTML Fix Menu description overflow hidden + allow MarkDown in DailyMenus.php
 - Add Action hook Filter each menu item in the loop in Kiosk.php & Actions.php
+- FS transaction item ID references food_service_menu_items(menu_item_id) in ServeMenus.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.1.2
 -----------------

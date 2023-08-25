@@ -42,11 +42,12 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$transaction_id = DBLastInsertID();
 
-		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE
-			FROM food_service_items
-			WHERE SCHOOL_ID='" . UserSchool() . "'", [], [ 'SHORT_NAME' ] );
-
-		$item_id = 0;
+		$items_RET = DBGet( "SELECT fsmi.MENU_ITEM_ID,fsi.DESCRIPTION,fsi.SHORT_NAME,
+			fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE
+			FROM food_service_items fsi,food_service_menu_items fsmi
+			WHERE fsi.SCHOOL_ID='" . UserSchool() . "'
+			AND fsmi.ITEM_ID=fsi.ITEM_ID
+			AND fsmi.MENU_ID='" . (int) $_REQUEST['menu_id'] . "'", [], [ 'SHORT_NAME' ] );
 
 		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn )
 		{
@@ -80,7 +81,8 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			DBInsert(
 				'food_service_transaction_items',
 				[
-					'ITEM_ID' => $item_id++,
+					// @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
+					'ITEM_ID' => (int) $items_RET[$item_sn][1]['MENU_ITEM_ID'],
 					'TRANSACTION_ID' => (int) $transaction_id,
 					'AMOUNT' => '-' . $price,
 					'DISCOUNT' => $discount,

@@ -1053,6 +1053,7 @@ CREATE TABLE food_service_staff_accounts (
 --
 
 CREATE TABLE food_service_staff_transaction_items (
+    -- @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
     item_id integer NOT NULL,
     transaction_id integer NOT NULL,
     amount numeric(9,2),
@@ -1062,6 +1063,8 @@ CREATE TABLE food_service_staff_transaction_items (
     updated_at timestamp,
     PRIMARY KEY (item_id, transaction_id)
 );
+
+COMMENT ON COLUMN food_service_staff_transaction_items.item_id IS 'References food_service_menu_items(menu_item_id)';
 
 
 --
@@ -1104,6 +1107,7 @@ CREATE TABLE food_service_student_accounts (
 --
 
 CREATE TABLE food_service_transaction_items (
+    -- @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
     item_id integer NOT NULL,
     transaction_id integer NOT NULL,
     amount numeric(9,2),
@@ -1114,6 +1118,8 @@ CREATE TABLE food_service_transaction_items (
     updated_at timestamp,
     PRIMARY KEY (item_id, transaction_id)
 );
+
+COMMENT ON COLUMN food_service_transaction_items.item_id IS 'References food_service_menu_items(menu_item_id)';
 
 
 --
