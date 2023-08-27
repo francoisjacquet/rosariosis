@@ -490,7 +490,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 		endif;
 
 		// SchoolYear SELECT.
-		if ( User( 'PROFILE' ) !== 'student' )
+		if ( User( 'STAFF_ID' ) )
 		{
 			$sql = "SELECT sy.SYEAR
 				FROM schools sy,staff s
@@ -499,7 +499,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 				AND (s.SCHOOLS IS NULL OR position(CONCAT(',', sy.ID, ',') IN s.SCHOOLS)>0)
 				AND s.USERNAME=(SELECT USERNAME
 					FROM staff
-					WHERE STAFF_ID='" . (int) $_SESSION['STAFF_ID'] . "')";
+					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "')";
 		}
 		else
 		{
