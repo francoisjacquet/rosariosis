@@ -58,6 +58,8 @@ if ( empty( $_ROSARIO['Menu'] ) )
 
 	$_ROSARIO['AllowUse'] = DBGet( $allow_use_sql, [], [ 'MODNAME' ] );
 
+	$_ROSARIO['Menu'] = [];
+
 	// Loop menu entries for each module & profile.
 	// Save menu entries in $_ROSARIO['Menu'] global var.
 	foreach ( (array) $menu as $modcat => $profiles )
