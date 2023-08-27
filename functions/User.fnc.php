@@ -36,7 +36,7 @@ function User( $item )
 	}
 
 	// Get User Info or Update it if Syear changed.
-	if ( ! isset( $_ROSARIO['User'] )
+	if ( ! isset( $_ROSARIO['User'][1]['SYEAR'] )
 		|| UserSyear() !== $_ROSARIO['User'][1]['SYEAR'] )
 	{
 		// Get User Info.
