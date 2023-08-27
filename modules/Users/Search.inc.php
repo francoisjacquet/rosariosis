@@ -169,6 +169,8 @@ else
 
 	if ( empty( $extra['NoSearchTerms'] ) )
 	{
+		$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'] );
+
 		if ( isset( $_REQUEST['_search_all_schools'] )
 			&& $_REQUEST['_search_all_schools'] === 'Y'
 			&& SchoolInfo( 'SCHOOLS_NB' ) > 1 )
