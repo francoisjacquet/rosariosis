@@ -88,7 +88,7 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 					$voted_array[$question['ID']][$checked_box]++;
 				}
 			}
-			else // Multiple_radio.
+			elseif ( isset( $votes_array[$question['ID']] ) ) // Multiple_radio.
 			{
 				$voted_array[$question['ID']][$votes_array[$question['ID']]]++;
 			}
@@ -99,7 +99,8 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 
 			$options_array = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $question['OPTIONS'] ) );
 
-			if ( is_array( $votes_array[$question['ID']] ) ) // Multiple.
+			if ( isset( $votes_array[$question['ID']] )
+				&& is_array( $votes_array[$question['ID']] ) ) // Multiple.
 			{
 				foreach ( $options_array as $option_nb => $option_label )
 				{
@@ -115,7 +116,7 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 			{
 				foreach ( $options_array as $option_nb => $option_label )
 				{
-					$voted_array[$question['ID']][$option_nb] = ( $votes_array[$question['ID']] == $option_nb ? 1 : 0 );
+					$voted_array[$question['ID']][$option_nb] = ( isset( $votes_array[$question['ID']] ) && $votes_array[$question['ID']] == $option_nb ? 1 : 0 );
 				}
 			}
 		}
@@ -334,7 +335,12 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 
 		for ( $i = 0; $i < $options_array_count; $i++ )
 		{
-			$percent = round(  ( $votes_array[$i] / $total_votes ) * 100 );
+			$percent = 0;
+
+			if ( $total_votes )
+			{
+				$percent = round( ( $votes_array[$i] / $total_votes ) * 100 );
+			}
 
 			$votes_display .= '<tr>
 				<td>' . $options_array[$i] . '</td>
