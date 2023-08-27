@@ -93,8 +93,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
 
 				$emails = array_merge(
-					(array) $_REQUEST['admin_emails'],
-					(array) $_REQUEST['teacher_emails']
+					issetVal( $_REQUEST['admin_emails'], [] ),
+					issetVal( $_REQUEST['teacher_emails'], [] )
 				);
 
 				if ( EmailReferral( $referral_id, $emails ) )
