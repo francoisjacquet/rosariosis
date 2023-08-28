@@ -35,7 +35,7 @@ function PopTable( $action, $tabs_or_title = 'Search', $table_att = '' )
 		// Multiple Tabs.
 		if ( is_array( $tabs_or_title ) )
 		{
-			echo WrapTabs( $tabs_or_title, $_ROSARIO['selected_tab'] );
+			echo WrapTabs( $tabs_or_title, issetVal( $_ROSARIO['selected_tab'] ) );
 		}
 		// One Tab.
 		else
