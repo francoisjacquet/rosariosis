@@ -35,6 +35,7 @@ Changes in 11.2
 - FS transaction item ID references food_service_menu_items(menu_item_id) in ServeMenus.php, rosariosis.sql & rosariosis_mysql.sql
 - CSS WPadmin theme style fieldset legend like FlatSIS theme in stylesheet.css
 - Fix Select Multiple from Options answer count when none selected in PortalPollsNotes.fnc.php
+- Fix regression since 11.0 Reporter not saved when logged in as a Teacher in MakeReferral.php
 
 Changes in 11.1.2
 -----------------
