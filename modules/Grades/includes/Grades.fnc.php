@@ -72,6 +72,11 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
  */
 function GetClassRankRow( $student_id, $mp_array )
 {
+	if ( ! $mp_array )
+	{
+		return [];
+	}
+
 	$mp_list = "'" . implode( "','", $mp_array ) . "'";
 
 	$class_rank_RET = DBGet( "SELECT MARKING_PERIOD_ID,
