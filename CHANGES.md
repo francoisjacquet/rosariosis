@@ -81,6 +81,7 @@ Changes in 11.1
 - CSS Fix PDF Frame background when multiple pages in HonorRoll.fnc.php
 - Fix SQL error invalid input syntax for type integer: "" in Registration.fnc.php & RegistrationSave.fnc.php
 - Add Student Account fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
+- Add Food Service tab fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
 
 Changes in 11.0.2
 -----------------

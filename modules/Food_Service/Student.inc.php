@@ -56,7 +56,7 @@ if ( ! $_REQUEST['modfunc']
 	echo '</td></tr></table>';
 	echo '<hr>';
 
-	echo '<table class="width-100 valign-top fixed-col"><tr><td>';
+	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
 	echo TextInput(
 		$student['ACCOUNT_ID'],
@@ -95,14 +95,39 @@ if ( ! $_REQUEST['modfunc']
 	}
 
 	echo '</td>';
+
 	$options = [ 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) ];
-	echo '<td>' . SelectInput( $student['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) . '</td>';
-	echo '</tr><tr>';
+
+	echo '<td>' . SelectInput(
+		$student['STATUS'],
+		'food_service[STATUS]',
+		_( 'Status' ),
+		$options,
+		_( 'Active' )
+	) . '</td></tr>';
 
 	$options = [ 'Reduced' => _( 'Reduced' ), 'Free' => _( 'Free' ) ];
 
-	echo '<td>' . SelectInput( $student['DISCOUNT'], 'food_service[DISCOUNT]', _( 'Discount' ), $options, _( 'Full' ) ) . '</td>';
-	echo '<td>' . TextInput( $student['BARCODE'], 'food_service[BARCODE]', _( 'Barcode' ), 'size=12 maxlength=25' ) . '</td>';
-	echo '</tr>';
-	echo '</table>';
+	echo '<tr><td>' . SelectInput(
+		$student['DISCOUNT'],
+		'food_service[DISCOUNT]',
+		_( 'Discount' ),
+		$options,
+		_( 'Full' )
+	) . '</td>';
+
+	echo '<td>' . TextInput(
+		$student['BARCODE'],
+		'food_service[BARCODE]',
+		_( 'Barcode' ),
+		'size=12 maxlength=25'
+	) . '</td></tr></table>';
+
+	/**
+	 * Food Service tab fields table after action hook
+	 * Add your own fields
+	 *
+	 * @since 11.2
+	 */
+	do_action( 'Food_Service/Student.inc.php|table_after', [ $student ] );
 }
