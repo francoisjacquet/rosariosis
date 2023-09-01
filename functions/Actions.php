@@ -426,6 +426,14 @@ $RosarioActions = [];
 	 *
 	 */
 	/*'Food_Service/Kiosk.php|menu_item_loop' => array(),
+
+	/**
+	 * Student Account fields table after
+	 * Add your own fields
+	 *
+	 * @since 11.2
+	 */
+	/*'Food_Service/Students/Accounts.php|table_after' => array(),
 );*/
 
 /**

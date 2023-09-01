@@ -282,6 +282,14 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		'size=12 maxlength=25'
 	) . '</td></tr></table>';
 
+	/**
+	 * Student Account fields table after action hook
+	 * Add your own fields
+	 *
+	 * @since 11.2
+	 */
+	do_action( 'Food_Service/Students/Accounts.php|table_after', [ $student ] );
+
 	PopTable( 'footer' );
 
 	echo '<br /><div class="center">' . SubmitButton( $student['ACCOUNT_ID'] ? '' : _( 'Create Account' ) ) . '</div></form>';
