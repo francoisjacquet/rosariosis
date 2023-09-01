@@ -421,7 +421,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		$mps = GetAllMP( $mp_RET[1]['MP'], $mp_RET[1]['MARKING_PERIOD_ID'] );
 
-		if ( $mp_RET[1]['TOTAL_SEATS'] )
+		if ( ! empty( $mp_RET[1]['TOTAL_SEATS'] ) )
 		{
 			$seats = calcSeats0( $mp_RET[1], $date );
 
@@ -452,7 +452,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		FROM schedule s,course_period_school_periods cpsp
 		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 		AND s.STUDENT_ID='" . UserStudentID() . "'
-		AND cpsp.PERIOD_ID='" . (int) $mp_RET[1]['PERIOD_ID'] . "'
+		AND cpsp.PERIOD_ID='" . (int) issetVal( $mp_RET[1]['PERIOD_ID'] ) . "'
 		AND s.MARKING_PERIOD_ID IN (" . $mps . ")
 		AND (s.END_DATE IS NULL OR '" . DBDate() . "'<=s.END_DATE)" );
 
