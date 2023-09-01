@@ -725,6 +725,8 @@ if (  ( UserStaffID()
 			WHERE " . ( $profile ? DBEscapeIdentifier( $profile ) . "='Y'" : "ID='1'" ) . "
 			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
+		$tabs = [];
+
 		foreach ( (array) $categories_RET as $category )
 		{
 			if ( ! empty( $can_use_RET['Users/User.php&category_id=' . $category['ID']] ) )

@@ -769,6 +769,8 @@ if (  ( UserStudentID()
 		// Hook.
 		do_action( 'Students/Student.php|header' );
 
+		$tabs = [];
+
 		foreach ( (array) $categories_RET as $category )
 		{
 			if ( isset( $can_use_RET['Students/Student.php&category_id=' . $category['ID']] ) )
