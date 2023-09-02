@@ -37,6 +37,8 @@ Changes in 11.2
 - Fix Select Multiple from Options answer count when none selected in PortalPollsNotes.fnc.php
 - Fix regression since 11.0 Reporter not saved when logged in as a Teacher in MakeReferral.php
 - Fix SQL error when no MP array is empty in Grades.fnc.php
+- Add Student Account fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
+- Add Food Service tab fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
 
 Changes in 11.1.2
 -----------------
@@ -80,8 +82,6 @@ Changes in 11.1
 - Fix SQL error Unknown column 'a.ADDRESS' in 'where clause' in Percent.php
 - CSS Fix PDF Frame background when multiple pages in HonorRoll.fnc.php
 - Fix SQL error invalid input syntax for type integer: "" in Registration.fnc.php & RegistrationSave.fnc.php
-- Add Student Account fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
-- Add Food Service tab fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
 
 Changes in 11.0.2
 -----------------
