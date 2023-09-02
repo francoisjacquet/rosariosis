@@ -38,7 +38,7 @@ Changes in 11.2
 - Fix regression since 11.0 Reporter not saved when logged in as a Teacher in MakeReferral.php
 - Fix SQL error when no MP array is empty in Grades.fnc.php
 - Add Student Account fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
-- Add Food Service tab fields table after action hook in Actions.php & Food_Service/Students/Accounts.php
+- Add Food Service tab fields table after action hook in Actions.php & Food_Service/Student.inc.php
 
 Changes in 11.1.2
 -----------------
