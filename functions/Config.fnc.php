@@ -169,6 +169,9 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * If you want only one option, prefer `Preferences()`
  * Insert or update values if passed as argument.
  *
+ * Tip: you can use negative $staff_id for Students
+ * @example ProgramUserConfig( 'food_service_premium', ( UserStudentID() * -1 ) );
+ *
  * @example $gradebook_config = ProgramUserConfig( 'Gradebook' );
  *
  * @see Preferences()
