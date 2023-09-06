@@ -95,7 +95,7 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		);
 	}
 }
-else
+elseif ( ! empty( $student ) )
 {
 	echo NoInput(
 		trim( $student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'] . ' ' .
@@ -117,7 +117,8 @@ else
 
 echo '</td><td>';
 
-if ( array_key_exists( 'LAST_LOGIN', (array) $student ) )
+if ( ! empty( $student )
+	&& array_key_exists( 'LAST_LOGIN', (array) $student ) )
 {
 	// Hide Last Login on Create Account and Add screens.
 	echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );

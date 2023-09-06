@@ -127,7 +127,7 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		);
 	}
 }
-else
+elseif ( ! empty( $staff ) )
 {
 	echo NoInput(
 		trim( $staff_title . ' ' . $staff['FIRST_NAME'] . ' ' .
