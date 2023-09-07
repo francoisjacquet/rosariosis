@@ -4,6 +4,7 @@
 Changes in 11.2.1
 -----------------
 - ProgramUserConfig(): SQL can use negative $staff_id for Students in Config.fnc.php
+- Excel & CSV: replace line breaks (br) with "\n" instead of space in ListOutput.fnc.php
 
 Changes in 11.2
 ---------------

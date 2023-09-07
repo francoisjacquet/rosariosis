@@ -918,6 +918,7 @@ function _listSearch( $result, $LO_search )
  * @since 2.9
  * @since 5.8 Export list to Excel using MicrosoftXML (more reliable).
  * @since 10.9.5 Security: prevent CSV Injection via formulas
+ * @since 11.2.1 Excel & CSV: replace line breaks (br) with "\n" instead of space
  *
  * @param  array  $result       ListOutput $result
  * @param  array  $column_names ListOutput $column_names
@@ -1020,7 +1021,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 				$value = $format_value( $value );
 
-				$replace_br = $extension === 'xml' ? '[br]' : ' ';
+				$replace_br = $extension === 'xml' ? '[br]' : "\n";
 
 				$value = str_replace( '[br]', $replace_br, $value );
 			}
