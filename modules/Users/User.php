@@ -154,7 +154,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		// New User.
-		elseif ( $_REQUEST['staff']['PROFILE'] === 'admin' )
+		elseif ( issetVal( $_REQUEST['staff']['PROFILE'] ) === 'admin' )
 		{
 			// Remove Administrator from profile options.
 			$_REQUEST['staff']['PROFILE'] = 'teacher';
