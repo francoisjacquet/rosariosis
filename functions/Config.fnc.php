@@ -169,10 +169,8 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * If you want only one option, prefer `Preferences()`
  * Insert or update values if passed as argument.
  *
- * Tip: you can use negative $staff_id for Students
- * @example ProgramUserConfig( 'food_service_premium', ( UserStudentID() * -1 ) );
- *
  * @example $gradebook_config = ProgramUserConfig( 'Gradebook' );
+ * @example ProgramUserConfig( 'food_service_premium', ( UserStudentID() * -1 ) );
  *
  * @see Preferences()
  * @see program_user_config table
@@ -183,6 +181,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * @since 6.0 Handle single quotes in $value with DBEscapeString().
  * @since 8.0 Fix SQL error when $staff_id is 0 (no user in session).
  * @since 8.7 Always return array, not null.
+ * @since 11.2.1 SQL can use negative $staff_id for Students
  *
  * @param string  $program  Gradebook|WidgetsSearch|StaffWidgetsSearch|
  * @param integer $staff_id Staff ID (optional). Defaults to User( 'STAFF_ID' ).
@@ -203,9 +202,16 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 
 	if ( ! isset( $program_config[ $program ][ $staff_id ] ) )
 	{
+		$where_user_sql = "USER_ID='" . (int) $staff_id . "'";
+
+		if ( $staff_id > 0 )
+		{
+			$where_user_sql = "(" . $where_user_sql . " OR USER_ID='-1')";
+		}
+
 		$config_RET = DBGet( "SELECT TITLE,VALUE
 			FROM program_user_config
-			WHERE (USER_ID='" . (int) $staff_id . "' OR USER_ID='-1')
+			WHERE " . $where_user_sql . "
 			AND PROGRAM='" . $program . "'
 			ORDER BY USER_ID", [], [ 'TITLE' ] );
 

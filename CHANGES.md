@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.2.1
+-----------------
+- ProgramUserConfig(): SQL can use negative $staff_id for Students in Config.fnc.php
+
 Changes in 11.2
 ---------------
 - Add $add_post argument, POST parameters to add to the URL (optional) in Prepare_PHP_SELF.fnc.php
