@@ -169,7 +169,14 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! $_REQUEST['print_statements'] )
 	{
-		echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
+		echo '<form action="' . PreparePHP_SELF( [], [
+			'month_start',
+			'day_start',
+			'year_start',
+			'month_end',
+			'day_end',
+			'year_end',
+		] ) . '" method="GET">';
 
 		DrawHeader( _( 'Timeframe' ) . ': ' .
 			PrepareDate( $start_date, '_start', true ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .

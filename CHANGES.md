@@ -6,6 +6,7 @@ Changes in 11.2.1
 - ProgramUserConfig(): SQL can use negative $staff_id for Students in Config.fnc.php
 - Excel & CSV: replace line breaks (br) with "\n" instead of space in ListOutput.fnc.php
 - Only show header if more than 1 school in Users/includes/Schedule.inc.php
+- Remove start & end date params from GET form URL in Expenses.php, Incomes.php & StudentSummary.php
 
 Changes in 11.2
 ---------------

@@ -64,7 +64,14 @@ if ( $_REQUEST['search_modfunc']
 			<label for="period_id" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
 	}
 
-	echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( [], [
+		'month_start',
+		'day_start',
+		'year_start',
+		'month_end',
+		'day_end',
+		'year_end',
+	] ) . '" method="GET">';
 
 	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
 		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) .
