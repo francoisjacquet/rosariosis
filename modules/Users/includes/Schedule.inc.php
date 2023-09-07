@@ -5,9 +5,18 @@ require_once 'modules/Users/includes/Other_Info.inc.php';
 
 $_REQUEST['all_schools'] = issetVal( $_REQUEST['all_schools'] );
 
-if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
+$current_user_profile = DBGetOne( "SELECT PROFILE
+	FROM staff
+	WHERE STAFF_ID='" . UserStaffID() . "'
+	AND SYEAR='" . UserSyear() . "'" );
+
+if ( $current_user_profile === 'teacher' )
 {
-	DrawHeader( CheckBoxOnclick( 'all_schools', _( 'List Courses For All Schools' ) ) );
+	if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+	{
+		// Only show header if more than 1 school
+		DrawHeader( CheckBoxOnclick( 'all_schools', _( 'List Courses For All Schools' ) ) );
+	}
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
