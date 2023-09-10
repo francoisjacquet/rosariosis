@@ -66,7 +66,7 @@ function DeleteTransactionItem( $transaction_id, $item_id, $type = 'student' )
 		SET BALANCE=BALANCE-(SELECT AMOUNT
 			FROM food_service_transaction_items
 			WHERE TRANSACTION_ID='" . (int) $transaction_id . "'
-			ND ITEM_ID='" . (int) $item_id . "')
+			AND ITEM_ID='" . (int) $item_id . "')
 		WHERE ACCOUNT_ID='" . (int) $account_id . "'";
 
 		$sql3 = "DELETE FROM food_service_transaction_items
