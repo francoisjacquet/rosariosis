@@ -117,7 +117,7 @@ if ( ! empty( $_REQUEST['fields'] )
 		//FJ PrintClassLists with all contacts
 		/*if ( $_REQUEST['relation']!='')
 		{*/
-			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
+			$_ROSARIO['makeParents'] = issetVal( $_REQUEST['relation'] );
 			/*$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM students_join_people sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
 		}*/
 	}
