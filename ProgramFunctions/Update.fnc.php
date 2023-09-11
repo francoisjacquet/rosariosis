@@ -256,6 +256,10 @@ function Update()
 		case version_compare( $from_version, '11.2', '<' ) :
 
 			$return = _update112();
+
+		case version_compare( $from_version, '11.2.1', '<' ) :
+
+			$return = _update1121();
 	}
 
 	// Update version in DB config table.
@@ -1452,3 +1456,60 @@ function _update112()
 
 	return $return;
 }
+
+
+/**
+ * Update to version 11.2.1
+ *
+ * 1. Add MENU_ITEM_ID column to food_service_transaction_items & food_service_staff_transaction_items tables
+ * Fix regression since 11.2 PostgreSQL error duplicate key value violates unique constraint
+ * Fix regression since 11.2 MySQL error duplicate entry '2-3' for key 'PRIMARY'
+ *
+ * Local function
+ *
+ * @since 11.2.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update1121()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add MENU_ITEM_ID column to food_service_transaction_items & food_service_staff_transaction_items tables
+	 */
+	$menu_item_id_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='food_service_transaction_items'
+		AND column_name='menu_item_id';" );
+
+	if ( ! $menu_item_id_column_exists )
+	{
+		DBQuery( "ALTER TABLE food_service_transaction_items
+		ADD menu_item_id integer;" );
+	}
+
+	$menu_item_id_column_exists = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='food_service_staff_transaction_items'
+		AND column_name='menu_item_id';" );
+
+	if ( ! $menu_item_id_column_exists )
+	{
+		DBQuery( "ALTER TABLE food_service_staff_transaction_items
+		ADD menu_item_id integer;" );
+	}
+
+	return $return;
+}
+
+// @deprecated since 11.4 Assignments Files upload path $AssignmentsFilesPath global var
+// @deprecated since 11.4 Portal Notes Files upload path $PortalNotesFilesPath global var
+// @deprecated since 11.4 Food Service Icons upload path $FS_IconsPath global var
+// TODO 11.4, try to remove assets/FS_icons/, AssignmentsFiles/ & PortalNotesFiles/ only if default files in it.
