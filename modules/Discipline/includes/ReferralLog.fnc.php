@@ -221,7 +221,7 @@ function ReferralLogsGetReferralHTML( $referral )
 		elseif ( $field_type === 'multiple_checkbox' )
 		{
 			// Multiple checkbox fields
-			$value = str_replace( '||', ', ', mb_substr( $value, 2, -2 ) );
+			$value = str_replace( '||', ', ', mb_substr( (string) $value, 2, -2 ) );
 		}
 		elseif ( $field_type === 'numeric' )
 		{
