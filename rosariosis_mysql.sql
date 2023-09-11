@@ -1018,24 +1018,6 @@ CREATE TABLE food_service_staff_accounts (
 
 
 --
--- Name: food_service_staff_transaction_items; Type: TABLE;
---
-
-CREATE TABLE food_service_staff_transaction_items (
-    item_id integer NOT NULL,
-    transaction_id integer NOT NULL,
-    FOREIGN KEY (transaction_id) REFERENCES food_service_staff_transactions(transaction_id),
-    menu_item_id integer COMMENT 'References food_service_menu_items(menu_item_id)',
-    amount numeric(9,2),
-    short_name varchar(25),
-    description varchar(50),
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp NULL ON UPDATE current_timestamp,
-    PRIMARY KEY (item_id, transaction_id)
-);
-
-
---
 -- Name: food_service_staff_transactions; Type: TABLE;
 --
 
@@ -1057,6 +1039,24 @@ CREATE TABLE food_service_staff_transactions (
 
 
 --
+-- Name: food_service_staff_transaction_items; Type: TABLE;
+--
+
+CREATE TABLE food_service_staff_transaction_items (
+    item_id integer NOT NULL,
+    transaction_id integer NOT NULL,
+    FOREIGN KEY (transaction_id) REFERENCES food_service_staff_transactions(transaction_id),
+    menu_item_id integer COMMENT 'References food_service_menu_items(menu_item_id)',
+    amount numeric(9,2),
+    short_name varchar(25),
+    description varchar(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp NULL ON UPDATE current_timestamp,
+    PRIMARY KEY (item_id, transaction_id)
+);
+
+
+--
 -- Name: food_service_student_accounts; Type: TABLE;
 --
 
@@ -1069,25 +1069,6 @@ CREATE TABLE food_service_student_accounts (
     barcode varchar(50) UNIQUE,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
-);
-
-
---
--- Name: food_service_transaction_items; Type: TABLE;
---
-
-CREATE TABLE food_service_transaction_items (
-    item_id integer NOT NULL,
-    transaction_id integer NOT NULL,
-    FOREIGN KEY (transaction_id) REFERENCES food_service_transactions(transaction_id),
-    menu_item_id integer COMMENT 'References food_service_menu_items(menu_item_id)',
-    amount numeric(9,2),
-    discount varchar(25),
-    short_name varchar(25),
-    description varchar(50),
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp NULL ON UPDATE current_timestamp,
-    PRIMARY KEY (item_id, transaction_id)
 );
 
 
@@ -1111,6 +1092,25 @@ CREATE TABLE food_service_transactions (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+);
+
+
+--
+-- Name: food_service_transaction_items; Type: TABLE;
+--
+
+CREATE TABLE food_service_transaction_items (
+    item_id integer NOT NULL,
+    transaction_id integer NOT NULL,
+    FOREIGN KEY (transaction_id) REFERENCES food_service_transactions(transaction_id),
+    menu_item_id integer COMMENT 'References food_service_menu_items(menu_item_id)',
+    amount numeric(9,2),
+    discount varchar(25),
+    short_name varchar(25),
+    description varchar(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp NULL ON UPDATE current_timestamp,
+    PRIMARY KEY (item_id, transaction_id)
 );
 
 
