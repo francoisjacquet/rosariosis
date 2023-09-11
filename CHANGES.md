@@ -10,6 +10,8 @@ Changes in 11.2.1
 - Fix SQL syntax error at or near "ND" in DeleteTransactionItem.fnc.php
 - SQL add FOREIGN KEY to transaction_id column in rosariosis.sql & rosariosis_mysql.sql
 - SQL Add MENU_ITEM_ID column to food_service_transaction_items & food_service_staff_transaction_items tables in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
+- Fix regression since 11.2 SQL error duplicate key value violates unique constraint in ServeMenus.php
+- FS transaction menu item ID references food_service_menu_items(menu_item_id) in ServeMenus.php
 
 Changes in 11.2
 ---------------

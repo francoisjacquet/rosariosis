@@ -49,6 +49,8 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			AND fsmi.ITEM_ID=fsi.ITEM_ID
 			AND fsmi.MENU_ID='" . (int) $_REQUEST['menu_id'] . "'", [], [ 'SHORT_NAME' ] );
 
+		$item_id = 0;
+
 		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn )
 		{
 			// determine price based on discount
@@ -81,8 +83,9 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			DBInsert(
 				'food_service_transaction_items',
 				[
-					// @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
-					'ITEM_ID' => (int) $items_RET[$item_sn][1]['MENU_ITEM_ID'],
+					'ITEM_ID' => $item_id++,
+					// @since 11.2.1 FS transaction menu item ID references food_service_menu_items(menu_item_id)
+					'MENU_ITEM_ID' => (int) $items_RET[$item_sn][1]['MENU_ITEM_ID'],
 					'TRANSACTION_ID' => (int) $transaction_id,
 					'AMOUNT' => '-' . $price,
 					'DISCOUNT' => $discount,
