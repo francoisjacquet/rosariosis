@@ -1055,7 +1055,7 @@ CREATE TABLE food_service_staff_accounts (
 CREATE TABLE food_service_staff_transaction_items (
     -- @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
     item_id integer NOT NULL,
-    transaction_id integer NOT NULL,
+    transaction_id integer NOT NULL REFERENCES food_service_transactions(transaction_id),
     amount numeric(9,2),
     short_name varchar(25),
     description varchar(50),
@@ -1109,7 +1109,7 @@ CREATE TABLE food_service_student_accounts (
 CREATE TABLE food_service_transaction_items (
     -- @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
     item_id integer NOT NULL,
-    transaction_id integer NOT NULL,
+    transaction_id integer NOT NULL REFERENCES food_service_transactions(transaction_id),
     amount numeric(9,2),
     discount varchar(25),
     short_name varchar(25),

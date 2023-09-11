@@ -1025,6 +1025,7 @@ CREATE TABLE food_service_staff_transaction_items (
     -- @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
     item_id integer NOT NULL COMMENT 'References food_service_menu_items(menu_item_id)',
     transaction_id integer NOT NULL,
+    FOREIGN KEY (transaction_id) REFERENCES food_service_staff_transactions(transaction_id),
     amount numeric(9,2),
     short_name varchar(25),
     description varchar(50),
@@ -1079,6 +1080,7 @@ CREATE TABLE food_service_transaction_items (
     -- @since 11.2 FS transaction item ID references food_service_menu_items(menu_item_id)
     item_id integer NOT NULL COMMENT 'References food_service_menu_items(menu_item_id)',
     transaction_id integer NOT NULL,
+    FOREIGN KEY (transaction_id) REFERENCES food_service_transactions(transaction_id),
     amount numeric(9,2),
     discount varchar(25),
     short_name varchar(25),
@@ -3312,20 +3314,6 @@ CREATE UNIQUE INDEX food_service_items_short_name ON food_service_items (school_
 --
 
 CREATE UNIQUE INDEX food_service_menus_title ON food_service_menus (school_id, title);
-
-
---
--- Name: food_service_staff_transaction_items_ind1; Type: INDEX;
---
-
-CREATE INDEX food_service_staff_transaction_items_ind1 ON food_service_staff_transaction_items (transaction_id);
-
-
---
--- Name: food_service_transaction_items_ind1; Type: INDEX;
---
-
-CREATE INDEX food_service_transaction_items_ind1 ON food_service_transaction_items (transaction_id);
 
 
 --

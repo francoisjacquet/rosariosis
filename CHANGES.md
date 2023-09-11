@@ -8,6 +8,7 @@ Changes in 11.2.1
 - Only show header if more than 1 school in Users/includes/Schedule.inc.php
 - Remove start & end date params from GET form URL in Expenses.php, Incomes.php & StudentSummary.php
 - Fix SQL syntax error at or near "ND" in DeleteTransactionItem.fnc.php
+- SQL add FOREIGN KEY to transaction_id column in rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.2
 ---------------
