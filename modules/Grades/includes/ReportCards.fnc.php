@@ -940,7 +940,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				echo '<BR />';
 
-				ListOutput( $grades_RET, $LO_columns, '.', '.', [], [], [ 'print' => false ] );
+				ListOutput( $grades_RET, $LO_columns, '.', '.', [], [], [ 'count' => false ] );
 
 				// Comments.
 

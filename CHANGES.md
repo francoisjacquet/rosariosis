@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.2.2
+-----------------
+- Hide list count in ReportCards.fnc.php, Transcripts.fnc.php & Preferences.php
+
 Changes in 11.2.1
 -----------------
 - ProgramUserConfig(): SQL can use negative $staff_id for Students in Config.fnc.php

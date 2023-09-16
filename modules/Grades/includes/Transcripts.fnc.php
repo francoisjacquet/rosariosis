@@ -455,7 +455,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				//var_dump($grades_RET);exit;
 
-				ListOutput( $grades_RET, $columns, '.', '.', false );
+				ListOutput( $grades_RET, $columns, '.', '.', [], [], [ 'count' => false ] );
 
 				$last_grade = $show['grades'] ? $grade : [];
 

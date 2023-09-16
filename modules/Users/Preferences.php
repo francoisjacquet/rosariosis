@@ -217,6 +217,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'responsive' => false,
 		'search' => false,
 		'save' => false,
+		'count' => false,
 	];
 
 	if ( ! in_array( $_REQUEST['tab'], [ 'student_fields', 'staff_fields' ] ) )
