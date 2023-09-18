@@ -5,6 +5,7 @@ Changes in 11.2.2
 -----------------
 - Hide list count in ReportCards.fnc.php, Transcripts.fnc.php & Preferences.php
 - Security: SQL prevent INSERT or UPDATE on any table in MassCreateAssignments.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
+- Adapt missing config table SQL error for MySQL in diagnostic.php
 
 Changes in 11.2.1
 -----------------

@@ -95,7 +95,8 @@ else
 				{
 					$error[] = 'The database was created with the wrong permissions. The user specified in the config.inc.php file does not have permission to access the database.';
 				}
-				elseif ( mb_strpos( $errstring, 'elation "config" does not exist' ) !== false )
+				elseif ( mb_strpos( $errstring, 'elation "config" does not exist' ) !== false
+					|| ( mb_strpos( $errstring, '1146' ) !== false && mb_strpos( $errstring, 'config' ) !== false ) ) // MySQL
 				{
 					$error[] = 'At least one of the database tables does not exist. To install the database, access the <a href="InstallDatabase.php">InstallDatabase.php</a> page.';
 				}
