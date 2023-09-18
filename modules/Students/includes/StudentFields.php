@@ -12,6 +12,14 @@ if ( isset( $_POST['tables'] )
 {
 	$table = issetVal( $_REQUEST['table'] );
 
+	if ( ! in_array( $table, [ 'student_field_categories', 'custom_fields' ] ) )
+	{
+		// Security: SQL prevent INSERT or UPDATE on any table
+		$table = '';
+
+		$_REQUEST['tables'] = [];
+	}
+
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
 		// FJ fix SQL bug invalid sort order.

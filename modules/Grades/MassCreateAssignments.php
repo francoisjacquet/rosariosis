@@ -13,10 +13,19 @@ AddRequestedDates( 'tables', 'post' );
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
 // TODO: add Warning before create!!
-if ( isset( $_POST['tables'] )
+if ( AllowEdit()
+	&& isset( $_POST['tables'] )
 	&& ! empty( $_POST['tables'] ) )
 {
 	$table = issetVal( $_REQUEST['table'] );
+
+	if ( ! in_array( $table, [ 'gradebook_assignment_types', 'gradebook_assignments' ] ) )
+	{
+		// Security: SQL prevent INSERT or UPDATE on any table
+		$table = '';
+
+		$_REQUEST['tables'] = [];
+	}
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
