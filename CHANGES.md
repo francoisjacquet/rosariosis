@@ -6,6 +6,7 @@ Changes in 11.2.2
 - Hide list count in ReportCards.fnc.php, Transcripts.fnc.php & Preferences.php
 - Security: SQL prevent INSERT or UPDATE on any table in MassCreateAssignments.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - Adapt missing config table SQL error for MySQL in diagnostic.php
+- Fix PHP warnings when course_period_id GET param does not exist in Courses.php
 
 Changes in 11.2.1
 -----------------

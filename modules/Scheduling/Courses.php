@@ -827,19 +827,29 @@ if (  ( ! $_REQUEST['modfunc']
 
 		$header = '';
 
+		if ( $_REQUEST['course_period_id']
+			&& $_REQUEST['course_period_id'] !== 'new' )
+		{
+			$RET = DBGet( "SELECT PARENT_ID,TITLE,SHORT_NAME,MP,MARKING_PERIOD_ID,TEACHER_ID,
+				SECONDARY_TEACHER_ID,CALENDAR_ID,ROOM,TOTAL_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,
+				DOES_HONOR_ROLL,DOES_CLASS_RANK,GENDER_RESTRICTION,
+				HOUSE_RESTRICTION,CREDITS,DOES_BREAKOFF
+				FROM course_periods
+				WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
+
+			if ( ! $RET )
+			{
+				// Unset subject, course & course period IDs & redirect URL.
+				RedirectURL( [ 'subject_id', 'course_id', 'course_period_id', 'course_marking_period_id' ] );
+			}
+		}
+
 		// ADDING & EDITING FORM
 
 		if ( $_REQUEST['course_period_id'] )
 		{
 			if ( $_REQUEST['course_period_id'] !== 'new' )
 			{
-				$RET = DBGet( "SELECT PARENT_ID,TITLE,SHORT_NAME,MP,MARKING_PERIOD_ID,TEACHER_ID,
-					SECONDARY_TEACHER_ID,CALENDAR_ID,ROOM,TOTAL_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,
-					DOES_HONOR_ROLL,DOES_CLASS_RANK,GENDER_RESTRICTION,
-					HOUSE_RESTRICTION,CREDITS,DOES_BREAKOFF
-					FROM course_periods
-					WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
-
 				$RET = $RET[1];
 
 				$title = $RET['TITLE'];
