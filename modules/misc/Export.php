@@ -165,7 +165,8 @@ if ( empty( $extra['functions'] ) )
 }
 
 // Generate Report.
-if ( $_REQUEST['search_modfunc'] === 'list' )
+if ( isset( $_REQUEST['search_modfunc'] )
+	&& $_REQUEST['search_modfunc'] === 'list' )
 {
 	if ( empty( $_REQUEST['fields'] ) )
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
