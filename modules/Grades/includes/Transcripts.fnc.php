@@ -736,18 +736,18 @@ function _getTranscriptsStudents( $st_list, $syear )
 		FROM custom_fields
 		WHERE ID IN (200000000,200000003,200000004)", [], [ 'ID' ] );
 
-	if ( $custom_fields_RET['200000000']
+	if ( ! empty( $custom_fields_RET['200000000'] )
 		&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
 	{
 		$students_dataquery .= ",s.custom_200000000 as gender";
 	}
 
-	if ( $custom_fields_RET['200000003'] )
+	if ( ! empty( $custom_fields_RET['200000003'] ) )
 	{
 		$students_dataquery .= ",s.custom_200000003 as ssecurity";
 	}
 
-	if ( $custom_fields_RET['200000004']
+	if ( ! empty( $custom_fields_RET['200000004'] )
 		&& $custom_fields_RET['200000004'][1]['TYPE'] == 'date' )
 	{
 		$students_dataquery .= ",s.custom_200000004 as birthdate";
