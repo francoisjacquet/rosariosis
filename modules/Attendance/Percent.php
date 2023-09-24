@@ -206,7 +206,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html'] = [
 			'GRADE_ID' => '<b>' . _( 'Total' ) . '</b>',
 			'STUDENTS' => round( issetVal( $sum['STUDENTS'], 0 ), 1 ),
-			'DAYS_POSSIBLE' => $cal_days[key( $cal_days )][1]['COUNT'],
+			'DAYS_POSSIBLE' => issetVal( $cal_days[key( $cal_days )][1]['COUNT'], 0 ),
 			'PRESENT' => issetVal( $sum['PRESENT'] ),
 			'ADA' => _Percent(  (  ( $sum['PRESENT'] + issetVal( $sum['ABSENT'] ) ) > 0 ? ( $sum['PRESENT'] ) / ( $sum['PRESENT'] + $sum['ABSENT'] ) : 0 ) ),
 			'ABSENT' => $sum['ABSENT'],
