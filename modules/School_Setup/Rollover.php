@@ -82,7 +82,7 @@ foreach ( (array) $tables as $table => $name )
 	$checked = ( $exists_RET[$table][1]['COUNT'] > 0 ) ? '' : ' checked';
 
 	// Fix SQL error foreign keys: force roll Schools
-	$readonly = ( $table === 'schools' && ! $exists_RET[$table][1]['COUNT'] ) ? ' readonly' : '';
+	$readonly = ( $table === 'schools' && ! $exists_RET[$table][1]['COUNT'] ) ? ' onclick="return false;"' : '';
 
 	$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']"' .
 		$checked . $readonly . '>&nbsp;' . $input_title . '</label>';
