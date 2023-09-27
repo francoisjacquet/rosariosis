@@ -7,6 +7,7 @@ Changes in 11.2.2
 - Security: SQL prevent INSERT or UPDATE on any table in MassCreateAssignments.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - Adapt missing config table SQL error for MySQL in diagnostic.php
 - Fix PHP warnings when course_period_id GET param does not exist in Courses.php
+- Fix SQL error foreign keys: Roll Schools before rolling Marking Periods in Rollover.php
 
 Changes in 11.2.1
 -----------------
