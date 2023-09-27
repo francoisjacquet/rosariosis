@@ -978,7 +978,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'house', '', '', 'bigger' ) .
 				'</td><td>' .
 				CheckboxInput(
-					$this_address['RESIDENCE'],
+					issetVal( $this_address['RESIDENCE'] ),
 					'values[students_join_address][RESIDENCE]',
 					_( 'Residence' ),
 					'CHECKED',
@@ -991,7 +991,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'bus', '', '', 'bigger' ) .
 				'</td><td>' .
 				CheckboxInput(
-					$this_address['BUS_PICKUP'],
+					issetVal( $this_address['BUS_PICKUP'] ),
 					'values[students_join_address][BUS_PICKUP]',
 					_( 'Bus Pickup' ),
 					'CHECKED',
@@ -1004,7 +1004,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'bus', '', '', 'bigger' ) .
 				'</td><td>' .
 				CheckboxInput(
-					$this_address['BUS_DROPOFF'],
+					issetVal( $this_address['BUS_DROPOFF'] ),
 					'values[students_join_address][BUS_DROPOFF]',
 					_( 'Bus Dropoff' ),
 					'CHECKED',
@@ -1080,7 +1080,7 @@ if ( ! $_REQUEST['modfunc'] )
 					button( 'mailbox', '', '', 'bigger' ) .
 					'</td><td>' .
 					CheckboxInput(
-						$this_address['MAILING'],
+						issetVal( $this_address['MAILING'] ),
 						'values[students_join_address][MAILING]',
 						_( 'Mailing Address' ),
 						'CHECKED',
