@@ -130,6 +130,8 @@ if ( UserStudentID()
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
+	$activities = [];
+
 	foreach ( (array) $activities_RET as $value )
 	{
 		$activities[$value['ID']] = $value['TITLE'];
