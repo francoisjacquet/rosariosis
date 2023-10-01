@@ -158,20 +158,23 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			PopTable( 'header', _( 'Search' ) );
 
-			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
-				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] . $extra['action']  ) . '" method="POST">';
-			echo '<table>';
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&modfunc=' . $_REQUEST['modfunc'] .
+				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
+				( ! empty( $extra['action'] ) ? $extra['action'] : '' )  ) . '" method="POST">';
 
-			if ( $extra['search'] )
+			echo '<table class="width-100p col1-align-right">';
+
+			if ( ! empty( $extra['search'] ) )
 			{
 				echo $extra['search'];
 			}
 
-			echo '<tr><td colspan="2" class="center"><br />';
+			echo '</table><div class="center"><br />';
 
 			echo Buttons( _( 'Submit' ) );
 
-			echo '</td></tr></table></form>';
+			echo '</div></form>';
 
 			PopTable( 'footer' );
 
