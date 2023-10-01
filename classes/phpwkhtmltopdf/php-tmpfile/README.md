@@ -1,11 +1,10 @@
 php-tmpfile
 ===========
 
-[![Build Status](https://secure.travis-ci.org/mikehaertl/php-tmpfile.png)](http://travis-ci.org/mikehaertl/php-tmpfile)
-[![Latest Stable Version](https://poser.pugx.org/mikehaertl/php-tmpfile/v/stable.svg)](https://packagist.org/packages/mikehaertl/php-tmpfile)
-[![Total Downloads](https://poser.pugx.org/mikehaertl/php-tmpfile/downloads)](https://packagist.org/packages/mikehaertl/php-tmpfile)
-[![Latest Unstable Version](https://poser.pugx.org/mikehaertl/php-tmpfile/v/unstable.svg)](https://packagist.org/packages/mikehaertl/php-tmpfile)
-[![License](https://poser.pugx.org/mikehaertl/php-tmpfile/license.svg)](https://packagist.org/packages/mikehaertl/php-tmpfile)
+[![GitHub Tests](https://github.com/mikehaertl/php-tmpfile/workflows/Tests/badge.svg)](https://github.com/mikehaertl/php-tmpfile/actions)
+[![Packagist Version](https://img.shields.io/packagist/v/mikehaertl/php-tmpfile?label=version)](https://packagist.org/packages/mikehaertl/php-tmpfile)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/mikehaertl/php-tmpfile)](https://packagist.org/packages/mikehaertl/php-tmpfile)
+[![GitHub license](https://img.shields.io/github/license/mikehaertl/php-tmpfile)](https://github.com/mikehaertl/php-tmpfile/blob/master/LICENSE)
 
 A convenience class for temporary files.
 
@@ -13,7 +12,7 @@ A convenience class for temporary files.
 
  * Create temporary file with arbitrary content
  * Delete file after use (can be disabled)
- * Send file to client, either inline or with save dialog
+ * Send file to client, either inline or with save dialog, optionally with custom HTTP headers
  * Save file locally
 
 ## Examples
@@ -26,6 +25,14 @@ $file = new File('some content', '.html');
 
 // send to client for download
 $file->send('home.html');
+// ... with custom content type (autodetected otherwhise)
+$file->send('home.html', 'application/pdf');
+// ... for inline display (download dialog otherwhise)
+$file->send('home.html', 'application/pdf', true);
+// ... with custom headers
+$file->send('home.html', 'application/pdf', true, [
+    'X-Header' => 'Example',
+]);
 
 // save to disk
 $file->saveAs('/dir/test.html');
@@ -43,4 +50,15 @@ use mikehaertl\tmp\File;
 
 $file = new File('some content', '.html');
 $file->delete = false;
+```
+
+Default HTTP headers can also be added:
+```php
+<?php
+use mikehaertl\tmp\File;
+
+File::$defaultHeader['X-Header'] = 'My Default';
+
+$file = new File('some content', '.html');
+$file->send('home.html');
 ```

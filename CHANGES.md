@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.3
+---------------
+- Security fix #341 update phpwkhtmltopdf, php-shellcommand & php-tmpfile in classes/phpwkhtmltopdf
+
 Changes in 11.2.2
 -----------------
 - Hide list count in ReportCards.fnc.php, Transcripts.fnc.php & Preferences.php

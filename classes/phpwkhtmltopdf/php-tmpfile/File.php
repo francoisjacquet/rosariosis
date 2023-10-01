@@ -20,6 +20,17 @@ class File
     public $delete = true;
 
     /**
+     * @var array the list of static default headers to send when `send()` is
+     * called as key/value pairs.
+     */
+    public static $defaultHeaders = array(
+        'Pragma' => 'public',
+        'Expires' => 0,
+        'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+        'Content-Transfer-Encoding' => 'binary',
+    );
+
+    /**
      * @var string the name of this file
      */
     protected $_fileName;
@@ -73,40 +84,48 @@ class File
      * 'application/octet-stream' is used.
      * @param bool $inline whether to force inline display of the file, even if
      * filename is present.
+     * @param array $headers a list of additional HTTP headers to send in the
+     * response as an array. The array keys are the header names like
+     * 'Cache-Control' and the array values the header value strings to send.
+     * Each array value can also be another array of strings if the same header
+     * should be sent multiple times. This can also be used to override
+     * automatically created headers like 'Expires' or 'Content-Length'. To suppress
+     * automatically created headers, `false` can also be used as header value.
      */
-    public function send($filename = null, $contentType = null, $inline = false)
+    public function send($filename = null, $contentType = null, $inline = false, $headers = array())
     {
-        if ($contentType === null) {
+        $headers = array_merge(self::$defaultHeaders, $headers);
+
+        if ($contentType !== null) {
+            $headers['Content-Type'] = $contentType;
+        } elseif (!isset($headers['Content-Type'])) {
             $contentType = @mime_content_type($this->_filename);
             if ($contentType === false) {
                 $contentType = self::DEFAULT_CONTENT_TYPE;
             }
-        }
-        header('Pragma: public');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Content-Type: ' . $contentType);
-        header('Content-Transfer-Encoding: binary');
-
-        //#11 Undefined index: HTTP_USER_AGENT
-        $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-
-        // #84: Content-Length leads to "network connection was lost" on iOS
-        $isIOS = preg_match('/i(phone|pad|pod)/i', $userAgent);
-        if (!$isIOS) {
-            header('Content-Length: ' . filesize($this->_fileName));
+            $headers['Content-Type'] = $contentType;
         }
 
-        if ($filename !== null || $inline) {
+        if (!isset($headers['Content-Length'])) {
+            // #11 Undefined index: HTTP_USER_AGENT
+            $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+            // #84: Content-Length leads to "network connection was lost" on iOS
+            $isIOS = preg_match('/i(phone|pad|pod)/i', $userAgent);
+            if (!$isIOS) {
+                $headers['Content-Length'] = filesize($this->_fileName);
+            }
+        }
+
+        if (($filename !== null || $inline) && !isset($headers['Content-Disposition'])) {
             $disposition = $inline ? 'inline' : 'attachment';
             $encodedFilename = rawurlencode($filename);
-            header(
-                "Content-Disposition: $disposition; " .
+            $headers['Content-Disposition'] = "$disposition; " .
                 "filename=\"$filename\"; " .
-                "filename*=UTF-8''$encodedFilename"
-            );
+                "filename*=UTF-8''$encodedFilename";
         }
 
+        $this->sendHeaders($headers);
         readfile($this->_fileName);
     }
 
@@ -151,5 +170,28 @@ class File
     public function __toString()
     {
         return $this->_fileName;
+    }
+
+    /**
+     * Send the given list of headers
+     *
+     * @param array $headers the list of headers to send as key/value pairs.
+     * Value can either be a string or an array of strings to send the same
+     * header multiple times.
+     */
+    protected function sendHeaders($headers)
+    {
+        foreach ($headers as $name => $value) {
+            if ($value === false) {
+                continue;
+            }
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    header("$name: $v");
+                }
+            } else {
+                header("$name: $value");
+            }
+        }
     }
 }
