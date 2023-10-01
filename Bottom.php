@@ -94,6 +94,16 @@ elseif ( $_REQUEST['bottomfunc'] === 'print' ) :
 	// Fix "Exclude PDF generated using the "Print" button" option for the PDF Header Footer plugin.
 	$_REQUEST['bottomfunc'] = 'print';
 
+	// Force search_modfunc to list.
+	if ( Preferences( 'SEARCH' ) !== 'Y' )
+	{
+		$_REQUEST['search_modfunc'] = 'list';
+	}
+	elseif ( ! isset( $_REQUEST['search_modfunc'] ) )
+	{
+		$_REQUEST['search_modfunc'] = '';
+	}
+
 	if ( ! empty( $_REQUEST['expanded_view'] ) )
 	{
 		$_SESSION['orientation'] = 'landscape';
