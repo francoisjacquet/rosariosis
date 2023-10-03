@@ -5,6 +5,7 @@ Changes in 11.3
 ---------------
 - Security fix #341 update phpwkhtmltopdf, php-shellcommand & php-tmpfile in classes/phpwkhtmltopdf
 - Fix PHP warnings, force search_modfunc to list in Bottom.php
+- Move Updates for version 6, 8 and 9 in UpdateV6_8_9.fnc.php
 
 Changes in 11.2.2
 -----------------
