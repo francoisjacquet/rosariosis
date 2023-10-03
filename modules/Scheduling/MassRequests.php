@@ -3,7 +3,7 @@ require_once 'modules/Scheduling/functions.inc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( $_SESSION['MassRequests.php'] )
+	if ( ! empty( $_SESSION['MassRequests.php'] ) )
 	{
 		if ( isset( $_REQUEST['student'] )
 			&& is_array( $_REQUEST['student'] ) )
