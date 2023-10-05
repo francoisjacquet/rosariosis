@@ -80,16 +80,18 @@ function FirstLoginForm()
 		return '';
 	}
 
-	if ( Config( 'LOGIN' ) === 'No' )
+	if ( Config( 'LOGIN' ) === 'No'
+		&& User( 'STAFF_ID' ) === '1' )
 	{
-		$first_login_form =  FirstLoginFormAfterInstall();
-	}
-	elseif ( Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) )
-	{
-		$first_login_form =  FirstLoginFormPasswordChange();
+		return FirstLoginFormAfterInstall();
 	}
 
-	return $first_login_form;
+	if ( Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) )
+	{
+		return FirstLoginFormPasswordChange();
+	}
+
+	return '';
 }
 
 /**
@@ -115,8 +117,9 @@ if ( ! function_exists( 'HasFirstLoginForm' ) )
 	 */
 	function HasFirstLoginForm()
 	{
-		return IsFirstLogin()
-			&& ( Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) || Config( 'LOGIN' ) === 'No' );
+		return ( IsFirstLogin()
+				&& Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) )
+			|| ( Config( 'LOGIN' ) === 'No' && User( 'STAFF_ID' ) === '1' );
 	}
 }
 

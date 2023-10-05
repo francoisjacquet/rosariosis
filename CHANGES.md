@@ -1,11 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 11.3
----------------
+Changes in 11.2.3
+-----------------
 - Security fix #341 update phpwkhtmltopdf, php-shellcommand & php-tmpfile in classes/phpwkhtmltopdf
 - Fix PHP warnings, force search_modfunc to list in Bottom.php
 - Move Updates for version 6, 8 and 9 in UpdateV6_8_9.fnc.php
+- Fix HasFirstLoginForm() when admin did not complete steps on first login in FirstLogin.fnc.php
 
 Changes in 11.2.2
 -----------------
