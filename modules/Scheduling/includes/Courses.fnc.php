@@ -670,10 +670,11 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 	foreach ( $periods_RET as $period )
 	{
 		// Update attendance_completed.
-		DBQuery( "UPDATE attendance_completed SET STAFF_ID='" . (int) $new_teacher_id . "'
-			WHERE STAFF_ID='" . (int) $old_teacher_id . "'
-			AND PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
-			AND SCHOOL_DATE IN(SELECT acc.SCHOOL_DATE
+		// SQL fix duplicate key value violates unique constraint "attendance_completed_pkey"
+		DBQuery( "UPDATE attendance_completed ac SET STAFF_ID='" . (int) $new_teacher_id . "'
+			WHERE ac.STAFF_ID='" . (int) $old_teacher_id . "'
+			AND ac.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
+			AND ac.SCHOOL_DATE IN(SELECT acc.SCHOOL_DATE
 				FROM attendance_calendar acc,school_periods sp,course_periods cp,course_period_school_periods cpsp
 				WHERE cpsp.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
 				AND sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -681,14 +682,20 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 				AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND acc.CALENDAR_ID=cp.CALENDAR_ID
 				" . $where_days_sql . ")
-			AND SCHOOL_DATE BETWEEN (SELECT START_DATE
+			AND ac.SCHOOL_DATE BETWEEN (SELECT START_DATE
 				FROM school_marking_periods
 				WHERE MARKING_PERIOD_ID=(SELECT MARKING_PERIOD_ID FROM course_periods
 					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'))
 			AND (SELECT END_DATE
 				FROM school_marking_periods
 				WHERE MARKING_PERIOD_ID=(SELECT MARKING_PERIOD_ID FROM course_periods
-					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'))" );
+					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'))
+			AND NOT EXISTS(SELECT 1
+				FROM attendance_completed ac2
+				WHERE ac2.STAFF_ID='" . (int) $new_teacher_id . "'
+				AND ac2.PERIOD_ID='" . (int) $period['PERIOD_ID'] . "'
+				AND ac2.SCHOOL_DATE=ac.SCHOOL_DATE
+				AND ac2.TABLE_NAME=ac.TABLE_NAME)" );
 	}
 
 	// Update grades_completed.

@@ -7,6 +7,7 @@ Changes in 11.2.3
 - Fix PHP warnings, force search_modfunc to list in Bottom.php
 - Move Updates for version 6, 8 and 9 in UpdateV6_8_9.fnc.php
 - Fix HasFirstLoginForm() when admin did not complete steps on first login in FirstLogin.fnc.php
+- SQL fix duplicate key value violates unique constraint "attendance_completed_pkey" in Courses.fnc.php
 
 Changes in 11.2.2
 -----------------
