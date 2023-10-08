@@ -386,8 +386,8 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	}
 
 	// Confirm Delete.
-	if ( DeletePrompt( $prompt_title )
-		&& ! empty( $sql ) )
+	if ( ! empty( $sql )
+		&& DeletePrompt( $prompt_title ) )
 	{
 		DBQuery( $sql );
 
@@ -453,6 +453,11 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 		// Unset modfunc & redirect URL.
 		RedirectURL( 'modfunc' );
+	}
+	elseif ( empty( $sql ) )
+	{
+		// Unset modfunc, assignment ID, assignment type ID & redirect URL.
+		RedirectURL( [ 'modfunc', 'assignment_id', 'assignment_type_id' ] );
 	}
 }
 
