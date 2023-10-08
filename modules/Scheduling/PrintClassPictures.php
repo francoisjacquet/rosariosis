@@ -19,7 +19,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		ORDER BY cp.SHORT_NAME,cp.TITLE" );
 	//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 
-	if ( $_REQUEST['include_teacher'] == 'Y' )
+	if ( isset( $_REQUEST['include_teacher'] )
+		&& $_REQUEST['include_teacher'] === 'Y' )
 	{
 		$teachers_RET = DBGet( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID
 			FROM staff
@@ -134,7 +135,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$i = 0;
 
-		if ( $_REQUEST['include_teacher'] == 'Y' )
+		if ( isset( $_REQUEST['include_teacher'] )
+			&& $_REQUEST['include_teacher'] === 'Y' )
 		{
 			$teacher = $teachers_RET[$teacher_id][1];
 
