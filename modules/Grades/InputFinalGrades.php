@@ -799,7 +799,7 @@ if ( ! empty( $_REQUEST['values'] )
 					'REPORT_CARD_GRADE_ID' => $grade,
 					'GRADE_PERCENT' => $percent,
 					'COMMENT' => $columns['comment'],
-					'GRADE_LETTER' => DBEscapeString( $grades_RET[$grade][1]['TITLE'] ),
+					'GRADE_LETTER' => DBEscapeString( $letter ),
 					'WEIGHTED_GP' => $weighted,
 					'UNWEIGHTED_GP' => $unweighted,
 					'GP_SCALE' => $scale,
