@@ -23,8 +23,8 @@ if ( UserStudentID() )
 	{
 		//DBQuery("DELETE FROM student_mp_stats WHERE student_id = $student_id and marking_period_id = $mp_id");
 		DBQuery( "DELETE FROM student_mp_stats
-			WHERE student_id='" . $student_id . "'
-			AND marking_period_id='" . (int) $_REQUEST['new_sms'] . "'" );
+			WHERE STUDENT_ID='" . (int) $student_id . "'
+			AND MARKING_PERIOD_ID='" . (int) $_REQUEST['new_sms'] . "'" );
 
 		unset( $mp_id );
 
@@ -69,6 +69,8 @@ if ( UserStudentID() )
 				]
 			);
 		}
+
+		$_REQUEST['values'] = issetVal( $_REQUEST['values'] );
 
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{
