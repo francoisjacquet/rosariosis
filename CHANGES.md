@@ -8,6 +8,7 @@ Changes in 11.2.3
 - Move Updates for version 6, 8 and 9 in UpdateV6_8_9.fnc.php
 - Fix HasFirstLoginForm() when admin did not complete steps on first login in FirstLogin.fnc.php
 - SQL fix duplicate key value violates unique constraint "attendance_completed_pkey" in Courses.fnc.php
+- Use return instead of exit. Allows Warehouse( 'footer' ) to run in TakeAttendance.php & Grades/Configuration.php
 
 Changes in 11.2.2
 -----------------

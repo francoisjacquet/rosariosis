@@ -176,21 +176,8 @@ if ( $fatal_warning )
 
 	echo ErrorMessage( $fatal_warning, 'warning' );
 
-	// Code portion taken from ErrorMessage function.
-
-	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		Warehouse( 'footer' );
-	}
-	else
-	{
-		// FJ force PDF on fatal error.
-		global $print_data;
-
-		PDFStop( $print_data );
-	}
-
-	exit;
+	// Use return instead of exit. Allows Warehouse( 'footer' ) to run.
+	return;
 }
 
 // If running as a teacher program then rosario[allow_edit] will already be set according to admin permissions.

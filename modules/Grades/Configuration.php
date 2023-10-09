@@ -77,9 +77,8 @@ if ( User( 'PROFILE' ) === 'admin' && ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE
 	// @since 5.8 Admin can override teachers gradebook configuration: do not show form yet.
 	echo '</form>';
 
-	Warehouse( 'footer' );
-
-	exit;
+	// Use return instead of exit. Allows Warehouse( 'footer' ) to run.
+	return;
 }
 
 echo '<br />';
