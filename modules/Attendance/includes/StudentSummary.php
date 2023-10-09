@@ -233,7 +233,7 @@ if ( $is_student_report )
 
 	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM school_periods sp,schedule s,course_periods cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
-	$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
+	$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME,sp.TITLE
 	FROM school_periods sp,schedule s,course_periods cp,course_period_school_periods cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.SCHOOL_ID='" . UserSchool() . "'
@@ -252,7 +252,8 @@ if ( $is_student_report )
 
 	foreach ( (array) $periods_RET as $period )
 	{
-		$columns[$period['PERIOD_ID']] = $period['SHORT_NAME'];
+		// Fix column name is empty, use Period Title if no Short Name.
+		$columns[$period['PERIOD_ID']] = ( $period['SHORT_NAME'] ? $period['SHORT_NAME'] : $period['TITLE'] );
 	}
 
 	ListOutput(

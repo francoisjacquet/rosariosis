@@ -9,6 +9,7 @@ Changes in 11.2.3
 - Fix HasFirstLoginForm() when admin did not complete steps on first login in FirstLogin.fnc.php
 - SQL fix duplicate key value violates unique constraint "attendance_completed_pkey" in Courses.fnc.php
 - Use return instead of exit. Allows Warehouse( 'footer' ) to run in TakeAttendance.php & Grades/Configuration.php
+- Fix column name is empty, use Period Title if no Short Name in StudentSummary.php
 
 Changes in 11.2.2
 -----------------
