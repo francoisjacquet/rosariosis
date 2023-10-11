@@ -132,7 +132,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND GRADE_SCALE_ID IS NOT NULL)>0
 			ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [], [ 'SUBJECT_ID' ] );
 
-		if ( ! $_REQUEST['subject_id'] || ! $subjects_RET[$_REQUEST['subject_id']] )
+		if ( ! $_REQUEST['subject_id'] || empty( $subjects_RET[$_REQUEST['subject_id']] ) )
 		{
 			$_REQUEST['subject_id'] = key( $subjects_RET ) . '';
 		}
@@ -148,7 +148,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND GRADE_SCALE_ID IS NOT NULL)>0
 			ORDER BY TITLE", [], [ 'COURSE_ID' ] );
 
-		if ( ! $_REQUEST['course_id'] || ! $courses_RET[$_REQUEST['course_id']] )
+		if ( ! $_REQUEST['course_id'] || empty( $courses_RET[$_REQUEST['course_id']] ) )
 		{
 			$_REQUEST['course_id'] = key( $courses_RET ) . '';
 		}
