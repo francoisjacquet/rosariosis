@@ -369,10 +369,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$result_count
 			);
 
+			if ( mb_substr( $_SESSION['locale'], 0, 2 ) !== 'de' )
+			{
+				// We are inside a sentence, convert nouns to lowercase (except for German).
+				$result_text = mb_strtolower( $result_text );
+			}
+
 			echo '<span class="size-1">' . sprintf(
 				ngettext( '%d %s was found.', '%d %s were found.', $result_count ),
 				$result_count,
-				mb_strtolower( $result_text )
+				$result_text
 			) . '</span> ';
 
 			echo empty( $where_message ) ? '' : $where_message;
@@ -391,10 +397,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				0
 			);
 
+			if ( mb_substr( $_SESSION['locale'], 0, 2 ) !== 'de' )
+			{
+				// We are inside a sentence, convert nouns to lowercase (except for German).
+				$result_text = mb_strtolower( $result_text );
+			}
+
 			// No results message. Default to "Results".
 			echo '<b class="size-1">' . sprintf(
 				_( 'No %s were found.' ),
-				mb_strtolower( $result_text )
+				$result_text
 			) . '</b> ';
 		}
 

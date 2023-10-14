@@ -32,9 +32,13 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 			$action = _( 'Delete' );
 		}
 
-		// Force title & action to lowercase.
-		$title = mb_strtolower( $title );
+		if ( mb_substr( $_SESSION['locale'], 0, 2 ) !== 'de' )
+		{
+			// We are inside a sentence, convert nouns to lowercase (except for German).
+			$title = mb_strtolower( $title );
+		}
 
+		// Force action to lowercase.
 		$action = mb_strtolower( $action );
 
 		echo '<br>';

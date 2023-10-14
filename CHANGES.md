@@ -11,6 +11,7 @@ Changes in 11.3
 - Export list to Excel using SimpleXLSXGen (more reliable) in ListOutput.fnc.php
 - Fix list sort, search, page, save when multiple lists on same page in ListOutput.fnc.php
 - Remove null values from URL in PreparePHP_SELF.fnc.php
+- We are inside a sentence, convert nouns to lowercase (except for German) in ListOutput.fnc.php & Prompts.php
 
 Changes in 11.2.3
 -----------------
