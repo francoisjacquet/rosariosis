@@ -16,6 +16,11 @@ if ( $_REQUEST['modfunc'] === 'backup'
 		$DatabaseDumpPath = $pg_dumpPath;
 	}
 
+	if ( ! isset( $DatabaseDumpPath ) )
+	{
+		$DatabaseDumpPath = '';
+	}
+
 	$exe = escapeshellcmd( $DatabaseDumpPath );
 
 	// Obtain the dump utility version number and check if the path is good.
