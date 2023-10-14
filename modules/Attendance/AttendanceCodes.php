@@ -335,20 +335,33 @@ function _makeSelectInput( $value, $name )
 }
 
 /**
- * @param $value
- * @param $name
+ * Make "Default for Teacher" Checkbox
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 11.3 No "Default for Teacher" checkbox if Type is "Office Only"
+ *
+ * @param  string $value Value.
+ * @param  string $name  'DEFAULT_CODE'.
+ *
+ * @return string "Default for Teacher" Checkbox input
  */
-function _makeCheckBoxInput( $value, $name )
+function _makeCheckBoxInput( $value, $name = 'DEFAULT_CODE' )
 {
 	global $THIS_RET;
+
+	if ( isset( $THIS_RET['TYPE'] )
+		&& $THIS_RET['TYPE'] === 'official' )
+	{
+		return '';
+	}
+
+	$id = 'new';
 
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
 	}
 
 	return CheckBoxInput(
