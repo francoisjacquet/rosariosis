@@ -10,6 +10,7 @@ Changes in 11.3
 - Replace ExcelXML class with SimpleXLSXGen in classes/ExcelXML.php & classes/SimpleXLSXGen/
 - Export list to Excel using SimpleXLSXGen (more reliable) in ListOutput.fnc.php
 - Fix list sort, search, page, save when multiple lists on same page in ListOutput.fnc.php
+- Remove null values from URL in PreparePHP_SELF.fnc.php
 
 Changes in 11.2.3
 -----------------

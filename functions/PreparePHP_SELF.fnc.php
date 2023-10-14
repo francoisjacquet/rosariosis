@@ -14,6 +14,8 @@
  *
  * @uses URLEscape()
  *
+ * @since 11.3 Remove null values from URL
+ *
  * @param  array  $tmp_REQUEST REQUEST vars (optional). Defaults to $_REQUEST array.
  * @param  array  $remove      Remove indexes from $tmp_REQUEST (optional).
  * @param  array  $add         Add values $tmp_REQUEST (associative array) (optional).
@@ -44,7 +46,8 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 		$tmp_REQUEST,
 		function ( $input )
 		{
-			return is_null( $input ) ? $input : DBUnescapeString( $input );
+			// null & false are converted to empty string so they are removed from URL.
+			return $input == '' ? (string) $input : DBUnescapeString( $input );
 		}
 	);
 
