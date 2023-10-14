@@ -379,9 +379,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			&& $result_count > 0 )
 		{
 			// Save / Export list button.
-			echo '<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
-			'&amp;LO_save=' . $options['save'] .
-			'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
+			echo '<a href="' . $PHP_tmp_SELF . '&' . $extra .
+			'&LO_save=' . $options['save'] .
+			'&_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
 			Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
 			AttrEscape( _( 'Export list' ) ) . '" alt="' . AttrEscape( _( 'Export list' ) ) . '"></a>';
 		}
@@ -564,7 +564,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '<td>' . button(
 					'remove',
 					$button_title,
-					'"' . $button_link . '"'
+					$button_link
 				) . '</td>';
 			}
 
