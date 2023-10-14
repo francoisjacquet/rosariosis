@@ -61,6 +61,13 @@ else
 	}
 }
 
+if ( empty( $_REQUEST['category_id'] )
+	|| $_REQUEST['category_id'] !== $category_id )
+{
+	// Fix incoherence with AllowEdit() when category_id present or not in URL.
+	$_REQUEST['category_id'] = $category_id;
+}
+
 // Allow update for Parents & Teachers if have Edit permissions.
 
 if ( User( 'PROFILE' ) !== 'admin' )
