@@ -10,6 +10,11 @@
 
 function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = [], $group = [], $options = [] )
 {
+	static $list_id = -1;
+
+	// @since 11.3 Fix list sort, search, page, save when multiple lists on same page
+	$list_id++;
+
 	$default_options = [
 		'save' => '1',
 		'search' => true,
@@ -28,16 +33,26 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		$default_options :
 		array_replace_recursive( $default_options, $options );
 
-	$LO_page = issetVal( $_REQUEST['LO_page'], '' );
+	$LO_id = issetVal( $_REQUEST['LO_id'], '' );
 
-	// FJ bugfix ListOutput sorting when more than one list in a page.
-	$LO_sort = issetVal( $_REQUEST['LO_sort'], '' );
+	if ( (int) $LO_id !== $list_id )
+	{
+		// Request options are not for the current list, set to default.
+		$LO_page = $LO_sort = $LO_dir = $LO_search = $LO_save = '';
+	}
+	else
+	{
+		// Request options are for the current list, set them.
+		$LO_page = issetVal( $_REQUEST['LO_page'], '' );
 
-	$LO_dir = issetVal( $_REQUEST['LO_dir'], '' );
+		$LO_sort = issetVal( $_REQUEST['LO_sort'], '' );
 
-	$LO_search = issetVal( $_REQUEST['LO_search'], '' );
+		$LO_dir = issetVal( $_REQUEST['LO_dir'], '' );
 
-	$LO_save = issetVal( $_REQUEST['LO_save'], '' );
+		$LO_search = issetVal( $_REQUEST['LO_search'], '' );
+
+		$LO_save = issetVal( $_REQUEST['LO_save'], '' );
+	}
 
 	if ( ! $options['add']
 		|| ! AllowEdit()
@@ -58,7 +73,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	$extra = URLEscape( 'LO_page=' . $LO_page .
 		'&LO_sort=' . $LO_sort .
 		'&LO_dir=' . $LO_dir .
-		'&LO_search=' . $LO_search );
+		'&LO_search=' . $LO_search .
+		( $list_id ? '&LO_id=' . $list_id : '' ) );
 
 	$PHP_tmp_SELF = PreparePHP_SELF(
 		$_REQUEST,
@@ -68,6 +84,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'LO_dir',
 			'LO_search',
 			'LO_save',
+			'LO_id',
 		]
 	);
 
@@ -262,7 +279,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						continue;
 					}
 
-					$page_url = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ], [ 'LO_page' => $i ] );
+					$add_to_url = [ 'LO_page' => $i ];
+
+					if ( $list_id )
+					{
+						$add_to_url['LO_id'] = $list_id;
+					}
+
+					$page_url = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ], $add_to_url );
 
 					$pagination[] = ' <a href="' . $page_url . '">&nbsp;' . $i . '&nbsp;</a> ';
 				}
@@ -397,8 +421,15 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			echo '<td class="align-right">';
 
+			$add_to_url = [];
+
+			if ( $list_id )
+			{
+				$add_to_url['LO_id'] = $list_id;
+			}
+
 			// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
-			$search_URL = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ] );
+			$search_URL = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ], $add_to_url );
 
 			$onkeypress_js = 'LOSearch(event, this.value, ' . json_encode( $search_URL ) . ');';
 
@@ -469,7 +500,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				{
 					echo '<th class="' . $class . '"><a href="' . $PHP_tmp_SELF . URLEscape( '&LO_page=' . $LO_page .
 						'&LO_sort=' . $key . '&LO_dir=' . $direction .
-						'&LO_search=' . issetVal( $LO_search, '' ) ) . '">' .
+						'&LO_search=' . issetVal( $LO_search, '' ) .
+						( $list_id ? '&LO_id=' . $list_id : '' ) ) . '">' .
 						ParseMLField( $value ) . '</a></th>';
 
 					continue;
