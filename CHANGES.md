@@ -1,6 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.3
+---------------
+- Immunization or Physical (select): No N/A value for existing entries in StudentsUsersInfo.fnc.php
+- Nurse Visit (date): No N/A value for existing entries in StudentsUsersInfo.fnc.php
+- Medical Alert: Required TITLE value for existing entries in StudentsUsersInfo.fnc.php
+
 Changes in 11.2.3
 -----------------
 - Security fix #341 update phpwkhtmltopdf, php-shellcommand & php-tmpfile in classes/phpwkhtmltopdf

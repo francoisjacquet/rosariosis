@@ -713,6 +713,8 @@ function _makeStudentAge( $column, $name )
 /**
  * Make Medical Immunization or Physical type Select Input
  *
+ * @since 11.3 No N/A value for existing entries
+ *
  * @global array  $THIS_RET
  *
  * @param  string $value    Field value.
@@ -733,13 +735,16 @@ function _makeType( $value, $column )
 		$value,
 		'values[student_medical][' . $THIS_RET['ID'] . '][TYPE]',
 		'',
-		[ 'Immunization' => _( 'Immunization' ), 'Physical' => _( 'Physical' ) ]
+		[ 'Immunization' => _( 'Immunization' ), 'Physical' => _( 'Physical' ) ],
+		( $THIS_RET['ID'] === 'new' ? 'N/A' : false )
 	);
 }
 
 
 /**
  * Make Medical Date Input
+ *
+ * @since 11.3 No N/A value for existing entries (Nurse Visit only)
  *
  * @global array  $THIS_RET
  * @global string $table
@@ -761,7 +766,11 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
 
 	return DateInput(
 		$value,
-		'values[' . $table . '][' . $THIS_RET['ID'] . '][' . $column . ']'
+		'values[' . $table . '][' . $THIS_RET['ID'] . '][' . $column . ']',
+		'',
+		true,
+		// No N/A value for existing entries (Nurse Visit only).
+		( $THIS_RET['ID'] !== 'new' && $column !== 'MEDICAL_DATE' ? false : 'N/A' )
 	);
 }
 
@@ -770,6 +779,7 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
  * Make Medical Comments Input
  *
  * @since 3.6 Add custom input size per column.
+ * @since 11.3 Required TITLE value for existing entries
  *
  * @global array  $THIS_RET
  * @global string $table
@@ -802,11 +812,19 @@ function _makeComments( $value, $column )
 		$input_size = 20;
 	}
 
+	$required = '';
+
+	if ( $column === 'TITLE'
+		&& $THIS_RET['ID'] !== 'new' )
+	{
+		$required = ' required';
+	}
+
 	return TextInput(
 		$value,
 		'values[' . $table . '][' . $THIS_RET['ID'] . '][' . $column . ']',
 		'',
-		'size="' . AttrEscape( $input_size ) . '"'
+		'size="' . AttrEscape( $input_size ) . '"' . $required
 	);
 }
 
