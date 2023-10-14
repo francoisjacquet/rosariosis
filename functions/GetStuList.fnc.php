@@ -29,7 +29,7 @@
  * @global $contacts_RET   Student Contacts array
  * @global $view_other_RET Used by makeParents() (see below)
  *
- * @param  array &$extra Extra for SQL request ('SELECT_ONLY', 'FROM', 'WHERE', 'ORDER_BY', 'functions', 'columns_after', 'DATE',...).
+ * @param  array &$extra Extra for SQL request ('SELECT_ONLY', 'SELECT', 'FROM', 'WHERE', 'ORDER_BY', 'functions', 'columns_after', 'DATE',...).
  *
  * @return array DBGet return of the built SQL query
  */
@@ -64,14 +64,14 @@ function GetStuList( &$extra = [] )
 
 	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
 
+	$functions = [];
+
 	if ( ( ! isset( $extra['SELECT_ONLY'] )
 			|| mb_strpos( $extra['SELECT_ONLY'], 'GRADE_ID' ) !== false )
 		&& ! isset( $extra['functions']['GRADE_ID'] ) )
 	{
 		$functions = [ 'GRADE_ID' => 'GetGrade' ];
 	}
-	else
-		$functions = [];
 
 	if ( isset( $extra['functions'] ) )
 	{
@@ -674,7 +674,7 @@ function GetStuList( &$extra = [] )
 			$sql .= $extra['ORDER'];
 		}
 	}
-	elseif ( isset( $extra['ORDER_BY'] ) )
+	elseif ( ! empty( $extra['ORDER_BY'] ) )
 	{
 		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
 	}
