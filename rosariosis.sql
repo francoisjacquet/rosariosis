@@ -1805,7 +1805,7 @@ CREATE TABLE student_field_categories (
 CREATE TABLE student_medical (
     id serial PRIMARY KEY,
     student_id integer NOT NULL REFERENCES students(student_id),
-    type varchar(25),
+    type varchar(25) NOT NULL,
     medical_date date,
     comments varchar(100),
     created_at timestamp DEFAULT current_timestamp,
@@ -1820,7 +1820,7 @@ CREATE TABLE student_medical (
 CREATE TABLE student_medical_alerts (
     id serial PRIMARY KEY,
     student_id integer NOT NULL REFERENCES students(student_id),
-    title varchar(100),
+    title varchar(100) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -1833,7 +1833,7 @@ CREATE TABLE student_medical_alerts (
 CREATE TABLE student_medical_visits (
     id serial PRIMARY KEY,
     student_id integer NOT NULL REFERENCES students(student_id),
-    school_date date,
+    school_date date NOT NULL,
     time_in varchar(20),
     time_out varchar(20),
     reason varchar(100),

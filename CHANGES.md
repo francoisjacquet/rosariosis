@@ -6,6 +6,7 @@ Changes in 11.3
 - Immunization or Physical (select): No N/A value for existing entries in StudentsUsersInfo.fnc.php
 - Nurse Visit (date): No N/A value for existing entries in StudentsUsersInfo.fnc.php
 - Medical Alert: Required TITLE value for existing entries in StudentsUsersInfo.fnc.php
+- SQL add NOT NULL for student_medical type, student_medical_alerts title & student_medical_visits school_date columns in rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.2.3
 -----------------

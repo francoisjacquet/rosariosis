@@ -1801,7 +1801,7 @@ CREATE TABLE student_medical (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id integer NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(student_id),
-    type varchar(25),
+    type varchar(25) NOT NULL,
     medical_date date,
     comments varchar(100),
     created_at timestamp DEFAULT current_timestamp,
@@ -1817,7 +1817,7 @@ CREATE TABLE student_medical_alerts (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id integer NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(student_id),
-    title varchar(100),
+    title varchar(100) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp NULL ON UPDATE current_timestamp
 );
@@ -1831,7 +1831,7 @@ CREATE TABLE student_medical_visits (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     student_id integer NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(student_id),
-    school_date date,
+    school_date date NOT NULL,
     time_in varchar(20),
     time_out varchar(20),
     reason varchar(100),
