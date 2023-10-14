@@ -8,6 +8,7 @@ Changes in 11.3
 - Medical Alert: Required TITLE value for existing entries in StudentsUsersInfo.fnc.php
 - SQL add NOT NULL for student_medical type, student_medical_alerts title & student_medical_visits school_date columns in rosariosis.sql & rosariosis_mysql.sql
 - Replace ExcelXML class with SimpleXLSXGen in classes/ExcelXML.php & classes/SimpleXLSXGen/
+- Export list to Excel using SimpleXLSXGen (more reliable) in ListOutput.fnc.php
 
 Changes in 11.2.3
 -----------------

@@ -919,6 +919,7 @@ function _listSearch( $result, $LO_search )
  * @since 5.8 Export list to Excel using MicrosoftXML (more reliable).
  * @since 10.9.5 Security: prevent CSV Injection via formulas
  * @since 11.2.1 Excel & CSV: replace line breaks (br) with "\n" instead of space
+ * @since 11.3 Export list to Excel using SimpleXLSXGen (more reliable)
  *
  * @param  array  $result       ListOutput $result
  * @param  array  $column_names ListOutput $column_names
@@ -969,7 +970,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 		default: // Tab.
 
-			$extension = 'xls';
+			$extension = 'xlsx';
 			$delimiter = "\t";
 
 			break;
@@ -1000,7 +1001,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 		$formatted_columns[] = $column;
 	}
 
-	$i = $extension === 'xls' ? 1 : 0;
+	$i = $extension === 'xlsx' ? 1 : 0;
 
 	$formula_start_characters = [ '=', '-', '+', '@', "\t", "\r" ];
 
@@ -1053,26 +1054,26 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	}
 
 	// Generate output.
-	if ( $extension === 'xls' )
+	if ( $extension === 'xlsx' )
 	{
 		/**
-		 * Export list to Excel using MicrosoftXML (more reliable).
+		 * Export list to Excel using SimpleXLSXGen (more reliable)
 		 *
-		 * @uses php-excel class.
+		 * @uses SimpleXLSXGen class.
 		 *
-		 * @since 5.8
+		 * @since 11.3
 		 *
-		 * @link https://github.com/oliverschwarz/php-excel
+		 * @link https://github.com/shuchkin/simplexlsxgen
 		 */
-		require_once 'classes/ExcelXML.php';
-
-		$excel_xml = new Excel_XML;
+		require_once 'classes/SimpleXLSXGen/SimpleXLSXGen.php';
 
 		$formatted_rows = array_merge( [ $formatted_columns ], $formatted_result );
 
-		$excel_xml->addWorksheet( ProgramTitle(), $formatted_rows );
+		$xlsx = Shuchkin\SimpleXLSXGen::fromArray( $formatted_rows );
 
-		$excel_xml->sendWorkbook( ProgramTitle() . '.xls' );
+		$xlsx->setTitle( ProgramTitle() );
+
+		$xlsx->downloadAs( ProgramTitle() . '.' . $extension );
 
 		exit();
 	}
