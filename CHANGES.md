@@ -19,6 +19,7 @@ Changes in 11.3
 Changes in 11.2.4
 -----------------
 - Fix DisplayName() for "Last Name First Name" & "Last Name, First Name" options in GetStuList.fnc.php
+- Fix Mailing Label skip if No Contact tied to address in MailingLabel.fnc.php
 
 Changes in 11.2.3
 -----------------

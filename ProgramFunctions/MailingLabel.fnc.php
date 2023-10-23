@@ -50,6 +50,11 @@ function MailingLabel( $address_id )
 		// People names.
 		foreach ( (array) $people_RET as $people )
 		{
+			if ( empty( $people[1]['LAST_NAME'] ) )
+			{
+				continue;
+			}
+
 			$people_total = count( $people );
 
 			for ( $i = 1; $i < $people_total; $i++ )
