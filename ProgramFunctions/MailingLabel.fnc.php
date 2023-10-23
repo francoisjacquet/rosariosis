@@ -57,18 +57,20 @@ function MailingLabel( $address_id )
 				$return .= $people[ $i ]['FIRST_NAME'] . ' &amp; ';
 			}
 
-			$return .= DisplayName(
-				$people[ $i ]['FIRST_NAME'],
-				$people[ $i ]['LAST_NAME'],
-				$people[ $i ]['MIDDLE_NAME']
-			) . '<br>';
-		}
-
-		if ( $i === 1
-			&& empty( $people[ $i ]['FIRST_NAME'] ) )
-		{
-			// Add Student name if no Contacts at address.
-			$return .= $THIS_RET['FULL_NAME'] . '<br>';
+			if ( $i === 1
+				&& empty( $people[ $i ]['FIRST_NAME'] ) )
+			{
+				// Add Student name if no Contacts at address.
+				$return .= $THIS_RET['FULL_NAME'] . '<br>';
+			}
+			else
+			{
+				$return .= DisplayName(
+					$people[ $i ]['FIRST_NAME'],
+					$people[ $i ]['LAST_NAME'],
+					$people[ $i ]['MIDDLE_NAME']
+				) . '<br>';
+			}
 		}
 
 		// Mab - this is a bit of a kludge but insert an html comment so people and address can be split later.
