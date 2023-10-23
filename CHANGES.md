@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.2.4
+-----------------
+- Fix DisplayName() for "Last Name First Name" & "Last Name, First Name" options in GetStuList.fnc.php
+
 Changes in 11.2.3
 -----------------
 - Security fix #341 update phpwkhtmltopdf, php-shellcommand & php-tmpfile in classes/phpwkhtmltopdf
