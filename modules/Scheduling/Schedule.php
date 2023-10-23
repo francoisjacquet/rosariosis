@@ -465,15 +465,13 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 				$days_conflict = true;
 				break;
 			}
-			else
+
+			foreach ( _str_split( $mp_RET[1]['DAYS'] ) as $i )
 			{
-				foreach ( _str_split( $mp_RET[1]['DAYS'] ) as $i )
+				if ( mb_strpos( $existing['DAYS'], $i ) !== false )
 				{
-					if ( mb_strpos( $existing['DAYS'], $i ) !== false )
-					{
-						$days_conflict = true;
-						break 2;
-					}
+					$days_conflict = true;
+					break 2;
 				}
 			}
 		}
@@ -483,7 +481,13 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			$warnings[] = _( 'There is already a course scheduled in that period.' );
 		}
 
-		if ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'warning' ) ) )
+		if ( ! empty( $current_RET )
+			&& $current_RET[1]['COURSE_PERIOD_ID'] === $_REQUEST['course_period_id'] )
+		{
+			// @since 11.3 Refuse to enroll student twice in the same course period
+			echo ErrorMessage( $warnings, 'error' );
+		}
+		elseif ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'warning' ) ) )
 		{
 			DBInsert(
 				'schedule',

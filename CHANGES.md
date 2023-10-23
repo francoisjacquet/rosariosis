@@ -14,6 +14,7 @@ Changes in 11.3
 - We are inside a sentence, convert nouns to lowercase (except for German) in ListOutput.fnc.php & Prompts.php
 - No "Default for Teacher" checkbox if Type is "Office Only" in AttendanceCodes.php
 - Fix incoherence with AllowEdit() when category_id present or not in URL in Student.php & User.php
+- Refuse to enroll student twice in the same course period in Schedule.php & MassSchedule.php
 
 Changes in 11.2.3
 -----------------

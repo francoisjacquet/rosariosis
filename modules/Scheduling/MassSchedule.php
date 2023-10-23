@@ -63,17 +63,24 @@ if ( $_REQUEST['modfunc'] === 'save'
 						{
 							$mp_table = GetMP( $_REQUEST['marking_period_id'], 'MP' );
 
+							$mps = GetAllMP( GetMP( $course_mp, 'MP' ), $course_mp );
+
+							// @since 11.3 Refuse to enroll student twice in the same course period
+							// if marking periods overlap and dates overlap (already scheduled course does not end or ends after $date) then not okay
 							$current_RET = DBGet( "SELECT STUDENT_ID
 								FROM schedule
 								WHERE COURSE_PERIOD_ID='" . (int) $course_to_add['course_period_id'] . "'
-								AND SYEAR='" . UserSyear() . "'
-								AND (('" . $start_date . "'	BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)
-									AND '" . $start_date . "'>=START_DATE)", [], [ 'STUDENT_ID' ] );
+								AND MARKING_PERIOD_ID IN (" . $mps . ")
+								AND (END_DATE IS NULL OR '" . $start_date . "'<=END_DATE)", [], [ 'STUDENT_ID' ] );
+
+							$insert_count = 0;
 
 							foreach ( (array) $_REQUEST['student'] as $student_id )
 							{
 								if ( ! empty( $current_RET[ $student_id ] ) )
 								{
+									$error_students[] = $student_id;
+
 									continue;
 								}
 
@@ -91,11 +98,28 @@ if ( $_REQUEST['modfunc'] === 'save'
 									]
 								);
 
+								$insert_count++;
+
 								// Hook.
 								do_action( 'Scheduling/MassSchedule.php|schedule_student' );
 							}
 
-							$note[] = sprintf( _( 'The %s course has been added to the selected students\' schedules.' ), $course_to_add['course_title'] );
+							if ( ! empty( $error_students ) )
+							{
+								$error[] = sprintf(
+									_( 'Students %s are already scheduled into the %s course.' ),
+									implode( ',', $error_students ),
+									$course_to_add['course_title']
+								);
+							}
+
+							if ( $insert_count )
+							{
+								$note[] = sprintf(
+									_( 'The %s course has been added to the selected students\' schedules.' ),
+									$course_to_add['course_title']
+								);
+							}
 						}
 						else
 							exit();
