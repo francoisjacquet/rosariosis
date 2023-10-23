@@ -16,6 +16,10 @@ Changes in 11.3
 - Fix incoherence with AllowEdit() when category_id present or not in URL in Student.php & User.php
 - Refuse to enroll student twice in the same course period in Schedule.php & MassSchedule.php
 
+Changes in 11.2.4
+-----------------
+- Fix DisplayName() for "Last Name First Name" & "Last Name, First Name" options in GetStuList.fnc.php
+
 Changes in 11.2.3
 -----------------
 - Security fix #341 update phpwkhtmltopdf, php-shellcommand & php-tmpfile in classes/phpwkhtmltopdf
