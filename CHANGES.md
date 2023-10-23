@@ -15,6 +15,7 @@ Changes in 11.3
 - No "Default for Teacher" checkbox if Type is "Office Only" in AttendanceCodes.php
 - Fix incoherence with AllowEdit() when category_id present or not in URL in Student.php & User.php
 - Refuse to enroll student twice in the same course period in Schedule.php & MassSchedule.php
+- Update French & Spanish translations in rosariosis.po & help.po
 
 Changes in 11.2.4
 -----------------
