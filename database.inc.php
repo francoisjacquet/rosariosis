@@ -299,6 +299,7 @@ function db_seq_nextval( $seqname )
  * @deprecated since 9.2.1 Use DBLastInsertID() instead (with the exception of student ID)
  *
  * @since 11.0.1 MySQL fix infinite loop, emulate PostgreSQL's nextval()
+ * @since 11.2.4 MySQL 8+ fix infinite loop due to cached AUTO_INCREMENT
  *
  * @example $id = DBSeqNextID( 'people_person_id_seq' );
  *
@@ -316,6 +317,15 @@ function DBSeqNextID( $seqname )
 
 	if ( $DatabaseType === 'mysql' )
 	{
+		/**
+		 * Do NOT cache table statistics cache in MySQL 8+
+		 *
+		 * @link https://stackoverflow.com/questions/51283195/wrong-auto-increment-value-on-select
+		 *
+		 * @since 11.2.4 MySQL 8+ fix infinite loop due to cached AUTO_INCREMENT
+		 */
+		DBQuery( "SET @@SESSION.information_schema_stats_expiry = 0;" );
+
 		// Try to get table name from PostgreSQL sequence name by removing '_id_seq'.
 		// Will fail if PRIMARY KEY / serial column name is != id.
 		$table_name = str_ireplace( [ '_id_seq', '_seq' ], '', $seqname );
