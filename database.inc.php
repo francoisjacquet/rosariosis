@@ -315,14 +315,20 @@ function DBSeqNextID( $seqname )
 
 	if ( $DatabaseType === 'mysql' )
 	{
-		/**
-		 * Do NOT cache table statistics cache in MySQL 8+
-		 *
-		 * @link https://stackoverflow.com/questions/51283195/wrong-auto-increment-value-on-select
-		 *
-		 * @since 11.2.4 MySQL 8+ fix infinite loop due to cached AUTO_INCREMENT
-		 */
-		DBQuery( "SET @@SESSION.information_schema_stats_expiry = 0;" );
+		if ( empty( $auto_increment ) // Set only once per session.
+			&& DBGetOne( "SHOW VARIABLES LIKE 'information_schema_stats_expiry';" ) )
+		{
+			/**
+			 * Do NOT cache table statistics cache in MySQL 8+
+			 *
+			 * Note: only for MySQL, MariaDB does have this system variable
+			 *
+			 * @link https://stackoverflow.com/questions/51283195/wrong-auto-increment-value-on-select
+			 *
+			 * @since 11.2.4 MySQL 8+ fix infinite loop due to cached AUTO_INCREMENT
+			 */
+			DBQuery( "SET @@SESSION.information_schema_stats_expiry = 0;" );
+		}
 
 		// Try to get table name from PostgreSQL sequence name by removing '_id_seq'.
 		// Will fail if PRIMARY KEY / serial column name is != id.
