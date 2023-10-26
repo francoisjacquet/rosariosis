@@ -1568,6 +1568,12 @@ function _makeLetterPercent( $student_id, $column )
 		}
 	}
 
+	if ( $select_percent != '' )
+	{
+		// Add Percent grade inside HTML comment so we can accurately sort by Grade column.
+		$return = '<!--' . $select_percent . '-->' . $return;
+	}
+
 	return $return;
 }
 
