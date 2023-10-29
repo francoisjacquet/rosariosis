@@ -308,22 +308,25 @@ else
 	AND TITLE='" . DBEscapeString( $menu_title ) . "'
 	ORDER BY SCHOOL_DATE", [ 'DESCRIPTION' => 'makeDescriptionInput', 'SCHOOL_DATE' => 'ProperDate' ] );
 
-	$events_RET[0] = []; // make sure indexing from 1
-
-	foreach ( (array) $calendar_RET as $school_date => $value )
+	if ( AllowEdit() )
 	{
-		$events_RET[] = [
-			'ID' => '',
-			'SCHOOL_DATE' => ProperDate( $school_date ),
-			'DESCRIPTION' => TextInput( '', 'food_service[' . $school_date . '][text]', '', 'size=20' ) .
-			( $description_select ?
-				'<select name="' . AttrEscape( 'food_service[' . $school_date . '][select]' ) . '" style="width: 217px">' .
-				$description_select :
-				'' ),
-		];
-	}
+		$events_RET[0] = []; // make sure indexing from 1
 
-	unset( $events_RET[0] );
+		foreach ( (array) $calendar_RET as $school_date => $value )
+		{
+			$events_RET[] = [
+				'ID' => '',
+				'SCHOOL_DATE' => ProperDate( $school_date ),
+				'DESCRIPTION' => TextInput( '', 'food_service[' . $school_date . '][text]', '', 'size=20' ) .
+				( $description_select ?
+					'<select name="' . AttrEscape( 'food_service[' . $school_date . '][select]' ) . '" style="width: 217px">' .
+					$description_select :
+					'' ),
+			];
+		}
+
+		unset( $events_RET[0] );
+	}
 
 	$LO_columns = [ 'ID' => _( 'ID' ), 'SCHOOL_DATE' => _( 'Date' ), 'DESCRIPTION' => _( 'Description' ) ];
 
