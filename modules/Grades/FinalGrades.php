@@ -107,7 +107,21 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$rc_comments_RET = GetReportCardsComments( $st_list, $mp_list );
 		}
 
-		$RET = GetStuList( $extra );
+		if ( ! GetMP( $last_mp ) )
+		{
+			/**
+			 * Fail if Marking Periods are not in current School Year
+			 * Happens when user switched School Year in left menu
+			 * & then requests Report Cards from a previous tab.
+			 *
+			 * @since 11.3
+			 */
+			$RET = [];
+		}
+		else
+		{
+			$RET = GetStuList( $extra );
+		}
 
 		// GET THE COMMENTS
 

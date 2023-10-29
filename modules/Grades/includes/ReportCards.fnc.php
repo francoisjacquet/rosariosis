@@ -309,6 +309,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 10.7 Add Class Average row.
 	 * @since 10.7 Add Student Photo
 	 * @since 11.0 Add Class Average & Class Rank (Course Period)
+	 * @since 11.3 Fail if Marking Periods are not in current School Year
 	 *
 	 * @param  array         $student_array Students IDs
 	 * @param  array         $mp_array      Marking Periods IDs
@@ -328,11 +329,23 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			return false;
 		}
 
+		$last_mp = end( $mp_array );
+
+		if ( ! GetMP( $last_mp ) )
+		{
+			/**
+			 * Fail if Marking Periods are not in current School Year
+			 * Happens when user switched School Year in left menu
+			 * & then requests Report Cards from a previous tab.
+			 *
+			 * @since 11.3
+			 */
+			return false;
+		}
+
 		$mp_list = "'" . implode( "','", $mp_array ) . "'";
 
 		$st_list = "'" . implode( "','", $student_array ) . "'";
-
-		$last_mp = end( $mp_array );
 
 		$extra = GetReportCardsExtra( $mp_list, $st_list );
 
