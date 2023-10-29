@@ -345,7 +345,10 @@ else
 			]
 		),
 		SubmitButton( _( 'Save' ), 'submit[save]' ) .
-		SubmitButton( _( 'Generate Menu' ), 'submit[print]', '' ) // No .primary button class.
+		// No .primary button class.
+		// @since 11.3 Allow non admin users & students to Generate Menu (no AllowEdit() required)
+		'<input type="submit" value="' .
+			AttrEscape( _( 'Generate Menu' ) ) . '" name="' . AttrEscape( 'submit[print]' ) . '" />'
 	);
 
 	echo '<br />';

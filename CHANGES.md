@@ -18,6 +18,7 @@ Changes in 11.3
 - Update French & Spanish translations in rosariosis.po & help.po
 - Add Percent grade inside HTML comment so we can accurately sort by Grade column in InputFinalGrades.php
 - No new days inputs if Edit not allowed in DailyMenus.php
+- Allow non admin users & students to Generate Menu (no AllowEdit() required) in DailyMenus.php
 
 Changes in 11.2.4
 -----------------
