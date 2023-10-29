@@ -21,6 +21,7 @@ Changes in 11.3
 - Allow non admin users & students to Generate Menu (no AllowEdit() required) in DailyMenus.php
 - Simplify logic to save Menu ID to session in Kiosk.php & MenuReports.php
 - Fail if Marking Periods are not in current School Year in FinalGrades.php & ReportCards.fnc.php
+- Fix "Daily Absences" / "Other Attendance" strings in ReportCards.fnc.php
 
 Changes in 11.2.4
 -----------------

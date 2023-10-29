@@ -110,14 +110,14 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</tr><tr class="st">';
 
-		// Daily Absences this quarter.
+		// Daily Absences this marking period.
 		$return .= '<td><label><input type="checkbox" name="elements[mp_absences]" value="Y"' .
 		( GetMP( UserMP(), 'SORT_ORDER' ) != 1 ? ' checked' : '' ) . ' /> ' .
-		_( 'Daily Absences this quarter' ) . '</label></td>';
+		_( 'Daily Absences this marking period' ) . '</label></td>';
 
-		// Other Attendance this quarter.
+		// Other Attendance this marking period.
 		$return .= '<td><label><input type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
-		_( 'Other Attendance this quarter' ) . ':</label> <select name="mp_tardies_code" id="mp_tardies_code">';
+		_( 'Other Attendance this marking period' ) . ':</label> <select name="mp_tardies_code" id="mp_tardies_code">';
 
 		foreach ( (array) $other_attendance_codes as $code )
 		{
@@ -1115,14 +1115,14 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 }
 
 /**
- * Marking Period-by-period absences.
+ * Marking Period Daily absences.
  *
  * @uses _getAttendanceDayRET()
  *
  * @param  string $st_list    Student List
  * @param  string $last_mp    Last MP
  * @param  string $student_id Student ID
- * @return string "Absences in [last MP]: x"
+ * @return string "Daily Absences in [last MP]: x"
  */
 function GetMPAbsences( $st_list, $last_mp, $student_id )
 {
@@ -1138,7 +1138,7 @@ function GetMPAbsences( $st_list, $last_mp, $student_id )
 		}
 	}
 
-	return sprintf( _( 'Absences in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' . $count;
+	return sprintf( _( 'Daily Absences in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' . $count;
 }
 
 /**
@@ -1149,7 +1149,7 @@ function GetMPAbsences( $st_list, $last_mp, $student_id )
  * @param  string $st_list    Student List
  * @param  string $last_mp    Last MP
  * @param  string $student_id Student ID
- * @return string "Absences this year: x"
+ * @return string "Daily Absences this year: x"
  */
 function GetYTDAbsences( $st_list, $last_mp, $student_id )
 {
@@ -1168,7 +1168,7 @@ function GetYTDAbsences( $st_list, $last_mp, $student_id )
 		}
 	}
 
-	return _( 'Absences this year' ) . ': ' . $count;
+	return _( 'Daily Absences this year' ) . ': ' . $count;
 }
 
 /**
