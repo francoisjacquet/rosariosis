@@ -11,15 +11,11 @@ $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID' ] );
 
-if ( ! empty( $_REQUEST['menu_id'] ) )
+if ( empty( $_REQUEST['menu_id'] ) )
 {
-	if ( $_REQUEST['menu_id'] !== 'new' )
+	if ( empty( $_SESSION['FSA_menu_id'] ) )
 	{
-		if ( $menus_RET[$_REQUEST['menu_id']] )
-		{
-			$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
-		}
-		elseif ( ! empty( $menus_RET ) )
+		if ( ! empty( $menus_RET ) )
 		{
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 		}
@@ -28,40 +24,14 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
-	elseif ( ! empty( $menus_RET ) )
-	{
-		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
-	}
 	else
 	{
-		ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
+		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
 	}
 }
 else
 {
-	if ( ! empty( $_SESSION['FSA_menu_id'] ) )
-	{
-		if ( $menus_RET[$_SESSION['FSA_menu_id']] )
-		{
-			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
-		}
-		elseif ( ! empty( $menus_RET ) )
-		{
-			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
-		}
-		else
-		{
-			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
-		}
-	}
-	elseif ( ! empty( $menus_RET ) )
-	{
-		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
-	}
-	else
-	{
-		ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
-	}
+	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 }
 
 $categories_RET = DBGet( "SELECT MENU_ID,CATEGORY_ID,TITLE
