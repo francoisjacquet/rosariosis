@@ -12,6 +12,8 @@ This plugin integrates RosarioSIS with [Moodle LMS](https://moodle.org/). It let
 
 The plugin is designed and intended for ONE school only in RosarioSIS.
 
+Users and courses can only be rolled ONCE in RosarioSIS.
+
 ## Content
 
 Plugin Configuration

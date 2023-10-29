@@ -22,6 +22,7 @@ Changes in 11.3
 - Simplify logic to save Menu ID to session in Kiosk.php & MenuReports.php
 - Fail if Marking Periods are not in current School Year in FinalGrades.php & ReportCards.fnc.php
 - Fix "Daily Absences" / "Other Attendance" strings in ReportCards.fnc.php
+- Moodle plugin: only roll Users & Courses once in Rollover.php & plugins/Moodle/README.md
 
 Changes in 11.2.4
 -----------------

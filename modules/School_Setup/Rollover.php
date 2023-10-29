@@ -67,11 +67,21 @@ foreach ( (array) $tables as $table => $name )
 			AND exists(SELECT 1 FROM food_service_staff_accounts WHERE STAFF_ID=staff.STAFF_ID)" );
 	}
 
+	$exists_table_count = $exists_RET[$table][1]['COUNT'];
+
+	if ( $RosarioPlugins['Moodle']
+		&& ( $table === 'staff' || $table === 'courses' )
+		&& $exists_table_count > 0 )
+	{
+		// @since 11.3 Moodle plugin: only roll Users & Courses once
+		continue;
+	}
+
 	$input_title = $name;
 
-	if ( $exists_RET[$table][1]['COUNT'] > 0 )
+	if ( $exists_table_count > 0 )
 	{
-		$input_title = '<span style="color:grey">' . $input_title . ' (' . $exists_RET[$table][1]['COUNT'] . ')</span>';
+		$input_title = '<span style="color:grey">' . $input_title . ' (' . $exists_table_count . ')</span>';
 	}
 
 	if ( ! empty( $tables_tooltip[ $table ] ) )
@@ -79,10 +89,10 @@ foreach ( (array) $tables as $table => $name )
 		$input_title .= '<div class="tooltip"><i>' . $tables_tooltip[ $table ] . '</i></div>';
 	}
 
-	$checked = ( $exists_RET[$table][1]['COUNT'] > 0 ) ? '' : ' checked';
+	$checked = ( $exists_table_count > 0 ) ? '' : ' checked';
 
 	// Fix SQL error foreign keys: force roll Schools
-	$readonly = ( $table === 'schools' && ! $exists_RET[$table][1]['COUNT'] ) ? ' onclick="return false;"' : '';
+	$readonly = ( $table === 'schools' && ! $exists_table_count ) ? ' onclick="return false;"' : '';
 
 	$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']"' .
 		$checked . $readonly . '>&nbsp;' . $input_title . '</label>';
@@ -90,14 +100,14 @@ foreach ( (array) $tables as $table => $name )
 	if ( $table === 'courses' )
 	{
 		// @since 10.3 Add "Course Periods" checkbox
-		$disabled = ( $exists_RET[$table][1]['COUNT'] > 0 ) ? ' disabled' : '';
+		$disabled = ( $exists_table_count > 0 ) ? ' disabled' : '';
 
 		$table_list .= '<br />&#10551;&nbsp;<label><input type="checkbox" value="Y" id="course_periods" name="course_periods"' .
 			$checked . $disabled . '>&nbsp;';
 
 		$cp_title = _( 'Course Periods' );
 
-		if ( $exists_RET[$table][1]['COUNT'] > 0 )
+		if ( $exists_table_count > 0 )
 		{
 			$cp_title = '<span style="color:grey">' . $cp_title . '</span>';
 		}
