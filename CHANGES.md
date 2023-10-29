@@ -23,6 +23,7 @@ Changes in 11.3
 - Fail if Marking Periods are not in current School Year in FinalGrades.php & ReportCards.fnc.php
 - Fix "Daily Absences" / "Other Attendance" strings in ReportCards.fnc.php
 - Moodle plugin: only roll Users & Courses once in Rollover.php & plugins/Moodle/README.md
+- Contact not found, remove person_id & redirect URL in Address.inc.php
 
 Changes in 11.2.4
 -----------------

@@ -781,6 +781,15 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '</tr>';
 			}
 
+			if ( empty( $this_contact )
+				&& isset( $_REQUEST['person_id'] )
+				&& $_REQUEST['person_id'] !== 'old'
+				&& $_REQUEST['person_id'] !== 'new' )
+			{
+				// Contact not found, remove person_id & redirect URL.
+				RedirectURL( 'person_id' );
+			}
+
 			// New Contact
 
 			if ( AllowEdit()
