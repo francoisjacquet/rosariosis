@@ -1610,7 +1610,7 @@ function _makeComment( $value, $column )
 			$div
 		);
 
-		if ( mb_strlen( $select ) > 60 )
+		if ( mb_strlen( (string) $select ) > 60 )
 		{
 			// Comments length > 60 chars, responsive table ColorBox.
 			$return = '<div id="divInputFinalGradesComment' . $THIS_RET['STUDENT_ID']. '" class="rt2colorBox">' .
