@@ -24,6 +24,7 @@ Changes in 11.3
 - Fix "Daily Absences" / "Other Attendance" strings in ReportCards.fnc.php
 - Moodle plugin: only roll Users & Courses once in Rollover.php & plugins/Moodle/README.md
 - Contact not found, remove person_id & redirect URL in Address.inc.php
+- Rename `$grades_RET[$i]` var to `$grade_i` inside foreach loop in ReportCards.fnc.php
 
 Changes in 11.2.4
 -----------------

@@ -492,22 +492,24 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				$i++;
 
-				$grades_RET[$i]['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
-				$grades_RET[$i]['COURSE_PERIOD_ID'] = $course_period_id;
-				$grades_RET[$i]['TEACHER_ID'] = GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] );
+				$grade_i = [];
+
+				$grade_i['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
+				$grade_i['COURSE_PERIOD_ID'] = $course_period_id;
+				$grade_i['TEACHER_ID'] = GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] );
 
 				if ( ! empty( $_REQUEST['elements']['average'] ) )
 				{
 					// @since 11.0 Add Class Average (Course Period)
 					// Add "small" line below Course Title.
-					$grades_RET[$i]['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class average' ) . '</span>';
+					$grade_i['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class average' ) . '</span>';
 				}
 
 				if ( ! empty( $_REQUEST['elements']['rank'] ) )
 				{
 					// @since 11.0 Add Class Rank (Course Period)
 					// Add "small" line below Course Title.
-					$grades_RET[$i]['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class Rank' ) . '</span>';
+					$grade_i['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class Rank' ) . '</span>';
 				}
 
 				foreach ( (array) $mp_array as $mp )
@@ -519,22 +521,22 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					$grade = $mps[$mp][1];
 
-					$grades_RET[$i][$mp] = '<B>' . issetVal( $grade['GRADE_TITLE'], '&nbsp;' ) . '</B>';
+					$grade_i[$mp] = '<B>' . issetVal( $grade['GRADE_TITLE'], '&nbsp;' ) . '</B>';
 
-					$grades_RET[$i]['CREDITS'] = (float) $grade['CREDITS'];
+					$grade_i['CREDITS'] = (float) $grade['CREDITS'];
 
 					if ( isset( $_REQUEST['elements']['percents'] )
 						&& $_REQUEST['elements']['percents'] === 'Y'
 						&& $grade['GRADE_PERCENT'] > 0 )
 					{
-						$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . (float) $grade['GRADE_PERCENT'] . '%';
+						$grade_i[$mp] .= '&nbsp;&nbsp;' . (float) $grade['GRADE_PERCENT'] . '%';
 					}
 
 					if ( ! empty( $_REQUEST['elements']['average'] ) )
 					{
 						// @since 11.0 Add Class Average (Course Period)
 						// Add "small" line below MP Grade.
-						$grades_RET[$i][$mp] .= '<br /><span class="size-1"><b>' . GetClassAverage(
+						$grade_i[$mp] .= '<br /><span class="size-1"><b>' . GetClassAverage(
 							$course_period_id,
 							$mp,
 							-1
@@ -542,21 +544,21 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 						if ( ! empty( $_REQUEST['elements']['percents'] ) )
 						{
-							$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . GetClassAverage(
+							$grade_i[$mp] .= '&nbsp;&nbsp;' . GetClassAverage(
 								$course_period_id,
 								$mp,
 								1
 							);
 						}
 
-						$grades_RET[$i][$mp] .= '</span>';
+						$grade_i[$mp] .= '</span>';
 					}
 
 					if ( ! empty( $_REQUEST['elements']['rank'] ) )
 					{
 						// @since 11.0 Add Class Rank (Course Period)
 						// Add "small" line below MP Grade.
-						$grades_RET[$i][$mp] .= '<br /><span class="size-1">' . GetClassRank(
+						$grade_i[$mp] .= '<br /><span class="size-1">' . GetClassRank(
 							$student_id,
 							$course_period_id,
 							$mp
@@ -580,16 +582,16 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 						$sep_mp = ' | ';
 
-						if ( empty( $grades_RET[$i]['COMMENT'] ) )
+						if ( empty( $grade_i['COMMENT'] ) )
 						{
-							$grades_RET[$i]['COMMENT'] = '';
+							$grade_i['COMMENT'] = '';
 						}
 						else
 						{
-							$grades_RET[$i]['COMMENT'] .= $sep_mp;
+							$grade_i['COMMENT'] .= $sep_mp;
 						}
 
-						$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
+						$temp_grades_COMMENTS = $grade_i['COMMENT'];
 
 						$comments_RET[$student_id][$course_period_id][$mp] = issetVal( $comments_RET[$student_id][$course_period_id][$mp], [] );
 
@@ -597,22 +599,22 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						{
 							if ( ! empty( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 							{
-								if ( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) )
+								if ( empty( $grade_i['C' . $comment['REPORT_CARD_COMMENT_ID']] ) )
 								{
-									$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] = $comment['COMMENT'] != ' ' ?$comment['COMMENT'] :
+									$grade_i['C' . $comment['REPORT_CARD_COMMENT_ID']] = $comment['COMMENT'] != ' ' ?$comment['COMMENT'] :
 										'&middot;';
 								}
 								else
 								{
-									$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
+									$grade_i['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
 										$sep_mp . $comment['COMMENT'] :
 										$sep_mp . '&middot;';
 								}
 							}
 							else
 							{
-								$sep_tmp = empty( $grades_RET[$i]['COMMENT'] )
-								|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
+								$sep_tmp = empty( $grade_i['COMMENT'] )
+								|| mb_substr( $grade_i['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep;
 
@@ -629,10 +631,10 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 										$color_html = '';
 									}
 
-									$grades_RET[$i]['COMMENT'] .= $sep_tmp . $color_html .
+									$grade_i['COMMENT'] .= $sep_tmp . $color_html .
 										$commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'] . '.';
 
-									$grades_RET[$i]['COMMENT'] .= '(' . ( $comment['COMMENT'] != ' ' ?
+									$grade_i['COMMENT'] .= '(' . ( $comment['COMMENT'] != ' ' ?
 										$comment['COMMENT'] :
 										'&middot;' ) .
 										')' . ( $color_html ? '</span>' : '' );
@@ -641,33 +643,33 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								}
 								else
 								{
-									$grades_RET[$i]['COMMENT'] .= $sep_tmp .
+									$grade_i['COMMENT'] .= $sep_tmp .
 										$commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
 								}
 
-								$comments_arr[$grades_RET[$i]['COURSE_TITLE']][$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
+								$comments_arr[$grade_i['COURSE_TITLE']][$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
 							}
 						}
 
 						if ( $grade['COMMENT_TITLE'] )
 						{
-							$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] )
-								|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
+							$grade_i['COMMENT'] .= ( empty( $grade_i['COMMENT'] )
+								|| mb_substr( $grade_i['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep ) .
 								$grade['COMMENT_TITLE'];
 						}
 
-						if ( $grades_RET[$i]['COMMENT'] == $temp_grades_COMMENTS )
+						if ( $grade_i['COMMENT'] == $temp_grades_COMMENTS )
 						{
-							$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] )
-								|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
+							$grade_i['COMMENT'] .= ( empty( $grade_i['COMMENT'] )
+								|| mb_substr( $grade_i['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep ) .
 							_( 'None' );
 						}
 
-						$grades_RET[$i]['COMMENT'] = '<span class="size-1">' . $grades_RET[$i]['COMMENT'] . '</span>';
+						$grade_i['COMMENT'] = '<span class="size-1">' . $grade_i['COMMENT'] . '</span>';
 					}
 
 					$last_mp = $mp;
@@ -680,14 +682,16 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				{
 					if ( $mps[$last_mp][1]['DOES_ATTENDANCE'] )
 					{
-						$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'] . ' / ' .
+						$grade_i['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'] . ' / ' .
 							$mps[$last_mp][1]['MP_ABSENCES'];
 					}
 					else
 					{
-						$grades_RET[$i]['ABSENCES'] = _( 'N/A' );
+						$grade_i['ABSENCES'] = _( 'N/A' );
 					}
 				}
+
+				$grades_RET[ $i ] = $grade_i;
 			}
 
 			if ( ! empty( $_REQUEST['elements']['last_row'] ) )
