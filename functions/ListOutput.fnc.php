@@ -188,6 +188,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			foreach ( (array) $result as $sort )
 			{
+				if ( ! isset( $sort[$LO_sort] ) )
+				{
+					$sort_array[] = '';
+
+					continue;
+				}
+
 				if ( mb_substr( (string) $sort[$LO_sort], 0, 4 ) != '<!--' )
 				{
 					//FJ better list sorting by isolating the values
