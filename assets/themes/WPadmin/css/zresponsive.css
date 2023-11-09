@@ -350,7 +350,8 @@
 
 @media only screen and (max-width:479px) {
 	/*Stackable tables: columns always align left*/
-	.st > .align-right {
+	.st > .align-right,
+	.st > .center {
 		text-align: left;
 	}
 	.header2.align-right input[type="button"],

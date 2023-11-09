@@ -28,6 +28,7 @@ Changes in 11.3
 - MySQL dump: export procedures, functions and triggers in DatabaseBackup.php
 - Rename `_makeCheckBoxInput()` to `_makeCheckboxInput()` & `CheckBoxInput()` to `CheckboxInput()` in AttendanceCodes.php, EditReportCardGrades.php & EnrollmentCodes.php
 - HTML responsive break header links more nicely in InputFinalGrades.php
+- CSS responsive fix Stackable tables: columns always align left in zresponsive.css
 
 Changes in 11.2.4
 -----------------
