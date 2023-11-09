@@ -2,6 +2,20 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.3
+-----------
+
+[Absent for the Day on First Absence](https://gitlab.com/francoisjacquet/Absent_for_the_Day_on_First_Absence) plugin, sponsored by Paris'Com Sup, France
+
+Scheduling
+- Student Schedule + Group Schedule: Refuse to enrol the student twice in the same course period
+
+Export list to Excel using [SimpleXLSXGen](https://github.com/shuchkin/simplexlsxgen) (more reliable)
+
+School
+- Database Backup: MySQL dump now includes procedures, functions and triggers
+
+
 New in 11.2
 -----------
 
