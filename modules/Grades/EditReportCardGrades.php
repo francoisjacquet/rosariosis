@@ -424,7 +424,7 @@ if ( UserStudentID() )
 					'CREDIT_ATTEMPTED' => '_makeTextInput',
 					'CREDIT_EARNED' => '_makeTextInput',
 					'CREDIT_CATEGORY' => '_makeTextInput',
-					'CLASS_RANK' => '_makeCheckBoxInput',
+					'CLASS_RANK' => '_makeCheckboxInput',
 				];
 
 				$LO_columns += [
@@ -440,7 +440,7 @@ if ( UserStudentID() )
 					'CREDIT_ATTEMPTED' => _makeTextInput( '', 'CREDIT_ATTEMPTED' ),
 					'CREDIT_EARNED' => _makeTextInput( '', 'CREDIT_EARNED' ),
 					'CREDIT_CATEGORY' => _makeTextInput( '', 'CREDIT_CATEGORY' ),
-					'CLASS_RANK' => _makeCheckBoxInput( '', 'CLASS_RANK' ),
+					'CLASS_RANK' => _makeCheckboxInput( '', 'CLASS_RANK' ),
 				];
 			}
 
@@ -631,7 +631,7 @@ function _makeSelectInput( $value, $name )
  * @param $value
  * @param $name
  */
-function _makeCheckBoxInput( $value, $name )
+function _makeCheckboxInput( $value, $name )
 {
 	global $THIS_RET;
 
@@ -644,5 +644,5 @@ function _makeCheckBoxInput( $value, $name )
 		$id = 'new';
 	}
 
-	return CheckBoxInput( $value, "values[" . $id . "][" . $name . "]", '', '', ( $id === 'new' ) );
+	return CheckboxInput( $value, "values[" . $id . "][" . $name . "]", '', '', ( $id === 'new' ) );
 }

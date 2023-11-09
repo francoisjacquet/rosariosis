@@ -80,7 +80,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'TITLE' => '_makeTextInput',
 			'SHORT_NAME' => '_makeTextInput',
 			'TYPE' => '_makeSelectInput',
-			'DEFAULT_CODE' => '_makeCheckBoxInput',
+			'DEFAULT_CODE' => '_makeCheckboxInput',
 			'SORT_ORDER' => '_makeTextInput',
 		]
 	);
@@ -97,7 +97,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'TYPE' => _makeSelectInput( '', 'TYPE' ),
-		'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ),
+		'DEFAULT_CODE' => _makeCheckboxInput( '', 'DEFAULT_CODE' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 	];
 
@@ -185,7 +185,7 @@ function _makeSelectInput( $value, $name )
  * @param $value
  * @param $name
  */
-function _makeCheckBoxInput( $value, $name )
+function _makeCheckboxInput( $value, $name )
 {
 	global $THIS_RET;
 

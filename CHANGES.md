@@ -26,6 +26,7 @@ Changes in 11.3
 - Contact not found, remove person_id & redirect URL in Address.inc.php
 - Rename `$grades_RET[$i]` var to `$grade_i` inside foreach loop in ReportCards.fnc.php
 - MySQL dump: export procedures, functions and triggers in DatabaseBackup.php
+- Rename `_makeCheckBoxInput()` to `_makeCheckboxInput()` & `CheckBoxInput()` to `CheckboxInput()` in AttendanceCodes.php, EditReportCardGrades.php & EnrollmentCodes.php
 
 Changes in 11.2.4
 -----------------

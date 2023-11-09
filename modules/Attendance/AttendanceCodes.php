@@ -129,7 +129,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'SORT_ORDER' => '_makeTextInput',
 				'TYPE' => '_makeSelectInput',
 				'STATE_CODE' => '_makeSelectInput',
-				'DEFAULT_CODE' => '_makeCheckBoxInput',
+				'DEFAULT_CODE' => '_makeCheckboxInput',
 			]
 		);
 	}
@@ -166,7 +166,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'SHORT_NAME' => '_makeTextInput',
 			'SORT_ORDER' => '_makeTextInput',
 			'TYPE' => '_makeSelectInput',
-			'DEFAULT_CODE' => '_makeCheckBoxInput',
+			'DEFAULT_CODE' => '_makeCheckboxInput',
 		];
 
 		$LO_columns = [
@@ -188,7 +188,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 			'TYPE' => _makeSelectInput( '', 'TYPE' ),
-			'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ),
+			'DEFAULT_CODE' => _makeCheckboxInput( '', 'DEFAULT_CODE' ),
 		];
 
 		if ( $_REQUEST['table'] == '0' )
@@ -347,7 +347,7 @@ function _makeSelectInput( $value, $name )
  *
  * @return string "Default for Teacher" Checkbox input
  */
-function _makeCheckBoxInput( $value, $name = 'DEFAULT_CODE' )
+function _makeCheckboxInput( $value, $name = 'DEFAULT_CODE' )
 {
 	global $THIS_RET;
 
@@ -364,7 +364,7 @@ function _makeCheckBoxInput( $value, $name = 'DEFAULT_CODE' )
 		$id = $THIS_RET['ID'];
 	}
 
-	return CheckBoxInput(
+	return CheckboxInput(
 		$value,
 		'values[' . $id . '][' . $name . ']',
 		'',
