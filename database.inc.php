@@ -321,7 +321,7 @@ function DBSeqNextID( $seqname )
 			/**
 			 * Do NOT cache table statistics cache in MySQL 8+
 			 *
-			 * Note: only for MySQL, MariaDB does have this system variable
+			 * Note: only for MySQL, MariaDB does not have this system variable
 			 *
 			 * @link https://stackoverflow.com/questions/51283195/wrong-auto-increment-value-on-select
 			 *
