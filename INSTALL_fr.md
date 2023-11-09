@@ -10,11 +10,10 @@ RosarioSIS a été testé sur:
 
 - Windows 10 x86 avec Apache 2.4.16, Postgres 9.3.6, et PHP 7.1.18
 - macOS Monterey avec Apache 2.4.54, Postgres 14.4, et PHP 8.0.21
-- Ubuntu 14.04 avec Apache 2.4.18, Postgres 9.3.10, MySQL 5.6.33 et PHP 5.5.9
-- Ubuntu 20.04 avec Apache 2.4.48, Postgres 12.11, et PHP 7.4.22
-- Debian Bullseye avec Apache 2.4.54, Postgres 13.7, MariaDB 10.5.15 et PHP 8.1.4
-- CentOS 8.2 avec Apache 2.4.37, Postgres 9.6.10, et PHP 7.2.24
-- Hébergement mutualisé avec cPanel, nginx, Postgres 8.4, et PHP 5.6.27
+- Ubuntu 22.04 avec Apache 2.4.52, MariaDB 10.6.12, et PHP 5.6.40
+- Ubuntu 22.04 avec Apache 2.4.57, Postgres 14.9, et PHP 8.1.2
+- Debian Bullseye avec Apache 2.4.54, Postgres 13.7, MariaDB 10.5.15, et PHP 8.2.6
+- Hébergement mutualisé avec cPanel, nginx, Postgres 9.2, et PHP 7.2
 - à travers Mozilla Firefox et Google Chrome
 - à travers BrowserStack pour la compatibilité navigateurs (incompatible avec Internet Explorer)
 
@@ -149,9 +148,9 @@ Afin de vous aider à identifier les problèmes, pointez votre navigateur sur: `
 Extensions PHP
 --------------
 
-Instructions d'installation pour Ubuntu 20.04:
+Instructions d'installation pour Ubuntu 22.04:
 ```bash
-server$ sudo apt-get install php-pgsql php-mysql gettext php-intl php-mbstring php-gd php-curl php-xmlrpc php-xml php-zip
+server$ sudo apt-get install php-pgsql php-mysql php-intl php-mbstring php-gd php-curl php-xml php-zip
 ```
 
 
@@ -185,7 +184,7 @@ Redémarrer PHP et Apache.
 Autres langues
 --------------
 
-Instructions d'installation pour Ubuntu 20.04 et la locale _Espagnol_:
+Instructions d'installation pour Ubuntu 22.04 et la locale _Espagnol_:
 ```bash
 server$ sudo apt-get install language-pack-es
 ```
@@ -195,10 +194,10 @@ Ensuite redémarrez le serveur.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Instructions d'installation pour Ubuntu 20.04 (Focal):
+Instructions d'installation pour Ubuntu 22.04 (jammy):
 ```bash
-server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
-server$ sudo apt install ./wkhtmltox_0.12.6-1.focal_amd64.deb
+server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+server$ sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 ```
 
 Définir le chemin dans le fichier `config.inc.php`:
@@ -208,7 +207,7 @@ Définir le chemin dans le fichier `config.inc.php`:
 Envoi d'email
 -------------
 
-Instructions d'installation pour Ubuntu 20.04. Activer la fonction `mail()` de PHP:
+Instructions d'installation pour Ubuntu 22.04. Activer la fonction `mail()` de PHP:
 ```bash
 server$ sudo apt-get install sendmail
 ```
