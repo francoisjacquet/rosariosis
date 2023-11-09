@@ -1288,9 +1288,9 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 
 	if ( AllowEdit() )
 	{
-		$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		$gb_header .= '<span class="nobr"><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&include_inactive=' . $_REQUEST['include_inactive'] .
-			'&modfunc=gradebook&mp=' . $_REQUEST['mp'] ) . '">' . _( 'Get Gradebook Grades.' ) . '</a>';
+			'&modfunc=gradebook&mp=' . $_REQUEST['mp'] ) . '">' . _( 'Get Gradebook Grades.' ) . '</a></span>';
 
 		$prev_mp = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,START_DATE
 			FROM school_marking_periods
@@ -1310,24 +1310,26 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 
 		if ( $prev_mp && ! $mp_is_quarter )
 		{
-			$gb_header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			$gb_header .= ' | <span class="nobr">';
+			$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&include_inactive=' . $_REQUEST['include_inactive'] .
 				'&modfunc=grades&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] .
 				'&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] ) . '">' .
-				sprintf( _( 'Get %s Grades' ), $prev_mp['TITLE'] ) . '</a>';
+				sprintf( _( 'Get %s Grades' ), $prev_mp['TITLE'] ) . '</a></span>';
 
-			$gb_header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			$gb_header .= ' | <span class="nobr">';
+			$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&include_inactive=' . $_REQUEST['include_inactive'] .
 				'&modfunc=comments&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] .
 				'&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] ) . '">' .
-				sprintf( _( 'Get %s Comments' ), $prev_mp['TITLE'] ) . '</a>';
+				sprintf( _( 'Get %s Comments' ), $prev_mp['TITLE'] ) . '</a></span>';
 		}
 
-		$gb_header .= ' | ';
+		$gb_header .= ' | <span class="nobr">';
 		$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&include_inactive=' . $_REQUEST['include_inactive'] .
 			'&modfunc=clearall&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] ) . '">' .
-			_( 'Clear All' ) . '</a>';
+			_( 'Clear All' ) . '</a></span>';
 	}
 
 	DrawHeader( $gb_header );
