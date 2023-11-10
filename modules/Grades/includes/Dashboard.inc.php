@@ -40,6 +40,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 	 *
 	 * @since 4.0
 	 * @since 9.0 Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable
+	 * @since 11.3 SQL do not round GPA average
 	 *
 	 * @global $db_connection PgSql\Connection instance
 	 *
@@ -49,8 +50,8 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 	{
 		global $db_connection;
 
-		$gpa_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
-		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA
+		$gpa_RET = DBGet( "SELECT AVG(CUM_WEIGHTED_GPA) AS CUM_WEIGHTED_GPA,
+		AVG(UNWEIGHTED_GPA) AS CUM_UNWEIGHTED_GPA
 		FROM transcript_grades
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'

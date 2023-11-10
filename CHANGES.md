@@ -30,6 +30,7 @@ Changes in 11.3
 - HTML responsive break header links more nicely in InputFinalGrades.php
 - CSS responsive fix Stackable tables: columns always align left in zresponsive.css
 - Update Installation Directions for Ubuntu 22.04 in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- SQL do not round GPA average in Grades/includes/Dashboard.inc.php
 
 Changes in 11.2.4
 -----------------
