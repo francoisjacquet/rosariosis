@@ -1281,16 +1281,25 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		);
 	}
 
-	//FJ add translation
-	DrawHeader(  ( $current_completed ? '<span style="color:green">' . _( 'These grades are complete.' ) . '</span>' : '<span style="color:red">' . _( 'These grades are NOT complete.' ) . '</span>' ) . ( AllowEdit() ? ' | <span style="color:green">' . _( 'You can edit these grades.' ) . $grade_posting_dates_text . '</span>' : ' | <span style="color:red">' . _( 'You can not edit these grades.' ) . $grade_posting_dates_text . '</span>' ) );
+	DrawHeader(
+		( $current_completed ?
+			'<span style="color:green">' . _( 'These grades are complete.' ) . '</span>' :
+			'<span style="color:red">' . _( 'These grades are NOT complete.' ) . '</span>' ) .
+		( AllowEdit() ?
+			// CSS .rseparator responsive separator: hide text separator & break line
+			'<span class="rseparator"> | </span><span style="color:green">' .
+				_( 'You can edit these grades.' ) . $grade_posting_dates_text . '</span>' :
+			'<span class="rseparator"> | </span><span style="color:red">' .
+				_( 'You can not edit these grades.' ) . $grade_posting_dates_text . '</span>' )
+	);
 
-	$gb_header = '';
+	$gb_header = [];
 
 	if ( AllowEdit() )
 	{
-		$gb_header .= '<span class="nobr"><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		$gb_header[] = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&include_inactive=' . $_REQUEST['include_inactive'] .
-			'&modfunc=gradebook&mp=' . $_REQUEST['mp'] ) . '">' . _( 'Get Gradebook Grades.' ) . '</a></span>';
+			'&modfunc=gradebook&mp=' . $_REQUEST['mp'] ) . '">' . _( 'Get Gradebook Grades.' ) . '</a>';
 
 		$prev_mp = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,START_DATE
 			FROM school_marking_periods
@@ -1310,29 +1319,27 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 
 		if ( $prev_mp && ! $mp_is_quarter )
 		{
-			$gb_header .= ' | <span class="nobr">';
-			$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			$gb_header[] = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&include_inactive=' . $_REQUEST['include_inactive'] .
 				'&modfunc=grades&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] .
 				'&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] ) . '">' .
-				sprintf( _( 'Get %s Grades' ), $prev_mp['TITLE'] ) . '</a></span>';
+				sprintf( _( 'Get %s Grades' ), $prev_mp['TITLE'] ) . '</a>';
 
-			$gb_header .= ' | <span class="nobr">';
-			$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			$gb_header[] = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&include_inactive=' . $_REQUEST['include_inactive'] .
 				'&modfunc=comments&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] .
 				'&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] ) . '">' .
-				sprintf( _( 'Get %s Comments' ), $prev_mp['TITLE'] ) . '</a></span>';
+				sprintf( _( 'Get %s Comments' ), $prev_mp['TITLE'] ) . '</a>';
 		}
 
-		$gb_header .= ' | <span class="nobr">';
-		$gb_header .= '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		$gb_header[] = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&include_inactive=' . $_REQUEST['include_inactive'] .
 			'&modfunc=clearall&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] ) . '">' .
-			_( 'Clear All' ) . '</a></span>';
+			_( 'Clear All' ) . '</a>';
 	}
 
-	DrawHeader( $gb_header );
+	// CSS .rseparator responsive separator: hide text separator & break line
+	DrawHeader( implode( '<span class="rseparator"> | </span>', $gb_header ) );
 	DrawHeader( '', $tipmessage );
 }
 else

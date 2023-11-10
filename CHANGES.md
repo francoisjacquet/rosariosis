@@ -27,10 +27,11 @@ Changes in 11.3
 - Rename `$grades_RET[$i]` var to `$grade_i` inside foreach loop in ReportCards.fnc.php
 - MySQL dump: export procedures, functions and triggers in DatabaseBackup.php
 - Rename `_makeCheckBoxInput()` to `_makeCheckboxInput()` & `CheckBoxInput()` to `CheckboxInput()` in AttendanceCodes.php, EditReportCardGrades.php & EnrollmentCodes.php
-- HTML responsive break header links more nicely in InputFinalGrades.php
 - CSS responsive fix Stackable tables: columns always align left in zresponsive.css
 - Update Installation Directions for Ubuntu 22.04 in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - SQL do not round GPA average in Grades/includes/Dashboard.inc.php
+- CSS add .rseparator class responsive separator: hide text separator & break line in zresponsive.css & InputFinalGrades.php
+- CSS add .addon-readme class Add-on module/plugin README inside colorBox in stylesheet.css
 
 Changes in 11.2.4
 -----------------

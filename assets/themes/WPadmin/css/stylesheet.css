@@ -1375,6 +1375,13 @@ td.calendar-menu {
 	padding: 5px !important
 }
 
+/* Add-on module/plugin README inside colorBox */
+
+.addon-readme {
+	/* screenshots are 2880px DPR2 */
+	max-width: 1440px;
+}
+
 /*responsive tables*/
 
 .rt .link2colorBox {

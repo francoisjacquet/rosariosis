@@ -197,6 +197,14 @@
 	.rbr {
 		display: none;
 	}
+	/*responsive separator: hide text separator & break line*/
+	.rseparator {
+		visibility: hidden;
+	}
+	.rseparator:after {
+		content: ' ';
+		display: block;
+	}
 	/*responsive tables*/
 	.rt {
 		display: block;
