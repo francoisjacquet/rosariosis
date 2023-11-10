@@ -32,6 +32,7 @@ Changes in 11.3
 - SQL do not round GPA average in Grades/includes/Dashboard.inc.php
 - CSS add .rseparator class responsive separator: hide text separator & break line in zresponsive.css & InputFinalGrades.php
 - CSS add .addon-readme class Add-on module/plugin README inside colorBox in stylesheet.css
+- Use DBUpsert() & check for required columns on INSERT in Medical.inc.php
 
 Changes in 11.2.4
 -----------------

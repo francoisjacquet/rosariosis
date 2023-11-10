@@ -5,23 +5,62 @@ if ( ( isset( $_POST['values'] )
 	|| isset( $_POST['month_values'] ) )
 	&& AllowEdit() )
 {
-	SaveData(
-		[
-			'student_medical_alerts' => "ID='__ID__'",
-			'student_medical' => "ID='__ID__'",
-			'student_medical_visits' => "ID='__ID__'",
-			'fields' => [
-				'student_medical' => 'STUDENT_ID,',
-				'student_medical_alerts' => 'STUDENT_ID,',
-				'student_medical_visits' => 'STUDENT_ID,',
-			],
-			'values' => [
-				'student_medical' => "'" . UserStudentID() . "',",
-				'student_medical_alerts' => "'" . UserStudentID() . "',",
-				'student_medical_visits' => "'" . UserStudentID() . "',",
-			],
-		]
-	);
+	// Add eventual Dates to $_REQUEST['values'].
+	AddRequestedDates( 'values' );
+
+	$tables = [
+		'student_medical_alerts',
+		'student_medical',
+		'student_medical_visits',
+	];
+
+	foreach ( $tables as $table )
+	{
+		if ( empty( $_REQUEST['values'][ $table ] ) )
+		{
+			continue;
+		}
+
+		foreach ( $_REQUEST['values'][ $table ] as $id => $columns )
+		{
+			if ( $id === 'new' )
+			{
+				// Check required columns on INSERT.
+				if ( $table === 'student_medical'
+					&& empty( $columns['TYPE'] )
+					&& empty( $columns['MEDICAL_DATE'] ) )
+				{
+					continue;
+				}
+
+				if ( $table === 'student_medical_alerts'
+					&& empty( $columns['TITLE'] ) )
+				{
+					continue;
+				}
+
+				if ( $table === 'student_medical_visits'
+					&& empty( $columns['SCHOOL_DATE'] ) )
+				{
+					continue;
+				}
+			}
+
+			$where_columns = [ 'STUDENT_ID' => UserStudentID() ];
+
+			if ( $id !== 'new' )
+			{
+				$where_columns['ID'] = $id;
+			}
+
+			DBUpsert(
+				$table,
+				$columns,
+				$where_columns,
+				( $id === 'new' ? 'insert' : 'update' )
+			);
+		}
+	}
 
 	// Unset values & redirect URL.
 	RedirectURL( 'values' );
