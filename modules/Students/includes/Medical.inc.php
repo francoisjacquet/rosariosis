@@ -27,8 +27,8 @@ if ( ( isset( $_POST['values'] )
 			{
 				// Check required columns on INSERT.
 				if ( $table === 'student_medical'
-					&& empty( $columns['TYPE'] )
-					&& empty( $columns['MEDICAL_DATE'] ) )
+					&& ( empty( $columns['TYPE'] )
+						|| empty( $columns['MEDICAL_DATE'] ) ) )
 				{
 					continue;
 				}
