@@ -281,6 +281,7 @@ modules/Slovenian_Discipline*
 modules/Marking_Period_Groups*
 modules/Food_Service_Premium*
 modules/VLaby*
+modules/Entry_Exit*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
@@ -304,5 +305,6 @@ plugins/Savio_Transcripts*
 plugins/PCS_Report_Cards*
 plugins/Assignment_Max_Points*
 plugins/Absent_for_the_Day_on_First_Absence*
+plugins/PR_Report_Cards*
 locale/fr_FR.utf8_ParisComSup
 functions/1GetMP.php
