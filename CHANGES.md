@@ -29,6 +29,7 @@ Changes in 11.3
 - Rename `_makeCheckBoxInput()` to `_makeCheckboxInput()` & `CheckBoxInput()` to `CheckboxInput()` in AttendanceCodes.php, EditReportCardGrades.php & EnrollmentCodes.php
 - CSS responsive fix Stackable tables: columns always align left in zresponsive.css
 - Update Installation Directions for Ubuntu 22.04 in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- Move MySQL step which accidentally was under PostgreSQL instructions in INSTALL_fr.md & INSTALL_fr.pdf
 - SQL do not round GPA average in Grades/includes/Dashboard.inc.php
 - CSS add .rseparator class responsive separator: hide text separator & break line in zresponsive.css & InputFinalGrades.php
 - CSS add .addon-readme class Add-on module/plugin README inside colorBox in stylesheet.css
