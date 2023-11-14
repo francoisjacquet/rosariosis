@@ -35,6 +35,7 @@ Changes in 11.3
 - CSS add .addon-readme class Add-on module/plugin README inside colorBox in stylesheet.css
 - Use DBUpsert() & check for required columns on INSERT in Medical.inc.php
 - Fix use DBUnescapeString() to unescape string for both PostgreSQL & MySQL in Config.fnc.php
+- Fix sorting list when first value is null in ListOutput.fnc.php
 
 Changes in 11.2.4
 -----------------
