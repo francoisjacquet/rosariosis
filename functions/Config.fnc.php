@@ -251,7 +251,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 			if ( $value != ''
 				&& $value !== DBEscapeString( $value ) )
 			{
-				$value = str_replace( "''", "'", $value );
+				$value = DBUnescapeString( $value );
 			}
 
 			$program_config[ $program ][ $staff_id ][ $title ] = $value;
