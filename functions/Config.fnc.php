@@ -248,7 +248,8 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 				);
 			}
 
-			if ( $value !== DBEscapeString( $value ) )
+			if ( $value != ''
+				&& $value !== DBEscapeString( $value ) )
 			{
 				$value = str_replace( "''", "'", $value );
 			}
