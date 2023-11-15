@@ -242,7 +242,7 @@ else
 		if ( $_REQUEST['tab'] === 'system'
 			&& ! $multiple_schools_admin_has_1_school )
 		{
-			echo '<table class="cellpadding-5"><tr><td>' .
+			echo '<table class="cellpadding-5 width-100p"><tr><td>' .
 				TextInput( Config( 'NAME' ), 'values[config][NAME]', _( 'Program Name' ), 'required maxlength=20' ) .
 			'</td></tr>';
 
@@ -288,7 +288,7 @@ else
 				true
 			) . '</td></tr></table></td></tr>';
 
-			echo '<tr><td><br /><fieldset><legend>' . _( 'Public Registration' ) . '</legend><table>';
+			echo '<tr><td><fieldset><legend>' . _( 'Public Registration' ) . '</legend><table>';
 
 			echo '<tr><td colspan="2">' . CheckboxInput(
 				Config( 'CREATE_USER_ACCOUNT' ),
@@ -374,10 +374,10 @@ else
 				'N/A'
 			) . '</td></tr>';
 
-			echo '</table></fieldset>';
+			echo '</table></fieldset></td></tr>';
 
 			// FJ add Security to Configuration.
-			echo '<tr><td><br /><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
+			echo '<tr><td><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
 
 			// Failed login ban if >= X failed attempts within 10 minutes.
 			echo '<tr><td>' . TextInput(
@@ -450,7 +450,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '</table></fieldset>';
+			echo '</table></fieldset></td></tr>';
 
 			/**
 			 * Display Name.
@@ -481,7 +481,7 @@ else
 		if ( $_REQUEST['tab'] === 'school' )
 		{
 			// School year over one/two calendar years format.
-			echo '<table class="cellpadding-5"><tr><td>' . CheckboxInput(
+			echo '<table class="cellpadding-5 width-100p"><tr><td>' . CheckboxInput(
 				Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ),
 				'values[config][SCHOOL_SYEAR_OVER_2_YEARS]',
 				_( 'School year over two calendar years' ),
@@ -548,7 +548,7 @@ else
 			echo '<td>' . Currency( 1250.00 ) . '</td></tr></table></td></tr>';
 
 			// Add "Find a Student" fieldset.
-			echo '<tr><td><br /><fieldset><legend>' . _( 'Find a Student' ) . '</legend><table>';
+			echo '<tr><td><fieldset><legend>' . _( 'Find a Student' ) . '</legend><table>';
 
 			// @since 7.4 Add Course Widget configuration option: Popup window or Pull-Down.
 			$course_widget_options = [
@@ -575,7 +575,7 @@ else
 				FROM student_field_categories
 				WHERE ID='3'" );
 
-			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+			echo '<table class="cellpadding-5 width-100p"><tr><td><fieldset><legend>' .
 				ParseMLField( $addresses_contacts_cat_title ) . '</legend><table>';
 
 			echo '<tr><td>' . CheckboxInput( Config( 'STUDENTS_USE_MAILING' ), 'values[config][STUDENTS_USE_MAILING]', _( 'Display Mailing Address' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
@@ -614,7 +614,7 @@ else
 				) . '</td></tr>';
 			}
 
-			echo '</table></td></tr>';
+			echo '</table></fieldset></td></tr>';
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
@@ -637,7 +637,7 @@ else
 				'1' => _( 'Use percent grades only' ),
 			];
 
-			echo '<table class="cellpadding-5"><tr><td>' . SelectInput(
+			echo '<table class="cellpadding-5 width-100p"><tr><td>' . SelectInput(
 				ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ),
 				'values[program_config][grades][GRADES_DOES_LETTER_PERCENT]',
 				_( 'Grades' ),
@@ -645,7 +645,7 @@ else
 				false
 			) . '</td></tr>';
 
-			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+			echo '<tr><td><fieldset><legend>' .
 				_( 'Input Final Grades' ) . '</legend><table>';
 
 			echo '<tr><td>' . CheckboxInput(
@@ -668,9 +668,9 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '</table></td></tr>';
+			echo '</table></fieldset></td></tr>';
 
-			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+			echo '<tr><td><fieldset><legend>' .
 				_( 'Gradebook' ) . ' - ' . _( 'Grades' ) . '</legend><table>';
 
 			echo '<tr><td>' . CheckboxInput(
@@ -683,9 +683,9 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '</table></td></tr>';
+			echo '</table></fieldset></td></tr>';
 
-			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+			echo '<tr><td><fieldset><legend>' .
 				_( 'Student Grades' ) . '</legend><table>';
 
 			echo '<tr><td>' . CheckboxInput(
@@ -706,9 +706,9 @@ else
 				false,
 				button( 'check' ),
 				button( 'x' )
-			) . '</td></tr></table>';
+			) . '</td></tr>';
 
-			echo '</table></td></tr>';
+			echo '</table></fieldset></td></tr></table>';
 		}
 
 		if ( $_REQUEST['tab'] === 'attendance' )
