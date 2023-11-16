@@ -129,6 +129,8 @@ if ( $grouped_RET )
 	{
 		$LO_columns = [ 'GRADES' => _( 'Grades' ) ];
 
+		$teachers_RET = [];
+
 		foreach ( (array) $grades_RET as $staff_id => $grades )
 		{
 			foreach ( (array) $grades as $grade )
