@@ -101,9 +101,15 @@ var ColorBox = function() {
 
 	$('.rt2colorBox').before(function(i) {
 		if (this.id) {
-			var $el = $(this);
+			var $el = $(this),
+				childrenHeight = 0;
+
+			$el.children().each(function() {
+				childrenHeight += $(this).height();
+			});
+
 			// only if content > 1 line & text <= 36 chars.
-			if ($el.text().length > 36 || $el.children().height() > $el.parent().height()) {
+			if ($el.text().length > 36 || childrenHeight > $el.parent().height()) {
 				return '<div class="link2colorBox"><a class="colorboxinline" href="#' + this.id + '"></a></div>';
 			}
 		}
