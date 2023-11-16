@@ -1552,6 +1552,7 @@ a .button + b {
 	text-align: left;
 	font-size: 0.9em;
 	line-height: 1.4;
+	white-space: normal;
 }
 
 .tooltip:hover > i {

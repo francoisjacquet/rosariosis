@@ -37,6 +37,7 @@ Changes in 11.3
 - Fix use DBUnescapeString() to unescape string for both PostgreSQL & MySQL in Config.fnc.php
 - Fix sorting list when first value is null in ListOutput.fnc.php
 - JS fix rt2colorBox children height calculation in warehouse.js
+- CSS fix tooltip text wrapping inside responsive list in stylesheet.css
 
 Changes in 11.2.4
 -----------------

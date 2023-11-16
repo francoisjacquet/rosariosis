@@ -1655,7 +1655,8 @@ a .button + b {
 	transition: opacity .3s;
 	text-align: left;
 	font-size: 14px;
-	line-height: 1.5
+	line-height: 1.5;
+	white-space: normal;
 }
 
 .tooltip:hover > i {
