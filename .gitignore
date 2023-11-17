@@ -282,6 +282,7 @@ modules/Marking_Period_Groups*
 modules/Food_Service_Premium*
 modules/VLaby*
 modules/Entry_Exit*
+modules/Dashboards*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
