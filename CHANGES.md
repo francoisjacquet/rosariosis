@@ -39,6 +39,7 @@ Changes in 11.3
 - JS fix rt2colorBox children height calculation in warehouse.js
 - CSS fix tooltip text wrapping inside responsive list in stylesheet.css
 - JS Do NOT scroll to top onload in warehouse.js
+- To disable responsive list layout, add `&LO_disable_responsive=Y` to the URL in ListOutput.fnc.php
 
 Changes in 11.2.4
 -----------------

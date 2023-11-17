@@ -15,6 +15,8 @@ Export list to Excel using [SimpleXLSXGen](https://github.com/shuchkin/simplexls
 School
 - Database Backup: MySQL dump now includes procedures, functions and triggers
 
+To disable responsive list layout, add `&LO_disable_responsive=Y` to the URL
+
 
 New in 11.2
 -----------

@@ -22,7 +22,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'count' => true,
 		'sort' => empty( $group ),
 		'header_color' => Preferences( 'HEADER' ),
-		'responsive' => true,
+		// @since 11.3 To disable responsive list layout, add `&LO_disable_responsive=Y` to the URL
+		'responsive' => empty( $_REQUEST['LO_disable_responsive'] ),
 		'add' => true,
 		// @since 10.9 Add pagination option (defaults to false)
 		// Deactivated by default as yields strange results when multiple lists on same page.
