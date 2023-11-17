@@ -90,7 +90,7 @@ function ResourcesMakeLink( $value, $name )
 		$separator = '/.../';
 		$separator_length = mb_strlen( $separator );
 		$max_length = 100 - $separator_length;
-		$start = $max_length / 2;
+		$start = (int) ( $max_length / 2 );
 		$trunc = mb_strlen( $truncated_link ) - $max_length;
 		$truncated_link = substr_replace( $truncated_link, $separator, $start, $trunc );
 	}
