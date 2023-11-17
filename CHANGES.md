@@ -38,6 +38,7 @@ Changes in 11.3
 - Fix sorting list when first value is null in ListOutput.fnc.php
 - JS fix rt2colorBox children height calculation in warehouse.js
 - CSS fix tooltip text wrapping inside responsive list in stylesheet.css
+- JS Do NOT scroll to top onload in warehouse.js
 
 Changes in 11.2.4
 -----------------

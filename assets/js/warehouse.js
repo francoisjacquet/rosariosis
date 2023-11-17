@@ -387,7 +387,7 @@ var ajaxSuccess = function(data, target, url) {
 	ajaxPrepare('#' + target);
 }
 
-var ajaxPrepare = function(target) {
+var ajaxPrepare = function(target, scrollTop = true) {
 	$(target + ' form').each(function() {
 		ajaxPostForm(this, false);
 	});
@@ -416,8 +416,10 @@ var ajaxPrepare = function(target) {
 			$('body').css('overflow', '');
 		}
 
-		document.body.scrollIntoView();
-		$('#body').scrollTop(0);
+		if (scrollTop) {
+			document.body.scrollIntoView();
+			$('#body').scrollTop(0);
+		}
 
 		popups.closeAll();
 
@@ -484,7 +486,8 @@ window.onload = function() {
 		}
 	});
 
-	ajaxPrepare('body');
+	// Do NOT scroll to top onload.
+	ajaxPrepare('body', false);
 
 	// Load body after browser history.
 	if (history.pushState) window.setTimeout(ajaxPopState(), 1);
