@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.3.1
+-----------------
+- HTML use number input for "Base Grading Scale" in Schools.php
+
 Changes in 11.3
 ---------------
 - Immunization or Physical (select): No N/A value for existing entries in StudentsUsersInfo.fnc.php

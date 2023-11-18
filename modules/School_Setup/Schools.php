@@ -30,12 +30,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			// FJ textarea fields MarkDown sanitize.
 			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'school_fields', 'values' );
 
-			if (  ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
-				&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
+			if ( ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
+					&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
 				|| ( ! empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-					&& ( ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-						// Fix DB error with REPORTING_GP_SCALE field numeric(10,3) type.
-						|| $_REQUEST['values']['REPORTING_GP_SCALE'] >= 10000000 ) ) )
+					&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] ) ) )
 			{
 				$error[] = _( 'Please enter valid Numeric data.' );
 			}
@@ -307,7 +305,7 @@ if ( ! $_REQUEST['modfunc'] )
 		(float) $schooldata['REPORTING_GP_SCALE'],
 		'values[REPORTING_GP_SCALE]',
 		_( 'Base Grading Scale' ),
-		'maxlength=10 required'
+		'type="number" min="1" max="10000" required'
 	) . '</td></tr>';
 
 	if ( AllowEdit() )
