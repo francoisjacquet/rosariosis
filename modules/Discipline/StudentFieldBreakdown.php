@@ -323,8 +323,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	if ( isset( $_REQUEST['field_id'] )
-		&& !empty( $_REQUEST['field_id'] ) )
+	if ( ! empty( $_REQUEST['field_id'] ) )
 	{
 		if ( $chartline )
 		{

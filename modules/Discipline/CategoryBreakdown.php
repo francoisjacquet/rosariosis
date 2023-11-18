@@ -239,8 +239,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$advanced_link
 	);
 
-	if ( isset( $_ROSARIO['SearchTerms'] )
-		&& !empty( $_ROSARIO['SearchTerms'] ) )
+	if ( ! empty( $_ROSARIO['SearchTerms'] ) )
 	{
 		DrawHeader( $_ROSARIO['SearchTerms'] );
 	}
