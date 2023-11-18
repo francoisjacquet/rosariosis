@@ -4,6 +4,7 @@
 Changes in 11.3.1
 -----------------
 - HTML use number input for "Base Grading Scale" in Schools.php
+- Always add raw Datetime inside HTML comment in Date.php
 
 Changes in 11.3
 ---------------

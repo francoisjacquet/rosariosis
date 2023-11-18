@@ -119,14 +119,15 @@ function ProperDateTime( $datetime, $length = 'long' )
 
 	$date = mb_substr( $datetime, 0, 10 );
 
+	// Add raw Datetime inside HTML comment. Used for sorting in ListOutput()
+	$comment = '<!-- ' . $datetime . ' -->';
+
 	if ( $length === 'short'
 		&& DBDate() === $date )
 	{
 		// Today: only time!
-		return $locale_time;
+		return $comment . $locale_time;
 	}
-
-	$comment = '<!-- ' . $datetime . ' -->';
 
 	return $comment . ProperDate( $date, $length ) . ' ' . $locale_time;
 }
