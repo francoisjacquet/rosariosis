@@ -384,10 +384,10 @@ var ajaxSuccess = function(data, target, url) {
 
 	if (history.pushState && target == 'body' && doc.URL != url) history.pushState(null, doc.title, url);
 
-	ajaxPrepare('#' + target);
+	ajaxPrepare('#' + target, true);
 }
 
-var ajaxPrepare = function(target, scrollTop = true) {
+var ajaxPrepare = function(target, scrollTop) {
 	$(target + ' form').each(function() {
 		ajaxPostForm(this, false);
 	});

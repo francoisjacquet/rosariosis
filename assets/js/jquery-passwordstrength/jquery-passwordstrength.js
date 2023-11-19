@@ -14,7 +14,7 @@
  * @since 11.1 Add userInputs param to prevent using App name, username, or email in the password
  */
 
-$.fn.passwordStrength = function(minStrength, requiredText, userInputs = []) {
+$.fn.passwordStrength = function(minStrength, requiredText, userInputs) {
 
 	var $password = this;
 
@@ -32,7 +32,7 @@ $.fn.passwordStrength = function(minStrength, requiredText, userInputs = []) {
 
 		// console.log(password, minStrength, userInputs);
 
-		var result = zxcvbn(password, userInputs),
+		var result = zxcvbn(password, ( userInputs || [] ) ),
 			score = result.score;
 
 		// console.log(result, (minStrength <= score));

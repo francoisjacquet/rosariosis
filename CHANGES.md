@@ -5,6 +5,7 @@ Changes in 11.3.1
 -----------------
 - HTML use number input for "Base Grading Scale" in Schools.php
 - Always add raw Datetime inside HTML comment in Date.php
+- JS fix for IE 11 remove function param default value in jquery-passwordstrength.js & warehouse.js
 
 Changes in 11.3
 ---------------
