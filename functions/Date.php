@@ -579,11 +579,11 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 		return $default;
 	}
 
-	$year = $year_or_request_index;
+	$year = (int) $year_or_request_index;
 
-	$month = $month_or_default;
+	$month = (int) $month_or_default;
 
-	$day = $day_or_mode;
+	$day = (int) $day_or_mode;
 
 	$date = $year . '-' . $month . '-' . $day;
 
@@ -594,12 +594,12 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 	 * Year between 1000 and 9999
 	 */
 	if ( mb_strlen( $date ) !== 10
-		|| (int) $day < 1
-		|| (int) $day > 31
-		|| (int) $month > 12
-		|| (int) $month < 1
-		|| (int) $year < 1000
-		|| (int) $year > 9999 )
+		|| $day < 1
+		|| $day > 31
+		|| $month > 12
+		|| $month < 1
+		|| $year < 1000
+		|| $year > 9999 )
 	{
 		return '';
 	}

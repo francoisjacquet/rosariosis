@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.3.2
+-----------------
+- Fix PHP fatal error checkdate(): arg must be of type int, string given in Date.php
+
 Changes in 11.3.1
 -----------------
 - HTML use number input for "Base Grading Scale" in Schools.php
