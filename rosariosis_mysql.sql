@@ -174,7 +174,8 @@ BEGIN
                 from student_mp_stats sgm2, student_enrollment se2
                 where sgm2.student_id = se2.student_id
                 and sgm2.marking_period_id = mp.marking_period_id
-                and se2.grade_id = se.grade_id)) as class_rank,
+                and se2.grade_id = se.grade_id
+                and se2.syear = se.syear)) as class_rank,
         (select count(*)
             from student_mp_stats sgm4
             where sgm4.marking_period_id = mp.marking_period_id
@@ -182,7 +183,8 @@ BEGIN
                 from student_mp_stats sgm5, student_enrollment se3
                 where sgm5.student_id = se3.student_id
                 and sgm5.marking_period_id = mp.marking_period_id
-                and se3.grade_id = se.grade_id)) as class_size
+                and se3.grade_id = se.grade_id
+                and se3.syear = se.syear)) as class_size
         from student_enrollment se, student_mp_stats sgm, marking_periods mp
         where se.student_id = sgm.student_id
         and sgm.marking_period_id = mp.marking_period_id

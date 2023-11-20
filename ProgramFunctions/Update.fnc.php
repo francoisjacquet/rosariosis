@@ -261,6 +261,10 @@ function Update()
 		case version_compare( $from_version, '11.2.1', '<' ) :
 
 			$return = _update1121();
+
+		case version_compare( $from_version, '11.3.1', '<' ) :
+
+			$return = _update1131();
 	}
 
 	// Update version in DB config table.
@@ -912,6 +916,140 @@ function _update1121()
 	return $return;
 }
 
+
+/**
+ * Update to version 11.3.1
+ *
+ * 1. Update set_class_rank_mp() function
+ * Fix regression since 4.7 SQL set_class_rank_mp() Class Rank calculation when various school years
+ *
+ * Local function
+ *
+ * @since 11.3.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update1131()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Update set_class_rank_mp() function
+	 */
+	if ( $DatabaseType === 'mysql' )
+	{
+		$mysql_no_delimiter = MySQLRemoveDelimiter( "DROP FUNCTION IF EXISTS set_class_rank_mp;
+
+		DELIMITER $$
+		CREATE FUNCTION set_class_rank_mp(mp_id integer) RETURNS integer
+		BEGIN
+		    update student_mp_stats sms
+		    JOIN (
+		        select mp.marking_period_id, sgm.student_id,
+		        (select count(*)+1
+		            from student_mp_stats sgm3
+		            where sgm3.cum_cr_weighted_factor > sgm.cum_cr_weighted_factor
+		            and sgm3.marking_period_id = mp.marking_period_id
+		            and sgm3.student_id in (select distinct sgm2.student_id
+		                from student_mp_stats sgm2, student_enrollment se2
+		                where sgm2.student_id = se2.student_id
+		                and sgm2.marking_period_id = mp.marking_period_id
+		                and se2.grade_id = se.grade_id
+		                and se2.syear = se.syear)) as class_rank,
+		        (select count(*)
+		            from student_mp_stats sgm4
+		            where sgm4.marking_period_id = mp.marking_period_id
+		            and sgm4.student_id in (select distinct sgm5.student_id
+		                from student_mp_stats sgm5, student_enrollment se3
+		                where sgm5.student_id = se3.student_id
+		                and sgm5.marking_period_id = mp.marking_period_id
+		                and se3.grade_id = se.grade_id
+		                and se3.syear = se.syear)) as class_size
+		        from student_enrollment se, student_mp_stats sgm, marking_periods mp
+		        where se.student_id = sgm.student_id
+		        and sgm.marking_period_id = mp.marking_period_id
+		        and mp.marking_period_id = mp_id
+		        and se.syear = mp.syear
+		        and not sgm.cum_cr_weighted_factor is null
+		    ) as class_rank
+		    ON sms.marking_period_id = class_rank.marking_period_id and sms.student_id = class_rank.student_id
+		    set sms.cum_rank = class_rank.class_rank, sms.class_size = class_rank.class_size;
+		    RETURN 1;
+		END$$
+		DELIMITER ;" );
+
+		DBQuery( $mysql_no_delimiter );
+
+		return $return;
+	}
+
+	// PostgreSQL.
+	DBQuery( "CREATE FUNCTION create_language_plpgsql()
+	RETURNS BOOLEAN AS $$
+		CREATE LANGUAGE plpgsql;
+		SELECT TRUE;
+	$$ LANGUAGE SQL;
+
+	SELECT CASE WHEN NOT
+		(
+			SELECT  TRUE AS exists
+			FROM    pg_language
+			WHERE   lanname = 'plpgsql'
+			UNION
+			SELECT  FALSE AS exists
+			ORDER BY exists DESC
+			LIMIT 1
+		)
+	THEN
+		create_language_plpgsql()
+	ELSE
+		FALSE
+	END AS plpgsql_created;
+
+	DROP FUNCTION create_language_plpgsql();
+
+	CREATE OR REPLACE FUNCTION set_class_rank_mp(mp_id integer) RETURNS integer AS $$
+	BEGIN
+	update student_mp_stats
+	set cum_rank = class_rank.class_rank, class_size = class_rank.class_size
+	from (select mp.marking_period_id, sgm.student_id,
+	    (select count(*)+1
+	        from student_mp_stats sgm3
+	        where sgm3.cum_cr_weighted_factor > sgm.cum_cr_weighted_factor
+	        and sgm3.marking_period_id = mp.marking_period_id
+	        and sgm3.student_id in (select distinct sgm2.student_id
+	            from student_mp_stats sgm2, student_enrollment se2
+	            where sgm2.student_id = se2.student_id
+	            and sgm2.marking_period_id = mp.marking_period_id
+	            and se2.grade_id = se.grade_id
+	            and se2.syear = se.syear)) as class_rank,
+	    (select count(*)
+	        from student_mp_stats sgm4
+	        where sgm4.marking_period_id = mp.marking_period_id
+	        and sgm4.student_id in (select distinct sgm5.student_id
+	            from student_mp_stats sgm5, student_enrollment se3
+	            where sgm5.student_id = se3.student_id
+	            and sgm5.marking_period_id = mp.marking_period_id
+	            and se3.grade_id = se.grade_id
+	            and se3.syear = se.syear)) as class_size
+	    from student_enrollment se, student_mp_stats sgm, marking_periods mp
+	    where se.student_id = sgm.student_id
+	    and sgm.marking_period_id = mp.marking_period_id
+	    and mp.marking_period_id = mp_id
+	    and se.syear = mp.syear
+	    and not sgm.cum_cr_weighted_factor is null) as class_rank
+	where student_mp_stats.marking_period_id = class_rank.marking_period_id
+	and student_mp_stats.student_id = class_rank.student_id;
+	RETURN 1;
+	END;
+	$$ LANGUAGE plpgsql;" );
+
+	return $return;
+}
 // @deprecated since 11.4 Assignments Files upload path $AssignmentsFilesPath global var
 // @deprecated since 11.4 Portal Notes Files upload path $PortalNotesFilesPath global var
 // @deprecated since 11.4 Food Service Icons upload path $FS_IconsPath global var

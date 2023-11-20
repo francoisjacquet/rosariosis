@@ -6,6 +6,7 @@ Changes in 11.3.1
 - HTML use number input for "Base Grading Scale" in Schools.php
 - Always add raw Datetime inside HTML comment in Date.php
 - JS fix for IE 11 remove function param default value in jquery-passwordstrength.js & warehouse.js
+- Fix regression since 4.7 SQL set_class_rank_mp() Class Rank calculation when various school years in rosariosis.sql, rosariosis_mysql.sql & Update.fnc.php
 
 Changes in 11.3
 ---------------
