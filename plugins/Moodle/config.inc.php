@@ -62,7 +62,7 @@ if ( ! empty( $_REQUEST['save'] ) )
 	}
 
 	// Unset save & values & redirect URL.
-	RedirectURL( 'save', 'values' );
+	RedirectURL( [ 'save', 'values' ] );
 }
 
 if ( ! empty( $_REQUEST['check'] ) )
