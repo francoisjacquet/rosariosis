@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							'SCHOOL_ID' => UserSchool(),
 							'STUDENT_ID' => (int) $student_id,
 							'PAYMENT_DATE' => $date,
-							'AMOUNT' => preg_replace( '/[^0-9.-]/', '', $_REQUEST['amount'] ),
+							'AMOUNT' => $_REQUEST['amount'],
 							'COMMENTS' => $_REQUEST['comments'],
 							// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
 							'CREATED_BY' => DBEscapeString( User( 'NAME' ) ),

@@ -50,18 +50,12 @@ if ( ! empty( $_REQUEST['values'] )
 				[ 'ID' => (int) $id ]
 			);
 		}
-		elseif ( $columns['AMOUNT'] !== ''
+		elseif ( isset( $columns['AMOUNT'] )
+			&& is_numeric( $columns['AMOUNT'] )
 			&& $columns['PAYMENT_DATE']
 			&& $columns['TITLE'] )
 		{
 			$insert_columns = [ 'SYEAR' => UserSyear(), 'SCHOOL_ID' => UserSchool() ];
-
-			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
-
-			if ( ! is_numeric( $columns['AMOUNT'] ) )
-			{
-				$columns['AMOUNT'] = 0;
-			}
 
 			$columns['FILE_ATTACHED'] = _saveExpensesFile( $id );
 

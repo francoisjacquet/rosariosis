@@ -43,7 +43,8 @@ if ( ! empty( $_REQUEST['values'] )
 
 		// New: check for Title & Amount.
 		elseif ( $columns['TITLE']
-			&& $columns['AMOUNT'] != '' )
+			&& isset( $columns['AMOUNT'] )
+			&& is_numeric( $columns['AMOUNT'] ) )
 		{
 			$insert_columns = [
 				'STAFF_ID' => UserStaffID(),
@@ -51,13 +52,6 @@ if ( ! empty( $_REQUEST['values'] )
 				'SCHOOL_ID' => UserSchool(),
 				'ASSIGNED_DATE' => DBDate(),
 			];
-
-			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
-
-			if ( ! is_numeric( $columns['AMOUNT'] ) )
-			{
-				$columns['AMOUNT'] = 0;
-			}
 
 			$columns['FILE_ATTACHED'] = _saveSalariesFile( $id );
 

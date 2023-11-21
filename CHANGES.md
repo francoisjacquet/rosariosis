@@ -4,6 +4,7 @@
 Changes in 11.3.2
 -----------------
 - Fix PHP fatal error checkdate(): arg must be of type int, string given in Date.php
+- Fix SQL error when amount has exponent, ie "10e-2" in Expenses.php, Incomes.php, Salaries.php, StaffPayments.php, MassAssignFees.php, MassAssignPayments.php, StudentFees.php & StudentPayments.php
 
 Changes in 11.3.1
 -----------------

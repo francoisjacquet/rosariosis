@@ -44,7 +44,8 @@ if ( ! empty( $_REQUEST['values'] )
 
 		// New: check for Title & Amount.
 		elseif ( $columns['TITLE']
-			&& $columns['AMOUNT'] != '' )
+			&& isset( $columns['AMOUNT'] )
+			&& is_numeric( $columns['AMOUNT'] ) )
 		{
 			$insert_columns = [
 				'STUDENT_ID' => UserStudentID(),
@@ -54,8 +55,6 @@ if ( ! empty( $_REQUEST['values'] )
 			];
 
 			$columns['FILE_ATTACHED'] = _saveFeesFile( $id );
-
-			$columns['AMOUNT'] = preg_replace( '/[^0-9.-]/', '', $columns['AMOUNT'] );
 
 			// @since 11.2 Add CREATED_BY column to billing_fees & billing_payments tables
 			$columns['CREATED_BY'] = DBEscapeString( User( 'NAME' ) );

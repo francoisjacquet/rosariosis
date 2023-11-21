@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						'SCHOOL_ID' => UserSchool(),
 						'STUDENT_ID' => (int) $student_id,
 						'TITLE' => $_REQUEST['title'],
-						'AMOUNT' => preg_replace( '/[^0-9.-]/', '', $_REQUEST['amount'] ),
+						'AMOUNT' => $_REQUEST['amount'],
 						'ASSIGNED_DATE' => DBDate(),
 						'DUE_DATE' => $due_date,
 						'COMMENTS' => $_REQUEST['comments'],
