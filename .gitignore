@@ -283,6 +283,7 @@ modules/Food_Service_Premium*
 modules/VLaby*
 modules/Entry_Exit*
 modules/Dashboards*
+modules/NFC_QR_Actions*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
