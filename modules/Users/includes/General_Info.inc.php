@@ -204,9 +204,9 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	echo '<tr class="st"><td>';
 
 	$profile_options = [
-		'admin' => _( 'Administrator' ),
-		'teacher' => _( 'Teacher' ),
 		'parent' => _( 'Parent' ),
+		'teacher' => _( 'Teacher' ),
+		'admin' => _( 'Administrator' ),
 		'none' => _( 'No Access' ),
 	];
 
@@ -226,8 +226,8 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		{
 			// Remove Administrator from profile options.
 			$profile_options = [
-				'teacher' => _( 'Teacher' ),
 				'parent' => _( 'Parent' ),
+				'teacher' => _( 'Teacher' ),
 				'none' => _( 'No Access' ),
 			];
 		}
