@@ -581,9 +581,9 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 
 	$year = (int) $year_or_request_index;
 
-	$month = (int) $month_or_default;
+	$month = str_pad( (int) $month_or_default, 2, '0', STR_PAD_LEFT );
 
-	$day = (int) $day_or_mode;
+	$day = str_pad( (int) $day_or_mode, 2, '0', STR_PAD_LEFT );
 
 	$date = $year . '-' . $month . '-' . $day;
 
