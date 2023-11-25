@@ -2,22 +2,30 @@
 
 $date = RequestedDate( 'date', DBDate(), 'set' );
 
-if ( ! empty( $_REQUEST['type'] ) )
-	$_SESSION['FSA_type'] = $_REQUEST['type'];
-else
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
+if ( empty( $_SESSION['FSA_type'] ) )
+{
+	$_SESSION['FSA_type'] = 'student';
+}
 
+if ( ! empty( $_REQUEST['type'] ) )
+{
+	$_SESSION['FSA_type'] = $_REQUEST['type'];
+}
+else
+{
+	$_REQUEST['type'] = $_SESSION['FSA_type'];
+}
 
 $header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] .
 	'&year_date=' . $_REQUEST['year_date'] . '&type=student' ) . '">' .
-	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
+	( $_REQUEST['type'] === 'student' ?
 		'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
 $header .= ' | <a href="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'] .
 	'&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] .
 	'&year_date=' . $_REQUEST['year_date'] . '&type=staff' ) . '">' .
-	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
+	( $_REQUEST['type'] === 'staff' ?
 		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 DrawHeader(($_REQUEST['type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());

@@ -12,13 +12,18 @@ if ( $_REQUEST['modfunc'] === 'select' )
 	RedirectURL( 'modfunc' );
 }
 
+if ( empty( $_SESSION['FSA_type'] ) )
+{
+	$_SESSION['FSA_type'] = 'student';
+}
+
 if ( ! empty( $_REQUEST['type'] ) )
 {
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 }
 else
 {
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = issetVal( $_SESSION['FSA_type'] );
+	$_REQUEST['type'] = $_SESSION['FSA_type'];
 }
 
 /*if ( $_REQUEST['type']=='staff')
@@ -34,12 +39,12 @@ $tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 
 $header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=student' ) . '">' .
-	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
+	( $_REQUEST['type'] === 'student' ?
 	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
 $header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=staff' ) . '">' .
-	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
+	( $_REQUEST['type'] === 'staff' ?
 	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 DrawHeader( ( $_SESSION['FSA_type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );

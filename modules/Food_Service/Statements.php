@@ -6,27 +6,32 @@ $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01', 'set' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate(), 'set' );
 
+if ( empty( $_SESSION['FSA_type'] ) )
+{
+	$_SESSION['FSA_type'] = 'student';
+}
+
 if ( ! empty( $_REQUEST['type'] ) )
 {
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 }
 else
 {
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = issetVal( $_SESSION['FSA_type'] );
+	$_REQUEST['type'] = $_SESSION['FSA_type'];
 }
 
 $header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_start=' . $_REQUEST['day_start'] . '&month_start=' . $_REQUEST['month_start'] . '&year_start=' . $_REQUEST['year_start'] .
 	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] . '&year_end=' . $_REQUEST['year_end'] .
 	'&type=student' ) . '">' .
-	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
+	( $_REQUEST['type'] === 'student' ?
 	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
 $header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_start=' . $_REQUEST['day_start'] . '&month_start=' . $_REQUEST['month_start'] . '&year_start=' . $_REQUEST['year_start'] .
 	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] . '&year_end=' . $_REQUEST['year_end'] .
 	'&type=staff' ) . '">' .
-	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
+	( $_REQUEST['type'] === 'staff' ?
 	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 DrawHeader(  ( $_REQUEST['type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
