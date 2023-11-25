@@ -1,6 +1,26 @@
 <?php
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+
+Widgets( 'fsa_discount' );
+Widgets( 'fsa_status' );
+Widgets( 'fsa_barcode' );
+Widgets( 'fsa_account_id' );
+
+$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
+
+if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
+{
+	$extra['FROM'] .= ",food_service_student_accounts fssa";
+	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
+}
+
+$extra['functions'] += [ 'BALANCE' => 'red' ];
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
+
+Search( 'student_id', $extra );
+
 if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& $_REQUEST['modfunc'] === 'save' )
@@ -57,25 +77,6 @@ if ( ! empty( $_REQUEST['values'] )
 	RedirectURL( 'modfunc' );
 }
 
-Widgets( 'fsa_discount' );
-Widgets( 'fsa_status' );
-Widgets( 'fsa_barcode' );
-Widgets( 'fsa_account_id' );
-
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
-$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-
-if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
-{
-	$extra['FROM'] .= ",food_service_student_accounts fssa";
-	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
-}
-
-$extra['functions'] += [ 'BALANCE' => 'red' ];
-$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
-
-Search( 'student_id', $extra );
-
 echo ErrorMessage( $error );
 
 if ( UserStudentID()
@@ -95,7 +96,7 @@ if ( UserStudentID()
 	$student = $student[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&student_id=' . UserStudentID() ) . '" method="POST">';
 
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
@@ -187,7 +188,7 @@ if ( UserStudentID()
 
 			$link['add']['html']['remove'] = button( 'add' );
 
-			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . "&modfunc=delete";
+			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . '&modfunc=delete&student_id=' . UserStudentID();
 			$link['remove']['variables'] = [ 'id' => 'TRANSACTION_ID' ];
 		}
 
