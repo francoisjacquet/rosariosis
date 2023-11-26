@@ -121,7 +121,7 @@ SET title='6.0', gpa_value=6.0, break_off=60, comment='Assez bien'
 WHERE id=9;
 
 UPDATE report_card_grades
-SET title='5.5', gpa_value=5.5, break_off=55, comment='Assez bien'
+SET title='5.5', gpa_value=5.5, break_off=55, comment='Passable'
 WHERE id=10;
 
 UPDATE report_card_grades
