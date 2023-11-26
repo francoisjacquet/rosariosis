@@ -164,7 +164,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&staff_id=' . UserStaffID()  ) . '" method="POST">';
 
 		if ( AllowEdit() )
 		{

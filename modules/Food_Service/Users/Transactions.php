@@ -1,6 +1,17 @@
 <?php
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+StaffWidgets( 'fsa_status' );
+StaffWidgets( 'fsa_barcode' );
+StaffWidgets( 'fsa_exists_Y' );
+
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
+$extra['SELECT'] .= ",(SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
+$extra['functions'] += [ 'BALANCE' => 'red' ];
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
+
+Search( 'staff_id', $extra );
+
 if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& $_REQUEST['modfunc'] === 'save' )
@@ -56,17 +67,6 @@ if ( ! empty( $_REQUEST['values'] )
 	RedirectURL( 'modfunc' );
 }
 
-StaffWidgets( 'fsa_status' );
-StaffWidgets( 'fsa_barcode' );
-StaffWidgets( 'fsa_exists_Y' );
-
-$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
-$extra['SELECT'] .= ",(SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
-$extra['functions'] += [ 'BALANCE' => 'red' ];
-$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
-
-Search( 'staff_id', $extra );
-
 echo ErrorMessage( $error );
 
 if ( UserStaffID()
@@ -81,7 +81,7 @@ if ( UserStaffID()
 	$staff = $staff[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&staff_id=' . UserStaffID() ) . '" method="POST">';
 
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
@@ -172,7 +172,7 @@ if ( UserStaffID()
 
 			$link['add']['html']['remove'] = button( 'add' );
 
-			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . "&modfunc=delete";
+			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . '&modfunc=delete&staff_id=' . UserStaffID();
 
 			$link['remove']['variables'] = [ 'id' => 'TRANSACTION_ID' ];
 		}

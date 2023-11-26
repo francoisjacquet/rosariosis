@@ -6,7 +6,8 @@ function _makeIncomesRemove( $value, $column )
 	return button(
 		'remove',
 		'',
-		URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' . $THIS_RET['ID'] )
+		URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=remove&id=' . $THIS_RET['ID'] . '&staff_id=' . UserStaffID() )
 	);
 }
 
