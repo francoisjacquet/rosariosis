@@ -152,7 +152,7 @@ if ( UserStaffID()
 
 	if ( ! $staff_RET[1]['PROFILE_ID'] )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&staff_id=' . UserStaffID() ) . '" method="POST">';
 		DrawHeader( _( 'Select the programs with which this user can use and save information.' ), SubmitButton() );
 		echo '<br />';
 		PopTable( 'header', _( 'Permissions' ) );
