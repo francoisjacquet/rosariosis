@@ -2,6 +2,23 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+Widgets( 'fsa_discount' );
+Widgets( 'fsa_status' );
+Widgets( 'fsa_barcode' );
+Widgets( 'fsa_account_id' );
+
+$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "')
+	FROM food_service_student_accounts
+	WHERE STUDENT_ID=s.STUDENT_ID) AS STATUS";
+$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID
+	FROM food_service_student_accounts
+	WHERE STUDENT_ID=s.STUDENT_ID)) AS BALANCE";
+
+$extra['functions'] += [ 'BALANCE' => 'red' ];
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
+
+Search( 'student_id', $extra );
+
 if ( $_REQUEST['modfunc'] === 'update' )
 {
 	if ( UserStudentID()
@@ -135,23 +152,6 @@ if ( $_REQUEST['modfunc'] === 'create' )
 	RedirectURL( [ 'modfunc', 'food_service' ] );
 }
 
-Widgets( 'fsa_discount' );
-Widgets( 'fsa_status' );
-Widgets( 'fsa_barcode' );
-Widgets( 'fsa_account_id' );
-
-$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "')
-	FROM food_service_student_accounts
-	WHERE STUDENT_ID=s.STUDENT_ID) AS STATUS";
-$extra['SELECT'] .= ",(SELECT BALANCE FROM food_service_accounts WHERE ACCOUNT_ID=(SELECT ACCOUNT_ID
-	FROM food_service_student_accounts
-	WHERE STUDENT_ID=s.STUDENT_ID)) AS BALANCE";
-
-$extra['functions'] += [ 'BALANCE' => 'red' ];
-$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
-
-Search( 'student_id', $extra );
-
 // FJ fix SQL bug invalid numeric data
 echo ErrorMessage( $error );
 
@@ -185,7 +185,8 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	if ( $student['ACCOUNT_ID'] )
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=update&student_id=' . UserStudentID() ) . '" method="POST">';
 
 		DrawHeader(
 			CheckBoxOnclick(
@@ -197,7 +198,9 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=create&student_id=' . UserStudentID() ) . '" method="POST">';
+
 		DrawHeader( '', SubmitButton( _( 'Create Account' ) ) );
 	}
 

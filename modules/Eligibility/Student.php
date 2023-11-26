@@ -138,7 +138,8 @@ if ( UserStudentID()
 	}
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=remove&start_date=' . issetVal( $_REQUEST['start_date'], '' );
+		'&modfunc=remove&start_date=' . issetVal( $_REQUEST['start_date'], '' ) .
+		'&student_id=' . UserStudentID();
 
 	$link['remove']['variables'] = [ 'activity_id' => 'ACTIVITY_ID' ];
 
@@ -151,7 +152,7 @@ if ( UserStudentID()
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=add&start_date=' . issetVal( $_REQUEST['start_date'], '' ) .
-		'' ) . '" method="POST">';
+		'&student_id=' . UserStudentID() ) . '" method="POST">';
 
 	$columns = [
 		'TITLE' => _( 'Activity' ),
