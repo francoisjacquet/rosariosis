@@ -13,9 +13,6 @@ if ( empty( $_REQUEST['marking_period_id'] ) )
 	$_REQUEST['mp_term'] = 'FY';
 }
 
-//unset($_SESSION['_REQUEST_vars']['marking_period_id']);
-//unset($_SESSION['_REQUEST_vars']['mp_term']);
-
 if ( $_REQUEST['marking_period_id'] === 'new' )
 {
 	switch ( $_REQUEST['mp_term'] )
@@ -570,9 +567,6 @@ if ( ! $_REQUEST['modfunc'] )
 	DrawHeader( $header );
 
 	echo '</form>';
-
-	//unset($_SESSION['_REQUEST_vars']['marking_period_id']);
-	//unset($_SESSION['_REQUEST_vars']['mp_term']);
 
 	// DISPLAY THE MENU
 	$LO_options = [ 'save' => false, 'search' => false, 'responsive' => false ];
