@@ -8,7 +8,7 @@ Changes in 11.3.2
 - Set "Parent" as default Profile option (least compromising option) in Users/includes/General_Info.inc.php
 - Simplify code for requested 'type' & remove use of `$_SESSION['_REQUEST_vars']` in Accounts.php, ActivityReport.php, BalanceReport.php, Reminders.php, ServeMenus.php, Statements.php & Transactions.php
 - Fix maintain current student ID when multiple tabs are open in Eligibility/Student.php, Accounts.php, ServeMenus.php, Transactions.php, Student_Billing/functions.inc.php, StudentFees.php & StudentPayments.php
-- Fix maintain current user ID when multiple tabs are open in Accounting/functions.inc.php, Salaries.php, StaffPayments.php, Transactions.php, ServeMenus.php & Exceptions.php
+- Fix maintain current user ID when multiple tabs are open in Accounting/functions.inc.php, Salaries.php, StaffPayments.php, Transactions.php, Accounts.php, ServeMenus.php & Exceptions.php
 
 Changes in 11.3.1
 -----------------
