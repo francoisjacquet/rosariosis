@@ -26,6 +26,10 @@ else
 	$_REQUEST['type'] = $_SESSION['FSA_type'];
 }
 
+// @since 11.3.2 Add User key to $_SESSION['FSA_sale']
+$fsa_sale_user_key = $_REQUEST['type'] === 'student' ?
+	'student_' . UserStudentID() : 'staff_' . UserStaffID();
+
 /*if ( $_REQUEST['type']=='staff')
 {
 $tabcolor_s = '#DFDFDF'; $textcolor_s = '#999999';
@@ -74,7 +78,7 @@ if ( empty( $_REQUEST['menu_id'] ) )
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
 	}
 
-	unset( $_SESSION['FSA_sale'] );
+	unset( $_SESSION['FSA_sale'][ $fsa_sale_user_key ] );
 }
 else
 {
@@ -87,7 +91,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 {
 	if ( ! empty( $_REQUEST['item_sn'] ) )
 	{
-		$_SESSION['FSA_sale'][] = $_REQUEST['item_sn'];
+		$_SESSION['FSA_sale'][ $fsa_sale_user_key ][] = $_REQUEST['item_sn'];
 	}
 
 	// Unset modfunc & item sn & redirect URL.
@@ -98,7 +102,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 {
 	if ( $_REQUEST['id'] !== '' )
 	{
-		unset( $_SESSION['FSA_sale'][$_REQUEST['id']] );
+		unset( $_SESSION['FSA_sale'][ $fsa_sale_user_key ][$_REQUEST['id']] );
 	}
 
 	// Unset modfunc & ID & redirect URL.

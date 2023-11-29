@@ -9,18 +9,7 @@ Search( 'student_id', $extra );
 
 if ( $_REQUEST['modfunc'] === 'submit' )
 {
-	if ( ! empty( $_REQUEST['submit']['cancel'] ) )
-	{
-		if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
-		{
-			unset( $_SESSION['FSA_sale'] );
-
-			// Unset modfunc & redirect URL.
-			RedirectURL( 'modfunc' );
-		}
-	}
-	elseif ( $_REQUEST['submit']['save']
-		&& ! empty( $_SESSION['FSA_sale'] ) )
+	if ( ! empty( $_SESSION['FSA_sale']['student_' . UserStudentID() ] ) )
 	{
 		$student = DBGet( "SELECT ACCOUNT_ID,DISCOUNT
 			FROM food_service_student_accounts
@@ -51,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$item_id = 0;
 
-		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn )
+		foreach ( (array) $_SESSION['FSA_sale']['student_' . UserStudentID() ] as $item_sn )
 		{
 			// determine price based on discount
 			$price = $items_RET[$item_sn][1]['PRICE'];
@@ -101,19 +90,22 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 				WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
 			WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'" );
 
-		unset( $_SESSION['FSA_sale'] );
-
-		// Unset modfunc & redirect URL.
-		RedirectURL( 'modfunc' );
+		unset( $_SESSION['FSA_sale']['student_' . UserStudentID() ] );
 	}
-	else
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
+}
+
+if ( $_REQUEST['modfunc'] === 'cancel' )
+{
+	if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
 	{
+		unset( $_SESSION['FSA_sale']['student_' . UserStudentID() ] );
+
 		// Unset modfunc & redirect URL.
 		RedirectURL( 'modfunc' );
 	}
-
-	// Unset submit & redirect URL.
-	RedirectURL( 'submit' );
 }
 
 if ( UserStudentID() && ! $_REQUEST['modfunc'] )
@@ -131,12 +123,19 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	$student = $student[1];
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=submit&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		'&modfunc=submit&menu_id=' . $_REQUEST['menu_id'] .
+		'&student_id=' . UserStudentID() ) . '" method="POST">';
 
 	DrawHeader(
 		'',
-		SubmitButton( _( 'Cancel Sale' ), 'submit[cancel]', '' ) . // No .primary button class.
-		SubmitButton( _( 'Complete Sale' ), 'submit[save]' )
+		SubmitButton(
+			_( 'Cancel Sale' ),
+			'',
+			// Change form action's modfunc to delete.
+			'onclick="this.form.action = this.form.action.replace(\'modfunc=submit\',\'modfunc=cancel\');"'
+		) .
+		SubmitButton( _( 'Complete Sale' ) )
 	);
 
 	echo '</form>';
@@ -193,9 +192,9 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		$LO_ret = [ [] ];
 		//FJ fix error Warning: Invalid argument supplied for foreach()
 
-		if ( isset( $_SESSION['FSA_sale'] ) && is_array( $_SESSION['FSA_sale'] ) )
+		if ( isset( $_SESSION['FSA_sale']['student_' . UserStudentID() ] ) && is_array( $_SESSION['FSA_sale']['student_' . UserStudentID() ] ) )
 		{
-			foreach ( (array) $_SESSION['FSA_sale'] as $id => $item_sn )
+			foreach ( (array) $_SESSION['FSA_sale']['student_' . UserStudentID() ] as $id => $item_sn )
 			{
 				// determine price based on discount
 				$price = $items_RET[$item_sn][1]['PRICE'];
@@ -248,7 +247,9 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		];
 
 		echo '<br />';
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=add&menu_id=' . $_REQUEST['menu_id'] .
+			'&student_id=' . UserStudentID() ) . '" method="POST">';
 
 		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, [], $extra );
 

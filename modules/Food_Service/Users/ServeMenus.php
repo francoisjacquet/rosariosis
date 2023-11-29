@@ -10,18 +10,7 @@ Search( 'staff_id', $extra );
 
 if ( $_REQUEST['modfunc'] === 'submit' )
 {
-	if ( ! empty( $_REQUEST['submit']['cancel'] ) )
-	{
-		if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
-		{
-			unset( $_SESSION['FSA_sale'] );
-
-			// Unset modfunc & redirect URL.
-			RedirectURL( 'modfunc' );
-		}
-	}
-	elseif ( $_REQUEST['submit']['save']
-		&& ! empty( $_SESSION['FSA_sale'] ) )
+	if ( ! empty( $_SESSION['FSA_sale']['staff_' . UserStaffID() ] ) )
 	{
 		$fields = 'STAFF_ID,SYEAR,SCHOOL_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
@@ -46,7 +35,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$item_id = 0;
 
-		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn )
+		foreach ( (array) $_SESSION['FSA_sale']['staff_' . UserStaffID() ] as $item_sn )
 		{
 			$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
 
@@ -72,19 +61,22 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		DBQuery( $sql );
 
-		unset( $_SESSION['FSA_sale'] );
-
-		// Unset modfunc & redirect URL.
-		RedirectURL( 'modfunc' );
+		unset( $_SESSION['FSA_sale']['staff_' . UserStaffID() ] );
 	}
-	else
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
+}
+
+if ( $_REQUEST['modfunc'] === 'cancel' )
+{
+	if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
 	{
+		unset( $_SESSION['FSA_sale']['staff_' . UserStaffID() ] );
+
 		// Unset modfunc & redirect URL.
 		RedirectURL( 'modfunc' );
 	}
-
-	// Unset submit & redirect URL.
-	RedirectURL( 'submit' );
 }
 
 if ( UserStaffID()
@@ -98,12 +90,19 @@ if ( UserStaffID()
 
 	$staff = $staff[1];
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=submit&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=submit&menu_id=' . $_REQUEST['menu_id'] .
+			'&staff_id=' . UserStaffID()  ) . '" method="POST">';
 
 	DrawHeader(
 		'',
-		SubmitButton( _( 'Cancel Sale' ), 'submit[cancel]', '' ) . // No .primary button class.
-		SubmitButton( _( 'Complete Sale' ), 'submit[save]' )
+		SubmitButton(
+			_( 'Cancel Sale' ),
+			'',
+			// Change form action's modfunc to delete.
+			'onclick="this.form.action = this.form.action.replace(\'modfunc=submit\',\'modfunc=cancel\');"'
+		) .
+		SubmitButton( _( 'Complete Sale' ) )
 	);
 
 	echo '</form>';
@@ -157,9 +156,9 @@ if ( UserStaffID()
 
 		$LO_ret = [ [] ];
 
-		if ( isset( $_SESSION['FSA_sale'] ) )
+		if ( isset( $_SESSION['FSA_sale']['staff_' . UserStaffID() ] ) )
 		{
-			foreach ( (array) $_SESSION['FSA_sale'] as $id => $item_sn )
+			foreach ( (array) $_SESSION['FSA_sale']['staff_' . UserStaffID() ] as $id => $item_sn )
 			{
 				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
 				$LO_ret[] = [ 'SALE_ID' => $id, 'PRICE' => $price, 'DESCRIPTION' => $items_RET[$item_sn][1]['DESCRIPTION'], 'ICON' => $items_RET[$item_sn][1]['ICON'] ];
@@ -199,7 +198,9 @@ if ( UserStaffID()
 
 		echo '<br />';
 
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=add&menu_id=' . $_REQUEST['menu_id'] .
+			'&staff_id=' . UserStaffID()  ) . '" method="POST">';
 
 		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, [], $extra );
 
