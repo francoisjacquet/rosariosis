@@ -177,7 +177,7 @@ function RedirectURL( $remove, $add_post = [] )
 
 
 /**
- * My URL encode
+ * Escape URL
  * RFC 3986 compliant
  *
  * @see http://php.net/manual/en/function.urlencode.php#97969
@@ -286,6 +286,7 @@ function _myURLEncode( $string )
  * @example dir: https://domain.com/rosariosis/ (with trailing slash)
  * @example script: https://domain.com/rosariosis/Modules.php
  * @example request: https://domain.com/rosariosis/Modules.php?modname=Module/Program.php
+ * @example [empty]: https://domain.com (without trailing slash)
  *
  * @since 11.2
  *
