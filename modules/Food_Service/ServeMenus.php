@@ -85,7 +85,7 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 }
 
-$menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
+$menu_title = issetVal( $menus_RET[$_REQUEST['menu_id']][1]['TITLE'], '' );
 
 if ( $_REQUEST['modfunc'] === 'add' )
 {
