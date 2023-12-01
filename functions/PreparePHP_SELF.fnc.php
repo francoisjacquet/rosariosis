@@ -111,7 +111,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 /**
  * Redirect URL
  * Will update the requested URL in the browser,
- * (soft redirection using the X-Redirect-Url header)
+ * (soft redirection using the X-Redirect-Url header or the XRedirectUrl JS global var)
  * removing/adding the requested parameters passed as argument.
  * Use after a successful remove / delete / update / save operation.
  * Prevents showing an obsolete & confusing delete confirmation screen on page reload.
@@ -119,13 +119,14 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  *
  * @since 3.3
  * @since 11.2 Add $add_post argument, POST parameters to add to the URL (optional)
+ * @since 11.4 Add XRedirectUrl JS global var for soft redirection when not an AJAX request
  *
  * @example RedirectURL( [ 'modfunc', 'id' ] );
  *
  * @uses X-Redirect-Url header.
  * @uses PreparePHP_SELF
  *
- * @see warehouse.js check for X-Redirect-Url
+ * @see warehouse.js check for X-Redirect-Url or XRedirectUrl
  *
  * @param array|string $remove   Parameters to remove from the $_REQUEST & $_SESSION['_REQUEST_vars'] arrays.
  * @param array|string $add_post POST parameters to add to the URL (optional).
@@ -171,6 +172,13 @@ function RedirectURL( $remove, $add_post = [] )
 
 	// Redirect URL.
 	header( 'X-Redirect-Url: ' . $redirect_url );
+
+	if ( ! isAJAX() )
+	{
+		?>
+		<script>var XRedirectUrl=<?php echo json_encode( $redirect_url ); ?>;</script>
+		<?php
+	}
 
 	return true;
 }

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.4
+---------------
+- Add XRedirectUrl JS global var for soft redirection when not an AJAX request in PreparePHP_SELF.fnc.php & warehouse.js
+
 Changes in 11.3.2
 -----------------
 - Fix PHP fatal error checkdate(): arg must be of type int, string given in Date.php

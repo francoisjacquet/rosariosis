@@ -491,6 +491,15 @@ window.onload = function() {
 
 	// Load body after browser history.
 	if (history.pushState) window.setTimeout(ajaxPopState(), 1);
+
+	if (typeof XRedirectUrl !== 'undefined'
+		&& XRedirectUrl) {
+		// See PHP RedirectURL().
+		// @since 11.4 Add XRedirectUrl JS global var for soft redirection when not an AJAX request
+		history.replaceState({}, document.title, XRedirectUrl);
+
+		XRedirectUrl = '';
+	}
 };
 
 var ajaxPopState = function() {
