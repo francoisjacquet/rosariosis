@@ -189,11 +189,11 @@ var MarkDownInputPreview = function(input_id) {
 
 var MarkDownToHTML = function() {
 	$('.markdown-to-html').html(function(i, txt) {
+		// Fix double HTML character encoding, use jQuery text instead of jQuery html
+		txt = $(this).text();
 
-		var mdc = GetMDConverter();
-
-		// Fix decode > HTML characters so blockquote are converted.
-		var md = mdc( txt.replace(/&gt;/g, '>') );
+		var mdc = GetMDConverter(),
+			md = mdc( txt );
 
 		// Add paragraph to text.
 		var txtP = '<p>' + txt + '</p>';
