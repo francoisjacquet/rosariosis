@@ -470,8 +470,6 @@ if ( ! isset( $_REQUEST['calendar_id'] )
 	}
 }
 
-unset( $_SESSION['_REQUEST_vars']['calendar_id'] );
-
 // Event / Assignment details
 if ( $_REQUEST['modfunc'] === 'detail' )
 {

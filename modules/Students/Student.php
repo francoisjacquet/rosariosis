@@ -540,14 +540,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	// Unset & redirect URL.
 	RedirectURL( $unset_request );
-
-	// SHOULD THIS BE HERE???
-	/*if ( !UserStudentID() )
-unset( $_REQUEST['values'] );
-
-$_SESSION['_REQUEST_vars']['modfunc'] = false;
-unset( $_SESSION['_REQUEST_vars']['students'] );
-unset( $_SESSION['_REQUEST_vars']['values'] );*/
 }
 
 if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )

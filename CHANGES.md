@@ -13,6 +13,8 @@ Changes in 11.4
 - Smart cache: do not get ALL users database twice if Teacher not found in GetTeacher.fnc.php
 - 'ParseMLField' can be used as a DBGet() callback function to parse column in ParseML.php
 - Breaking change: remove use of 'next_modname' request param in Search.fnc.php, Search.inc.php & various programs
+- Remove use of `$_SESSION['_REQUEST_vars']` in MyReport.php, Schedule.php, ClassSearchWidget.fnc.php, Calendar.php, CopySchool.php, Search.inc.php & Export.php
+- Simplify use of `$_SESSION['Back_PHP_SELF']` in MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
 
 Changes in 11.3.2
 -----------------

@@ -505,16 +505,11 @@ if ( isset( $_REQUEST['search_modfunc'] )
 		if ( empty( $_REQUEST['LO_save'] )
 			&& empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_REQUEST, [ 'bottom_back' ] );
 
-			if ( isset( $_SESSION['Back_PHP_SELF'] )
-				&& $_SESSION['Back_PHP_SELF'] != 'student' )
-			{
-				$_SESSION['Back_PHP_SELF'] = 'student';
+			$_SESSION['Back_PHP_SELF'] = 'student';
 
-				unset( $_SESSION['Search_PHP_SELF'] );
-			}
-
+			// Update Bottom.php.
 			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 

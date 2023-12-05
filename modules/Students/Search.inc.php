@@ -16,19 +16,6 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				unset( $_SESSION['student_id'] );
 			}
 
-			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF(
-				$_SESSION['_REQUEST_vars'],
-				[ 'bottom_back', 'advanced' ]
-			);
-
-			if ( empty( $_SESSION['Back_PHP_SELF'] )
-				|| $_SESSION['Back_PHP_SELF'] !== 'student' )
-			{
-				$_SESSION['Back_PHP_SELF'] = 'student';
-
-				unset( $_SESSION['List_PHP_SELF'] );
-			}
-
 			echo '<br />';
 
 			PopTable(
@@ -326,22 +313,15 @@ else
 
 		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_REQUEST, [ 'bottom_back' ] );
 
-			if ( empty( $_SESSION['Back_PHP_SELF'] )
-				|| $_SESSION['Back_PHP_SELF'] != 'student' )
-			{
-				$_SESSION['Back_PHP_SELF'] = 'student';
-				unset( $_SESSION['Search_PHP_SELF'] );
-			}
+			$_SESSION['Back_PHP_SELF'] = 'student';
 
 			if ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' )
 			{
 				// Update Bottom.php.
-				$bottom_url = URLEscape( 'Bottom.php?modname=' . $_REQUEST['modname'] . '&search_modfunc=list' );
-
-				echo '<script>ajaxLink(' . json_encode( $bottom_url ) . '); old_modname="";</script>';
+				echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 			}
 		}
 

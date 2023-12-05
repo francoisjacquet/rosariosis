@@ -92,18 +92,21 @@ if ( $go
 
 	echo '</form>';
 
-	unset( $_SESSION['_REQUEST_vars']['tables'] );
-
 	// Set new current school.
 	$_SESSION['UserSchool'] = $id;
 
 	// Unset current student.
 	unset( $_SESSION['student_id'] );
 
+	// Unset current user.
+	unset( $_SESSION['staff_id'] );
+
 	UpdateSchoolArray( UserSchool() );
 
 	// @since 5.8 Hook.
 	do_action( 'School_Setup/CopySchool.php|copy_school' );
+
+	RedirectURL( 'tables' );
 }
 
 /**

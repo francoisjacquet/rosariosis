@@ -37,7 +37,7 @@ if ( ! $date )
 	$_REQUEST['year_date'] = $date_exploded['year'];
 }
 
-$_SESSION['_REQUEST_vars']['modfunc'] = false;
+//$_SESSION['_REQUEST_vars']['modfunc'] = false;
 
 Widgets( 'course' );
 Widgets( 'request' );

@@ -39,17 +39,6 @@ function ClassSearchWidget( $extra = '' )
  */
 function _classSearchWidgetFindCourse( $extra )
 {
-	$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
-
-	if ( empty( $_SESSION['Back_PHP_SELF'] )
-		|| $_SESSION['Back_PHP_SELF'] !== 'course' )
-	{
-		$_SESSION['Back_PHP_SELF'] = 'course';
-		unset( $_SESSION['List_PHP_SELF'] );
-	}
-
-	echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
-
 	echo '<br />';
 
 	PopTable( 'header', _( 'Find a Course' ) );
@@ -226,14 +215,9 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 
 	if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 	{
-		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
+		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_REQUEST, [ 'bottom_back' ] );
 
-		if ( empty( $_SESSION['Back_PHP_SELF'] )
-			|| $_SESSION['Back_PHP_SELF'] !== 'course' )
-		{
-			$_SESSION['Back_PHP_SELF'] = 'course';
-			unset( $_SESSION['Search_PHP_SELF'] );
-		}
+		$_SESSION['Back_PHP_SELF'] = 'course';
 
 		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{
