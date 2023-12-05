@@ -28,6 +28,10 @@ function GetUserAgentOS( $user_agent )
 	{
 		return 'Android';
 	}
+	elseif ( strpos( $user_agent, 'CrOS' ) )
+	{
+		return 'Chrome OS';
+	}
 	elseif ( strpos( $user_agent, 'Linux' )
 		|| strpos( $user_agent, 'X11' ) )
 	{
