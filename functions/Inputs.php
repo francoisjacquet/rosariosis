@@ -1828,7 +1828,7 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br>' 
 		return '';
 	}
 
-	if ( mb_strpos( $title, 'a11y-hidden' ) !== false )
+	if ( mb_strpos( (string) $title, 'a11y-hidden' ) !== false )
 	{
 		// Accessibility hidden title: force break to empty string.
 		$break = '';
