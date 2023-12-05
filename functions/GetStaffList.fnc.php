@@ -1,10 +1,40 @@
 <?php
+/**
+ * Get Staff List functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
-// @since 4.8 Search Parents by Student Grade Level.
+/**
+ * Get Staff (User) List
+ * Only for Admin & Teachers
+ * Build SQL request based on:
+ * - Extra parameters
+ *
+ * @example $salaries_RET = GetStaffList( $salaries_extra );
+ *
+ * @since 4.8 Search Parents by Student Grade Level.
+ * @since 11.4 Add 'SELECT_ONLY' to $extra param
+ *
+ * @see Search()
+ *
+ * @uses StaffWidgets()          add Staff Widgets SQL to $extra
+ * @uses appendStaffSQL()        add Search User basic fields SQL to $extra['WHERE']
+ * @uses CustomFields()          add Custom Fields SQL to $extra['WHERE']
+ * @uses DBGet()                 return Staff
+ * @uses makeEmail()             format Email address
+ * @uses makePhone()             format Phone number
+ * @uses makeFieldTypeFunction() make / format custom fields based on their type
+ * @uses makeProfile()           make User Profile
+ * @uses makeLogin()             make Last Login (date) or Failed Login (count)
+ *
+ * @param  array &$extra Extra for SQL request ('SELECT_ONLY', 'SELECT', FROM', 'WHERE', 'ORDER_BY', 'functions', 'columns_after',...).
+ *
+ * @return array DBGet return of the built SQL query
+ */
 function GetStaffList( &$extra = [] )
 {
-	$functions = [ 'PROFILE' => 'makeProfile' ];
-
 	if ( User( 'PROFILE' ) !== 'admin'
 		&& User( 'PROFILE' ) !== 'teacher' )
 	{
@@ -28,7 +58,6 @@ function GetStaffList( &$extra = [] )
 		StaffWidgets( 'user', $extra );
 	}
 
-
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
 	$extra['FROM'] = issetVal( $extra['FROM'], '' );
@@ -38,6 +67,20 @@ function GetStaffList( &$extra = [] )
 	$extra['WHERE'] .= appendStaffSQL( '', $extra );
 
 	$extra['WHERE'] .= CustomFields( 'where', 'staff', $extra );
+
+	$functions = [];
+
+	if ( ( ! isset( $extra['SELECT_ONLY'] )
+			|| mb_strpos( $extra['SELECT_ONLY'], 'PROFILE' ) !== false )
+		&& ! isset( $extra['functions']['PROFILE'] ) )
+	{
+		$functions = [ 'PROFILE' => 'makeProfile' ];
+	}
+
+	if ( isset( $extra['functions'] ) )
+	{
+		$functions += (array) $extra['functions'];
+	}
 
 	// Expanded View.
 	if ( isset( $_REQUEST['expanded_view'] )
@@ -168,13 +211,40 @@ function GetStaffList( &$extra = [] )
 		$extra['WHERE'] .= '))';
 	}
 
-	$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-			s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS " . $extra['SELECT'] .
-			" FROM staff s " . $extra['FROM'] .
-			" WHERE	s.SYEAR='" . UserSyear() . "'";
+	// Get options:
+	// SELECT only.
+	$is_select_only = ! empty( $extra['SELECT_ONLY'] );
 
-	if ( ! isset( $_REQUEST['_search_all_schools'] )
-		|| $_REQUEST['_search_all_schools'] !== 'Y' )
+	// Build SELECT.
+	$sql = 'SELECT ';
+
+	// SELECT only.
+	if ( $is_select_only )
+	{
+		$sql .= $extra['SELECT_ONLY'];
+	}
+	// Normal SELECT.
+	else
+	{
+		// User Full Name.
+		$sql .= DisplayNameSQL( 's' ) . " AS FULL_NAME,";
+
+		// User Details.
+		$sql .='s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS ' .
+			$extra['SELECT'];
+	}
+
+	// FROM.
+	$sql .= " FROM staff s " . $extra['FROM'];
+
+	// WHERE, only in current School Year.
+	$sql .= " WHERE s.SYEAR='" . UserSyear() . "'";
+
+	// Get Search All Schools option.
+	$is_search_all_schools = isset( $_REQUEST['_search_all_schools'] )
+		&& $_REQUEST['_search_all_schools'] == 'Y';
+
+	if ( ! $is_search_all_schools )
 	{
 		$sql .= " AND (s.SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN s.SCHOOLS)>0) ";
 	}
@@ -196,7 +266,7 @@ function GetStaffList( &$extra = [] )
 
 	// ORDER BY.
 	if ( ! isset( $extra['ORDER_BY'] )
-		/*&& ! isset( $extra['SELECT_ONLY'] )*/ )
+		&& ! isset( $extra['SELECT_ONLY'] ) )
 	{
 		$sql .= ' ORDER BY FULL_NAME';
 
@@ -205,15 +275,9 @@ function GetStaffList( &$extra = [] )
 			$sql .= $extra['ORDER'];
 		}
 	}
-	elseif ( isset( $extra['ORDER_BY'] ) )
+	elseif ( ! empty( $extra['ORDER_BY'] ) )
 	{
 		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
-	}
-
-	if ( isset( $extra['functions'] ) )
-	{
-		// Extra functions.
-		$functions += (array) $extra['functions'];
 	}
 
 	return DBGet( $sql, $functions );
