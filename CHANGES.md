@@ -9,6 +9,8 @@ Changes in 11.4
 - SQL add Comment to every grade of the Main scale in rosariosis.sql & rosariosis_mysql.sql
 - Add Chrome OS to GetUserAgentOS() in UserAgent.fnc.php
 - Add 'SELECT_ONLY' to $extra param in GetStaffList.fnc.php
+- SQL performance: limit main query to teacher profile in GetTeacher.fnc.php
+- Smart cache: do not get ALL users database twice if Teacher not found in GetTeacher.fnc.php
 
 Changes in 11.3.2
 -----------------
