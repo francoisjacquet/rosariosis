@@ -11,6 +11,7 @@ Changes in 11.4
 - Add 'SELECT_ONLY' to $extra param in GetStaffList.fnc.php
 - SQL performance: limit main query to teacher profile in GetTeacher.fnc.php
 - Smart cache: do not get ALL users database twice if Teacher not found in GetTeacher.fnc.php
+- 'ParseMLField' can be used as a DBGet() callback function to parse column in ParseML.php
 
 Changes in 11.3.2
 -----------------

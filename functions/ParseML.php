@@ -14,20 +14,22 @@
  * default_string|lang_code:translated string
  *
  * @since 5.8.2 Fix ML default value beginning with `|locale:`.
+ * @since 11.4 'ParseMLField' can be used as a DBGet() callback function to parse column
+ * @example DBGet( "SELECT TITLE FROM courses", [ 'TITLE' => 'ParseMLField' ] )
  *
  * @example "My vacation by the sea|fr_FR.utf8:Mes vacances à la mer|de_DE.utf8:Mein urlaub am rand des meeres"
  *          Will display the English text unless the current language is either fr_FR.utf8 or de_DE.utf8
  *
- * @global string $locale
+ * @global array $RosarioLocales
  *
  * @param  string $field  Multi Languages Field value.
- * @param  string $loc    Locale (optional). Defaults to current locale.
+ * @param  string $loc    Locale (optional). Defaults to current locale (session).
  *
  * @return string Current language Field value
  */
 function ParseMLField( $field, $loc = '' )
 {
-	global $locale;
+	global $RosarioLocales;
 
 	if ( ! $field
 		|| $field === '.' )
@@ -35,9 +37,10 @@ function ParseMLField( $field, $loc = '' )
 		return $field;
 	}
 
-	if ( empty( $loc ) )
+	if ( empty( $loc )
+		|| ! in_array( $loc, $RosarioLocales ) )
 	{
-		$loc = $locale;
+		$loc = $_SESSION['locale'];
 	}
 
 	$field = (string) $field;
