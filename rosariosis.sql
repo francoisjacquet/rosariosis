@@ -3753,6 +3753,7 @@ BEGIN
     FOR t IN
         SELECT table_name FROM information_schema.columns
         WHERE column_name = 'updated_at'
+        AND table_schema = CURRENT_SCHEMA()
     LOOP
         EXECUTE
             'CREATE TRIGGER set_updated_at

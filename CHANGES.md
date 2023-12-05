@@ -5,6 +5,7 @@ Changes in 11.4
 ---------------
 - Add XRedirectUrl JS global var for soft redirection when not an AJAX request in PreparePHP_SELF.fnc.php & warehouse.js
 - JS Fix double HTML character encoding, use jQuery text instead of jQuery html in warehouse.js
+- PostgreSQL fix limit set_updated_at_triggers() to current schema in rosariosis.sql
 
 Changes in 11.3.2
 -----------------
