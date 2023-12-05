@@ -12,7 +12,7 @@ $_REQUEST['report'] = issetVal( $_REQUEST['report'], '' );
 
 $report_link = PreparePHP_SELF(
 	[],
-	[ 'report', 'search_modfunc', 'next_modname', 'include_seats', 'expanded_view', 'address_group' ]
+	[ 'report', 'search_modfunc', 'include_seats', 'expanded_view', 'address_group' ]
 ) . '&report=';
 
 $report_select = SelectInput(

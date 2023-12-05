@@ -12,6 +12,7 @@ Changes in 11.4
 - SQL performance: limit main query to teacher profile in GetTeacher.fnc.php
 - Smart cache: do not get ALL users database twice if Teacher not found in GetTeacher.fnc.php
 - 'ParseMLField' can be used as a DBGet() callback function to parse column in ParseML.php
+- Breaking change: remove use of 'next_modname' request param in Search.fnc.php, Search.inc.php & various programs
 
 Changes in 11.3.2
 -----------------

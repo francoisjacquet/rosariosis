@@ -55,8 +55,7 @@ function _classSearchWidgetFindCourse( $extra )
 	PopTable( 'header', _( 'Find a Course' ) );
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=' . $_REQUEST['modfunc'] . '&modfunc=list&next_modname=' .
-		issetVal( $_REQUEST['next_modname'], '' )  ) . '" method="POST">';
+		'&modfunc=' . $_REQUEST['modfunc'] . '&modfunc=list'  ) . '" method="POST">';
 
 	echo '<table>';
 

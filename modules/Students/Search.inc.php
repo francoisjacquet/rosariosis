@@ -38,7 +38,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			echo '<form name="search" id="search" action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=' . $_REQUEST['modfunc'] .
-				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
+				'&search_modfunc=list' .
 				'&advanced=' . ( ! empty( $_REQUEST['advanced'] ) ? $_REQUEST['advanced'] : '' ) .
 				( ! empty( $extra['action'] ) ? $extra['action'] : '' )  ) . '" method="GET">';
 
@@ -160,7 +160,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=' . $_REQUEST['modfunc'] .
-				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
+				'&search_modfunc=list' .
 				( ! empty( $extra['action'] ) ? $extra['action'] : '' )  ) . '" method="POST">';
 
 			echo '<table class="width-100p col1-align-right">';
@@ -185,11 +185,6 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 //if ( $_REQUEST['search_modfunc']=== 'list')
 else
 {
-	if ( empty( $_REQUEST['next_modname'] ) )
-	{
-		$_REQUEST['next_modname'] = 'Students/Student.php';
-	}
-
 	if ( empty( $extra['NoSearchTerms'] ) )
 	{
 		$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'] );
@@ -234,7 +229,7 @@ else
 		}
 	}
 
-	$name_link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['next_modname'];
+	$name_link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'];
 	$name_link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
 	if ( isset( $_REQUEST['_search_all_schools'] )
@@ -412,38 +407,6 @@ else
 
 			// Unset search modfunc & redirect URL.
 			RedirectURL( 'search_modfunc' );
-		}
-
-		if ( $_REQUEST['modname'] != $_REQUEST['next_modname'] )
-		{
-			$modname = $_REQUEST['next_modname'];
-
-			if ( mb_strpos( $modname, '?' ) )
-			{
-				$modname = mb_substr( $_REQUEST['next_modname'], 0, mb_strpos( $_REQUEST['next_modname'], '?' ) );
-			}
-
-			if ( mb_strpos( $modname, '&' ) )
-			{
-				$modname = mb_substr( $_REQUEST['next_modname'], 0, mb_strpos( $_REQUEST['next_modname'], '&' ) );
-			}
-
-			if ( ! empty( $_REQUEST['modname'] ) )
-			{
-				$_REQUEST['modname'] = $modname;
-			}
-
-			//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-
-			if ( mb_substr( $modname, -4, 4 ) != '.php' || mb_strpos( $modname, '..' ) !== false || ! is_file( 'modules/' . $modname ) )
-			{
-				require_once 'ProgramFunctions/HackingLog.fnc.php';
-				HackingLog();
-			}
-			else
-			{
-				require_once 'modules/' . $modname;
-			}
 		}
 	}
 	else

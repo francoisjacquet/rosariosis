@@ -76,8 +76,6 @@ function Search( $type, $extra = null )
 					}
 				}
 
-				$_REQUEST['next_modname'] = $_REQUEST['modname'];
-
 				require_once 'modules/Students/Search.inc.php';
 			}
 
@@ -119,8 +117,6 @@ function Search( $type, $extra = null )
 				{
 					unset( $_SESSION['staff_id'] );
 				}
-
-				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 
 				require_once 'modules/Users/Search.inc.php';
 			}

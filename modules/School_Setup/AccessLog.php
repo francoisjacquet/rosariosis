@@ -99,10 +99,10 @@ if ( ! $_REQUEST['modfunc'] )
 	// When clicking on Username, go to Student or User Info. ?>
 <script>
 	$('.al-username').attr('href', function(){
-		var url = 'Modules.php?modname=Users/User.php&search_modfunc=list&next_modname=Users/User.php&';
+		var url = 'Modules.php?modname=Users/User.php&search_modfunc=list&';
 
 		if ( $(this).hasClass('student') ) {
-			url = url.replace( /Users\/User\.php/g, 'Students/Student.php' ) + 'cust[USERNAME]=';
+			url = url.replace( 'Users/User.php', 'Students/Student.php' ) + 'cust[USERNAME]=';
 		} else {
 			url += 'username=';
 		}

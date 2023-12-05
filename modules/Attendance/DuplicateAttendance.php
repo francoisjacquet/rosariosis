@@ -236,7 +236,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 		echo ErrorMessage( $note, 'note' );
 
-		echo '<form action="' . URLEscape( 'Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&next_modname=Attendance/DuplicateAttendance.php&delete=true' ) . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&delete=true' ) . '" method="POST">';
 
 		DrawHeader( '', SubmitButton( _( 'Delete' ) ) );
 
@@ -260,7 +260,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 				}
 				else
 				{
-					echo '<a href="Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&next_modname=Attendance/DuplicateAttendance.php&delete=false&page=' . $ii . '">' . $ii . '</a> &nbsp;';
+					echo '<a href="Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&delete=false&page=' . $ii . '">' . $ii . '</a> &nbsp;';
 				}
 
 				$first = $first + $rows_per_page;

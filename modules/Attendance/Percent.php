@@ -8,7 +8,7 @@ DrawHeader( ProgramTitle() );
 
 $report_link = PreparePHP_SELF(
 	[],
-	[ 'list_by_day', 'search_modfunc', 'next_modname' ]
+	[ 'list_by_day', 'search_modfunc' ]
 ) . '&list_by_day=';
 
 $report_select = SelectInput(
