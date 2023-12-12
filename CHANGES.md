@@ -17,6 +17,10 @@ Changes in 11.4
 - Simplify use of `$_SESSION['Back_PHP_SELF']` in MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
 - Do NOT rely on SubmitButton() name param, use modfunc instead in DailyMenus.php, EditReportCardGrades.php, StudentAssignments.php, Calendar.php & Schools.php
 
+Changes in 11.3.3
+-----------------
+- Fix PHP 8.1 fatal error: array_key_exists() arg 2 ($array) must be of type array in ListOutput.fnc.php
+
 Changes in 11.3.2
 -----------------
 - Fix PHP fatal error checkdate(): arg must be of type int, string given in Date.php
