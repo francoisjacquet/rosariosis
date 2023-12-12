@@ -184,8 +184,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		// END SEARCHES ---.
 
 		if ( $LO_sort
-			&& array_key_exists( $LO_sort, $result[1] )
-			&& $result_count > 1 )
+			&& $result_count > 1
+			&& array_key_exists( $LO_sort, $result[1] ) )
 		{
 			foreach ( (array) $result as $sort )
 			{
