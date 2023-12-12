@@ -149,7 +149,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		DrawHeader(
 			'',
 			SubmitButton() .
-			( $staff['BALANCE'] == 0 ?
+			( $staff['BALANCE'] == 0 && AllowEdit() ?
 				'<input type="button" value="' .
 					AttrEscape( _( 'Delete Account' ) ) .
 					// Change form action's modfunc to delete.
