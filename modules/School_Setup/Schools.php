@@ -7,123 +7,115 @@ require_once 'modules/School_Setup/includes/Schools.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc'] === 'update' )
+if ( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['button'] === _( 'Save' )
-		&& AllowEdit() )
+	// Add eventual Dates to $_REQUEST['values'].
+	AddRequestedDates( 'values', 'post' );
+
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] )
+		|| ! empty( $_FILES ) )
 	{
-		// Add eventual Dates to $_REQUEST['values'].
-		AddRequestedDates( 'values', 'post' );
+		// FJ other fields required.
+		$required_error = CheckRequiredCustomFields( 'school_fields', $_REQUEST['values'] );
 
-		if ( ! empty( $_REQUEST['values'] )
-			&& ! empty( $_POST['values'] )
-			|| ! empty( $_FILES ) )
+		if ( $required_error )
 		{
-			// FJ other fields required.
-			$required_error = CheckRequiredCustomFields( 'school_fields', $_REQUEST['values'] );
-
-			if ( $required_error )
-			{
-				$error[] = _( 'Please fill in the required fields' );
-			}
-
-			// FJ textarea fields MarkDown sanitize.
-			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'school_fields', 'values' );
-
-			if ( ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
-					&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
-				|| ( ! empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-					&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] ) ) )
-			{
-				$error[] = _( 'Please enter valid Numeric data.' );
-			}
-
-			if ( ! $error )
-			{
-				$sql = "UPDATE schools SET ";
-
-				$fields_RET = DBGet( "SELECT ID,TYPE
-					FROM school_fields
-					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
-
-				$go = 0;
-
-				foreach ( (array) $_REQUEST['values'] as $column => $value )
-				{
-					if ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
-						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
-						&& $value != ''
-						&& ! is_numeric( $value ) )
-					{
-						$error[] = _( 'Please enter valid Numeric data.' );
-						continue;
-					}
-
-					if ( is_array( $value ) )
-					{
-						// Select Multiple from Options field type format.
-						$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
-					}
-
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					$go = true;
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
-
-				if ( $go )
-				{
-					DBQuery( $sql );
-				}
-
-				$uploaded = FilesUploadUpdate(
-					'schools',
-					'values',
-					$FileUploadsPath . 'Schools/' . UserSchool() . '/'
-				);
-
-				if ( $go || $uploaded )
-				{
-					$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
-				}
-
-				UpdateSchoolArray( UserSchool() );
-
-				// @since 5.8 Hook.
-				do_action( 'School_Setup/Schools.php|update_school' );
-			}
+			$error[] = _( 'Please fill in the required fields' );
 		}
 
-		// Unset modfunc, values & redirect URL.
-		RedirectURL( [ 'modfunc', 'values' ] );
-	}
-	elseif ( ( $_REQUEST['button'] === _( 'Delete' )
-		|| isset( $_POST['delete_ok'] ) )
-		&& User( 'PROFILE' ) === 'admin'
-		&& AllowEdit() )
-	{
-		if ( DeletePrompt( _( 'School' ) ) )
+		// FJ textarea fields MarkDown sanitize.
+		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'school_fields', 'values' );
+
+		if ( ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
+				&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
+			|| ( ! empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
+				&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] ) ) )
 		{
-			$delete_sql = SchoolDeleteSQL( UserSchool() );
+			$error[] = _( 'Please enter valid Numeric data.' );
+		}
 
-			DBQuery( $delete_sql );
+		if ( ! $error )
+		{
+			$sql = "UPDATE schools SET ";
 
-			// @since 5.8 Hook.
-			do_action( 'School_Setup/Schools.php|delete_school' );
+			$fields_RET = DBGet( "SELECT ID,TYPE
+				FROM school_fields
+				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
-			// Unset modfunc & redirect URL.
-			RedirectURL( 'modfunc' );
+			$go = 0;
 
-			// Set current school to one of the remaining schools.
-			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID
-				FROM schools
-				WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" );
+			foreach ( (array) $_REQUEST['values'] as $column => $value )
+			{
+				if ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+					&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+					&& $value != ''
+					&& ! is_numeric( $value ) )
+				{
+					$error[] = _( 'Please enter valid Numeric data.' );
+					continue;
+				}
+
+				if ( is_array( $value ) )
+				{
+					// Select Multiple from Options field type format.
+					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+				}
+
+				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+				$go = true;
+			}
+
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
+
+			if ( $go )
+			{
+				DBQuery( $sql );
+			}
+
+			$uploaded = FilesUploadUpdate(
+				'schools',
+				'values',
+				$FileUploadsPath . 'Schools/' . UserSchool() . '/'
+			);
+
+			if ( $go || $uploaded )
+			{
+				$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
+			}
 
 			UpdateSchoolArray( UserSchool() );
+
+			// @since 5.8 Hook.
+			do_action( 'School_Setup/Schools.php|update_school' );
 		}
 	}
-	else
+
+	// Unset modfunc, values & redirect URL.
+	RedirectURL( [ 'modfunc', 'values' ] );
+}
+
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& User( 'PROFILE' ) === 'admin'
+	&& AllowEdit() )
+{
+	if ( DeletePrompt( _( 'School' ) ) )
 	{
+		$delete_sql = SchoolDeleteSQL( UserSchool() );
+
+		DBQuery( $delete_sql );
+
+		// @since 5.8 Hook.
+		do_action( 'School_Setup/Schools.php|delete_school' );
+
+		// Set current school to one of the remaining schools.
+		$_SESSION['UserSchool'] = DBGetOne( "SELECT ID
+			FROM schools
+			WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" );
+
+		UpdateSchoolArray( UserSchool() );
+
 		// Unset modfunc & redirect URL.
 		RedirectURL( 'modfunc' );
 	}
@@ -185,7 +177,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$can_delete = DBTransDryRun( SchoolDeleteSQL( UserSchool() ) );
 
-		$delete_button = $can_delete ? SubmitButton( _( 'Delete' ), 'button', '' ) : '';
+		$delete_button = $can_delete ? SubmitButton(
+			_( 'Delete' ),
+			'',
+			// Change form action's modfunc to delete.
+			'onclick="this.form.action = this.form.action.replace(\'modfunc=update\',\'modfunc=delete\');"'
+		) : '';
 	}
 
 	// FJ fix bug: no save button if not admin.
@@ -194,7 +191,7 @@ if ( ! $_REQUEST['modfunc'] )
 		DrawHeader(
 			'',
 			// Leave Delete button AFTER the Save one so info are saved on Enter keypress.
-			SubmitButton( _( 'Save' ), 'button' ) . $delete_button
+			SubmitButton('', 'submit') . $delete_button
 		);
 	}
 
@@ -449,7 +446,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( User( 'PROFILE' ) === 'admin'
 		&& AllowEdit() )
 	{
-		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ), 'button' ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	}
 
 	echo '</form>';

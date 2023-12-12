@@ -37,7 +37,7 @@ if ( ! empty( $_REQUEST['assignment_id'] )
 
 if ( ! empty( $_REQUEST['assignment_id'] ) )
 {
-	if ( isset( $_POST['submit_assignment'] ) )
+	if ( $_REQUEST['modfunc'] === 'submit' )
 	{
 		$submitted = StudentAssignmentSubmit( $_REQUEST['assignment_id'], $error );
 
@@ -48,7 +48,7 @@ if ( ! empty( $_REQUEST['assignment_id'] ) )
 			echo ErrorMessage( $note, 'note' );
 		}
 
-		RedirectURL( 'message' );
+		RedirectURL( [ 'modfunc', 'message' ] );
 
 		echo ErrorMessage( $error );
 	}
@@ -61,7 +61,7 @@ if ( ! empty( $_REQUEST['assignment_id'] ) )
 
 	$form_action = PreparePHP_SELF( $_REQUEST, [], [ 'modfunc' => 'submit' ] );
 
-	echo '<form method="POST" action="">';
+	echo '<form method="POST" action="' . $form_action . '">';
 
 	StudentAssignmentSubmissionOutput( $_REQUEST['assignment_id'] );
 

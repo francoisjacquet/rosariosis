@@ -470,253 +470,257 @@ if ( ! isset( $_REQUEST['calendar_id'] )
 	}
 }
 
+if ( $_REQUEST['modfunc'] === 'detail_save'
+	&& AllowEdit() )
+{
+	// Add eventual Dates to $_REQUEST['values'].
+	AddRequestedDates( 'values' );
+
+	if ( ! empty( $_REQUEST['values'] ) )
+	{
+		// FJ textarea fields MarkDown sanitize.
+		if ( ! empty( $_REQUEST['values']['DESCRIPTION'] ) )
+		{
+			$_REQUEST['values']['DESCRIPTION'] = DBEscapeString( SanitizeMarkDown( $_POST['values']['DESCRIPTION'] ) );
+		}
+
+		// Update Event.
+		if ( $_REQUEST['event_id'] !== 'new' )
+		{
+			DBUpdate(
+				'calendar_events',
+				$_REQUEST['values'],
+				[ 'ID' => (int) $_REQUEST['event_id'] ]
+			);
+
+			// Hook.
+			do_action('School_Setup/Calendar.php|update_calendar_event');
+		}
+		// Create Event.
+		else
+		{
+			// FJ add event repeat.
+			$i = 0;
+
+			do {
+				if ( $i > 0 ) // School date + 1 day.
+				{
+					$_REQUEST['values']['SCHOOL_DATE'] = date(
+						'Y-m-d',
+						mktime( 0, 0, 0,
+							$_REQUEST['month_values']['SCHOOL_DATE'],
+								$_REQUEST['day_values']['SCHOOL_DATE'] + $i,
+							$_REQUEST['year_values']['SCHOOL_DATE']
+						)
+						);
+				}
+
+				$insert_columns = [ 'SYEAR' => UserSyear() , 'SCHOOL_ID' => UserSchool() ];
+
+				$calendar_event_id = DBInsert(
+					'calendar_events',
+					$insert_columns + $_REQUEST['values'],
+					'id'
+				);
+
+				if ( $calendar_event_id )
+				{
+					// Hook.
+					do_action( 'School_Setup/Calendar.php|create_calendar_event' );
+				}
+
+				$i++;
+
+			} while( is_numeric( $_REQUEST['REPEAT'] )
+				&& $i <= $_REQUEST['REPEAT'] );
+		}
+
+		// Reload Calendar & close popup
+		// @since 10.2.1 Maintain Calendar when closing event popup
+		$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
+			$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
+		?>
+<script>
+	window.opener.ajaxLink(<?php echo json_encode( $opener_url ); ?>);
+	window.close();
+</script>
+		<?php
+	}
+
+	$_REQUEST['modfunc'] = 'detail';
+}
+
+// Delete Event
+if ( $_REQUEST['modfunc'] === 'detail_delete'
+	&& AllowEdit() )
+{
+	if ( DeletePrompt( _( 'Event' ), 'Delete', false )
+		&& empty( $_REQUEST['delete_cancel'] ) )
+	{
+		DBQuery( "DELETE FROM calendar_events
+			WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
+
+		//hook
+		do_action( 'School_Setup/Calendar.php|delete_calendar_event' );
+
+		// Reload Calendar & close popup
+		// @since 10.2.1 Maintain Calendar when closing Event popup
+		$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
+			$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
+		?>
+<script>
+	window.opener.ajaxLink(<?php echo json_encode( $opener_url ); ?>);
+	window.close();
+</script>
+		<?php
+	}
+	elseif ( ! empty( $_REQUEST['delete_cancel'] ) )
+	{
+		$_REQUEST['modfunc'] = 'detail';
+	}
+}
+
 // Event / Assignment details
 if ( $_REQUEST['modfunc'] === 'detail' )
 {
-	if ( isset( $_POST['button'] )
-		&& $_POST['button'] === _( 'Save' )
-		&& AllowEdit() )
+	// Event
+	if ( ! empty( $_REQUEST['event_id'] ) )
 	{
-		// Add eventual Dates to $_REQUEST['values'].
-		AddRequestedDates( 'values' );
-
-		if ( ! empty( $_REQUEST['values'] ) )
+		if ( $_REQUEST['event_id'] !== 'new' )
 		{
-			// FJ textarea fields MarkDown sanitize.
-			if ( ! empty( $_REQUEST['values']['DESCRIPTION'] ) )
-			{
-				$_REQUEST['values']['DESCRIPTION'] = DBEscapeString( SanitizeMarkDown( $_POST['values']['DESCRIPTION'] ) );
-			}
-
-			// Update Event.
-			if ( $_REQUEST['event_id'] !== 'new' )
-			{
-				DBUpdate(
-					'calendar_events',
-					$_REQUEST['values'],
-					[ 'ID' => (int) $_REQUEST['event_id'] ]
-				);
-
-				// Hook.
-				do_action('School_Setup/Calendar.php|update_calendar_event');
-			}
-			// Create Event.
-			else
-			{
-				// FJ add event repeat.
-				$i = 0;
-
-				do {
-					if ( $i > 0 ) // School date + 1 day.
-					{
-						$_REQUEST['values']['SCHOOL_DATE'] = date(
-							'Y-m-d',
-							mktime( 0, 0, 0,
-								$_REQUEST['month_values']['SCHOOL_DATE'],
- 								$_REQUEST['day_values']['SCHOOL_DATE'] + $i,
-								$_REQUEST['year_values']['SCHOOL_DATE']
-							)
- 						);
-					}
-
-					$insert_columns = [ 'SYEAR' => UserSyear() , 'SCHOOL_ID' => UserSchool() ];
-
-					$calendar_event_id = DBInsert(
-						'calendar_events',
-						$insert_columns + $_REQUEST['values'],
-						'id'
-					);
-
-					if ( $calendar_event_id )
-					{
-						// Hook.
-						do_action( 'School_Setup/Calendar.php|create_calendar_event' );
-					}
-
-					$i++;
-
-				} while( is_numeric( $_REQUEST['REPEAT'] )
-					&& $i <= $_REQUEST['REPEAT'] );
-			}
-
-			// Reload Calendar & close popup
-			// @since 10.2.1 Maintain Calendar when closing event popup
-			$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
-				$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
-			?>
-<script>
-	window.opener.ajaxLink(<?php echo json_encode( $opener_url ); ?>);
-	window.close();
-</script>
-			<?php
-		}
-	}
-	// Delete Event
-	elseif ( isset( $_REQUEST['button'] )
-		&& $_REQUEST['button'] == _( 'Delete' )
-		&& ! isset( $_REQUEST['delete_cancel'] )
-		&& AllowEdit() )
-	{
-		if ( DeletePrompt( _( 'Event' ), 'Delete', false ) )
-		{
-			DBQuery( "DELETE FROM calendar_events
+			$RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
+				FROM calendar_events
 				WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
 
-			//hook
-			do_action( 'School_Setup/Calendar.php|delete_calendar_event' );
-
-			// Reload Calendar & close popup
-			// @since 10.2.1 Maintain Calendar when closing Event popup
-			$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
-				$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
-			?>
-<script>
-	window.opener.ajaxLink(<?php echo json_encode( $opener_url ); ?>);
-	window.close();
-</script>
-			<?php
-		}
-	}
-	// Display Event / Assignment
-	else
-	{
-		// Event
-		if ( ! empty( $_REQUEST['event_id'] ) )
-		{
-			if ( $_REQUEST['event_id'] !== 'new' )
-			{
-				$RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
-					FROM calendar_events
-					WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
-
-				$title = $RET[1]['TITLE'];
-			}
-			else
-			{
-				//FJ add translation
-				$title = _( 'New Event' );
-
-				$RET[1]['SCHOOL_DATE'] = issetVal( $_REQUEST['school_date'] );
-			}
-
-			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
-				'&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] .
-				'&year=' . $_REQUEST['year'] . '&calendar_id=' . $_REQUEST['calendar_id']  ) . '" method="POST">';
-		}
-		// Assignment
-		elseif ( ! empty( $_REQUEST['assignment_id'] ) )
-		{
-			//FJ add assigned date
-			$RET = DBGet( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
-				a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE,a.SUBMISSION
-				FROM gradebook_assignments a,courses c
-				WHERE (a.COURSE_ID=c.COURSE_ID
-					OR c.COURSE_ID=(SELECT cp.COURSE_ID
-						FROM course_periods cp
-						WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-				AND a.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
-
 			$title = $RET[1]['TITLE'];
-
-			$RET[1]['STAFF_ID'] = GetTeacher( $RET[1]['STAFF_ID'] );
 		}
-
-		echo '<br />';
-
-		PopTable( 'header', $title );
-
-		echo '<table class="cellpadding-5"><tr><td>'  . DateInput(
-			$RET[1]['SCHOOL_DATE'],
-			'values[SCHOOL_DATE]',
-			( empty( $_REQUEST['assignment_id'] ) ? _( 'Date' ) : _( 'Due Date' ) ),
-			false
-		) . '</td></tr>';
-
-		// Add assigned date.
-		if ( ! empty( $RET[1]['ASSIGNED_DATE'] ) )
+		else
 		{
-			echo '<tr><td>' .
-				DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', _( 'Assigned Date' ), false ) .
-			'</td></tr>';
+			//FJ add translation
+			$title = _( 'New Event' );
+
+			$RET[1]['SCHOOL_DATE'] = issetVal( $_REQUEST['school_date'] );
 		}
 
-		// Add submit Assignment link.
-		if ( ! empty( $RET[1]['SUBMISSION'] )
-			&& $RosarioModules['Grades']
-			&& AllowUse( 'Grades/StudentAssignments.php' ) )
-		{
-			echo '<tr><td>
-				<a href="' . URLEscape( 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
-					$_REQUEST['assignment_id'] ) . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
-				_( 'Submit Assignment' ) .
-			'</a></td></tr>';
-		}
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=detail_save&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] .
+			'&year=' . $_REQUEST['year'] . '&calendar_id=' . $_REQUEST['calendar_id']  ) . '" method="POST">';
+	}
+	// Assignment
+	elseif ( ! empty( $_REQUEST['assignment_id'] ) )
+	{
+		//FJ add assigned date
+		$RET = DBGet( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
+			a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE,a.SUBMISSION
+			FROM gradebook_assignments a,courses c
+			WHERE (a.COURSE_ID=c.COURSE_ID
+				OR c.COURSE_ID=(SELECT cp.COURSE_ID
+					FROM course_periods cp
+					WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+			AND a.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
-		// FJ add event repeat.
-		if ( ! empty( $_REQUEST['event_id'] )
-			&& $_REQUEST['event_id'] === 'new' )
-		{
-			echo '<tr><td>
-				<input name="REPEAT" id="REPEAT" value="0" type="number" min="0" max="300" />&nbsp;' . _( 'Days' ) .
-				FormatInputTitle( _( 'Event Repeat' ), 'REPEAT' ) .
-			'</td></tr>';
-		}
+		$title = $RET[1]['TITLE'];
 
-		// Hook.
-		do_action( 'School_Setup/Calendar.php|event_field' );
-
-
-		// FJ bugfix SQL bug value too long for type varchar(50).
-		echo '<tr><td>' .
-			TextInput(
-				issetVal( $RET[1]['TITLE'], '' ),
-				'values[TITLE]',
-				_( 'Title' ),
-				'required size="20" maxlength="50"'
-			) .
-		'</td></tr>';
-
-		if ( ! empty( $RET[1]['COURSE'] ) )
-		{
-			echo '<tr><td>' .
-				NoInput( $RET[1]['COURSE'], _( 'Course' ) ) .
-			'</td></tr>';
-		}
-
-		if ( ! empty( $RET[1]['STAFF_ID'] )
-			&& User( 'PROFILE' ) !== 'teacher' )
-		{
-			echo '<tr><td>' .
-				TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]', _( 'Teacher' ) ) .
-			'</td></tr>';
-		}
-
-		echo '<tr><td>' .
-			TextAreaInput( issetVal( $RET[1]['DESCRIPTION'], '' ), 'values[DESCRIPTION]', _( 'Notes' ) ) .
-		'</td></tr>';
-
-		if ( AllowEdit() )
-		{
-			echo '<tr><td colspan="2">' . SubmitButton( _( 'Save' ), 'button' );
-
-			if ( $_REQUEST['event_id'] !== 'new' )
-			{
-				echo SubmitButton( _( 'Delete' ), 'button', '' );
-			}
-
-			echo '</td></tr>';
-		}
-
-		echo '</table>';
-
-		PopTable( 'footer' );
-
-		if ( ! empty( $_REQUEST['event_id'] ) )
-			echo '</form>';
+		$RET[1]['STAFF_ID'] = GetTeacher( $RET[1]['STAFF_ID'] );
 	}
 
-	// Unset button & values & redirect URL.
-	RedirectURL( [ 'button', 'values' ] );
+	echo '<br />';
+
+	PopTable( 'header', $title );
+
+	echo '<table class="cellpadding-5"><tr><td>'  . DateInput(
+		$RET[1]['SCHOOL_DATE'],
+		'values[SCHOOL_DATE]',
+		( empty( $_REQUEST['assignment_id'] ) ? _( 'Date' ) : _( 'Due Date' ) ),
+		false
+	) . '</td></tr>';
+
+	// Add assigned date.
+	if ( ! empty( $RET[1]['ASSIGNED_DATE'] ) )
+	{
+		echo '<tr><td>' .
+			DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', _( 'Assigned Date' ), false ) .
+		'</td></tr>';
+	}
+
+	// Add submit Assignment link.
+	if ( ! empty( $RET[1]['SUBMISSION'] )
+		&& $RosarioModules['Grades']
+		&& AllowUse( 'Grades/StudentAssignments.php' ) )
+	{
+		echo '<tr><td>
+			<a href="' . URLEscape( 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
+				$_REQUEST['assignment_id'] ) . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
+			_( 'Submit Assignment' ) .
+		'</a></td></tr>';
+	}
+
+	// FJ add event repeat.
+	if ( ! empty( $_REQUEST['event_id'] )
+		&& $_REQUEST['event_id'] === 'new' )
+	{
+		echo '<tr><td>
+			<input name="REPEAT" id="REPEAT" value="0" type="number" min="0" max="300" />&nbsp;' . _( 'Days' ) .
+			FormatInputTitle( _( 'Event Repeat' ), 'REPEAT' ) .
+		'</td></tr>';
+	}
+
+	// Hook.
+	do_action( 'School_Setup/Calendar.php|event_field' );
+
+
+	// FJ bugfix SQL bug value too long for type varchar(50).
+	echo '<tr><td>' .
+		TextInput(
+			issetVal( $RET[1]['TITLE'], '' ),
+			'values[TITLE]',
+			_( 'Title' ),
+			'required size="20" maxlength="50"'
+		) .
+	'</td></tr>';
+
+	if ( ! empty( $RET[1]['COURSE'] ) )
+	{
+		echo '<tr><td>' .
+			NoInput( $RET[1]['COURSE'], _( 'Course' ) ) .
+		'</td></tr>';
+	}
+
+	if ( ! empty( $RET[1]['STAFF_ID'] )
+		&& User( 'PROFILE' ) !== 'teacher' )
+	{
+		echo '<tr><td>' .
+			TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]', _( 'Teacher' ) ) .
+		'</td></tr>';
+	}
+
+	echo '<tr><td>' .
+		TextAreaInput( issetVal( $RET[1]['DESCRIPTION'], '' ), 'values[DESCRIPTION]', _( 'Notes' ) ) .
+	'</td></tr>';
+
+	if ( AllowEdit() )
+	{
+		echo '<tr><td colspan="2">' . SubmitButton();
+
+		if ( $_REQUEST['event_id'] !== 'new' )
+		{
+			echo SubmitButton(
+				_( 'Delete' ),
+				'',
+				// Change form action's modfunc to delete.
+				'onclick="this.form.action = this.form.action.replace(\'modfunc=detail_save\',\'modfunc=detail_delete\');"'
+			);
+		}
+
+		echo '</td></tr>';
+	}
+
+	echo '</table>';
+
+	PopTable( 'footer' );
+
+	if ( ! empty( $_REQUEST['event_id'] ) )
+		echo '</form>';
 }
 
 // List Events

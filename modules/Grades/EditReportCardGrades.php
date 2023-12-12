@@ -16,8 +16,7 @@ if ( UserStudentID() )
 
 	// FJ fix bug no delete MP.
 
-	if ( $_REQUEST['modfunc'] === 'update'
-		&& ! empty( $_REQUEST['removemp'] )
+	if ( $_REQUEST['modfunc'] === 'removemp'
 		&& $_REQUEST['new_sms']
 		&& DeletePrompt( _( 'Marking Period' ) ) )
 	{
@@ -32,8 +31,7 @@ if ( UserStudentID() )
 		RedirectURL( 'modfunc' );
 	}
 
-	if ( $_REQUEST['modfunc'] === 'update'
-		&& empty( $_REQUEST['removemp'] ) )
+	if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( ! empty( $_REQUEST['new_sms'] ) )
 		{
@@ -469,7 +467,12 @@ if ( UserStudentID() )
 
 		if ( $mp_id == "0" )
 		{
-			echo SubmitButton( _( 'Remove Marking Period' ), 'removemp', '' );
+			echo SubmitButton(
+				_( 'Remove Marking Period' ),
+				'',
+				// Change form action's modfunc to removemp.
+				'onclick="this.form.action = this.form.action.replace(\'modfunc=update\',\'modfunc=removemp\');"'
+			);
 		}
 
 		echo SubmitButton() . '</div>';

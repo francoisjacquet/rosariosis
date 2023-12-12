@@ -76,7 +76,7 @@ else
 
 $menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
 
-if ( ! empty( $_REQUEST['submit']['save'] )
+if ( $_REQUEST['modfunc'] === 'save'
 	&& $_REQUEST['food_service']
 	&& $_POST['food_service']
 	&& AllowEdit() )
@@ -122,11 +122,11 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 		}
 	}
 
-	// Unset food_service & redirect URL.
-	RedirectURL( 'food_service' );
+	// Unset modfunc, food_service & redirect URL.
+	RedirectURL( [ 'modfunc', 'food_service' ] );
 }
 
-if ( ! empty( $_REQUEST['submit']['print'] ) )
+if ( $_REQUEST['modfunc'] === 'print' )
 {
 	$events_RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM calendar_events
@@ -264,7 +264,8 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 	// Fix description overflow hidden.
 	echo '</tbody></table><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
 }
-else
+
+if ( ! $_REQUEST['modfunc'] )
 {
 	$description_select = '';
 
@@ -331,7 +332,7 @@ else
 	$LO_columns = [ 'ID' => _( 'ID' ), 'SCHOOL_DATE' => _( 'Date' ), 'DESCRIPTION' => _( 'Description' ) ];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
-		'&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year']  ) . '" method="POST">';
+		'&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '&modfunc=save'  ) . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate(
@@ -344,11 +345,12 @@ else
 				'submit' => true,
 			]
 		),
-		SubmitButton( _( 'Save' ), 'submit[save]' ) .
+		SubmitButton() .
 		// No .primary button class.
 		// @since 11.3 Allow non admin users & students to Generate Menu (no AllowEdit() required)
 		'<input type="submit" value="' .
-			AttrEscape( _( 'Generate Menu' ) ) . '" name="' . AttrEscape( 'submit[print]' ) . '" />'
+			AttrEscape( _( 'Generate Menu' ) ) .
+			'" onclick="this.form.action = this.form.action.replace(\'modfunc=save\',\'modfunc=print\');" />'
 	);
 
 	echo '<br />';
@@ -376,7 +378,7 @@ else
 
 	ListOutput( $events_RET, $LO_columns, $singular, $plural, [], [], $extra );
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ), 'submit[save]' ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 
