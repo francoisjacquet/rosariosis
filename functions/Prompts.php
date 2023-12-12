@@ -10,6 +10,8 @@
  * Prompt before Delete
  * and display OK & Cancel buttons
  *
+ * @since 11.4 Use 'delete_ok' URL param instead of submit button name
+ *
  * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE ID='" . (int) $_REQUEST['benchmark_id'] . "'" );
  *
  * @param  string  $title                    Prompt title.
@@ -43,11 +45,11 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 
 		echo '<br>';
 
-		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
+		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, [ 'delete_cancel' ], [ 'delete_ok' => '1' ] );
 
 		$remove = $remove_modfunc_on_cancel ? [ 'modfunc' ] : [];
 
-		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, [ 'delete_cancel' => true ] );
+		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, [ 'delete_cancel' => '1' ] );
 
 		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' ' . $action : '' ) );
 
@@ -66,7 +68,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 	}
 
 	// If user clicked OK or Cancel + modfunc.
-	RedirectURL( [ 'delete_ok', 'delete_cancel' ] );
+	RedirectURL( 'delete_ok' );
 
 	return true;
 }
@@ -77,6 +79,8 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
  * and display OK & Cancel buttons
  *
  * Go back in browser history on Cancel
+ *
+ * @since 11.4 Use 'delete_ok' URL params instead of submit button name
  *
  * @example if ( Prompt( _( 'Confirm' ), _( 'Do you want to dance?' ), $message ) )
  *
@@ -99,7 +103,7 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 
 		echo '<br>';
 
-		$PHP_tmp_SELF = PreparePHP_SELF();
+		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, [], [ 'delete_ok' => '1' ] );
 
 		PopTable( 'header', $title );
 
@@ -118,9 +122,7 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 	}
 
 	// If user clicked OK.
-	$_REQUEST['delete_ok'] = false;
-
-	$_SESSION['_REQUEST_vars']['delete_ok'] = false;
+	RedirectURL( 'delete_ok' );
 
 	return true;
 }
