@@ -4,6 +4,7 @@
 Changes in 11.3.3
 -----------------
 - Fix PHP 8.1 fatal error: array_key_exists() arg 2 ($array) must be of type array in ListOutput.fnc.php
+- Fix only display "Delete Account" button if AllowEdit() in Accounts.php
 
 Changes in 11.3.2
 -----------------
