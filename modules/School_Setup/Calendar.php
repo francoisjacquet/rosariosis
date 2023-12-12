@@ -704,12 +704,10 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		if ( $_REQUEST['event_id'] !== 'new' )
 		{
-			echo SubmitButton(
-				_( 'Delete' ),
-				'',
+			echo '<input type="button" value="' .
+				AttrEscape( _( 'Delete' ) ) .
 				// Change form action's modfunc to delete.
-				'onclick="this.form.action = this.form.action.replace(\'modfunc=detail_save\',\'modfunc=detail_delete\');"'
-			);
+				'" onclick="ajaxLink(this.form.action.replace(\'modfunc=detail_save\',\'modfunc=detail_delete\'));" />';
 		}
 
 		echo '</td></tr>';

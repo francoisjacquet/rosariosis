@@ -348,9 +348,9 @@ if ( ! $_REQUEST['modfunc'] )
 		SubmitButton() .
 		// No .primary button class.
 		// @since 11.3 Allow non admin users & students to Generate Menu (no AllowEdit() required)
-		'<input type="submit" value="' .
+		'<input type="button" value="' .
 			AttrEscape( _( 'Generate Menu' ) ) .
-			'" onclick="this.form.action = this.form.action.replace(\'modfunc=save\',\'modfunc=print\');" />'
+			'" onclick="ajaxLink(this.form.action.replace(\'modfunc=save\',\'modfunc=print\'));" />'
 	);
 
 	echo '<br />';

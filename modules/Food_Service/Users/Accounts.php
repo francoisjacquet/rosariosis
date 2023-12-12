@@ -150,12 +150,11 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			'',
 			SubmitButton() .
 			( $staff['BALANCE'] == 0 ?
-				SubmitButton(
-					_( 'Delete Account' ),
-					'',
+				'<input type="button" value="' .
+					AttrEscape( _( 'Delete Account' ) ) .
 					// Change form action's modfunc to delete.
-					'onclick="this.form.action = this.form.action.replace(\'modfunc=update\',\'modfunc=delete\');"'
-				) : ''
+					'" onclick="ajaxLink(this.form.action.replace(\'modfunc=update\',\'modfunc=delete\'));" />'
+				: ''
 			)
 		);
 	}

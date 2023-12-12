@@ -467,12 +467,10 @@ if ( UserStudentID() )
 
 		if ( $mp_id == "0" )
 		{
-			echo SubmitButton(
-				_( 'Remove Marking Period' ),
-				'',
+			echo '<input type="button" value="' .
+				AttrEscape( _( 'Remove Marking Period' ) ) .
 				// Change form action's modfunc to removemp.
-				'onclick="this.form.action = this.form.action.replace(\'modfunc=update\',\'modfunc=removemp\');"'
-			);
+				'" onclick="ajaxLink(this.form.action.replace(\'modfunc=update\',\'modfunc=removemp\'));" />';
 		}
 
 		echo SubmitButton() . '</div>';

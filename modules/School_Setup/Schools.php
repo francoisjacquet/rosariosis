@@ -177,12 +177,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$can_delete = DBTransDryRun( SchoolDeleteSQL( UserSchool() ) );
 
-		$delete_button = $can_delete ? SubmitButton(
-			_( 'Delete' ),
-			'',
+		$delete_button = $can_delete ? '<input type="button" value="' .
+			AttrEscape( _( 'Delete' ) ) .
 			// Change form action's modfunc to delete.
-			'onclick="this.form.action = this.form.action.replace(\'modfunc=update\',\'modfunc=delete\');"'
-		) : '';
+			'" onclick="ajaxLink(this.form.action.replace(\'modfunc=update\',\'modfunc=delete\'));" />'
+			: '';
 	}
 
 	// FJ fix bug: no save button if not admin.

@@ -96,12 +96,10 @@ if ( UserStaffID()
 
 	DrawHeader(
 		'',
-		SubmitButton(
-			_( 'Cancel Sale' ),
-			'',
+		'<input type="button" value="' .
+			AttrEscape( _( 'Cancel Sale' ) ) .
 			// Change form action's modfunc to delete.
-			'onclick="this.form.action = this.form.action.replace(\'modfunc=submit\',\'modfunc=cancel\');"'
-		) .
+			'" onclick="ajaxLink(this.form.action.replace(\'modfunc=submit\',\'modfunc=cancel\'));" />' .
 		SubmitButton( _( 'Complete Sale' ) )
 	);
 
