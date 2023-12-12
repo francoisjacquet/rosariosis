@@ -363,9 +363,14 @@ var ajaxPostForm = function(form, submit) {
 		form.enctype = 'application/x-www-form-urlencoded';
 	}
 
-	var options = ajaxOptions(target, form.action, form);
-	if (submit) $(form).ajaxSubmit(options);
-	else $(form).ajaxForm(options);
+	if (submit) {
+		$(form).ajaxSubmit(ajaxOptions(target, form.action, form));
+	} else {
+		$(form).on('submit', function(e) {
+			e.preventDefault();
+			ajaxPostForm(this, true);
+		});
+	}
 	return false;
 }
 
