@@ -16,6 +16,7 @@ Changes in 11.4
 - Remove use of `$_SESSION['_REQUEST_vars']` in MyReport.php, Schedule.php, ClassSearchWidget.fnc.php, Calendar.php, CopySchool.php, Search.inc.php & Export.php
 - Simplify use of `$_SESSION['Back_PHP_SELF']` in MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
 - Do NOT rely on SubmitButton() name param, use modfunc instead in DailyMenus.php, EditReportCardGrades.php, StudentAssignments.php, Calendar.php & Schools.php
+- Fix isPopup() for Calendar Events new modfunc detail_save & detail_delete in Warehouse.js
 
 Changes in 11.3.3
 -----------------

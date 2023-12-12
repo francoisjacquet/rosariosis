@@ -826,7 +826,7 @@ function isPopup( $modname = '', $modfunc = '' )
 		]
 	)
 		|| ( $modname === 'School_Setup/Calendar.php'
-			&& $modfunc === 'detail' )
+			&& mb_strpos( $modfunc, 'detail' ) === 0 )
 		|| ( in_array(
 			$modname,
 			[
