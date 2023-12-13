@@ -719,41 +719,20 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 // List Events
 if ( $_REQUEST['modfunc'] === 'list_events' )
 {
-	$start_date = RequestedDate( 'start', '' );
+	// Only list events for selected month by default.
+	$start_date_default = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-01';
 
-	if ( ! $start_date )
+	if ( ! VerifyDate( $start_date_default ) )
 	{
-		$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
-			FROM attendance_calendar
-			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" );
-
-		if ( isset( $min_date[1]['MIN_DATE'] ) )
-		{
-			$start_date = $min_date[1]['MIN_DATE'];
-		}
-		else
-			$start_date = date( 'Y-m' ) . '-01';
+		$start_date_default = date( 'Y-m-01' );
 	}
 
-	$end_date = RequestedDate( 'end', '' );
+	$start_date = RequestedDate( 'start', $start_date_default );
 
-	if ( ! $end_date )
-	{
-		$max_date = DBGet( "SELECT max(SCHOOL_DATE) AS MAX_DATE
-			FROM attendance_calendar
-			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" );
+	// Last day of the month.
+	$end_date = RequestedDate( 'end', date( 'Y-m-t', strtotime( $start_date_default ) ) );
 
-		if ( isset( $max_date[1]['MAX_DATE'] ) )
-		{
-			$end_date = $max_date[1]['MAX_DATE'];
-		}
-		else
-			$end_date = DBDate();
-	}
-
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year']  ) . '" method="POST">';
+	echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
 
 	DrawHeader( '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ) . '" >' . _( 'Back to Calendar' ) . '</a>' );
 

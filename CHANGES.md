@@ -23,6 +23,7 @@ Changes in 11.4
 - User is not logged in, redirect to login screen in Help.php
 - Fix SQL error when USERNAME length > 100 in index.php
 - Automatically clear Access Log entries older than one year in AccessLog.php
+- Only list events for selected month by default in Calendar.php
 
 Changes in 11.3.3
 -----------------
