@@ -28,11 +28,6 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$_REQUEST['modfunc'] = 'save';
 	}
 }
-elseif ( ! empty( $_REQUEST['delete_cancel'] )
-	&& AllowEdit() )
-{
-	$_REQUEST['modfunc'] = 'save';
-}
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
@@ -374,7 +369,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( count( (array) $_REQUEST['mp_arr'] ) == 1 && AllowEdit() )
 			{
 				$link['remove']['link'] = PreparePHP_SELF(
-					$_REQUEST, [ 'delete_cancel' ],
+					$_REQUEST, [],
 					[ 'modfunc' => 'delete' ]
 				);
 

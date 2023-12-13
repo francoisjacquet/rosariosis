@@ -105,7 +105,7 @@ if ( UserStudentID()
 
 		$link['remove']['link'] = PreparePHP_SELF(
 			$_REQUEST,
-			[ 'delete_cancel' ],
+			[],
 			[ 'modfunc' => 'delete' ]
 		);
 

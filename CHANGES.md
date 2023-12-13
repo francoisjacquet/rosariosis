@@ -18,6 +18,7 @@ Changes in 11.4
 - Do NOT rely on SubmitButton() name param, use modfunc instead in DailyMenus.php, EditReportCardGrades.php, StudentAssignments.php, Calendar.php & Schools.php
 - Fix isPopup() for Calendar Events new modfunc detail_save & detail_delete in Warehouse.js
 - Use 'delete_ok' URL param instead of submit button name in Prompts.php
+- DeletePrompt() Go back in browser history on Cancel (unless $remove_modfunc_on_cancel = false) in Prompts.php
 
 Changes in 11.3.3
 -----------------

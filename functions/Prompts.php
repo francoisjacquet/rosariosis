@@ -10,6 +10,8 @@
  * Prompt before Delete
  * and display OK & Cancel buttons
  *
+ * Go back in browser history on Cancel (unless $remove_modfunc_on_cancel = false)
+ *
  * @since 11.4 Use 'delete_ok' URL param instead of submit button name
  *
  * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE ID='" . (int) $_REQUEST['benchmark_id'] . "'" );
@@ -47,9 +49,10 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 
 		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, [ 'delete_cancel' ], [ 'delete_ok' => '1' ] );
 
-		$remove = $remove_modfunc_on_cancel ? [ 'modfunc' ] : [];
-
-		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, [ 'delete_cancel' => '1' ] );
+		if ( ! $remove_modfunc_on_cancel )
+		{
+			$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, [ 'modfunc' ], [ 'delete_cancel' => '1' ] );
+		}
 
 		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' ' . $action : '' ) );
 
@@ -58,7 +61,8 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 			<form action="' . $PHP_tmp_SELF . '" method="POST">' .
 				SubmitButton( _( 'OK' ), 'delete_ok', '' ) .
 				'<input type="button" name="delete_cancel" class="button-primary" value="' . AttrEscape( _( 'Cancel' ) ) . '"
-					onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $PHP_tmp_SELF_cancel ) . ');' ) . '">
+					onclick="' . ( $remove_modfunc_on_cancel ? 'javascript:self.history.go(-1);' :
+						AttrEscape( 'ajaxLink(' . json_encode( $PHP_tmp_SELF_cancel ) . ');' ) ) . '">
 			</form>
 		</div><br>';
 
