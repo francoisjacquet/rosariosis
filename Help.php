@@ -21,6 +21,14 @@ $profiles = [
 	'student' => _( 'Student' ),
 ];
 
+if ( ! isset( $profiles[ User( 'PROFILE' ) ] ) )
+{
+	// User is not logged in, redirect to login screen.
+	header( 'Location: index.php' );
+
+	exit;
+}
+
 $title = $profiles[ User( 'PROFILE' ) ];
 
 $handle = PDFStart(); ?>

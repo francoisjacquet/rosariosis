@@ -20,6 +20,7 @@ Changes in 11.4
 - Use 'delete_ok' URL param instead of submit button name in Prompts.php
 - DeletePrompt() Go back in browser history on Cancel (unless $remove_modfunc_on_cancel = false) in Prompts.php
 - Rename student checkbox from 'student' to 'st' to gain space in URL in MassDrops.php
+- User is not logged in, redirect to login screen in Help.php
 
 Changes in 11.3.3
 -----------------
