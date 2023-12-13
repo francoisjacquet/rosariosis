@@ -12,8 +12,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( ! empty( $_SESSION['MassDrops.php'] ) )
 	{
-		if ( isset( $_REQUEST['student'] )
-			&& is_array( $_REQUEST['student'] ) )
+		if ( isset( $_REQUEST['st'] )
+			&& is_array( $_REQUEST['st'] ) )
 		{
 			$drop_date = RequestedDate( 'drop', '' );
 
@@ -34,7 +34,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						FROM schedule
 						WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'", [], [ 'STUDENT_ID' ] );
 
-					foreach ( (array) $_REQUEST['student'] as $student_id )
+					foreach ( (array) $_REQUEST['st'] as $student_id )
 					{
 						if ( ! empty( $current_RET[$student_id] )
 							&& empty( $schedule_deletion_pending ) )
@@ -239,7 +239,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",NULL AS CHECKBOX";
 	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
-	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'st' ) ];
 	$extra['new'] = true;
 
 	Widgets( 'course' );

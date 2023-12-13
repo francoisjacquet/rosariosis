@@ -19,6 +19,7 @@ Changes in 11.4
 - Fix isPopup() for Calendar Events new modfunc detail_save & detail_delete in Warehouse.js
 - Use 'delete_ok' URL param instead of submit button name in Prompts.php
 - DeletePrompt() Go back in browser history on Cancel (unless $remove_modfunc_on_cancel = false) in Prompts.php
+- Rename student checkbox from 'student' to 'st' to gain space in URL in MassDrops.php
 
 Changes in 11.3.3
 -----------------
