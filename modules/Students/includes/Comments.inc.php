@@ -46,32 +46,16 @@ if ( AllowEdit()
 			// Add Comment to Existing ones.
 			$comment = array_merge( $comment, (array) $existing_comment_decoded );
 		}
-		else
-		{
-			// Insert empty comment (SaveData wont INSERT unless $id == 'new').
-			DBQuery( "INSERT INTO student_mp_comments
-				(STUDENT_ID, SYEAR, MARKING_PERIOD_ID, COMMENT)
-				VALUES ('" . UserStudentID() . "',
-				'" . UserSyear() . "',
-				'" . $comments_MP . "',
-				'')" );
-		}
 
-		$_REQUEST['values']['student_mp_comments'][ UserStudentID() ]['COMMENT'] = DBEscapeString( json_encode( $comment ) );
-
-		SaveData(
+		DBUpsert(
+			'student_mp_comments',
+			[ 'COMMENT' => DBEscapeString( json_encode( $comment ) ) ],
 			[
-				'student_mp_comments' => "STUDENT_ID='" . UserStudentID() . "'
-				AND SYEAR='" . UserSyear() . "'
-				AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'",
-				'fields' => [
-					'student_mp_comments' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
-				],
-				'values' => [
-					'student_mp_comments' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
-				]
+				'STUDENT_ID' => UserStudentID(),
+				'SYEAR' => UserSyear(),
+				'MARKING_PERIOD_ID' => (int) $comments_MP,
 			],
-			[ 'COMMENT' => _( 'Comment' ) ]
+			( $existing_comment ? 'update' : 'insert' )
 		);
 	}
 }

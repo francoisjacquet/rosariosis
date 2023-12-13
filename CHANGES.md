@@ -24,6 +24,7 @@ Changes in 11.4
 - Fix SQL error when USERNAME length > 100 in index.php
 - Automatically clear Access Log entries older than one year in AccessLog.php
 - Only list events for selected month by default in Calendar.php
+- Use DBUpsert() in Comments.inc.php
 
 Changes in 11.3.3
 -----------------
