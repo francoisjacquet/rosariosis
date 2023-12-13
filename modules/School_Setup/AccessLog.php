@@ -37,6 +37,14 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	}
 }
 
+if ( count( $_REQUEST ) === 1 )
+{
+	// Only requested modname.
+	// @since 11.4 Automatically clear Access Log entries older than one year
+	DBGet( "DELETE FROM access_log
+		WHERE CREATED_AT<'" . date( 'Y-m-d', strtotime( '1 year ago' ) ) . "'" );
+}
+
 echo ErrorMessage( $note, 'note' );
 
 if ( ! $_REQUEST['modfunc'] )

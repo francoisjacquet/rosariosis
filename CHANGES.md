@@ -22,6 +22,7 @@ Changes in 11.4
 - Rename student checkbox from 'student' to 'st' to gain space in URL in MassDrops.php
 - User is not logged in, redirect to login screen in Help.php
 - Fix SQL error when USERNAME length > 100 in index.php
+- Automatically clear Access Log entries older than one year in AccessLog.php
 
 Changes in 11.3.3
 -----------------
