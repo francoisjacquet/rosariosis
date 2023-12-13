@@ -272,7 +272,10 @@ if ( empty( $_REQUEST['save'] )
 	if ( ProgramConfig( 'moodle', 'MOODLE_URL' )
 		&& ProgramConfig( 'moodle', 'MOODLE_TOKEN' ) )
 	{
-		echo ' ' . SubmitButton( _( 'Test' ), 'check', '' );
+		echo '<input type="button" value="' .
+			AttrEscape( _( 'Test' ) ) .
+			// Add check param to form's action & remove save.
+			'" onclick="ajaxLink(this.form.action.replace(\'&save=true\',\'&check=Y\'));" />';
 	}
 
 	echo '</div></form>';
