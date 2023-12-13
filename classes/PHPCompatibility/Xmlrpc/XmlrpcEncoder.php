@@ -231,7 +231,7 @@ class XmlrpcEncoder {
 
 			$value = htmlentities($value, ENT_QUOTES, $this->encoding, false);
 
-			$string = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]+);/S', 'self::numericEntities', $value);
+			$string = preg_replace_callback('/&([a-zA-Z][a-zA-Z0-9]+);/S', [self::class, 'numericEntities'], $value);
 
 			$xml->writeRaw("<string>".$string."</string>");
 
