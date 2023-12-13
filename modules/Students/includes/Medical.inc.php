@@ -69,8 +69,7 @@ if ( ( isset( $_POST['values'] )
 if ( $_REQUEST['modfunc'] === 'delete_medical'
 	&& AllowEdit() )
 {
-	if ( ! isset( $_REQUEST['delete_ok'] )
-		&& ! isset( $_REQUEST['delete_cancel'] ) )
+	if ( ! isset( $_REQUEST['delete_ok'] ) )
 	{
 		echo '</form>';
 	}
