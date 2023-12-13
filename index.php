@@ -289,7 +289,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			'access_log',
 			[
 				'SYEAR' => Config( 'SYEAR' ),
-				'USERNAME' => $username,
+				'USERNAME' => mb_substr( $username, 0, 100 ),
 				'PROFILE' => User( 'PROFILE' ),
 				'IP_ADDRESS' => $ip,
 				'USER_AGENT' => DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ),
