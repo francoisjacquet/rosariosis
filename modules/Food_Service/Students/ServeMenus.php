@@ -132,7 +132,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		'<input type="button" value="' .
 			AttrEscape( _( 'Cancel Sale' ) ) .
 			// Change form action's modfunc to cancel.
-			'onclick="ajaxLink(this.form.action.replace(\'modfunc=submit\',\'modfunc=cancel\'));" />' .
+			'" onclick="ajaxLink(this.form.action.replace(\'modfunc=submit\',\'modfunc=cancel\'));" />' .
 		SubmitButton( _( 'Complete Sale' ) )
 	);
 
