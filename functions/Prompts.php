@@ -51,7 +51,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 
 		if ( ! $remove_modfunc_on_cancel )
 		{
-			$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, [ 'modfunc' ], [ 'delete_cancel' => '1' ] );
+			$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, [], [ 'delete_cancel' => '1' ] );
 		}
 
 		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' ' . $action : '' ) );
