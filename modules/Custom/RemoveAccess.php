@@ -121,7 +121,7 @@ if ( ! $_REQUEST['modfunc'] )
 				_( 'Add prefix to username' ),
 				'required',
 				false
-			) . '<br /><br />';
+			) . '<br />';
 		}
 
 		$extra['extra_header_left'] .= CheckboxInput(
