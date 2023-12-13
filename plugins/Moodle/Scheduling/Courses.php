@@ -240,6 +240,7 @@ function core_course_delete_categories_response( $response )
 }
 
 //core_course_create_courses function
+// @since 11.4 Set Moodle course end date (enddate parameter)
 function core_course_create_courses_object()
 {
 	//first, gather the necessary variables
@@ -259,6 +260,7 @@ function core_course_create_courses_object()
 	showgrades int  Défaut pour « 1 » //1 if grades are shown, otherwise 0
 	newsitems int  Défaut pour « 5 » //number of recent items appearing on the course page
 	startdate int  Optionnel //timestamp when the course start
+	enddate int  Optionnel //timestamp when the course end
 	numsections int  Défaut pour « 10 » //number of weeks/topics
 	maxbytes int  Défaut pour « 8388608 » //largest size of file that can be uploaded into the course
 	showreports int  Défaut pour « 0 » //are activity report shown (yes = 1, no =0)
@@ -296,6 +298,8 @@ function core_course_create_courses_object()
 	$newsitems = 5;
 	//convert YYYY-MM-DD to timestamp
 	$startdate = strtotime( GetMP( $columns['MARKING_PERIOD_ID'], 'START_DATE' ) );
+	//convert YYYY-MM-DD to timestamp
+	$enddate = strtotime( GetMP( $columns['MARKING_PERIOD_ID'], 'END_DATE' ) );
 	$numsections = 10;
 	$maxbytes = 8388608;
 	$showreports = 1;
@@ -315,6 +319,7 @@ function core_course_create_courses_object()
 			'showgrades' => $showgrades,
 			'newsitems' => $newsitems,
 			'startdate' => $startdate,
+			'enddate' => $enddate,
 			'numsections' => $numsections,
 			'maxbytes' => $maxbytes,
 			'showreports' => $showreports,
