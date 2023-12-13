@@ -554,8 +554,7 @@ if ( $_REQUEST['modfunc'] === 'detail_save'
 if ( $_REQUEST['modfunc'] === 'detail_delete'
 	&& AllowEdit() )
 {
-	if ( DeletePrompt( _( 'Event' ), 'Delete', false )
-		&& empty( $_REQUEST['delete_cancel'] ) )
+	if ( DeletePrompt( _( 'Event' ) ) )
 	{
 		DBQuery( "DELETE FROM calendar_events
 			WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
@@ -573,10 +572,6 @@ if ( $_REQUEST['modfunc'] === 'detail_delete'
 	window.close();
 </script>
 		<?php
-	}
-	elseif ( ! empty( $_REQUEST['delete_cancel'] ) )
-	{
-		$_REQUEST['modfunc'] = 'detail';
 	}
 }
 
