@@ -72,7 +72,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 	}
 
 	// If user clicked OK or Cancel + modfunc.
-	RedirectURL( 'delete_ok' );
+	RedirectURL( [ 'delete_ok', 'delete_cancel' ] );
 
 	return true;
 }
