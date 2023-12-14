@@ -50,7 +50,10 @@ if ( ! defined( 'ROSARIO_DEBUG' ) )
 	define( 'ROSARIO_DEBUG', false );
 }
 
-error_reporting( ROSARIO_DEBUG ? E_ALL : E_ALL ^ E_NOTICE );
+if ( ROSARIO_DEBUG )
+{
+	error_reporting( E_ALL );
+}
 
 // Server Paths.
 

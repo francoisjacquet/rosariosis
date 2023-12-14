@@ -26,6 +26,7 @@ Changes in 11.4
 - Only list events for selected month by default in Calendar.php
 - Use DBUpsert() in Comments.inc.php
 - Set Moodle course end date (enddate parameter) in plugins/Moodle/Scheduling/Course.php
+- PHP error reporting: use php.ini configuration if debug mode not set in Warehouse.php
 
 Changes in 11.3.3
 -----------------
