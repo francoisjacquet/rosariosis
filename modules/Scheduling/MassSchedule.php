@@ -18,7 +18,7 @@ if ( $_REQUEST['modfunc'] !== 'choose_course' )
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
-	if ( $_SESSION['MassSchedule.php'] )
+	if ( ! empty( $_SESSION['MassSchedule.php'] ) )
 	{
 		if ( ! empty( $_REQUEST['student'] ) )
 		{
