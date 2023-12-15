@@ -27,6 +27,7 @@ Changes in 11.4
 - Use DBUpsert() in Comments.inc.php
 - Set Moodle course end date (enddate parameter) in plugins/Moodle/Scheduling/Course.php
 - PHP error reporting: use php.ini configuration if debug mode not set in Warehouse.php
+- Add --single-transaction flag to mysqldump so database remains in a consistent state throughout the backup in DatabaseBackup.php
 
 Changes in 11.3.3
 -----------------

@@ -70,12 +70,12 @@ if ( $_REQUEST['modfunc'] === 'backup'
 	else
 	{
 		// @since 10.0 Build command for executing mysqldump.
-		// @since 11.3 MySQL dump: export procedures, functions and triggers
+		// @since 11.3 MySQL dump: export procedures, functions and triggers in a single transaction
 		$cmd = $exe . ' --user=' . escapeshellarg( $DatabaseUsername ) .
 			' --password=' . escapeshellarg( $DatabasePassword ) .
 			' --host=' . escapeshellarg( $DatabaseServer ) .
 			( ! empty( $DatabasePort ) ? ' --port=' . escapeshellarg( $DatabasePort ) : '' ) .
-			' --routines --triggers' .
+			' --routines --triggers --single-transaction' .
 			' ' . escapeshellarg( $DatabaseName );
 	}
 
