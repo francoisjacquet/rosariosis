@@ -166,8 +166,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$delete_button = '';
 
-	// FJ delete school only if more than one school.
-	if ( $_SESSION['SchoolData']['SCHOOLS_NB'] > 1 )
+	// Delete school only if more than one school.
+	if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
 	{
 		// Delete school only if has NO students enrolled in all school years.
 		$has_students_enrolled = DBGetOne( "SELECT 1 AS ENROLLED
