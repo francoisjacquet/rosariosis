@@ -19,6 +19,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @since 10.7 Add Class Average row.
 	 * @since 10.7 Add Student Photo
 	 * @since 11.0 Add Class Average & Class Rank (Course Period)
+	 * @since 11.4 Add Group courses by subject (only for Report Cards)
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -88,6 +89,10 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			// @since 11.0 Add Class Rank (Course Period)
 			$return .= '<td><label><input type="checkbox" name="elements[rank]" value="Y"> ' .
 			_( 'Class Rank' ) . '</label></td>';
+
+			// @since 11.4 Add Group courses by subject
+			$return .= '<td colspan="2"><label><input type="checkbox" name="elements[group_subjects]" value="Y"> ' .
+				_( 'Group courses by subject' ) . '</label></td>';
 		}
 
 		$return .= '</tr><tr class="st">';
@@ -310,6 +315,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 10.7 Add Student Photo
 	 * @since 11.0 Add Class Average & Class Rank (Course Period)
 	 * @since 11.3 Fail if Marking Periods are not in current School Year
+	 * @since 11.4 Group courses by subject
 	 *
 	 * @param  array         $student_array Students IDs
 	 * @param  array         $mp_array      Marking Periods IDs
@@ -483,6 +489,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			unset( $grades_RET );
 
 			$grades_total = [];
+			$subject_i = [];
 
 			$i = 0;
 
@@ -492,11 +499,11 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				$i++;
 
-				$grade_i = [];
-
-				$grade_i['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
-				$grade_i['COURSE_PERIOD_ID'] = $course_period_id;
-				$grade_i['TEACHER_ID'] = GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] );
+				$grade_i = [
+					'COURSE_TITLE' => $mps[key( $mps )][1]['COURSE_TITLE'],
+					'COURSE_PERIOD_ID' => $course_period_id,
+					'TEACHER_ID' => GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] ),
+				];
 
 				if ( ! empty( $_REQUEST['elements']['average'] ) )
 				{
@@ -510,6 +517,27 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					// @since 11.0 Add Class Rank (Course Period)
 					// Add "small" line below Course Title.
 					$grade_i['COURSE_TITLE'] .= '<br /><span class="size-1">' . _( 'Class Rank' ) . '</span>';
+				}
+
+				if ( ! empty( $_REQUEST['elements']['group_subjects'] )
+					&& ( empty( $subject_i )
+						|| $subject_i['SUBJECT_ID'] !== $mps[key( $mps )][1]['SUBJECT_ID'] ) )
+				{
+					$subject_title = ParseMLField( DBGetOne( "SELECT TITLE
+						FROM course_subjects
+						WHERE SUBJECT_ID='" . (int) $mps[key( $mps )][1]['SUBJECT_ID'] . "'" ) );
+
+					// @since 11.4 Group courses by subject
+					// New Subject.
+					$subject_i = [
+						'i' => $i,
+						'SUBJECT_ID' => $mps[key( $mps )][1]['SUBJECT_ID'],
+						'COURSE_TITLE' => '<b>' . $subject_title . '</b>',
+						'COURSE_PERIOD_ID' => '0',
+						'TEACHER_ID' => '',
+						'CREDITS' => 0,
+						'CREDIT_ATTEMPTED' => 0,
+					];
 				}
 
 				foreach ( (array) $mp_array as $mp )
@@ -572,6 +600,18 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					}
 
 					$grades_total[$mp] += $grade['WEIGHTED_GP'];
+
+					if ( ! empty( $_REQUEST['elements']['group_subjects'] ) )
+					{
+						// @since 11.4 Group courses by subject
+						// Sum Credits.
+						$subject_i['CREDITS'] += $grade['CREDITS'];
+						// Sum Credits Attempted to later calculate Subject GPA.
+						$subject_i['CREDIT_ATTEMPTED'] += $grade['CREDIT_ATTEMPTED'];
+						// Add (Grade / Scale) * Credit Attempted to later sum them and calculate Subject GPA.
+						$subject_i[$mp][] = ! $grade['GP_SCALE'] ? 0 :
+							( $grade['WEIGHTED_GP'] / $grade['GP_SCALE'] ) * $grade['CREDIT_ATTEMPTED'];
+					}
 
 					// Comments.
 
@@ -691,12 +731,48 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					}
 				}
 
+				if ( ! empty( $_REQUEST['elements']['group_subjects'] )  )
+				{
+					// @since 11.4 Group courses by subject
+					if ( $subject_i['i'] === $i )
+					{
+						$grades_RET[ $i++ ] = $subject_i;
+					}
+
+					if ( $next_cp = next( $course_periods ) )
+					{
+						$next_mp = key( $next_cp );
+					}
+
+					if ( ! $next_cp
+						|| $subject_i['SUBJECT_ID'] !== $next_cp[ $next_mp ][1]['SUBJECT_ID'] )
+					{
+						// This was the last Course Period for this Subject.
+						// It's time to calculate Subject GPA.
+						foreach ( (array) array_keys( $mps ) as $mp )
+						{
+							$subject_gpa = ( array_sum( $subject_i[$mp] ) / $subject_i['CREDIT_ATTEMPTED'] ) *
+								SchoolInfo( 'REPORTING_GP_SCALE' );
+
+							$subject_i[$mp] = '<B>' . number_format( $subject_gpa, 2, '.', '' ) . '</B> /' .
+								(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+
+							if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
+							{
+								$subject_i[$mp] = '<div class="center">' . $subject_i[$mp] . '</div>';
+							}
+						}
+
+						$grades_RET[ $subject_i['i'] ] = $subject_i;
+					}
+				}
+
 				$grades_RET[ $i ] = $grade_i;
 			}
 
 			if ( ! empty( $_REQUEST['elements']['last_row'] ) )
 			{
-				$last_row_i = $i + 1;
+				$last_row_i = count( $grades_RET ) + 1;
 
 				$credits_total_done = false;
 
@@ -720,7 +796,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 							foreach ( $grades_RET as $grade_i )
 							{
-								if ( isset( $grade_i['CREDITS'] ) )
+								if ( $grade_i['COURSE_PERIOD_ID'] > 0
+									&& isset( $grade_i['CREDITS'] ) )
 								{
 									// @since 7.4 Add Total Credits.
 									$credits_total += $grade_i['CREDITS'];
@@ -1062,6 +1139,8 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 	 * @since 5.7.4 Define your custom function in your addon module or plugin.
 	 * @example $extra = GetReportCardsExtra( $mp_array, $student_array );
 	 *
+	 * @since 11.4 Group courses by subject
+	 *
 	 * @param  array $mp_list MPs list.
 	 * @param  array $st_list Students list.
 	 * @return array $extra
@@ -1074,12 +1153,12 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		// Student Details. TODO test if ReportCards needs GRADE_ID!!
 		$extra['SELECT_ONLY'] = "DISTINCT s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
 
-		$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,WEIGHTED_GP,GP_SCALE,
+		$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,
+			sg1.WEIGHTED_GP,sg1.GP_SCALE,sg1.CREDIT_ATTEMPTED,sg1.CREDIT_EARNED,
 			sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
 			sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,rc_cp.CREDITS";
 
-		if ( isset( $_REQUEST['elements']['period_absences'] )
-			&& $_REQUEST['elements']['period_absences'] === 'Y' )
+		if ( ! empty( $_REQUEST['elements']['period_absences'] ) )
 		{
 			// Period-by-period absences.
 			$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
@@ -1096,6 +1175,27 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
 		}
 
+		if ( ! empty( $_REQUEST['elements']['group_subjects'] ) )
+		{
+			// @since 11.4 Group courses by subject
+			// SQL select subject title & sort order.
+			$extra['SELECT_ONLY'] .= ",(SELECT SUBJECT_ID
+				FROM courses
+				WHERE COURSE_ID=(SELECT COURSE_ID
+					FROM course_periods
+					WHERE COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+					LIMIT 1)) AS SUBJECT_ID,
+				(SELECT SORT_ORDER
+				FROM course_subjects
+				WHERE SUBJECT_ID=(SELECT SUBJECT_ID
+					FROM courses
+					WHERE COURSE_ID=(SELECT COURSE_ID
+						FROM course_periods
+						WHERE COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+						LIMIT 1)
+					LIMIT 1)) AS SUBJECT_SORT_ORDER";
+		}
+
 		// Fix SQL drop order by School Period, allow Course Periods with no Periods
 		// FJ multiple school periods for a course period.
 		//$extra['FROM'] .= ",student_report_card_grades sg1,attendance_codes ac,course_periods rc_cp,school_periods sp";
@@ -1108,6 +1208,14 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 			AND sg1.STUDENT_ID=ssm.STUDENT_ID";
 
 		$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,sg1.COURSE_TITLE";
+
+		if ( ! empty( $_REQUEST['elements']['group_subjects'] ) )
+		{
+			// @since 11.4 Group courses by subject
+			// SQL order course periods by subject
+			$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,
+				SUBJECT_SORT_ORDER IS NULL,SUBJECT_SORT_ORDER,SUBJECT_ID,sg1.COURSE_TITLE";
+		}
 
 		$extra['group'] = [ 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ];
 

@@ -30,6 +30,7 @@ Changes in 11.4
 - Add --single-transaction flag to mysqldump so database remains in a consistent state throughout the backup in DatabaseBackup.php
 - Reassign Course Subject (unless Moodle plugin is active) in Courses.php & Courses.fnc.php
 - GetGpaOrTotalRow() Deprecate $courses_number param in Grades.fnc.php, ReportCards.fnc.php & Transcripts.fnc.php
+- Add Group courses by subject (only for Report Cards) in ReportCards.fnc.php
 
 Changes in 11.3.3
 -----------------
