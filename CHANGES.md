@@ -33,6 +33,7 @@ Changes in 11.4
 - GetGpaOrTotalRow() Fix check MP exists before trying to get GPA in Grades.fnc.php
 - Add Group courses by subject (only for Report Cards) in ReportCards.fnc.php
 - Add "Use Grade Scale Comments" option in InputFinalGrades.php
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 11.3.3
 -----------------
