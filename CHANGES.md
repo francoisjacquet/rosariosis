@@ -32,6 +32,7 @@ Changes in 11.4
 - GetGpaOrTotalRow() Deprecate $courses_number param in Grades.fnc.php, ReportCards.fnc.php & Transcripts.fnc.php
 - GetGpaOrTotalRow() Fix check MP exists before trying to get GPA in Grades.fnc.php
 - Add Group courses by subject (only for Report Cards) in ReportCards.fnc.php
+- Add "Use Grade Scale Comments" option in InputFinalGrades.php
 
 Changes in 11.3.3
 -----------------

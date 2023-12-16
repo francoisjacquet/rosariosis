@@ -76,9 +76,9 @@ $current_completed = count( (array) DBGet( "SELECT 1
 	AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" ) );
 
 $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
-	rcg.UNWEIGHTED_GP,gs.GP_SCALE,gs.GP_PASSING_VALUE
+	rcg.UNWEIGHTED_GP,gs.GP_SCALE,gs.GP_PASSING_VALUE,rcg.COMMENT
 	FROM report_card_grades rcg, report_card_grade_scales gs
-	WHERE rcg.grade_scale_id = gs.id
+	WHERE rcg.GRADE_SCALE_ID=gs.ID
 	AND rcg.SYEAR='" . UserSyear() . "'
 	AND rcg.SCHOOL_ID='" . UserSchool() . "'
 	AND rcg.GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
@@ -698,6 +698,15 @@ if ( ! empty( $_REQUEST['values'] )
 
 			if ( isset( $columns['comment'] ) )
 			{
+				if ( empty( $columns['comment'] )
+					&& ! empty( $_REQUEST['use_grade_scale_comments'] )
+					&& $grade )
+				{
+					// @since 11.4 Add "Use Grade Scale Comments" option.
+					// Comment field was sent but is empty & we have a grade: get Grade Scale Comment.
+					$columns['comment'] = $grades_RET[$grade][1]['COMMENT'];
+				}
+
 				$update_columns['COMMENT'] = $columns['comment'];
 			}
 
@@ -786,6 +795,15 @@ if ( ! empty( $_REQUEST['values'] )
 			else
 			{
 				$percent = $grade = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
+			}
+
+			if ( empty( $columns['comment'] )
+				&& ! empty( $_REQUEST['use_grade_scale_comments'] )
+				&& $grade )
+			{
+				// @since 11.4 Add "Use Grade Scale Comments" option.
+				// Comment field was sent but is empty & we have a grade: get Grade Scale Comment.
+				$columns['comment'] = $grades_RET[$grade][1]['COMMENT'];
 			}
 
 			DBInsert(
@@ -1336,6 +1354,46 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			'&include_inactive=' . $_REQUEST['include_inactive'] .
 			'&modfunc=clearall&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] ) . '">' .
 			_( 'Clear All' ) . '</a>';
+
+		if ( $_REQUEST['tab_id'] === '-1' )
+		{
+			$grade_scale_has_comments = DBGetOne( "SELECT 1
+				FROM report_card_grades rcg,report_card_grade_scales gs
+				WHERE rcg.GRADE_SCALE_ID=gs.ID
+				AND rcg.SYEAR='" . UserSyear() . "'
+				AND rcg.SCHOOL_ID='" . UserSchool() . "'
+				AND rcg.GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
+				AND rcg.COMMENT IS NOT NULL" );
+
+			if ( $grade_scale_has_comments )
+			{
+				$grade_scale_link = '';
+
+				if ( AllowUse( 'Grades/ReportCardGrades.php' ) )
+				{
+					$grade_scale_link = 'Modules.php?modname=Grades/ReportCardGrades.php&tab_id=' . $grade_scale_id;
+
+					$grade_scale_title = DBGetOne( "SELECT TITLE
+						FROM report_card_grade_scales
+						WHERE ID='" . (int) $grade_scale_id . "'" );
+
+					$grade_scale_link = '<a href="' . URLEscape( $grade_scale_link ) . '">' .
+						$grade_scale_title . '</a>';
+				}
+
+				// @since 11.4 Add "Use Grade Scale Comments" option.
+				$gb_header[] = CheckboxInput(
+					issetVal( $_REQUEST['use_grade_scale_comments'], '' ),
+					'use_grade_scale_comments',
+					sprintf(
+						_( 'Use the "%s" Grade Scale Comments' ),
+						$grade_scale_link
+					),
+					'',
+					true
+				);
+			}
+		}
 	}
 
 	// CSS .rseparator responsive separator: hide text separator & break line
