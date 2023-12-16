@@ -33,11 +33,13 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 
 	foreach ( (array) $grades_total as $mp => $grades_total_mp )
 	{
+		$gpa_row[$mp] = '';
+
 		if ( $mode === 'total' )
 		{
 			$gpa_row[$mp] = '<B>' . $grades_total_mp . '</B>';
 		}
-		else
+		elseif ( GetMP( $mp ) ) // Fix check MP exists before trying to get GPA.
 		{
 			$cumulative_gpa = DBGetOne( "SELECT CUM_WEIGHTED_GPA
 				FROM transcript_grades
