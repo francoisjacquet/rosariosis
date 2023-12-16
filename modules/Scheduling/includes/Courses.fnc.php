@@ -768,3 +768,40 @@ function CoursePeriodUpdateCredits( $cp_id, $old_credits, $new_credits )
 
 	return true;
 }
+
+/**
+ * Reassign Course Subject
+ * Update Student Requests (schedule_requests table)
+ *
+ * @since 11.4
+ *
+ * @param int $course_id      Course ID.
+ * @param int $old_subject_id Old Subject ID.
+ * @param int $new_subject_id New Subject ID.
+ *
+ * @return bool True if student requests are updated.
+ */
+function CourseUpdateSubject( $course_id, $old_subject_id, $new_subject_id )
+{
+	if ( ! $course_id
+		|| ! $old_subject_id
+		|| ! $new_subject_id
+		|| $old_subject_id == $new_subject_id )
+	{
+		return false;
+	}
+
+	// Update schedule_requests
+	DBUpdate(
+		'schedule_requests',
+		[ 'SUBJECT_ID' => (int) $new_subject_id ],
+		[
+			'SCHOOL_ID' => UserSchool(),
+			'SYEAR' => UserSyear(),
+			'COURSE_ID' => (int) $course_id,
+			'SUBJECT_ID' => (int) $old_subject_id,
+		]
+	);
+
+	return true;
+}

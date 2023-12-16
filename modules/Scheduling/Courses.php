@@ -358,13 +358,6 @@ if ( ! empty( $_REQUEST['tables'] )
 
 					if ( mb_strpos( $id, 'new' ) === false )
 					{
-						if ( $table_name == 'courses'
-							&& ! empty( $columns['SUBJECT_ID'] )
-							&& $columns['SUBJECT_ID'] != $_REQUEST['subject_id'] )
-						{
-							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
-						}
-
 						$update_columns = [];
 
 						if ( $table_name == 'course_periods' )
@@ -458,6 +451,24 @@ if ( ! empty( $_REQUEST['tables'] )
 						}
 						elseif ( $table_name === 'courses' )
 						{
+							if ( ! empty( $columns['SUBJECT_ID'] )
+								&& $columns['SUBJECT_ID'] != $_REQUEST['subject_id'] )
+							{
+								/**
+								 * Reassign Course Subject
+								 * Update schedule_requests too.
+								 *
+								 * @since 11.4
+								 */
+								CourseUpdateSubject(
+									$_REQUEST['course_id'],
+									$_REQUEST['subject_id'],
+									$columns['SUBJECT_ID']
+								);
+
+								$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
+							}
+
 							// Hook.
 							do_action( 'Scheduling/Courses.php|update_course' );
 						}
@@ -1376,13 +1387,33 @@ if (  ( ! $_REQUEST['modfunc']
 				'maxlength=25'
 			) . '</td>';
 
-			//FJ add Credit Hours to Courses
+			// Add Credit Hours to Courses
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['CREDIT_HOURS'] ),
 				'tables[courses][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
 				' type="number" step="any" min="0" max="9999"'
 			) . '</td></tr>';
+
+			if ( empty( $RosarioPlugins['Moodle'] )
+				&& $_REQUEST['course_id'] !== 'new' )
+			{
+				$subject_options = [];
+
+				foreach ( (array) $subjects_RET as $subject )
+				{
+					$subject_options[ $subject['SUBJECT_ID'] ] = $subject['TITLE'];
+				}
+
+				// @since 10.4 Reassign Course Subject (unless Moodle plugin is active)
+				$header .= '<tr><td colspan="3">' . SelectInput(
+					$_REQUEST['subject_id'],
+					'tables[courses][' . $_REQUEST['course_id'] . '][SUBJECT_ID]',
+					_( 'Subject' ),
+					$subject_options,
+					false
+				) . '</td></tr>';
+			}
 
 			// Add Description (TinyMCE input) to Course.
 			$header .= '<tr class="st"><td colspan="3">' . TinyMCEInput(
@@ -1391,14 +1422,6 @@ if (  ( ! $_REQUEST['modfunc']
 				_( 'Description' )
 			) . '</td></tr>';
 
-			//FJ SQL error column "subject_id" specified more than once
-			/*if ( $_REQUEST['modfunc']!='choose_course')
-			{
-			foreach ( (array) $subjects_RET as $type)
-			$options[$type['SUBJECT_ID']] = $type['TITLE'];
-
-			$header .= '<td>' . SelectInput($RET['SUBJECT_ID']?$RET['SUBJECT_ID']:$_REQUEST['subject_id'],'tables[courses]['.$_REQUEST['course_id'].'][SUBJECT_ID]',_('Subject'),$options,false) . '</td>';
-			}*/
 			$header .= '</tr></table>';
 		}
 		elseif ( $_REQUEST['subject_id'] )
