@@ -1147,6 +1147,8 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 	 */
 	function GetReportCardsExtra( $mp_list, $st_list )
 	{
+		global $DatabaseType;
+
 		// Student List Extra.
 		$extra['WHERE'] = " AND s.STUDENT_ID IN ( " . $st_list . ")";
 
@@ -1213,8 +1215,15 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		{
 			// @since 11.4 Group courses by subject
 			// SQL order course periods by subject
-			$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,
-				SUBJECT_SORT_ORDER IS NULL,SUBJECT_SORT_ORDER,SUBJECT_ID,sg1.COURSE_TITLE";
+			$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME";
+
+			if ( $DatabaseType === 'mysql' )
+			{
+				// Fix PostgreSQL error column "subject_sort_order" does not exist
+				$extra['ORDER_BY'] .= ",SUBJECT_SORT_ORDER IS NULL";
+			}
+
+			$extra['ORDER_BY'] .= ",SUBJECT_SORT_ORDER,SUBJECT_ID,sg1.COURSE_TITLE";
 		}
 
 		$extra['group'] = [ 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ];
