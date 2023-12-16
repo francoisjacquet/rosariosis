@@ -709,7 +709,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						$grades_RET[$last_row_i++] = GetGpaOrTotalRow(
 							$student_id,
 							$grades_total,
-							$i,
+							0, // @since 11.4 Deprecate $courses_number param
 							$last_row
 						);
 

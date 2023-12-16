@@ -448,7 +448,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 					$grades_RET[] = GetGpaOrTotalRow(
 						$student_id,
 						$grades_total,
-						count( $grades_RET ),
+						0, // @since 11.4 Deprecate $courses_number param
 						$show['gpa_or_total']
 					);
 				}

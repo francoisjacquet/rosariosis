@@ -10,10 +10,11 @@
  * @example $grades_RET[$i + 1] = GetGpaOrTotalRow( $student_id, $grades_total, $i, $show['grades_or_total'] );
  *
  * @since 5.0 Add GPA or Total.
+ * @since 11.4 Deprecate $courses_number param
  *
  * @param int   $student_id     Student ID.
  * @param array $grades_total   Grades total points for each MP.
- * @param int   $courses_number Number of courses (rows).
+ * @param int   $courses_number Number of courses (rows). Deprecated.
  * @param bool  $percent        Show Percent grade.
  *
  * @return array GPA or Total row.
