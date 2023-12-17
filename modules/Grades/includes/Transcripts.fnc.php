@@ -560,16 +560,7 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 		if ( isset( $student['BIRTHDATE'] ) )
 		{
-			$dob = explode( '-', $student['BIRTHDATE'] );
-
-			if ( ! empty( $dob ) )
-			{
-				echo '<td class="center">' . $dob[1] . '/' . $dob[2] . '/' . $dob[0] . '</td>';
-			}
-			else
-			{
-				echo '<td>&nbsp;</td>';
-			}
+			echo '<td class="center">' . ProperDate( $student['BIRTHDATE'] ) . '</td>';
 		}
 
 		if ( isset( $student['GENDER'] ) )
