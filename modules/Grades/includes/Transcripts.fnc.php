@@ -76,10 +76,6 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			// Add Show Studies Certificate option.
-			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
-				FROM custom_fields
-				WHERE ID=200000003" ), 'TITLE' );
-
 			$return .= '<br /><br /><label><input type="checkbox" name="showcertificate" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label>';
 
 			$return .= '<div id="divcertificatetext" style="display:none">';
@@ -91,7 +87,6 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 			);
 
 			$substitutions = [
-				'__SSECURITY__' => $field_SSECURITY[1]['TITLE'],
 				'__FULL_NAME__' => _( 'Display Name' ),
 				'__LAST_NAME__' => _( 'Last Name' ),
 				'__FIRST_NAME__' => _( 'First Name' ),

@@ -34,6 +34,7 @@ Changes in 11.4
 - Add Group courses by subject (only for Report Cards) in ReportCards.fnc.php
 - Add "Use Grade Scale Comments" option in InputFinalGrades.php
 - Update French & Spanish translations in rosariosis.po
+- Remove Social Security field from Substitutions, already added by SubstitutionsCustomFields() in Transcripts.fnc.php
 
 Changes in 11.3.3
 -----------------
