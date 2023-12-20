@@ -115,7 +115,8 @@ function ProperDateTime( $datetime, $length = 'long' )
 	// Remove trailing seconds :00.
 	$locale_time = mb_substr( $locale_time, -3 ) === ':00' ? mb_substr( $locale_time, 0, -3 ) : $locale_time;
 
-	$locale_time = str_replace( ':00 ', ' ', $locale_time );
+	// 0x202f is hex for "narrow no-break space" unicode character.
+	$locale_time = str_replace( ':00 ', ' ', $locale_time );
 
 	$date = mb_substr( $datetime, 0, 10 );
 
