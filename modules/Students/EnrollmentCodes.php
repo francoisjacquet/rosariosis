@@ -120,14 +120,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'SHORT_NAME' )
 	{
@@ -158,14 +151,7 @@ function _makeSelectInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'TYPE' )
 	{
@@ -189,14 +175,7 @@ function _makeCheckboxInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	return CheckboxInput(
 		$value,

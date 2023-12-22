@@ -970,12 +970,7 @@ function _makeEndInput( $value, $column )
 
 	static $drop_codes;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( empty( $THIS_RET['START_DATE'] )
 		&& empty( $value ) )
@@ -1049,12 +1044,7 @@ function _makeSchoolInput( $value, $column )
 
 	static $schools;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( ! isset( $schools )
 		|| ! is_array( $schools ) )

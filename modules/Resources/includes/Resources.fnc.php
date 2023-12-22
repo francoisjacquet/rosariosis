@@ -20,12 +20,7 @@ function ResourcesMakeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'LINK' )
 	{
@@ -113,12 +108,7 @@ function ResourcesMakePublishedProfiles( $value, $column = 'PUBLISHED_PROFILES' 
 {
 	global $THIS_RET;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$profiles_RET = DBGet( "SELECT ID,TITLE FROM user_profiles WHERE ID<>1 ORDER BY ID" );
 
@@ -190,12 +180,7 @@ function ResourcesMakePublishedGradeLevels( $value, $column = 'PUBLISHED_GRADE_L
 {
 	global $THIS_RET;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$grade_levels_RET = DBGet( "SELECT ID,TITLE FROM school_gradelevels
 		WHERE SCHOOL_ID='" . UserSchool() . "'
@@ -252,12 +237,7 @@ function ResourcesMakeVisibleTo( $value, $column = 'VISIBLE_TO' )
 {
 	global $THIS_RET;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	// Fix responsive rt td too large.
 	$return = '<div id="divVisibleTo' . $id . '" class="rt2colorBox">';

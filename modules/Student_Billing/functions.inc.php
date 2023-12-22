@@ -135,14 +135,7 @@ function _makeFeesDateInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$name = 'values[' . $id . '][' . $name . ']';
 
@@ -162,12 +155,7 @@ function _makePaymentsTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-		$id = 'new';
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$extra = 'maxlength=255';
 
@@ -280,12 +268,7 @@ function _makePaymentsDateInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-		$id = 'new';
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', ( $id !== 'new' ), false );
 }
@@ -303,14 +286,7 @@ function _lunchInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	return CheckboxInput(
 		$value,

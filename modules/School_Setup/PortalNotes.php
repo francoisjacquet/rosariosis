@@ -250,14 +250,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$extra = '';
 
@@ -293,14 +286,7 @@ function _makeContentInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$return = '<div id="divNoteContent' . $id . '" class="rt2colorBox">' .
 		TextAreaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .

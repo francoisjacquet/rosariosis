@@ -134,14 +134,7 @@ function _makeDateInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', true, ( $id === 'new' ) );
 }

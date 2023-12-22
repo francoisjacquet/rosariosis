@@ -332,14 +332,7 @@ function _makeGradesInput( $value, $name )
 	$teacher_id,
 		$gradebook_config;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'GRADE_SCALE_ID' )
 	{
@@ -406,14 +399,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'TITLE' )
 	{

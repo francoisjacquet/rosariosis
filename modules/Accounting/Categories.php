@@ -127,12 +127,7 @@ function _makeTextInput( $value, $column )
 {
 	global $THIS_RET;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$extra = '';
 
@@ -167,12 +162,7 @@ function _makeSelectInput( $value, $column )
 {
 	global $THIS_RET;
 
-	$id = 'new';
-
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$options = [
 		'common' => _( 'Incomes' ) . ' & ' . _( 'Expenses' ),

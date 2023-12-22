@@ -65,12 +65,7 @@ function _makeIncomesDateInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-		$id = 'new';
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	return DateInput( $value, 'values[' . $id . '][' . $column . ']', '', ( $id !== 'new' ), false );
 }
@@ -81,16 +76,10 @@ function _makePaymentsDateInput( $value, $name )
 }
 
 function _makeSalariesDateInput( $value, $name )
-{	global $THIS_RET;
+{
+	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	$name = 'values[' . $id . '][' . $name . ']';
 

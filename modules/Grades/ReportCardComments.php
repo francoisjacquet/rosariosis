@@ -469,14 +469,7 @@ function _makeCommentsInput( $value, $name )
 	$category_select,
 		$code_select;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'CATEGORY_ID' )
 	{
@@ -548,14 +541,7 @@ function _makeColorInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	return ColorInput(
 		$value,

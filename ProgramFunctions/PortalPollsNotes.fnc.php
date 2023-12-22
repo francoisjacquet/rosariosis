@@ -372,14 +372,7 @@ function makePublishing( $value, $name )
 	global $THIS_RET;
 	static $profiles = null;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	//FJ responsive rt td too large
 	$return = '<div id="divPublishing' . $id . '" class="rt2colorBox">' . "\n";

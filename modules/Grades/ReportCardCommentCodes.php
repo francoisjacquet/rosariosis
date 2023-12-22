@@ -306,14 +306,7 @@ function _makeCommentsInput( $value, $name )
 	global $THIS_RET,
 		$comment_scale_select;
 
-	if ( ! empty( $THIS_RET['ID'] ) )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
 
 	if ( $name === 'SCALE_ID' )
 	{
