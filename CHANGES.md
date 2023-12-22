@@ -37,7 +37,7 @@ Changes in 11.4
 - Remove Social Security field from Substitutions, already added by SubstitutionsCustomFields() in Transcripts.fnc.php
 - Fix SQL error Field 'gp_passing_value' doesn't have a default value in ReportCardGrades.php
 - Make functions: simplify setting $id var, program wide
-- Prepare jQuery Form to FormData transition: check for `$_FILES[ $input ]['name']` in FileUpload.fnc.php, Accounting/functions.inc.php, Assignments.php, PortalNotes.php & Student_Billing/functions.inc.php
+- Prepare jQuery Form to FormData transition: check for `$_FILES[ $input ]['name']` in FileUpload.fnc.php, Accounting/functions.inc.php, Assignments.php, PortalNotes.php, Student_Billing/functions.inc.php, Student.php & User.php
 - Attach multiple files in StudentAssignments.fnc.php
 
 Changes in 11.3.3

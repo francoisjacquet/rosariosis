@@ -441,7 +441,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		if ( UserStaffID()
-			&& ! empty( $_FILES['photo'] ) )
+			&& ! empty( $_FILES['photo']['name'] ) )
 		{
 			$new_photo_file = ImageUpload(
 				'photo',
