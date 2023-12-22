@@ -519,7 +519,7 @@ function FileUploadMultiple( $input )
 		$_FILES[ $input_new_index ] = $file;
 	}
 
-	unset( $_FILES[ $input ] );
+	$_FILES[ $input ] = false;
 
 	return $inputs;
 }

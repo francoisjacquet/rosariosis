@@ -27,6 +27,7 @@ if ( ! isset( $AssignmentsFilesPath ) )
  * @uses FileUpload()
  * @uses SanitizeHTML()
  * @since 2.9
+ * @since 11.4 Attach multiple files
  *
  * @param  string  $assignment_id Assignment ID.
  * @param  array   $error         Global errors array.
@@ -68,50 +69,58 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	// TODO: check if Student not dropped?
 
-	$files = issetVal( $old_data['files'] );
-
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
-	// Check if file submitted.
-	if ( isset( $_FILES['submission_file'] ) )
+	$files = [];
+
+	// Check if file(s) submitted.
+	if ( ! empty( $_FILES['submission_file']['name'][0] ) )
 	{
 		$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS NAME
 			FROM students
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
-		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
-		$file_name_no_ext = FileNameTimestamp( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' . $student_name );
-
-		// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
-		$file = FileUpload(
-			'submission_file',
-			$assignments_path,
-			FileExtensionWhiteList(),
-			0,
-			$error,
-			'',
-			$file_name_no_ext
-		);
-
-		if ( $file )
+		foreach ( FileUploadMultiple( 'submission_file' ) as $file_input )
 		{
-			$files = [ $file ];
+			// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
+			$file_name_no_ext = FileNameTimestamp( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' . $student_name );
+
+			// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
+			$file = FileUpload(
+				$file_input,
+				$assignments_path,
+				FileExtensionWhiteList(),
+				0,
+				$error,
+				'',
+				$file_name_no_ext
+			);
+
+			if ( $file )
+			{
+				$files[] = $file;
+			}
 		}
 	}
 
-	if ( isset( $_REQUEST['submission_file'] ) )
+	if ( isset( $_REQUEST['submission_file'] ) // @deprecated since RosarioSIS 12.0 use FormData.
+			|| isset( $_FILES['submission_file'] ) )
 	{
-		// Submission file input enabled (may be empty).
-		if ( $old_data )
+		if ( ! empty( $old_data['files'] ) )
 		{
-			$old_file = issetVal( $old_data['files'][0], '' );
-
-			if ( file_exists( $old_file ) )
+			// Submission file(s) input enabled (may be empty).
+			foreach ( (array) $old_data['files'] as $old_file )
 			{
-				// Delete old file if any.
-				unlink( $old_file );
+				if ( file_exists( $old_file ) )
+				{
+					unlink( $old_file );
+				}
 			}
 		}
+	}
+	else
+	{
+		$files = issetVal( $old_data['files'] );
 	}
 
 	// Check if HMTL submitted.
@@ -156,6 +165,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
  * @since 2.9
  *
  * @since 4.5 Move headers to StudentAssignmentDrawHeaders() function
+ * @since 11.4 Attach multiple files
  *
  * @param  string  $assignment_id Assignment ID.
  * @return boolean true if can submit, else false.
@@ -189,7 +199,9 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		UserStudentID()
 	);
 
-	$old_file = $old_message = $old_date = '';
+	$old_message = $old_date = '';
+
+	$old_files = [];
 
 	if ( isset( $submission['DATA'] ) )
 	{
@@ -201,9 +213,15 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 			$data = unserialize( $submission['DATA'] );
 		}
 
-		$old_file = issetVal( $data['files'][0], '' );
+		foreach ( (array) $data['files'] as $old_file )
+		{
+			$old_file_link = GetAssignmentFileLink( $old_file );
 
-		$old_file = GetAssignmentFileLink( $old_file );
+			if ( $old_file_link )
+			{
+				$old_files[] = $old_file_link;
+			}
+		}
 
 		$old_message = $data['message'];
 
@@ -217,11 +235,11 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		|| ( ! $assignment['DUE_DATE']
 			&& DBDate() > GetMP( UserMP(), 'END_DATE' ) ) )
 	{
-		if ( $old_file )
+		if ( $old_files )
 		{
-			// Display assignment file.
+			// Display assignment file(s).
 			DrawHeader(
-				NoInput( $old_file, _( 'File' ) ),
+				NoInput( implode( '<br>', $old_files ), _( 'Files' ) ),
 				NoInput( $old_date, _( 'Submission date' ) )
 			);
 		}
@@ -238,29 +256,33 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		return false;
 	}
 
-	// File upload.
-	$file_html = '<div id="submission_file_input"' . ( $old_file ? 'class="hide"' : '' ) . '>' .
+	// File(s) upload.
+	$file_html = '<div id="submission_file_input"' . ( $old_files ? 'class="hide"' : '' ) . '>' .
 	FileInput(
-		'submission_file',
-		_( 'File' ),
-		( $old_file ? 'disabled' : '' )
+		'submission_file[]',
+		_( 'Files' ),
+		( $old_files ? 'disabled' : '' ) . ' multiple'
 	) . '</div>';
 
-	if ( $old_file )
+	if ( $old_files )
 	{
-		// Delete file icon.
-		$old_file = button(
+		// Delete file(s) icon.
+		$old_files = '<table class="cellspacing-0"><tr><td>' . button(
 			'remove',
 			'',
 			'"#!" onclick="$(\'#submission_file_link\').hide(); $(\'#submission_file_input\').show();$(\'#submission_file\').prop(\'disabled\', false);"'
-		) . ' ' . $old_file;
+		) . '</td><td>' . implode(
+			'<br>',
+			$old_files
+		) . '</td></tr></table>';
 
-		$old_file = '<div id="submission_file_link">' . NoInput( $old_file, _( 'File' ) ) . '</div>';
+		$old_files = '<div id="submission_file_link">' . $old_files .
+			FormatInputTitle( _( 'Files' ), '', false, '' ) . '</div>';
 	}
 
-	// Input div onclick only if old file.
+	// Input div onclick only if old file(s).
 	DrawHeader(
-		$old_file ? $old_file . '<br />' . $file_html : $file_html,
+		$old_files ? $old_files . $file_html : $file_html,
 		$old_date ? NoInput( $old_date, _( 'Submission date' ) ) : ''
 	);
 
@@ -736,6 +758,7 @@ function MakeAssignmentSubmitted( $value, $column )
  * DBGet callback
  *
  * @since 4.2
+ * @since 11.4 Attach multiple files
  *
  * @param string $value
  * @param string $column 'SUBMISSION'
@@ -767,8 +790,6 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 			$data = unserialize( $submission['DATA'] );
 		}
 
-		$file = issetVal( $data['files'][0], '' );
-
 		$message = $data['message'];
 
 		$date = ProperDateTime( $data['date'], 'short' );
@@ -779,9 +800,21 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 
 		$file_html = $message_html = '';
 
-		if ( $file )
+		$files = [];
+
+		foreach ( (array) $data['files'] as $file )
 		{
-			$file_html = NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) . '<br />';
+			$file_link = GetAssignmentFileLink( $file );
+
+			if ( $file_link )
+			{
+				$files[] = $file_link;
+			}
+		}
+
+		if ( $files )
+		{
+			$file_html = NoInput( implode( '<br>', $files ), _( 'Files' ) ) . '<br />';
 		}
 
 		if ( $message )
@@ -827,9 +860,14 @@ function GetAssignmentFileLink( $file_path )
 
 	$file_size = HumanFilesize( filesize( $file_path ) );
 
+	// Truncate file name if > 36 chars.
+	$file_name_display = mb_strlen( $file_name ) <= 36 ?
+		$file_name :
+		mb_substr( $file_name, 0, 30 ) . '..' . mb_strrchr( $file_name, '.' );
+
 	return button(
 		'download',
-		_( 'Download' ),
+		$file_name_display,
 		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . AttrEscape( $file_name . ' (' . $file_size . ')' ) . '"',
 		'bigger'
 	);
