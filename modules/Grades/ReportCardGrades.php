@@ -43,9 +43,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					DBQuery( $sql );
 				}
 
-				// New: check for Title & Scale Value.
+				// New: check for Title, Scale Value & Minimum Passing Grade.
 				elseif ( ( $columns['TITLE'] || $columns['TITLE'] == '0' )
-					&& ( $_REQUEST['tab_id'] !== 'new' || $columns['GP_SCALE'] ) )
+					&& ( $_REQUEST['tab_id'] !== 'new' ||
+						( $columns['GP_SCALE'] && is_numeric( $columns['GP_PASSING_VALUE'] ) ) ) )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{

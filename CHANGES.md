@@ -35,6 +35,7 @@ Changes in 11.4
 - Add "Use Grade Scale Comments" option in InputFinalGrades.php
 - Update French & Spanish translations in rosariosis.po
 - Remove Social Security field from Substitutions, already added by SubstitutionsCustomFields() in Transcripts.fnc.php
+- Fix SQL error Field 'gp_passing_value' doesn't have a default value in ReportCardGrades.php
 
 Changes in 11.3.3
 -----------------
