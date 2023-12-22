@@ -395,7 +395,7 @@ function _saveFeesFile( $id )
 
 	$input = $id === 'new' ? 'FILE_ATTACHED' : 'FILE_ATTACHED_' . $id;
 
-	if ( ! isset( $_FILES[ $input ] ) )
+	if ( empty( $_FILES[ $input ]['name'] ) )
 	{
 		return '';
 	}

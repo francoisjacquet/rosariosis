@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				// @since 10.9 Fix security issue, unset any FILE_ATTACHED column first.
 				$columns['FILE_ATTACHED'] = '';
 
-				if ( isset( $_FILES['FILE_ATTACHED_FILE'] ) )
+				if ( ! empty( $_FILES['FILE_ATTACHED_FILE']['name'] ) )
 				{
 					// File attached to portal notes
 					$columns['FILE_ATTACHED'] = FileUpload(

@@ -275,7 +275,7 @@ if ( ! empty( $_POST['tables'] ) )
 
 			// Check if file submitted.
 
-			if ( isset( $_FILES['assignment_file'] ) )
+			if ( ! empty( $_FILES['assignment_file']['name'] ) )
 			{
 				$file = UploadAssignmentTeacherFile(
 					$id,

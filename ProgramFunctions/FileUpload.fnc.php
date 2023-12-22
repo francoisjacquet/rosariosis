@@ -480,7 +480,7 @@ function FilesUploadUpdate( $table, $request, $path, $id = 0 )
  */
 function FileUploadMultiple( $input )
 {
-	if ( ! isset( $_FILES[ $input ] ) )
+	if ( empty( $_FILES[ $input ]['name'] ) )
 	{
 		return [];
 	}

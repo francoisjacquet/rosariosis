@@ -423,7 +423,7 @@ function _saveSalariesFile( $id )
 
 	$input = $id === 'new' ? 'FILE_ATTACHED' : 'FILE_ATTACHED_' . $id;
 
-	if ( ! isset( $_FILES[ $input ] ) )
+	if ( empty( $_FILES[ $input ]['name'] ) )
 	{
 		return '';
 	}
@@ -473,7 +473,7 @@ function _saveIncomesFile( $id )
 
 	$input = $id === 'new' ? 'FILE_ATTACHED' : 'FILE_ATTACHED_' . $id;
 
-	if ( ! isset( $_FILES[ $input ] ) )
+	if ( empty( $_FILES[ $input ]['name'] ) )
 	{
 		return '';
 	}
