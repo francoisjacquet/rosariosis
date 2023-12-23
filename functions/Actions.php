@@ -442,6 +442,15 @@ $RosarioActions = [];
 	 * @since 11.2
 	 */
 	/*'Food_Service/Student.inc.php|table_after' => array(),
+
+	/**
+	 * Student Info tab fields after
+	 * Add your own fields
+	 * Note: increment $i var for every field you add.
+	 *
+	 * @since 11.4
+	 */
+	/*'Students/includes/Other_Info.inc.php|fields_after' => array(),
 );*/
 
 /**

@@ -40,6 +40,7 @@ Changes in 11.4
 - Prepare jQuery Form to FormData transition: check for `$_FILES[ $input ]['name']` in FileUpload.fnc.php, Accounting/functions.inc.php, Assignments.php, PortalNotes.php, Student_Billing/functions.inc.php, Student.php & User.php
 - Attach multiple files in StudentAssignments.fnc.php
 - Fix file upload for new Contact/Address in Student.php & Address.inc.php
+- Add "Student Info tab fields after" action hook: Add your own fields in Actions.php & Other_Info.inc.php
 
 Changes in 11.3.3
 -----------------
