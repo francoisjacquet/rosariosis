@@ -149,6 +149,15 @@ foreach ( (array) $fields_RET as $field )
 	$i++;
 }
 
+/**
+ * User Info tab fields after
+ * Add your own fields
+ * Note: increment $i var for every field you add.
+ *
+ * @since 11.4
+ */
+do_action( 'Users/includes/Other_Info.inc.php|fields_after', [ $per_row, &$i ] );
+
 if ( $i > 1 )
 {
 	if ( ( $i - 1 )%$per_row !== 0 )
