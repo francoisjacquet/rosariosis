@@ -8,7 +8,8 @@ $info_apd = true;
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-if ( ! empty( $_POST['values'] )
+if ( ( ! empty( $_POST['values'] )
+		|| ! empty( $_FILES ) )
 	&& AllowEdit() )
 {
 	if ( ! empty( $_REQUEST['values']['EXISTING'] ) )
@@ -169,6 +170,16 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
+	if ( $_REQUEST['address_id'] !== 'new'
+		&& ! empty( $_FILES ) )
+	{
+		$uploaded = FilesUploadUpdate(
+			'address',
+			'valuesaddress',
+			$FileUploadsPath . 'Address/' . (int) $_REQUEST['address_id'] . '/'
+		);
+	}
+
 	if ( ! empty( $_REQUEST['values']['people'] ) )
 	{
 		// FJ other fields required.
@@ -258,6 +269,17 @@ if ( ! empty( $_POST['values'] )
 				$_REQUEST['person_id'] = $id;
 			}
 		}
+	}
+
+	if ( ! empty( $_REQUEST['person_id'] )
+		&& $_REQUEST['person_id'] !== 'new'
+		&& ! empty( $_FILES ) )
+	{
+		$uploaded = FilesUploadUpdate(
+			'people',
+			'valuespeople',
+			$FileUploadsPath . 'Contact/' . (int) $_REQUEST['person_id'] . '/'
+		);
 	}
 
 	if ( ! empty( $_REQUEST['values']['people_join_contacts'] ) )

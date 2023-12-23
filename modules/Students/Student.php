@@ -426,24 +426,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 				'students',
 				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
 			);
-
-			if ( ! empty( $_REQUEST['person_id'] ) )
-			{
-				$uploaded = FilesUploadUpdate(
-					'people',
-					'valuespeople',
-					$FileUploadsPath . 'Contact/' . $_REQUEST['person_id'] . '/'
-				);
-			}
-
-			if ( ! empty( $_REQUEST['address_id'] ) )
-			{
-				$uploaded = FilesUploadUpdate(
-					'address',
-					'valuesaddress',
-					$FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/'
-				);
-			}
 		}
 
 		if ( UserStudentID()
