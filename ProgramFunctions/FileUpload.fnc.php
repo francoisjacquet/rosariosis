@@ -397,7 +397,8 @@ function FilesUploadUpdate( $table, $request, $path, $id = 0 )
 
 	foreach ( $_FILES as $input => $file )
 	{
-		if ( mb_strpos( $input, $request ) !== 0 )
+		if ( mb_strpos( $input, $request ) !== 0
+			|| empty( $_FILES[ $input ]['name'] ) )
 		{
 			// Input name must BEGIN with $request, for example: "valuesCUSTOM_3".
 			continue;
