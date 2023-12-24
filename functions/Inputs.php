@@ -1729,7 +1729,7 @@ function NoInput( $value, $title = '' )
 {
 	$ftitle = FormatInputTitle( $title );
 
-	$value = ( ! empty( $value ) || $value == '0' ? $value : '-' );
+	$value = ( $value != '' ? $value : '-' );
 
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
