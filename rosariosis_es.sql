@@ -603,3 +603,7 @@ WHERE id=3;
 UPDATE resources
 SET title='Contribuir', link='https://www.rosariosis.org/es/contribute/'
 WHERE id=4;
+
+UPDATE resources
+SET title='Reportar un error'
+WHERE id=5;
