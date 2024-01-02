@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
-	$fy = $fy_RET[1];
+	$fy = issetVal( $fy_RET[1], [ 'START_DATE' => '', 'END_DATE' => '' ] );
 
 	// Get Calendars Info.
 	$title_RET = DBGet( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
