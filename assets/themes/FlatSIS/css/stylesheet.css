@@ -818,7 +818,7 @@ label {
 .postbox > thead th {
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	padding: 0 6px;
+	padding: 0 12px;
 }
 
 .postbox th h3,
