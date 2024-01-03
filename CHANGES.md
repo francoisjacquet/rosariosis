@@ -46,6 +46,7 @@ Changes in 11.4
 - Add "Report a bug" link to Resources in rosariosis.sql, rosariosis_mysql.sql, rosariosis_es.sql & rosariosis_fr.sql
 - Fix SQL error Data too long for column 'title' in Menus.php
 - Remove trailing '-main' from add-on directory in Modules.inc.php & Plugins.inc.php
+- Add "Filter Grade Level" action hook in Actions.php & GetGrade.fnc.php
 
 Changes in 11.3.3
 -----------------

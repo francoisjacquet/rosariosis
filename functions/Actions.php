@@ -460,6 +460,14 @@ $RosarioActions = [];
 	 * @since 11.4
 	 */
 	/*'Users/includes/Other_Info.inc.php|fields_after' => array(),
+
+	/**
+	 * Filter Grade Level
+	 * Note: edit the $return_value var
+	 *
+	 * @since 11.4
+	 */
+	/*'functions/GetGrade.fnc.php|filter_grade_level' => array(),
 );*/
 
 /**
