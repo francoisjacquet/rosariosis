@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						if ( $title_exists )
 						{
 							// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
-							$columns['TITLE'] .= ' (2)';
+							continue;
 						}
 					}
 

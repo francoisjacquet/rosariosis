@@ -44,6 +44,7 @@ Changes in 11.4
 - Add "User Info tab fields after" action hook: Add your own fields in Actions.php & Other_Info.inc.php
 - Fix NoInput() display '-' when $value is false in Inputs.php
 - Add "Report a bug" link to Resources in rosariosis.sql, rosariosis_mysql.sql, rosariosis_es.sql & rosariosis_fr.sql
+- Fix SQL error Data too long for column 'title' in Menus.php
 
 Changes in 11.3.3
 -----------------
