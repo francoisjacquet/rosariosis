@@ -111,6 +111,12 @@ if ( $_REQUEST['modfunc'] === 'upload'
 				$addon_dir = mb_substr( $addon_dir, 0, mb_strlen( $addon_dir ) -7 );
 			}
 
+			if ( mb_substr( $addon_dir, -5, 5 ) === '-main' )
+			{
+				// Remove trailing '-main'.
+				$addon_dir = mb_substr( $addon_dir, 0, mb_strlen( $addon_dir ) -5 );
+			}
+
 			// Check add-on is not a core plugin...
 			if ( ! in_array( $addon_dir, $RosarioCorePlugins ) )
 			{
