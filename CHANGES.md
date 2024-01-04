@@ -47,6 +47,7 @@ Changes in 11.4
 - Fix SQL error Data too long for column 'title' in Menus.php
 - Remove trailing '-main' from add-on directory in Modules.inc.php & Plugins.inc.php
 - Add "Filter Grade Level" action hook in Actions.php & GetGrade.fnc.php
+- Replace `_makeReadMe`, `_makeActivated` & `_delTree` functions with `AddonMakeReadMe`, `AddonMakeActivated` & `AddonDelTree` in Addon.fnc.php, Modules.inc.php & Plugins.inc.php
 
 Changes in 11.3.3
 -----------------

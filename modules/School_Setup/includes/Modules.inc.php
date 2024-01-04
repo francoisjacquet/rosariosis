@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/School_Setup/includes/Addon.fnc.php';
+
 // Modules configuration, included in Configuration.php
 
 // Core modules (packaged with RosarioSIS):
@@ -80,7 +82,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 			if ( ! in_array( $addon_dir, $RosarioCoreModules ) )
 			{
 				if ( ! file_exists( 'modules/' . $addon_dir )
-					|| _delTree( 'modules/' . $addon_dir ) )
+					|| AddonDelTree( 'modules/' . $addon_dir ) )
 				{
 					// Remove warning if directory already exists: just overwrite.
 					rename( $addon_dir_path, 'modules/' . $addon_dir );
@@ -93,7 +95,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 				}
 			}
 
-			_delTree( $FileUploadsPath . 'upload-module/' );
+			AddonDelTree( $FileUploadsPath . 'upload-module/' );
 		}
 		else
 		{
@@ -142,7 +144,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			{
 				//remove files & dir
 
-				if ( ! _delTree( 'modules/' . $_REQUEST['module'] ) )
+				if ( ! AddonDelTree( 'modules/' . $_REQUEST['module'] ) )
 				{
 					$error[] = _( 'Files not eraseable.' );
 				}
@@ -290,8 +292,8 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$THIS_RET = [];
 		$THIS_RET['DELETE'] = _makeDelete( $module_title, $activated );
-		$THIS_RET['TITLE'] = _makeReadMe( $module_title, $activated );
-		$THIS_RET['ACTIVATED'] = _makeActivated( $activated );
+		$THIS_RET['TITLE'] = AddonMakeReadMe( 'module', $module_title, $activated );
+		$THIS_RET['ACTIVATED'] = AddonMakeActivated( $activated );
 
 		$modules_RET[] = $THIS_RET;
 
@@ -320,8 +322,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$THIS_RET = [];
 		$THIS_RET['DELETE'] = _makeDelete( $module_title );
-		$THIS_RET['TITLE'] = _makeReadMe( $module_title );
-		$THIS_RET['ACTIVATED'] = _makeActivated( false );
+		$THIS_RET['TITLE'] = AddonMakeReadMe( 'module', $module_title );
+		$THIS_RET['ACTIVATED'] = AddonMakeActivated( false );
 
 		$modules_RET[] = $THIS_RET;
 	}
@@ -359,35 +361,6 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 }
 
-/**
- * @param $activated
- * @return mixed
- */
-function _makeActivated( $activated )
-{
-	if ( $activated )
-	{
-		$return = button( 'check' );
-	}
-	else
-	{
-		$return = button( 'x' );
-	}
-
-	if ( isset( $_REQUEST['LO_save'] ) )
-	{
-		if ( $activated )
-		{
-			$return = _( 'Yes' );
-		}
-		else
-		{
-			$return = _( 'No' );
-		}
-	}
-
-	return $return;
-}
 
 /**
  * @param $module_title
@@ -455,60 +428,6 @@ function _makeDelete( $module_title, $activated = null )
 	return $return;
 }
 
-/**
- * @param $module_title
- * @param $activated
- * @return mixed
- */
-function _makeReadMe( $module_title, $activated = null )
-{
-	global $RosarioCoreModules;
-
-	//format & translate module title
-
-	if ( ! in_array( $module_title, $RosarioCoreModules ) && $activated )
-	{
-		$module_title_echo = dgettext( $module_title, str_replace( '_', ' ', $module_title ) );
-	}
-	else
-	{
-		$module_title_echo = _( str_replace( '_', ' ', $module_title ) );
-
-		if ( $module_title === 'School_Setup' )
-		{
-			$module_title_echo = _( 'School' );
-		}
-	}
-
-	$readme_path = 'modules/' . $module_title . '/README';
-
-	//if README.md file, display in Colorbox
-
-	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
-		&& ( file_exists( $readme_path )
-			|| (  ( $readme_path = $readme_path . '.md' )
-				&& file_exists( $readme_path ) ) ) )
-	{
-		// Get README.md content.
-		$readme_content = file_get_contents( $readme_path );
-
-		// Convert MarkDown text to HTML.
-		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
-
-		$return = '<div style="display:none;"><div id="README_' . $module_title . '">' .
-			$readme_content . '</div></div>';
-
-		$return .= '<a class="colorboxinline" href="#README_' . $module_title . '">' .
-			$module_title_echo . '</a>';
-	}
-	else
-	{
-		$return = $module_title_echo;
-	}
-
-	return $return;
-}
-
 function _saveRosarioModules()
 {
 	global $RosarioModules;
@@ -529,53 +448,3 @@ function _reloadMenu()
 	return true;
 }
 
-/**
- * Delete Tree
- * Recursively delete a directory and its files.
- *
- * If one of the files cannot be deleted,
- * no files are deleted & `false` is returned.
- * Dry run is always performed first.
- *
- * @param  string  $dir  Directory to delete.
- * @param  string  $mode delete|dryrun Mode (optional). Defaults to 'delete'.
- * @return boolean true on success, else false.
- */
-function _delTree( $dir, $mode = 'delete' )
-{
-	$return = true;
-
-	if ( $mode === 'delete' )
-	{
-		// Run dry run mode first.
-		$can_delete = _delTree( $dir, 'dryrun' );
-
-		if ( ! $can_delete )
-		{
-			return false;
-		}
-	}
-
-	$files = array_diff( scandir( $dir ), [ '.', '..' ] );
-
-	foreach ( (array) $files as $file )
-	{
-		if ( is_dir( $dir . '/' . $file ) )
-		{
-			$return = _delTree( $dir . '/' . $file, $mode );
-		}
-		elseif ( is_writable( $dir . '/' . $file ) )
-		{
-			if ( $mode !== 'dryrun' )
-			{
-				unlink( $dir . '/' . $file );
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	return $mode === 'dryrun' ? $return && is_writable( $dir ) : rmdir( $dir );
-}
