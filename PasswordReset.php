@@ -307,12 +307,13 @@ Warehouse( 'footer' );
 /**
  * Send Password Reset email
  *
- * @param  string $user_id   User ID (Staff or Student)
- * @param  string $user_type 'staff'|'student'
+ * @param  string $user_id   User ID (Staff or Student).
+ * @param  string $user_type 'staff'|'student'.
+ * @param  string $email     Email address.
  *
  * @return boolean           true if email sent, else false
  */
-function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
+function _sendPasswordResetEmail( $user_id, $user_type, $email )
 {
 	global $DatabaseType;
 
