@@ -2,6 +2,26 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.4
+-----------
+
+School
+- Access Log: Automatically clear entries older than one year
+
+Scheduling
+- Courses: Reassign Course Subject, sponsored by Paris'Com Sup, France
+
+Grades
+- Assignments (Student): Attach multiple files, sponsored by Paris'Com Sup, France
+- Report Cards: Group courses by subject, sponsored by Paris'Com Sup, France
+- Input Final Grades: Use Grade Scale Comments, sponsored by Petit Rousseau, Cameroon
+
+[Food Service Premium](https://www.rosariosis.org/modules/food-service-premium/) module, sponsored by AT group, Slovenia
+
+[SMS Premium](https://www.rosariosis.org/modules/sms/)
+- Add Substitution codes to send GPA to Students, sponsored by Petit Rousseau, Cameroon
+
+
 New in 11.3
 -----------
 
