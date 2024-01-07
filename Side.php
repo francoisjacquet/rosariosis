@@ -710,66 +710,69 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 
 		$menu_i = $menu_key[ $i ];
 
-		if ( count( $modcat_menu = $_ROSARIO['Menu'][ $menu_i ] ) ) :
+		if ( ! count( $modcat_menu = $_ROSARIO['Menu'][ $menu_i ] ) )
+		{
+			continue;
+		}
 
-			$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_i ) ); ?>
-		<li class="menu-module <?php echo $modcat_class; ?>">
-			<a href="<?php echo URLEscape( 'Modules.php?modname=' . $modcat_menu['default'] ); ?>" class="menu-top">
+		$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_i ) ); ?>
+	<li class="menu-module <?php echo $modcat_class; ?>">
+		<a href="<?php echo URLEscape( 'Modules.php?modname=' . $modcat_menu['default'] ); ?>" class="menu-top">
 
-				<span class="module-icon <?php echo $menu_i; ?>"
-				<?php if ( ! in_array( $menu_i, $RosarioCoreModules ) ) :
-					// Modcat is addon module, set custom module icon. ?>
-					style="background-image: url(modules/<?php echo $menu_i; ?>/icon.png);"
-				<?php endif; ?>
-				></span>&nbsp;<?php echo $modcat_menu['title']; ?>
-			</a>
-			<ul id="menu_<?php echo $menu_i; ?>" class="wp-submenu">
+			<span class="module-icon <?php echo $menu_i; ?>"
+			<?php if ( ! in_array( $menu_i, $RosarioCoreModules ) ) :
+				// Modcat is addon module, set custom module icon. ?>
+				style="background-image: url(modules/<?php echo $menu_i; ?>/icon.png);"
+			<?php endif; ?>
+			></span>&nbsp;<?php echo $modcat_menu['title']; ?></a>
+		<ul id="menu_<?php echo $menu_i; ?>" class="wp-submenu">
+		<?php
+		unset(
+			$modcat_menu['default'],
+			$modcat_menu['title']
+		);
+
+		$modcat_key = array_keys( $modcat_menu );
+		$size_modcat = count( $modcat_key );
+
+		for ( $j = 0; $j < $size_modcat; $j++ )
+		{
+			$modcat_j = $modcat_key[ $j ];
+
+			$title = $_ROSARIO['Menu'][ $menu_i ][ $modcat_j ];
+
+			// If URL, not a program.
+			/*if ( mb_stripos( $modcat_j, 'http' ) !== false ) : ?>
+				<li><a href="<?php echo URLEscape( $modcat_j ); ?>" target="_blank"><?php
+					echo $title;
+				?></a></li>
 			<?php
-			unset(
-				$modcat_menu['default'],
-				$modcat_menu['title']
-			);
+			else*/
+			if ( ! is_numeric( $modcat_j ) ) :
 
-			$modcat_key = array_keys( $modcat_menu );
-			$size_modcat = count( $modcat_key );
+				// If PDF, open in new tab.
+				$target = ( mb_strpos( $modcat_j, '_ROSARIO_PDF' ) !== false ?
+					' target="_blank"' :
+					''
+				); ?>
+				<li><a href="<?php echo URLEscape( 'Modules.php?modname=' . $modcat_j ); ?>"<?php echo $target; ?>><?php
+					echo $title;
+				?></a></li>
+<?php
+			// If is a section.
+			elseif ( isset( $modcat_key[ $j + 1 ] )
+				&& ! is_numeric( $modcat_key[ $j + 1 ] ) ) : ?>
 
-			for ( $j = 0; $j < $size_modcat; $j++ )
-			{
-				$modcat_j = $modcat_key[ $j ];
-
-				$title = $_ROSARIO['Menu'][ $menu_i ][ $modcat_j ];
-
-				// If URL, not a program.
-				/*if ( mb_stripos( $modcat_j, 'http' ) !== false ) : ?>
-					<li><a href="<?php echo URLEscape( $modcat_j ); ?>" target="_blank"><?php
-						echo $title;
-					?></a></li>
-				<?php
-				else*/
-				if ( ! is_numeric( $modcat_j ) ) :
-
-					// If PDF, open in new tab.
-					$target = ( mb_strpos( $modcat_j, '_ROSARIO_PDF' ) !== false ?
-						' target="_blank"' :
-						''
-					); ?>
-					<li><a href="<?php echo URLEscape( 'Modules.php?modname=' . $modcat_j ); ?>"<?php echo $target; ?>><?php
-						echo $title;
-					?></a></li>
-				<?php // If is a section.
-				elseif ( isset( $modcat_key[ $j + 1 ] )
-					&& ! is_numeric( $modcat_key[ $j + 1 ] ) ) : ?>
-
-					<li class="menu-inter"><?php
-						echo $title;
-					?></li>
-				<?php endif;
-			}
-			?>
-			</ul>
-		</li>
-		<?php endif;
-	endfor; ?>
+				<li class="menu-inter"><?php
+					echo $title;
+				?></li>
+<?php
+			endif;
+		}
+		?>
+		</ul>
+	</li>
+	<?php endfor; ?>
 
 </ul><!-- .adminmenu -->
 
