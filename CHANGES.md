@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.4.1
+-----------------
+- Fix SQL error invalid input syntax for type integer: "" in Courses.php
+
 Changes in 11.4
 ---------------
 - Add XRedirectUrl JS global var for soft redirection when not an AJAX request in PreparePHP_SELF.fnc.php & warehouse.js

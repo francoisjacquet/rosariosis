@@ -997,7 +997,7 @@ if (  ( ! $_REQUEST['modfunc']
 			//$header .= '<td>' . SelectInput($RET['MP'],'tables[course_periods]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY' => 'Full Year','SEM' => 'Semester','QTR' => 'Marking Period')) . '</td>';
 
 			// @since 11.1 SQL Use GetFullYearMP() & GetChildrenMP() functions to limit Marking Periods
-			$fy_and_children_mp = "'" . GetFullYearMP() . "'";
+			$fy_and_children_mp = GetFullYearMP() ? "'" . GetFullYearMP() . "'" : "'0'";
 
 			if ( GetChildrenMP( 'FY' ) )
 			{
