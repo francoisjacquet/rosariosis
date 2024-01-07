@@ -724,11 +724,13 @@ function Warehouse( $mode )
 				if ( ! isPopup() ):
 				?>
 	</div><!-- #wrap -->
-				<?php endif;
+<?php
+				endif;
 
 			?>
 </body></html>
-			<?php endif;
+<?php
+			endif;
 
 			if ( ! isPopup() ):
 
@@ -749,8 +751,9 @@ function Warehouse( $mode )
 
 				?>
 		</div><!-- #body -->
-	</body></html>
-			<?php endif;
+</body></html>
+<?php
+			endif;
 
 			ETagCache( 'stop' );
 
