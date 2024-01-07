@@ -4,6 +4,7 @@
 Changes in 11.4.1
 -----------------
 - Fix SQL error invalid input syntax for type integer: "" in Courses.php
+- InputDivOnclick() Do not not convert single quotes to gain a few bytes in Inputs.php
 
 Changes in 11.4
 ---------------
