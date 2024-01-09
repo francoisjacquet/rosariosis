@@ -267,7 +267,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					if ( isset( $_REQUEST['elements']['period_absences'] )
 						&& $_REQUEST['elements']['period_absences'] == 'Y' )
 					{
-						if ( mb_strpos( $mps[$last_mp][1]['DOES_ATTENDANCE'], ',0,' ) !== false )
+						if ( $mps[$last_mp][1]['DOES_ATTENDANCE']
+							&& mb_strpos( $mps[$last_mp][1]['DOES_ATTENDANCE'], ',0,' ) !== false )
 						{
 							$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'] . ' / ' . $mps[$last_mp][1]['MP_ABSENCES'];
 						}
