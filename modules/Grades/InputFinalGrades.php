@@ -430,7 +430,8 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 				foreach ( (array) $percents as $percent )
 				{
-					$total += $percent['GRADE_PERCENT'] * $gradebook_config[$prefix . $percent['MARKING_PERIOD_ID']];
+					$total += $percent['GRADE_PERCENT'] *
+						issetVal( $gradebook_config[$prefix . $percent['MARKING_PERIOD_ID']] );
 
 					$total_percent += $gradebook_config[$prefix . $percent['MARKING_PERIOD_ID']];
 				}
