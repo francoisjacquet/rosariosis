@@ -468,6 +468,21 @@ $RosarioActions = [];
 	 * @since 11.4
 	 */
 	/*'functions/GetGrade.fnc.php|filter_grade_level' => array(),
+
+	/**
+	 * PDF Stop (wkhtmltopdf)
+	 * Note: $pdf is a mikehaertl\wkhtmlto\Pdf object
+	 *
+	 * @since 11.4.1
+	 */
+	/*'functions/PDF.php|pdf_stop_pdf' => array(),
+
+	/**
+	 * PDF Stop HTML (no wkhtmltopdf)
+	 *
+	 * @since 11.4.1
+	 */
+	/*'functions/PDF.php|pdf_stop_html' => array(),
 );*/
 
 /**

@@ -61,6 +61,7 @@ function PDFStart( $options = [] )
  * @since 7.5 Use phpwkhtmltopdf class instead of Wkhtmltopdf (more reliable & faster)
  * @since 10.9 CSS Add modname class, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php
  * @since 11.2 Security remove $wkhtmltopdfAssetsPath & --enable-local-file-access, use base URL instead
+ * @since 11.4.1 Add `functions/PDF.php|pdf_stop_html` & `functions/PDF.php|pdf_stop_pdf` action hooks
  *
  * @link https://github.com/mikehaertl/phpwkhtmltopdf
  *
@@ -170,6 +171,13 @@ function PDFStop( $handle )
 
 	if ( empty( $wkhtmltopdfPath ) )
 	{
+		/**
+		 * PDF Stop HTML (no wkhtmltopdf)
+		 *
+		 * @since 11.4.1
+		 */
+		do_action( 'functions/PDF.php|pdf_stop_html', [ $html, $handle ] );
+
 		// If no wkhtmltopdf, render in HTML.
 		if ( $handle['mode'] !== 3 ) // Display HTML.
 		{
@@ -278,6 +286,14 @@ function PDFStop( $handle )
 	$pdf->binary = $wkhtmltopdfPath;
 
 	$pdf->addPage( $html );
+
+	/**
+	 * PDF Stop (wkhtmltopdf)
+	 * Note: $pdf is a mikehaertl\wkhtmlto\Pdf object
+	 *
+	 * @since 11.4.1
+	 */
+	do_action( 'functions/PDF.php|pdf_stop_pdf', [ $pdf, $handle ] );
 
 	if ( $handle['mode'] === 3 ) // Save.
 	{
