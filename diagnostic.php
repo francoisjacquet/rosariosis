@@ -247,7 +247,7 @@ function _ErrorMessage( $error, $code = 'error' )
 			else
 				$return .= '<b><span style="color:#00CC00">Note:</span></b> ';
 
-			$return .= ( ($error[0]) ? $error[0] : $error[1] );
+			$return .= reset( $error );
 		}
 		else
 		{
@@ -257,7 +257,7 @@ function _ErrorMessage( $error, $code = 'error' )
 				$return .= '<b><span style="color:#CC0000">Errors:</span></b>';
 			}
 			else
-				$return .= '<b><span style="color:#00CC00">Note:</span></b>';
+				$return .= '<b><span style="color:#00CC00">Notes:</span></b>';
 
 			$return .= '<ul>';
 

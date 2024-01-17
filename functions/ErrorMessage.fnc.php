@@ -58,8 +58,7 @@ function ErrorMessage( $errors, $code = 'error' )
 
 	if ( count( $errors ) === 1 )
 	{
-		// Note: do not use issetVal() here.
-		$return .= ': ' . ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
+		$return .= ': ' . reset( $errors ) . '</p>';
 	}
 
 	// More than one error: list.
