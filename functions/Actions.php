@@ -19,346 +19,352 @@
  * @var array RosarioSIS actions
  */
 $RosarioActions = [];
-/*	'Students/Student.php|header' => array(),
-	'Students/Student.php|create_student_checks' => array(),
-	'Students/Student.php|create_student' => array(),
-	'Students/Student.php|update_student_checks' => array(),
-	'Students/Student.php|update_student' => array(),
-	'Students/Student.php|upload_student_photo' => array(),
-	'Students/Student.php|add_student_address' => array(),
-	'Students/Student.php|update_student_address' => array(),
+/**  @example 'action_tag' => [ $arg1, $arg2, &$arg_passed_by_ref... ]
+	'Students/Student.php|header' => [],
+	'Students/Student.php|create_student_checks' => [],
+	'Students/Student.php|create_student' => [],
+	'Students/Student.php|update_student_checks' => [],
+	'Students/Student.php|update_student' => [],
+	'Students/Student.php|upload_student_photo' => [],
+	'Students/Student.php|add_student_address' => [],
+	'Students/Student.php|update_student_address' => [],
 
-	'Students/AddUsers.php|user_assign_role' => array(),
-	'Students/AddUsers.php|user_unassign_role' => array(),
+	'Students/AddUsers.php|user_assign_role' => [],
+	'Students/AddUsers.php|user_unassign_role' => [],
 
-	'Users/User.php|header' => array(),
-	'Users/User.php|create_user_checks' => array(),
-	'Users/User.php|create_user' => array(),
-	'Users/User.php|update_user_checks' => array(),
-	'Users/User.php|update_user' => array(),
-	'Users/User.php|upload_user_photo' => array(),
-	'Users/User.php|delete_user' => array(),
+	'Users/User.php|header' => [],
+	'Users/User.php|create_user_checks' => [],
+	'Users/User.php|create_user' => [],
+	'Users/User.php|update_user_checks' => [],
+	'Users/User.php|update_user' => [],
+	'Users/User.php|upload_user_photo' => [],
+	'Users/User.php|delete_user' => [],
 
-	'Users/Preferences.php|update_password_checks' => array(),
-	'Users/Preferences.php|update_password' => array(),
+	'Users/Preferences.php|update_password_checks' => [],
+	'Users/Preferences.php|update_password' => [],
 
-	'Users/AddStudents.php|user_assign_role' => array(),
-	'Users/AddStudents.php|user_unassign_role' => array(),
+	'Users/AddStudents.php|user_assign_role' => [],
+	'Users/AddStudents.php|user_unassign_role' => [],
 
-	'Custom/CreateParents.php|create_user' => array(),
-	'Custom/CreateParents.php|user_assign_role' => array(),
+	'Custom/CreateParents.php|create_user' => [],
+	'Custom/CreateParents.php|user_assign_role' => [],
 
-	'Grades/Assignments.php|create_assignment' => array(),
-	'Grades/Assignments.php|update_assignment' => array(),
-	'Grades/Assignments.php|delete_assignment' => array(),
+	'Grades/Assignments.php|create_assignment' => [],
+	'Grades/Assignments.php|update_assignment' => [],
+	'Grades/Assignments.php|delete_assignment' => [],
 
-	'Scheduling/Courses.php|header' => array(),
-	'Scheduling/Courses.php|create_course_subject' => array(),
-	'Scheduling/Courses.php|create_course' => array(),
-	'Scheduling/Courses.php|create_course_period' => array(),
-	'Scheduling/Courses.php|update_course_subject' => array(),
-	'Scheduling/Courses.php|update_course' => array(),
-	'Scheduling/Courses.php|update_course_period' => array(),
-	'Scheduling/Courses.php|delete_course_subject' => array(),
-	'Scheduling/Courses.php|delete_course' => array(),
-	'Scheduling/Courses.php|delete_course_period' => array(),
+	'Scheduling/Courses.php|header' => [],
+	'Scheduling/Courses.php|create_course_subject' => [],
+	'Scheduling/Courses.php|create_course' => [],
+	'Scheduling/Courses.php|create_course_period' => [],
+	'Scheduling/Courses.php|update_course_subject' => [],
+	'Scheduling/Courses.php|update_course' => [],
+	'Scheduling/Courses.php|update_course_period' => [],
+	'Scheduling/Courses.php|delete_course_subject' => [],
+	'Scheduling/Courses.php|delete_course' => [],
+	'Scheduling/Courses.php|delete_course_period' => [],
 
-	'Scheduling/MassSchedule.php|schedule_student' => array(),
-	'Scheduling/MassDrops.php|drop_student' => array(),
-	'Scheduling/Schedule.php|drop_student' => array(),
-	'Scheduling/Schedule.php|schedule_student' => array(),
-	'Scheduling/Scheduler.php|schedule_student' => array(),
+	'Scheduling/MassSchedule.php|schedule_student' => [],
+	'Scheduling/MassDrops.php|drop_student' => [],
+	'Scheduling/Schedule.php|drop_student' => [],
+	'Scheduling/Schedule.php|schedule_student' => [],
+	'Scheduling/Scheduler.php|schedule_student' => [],
 
-	'School_Setup/Calendar.php|event_field' => array(),
-	'School_Setup/Calendar.php|create_calendar_event' => array(),
-	'School_Setup/Calendar.php|update_calendar_event' => array(),
-	'School_Setup/Calendar.php|delete_calendar_event' => array(),
+	'School_Setup/Calendar.php|event_field' => [],
+	'School_Setup/Calendar.php|create_calendar_event' => [],
+	'School_Setup/Calendar.php|update_calendar_event' => [],
+	'School_Setup/Calendar.php|delete_calendar_event' => [],
 
-	'School_Setup/PortalNotes.php|portal_note_field' => array(),
-	'School_Setup/PortalNotes.php|create_portal_note' => array(),
-	'School_Setup/PortalNotes.php|update_portal_note' => array(),
-	'School_Setup/PortalNotes.php|delete_portal_note' => array(),
+	'School_Setup/PortalNotes.php|portal_note_field' => [ $id ],
+	'School_Setup/PortalNotes.php|create_portal_note' => [],
+	'School_Setup/PortalNotes.php|update_portal_note' => [],
+	'School_Setup/PortalNotes.php|delete_portal_note' => [],
 
-	'School_Setup/Rollover.php|rollover_warnings' => array(),
-	'School_Setup/Rollover.php|rollover_checks' => array(),
+	'School_Setup/Rollover.php|rollover_warnings' => [],
+	'School_Setup/Rollover.php|rollover_checks' => [],
 
 	/**
 	 * Portal Alerts.
 	 *
 	 * @since 2.9
 	 */
-	/*'misc/Portal.php|portal_alerts' => array(),
+	/*'misc/Portal.php|portal_alerts' => [],
 
 	/**
 	 * Bottom Buttons.
 	 *
 	 * @since 2.9
 	 */
-	/*'Bottom.php|bottom_buttons' => array(),
+	/*'Bottom.php|bottom_buttons' => [],
 
 	/**
 	 * Create Student Account.
 	 *
 	 * @since 2.9.8
 	 */
-	/*'Students/Student.php|account_created' => array(),
+	/*'Students/Student.php|account_created' => [],
 
 	/**
 	 * Login.
 	 *
 	 * @since 2.9.8
 	 */
-	/*'index.php|login_check' => array(),
+	/*'index.php|login_check' => [ $username ],
 
 	/**
 	 * PDF start.
 	 *
 	 * @since 3.4
 	 */
-	/*'functions/PDF.php|pdf_start' => array(),
+	/*'functions/PDF.php|pdf_start' => [],
 
 	/**
 	 * Student Payments Header.
 	 *
 	 * @since 3.4.1
 	 */
-	/*'Student_Billing/StudentPayments.php|student_payments_header' => array(),
+	/*'Student_Billing/StudentPayments.php|student_payments_header' => [],
 
 	/**
 	 * Before Send.
 	 *
 	 * @since 3.6.1
 	 */
-	/*'ProgramFunctions/SendEmail.fnc.php|before_send' => array(),
+	/*'ProgramFunctions/SendEmail.fnc.php|before_send' => [],
 
 	/**
 	 * Warehouse Header Head.
 	 *
 	 * @since 3.8
 	 */
-	/*'Warehouse.php|header_head' => array(),
+	/*'Warehouse.php|header_head' => [],
 
 	/**
 	 * Warehouse Footer.
 	 *
 	 * @since 3.8
 	 */
-	/*'Warehouse.php|footer' => array(),
+	/*'Warehouse.php|footer' => [],
 
 	/**
 	 * Take Attendance.
 	 *
 	 * @since 3.9
 	 */
-	/*'Attendance/TakeAttendance.php|insert_attendance' => array(),
-	'Attendance/TakeAttendance.php|update_attendance' => array(),
-	'Attendance/TakeAttendance.php|header' => array(),
+	/*'Attendance/TakeAttendance.php|insert_attendance' => [],
+	'Attendance/TakeAttendance.php|update_attendance' => [],
+	'Attendance/TakeAttendance.php|header' => [],
 
 	/**
 	 * Student Fees Header.
 	 *
 	 * @since 3.9
 	 */
-	/*'Student_Billing/StudentFees.php|student_fees_header' => array(),
+	/*'Student_Billing/StudentFees.php|student_fees_header' => [],
 
 	/**
 	 * List Before and After.
 	 *
 	 * @since 4.0
 	 */
-	/*'functions/ListOutput.fnc.php|list_before' => array(),
-	'functions/ListOutput.fnc.php|list_after' => array(),
+	/*'functions/ListOutput.fnc.php|list_before' => [],
+	'functions/ListOutput.fnc.php|list_after' => [],
 
 	/**
 	 * Report Cards array.
 	 *
 	 * @since 4.0
 	 */
-	/*'Grades/ReportCards.php|report_cards_array' => array(),
+	/*'Grades/ReportCards.php|report_cards_array' => [],
 
 	/**
 	 * Assignments & Assignment Submission header.
 	 *
 	 * @since 4.1
 	 */
-	/*'Grades/Assignments.php|header' => array(),
-	'Grades/includes/StudentAssignments.fnc.php|submission_header' => array(),
+	/*'Grades/Assignments.php|header' => [],
+	'Grades/includes/StudentAssignments.fnc.php|submission_header' => [],
 
 	/**
 	 * Assignment Grades Submission column.
 	 *
 	 * @since 4.2
 	 */
-	/*'Grades/Assignments.php|header' => array(),
-	'Grades/includes/StudentAssignments.fnc.php|grades_submission_column' => array(),
+	/*'Grades/Assignments.php|header' => [],
+	'Grades/includes/StudentAssignments.fnc.php|grades_submission_column' => [],
 
 	/**
 	 * DBQuery after.
 	 *
 	 * @since 4.4
 	 */
-	/*'database.inc.php|dbquery_after' => array(),
+	/*'database.inc.php|dbquery_after' => [ $sql, $result ],
 
 	/**
 	 * Warehouse Header.
 	 *
 	 * @since 4.4
 	 */
-	/*'Warehouse.php|header' => array(),
+	/*'Warehouse.php|header' => [],
 
 	/**
 	 * Calendar Header.
 	 *
 	 * @since 4.5
 	 */
-	/*'School_Setup/Calendar.php|header' => array(),
+	/*'School_Setup/Calendar.php|header' => [],
 
 	/**
 	 * Report Cards Header.
 	 *
 	 * @since 4.5
 	 */
-	/*'Grades/ReportCards.php|header' => array(),
+	/*'Grades/ReportCards.php|header' => [],
 
 	/**
 	 * Report Cards PDF HTML array.
 	 *
 	 * @since 4.5
 	 */
-	/*'Grades/ReportCards.php|report_cards_html_array' => array(),
+	/*'Grades/ReportCards.php|report_cards_html_array' => [],
 
 	/**
 	 * Report Cards PDF Header.
 	 *
 	 * @since 4.5
 	 */
-	/*'Grades/includes/ReportCards.fnc.php|pdf_header' => array(),
+	/*'Grades/includes/ReportCards.fnc.php|pdf_header' => [ $student_id ],
 
 	/**
 	 * Referral Input.
 	 *
 	 * @since 4.5
 	 */
-	/*'Discipline/includes/Referral.fnc.php|referral_input' => array(),
+	/*'Discipline/includes/Referral.fnc.php|referral_input' => [
+		'category' => $category,
+		'value' => $value,
+		'new' => $new,
+		'input' => &$input,
+	],
 
 	/**
 	 * Rollover After.
 	 *
 	 * @since 4.5
 	 */
-	/*'School_Setup/Rollover.php|rollover_after' => array(),
+	/*'School_Setup/Rollover.php|rollover_after' => [],
 
 	/**
 	 * Transcripts Header.
 	 *
 	 * @since 4.8
 	 */
-	/*'Grades/Transcripts.php|header' => array(),
+	/*'Grades/Transcripts.php|header' => [],
 
 	/**
 	 * Transcripts PDF HTML array.
 	 *
 	 * @since 4.8
 	 */
-	/*'Grades/Transcripts.php|transcripts_html_array' => array(),
+	/*'Grades/Transcripts.php|transcripts_html_array' => [],
 
 	/**
 	 * Transcript PDF Header.
 	 *
 	 * @since 4.8
 	 */
-	/*'Grades/includes/Transcripts.fnc.php|pdf_header' => array(),
+	/*'Grades/includes/Transcripts.fnc.php|pdf_header' => [ $student['ID'], &$header_html ],
 
 	/**
 	 * Transcript PDF Footer.
 	 *
 	 * @since 4.8
 	 */
-	/*'Grades/includes/Transcripts.fnc.php|pdf_footer' => array(),
+	/*'Grades/includes/Transcripts.fnc.php|pdf_footer' => [ $student['ID'], $last_grade, &$footer_html ],
 
 	/**
 	 * TinyMCE before init.
 	 *
 	 * @since 5.3
 	 */
-	/*'functions/Inputs.php|tinymce_before_init' => array(),
+	/*'functions/Inputs.php|tinymce_before_init' => [],
 
 	/**
 	 * Match password.
 	 *
 	 * @since 5.4
 	 */
-	/*'functions/Password.php|match_password' => array(),
+	/*'functions/Password.php|match_password' => [ &$crypted, $plain ],
 
 	/**
 	 * Copy School Header.
 	 *
 	 * @since 5.8
 	 */
-	/*'School_Setup/CopySchool.php|header' => array(),
+	/*'School_Setup/CopySchool.php|header' => [],
 
 	/**
 	 * Copy School.
 	 *
 	 * @since 5.8
 	 */
-	/*'School_Setup/CopySchool.php|copy_school' => array(),
+	/*'School_Setup/CopySchool.php|copy_school' => [],
 
 	/**
 	 * Update School.
 	 *
 	 * @since 5.8
 	 */
-	/*'School_Setup/Schools.php|update_school' => array(),
+	/*'School_Setup/Schools.php|update_school' => [],
 
 	/**
 	 * Delete School.
 	 *
 	 * @since 5.8
 	 */
-	/*'School_Setup/Schools.php|delete_school' => array(),
+	/*'School_Setup/Schools.php|delete_school' => [],
 
 	/**
 	 * Purchase Element.
 	 *
 	 * @since 5.8
 	 */
-	/*'Billing_Elements/Elements.php|purchase_element' => array(),
+	/*'Billing_Elements/Elements.php|purchase_element' => [],
 
 	/**
 	 * Configuration School Table.
 	 *
 	 * @since 5.8
 	 */
-	/*'School_Setup/Configuration.php|school_table' => array(),
+	/*'School_Setup/Configuration.php|school_table' => [],
 
 	/**
 	 * Configuration School Tabs.
 	 *
 	 * @since 6.2
 	 */
-	/*'School_Setup/Configuration.php|school_tabs' => array(),
+	/*'School_Setup/Configuration.php|school_tabs' => [ &$tabs ],
 
 	/**
 	 * Before First Login form.
 	 *
 	 * @since 7.3
 	 */
-	/*'index.php|before_first_login_form' => array(),
+	/*'index.php|before_first_login_form' => [],
 
 	/**
 	 * Report Cards PDF footer.
 	 *
 	 * @since 7.5
 	 */
-	/*'Grades/includes/ReportCards.fnc.php|pdf_footer' => array(),
+	/*'Grades/includes/ReportCards.fnc.php|pdf_footer' => [ $student_id, &$freetext ],
 
 	/**
 	 * Login form link.
 	 *
 	 * @since 7.6
 	 */
-	/*'index.php|login_form_link' => array(),
+	/*'index.php|login_form_link' => [],
 
 	/**
 	 * Export fields list (form).
@@ -366,7 +372,7 @@ $RosarioActions = [];
 	 *
 	 * @since 8.1
 	 */
-	/*'misc/Export.php|fields_list' => array(),
+	/*'misc/Export.php|fields_list' => [],
 
 	/**
 	 * Export fields list + extra SQL (student list).
@@ -376,14 +382,14 @@ $RosarioActions = [];
 	 *
 	 * @since 8.1
 	 */
-	/*'misc/Export.php|fields_list_extra_sql' => array(),
+	/*'misc/Export.php|fields_list_extra_sql' => [],
 
 	/**
 	 * Send email error.
 	 *
 	 * @since 8.7
 	 */
-	/*'ProgramFunctions/SendEmail.fnc.php|send_error' => array(),
+	/*'ProgramFunctions/SendEmail.fnc.php|send_error' => [ $e->errorMessage() ],
 
 	/**
 	 * Widgets init
@@ -393,7 +399,7 @@ $RosarioActions = [];
 	 *
 	 * @since 10.4
 	 */
-	/*'functions/Widgets.fnc.php|widgets_init' => array(),
+	/*'functions/Widgets.fnc.php|widgets_init' => [ $item, &$myextra ],
 
 	/**
 	 * Staff Widgets init
@@ -403,7 +409,7 @@ $RosarioActions = [];
 	 *
 	 * @since 10.4
 	 */
-	/*'functions/StaffWidgets.fnc.php|widgets_init' => array(),
+	/*'functions/StaffWidgets.fnc.php|widgets_init' => [ $item, &$myextra ],
 
 	/**
 	 * Filter Total Minutes Present
@@ -414,7 +420,7 @@ $RosarioActions = [];
 	 * @example function MyFilter( $tag, &$total_present, $total_minutes, $total_absent, $total_half ) { $total_present = ... }
 	 *
 	 */
-	/*'Attendance/includes/UpdateAttendanceDaily.fnc.php|total_minutes_present' => array(),
+	/*'Attendance/includes/UpdateAttendanceDaily.fnc.php|total_minutes_present' => [],
 
 	/**
 	 * Filter each menu item in the loop
@@ -425,7 +431,7 @@ $RosarioActions = [];
 	 * @example function MyFilter( $tag, &$kiosk_menu_item, $item ) { $kiosk_menu_item = ... }
 	 *
 	 */
-	/*'Food_Service/Kiosk.php|menu_item_loop' => array(),
+	/*'Food_Service/Kiosk.php|menu_item_loop' => [ &$kiosk_menu_item, $item ],
 
 	/**
 	 * Student Account fields table after
@@ -433,7 +439,7 @@ $RosarioActions = [];
 	 *
 	 * @since 11.2
 	 */
-	/*'Food_Service/Students/Accounts.php|table_after' => array(),
+	/*'Food_Service/Students/Accounts.php|table_after' => [ $student ],
 
 	/**
 	 * Food Service tab fields table after
@@ -441,7 +447,7 @@ $RosarioActions = [];
 	 *
 	 * @since 11.2
 	 */
-	/*'Food_Service/Student.inc.php|table_after' => array(),
+	/*'Food_Service/Student.inc.php|table_after' => [ $student ],
 
 	/**
 	 * Student Info tab fields after
@@ -450,7 +456,7 @@ $RosarioActions = [];
 	 *
 	 * @since 11.4
 	 */
-	/*'Students/includes/Other_Info.inc.php|fields_after' => array(),
+	/*'Students/includes/Other_Info.inc.php|fields_after' => [ $per_row, &$i ],
 
 	/**
 	 * User Info tab fields after
@@ -459,7 +465,7 @@ $RosarioActions = [];
 	 *
 	 * @since 11.4
 	 */
-	/*'Users/includes/Other_Info.inc.php|fields_after' => array(),
+	/*'Users/includes/Other_Info.inc.php|fields_after' => [ $per_row, &$i ],
 
 	/**
 	 * Filter Grade Level
@@ -467,7 +473,7 @@ $RosarioActions = [];
 	 *
 	 * @since 11.4
 	 */
-	/*'functions/GetGrade.fnc.php|filter_grade_level' => array(),
+	/*'functions/GetGrade.fnc.php|filter_grade_level' => [ &$return_value, $column ],
 
 	/**
 	 * PDF Stop (wkhtmltopdf)
@@ -475,14 +481,14 @@ $RosarioActions = [];
 	 *
 	 * @since 11.4.1
 	 */
-	/*'functions/PDF.php|pdf_stop_pdf' => array(),
+	/*'functions/PDF.php|pdf_stop_pdf' => [ $pdf, $handle ],
 
 	/**
 	 * PDF Stop HTML (no wkhtmltopdf)
 	 *
 	 * @since 11.4.1
 	 */
-	/*'functions/PDF.php|pdf_stop_html' => array(),
+	/*'functions/PDF.php|pdf_stop_html' => [ $html, $handle ],
 );*/
 
 /**
