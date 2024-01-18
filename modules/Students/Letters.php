@@ -205,6 +205,15 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] .= '<table><tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .
 		'</td></tr></table>';
+
+		/**
+		 * Print Letters header
+		 * Add your headers to
+		 * @global $extra['extra_header_left']
+		 *
+		 * @since 11.4.1
+		 */
+		do_action( 'Students/Letters.php|header' );
 	}
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );

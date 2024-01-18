@@ -8,6 +8,7 @@ Changes in 11.4.1
 - Add `functions/PDF.php|pdf_stop_html` & `functions/PDF.php|pdf_stop_pdf` action hooks in Actions.php & PDF.php
 - Fix PHP warning use reset() instead of guessing if $errors[1] is set in ErrorMessage.fnc.php & diagnostic.php
 - Add arguments to Action tags PHPDoc in Actions.php
+- Add `Students/Letters.php|header` action hook in Actions.php & Letters.php
 
 Changes in 11.4
 ---------------

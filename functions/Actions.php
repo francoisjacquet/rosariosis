@@ -489,6 +489,15 @@ $RosarioActions = [];
 	 * @since 11.4.1
 	 */
 	/*'functions/PDF.php|pdf_stop_html' => [ $html, $handle ],
+
+	/**
+	 * Print Letters header
+	 * Add your headers to
+	 * @global $extra['extra_header_left']
+	 *
+	 * @since 11.4.1
+	 */
+	/*'Students/Letters.php|header' => [],
 );*/
 
 /**
