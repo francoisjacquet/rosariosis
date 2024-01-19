@@ -500,6 +500,15 @@ $RosarioActions = [];
 	/*'Students/Letters.php|header' => [],
 
 	/**
+	 * Honor Roll header
+	 * Add your headers to
+	 * @global $extra['extra_header_left']
+	 *
+	 * @since 11.4.1
+	 */
+	/*'Grades/HonorRoll.php|header' => [],
+
+	/**
 	 * Template before get
 	 * Filter &$modname var
 	 *

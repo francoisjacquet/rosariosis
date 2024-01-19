@@ -84,6 +84,15 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] .= HonorRollFrame();
 
 		$extra['extra_header_left'] .= '</table>';
+
+		/**
+		 * Honor Roll header
+		 * Add your headers to
+		 * @global $extra['extra_header_left']
+		 *
+		 * @since 11.4.1
+		 */
+		do_action( 'Grades/HonorRoll.php|header' );
 	}
 
 	$extra['new'] = true;
