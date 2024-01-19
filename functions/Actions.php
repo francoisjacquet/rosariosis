@@ -498,6 +498,22 @@ $RosarioActions = [];
 	 * @since 11.4.1
 	 */
 	/*'Students/Letters.php|header' => [],
+
+	/**
+	 * Template before get
+	 * Filter &$modname var
+	 *
+	 * @since 11.4.1
+	 */
+	/*'ProgramFunctions/Template.fnc.php|before_get' => [ &$modname ],
+
+	/**
+	 * Template before save
+	 * Filter &$modname, &$staff_id var
+	 *
+	 * @since 11.4.1
+	 */
+	/*'ProgramFunctions/Template.fnc.php|before_save' => [ &$modname, &$staff_id ],
 );*/
 
 /**

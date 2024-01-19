@@ -9,6 +9,7 @@ Changes in 11.4.1
 - Fix PHP warning use reset() instead of guessing if $errors[1] is set in ErrorMessage.fnc.php & diagnostic.php
 - Add arguments to Action tags PHPDoc in Actions.php
 - Add `Students/Letters.php|header` action hook in Actions.php & Letters.php
+- Add `ProgramFunctions/Template.fnc.php|before_get` & `ProgramFunctions/Template.fnc.php|before_save` action hooks in Actions.php & Template.fnc.php
 
 Changes in 11.4
 ---------------

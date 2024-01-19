@@ -15,6 +15,7 @@
  *
  * @since 3.6
  * @since 10.2.3 Get template from last school year (rollover ID)
+ * @since 11.4.1 Add `ProgramFunctions/Template.fnc.php|before_get` action hook
  *
  * @example GetTemplate( $_REQUEST['modname'], User( 'STAFF_ID' ) )
  *
@@ -59,6 +60,19 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
 		$staff_id_sql .= ",'" . $staff_id . "'";
 	}
 
+	/**
+	 * Template before get
+	 * Filter &$modname var
+	 *
+	 * @since 11.4.1
+	 */
+	do_action( 'ProgramFunctions/Template.fnc.php|before_get', [ &$modname ] );
+
+	if ( ! $modname )
+	{
+		return '';
+	}
+
 	$template = DBGetOne( "SELECT TEMPLATE
 		FROM templates
 		WHERE MODNAME='" . $modname . "'
@@ -75,6 +89,7 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
  *
  * @since 3.6
  * @since 5.0 Save Template even if no default template found.
+ * @since 11.4.1 Add `ProgramFunctions/Template.fnc.php|before_save` action hook
  *
  * @example SaveTemplate( DBEscapeString( SanitizeHTML( $_POST['inputfreetext'] ) ) );
  *
@@ -82,7 +97,7 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
  * @param string  $modname  Specify program name (optional) defaults to current program.
  * @param integer $staff_id User ID (optional), defaults to logged in User, use 0 for default template.
  *
- * @return boolean False if no template found, else true if saved.
+ * @return boolean False if no modname, else true if saved.
  */
 function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 {
@@ -96,16 +111,23 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 		$staff_id = User( 'STAFF_ID' );
 	}
 
+	/**
+	 * Template before save
+	 * Filter &$modname, &$staff_id var
+	 *
+	 * @since 11.4.1
+	 */
+	do_action( 'ProgramFunctions/Template.fnc.php|before_save', [ &$modname, &$staff_id ] );
+
+	if ( ! $modname )
+	{
+		return false;
+	}
+
 	$is_template_update = DBGet( "SELECT STAFF_ID
 		FROM templates
 		WHERE MODNAME='" . $modname . "'
 		AND STAFF_ID IN(0,'" . $staff_id . "')", [], [ 'STAFF_ID' ] );
-
-	/*if ( ! $is_template_update )
-	{
-		// Default template not found for modname.
-		return false;
-	}*/
 
 	DBUpsert(
 		'templates',
