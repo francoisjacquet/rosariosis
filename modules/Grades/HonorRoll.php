@@ -75,7 +75,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$substitutions['__SUBJECT__'] = _( 'Subject' );
 		}
 
-		$substitutions += SubstitutionsCustomFields( 'STUDENT' );
+		$substitutions += SubstitutionsCustomFields( 'student' );
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .

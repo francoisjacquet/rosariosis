@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$substitutions['__ROOM__'] = _( 'Your Room' );
 		}
 
-		$substitutions += SubstitutionsCustomFields( 'STUDENT' );
+		$substitutions += SubstitutionsCustomFields( 'student' );
 
 		$extra['extra_header_left'] .= '<table><tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .

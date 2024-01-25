@@ -197,7 +197,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				'__YEAR__' => _( 'School Year' ),
 			];
 
-			$substitutions += SubstitutionsCustomFields( 'STUDENT' );
+			$substitutions += SubstitutionsCustomFields( 'student' );
 
 			$return .= '<table><tr class="st"><td class="valign-top">' .
 				SubstitutionsInput( $substitutions ) .

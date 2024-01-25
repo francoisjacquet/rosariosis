@@ -98,7 +98,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 				'__BLOCK2__' => _( 'Text Block 2' ),
 			];
 
-			$substitutions += SubstitutionsCustomFields( 'STUDENT' );
+			$substitutions += SubstitutionsCustomFields( 'student' );
 
 			$return .= '<table><tr class="st"><td class="valign-top">' .
 				SubstitutionsInput( $substitutions ) .
