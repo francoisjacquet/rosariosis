@@ -618,7 +618,11 @@ function CoursePeriodUpdateMP( $cp_id, $mp_id )
  * In attendance_completed & grades_completed tables
  * Fix the false "Missing attendance" portal alerts
  *
+ * In gradebook_assignments & gradebook_assignment_types tables
+ * Fix Teacher's Assignments
+ *
  * @since 11.1
+ * @since 11.5 Update teacher's assignments
  *
  * @param  int $cp_id          Course Period ID.
  * @param  int $old_teacher_id Old Teacher ID.
@@ -703,6 +707,24 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 		'grades_completed',
 		[ 'STAFF_ID' => (int) $new_teacher_id ],
 		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_PERIOD_ID' => (int) $cp_id ]
+	);
+
+	// Update gradebook_assignments.
+	DBUpdate(
+		'gradebook_assignments',
+		[ 'STAFF_ID' => (int) $new_teacher_id ],
+		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_PERIOD_ID' => (int) $cp_id ]
+	);
+
+	// Update gradebook_assignment_types.
+	$course_id = DBGetOne( "SELECT COURSE_ID
+		FROM course_periods
+		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
+
+	DBUpdate(
+		'gradebook_assignment_types',
+		[ 'STAFF_ID' => (int) $new_teacher_id ],
+		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_ID' => (int) $course_id ]
 	);
 
 	return true;
