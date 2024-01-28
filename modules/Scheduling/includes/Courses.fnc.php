@@ -622,7 +622,7 @@ function CoursePeriodUpdateMP( $cp_id, $mp_id )
  * Fix Teacher's Assignments
  *
  * @since 11.1
- * @since 11.5 Update teacher's assignments
+ * @since 11.4.2 Update teacher's assignments
  *
  * @param  int $cp_id          Course Period ID.
  * @param  int $old_teacher_id Old Teacher ID.
