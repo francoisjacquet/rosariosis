@@ -766,7 +766,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
  * Will call `[$moodle_functionname]_object` to get the Moodle WS function object param.
  * Will call `[$moodle_functionname]_response` to handle Moodle WS function response.
  *
- * @uses moodle_xmlrpc_call() function to send the object to Moodle via XML-RPC.
+ * @uses MoodleAPICall() function to send the object to Moodle via XML-RPC or REST.
  *
  * @since 5.9 Return result from `[$moodle_functionname]_response`.
  *
@@ -785,7 +785,7 @@ function Moodle( $modname, $moodle_functionname )
 	$object = call_user_func( $moodle_functionname . '_object' );
 
 	// Finally, send the object.
-	return moodle_xmlrpc_call( $moodle_functionname, $object );
+	return MoodleAPICall( $moodle_functionname, $object );
 }
 
 /**
