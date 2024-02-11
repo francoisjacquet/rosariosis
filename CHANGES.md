@@ -5,6 +5,7 @@ Changes in 11.5
 ---------------
 - Moodle plugin: Add REST API protocol in plugins/Moodle/, rosariosis.sql & rosariosis_mysql.sql
 - Add MoodleAPICall() & MoodleRESTCall() functions in plugins/Moodle/client.php
+- Send Course description HTML to Moodle in plugins/Moodle/Scheduling/Courses.php
 
 Changes in 11.4.2
 -----------------

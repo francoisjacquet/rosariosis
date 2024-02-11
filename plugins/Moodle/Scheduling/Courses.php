@@ -2,6 +2,7 @@
 //FJ Moodle integrator
 
 //core_course_create_categories function
+// @since 11.5 Send Course description HTML to Moodle
 function core_course_create_categories_object()
 {
 	//first, gather the necessary variables
@@ -30,6 +31,8 @@ function core_course_create_categories_object()
 			$_REQUEST['MOODLE_COURSE_SUBJECT_PARENT_CATEGORY'] : 0;
 
 		//$idnumber = (string)$_REQUEST['subject_id'];
+
+		$description = '';
 	}
 	elseif ( $table_name == 'courses' )
 	{
@@ -42,6 +45,9 @@ function core_course_create_categories_object()
 		}
 
 		//$idnumber = (string)$_REQUEST['course_id'];
+
+		// @since 11.5 Send Course description to Moodle
+		$description = DBUnescapeString( $columns['DESCRIPTION'] );
 	}
 	else //error...
 
@@ -56,6 +62,7 @@ function core_course_create_categories_object()
 			'name' => $name,
 			'parent' => $parent,
 			//'idnumber' => $idnumber,
+			'description' => $description,
 			'descriptionformat' => $descriptionformat,
 		],
 	];
@@ -110,6 +117,7 @@ function core_course_create_categories_response( $response )
 }
 
 //core_course_update_categories function
+// @since 11.5 Send Course description HTML to Moodle
 function core_course_update_categories_object()
 {
 	//first, gather the necessary variables
@@ -156,10 +164,24 @@ function core_course_update_categories_object()
 
 	$name = $columns['TITLE'];
 
+	if ( $table_name == 'courses' )
+	{
+		// @since 11.5 Send Course description to Moodle
+		$description = DBUnescapeString( $columns['DESCRIPTION'] );
+	}
+	elseif ( $table_name == 'course_subjects' )
+	{
+		$description = '';
+	}
+
+	$descriptionformat = 1;
+
 	$categories = [
 		[
 			'id' => $id,
 			'name' => $name,
+			'description' => $description,
+			'descriptionformat' => $descriptionformat,
 		],
 	];
 
