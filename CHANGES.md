@@ -11,6 +11,7 @@ Changes in 11.5
 - No error message if error code 4 (no file was attached) in FileUpload.fnc.php
 - DBInsertSQL() & DBUpdateSQL() better check empty values ('', false, null) in DBUpsert.php
 - Breaking change: Use `$_ROSARIO` global var instead of `$_SESSION` in School.php
+- Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/
 
 Changes in 11.4.2
 -----------------
