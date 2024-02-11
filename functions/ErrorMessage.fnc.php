@@ -35,6 +35,8 @@ $note = $error = $warning = [];
  */
 function ErrorMessage( $errors, $code = 'error' )
 {
+	global $_ROSARIO;
+
 	if ( ! $errors
 		|| ! is_array( $errors ) )
 	{
@@ -83,6 +85,21 @@ function ErrorMessage( $errors, $code = 'error' )
 
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
+			/**
+			 * Save $_REQUEST vars in session: used to recreate $_REQUEST in Bottom.php
+			 * Note: Code duplicated from Modules.php
+			 *
+			 * @since 11.5 Copy $_REQUEST to $_SESSION['_REQUEST_vars'] last
+			 */
+			if ( isset( $_ROSARIO['page'] )
+				&& $_ROSARIO['page'] === 'modules'
+				&& empty( $_REQUEST['LO_save'] )
+				&& ( mb_strpos( $_REQUEST['modname'], 'misc/' ) === false
+					|| $_REQUEST['modname'] === 'misc/Portal.php' ) )
+			{
+				$_SESSION['_REQUEST_vars'] = $_REQUEST;
+			}
+
 			Warehouse( 'footer' );
 
 			exit;

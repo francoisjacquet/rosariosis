@@ -120,6 +120,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  * @since 3.3
  * @since 11.2 Add $add_post argument, POST parameters to add to the URL (optional)
  * @since 11.4 Add XRedirectUrl JS global var for soft redirection when not an AJAX request
+ * @since 11.5 Copy $_REQUEST to $_SESSION['_REQUEST_vars'] last in Modules.php, no need to remove here
  *
  * @example RedirectURL( [ 'modfunc', 'id' ] );
  *
@@ -128,7 +129,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  *
  * @see warehouse.js check for X-Redirect-Url or XRedirectUrl
  *
- * @param array|string $remove   Parameters to remove from the $_REQUEST & $_SESSION['_REQUEST_vars'] arrays.
+ * @param array|string $remove   Parameters to remove from the $_REQUEST array.
  * @param array|string $add_post POST parameters to add to the URL (optional).
  *
  * @return boolean     False if nothing to remove, else true.
@@ -151,11 +152,6 @@ function RedirectURL( $remove, $add_post = [] )
 		}
 
 		$_REQUEST[ $request_key ] = false;
-
-		if ( isset( $_SESSION['_REQUEST_vars'][ $request_key ] ) )
-		{
-			$_SESSION['_REQUEST_vars'][ $request_key ] = false;
-		}
 	}
 
 	foreach ( (array) $add_post as $post_key )
