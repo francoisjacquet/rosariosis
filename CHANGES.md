@@ -5,6 +5,7 @@ Changes in 11.5
 ---------------
 - Moodle plugin: Add REST API protocol in plugins/Moodle/, rosariosis.sql & rosariosis_mysql.sql
 - Add MoodleAPICall() & MoodleRESTCall() functions in plugins/Moodle/client.php
+- Remove check for xmlrpc extension in diagnostic.php
 - Send Course description HTML to Moodle in plugins/Moodle/Scheduling/Courses.php
 - Copy `$_REQUEST` to `$_SESSION['_REQUEST_vars']` last in Modules.php, ErrorMessage.fnc.php & PreparePHP_SELF.fnc.php
 - No error message if error code 4 (no file was attached) in FileUpload.fnc.php

@@ -187,17 +187,10 @@ if ( ! extension_loaded( 'zip' ) )
 	$error[] = 'PHP extensions: RosarioSIS relies on the zip extension (used to upload add-ons and by Import add-ons). Please install and activate it.';
 }
 
-// Check for xmlrpc extension.
-if ( version_compare( PHP_VERSION, '8.0' ) == -1
-	&& ! extension_loaded( 'xmlrpc' ) )
-{
-	$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extension (only used to connect to Moodle). Please install and activate it.';
-}
-
 // Check for curl extension.
 if ( ! extension_loaded( 'curl' ) )
 {
-	$error[] = 'PHP extensions: RosarioSIS relies on the curl extension (only used to connect to Moodle). Please install and activate it.';
+	$error[] = 'PHP extensions: RosarioSIS relies on the curl extension. Please install and activate it.';
 }
 
 // Check for intl extension.
