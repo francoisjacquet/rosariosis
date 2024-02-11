@@ -48,8 +48,20 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 	if ( empty( $_FILES[ $input ]['tmp_name'] )
 		|| ! is_uploaded_file( $_FILES[ $input ]['tmp_name'] ) )
 	{
-		// Check the post_max_size & php_value upload_max_filesize values in the php.ini file.
-		$error[] = _( 'File not uploaded' );
+		/**
+		 * Error codes
+		 *
+		 * 1 php.ini max file size exceeded
+		 * 2 html form max file size exceeded
+		 * 3 file upload was only partial
+		 * 4 no file was attached
+		 */
+		if ( empty( $_FILES[ $input ]['error'] )
+			|| $_FILES[ $input ]['error'] !== 4 )
+		{
+			// Check the post_max_size & php_value upload_max_filesize values in the php.ini file.
+			$error[] = _( 'File not uploaded' );
+		}
 	}
 
 	elseif ( ! in_array( mb_strtolower( mb_strrchr( $_FILES[ $input ]['name'], '.' ) ), $ext_white_list ) )
@@ -191,8 +203,20 @@ function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = []
 		{
 			if ( ! is_uploaded_file( $_FILES[ $input ]['tmp_name'] ) )
 			{
-				// Check the post_max_size & php_value upload_max_filesize values in the php.ini file.
-				$error[] = _( 'File not uploaded' );
+				/**
+				 * Error codes
+				 *
+				 * 1 php.ini max file size exceeded
+				 * 2 html form max file size exceeded
+				 * 3 file upload was only partial
+				 * 4 no file was attached
+				 */
+				if ( empty( $_FILES[ $input ]['error'] )
+					|| $_FILES[ $input ]['error'] !== 4 )
+				{
+					// Check the post_max_size & php_value upload_max_filesize values in the php.ini file.
+					$error[] = _( 'File not uploaded' );
+				}
 
 				return false;
 			}
