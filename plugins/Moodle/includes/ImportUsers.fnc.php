@@ -36,7 +36,7 @@ function MoodleUsersList( $key, $value )
 	// Dummy response function.
 	function core_user_get_users_response( $response )
 	{
-		// We had a response, return true so moodle_xmlrpc_call will return true.
+		// We had a response, return true so MoodleAPICall will return true.
 		return $response;
 	}
 
@@ -47,7 +47,12 @@ function MoodleUsersList( $key, $value )
 
 	$object = [ 'criteria' => $criteria ];
 
-	$users = moodle_xmlrpc_call( $functionname, $object );
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		$object = [ 'criteria' => [ $criteria ] ];
+	}
+
+	$users = MoodleAPICall( $functionname, $object );
 
 	return empty( $users['users'] ) ? [] : $users['users'];
 }

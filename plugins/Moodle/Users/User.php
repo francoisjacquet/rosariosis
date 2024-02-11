@@ -8,12 +8,31 @@ function core_user_get_users_object()
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
+	/*
+	XML-RPC (PHP structure)
+
+	[criteria] =>
+	    Array
+	        (
+	        [0] =>
+	            Array
+	                (
+	                [key] => string
+	                [value] => string
+	                )
+	        )
+	 */
 	$criteria = [
 		'key' => 'username',
 		'value' => $username,
 	];
 
 	$object = [ 'criteria' => $criteria ];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		$object = [ 'criteria' => [ $criteria ] ];
+	}
 
 	return $object;
 }
@@ -130,6 +149,11 @@ function core_user_create_users_object()
 			'createpassword' => $createpassword,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'users' => $users ];
+	}
 
 	return [ $users ];
 }
@@ -261,6 +285,11 @@ function core_user_update_users_object()
 
 	$users = [ $user ];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'users' => $users ];
+	}
+
 	return [ $users ];
 }
 
@@ -291,6 +320,11 @@ function core_user_delete_users_object()
 	 */
 
 	$user_ids = [ $moodle_id ];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'userids' => $user_ids ];
+	}
 
 	return [ $user_ids ];
 }
@@ -392,6 +426,11 @@ function core_role_assign_roles_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'assignments' => $assignments ];
+	}
+
 	return [ $assignments ];
 }
 
@@ -451,6 +490,11 @@ function core_role_unassign_roles_object()
 			'instanceid' => $instanceid,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'unassignments' => $unassignments ];
+	}
 
 	return [ $unassignments ];
 }
@@ -553,14 +597,14 @@ function core_files_upload_object()
 	}
 
 	$file = [
-		$component,
-		$filearea,
-		$itemid,
-		$filepath,
-		$filename,
-		$filecontent,
-		$contextlevel,
-		$instanceid,
+		'component' => $component,
+		'filearea' => $filearea,
+		'itemid' => $itemid,
+		'filepath' => $filepath,
+		'filename' => $filename,
+		'filecontent' => $filecontent,
+		'contextlevel' => $contextlevel,
+		'instanceid' => $instanceid,
 	];
 
 	return $file;

@@ -65,6 +65,11 @@ function core_calendar_create_calendar_events_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'events' => $events ];
+	}
+
 	return [ $events ];
 }
 
@@ -174,6 +179,11 @@ function core_calendar_delete_calendar_events_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'events' => $events ];
+	}
+
 	return [ $events ];
 }
 
@@ -201,7 +211,7 @@ function core_calendar_delete_calendar_events_response( $response )
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM moodlexrosario
 		WHERE " . DBEscapeIdentifier( 'column' ) . "='assignment_id'
-		AND rosario_id='" . $assignment_id . "'" );
+		AND rosario_id='" . (int) $assignment_id . "'" );
 
 	return null;
 }

@@ -99,6 +99,11 @@ function core_course_create_courses_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'courses' => $courses ];
+	}
+
 	return [ $courses ];
 }
 
@@ -175,6 +180,11 @@ function core_role_assign_roles_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'assignments' => $assignments ];
+	}
+
 	return [ $assignments ];
 }
 
@@ -230,6 +240,11 @@ function core_role_unassign_roles_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'unassignments' => $unassignments ];
+	}
+
 	return [ $unassignments ];
 }
 
@@ -257,7 +272,7 @@ function core_course_delete_courses_object()
 
 	$courses = [ $id ];
 
-	return [ $courses ];
+	return [ 'courses' => $courses ];
 }
 
 /**
@@ -270,7 +285,7 @@ function core_course_delete_courses_response( $response )
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM moodlexrosario
 		WHERE " . DBEscapeIdentifier( 'column' ) . "='course_period_id'
-		AND moodle_id='" . $cp_moodle_id . "'" );
+		AND moodle_id='" . (int) $cp_moodle_id . "'" );
 
 	return null;
 }

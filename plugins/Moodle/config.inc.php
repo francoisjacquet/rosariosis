@@ -239,6 +239,15 @@ if ( empty( $_REQUEST['save'] )
 		'size=29 placeholder=http://localhost/moodle'
 	) .	'</td></tr>';
 
+	// API protocol.
+	echo '<tr><td>' . SelectInput(
+		ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ),
+		'values[program_config][moodle][MOODLE_API_PROTOCOL]',
+		_( 'API protocol' ),
+		[ '' => 'XML-RPC', 'rest' => 'REST' ],
+		false
+	) . '</td></tr>';
+
 	$token = ProgramConfig( 'moodle', 'MOODLE_TOKEN' );
 
 	if ( $token
@@ -316,7 +325,7 @@ function _validMoodleURLandToken()
 		return false;
 	}
 
-	$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
+	$serverurl = MOODLE_URL . '/webservice/' . MOODLE_API_PROTOCOL . '/server.php?wstoken=' . MOODLE_TOKEN;
 
 	if ( ! filter_var( $serverurl, FILTER_VALIDATE_URL ) )
 	{
@@ -329,7 +338,7 @@ function _validMoodleURLandToken()
 	// Dummy response function.
 	function core_user_get_users_response( $response )
 	{
-		// We had a response, return true so moodle_xmlrpc_call will return true.
+		// We had a response, return true so MoodleAPICall will return true.
 		return true;
 	}
 
@@ -342,5 +351,10 @@ function _validMoodleURLandToken()
 
 	$object = [ 'criteria' => $criteria ];
 
-	return moodle_xmlrpc_call( $functionname, $object );
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		$object = [ 'criteria' => [ $criteria ] ];
+	}
+
+	return MoodleAPICall( $functionname, $object );
 }

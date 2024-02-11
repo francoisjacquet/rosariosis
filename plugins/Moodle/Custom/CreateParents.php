@@ -61,6 +61,11 @@ function core_user_create_users_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'users' => $users ];
+	}
+
 	return [ $users ];
 }
 
@@ -144,6 +149,11 @@ function core_role_assign_roles_object()
 			'instanceid' => $instanceid,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'assignments' => $assignments ];
+	}
 
 	return [ $assignments ];
 }

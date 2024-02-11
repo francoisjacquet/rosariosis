@@ -43,6 +43,11 @@ function enrol_manual_unenrol_users_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'enrolments' => $enrolments ];
+	}
+
 	return [ $enrolments ];
 }
 
@@ -103,6 +108,11 @@ function enrol_manual_enrol_users_object()
 			'timestart' => $timestart,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'enrolments' => $enrolments ];
+	}
 
 	return [ $enrolments ];
 }

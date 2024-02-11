@@ -49,6 +49,11 @@ function core_role_assign_roles_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'assignments' => $assignments ];
+	}
+
 	return [ $assignments ];
 }
 
@@ -106,6 +111,11 @@ function core_role_unassign_roles_object()
 			'instanceid' => $instanceid,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'unassignments' => $unassignments ];
+	}
 
 	return [ $unassignments ];
 }

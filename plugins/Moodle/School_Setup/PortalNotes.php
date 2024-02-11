@@ -46,6 +46,11 @@ function core_notes_create_notes_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'notes' => $notes ];
+	}
+
 	return [ $notes ];
 }
 
@@ -108,6 +113,11 @@ function core_notes_delete_notes_object()
 	$notes = [
 		$noteid,
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'notes' => $notes ];
+	}
 
 	return [ $notes ];
 }
@@ -196,6 +206,11 @@ function core_notes_update_notes_object()
 			'format' => $format,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'notes' => $notes ];
+	}
 
 	return [ $notes ];
 }

@@ -4,6 +4,7 @@
  * Set Moodle plugin configuration options
  *
  * @since 6.0
+ * @since 11.5 Add REST API protocol
  *
  * @return bool False if ! UserSchool() or empty constants.
  */
@@ -24,6 +25,13 @@ function MoodleConfig()
 
 		// Example: http://localhost/moodle
 		define( 'MOODLE_URL', ProgramConfig( 'moodle', 'MOODLE_URL' ) );
+
+		// Example: rest
+		define(
+			'MOODLE_API_PROTOCOL',
+			( ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ) ?
+				ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ) : 'xmlrpc' )
+		);
 
 		// Example: d6c51ea6ffd9857578722831bcb070e1
 		define( 'MOODLE_TOKEN', ProgramConfig( 'moodle', 'MOODLE_TOKEN' ) );

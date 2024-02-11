@@ -60,6 +60,11 @@ function core_course_create_categories_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'categories' => $categories ];
+	}
+
 	return [ $categories ];
 }
 
@@ -158,6 +163,11 @@ function core_course_update_categories_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'categories' => $categories ];
+	}
+
 	return [ $categories ];
 }
 
@@ -211,6 +221,11 @@ function core_course_delete_categories_object()
 			'recursive' => $recursive,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'categories' => $categories ];
+	}
 
 	return [ $categories ];
 }
@@ -330,6 +345,11 @@ function core_course_create_courses_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'courses' => $courses ];
+	}
+
 	return [ $courses ];
 }
 
@@ -408,6 +428,11 @@ function core_role_assign_roles_object()
 		],
 	];
 
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'assignments' => $assignments ];
+	}
+
 	return [ $assignments ];
 }
 
@@ -436,9 +461,14 @@ function core_course_delete_courses_object()
 	int   //course ID
 	)*/
 
-	$courses = [ $id ];
+	$courseids = [ $id ];
 
-	return [ $courses ];
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'courseids' => $courseids ];
+	}
+
+	return [ $courseids ];
 }
 
 /**
@@ -502,6 +532,11 @@ function core_role_unassign_roles_object()
 			'instanceid' => $instanceid,
 		],
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'unassignments' => $unassignments ];
+	}
 
 	return [ $unassignments ];
 }
@@ -594,6 +629,11 @@ function core_course_update_courses_object()
 	$courses = [
 		$course,
 	];
+
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'courses' => $courses ];
+	}
 
 	return [ $courses ];
 }

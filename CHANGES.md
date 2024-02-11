@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.5
+---------------
+- Moodle plugin: Add REST API protocol in plugins/Moodle/, rosariosis.sql & rosariosis_mysql.sql
+
 Changes in 11.4.2
 -----------------
 - Course Teacher change: Update teacher's assignments in Courses.fnc.php

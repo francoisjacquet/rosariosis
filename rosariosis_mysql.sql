@@ -2876,6 +2876,7 @@ INSERT INTO program_config VALUES (2023, 1, 'students', 'STUDENTS_SEMESTER_COMME
 INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_URL', NULL, NULL, NULL);
 INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_TOKEN', NULL, NULL, NULL);
 INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_PARENT_ROLE_ID', NULL, NULL, NULL);
+INSERT INTO program_config VALUES (2023, 1, 'moodle', 'MOODLE_API_PROTOCOL', 'rest', NULL, NULL);
 INSERT INTO program_config VALUES (2023, 1, 'food_service', 'FOOD_SERVICE_BALANCE_WARNING', '5', NULL, NULL);
 INSERT INTO program_config VALUES (2023, 1, 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM', '-40', NULL, NULL);
 INSERT INTO program_config VALUES (2023, 1, 'food_service', 'FOOD_SERVICE_BALANCE_TARGET', '19', NULL, NULL);
