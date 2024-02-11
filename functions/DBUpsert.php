@@ -43,7 +43,7 @@ function DBInsertSQL( $table, $columns )
 			continue;
 		}
 
-		if ( ! empty( $value ) || $value == '0' )
+		if ( $value != '' )
 		{
 			$fields .= DBEscapeIdentifier( $column ) . ',';
 			$values .= "'" . $value . "',";
@@ -135,7 +135,7 @@ function DBUpdateSQL( $table, $columns, $where_columns )
 			continue;
 		}
 
-		if ( ! empty( $value ) || $value == '0' )
+		if ( $value != '' )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
