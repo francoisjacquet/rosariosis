@@ -10,6 +10,7 @@ Changes in 11.5
 - Copy `$_REQUEST` to `$_SESSION['_REQUEST_vars']` last in Modules.php, ErrorMessage.fnc.php & PreparePHP_SELF.fnc.php
 - No error message if error code 4 (no file was attached) in FileUpload.fnc.php
 - DBInsertSQL() & DBUpdateSQL() better check empty values ('', false, null) in DBUpsert.php
+- Breaking change: Use `$_ROSARIO` global var instead of `$_SESSION` in School.php
 
 Changes in 11.4.2
 -----------------

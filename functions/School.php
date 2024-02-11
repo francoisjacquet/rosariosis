@@ -8,28 +8,33 @@
 
 /**
  * Update School Array
- * Fill `$_SESSION['SchoolData']` session var with schools data
  *
  * @example UpdateSchoolArray( UserSchool() );
  *
- * @param  integer $school_id School ID (optional). Defaults to User School ID.
+ * @since 11.5 Use $_ROSARIO global var instead of $_SESSION
  *
- * @return void    Fill $_SESSION['SchoolData'] session var
+ * @global $_ROSARIO['SchoolData']
+ *
+ * @param int $school_id School ID (optional). Defaults to User School ID.
+ *
+ * @return void    Fill $_ROSARIO['SchoolData'] global var
  */
-function UpdateSchoolArray( $school_id = null )
+function UpdateSchoolArray( $school_id = 0 )
 {
+	global $_ROSARIO;
+
 	if ( ! $school_id )
 	{
 		$school_id = UserSchool();
 	}
 
-	$_SESSION['SchoolData'] = DBGet( "SELECT *,
-		(SELECT COUNT(*) FROM schools WHERE SYEAR = '" . UserSyear() . "') AS SCHOOLS_NB
+	$school_RET = DBGet( "SELECT *,
+		(SELECT COUNT(*) FROM schools WHERE SYEAR='" . UserSyear() . "') AS SCHOOLS_NB
 		FROM schools
-		WHERE ID = '" . (int) $school_id . "'
-		AND SYEAR = '" . UserSyear() . "'" );
+		WHERE ID='" . (int) $school_id . "'
+		AND SYEAR='" . UserSyear() . "'" );
 
-	$_SESSION['SchoolData'] = isset( $_SESSION['SchoolData'][1] ) ? $_SESSION['SchoolData'][1] : [];
+	$_ROSARIO['SchoolData'] = isset( $school_RET[1] ) ? $school_RET[1] : [];
 }
 
 
@@ -42,19 +47,21 @@ function UpdateSchoolArray( $school_id = null )
  *
  * @return string|array School Field or array with every School Fields
  */
-function SchoolInfo( $field = null )
+function SchoolInfo( $field = '' )
 {
-	if ( ! isset( $_SESSION['SchoolData'] )
-		|| $_SESSION['SchoolData']['ID'] != UserSchool()
-		|| $_SESSION['SchoolData']['SYEAR'] != UserSyear() )
+	global $_ROSARIO;
+
+	if ( empty( $_ROSARIO['SchoolData'] )
+		|| $_ROSARIO['SchoolData']['ID'] != UserSchool()
+		|| $_ROSARIO['SchoolData']['SYEAR'] != UserSyear() )
 	{
 		UpdateSchoolArray( UserSchool() );
 	}
 
 	if ( $field )
 	{
-		return $_SESSION['SchoolData'][ (string) $field ];
+		return $_ROSARIO['SchoolData'][ (string) $field ];
 	}
 
-	return $_SESSION['SchoolData'];
+	return $_ROSARIO['SchoolData'];
 }
