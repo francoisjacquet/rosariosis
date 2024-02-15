@@ -217,8 +217,8 @@ function AttendanceDailyTotalMinutesSQL( $student_id, $date_or_column )
 			FROM school_marking_periods
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND " . $date_or_column . ">=START_DATE
-			AND " . $date_or_column . "<=END_DATE";
+			AND " . $date_sql . ">=START_DATE
+			AND " . $date_sql . "<=END_DATE";
 	}
 
 	$total_sql = "SELECT SUM(sp2.LENGTH) AS TOTAL
