@@ -15,7 +15,7 @@ Changes in 11.5
 
 Changes in 11.4.3
 -----------------
-- Fix SQL update gradebook_assignment_types only for old teacher's assignments
+- Fix SQL update gradebook_assignment_types only for old teacher's assignments in Courses.fnc.php
 
 Changes in 11.4.2
 -----------------
