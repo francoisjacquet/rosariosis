@@ -709,22 +709,21 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_PERIOD_ID' => (int) $cp_id ]
 	);
 
+	// Update gradebook_assignment_types.
+	// Fix SQL update gradebook_assignment_types only for old teacher's assignments
+	DBQuery( "UPDATE gradebook_assignment_types
+		SET STAFF_ID='" . (int) $new_teacher_id . "'
+		WHERE STAFF_ID='" . (int) $old_teacher_id . "'
+		AND ASSIGNMENT_TYPE_ID IN(SELECT ASSIGNMENT_TYPE_ID
+			FROM gradebook_assignments
+			WHERE STAFF_ID='" . (int) $old_teacher_id . "'
+			AND COURSE_PERIOD_ID='" . (int) $cp_id . "')" );
+
 	// Update gradebook_assignments.
 	DBUpdate(
 		'gradebook_assignments',
 		[ 'STAFF_ID' => (int) $new_teacher_id ],
 		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_PERIOD_ID' => (int) $cp_id ]
-	);
-
-	// Update gradebook_assignment_types.
-	$course_id = DBGetOne( "SELECT COURSE_ID
-		FROM course_periods
-		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
-
-	DBUpdate(
-		'gradebook_assignment_types',
-		[ 'STAFF_ID' => (int) $new_teacher_id ],
-		[ 'STAFF_ID' => (int) $old_teacher_id, 'COURSE_ID' => (int) $course_id ]
 	);
 
 	return true;
