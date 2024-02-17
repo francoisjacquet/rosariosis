@@ -478,9 +478,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$assignment_type_sql = "SELECT ASSIGNMENT_TYPE_ID
 			FROM gradebook_assignment_types
-			WHERE COURSE_ID=(SELECT COURSE_ID
-				FROM course_periods
-				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			WHERE COURSE_ID='" . (int) $course_id . "'
 			AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" .
 			$hide_previous_assignment_types_sql;
 
@@ -499,9 +497,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// SQL Check requested assignment belongs to teacher and current Marking Period.
 		$assignment_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
 			FROM gradebook_assignments
-			WHERE (COURSE_ID=(SELECT COURSE_ID
-				FROM course_periods
-				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			WHERE (COURSE_ID='" . (int) $course_id . "'
 				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -521,12 +517,15 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// ASSIGNMENT TYPES.
+	// Fix SQL Get all assignment types having assignments for this course period
 	$assignment_types_sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER
-		FROM gradebook_assignment_types
-		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-		AND COURSE_ID=(SELECT COURSE_ID
-			FROM course_periods
-			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" .
+		FROM gradebook_assignment_types gt
+		WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			OR EXISTS(SELECT 1 FROM gradebook_assignments
+				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID))
+		AND COURSE_ID='" . (int) $course_id . "'" .
 		$hide_previous_assignment_types_sql .
 		" ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE";
 
@@ -586,17 +585,20 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new'
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
+		// Fix SQL Get all assignment types having assignments for this course period
 		$assignment_type_sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
 		(SELECT sum(FINAL_GRADE_PERCENT)
-			FROM gradebook_assignment_types
-			WHERE COURSE_ID=(SELECT COURSE_ID
-				FROM course_periods
-				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-				AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
-		$hide_previous_assignment_types_sql .
+			FROM gradebook_assignment_types gt2
+			WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				OR EXISTS(SELECT 1 FROM gradebook_assignments
+				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND ASSIGNMENT_TYPE_ID=gt2.ASSIGNMENT_TYPE_ID))
+			AND COURSE_ID='" . (int) $course_id . "'" .
+			$hide_previous_assignment_types_sql .
 		") AS TOTAL_PERCENT
-		FROM gradebook_assignment_types at
-		WHERE at.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'";
+		FROM gradebook_assignment_types gt
+		WHERE gt.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'";
 
 		$RET = DBGet( $assignment_type_sql, [ 'FINAL_GRADE_PERCENT' => '_makePercent' ] );
 
@@ -610,14 +612,14 @@ if ( ! $_REQUEST['modfunc'] )
 			$assignment_type_has_assignments = DBGetOne( "SELECT 1
 				FROM gradebook_assignments
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-				AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 			$assignment_type_assignments_warn_all_0_points = ! DBGetOne( "SELECT 1
 				FROM gradebook_assignments
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-				AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND POINTS<>'0'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
@@ -645,12 +647,15 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['assignment_type_id'] == 'new' )
 	{
+		// Fix SQL Get all assignment types having assignments for this course period
 		$assignment_type_sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
-			FROM gradebook_assignment_types
-			WHERE COURSE_ID=(SELECT COURSE_ID
-				FROM course_periods
-				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
+			FROM gradebook_assignment_types gt
+			WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				OR EXISTS(SELECT 1 FROM gradebook_assignments
+					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+					AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+					AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID))
+			AND COURSE_ID='" . (int) $course_id . "'" .
 			$hide_previous_assignment_types_sql;
 
 		$RET = DBGet( $assignment_type_sql, [ 'FINAL_GRADE_PERCENT' => '_makePercent' ] );
@@ -1007,7 +1012,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$assn_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 		FROM gradebook_assignments
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-		AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+		AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 		AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
 		ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC",
