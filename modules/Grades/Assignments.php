@@ -586,7 +586,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
 		// Fix SQL Get all assignment types having assignments for this course period
-		$assignment_type_sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
+		$assignment_type_sql = "SELECT gt.TITLE,gt.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
 		(SELECT sum(FINAL_GRADE_PERCENT)
 			FROM gradebook_assignment_types gt2
 			WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
