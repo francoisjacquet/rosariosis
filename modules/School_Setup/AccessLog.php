@@ -37,7 +37,8 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	}
 }
 
-if ( count( $_REQUEST ) === 1 )
+if ( count( $_REQUEST ) === 3
+	&& ! $_REQUEST['modfunc'] )
 {
 	// Only requested modname.
 	// @since 11.4 Automatically clear Access Log entries older than one year
