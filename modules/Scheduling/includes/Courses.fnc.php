@@ -727,7 +727,7 @@ function CoursePeriodUpdateTeacher( $cp_id, $old_teacher_id, $new_teacher_id )
 		AND COURSE_ID='" . (int) $course_id . "'
 		AND NOT EXISTS(SELECT 1 FROM course_periods
 			WHERE COURSE_ID='" . (int) $course_id . "'
-			AND TEACHER_ID='" . (int) $old_teacher_id . "'))" );
+			AND TEACHER_ID='" . (int) $old_teacher_id . "')" );
 
 	// Update gradebook_assignment_types.
 	// Only if has assignments or if old teacher has no more course periods in this course
