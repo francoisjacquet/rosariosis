@@ -40,6 +40,10 @@ if ( ! isset( $_ROSARIO['allow_edit'] )
 	$_ROSARIO['allow_edit'] = true;
 }
 
+$course_id = DBGetOne( "SELECT COURSE_ID
+	FROM course_periods
+	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
+
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
 //$max_allowed = Preferences('ANOMALOUS_MAX','Gradebook')/100;
@@ -59,14 +63,16 @@ elseif ( UserStudentID() )
 	unset( $_SESSION['student_id'] );
 }
 
+// Fix SQL get all assignment types having assignments for this course period
 $types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,COLOR
 FROM gradebook_assignment_types gt
-WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-AND COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-AND (SELECT count(1) FROM gradebook_assignments WHERE STAFF_ID=gt.STAFF_ID
-AND ((COURSE_ID=gt.COURSE_ID AND STAFF_ID=gt.STAFF_ID) OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-AND MARKING_PERIOD_ID='" . UserMP() . "'
-AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
+WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
+	OR EXISTS(SELECT 1 FROM gradebook_assignments
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+		AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID
+		AND MARKING_PERIOD_ID='" . UserMP() . "'))
+AND COURSE_ID='" . (int) $course_id . "'
 ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE", [ 'TITLE' => '_makeTitle' ], [ 'ASSIGNMENT_TYPE_ID' ] );
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
@@ -85,11 +91,7 @@ CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE)
 THEN 'Y' ELSE NULL END AS DUE
 FROM gradebook_assignments ga,gradebook_assignment_types gat
 WHERE ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
-AND ((ga.COURSE_ID=(SELECT cp.COURSE_ID
-		FROM course_periods cp
-		WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-	AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "')
-	OR ga.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+AND (ga.COURSE_ID='" . (int) $course_id . "' OR ga.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND ga.MARKING_PERIOD_ID='" . UserMP() . "'" .
 ( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) .
 " AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID

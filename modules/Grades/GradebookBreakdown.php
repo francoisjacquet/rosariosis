@@ -60,19 +60,22 @@ foreach ( (array) $grades_RET as $grade )
 	$grades[] = [ 'TITLE' => $grade['TITLE'], 'GPA_VALUE' => $grade['GPA_VALUE'] ];
 }
 
-$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
-	FROM gradebook_assignment_types
-	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+// Fix SQL Get all assignment types having assignments for this course period
+$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE
+	FROM gradebook_assignment_types gt
+	WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		OR EXISTS(SELECT 1 FROM gradebook_assignments
+			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID
+			AND MARKING_PERIOD_ID='" . UserMP() . "'))
 	AND COURSE_ID='" . (int) $course_id . "'
-	ORDER BY TITLE";
-
-$types_RET = DBGet( $sql );
+	ORDER BY TITLE" );
 
 $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	FROM gradebook_assignments
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-	AND ((COURSE_ID='" . (int) $course_id . "'
-	AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+	AND (COURSE_ID='" . (int) $course_id . "' OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	AND MARKING_PERIOD_ID='" . UserMP() . "'
 	ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC" );
 
