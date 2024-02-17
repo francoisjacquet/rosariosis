@@ -62,7 +62,7 @@ foreach ( (array) $grades_RET as $grade )
 
 // Fix SQL Get all assignment types having assignments for this course period
 $types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE
-	FROM gradebook_assignment_types
+	FROM gradebook_assignment_types gt
 	WHERE (STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		OR EXISTS(SELECT 1 FROM gradebook_assignments
 			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
