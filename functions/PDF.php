@@ -161,7 +161,8 @@ function PDFStop( $handle )
 	// Decode UTF8 is useful for Windows only.
 	$filename = iconv(
 		'UTF-8',
-		'ISO-8859-1',
+		// Fix PHP Notice iconv() Detected an illegal character in input string
+		'ISO-8859-1//IGNORE',
 		str_replace(
 			[ _( 'Print' ) . ' ', ' ' ],
 			[ '', '_' ],
