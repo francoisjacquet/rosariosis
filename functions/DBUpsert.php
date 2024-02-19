@@ -8,7 +8,7 @@
 
 /**
  * Get DB INSERT SQL statement
- * Will skip columns with empty values ('', false, null), but not '0'
+ * Will skip columns with empty values ('', false, null), but not '0' and 0
  *
  * @example $sql = DBInsertSQL( 'config', [ 'CONFIG_VALUE' => $value, 'TITLE' => $item, 'SCHOOL_ID' => $school_id ] );
  *
@@ -43,7 +43,7 @@ function DBInsertSQL( $table, $columns )
 			continue;
 		}
 
-		if ( $value != '' )
+		if ( (string) $value != '' )
 		{
 			$fields .= DBEscapeIdentifier( $column ) . ',';
 			$values .= "'" . $value . "',";
@@ -63,7 +63,7 @@ function DBInsertSQL( $table, $columns )
 
 /**
  * INSERT into DB
- * Will skip columns with empty values ('', false, null), but not '0'
+ * Will skip columns with empty values ('', false, null), but not '0' and 0
  *
  * @example DBInsert( 'config', [ 'CONFIG_VALUE' => $value, 'TITLE' => $item, 'SCHOOL_ID' => $school_id ] );
  * @example $id = DBInsert( 'staff', [ 'SYEAR' => UserSyear(), 'PROFILE' => 'parent', ... ], 'id' );
@@ -135,7 +135,7 @@ function DBUpdateSQL( $table, $columns, $where_columns )
 			continue;
 		}
 
-		if ( $value != '' )
+		if ( (string) $value != '' )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
