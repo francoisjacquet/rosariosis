@@ -462,6 +462,12 @@ function _GetDays( $value, $column )
 {
 	global $schedule_table_days;
 
+	if ( ! $value )
+	{
+		// Fix PHP warning undefined array key ""
+		return [];
+	}
+
 	$days_array = str_split( $value );
 
 	foreach ( $days_array as $index => $day )
