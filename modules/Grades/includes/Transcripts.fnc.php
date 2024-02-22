@@ -141,6 +141,8 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 					);
 				}
 
+				krsort( $syoptions );
+
 				$return .= Select2Input(
 					UserSyear(),
 					'syear_arr[]',
