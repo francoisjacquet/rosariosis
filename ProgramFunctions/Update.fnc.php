@@ -1081,7 +1081,7 @@ function _update1144()
 	 */
 	if ( $DatabaseType === 'mysql' )
 	{
-		DBQuery( "CREATE VIEW transcript_grades AS
+		DBQuery( "CREATE OR REPLACE VIEW transcript_grades AS
     SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
     mp.short_name,mp.parent_id,mp.grandparent_id,
     (SELECT mp2.end_date
