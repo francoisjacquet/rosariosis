@@ -13,6 +13,10 @@ Changes in 11.5
 - Breaking change: Use `$_ROSARIO` global var instead of `$_SESSION` in School.php
 - Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/ & locale/REFERENCE.md
 
+Changes in 11.4.4
+-----------------
+- Fix SQL transcript_grades view for History Marking Periods of existing school years in rosariosis.sql, rosariosis_mysql.sql & Update.fnc.php
+
 Changes in 11.4.3
 -----------------
 - Fix SQL update gradebook_assignment_types only for old teacher's assignments in Courses.fnc.php
