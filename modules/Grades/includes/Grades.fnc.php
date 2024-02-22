@@ -39,15 +39,22 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 		{
 			$gpa_row[$mp] = '<B>' . $grades_total_mp . '</B>';
 		}
-		elseif ( GetMP( $mp ) ) // Fix check MP exists before trying to get GPA.
+		// Fix check MP exists before trying to get GPA: include History Marking Periods.
+		elseif ( DBGetOne( "SELECT 1
+			FROM marking_periods
+			WHERE MARKING_PERIOD_ID='" . (int) $mp . "'" ) )
 		{
 			$cumulative_gpa = DBGetOne( "SELECT CUM_WEIGHTED_GPA
 				FROM transcript_grades
 				WHERE STUDENT_ID='" . (int) $student_id . "'
-				AND MARKING_PERIOD_ID='" . (int) $mp . "'" );
+				AND MARKING_PERIOD_ID='" . (int) $mp . "'
+				LIMIT 1" );
 
-			$gpa_row[$mp] = '<B>' . number_format( $cumulative_gpa, 2, '.', '' ) . '</B> /' .
-				(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+			if ( ! is_null( $cumulative_gpa ) )
+			{
+				$gpa_row[$mp] = '<B>' . number_format( $cumulative_gpa, 2, '.', '' ) . '</B> /' .
+					(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+			}
 		}
 
 		if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
