@@ -531,10 +531,10 @@ function MoodleImportUsersFormConfirmCountdownJS( $class_prefix )
 {
 	?>
 	<script>
-	$(function(){
 		$('.<?php echo $class_prefix; ?>-form').submit(function(){
 
 			e.preventDefault();
+			e.stopImmediatePropagation();
 
 			var alertTxt = <?php echo json_encode(
 				_( 'Are you absolutely ready to import users? Make sure you have backed up your database!' )
@@ -572,7 +572,6 @@ function MoodleImportUsersFormConfirmCountdownJS( $class_prefix )
 				return false;
 			}).insertAfter( $buttons );
 		});
-	});
 	</script>
 	<?php
 }
