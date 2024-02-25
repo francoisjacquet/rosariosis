@@ -190,7 +190,7 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 		'EMAIL' => '_makeEmail',
 	];
 
-	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'staff' ) ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'required', '', 'staff' ) ];
 
 	$extra['columns_after'] = [
 		'ASSOCIATED' => _( 'Associated Students' ),

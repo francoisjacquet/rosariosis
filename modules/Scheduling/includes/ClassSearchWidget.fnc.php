@@ -209,7 +209,10 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 	}
 
-	$LO_columns = [ 'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ), 'TITLE' => _( 'Course Period' ) ];
+	$LO_columns = [
+		'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y_required', '', 'cp_arr' ),
+		'TITLE' => _( 'Course Period' ),
+	];
 
 	$course_periods_RET = DBGet( $sql, [ 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox' ] );
 

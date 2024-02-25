@@ -227,7 +227,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 
-	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' )  ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'required', 'STUDENT_ID', 'student' )  ];
 
 	$extra['new'] = true;
 

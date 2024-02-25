@@ -565,7 +565,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
-	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st' ) ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y_required', '', 'st' ) ];
 	$extra['options']['search'] = false;
 
 	// Parent: associated students.

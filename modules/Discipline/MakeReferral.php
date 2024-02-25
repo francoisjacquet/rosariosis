@@ -271,7 +271,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'FULL_NAME' => 'makePhotoTipMessage',
 	];
 
-	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'required', '', 'st_arr' ) ];
 
 	$extra['new'] = true;
 

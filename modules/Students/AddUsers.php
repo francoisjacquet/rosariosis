@@ -131,7 +131,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$extra['link'] = [ 'FULL_NAME' => false ];
 			$extra['SELECT'] = ",NULL AS CHECKBOX";
 			$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
-			$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STAFF_ID', 'staff' ) ];
+			$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'required', 'STAFF_ID', 'staff' ) ];
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';

@@ -266,7 +266,7 @@ if ( AllowEdit()
 	}
 
 	// Unset tables + related dates + CP array & redirect URL.
-	RedirectURL( [ 'tables', 'day_tables', 'month_tables', 'year_tables', 'cp_arr' ] );
+	RedirectURL( [ 'tables', 'day_tables', 'month_tables', 'year_tables', 'cp_arr', 'c_arr' ] );
 }
 
 echo ErrorMessage( $error );
@@ -553,7 +553,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['assignment_type'] === 'new' )
 		{
 			$columns = [
-				'COURSE_ID' => MakeChooseCheckbox( '', '', 'c_arr' ),
+				'COURSE_ID' => MakeChooseCheckbox( 'required', '', 'c_arr' ),
 				'TITLE' => _( 'Course' ),
 				'SUBJECT' => _( 'Subject' ),
 			];
@@ -599,7 +599,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
 			$columns = [
-				'COURSE_PERIOD_ID' => MakeChooseCheckbox( '', '', 'cp_arr' ),
+				'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'required', '', 'cp_arr' ),
 				'COURSE' => _( 'Course' ),
 				'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 				'MARKING_PERIOD_ID' => _( 'Marking Period' ),

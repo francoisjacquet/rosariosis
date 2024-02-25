@@ -101,7 +101,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 		$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
-		$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) ];
+		$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'required', '', 'st_arr' ) ];
 	}
 
 	$extra['link'] = [ 'FULL_NAME' => false ];

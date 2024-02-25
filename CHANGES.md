@@ -16,6 +16,7 @@ Changes in 11.5
 - Fix PHP Fatal error maximum execution time of 120 seconds exceeded in InstallDatabase.php
 - Update French & Spanish translations in rosariosis.po
 - MakeChooseCheckbox() Add 'required' option to $value param. Prevent submitting form if no checkboxes are checked in Inputs.php
+- Use MakeChooseCheckbox()'s new 'required' option, program wide
 
 Changes in 11.4.4
 -----------------
