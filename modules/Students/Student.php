@@ -257,13 +257,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! empty( $_REQUEST['students'] ) && ! $error )
 			{
-				$sql = "UPDATE students SET ";
-
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM custom_fields
 					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
-
-				$go = false;
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
@@ -291,15 +287,16 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$value = encrypt_password( $_POST['students']['PASSWORD'] );
 					}
 
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					$go = true;
+					$update_columns[ $column ] = $value;
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'";
-
-				if ( $go )
+				if ( $update_columns )
 				{
-					DBQuery( $sql );
+					DBUpdate(
+						'students',
+						$update_columns,
+						[ 'STUDENT_ID' => UserStudentID() ]
+					);
 
 					$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
 
@@ -352,9 +349,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						WHERE STUDENT_ID='" . (int) $student_id . "'" ) );
 				}
 
-				$sql = "INSERT INTO students ";
-				$fields = 'STUDENT_ID,';
-				$values = "'" . $student_id . "',";
+				$insert_columns = [ 'STUDENT_ID' => (int) $student_id ];
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM custom_fields
@@ -381,16 +376,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$value = encrypt_password( $_POST['students']['PASSWORD'] );
 					}
 
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-
-						$values .= "'" . $value . "',";
-					}
+					$insert_columns[ $column ] = $value;
 				}
 
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-				DBQuery( $sql );
+				DBInsert(
+					'students',
+					$insert_columns
+				);
 
 				// Create default food service account for this student.
 				// Associate with default food service account and assign other defaults.

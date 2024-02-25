@@ -12,6 +12,7 @@ Changes in 11.5
 - DBInsertSQL() & DBUpdateSQL() better check empty values ('', false, null) in DBUpsert.php
 - Breaking change: Use `$_ROSARIO` global var instead of `$_SESSION` in School.php
 - Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/ & locale/REFERENCE.md
+- Use DBUpdate() & DBInsert() functions in Student.php & User.php
 
 Changes in 11.4.4
 -----------------

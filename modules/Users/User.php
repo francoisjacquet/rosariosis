@@ -295,15 +295,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 					AND s.PROFILE_ID=e.PROFILE_ID" );
 			}
 
-			if ( ! $error )
+			if ( ! empty( $_REQUEST['staff'] ) && ! $error )
 			{
-				$sql = "UPDATE staff SET ";
-
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM staff_fields
 					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
-
-				$go = false;
 
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
@@ -331,15 +327,16 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$value = encrypt_password( $_POST['staff']['PASSWORD'] );
 					}
 
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					$go = true;
+					$update_columns[ $column ] = $value;
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STAFF_ID='" . UserStaffID() . "'";
-
-				if ( $go )
+				if ( $update_columns )
 				{
-					DBQuery( $sql );
+					DBUpdate(
+						'staff',
+						$update_columns,
+						[ 'STAFF_ID' => UserStaffID() ]
+					);
 
 					$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
 
@@ -374,15 +371,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! $error )
 			{
-				$sql = "INSERT INTO staff ";
-				$fields = 'SYEAR,';
-				$values = "'" . UserSyear() . "',";
-
-				if ( basename( $_SERVER['PHP_SELF'] ) == 'index.php' )
-				{
-					$fields .= 'PROFILE,';
-					$values = "'" . Config( 'SYEAR' ) . "'" . mb_substr( $values, mb_strpos( $values, ',' ) ) . "'none',";
-				}
+				$insert_columns = [ 'SYEAR' => UserSyear() ];
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM staff_fields
@@ -409,19 +398,22 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$value = encrypt_password( $_POST['staff']['PASSWORD'] );
 					}
 
-					if ( ! empty( $value ) || $value == '0' )
-					{
-						$fields .= DBEscapeIdentifier( $column ) . ',';
-
-						$values .= "'" . $value . "',";
-					}
+					$insert_columns[ $column ] = $value;
 				}
 
-				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+				if ( basename( $_SERVER['PHP_SELF'] ) == 'index.php' )
+				{
+					// Public Registration: force School Year (default) & Profile (No Access).
+					$insert_columns['SYEAR'] = Config( 'SYEAR' );
 
-				DBQuery( $sql );
+					$insert_columns['PROFILE'] = 'none';
+				}
 
-				$staff_id = DBLastInsertID();
+				$staff_id = DBInsert(
+					'staff',
+					$insert_columns,
+					'id'
+				);
 
 				SetUserStaffID( $_REQUEST['staff_id'] = $staff_id );
 
