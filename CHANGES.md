@@ -14,6 +14,7 @@ Changes in 11.5
 - Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/ & locale/REFERENCE.md
 - Use DBUpdate() & DBInsert() functions in Student.php & User.php
 - Fix PHP Fatal error maximum execution time of 120 seconds exceeded in InstallDatabase.php
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 11.4.4
 -----------------
