@@ -1908,15 +1908,19 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
  *
  * @since 4.3
  * @since 10.0 Fix remove parent link to sort column, see ListOutput.fnc.php
+ * @since 11.5 Add 'required' option to $value param. Prevent submitting form if no checkboxes are checked.
  *
  * First, set controller:
- * @example $extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+ * @example $extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
+ * @example $extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y_required', '', 'st' ) ];
  * Then, use as DBGet() callback:
- * @example $extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+ * @example $extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
  *
- * @param string $value           DB value or checked ('Y').
+ * @param string $value           DB value or checked ('Y') or 'required'|'Y_required' to prevent submitting form if none checked.
  * @param string $column          Current DBGet column or $THIS_RET column to use (optional).
  * @param string $controller_name Controller name (set first only), ie. 'student' will give 'student[]' (optional).
+ *
+ * @return string Checkbox HTML or checked state if PDF/export
  */
 function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 {
@@ -1924,7 +1928,8 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 
 	static $controller_column,
 		$name,
-		$checked;
+		$checked,
+		$controller_i = 1; // Handle multiple controllers on the same page.
 
 	if ( ! empty( $controller_name ) )
 	{
@@ -1932,19 +1937,47 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 
 		$name = $controller_name;
 
-		$checked = $value === 'Y';
+		$checked = mb_substr( $value, 0, 1 ) === 'Y';
+
+		$required = mb_strpos( $value, 'required' ) !== false;
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			return $checked ? '✔️' : '';
 		}
 
-		return '<input type="checkbox" value="Y" name="controller" id="controller"
+		$id = 'controller' . $controller_i;
+
+		$return = '<input type="checkbox" value="Y" name="' . $id . '" id="' . $id . '"
 			onclick="' . AttrEscape( 'checkAll(this.form,this.checked,' .
-				json_encode( $controller_name ) .
+				json_encode( $name . '[]' ) .
 				');' ) . '"' .
 			( $checked ? ' checked' : '' ) . '>
-			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label>';
+			<label for="' . $id . '" class="a11y-hidden">' . _( 'Check All' ) . '</label>';
+
+		if ( ! $required )
+		{
+			return $return;
+		}
+
+		ob_start();
+
+		// JS Prevent submitting form if no checkboxes are checked.
+		?>
+		<script>
+			$('#<?php echo $id; ?>').closest('form').on('submit', function(e) {
+				if ( ! $('input[name=<?php echo json_encode( $name . '[]' ); ?>]:checked').length ) {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					$('#<?php echo $id; ?>')[0].scrollIntoView({behavior: "smooth"});
+					alert(<?php echo json_encode( _( 'You must choose at least one element from the list.' ) ); ?>);
+					return false;
+				}
+			});
+		</script>
+		<?php
+
+		return $return . ob_get_clean();
 	}
 
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
