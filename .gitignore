@@ -285,6 +285,9 @@ modules/Entry_Exit*
 modules/Dashboards*
 modules/NFC_QR_Actions*
 modules/TTHotel_Smart_Locks*
+modules/Email_Log*
+modules/PDF_Archive*
+modules/Slovenian_Attendance_Excel_Sheet*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
@@ -309,5 +312,8 @@ plugins/PCS_Report_Cards*
 plugins/Assignment_Max_Points*
 plugins/Absent_for_the_Day_on_First_Absence*
 plugins/PR_Report_Cards*
+plugins/Append_Custom_Field_to_Grade_Level*
+plugins/Templates*
+plugins/iStudent_Report_Cards*
 locale/fr_FR.utf8_ParisComSup
 functions/1GetMP.php
