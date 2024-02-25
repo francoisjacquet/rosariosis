@@ -42,7 +42,7 @@ if ( count( $_REQUEST ) === 3
 {
 	// Only requested modname.
 	// @since 11.4 Automatically clear Access Log entries older than one year
-	DBGet( "DELETE FROM access_log
+	DBQuery( "DELETE FROM access_log
 		WHERE CREATED_AT<'" . date( 'Y-m-d', strtotime( '1 year ago' ) ) . "'" );
 }
 

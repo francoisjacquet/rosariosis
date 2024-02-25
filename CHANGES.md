@@ -19,6 +19,7 @@ Changes in 11.4.4
 -----------------
 - Fix SQL transcript_grades view for History Marking Periods of existing school years in rosariosis.sql, rosariosis_mysql.sql & Update.fnc.php
 - Fix regression since 11.4 check MP exists before trying to get GPA: include History Marking Periods in Grades.fnc.php
+- Fix PHP Fatal error call to undefined function pg_fetch_array() in database.inc.php & AccessLog.php
 
 Changes in 11.4.3
 -----------------
