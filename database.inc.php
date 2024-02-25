@@ -255,10 +255,12 @@ function db_fetch_row( $result )
 
 	$return = false;
 
-	if ( $DatabaseType === 'mysql'
-		&& $result instanceof mysqli_result )
+	if ( $DatabaseType === 'mysql' )
 	{
-		$return = mysqli_fetch_assoc( $result );
+		if ( $result instanceof mysqli_result )
+		{
+			$return = mysqli_fetch_assoc( $result );
+		}
 	}
 	else
 	{
