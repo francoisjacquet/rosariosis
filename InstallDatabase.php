@@ -27,6 +27,9 @@ if ( empty( $DatabaseType ) )
 
 require_once 'database.inc.php';
 
+// Fix PHP Fatal error maximum execution time of 120 seconds exceeded
+set_time_limit( 240 );
+
 // rosariosis_[lang].sql files available for database translation.
 $lang = [
 	'fr' => 'French',
