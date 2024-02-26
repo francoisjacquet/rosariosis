@@ -136,8 +136,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  */
 function RedirectURL( $remove, $add_post = [] )
 {
-	static $remove_all = [],
-		$add_post_all = [];
+	static $add_post_all = [];
 
 	if ( ! $remove
 		&& ! $add_post )
@@ -154,7 +153,6 @@ function RedirectURL( $remove, $add_post = [] )
 
 		$_REQUEST[ $request_key ] = false;
 
-		$remove_all[ $request_key ] = $request_key;
 	}
 
 	foreach ( (array) $add_post as $post_key )
@@ -167,7 +165,7 @@ function RedirectURL( $remove, $add_post = [] )
 		$add_post_all[ $post_key ] = $_POST[ $post_key ];
 	}
 
-	$redirect_url = PreparePHP_SELF( $_REQUEST, $remove_all, $add_post_all );
+	$redirect_url = PreparePHP_SELF( $_REQUEST, [], $add_post_all );
 
 	// Redirect URL.
 	header( 'X-Redirect-Url: ' . $redirect_url );
