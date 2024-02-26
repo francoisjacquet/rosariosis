@@ -129,7 +129,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  *
  * @see warehouse.js check for X-Redirect-Url or XRedirectUrl
  *
- * @param array|string $remove   Parameters to remove from the $_REQUEST array.
+ * @param array|string $remove   Parameters to remove from the $_REQUEST & $_GET arrays.
  * @param array|string $add_post POST parameters to add to the URL (optional).
  *
  * @return boolean     False if nothing to remove, else true.
@@ -153,6 +153,10 @@ function RedirectURL( $remove, $add_post = [] )
 
 		$_REQUEST[ $request_key ] = false;
 
+		if ( isset( $_GET[ $request_key ] ) )
+		{
+			$_GET[ $request_key ] = false;
+		}
 	}
 
 	foreach ( (array) $add_post as $post_key )
@@ -165,7 +169,7 @@ function RedirectURL( $remove, $add_post = [] )
 		$add_post_all[ $post_key ] = $_POST[ $post_key ];
 	}
 
-	$redirect_url = PreparePHP_SELF( $_REQUEST, [], $add_post_all );
+	$redirect_url = PreparePHP_SELF( $_GET, [], $add_post_all );
 
 	// Redirect URL.
 	header( 'X-Redirect-Url: ' . $redirect_url );
