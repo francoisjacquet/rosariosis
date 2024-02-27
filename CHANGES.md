@@ -19,6 +19,7 @@ Changes in 11.5
 - Use MakeChooseCheckbox()'s new 'required' option, program wide
 - Fix RedirectURL() when GET params also contained in POST form in PreparePHP_SELF.fnc.php
 - JS Compatibility with Use FormData instead of jQuery Form Plugin in FirstLogin.fnc.php
+- Add "Final Grading Percentages are not configured." warning in InputFinalGrades.php
 
 Changes in 11.4.4
 -----------------

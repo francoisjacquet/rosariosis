@@ -430,6 +430,18 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 				foreach ( (array) $percents as $percent )
 				{
+					if ( ! isset( $gradebook_config[$prefix . $percent['MARKING_PERIOD_ID']] ) )
+					{
+						// @since 11.5 Add "Final Grading Percentages are not configured." warning
+						$warning['config_percent'] = _( 'Final Grading Percentages are not configured.' );
+
+						if ( AllowUse( 'Grades/Configuration.php' ) )
+						{
+							$warning['config_percent'] .= ' <a href="Modules.php?modname=Grades/Configuration.php">' .
+								_( 'Configuration' ) . '</a>';
+						}
+					}
+
 					$total += $percent['GRADE_PERCENT'] *
 						issetVal( $gradebook_config[$prefix . $percent['MARKING_PERIOD_ID']] );
 
@@ -1406,6 +1418,8 @@ else
 	DrawHeader( $course_title );
 	DrawHeader( GetMP( UserMP() ) );
 }
+
+echo ErrorMessage( $warning, 'warning' );
 
 $LO_columns = [ 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) ];
 
