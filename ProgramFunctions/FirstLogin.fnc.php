@@ -379,6 +379,8 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 			});
 
 			e.preventDefault();
+			// Compatibility with Use FormData instead of jQuery Form Plugin
+			e.stopImmediatePropagation();
 		});</script>
 		<?php
 		$js = ob_get_clean();
