@@ -2,7 +2,7 @@
   "name": "rosariosis",
   "description": "RosarioSIS Student Information System for school management.",
   "author": "François Jacquet @francoisjacquet",
-  "license": "GPL-2.0",
+  "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://gitlab.com/francoisjacquet/rosariosis"

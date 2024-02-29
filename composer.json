@@ -3,7 +3,7 @@
 	"description": "Student Information System for school management",
 	"keywords": ["school", "education", "student", "management", "erp", "gradebook", "attendance", "teacher", "timetable"],
 	"homepage": "https://gitlab.com/francoisjacquet/rosariosis/",
-	"license": "GPL-2.0-only",
+	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": ">=5.5.9"
 	}
