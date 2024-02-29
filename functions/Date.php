@@ -116,7 +116,7 @@ function ProperDateTime( $datetime, $length = 'long' )
 	$locale_time = mb_substr( $locale_time, -3 ) === ':00' ? mb_substr( $locale_time, 0, -3 ) : $locale_time;
 
 	// 0x202f is hex for "narrow no-break space" unicode character.
-	$locale_time = str_replace( ':00 ', ' ', $locale_time );
+	$locale_time = str_replace( [ ':00 ', ':00 ' ], [ ' ', ' ' ], $locale_time );
 
 	$date = mb_substr( $datetime, 0, 10 );
 
@@ -131,6 +131,53 @@ function ProperDateTime( $datetime, $length = 'long' )
 	}
 
 	return $comment . ProperDate( $date, $length ) . ' ' . $locale_time;
+}
+
+
+/**
+ * Localized Time
+ * AM/PM: "16:35:42" => "04:35:42 PM"
+ * 24H: "22:30:00" => "22:30"
+ * Datetime: "2024-02-29 16:35:42" => "04:35:42 PM"
+ *
+ * @since 11.5
+ *
+ * @example ProperTime( $value );
+ * @example DBGet( "SELECT ON_TIME FROM meetings", [ 'ON_TIME' => 'ProperTime' ] );
+ *
+ * @param string $time   Time or datetime.
+ * @param string $column DB column (optional). When using this function as DBGet() callback.
+ *
+ * @return string Localized Time
+ */
+function ProperTime( $time, $column = '' )
+{
+	if ( ! $time )
+	{
+		return $time;
+	}
+
+	try
+	{
+		// Preferred time based on locale.
+		$locale_time = strftime_compat( '%X', strtotime( $time ) );
+	}
+	catch ( \Exception $e )
+	{
+		return $time;
+	}
+
+	// Add raw time inside HTML comment (only if different from locale time). Used for sorting in ListOutput()
+	$comment = $locale_time === $time ? '' : '<!-- ' . $time . ' -->';
+
+	// Strip seconds :00.
+	$locale_time = mb_substr( $locale_time, -3 ) === ':00' ? mb_substr( $locale_time, 0, -3 ) : $locale_time;
+
+	// Strip seconds when AM/PM :00.
+	// 0x202f is hex for "narrow no-break space" unicode character.
+	$locale_time = str_replace( [ ':00 ', ':00 ' ], [ ' ', ' ' ], $locale_time );
+
+	return $comment . $locale_time;
 }
 
 
