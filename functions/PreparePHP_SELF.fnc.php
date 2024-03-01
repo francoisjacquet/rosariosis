@@ -1,6 +1,10 @@
 <?php
 /**
- * Prepare PHP SELF function
+ * URL related functions:
+ * - Prepare PHP SELF
+ * - Redirect URL
+ * - Escape URL
+ * - RosarioSIS URL
  *
  * @package RosarioSIS
  * @subpackage functions
@@ -9,8 +13,9 @@
 /**
  * Prepare PHP SELF
  * Generates `Modules.php` SELF URL with GET parameters
+ * null, false & '' (empty string) are removed from URL
  *
- * @example PreparePHP_SELF( $_REQUEST, array(), array( 'modfunc' => 'delete' ) );
+ * @example PreparePHP_SELF( $_REQUEST, [], [ 'modfunc' => 'delete' ] );
  *
  * @uses URLEscape()
  *
@@ -27,12 +32,12 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 	if ( empty( $tmp_REQUEST ) )
 	{
 		$tmp_REQUEST = $_REQUEST;
-	}
 
-	// Remove Cookie vars.
-	foreach ( $_COOKIE as $key => $value )
+		$is_REQUEST = true;
+	}
+	else
 	{
-		unset( $tmp_REQUEST[ $key ] );
+		$is_REQUEST = $tmp_REQUEST === $_REQUEST;
 	}
 
 	// Remove vars in $remove.
@@ -41,15 +46,17 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 		unset( $tmp_REQUEST[ $key ] );
 	}
 
-	// Unescape DB strings.
-	array_rwalk(
-		$tmp_REQUEST,
-		function ( $input )
-		{
-			// null & false are converted to empty string so they are removed from URL.
-			return $input == '' ? (string) $input : DBUnescapeString( $input );
-		}
-	);
+	if ( $is_REQUEST )
+	{
+		// Unescape DB strings ($_REQUEST only, $_GET is not escaped).
+		array_rwalk(
+			$tmp_REQUEST,
+			function ( $input )
+			{
+				return $input == '' ? $input : DBUnescapeString( $input );
+			}
+		);
+	}
 
 	// Add vars in $add.
 	foreach ( (array) $add as $key => $value )
@@ -77,7 +84,7 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 						{
 							foreach ( $value2 as $key3 => $value3 )
 							{
-								if ( $value3 !== '' )
+								if ( (string) $value3 !== '' )
 								{
 									$PHP_tmp_SELF .= '&' . $key .
 										'[' . $key1 . '][' . $key2 .
@@ -85,20 +92,20 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 								}
 							}
 						}
-						elseif ( $value2 !== '' )
+						elseif ( (string) $value2 !== '' )
 						{
 							$PHP_tmp_SELF .= '&' . $key . '[' . $key1 .
 								'][' . $key2 . ']=' . $value2;
 						}
 					}
 				}
-				elseif ( $value1 !== '' )
+				elseif ( (string) $value1 !== '' )
 				{
 					$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . ']=' . $value1;
 				}
 			}
 		}
-		elseif ( $value !== '' )
+		elseif ( (string) $value !== '' )
 		{
 			$PHP_tmp_SELF .= '&' . $key . "=" . $value;
 		}
