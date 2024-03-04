@@ -105,9 +105,7 @@ function SaveEnrollment()
 			if ( $previous_enrollment_school_id != UserSchool() )
 			{
 				// @since 11.5 Update current school to enrollment school.
-				$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
-					WHERE SYEAR='" . UserSyear() . "'
-					AND ID='" . (int) $has_previous_enrollment_school_id . "'" );
+				$_SESSION['UserSchool'] = $previous_enrollment_school_id;
 			}
 		}
 	}
