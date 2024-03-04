@@ -23,6 +23,7 @@ Changes in 11.5
 - Add ProperTime() function in Date.php
 - License change from GNU/GPLv2 to GNU/GPLv2 or later so it is compatible with GNU/GPLv3 in COPYRIGHT, composer.json & package.json
 - Unescape DB strings (`$_REQUEST` only, `$_GET` is not escaped) in PreparePHP_SELF.fnc.php
+- Use DBUpsert() function & simplify logic in SaveEnrollment.fnc.php
 
 Changes in 11.4.4
 -----------------
