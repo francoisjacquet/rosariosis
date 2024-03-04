@@ -394,6 +394,8 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 						// Set series label + ticks
 						$chart_data_series[ $series_label ][0] = $ticks;
+
+						$chart_data_series[ $series_label ][1] = [];
 					}
 					else
 					{
