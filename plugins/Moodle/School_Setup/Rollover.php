@@ -270,9 +270,14 @@ function core_course_delete_courses_object()
 	int   //course ID
 	)*/
 
-	$courses = [ $id ];
+	$courseids = [ $id ];
 
-	return [ 'courses' => $courses ];
+	if ( MOODLE_API_PROTOCOL === 'rest' )
+	{
+		return [ 'courseids' => $courseids ];
+	}
+
+	return [ $courseids ];
 }
 
 /**
