@@ -42,7 +42,7 @@ $DatabaseName = 'database_name_here';
  *
  * mysqldump for MySQL
  * @example /usr/bin/mysqldump
- * @example C:/wamp/bin/mysql/mysql[version]/mysqldump.exe
+ * @example C:/xampp/mysql/bin/mysqldump.exe
  */
 $DatabaseDumpPath = '';
 
