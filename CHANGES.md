@@ -25,6 +25,7 @@ Changes in 11.5
 - Unescape DB strings (`$_REQUEST` only, `$_GET` is not escaped) in PreparePHP_SELF.fnc.php
 - Use DBUpsert() function & simplify logic in SaveEnrollment.fnc.php
 - Deprecate SaveData() function in SaveData.fnc.php
+- Add Hide Headers option in Letters.php
 
 Changes in 11.4.4
 -----------------
