@@ -12,7 +12,7 @@ Changes in 11.5
 - DBInsertSQL() & DBUpdateSQL() better check empty values ('', false, null) in DBUpsert.php
 - Breaking change: Use `$_ROSARIO` global var instead of `$_SESSION` in School.php
 - Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/ & locale/REFERENCE.md
-- Use DBUpdate() & DBInsert() functions in Student.php & User.php
+- Use DBUpdate() & DBInsert() functions in ReportCardGrades.php, Student.php & User.php
 - Fix PHP Fatal error maximum execution time of 120 seconds exceeded in InstallDatabase.php
 - Update French & Spanish translations in rosariosis.po
 - MakeChooseCheckbox() Add 'required' option to $value param. Prevent submitting form if no checkboxes are checked in Inputs.php

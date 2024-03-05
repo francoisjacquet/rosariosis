@@ -24,23 +24,15 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				&& ( empty( $columns['HHR_GPA_VALUE'] ) || is_numeric( $columns['HHR_GPA_VALUE'] ) )
 				&& ( empty( $columns['HRS_GPA_VALUE'] ) || is_numeric( $columns['HRS_GPA_VALUE'] ) ) )
 			{
+				$table = ( $_REQUEST['tab_id'] !== 'new' ? 'report_card_grades' : 'report_card_grade_scales' );
+
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE report_card_grade_scales SET ";
-
-					if ( $_REQUEST['tab_id'] !== 'new' )
-					{
-						$sql = "UPDATE report_card_grades SET ";
-					}
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-
-					DBQuery( $sql );
+					DBUpdate(
+						$table,
+						$columns,
+						[ 'ID' => (int) $id ]
+					);
 				}
 
 				// New: check for Title, Scale Value & Minimum Passing Grade.
@@ -48,37 +40,17 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					&& ( $_REQUEST['tab_id'] !== 'new' ||
 						( $columns['GP_SCALE'] && is_numeric( $columns['GP_PASSING_VALUE'] ) ) ) )
 				{
+					$insert_columns = [ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ];
+
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
-						$sql = 'INSERT INTO report_card_grades ';
-						$fields = 'SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
-						$values = "'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['tab_id'] . "',";
-					}
-					else
-					{
-						$sql = 'INSERT INTO report_card_grade_scales ';
-						$fields = 'SCHOOL_ID,SYEAR,';
-						$values = "'" . UserSchool() . "','" . UserSyear() . "',";
+						$insert_columns['GRADE_SCALE_ID'] = (int) $_REQUEST['tab_id'];
 					}
 
-					$go = false;
-
-					foreach ( (array) $columns as $column => $value )
-					{
-						if ( ! empty( $value ) || $value == '0' )
-						{
-							$fields .= DBEscapeIdentifier( $column ) . ',';
-							$values .= "'" . $value . "',";
-							$go = true;
-						}
-					}
-
-					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-					if ( $go )
-					{
-						DBQuery( $sql );
-					}
+					DBInsert(
+						$table,
+						$insert_columns + $columns
+					);
 				}
 			}
 			else
