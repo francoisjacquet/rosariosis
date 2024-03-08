@@ -20,6 +20,11 @@ function SaveEnrollment()
 	{
 		if ( $id == 'new' && empty( $columns['START_DATE'] ) )
 		{
+			if ( isset( $columns['START_DATE'] ) )
+			{
+				unset( $_REQUEST['values']['student_enrollment'][$id] );
+			}
+
 			continue;
 		}
 
