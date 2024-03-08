@@ -31,7 +31,8 @@ function SaveEnrollment()
 				FROM student_enrollment
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND '" . $columns['START_DATE'] . "' BETWEEN START_DATE AND END_DATE" );
+				AND ('" . $columns['START_DATE'] . "' BETWEEN START_DATE AND END_DATE
+					OR '" . $columns['START_DATE'] . "'>=START_DATE AND END_DATE IS NULL)" );
 
 			if ( $found )
 			{
@@ -62,7 +63,8 @@ function SaveEnrollment()
 				FROM student_enrollment
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND '" . $columns['START_DATE'] . "' BETWEEN START_DATE AND END_DATE
+				AND ('" . $columns['START_DATE'] . "' BETWEEN START_DATE AND END_DATE
+					OR '" . $columns['START_DATE'] . "'>=START_DATE AND END_DATE IS NULL)
 				AND ID<>'" . (int) $id . "'" );
 
 			if ( $found )
