@@ -269,6 +269,10 @@ function Update()
 		case version_compare( $from_version, '11.4.4', '<' ) :
 
 			$return = _update1144();
+
+		case version_compare( $from_version, '11.5', '<' ) :
+
+			$return = _update115();
 	}
 
 	// Update version in DB config table.
@@ -1162,6 +1166,57 @@ function _update1144()
         ON mp.school_id = schools.id
             AND mp.syear = schools.syear
     ORDER BY srcg.course_period_id;" );
+
+	return $return;
+}
+
+/**
+ * Update to version 11.5
+ * Fix SQL error value too long for type character varying(150)
+ * when saving a template with long modname
+ *
+ * 1. SQL templates table: convert MODNAME column to text
+ *
+ * Local function
+ *
+ * @since 11.5
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update115()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	// Check if data type is text already.
+	$modname_is_text = DBGetOne( "SELECT 1
+		FROM information_schema.columns
+		WHERE table_schema=" . ( $DatabaseType === 'mysql' ? 'DATABASE()' : 'CURRENT_SCHEMA()' ) . "
+		AND table_name='templates'
+		AND COLUMN_NAME='modname'
+		AND DATA_TYPE='text'
+		LIMIT 1;" );
+
+	if ( $modname_is_text )
+	{
+		return $return;
+	}
+
+	if ( $DatabaseType === 'postgresql' )
+	{
+		// 1. SQL templates table: convert MODNAME column to text
+		DBQuery( "ALTER TABLE templates
+		ALTER modname TYPE text;" );
+	}
+	else
+	{
+		// 1. SQL templates table: convert MODNAME column to text
+		DBQuery( "ALTER TABLE templates
+		CHANGE modname modname text;" );
+	}
 
 	return $return;
 }

@@ -26,6 +26,7 @@ Changes in 11.5
 - Use DBUpsert() function & simplify logic in SaveEnrollment.fnc.php
 - Deprecate SaveData() function in SaveData.fnc.php
 - Add Hide Headers option in Letters.php
+- SQL templates table: convert MODNAME column to text in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.4.4
 -----------------
