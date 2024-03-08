@@ -24,6 +24,7 @@ Changes in 11.5
 - License change from GNU/GPLv2 to GNU/GPLv2 or later so it is compatible with GNU/GPLv3 in COPYRIGHT, composer.json & package.json
 - Unescape DB strings (`$_REQUEST` only, `$_GET` is not escaped) in PreparePHP_SELF.fnc.php
 - Use DBUpsert() function & simplify logic in SaveEnrollment.fnc.php
+- SQL exclude current record when checking dates for existing enrollment in SaveEnrollment.fnc.php
 - Deprecate SaveData() function in SaveData.fnc.php
 - Add Hide Headers option in Letters.php
 - SQL templates table: convert MODNAME column to text in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
