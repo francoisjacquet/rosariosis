@@ -2036,7 +2036,7 @@ CREATE TABLE students_join_users (
 --
 
 CREATE TABLE templates (
-    modname text NOT NULL,
+    modname varchar(150) NOT NULL,
     staff_id integer NOT NULL, -- Can be 0, no REFERENCES staff(staff_id).
     template text,
     created_at timestamp DEFAULT current_timestamp,

@@ -28,7 +28,6 @@ Changes in 11.5
 - SQL include records without dropped dates when checking for existing enrollment in SaveEnrollment.fnc.php
 - Deprecate SaveData() function in SaveData.fnc.php
 - Add Hide Headers option in Letters.php
-- SQL templates table: convert MODNAME column to text in Update.fnc.php, rosariosis.sql & rosariosis_mysql.sql
 - Show date inputs even if admin profile cannot edit in AccessLog.php
 - CSS FlatSIS theme fix left menu logo below top menu bar when fixed in stylesheet.css
 
