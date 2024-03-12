@@ -27,6 +27,10 @@
 	/* 100% of browser screen height */
 }
 
+#menu.fixedmenu-fixed #menu-top {
+	margin-top: 39px;
+}
+
 #menu-top select {
 	width: 100%;
 }
