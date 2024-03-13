@@ -2,6 +2,32 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.5
+-----------
+
+Moodle plugin: Add REST API protocol for Moodle 4.1+ and MoodleCloud compatibility
+
+Scheduling
+- Courses: on course teacher change, new teacher will inherit old teacher's assignments
+
+Students
+- Letters: Hide Headers option
+
+[Templates](https://www.rosariosis.org/plugins/templates) plugin
+
+[Email Log](https://www.rosariosis.org/modules/email-log) module
+
+[PDF Archive](https://gitlab.com/francoisjacquet/PDF_Archive) module
+
+[Append Custom Field to Grade Level](https://gitlab.com/francoisjacquet/Append_Custom_Field_to_Grade_Level) plugin
+
+The above add-ons are sponsored by AT group, Slovenia
+
+Slovenian translation (71% complete), thanks to AT group, Slovenia
+
+License change from GNU/GPLv2 to GNU/GPLv2 or later so it is compatible with GNU/GPLv3
+
+
 New in 11.4
 -----------
 
@@ -246,7 +272,7 @@ New in 8.8
 
 Grades
 - Report Cards:
-  - Min. and Max. cumulative GPA
+  - Min. and Max. GPA
   - Class Rank
 
 [Email Students](https://www.rosariosis.org/modules/email-students/)
