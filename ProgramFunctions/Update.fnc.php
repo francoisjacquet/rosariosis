@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '11.4.4', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '11.5', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -1166,7 +1166,96 @@ function _update1144()
 	return $return;
 }
 
+// TODO 11.4 Remove assets/FS_icons/, assets/AssignmentsFiles/ & assets/PortalNotesFiles/ dir
+// if no files were uploaded.
 // @deprecated since 11.4 Assignments Files upload path $AssignmentsFilesPath global var
 // @deprecated since 11.4 Portal Notes Files upload path $PortalNotesFilesPath global var
 // @deprecated since 11.4 Food Service Icons upload path $FS_IconsPath global var
-// TODO 11.4 try to remove assets/FS_icons/, AssignmentsFiles/ & PortalNotesFiles/ only if default files in it.
+
+
+if ( is_dir( 'assets/AssignmentsFiles/' )
+	// Check if dir has no subdir (apart from README).
+	&& ! glob( 'assets/AssignmentsFiles/*', GLOB_ONLYDIR )
+	&& is_writable( 'assets/AssignmentsFiles/' ) )
+{
+	if ( file_exists( 'assets/AssignmentsFiles/README' ) )
+	{
+		@unlink( 'assets/AssignmentsFiles/README' );
+	}
+
+	if ( ! glob( 'assets/AssignmentsFiles/*' ) )
+	{
+		// Dir is empty, delete it.
+		rmdir( 'assets/AssignmentsFiles/' );
+	}
+}
+
+if ( is_dir( 'assets/PortalNotesFiles/' )
+	// Check if dir has no uploaded files (apart from README).
+	&& ! glob( 'assets/PortalNotesFiles/*.*' )
+	&& is_writable( 'assets/PortalNotesFiles/' ) )
+{
+	if ( file_exists( 'assets/PortalNotesFiles/README' ) )
+	{
+		@unlink( 'assets/PortalNotesFiles/README' );
+	}
+
+	if ( ! glob( 'assets/PortalNotesFiles/*' ) )
+	{
+		// Dir is empty, delete it.
+		rmdir( 'assets/PortalNotesFiles/' );
+	}
+}
+
+global $FileUploadsPath;
+
+if ( is_dir( 'assets/FileUploads/FS_icons/' )
+	&& is_dir( 'assets/FS_icons/' )
+	// Check if dir has files.
+	&& ( $fs_icons_files = glob( 'assets/FS_icons/*' ) ) )
+{
+	$default_fs_icons_files = [
+		'assets/FS_icons/Cheese.png',
+		'assets/FS_icons/Chicken.png',
+		'assets/FS_icons/Coffee.png',
+		'assets/FS_icons/Drink.png',
+		'assets/FS_icons/Fruit.png',
+		'assets/FS_icons/Guest.png',
+		'assets/FS_icons/Iced-Tea.png',
+		'assets/FS_icons/Lunch.png',
+		'assets/FS_icons/Milk.png',
+		'assets/FS_icons/Piece-of-cake.png',
+		'assets/FS_icons/Pizza.png',
+		'assets/FS_icons/README',
+		'assets/FS_icons/Salad.png',
+		'assets/FS_icons/Sandwich.png',
+		'assets/FS_icons/Seafood.png',
+	];
+
+	if ( $fs_icons_files === $default_fs_icons_files )
+	{
+		// Files inside dir are default files: no files were uploaded, delete them
+		foreach ( (array) $fs_icons_files as $fs_icon_file )
+		{
+			@unlink( $fs_icon_file );
+		}
+	}
+	else
+	{
+		// Files inside dir are not default files: some files were uploaded, move them
+		foreach ( (array) $fs_icons_files as $fs_icon_file )
+		{
+			@rename(
+				$fs_icon_file,
+				str_replace( 'assets/FS_icons/', $FileUploadsPath . 'FS_icons/', $fs_icon_file )
+			);
+		}
+	}
+
+	if ( ! glob( 'assets/FS_icons/*' )
+		&& is_writable( 'assets/FS_icons/' ) )
+	{
+		// Dir is now empty, delete it.
+		rmdir( 'assets/FS_icons/' );
+	}
+}

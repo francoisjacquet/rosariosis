@@ -18,7 +18,7 @@
  * @package RosarioSIS
  */
 
-define( 'ROSARIO_VERSION', '11.4.4' );
+define( 'ROSARIO_VERSION', '11.5' );
 
 /**
  * Include config.inc.php file.
@@ -557,6 +557,7 @@ function _LoadAddons( $addons, $folder )
  * @since 3.8 Warehouse footer hook
  * @since 4.4 Warehouse header hook
  * @since 6.0 Warehouse Header Javascripts
+ * @since 12.0 HTML Use `<main>` tag for #body TODO test in IE11!
  *
  * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded'] & $_ROSARIO['page']
  *
@@ -619,7 +620,10 @@ function Warehouse( $mode )
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>">
-	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
+	<style>
+		span.multilang[lang|="<?php echo $lang_2_chars; ?>"]{display: initial;}
+		.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}
+	</style>
 	<?php
 
 			if ( $_ROSARIO['page'] === 'modules'
@@ -671,7 +675,7 @@ function Warehouse( $mode )
 			endif;
 
 			?>
-	<div id="body" tabindex="0" role="main" class="mod">
+	<main id="body" tabindex="0" class="mod">
 <?php
 			/**
 			 * Hook.
@@ -717,7 +721,7 @@ function Warehouse( $mode )
 			// If not AJAX request.
 			if ( ! isAJAX() ):
 			?>
-	</div><!-- #body -->
+	</main><!-- #body -->
 	<div class="ajax-error"></div>
 <?php
 
@@ -750,7 +754,7 @@ function Warehouse( $mode )
 			elseif ( ! isAJAX() ): // Other pages (not modules).
 
 				?>
-		</div><!-- #body -->
+	</main><!-- #body -->
 </body></html>
 <?php
 			endif;
@@ -776,7 +780,7 @@ function WarehouseHeaderJS()
 	$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
 	?>
-	<script src="assets/js/jquery.js?v=2.2.4"></script>
+	<script src="assets/js/jquery.js?v=3.7.1"></script>
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<?php
