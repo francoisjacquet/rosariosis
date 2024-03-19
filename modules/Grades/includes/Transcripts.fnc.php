@@ -141,7 +141,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 					);
 				}
 
-				krsort( $syoptions );
+				ksort( $syoptions );
 
 				$return .= Select2Input(
 					UserSyear(),
