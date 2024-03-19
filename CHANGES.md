@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.5.1
+-----------------
+- Fix PHP warning undefined array key "" when `$days_array` is empty in PrintSchedules.php & Schedule.inc.php
+
 Changes in 11.5
 ---------------
 - Moodle plugin: Add REST API protocol in plugins/Moodle/, rosariosis.sql & rosariosis_mysql.sql

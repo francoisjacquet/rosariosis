@@ -178,6 +178,12 @@ function _GetDays( $value, $column )
 
 	foreach ( $days_array as $day )
 	{
+		if ( ! $day )
+		{
+			// Fix PHP warning undefined array key "" when $days_array is empty
+			continue;
+		}
+
 		$schedule_table_days[$day] = true;
 	}
 
