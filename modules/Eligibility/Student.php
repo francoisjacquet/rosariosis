@@ -9,7 +9,7 @@ Widgets( 'eligibility' );
 Search( 'student_id', $extra );
 
 if ( $_REQUEST['modfunc'] === 'add'
-	&& $_REQUEST['new_activity']
+	&& ! empty( $_REQUEST['new_activity'] )
 	&& AllowEdit() )
 {
 	// FJ fix bug add the same activity more than once.
