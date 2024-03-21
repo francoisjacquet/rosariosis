@@ -194,6 +194,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 	 * @since 4.8 Define your custom function in your addon module or plugin.
 	 * @since 4.8 Add Transcripts PDF header action hook.
 	 * @since 5.0 Add GPA or Total row.
+	 * @since 11.5.1 Fix Calculate GPA for all Marking Periods when Year not checked
 	 *
 	 * @param  array         $student_array Students IDs.
 	 * @param  array         $mp_type_array Marking Periods types.
@@ -340,8 +341,12 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				// Generate ListOutput friendly array.
 				$grades_RET = [];
 
+				$last_mp = array_keys( $mps );
+				$last_mp = end( $last_mp );
+
 				$total_credit_earned = 0;
 				$total_credit_attempted = 0;
+				$total_gpa = 0;
 
 				$columns = [ 'COURSE_TITLE' => _( 'Course' ) ];
 
@@ -381,27 +386,32 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 						$grades_total[$mp_id] += $grade['WEIGHTED_GP'];
 
-						if ( $show['credits'] )
+						if ( ( strpos( $mp_type_list, 'year' ) !== false
+								&& $grade['MP_TYPE'] != 'quarter'
+								&& $grade['MP_TYPE'] != 'semester' )
+							|| ( strpos( $mp_type_list, 'semester' ) !== false
+								&& $grade['MP_TYPE'] != 'quarter' )
+							|| ( strpos( $mp_type_list, 'year' ) === false
+								&& strpos( $mp_type_list, 'semester' ) === false
+								&& $grade['MP_TYPE'] == 'quarter' ) )
 						{
-							if ( ( strpos( $mp_type_list, 'year' ) !== false
-									&& $grade['MP_TYPE'] != 'quarter'
-									&& $grade['MP_TYPE'] != 'semester' )
-								|| ( strpos( $mp_type_list, 'semester' ) !== false
-									&& $grade['MP_TYPE'] != 'quarter' )
-								|| ( strpos( $mp_type_list, 'year' ) === false
-									&& strpos( $mp_type_list, 'semester' ) === false
-									&& $grade['MP_TYPE'] == 'quarter' ) )
+							if ( ! isset( $grades_RET[$i]['CREDIT_EARNED'] ) )
 							{
-								if ( ! isset( $grades_RET[$i]['CREDIT_EARNED'] ) )
-								{
-									$grades_RET[$i]['CREDIT_EARNED'] = 0;
-								}
-
-								$grades_RET[$i]['CREDIT_EARNED'] += (float) $grade['CREDIT_EARNED'];
-
-								$total_credit_earned += $grade['CREDIT_EARNED'];
-								$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
+								$grades_RET[$i]['CREDIT_EARNED'] = 0;
 							}
+
+							$grades_RET[$i]['CREDIT_EARNED'] += (float) $grade['CREDIT_EARNED'];
+
+							if ( $mp_id === $last_mp
+								&& mb_strlen( $grades_RET[$i]['CREDIT_EARNED'] ) > 7 )
+							{
+								// Format Credit Earned, display 0.33 instead of 0.333333333333333
+								$grades_RET[$i]['CREDIT_EARNED'] = number_format( $grades_RET[$i]['CREDIT_EARNED'], 2, '.' );
+							}
+
+							$total_credit_earned += $grade['CREDIT_EARNED'];
+							$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
+							$total_gpa += $grade['WEIGHTED_GP'] * $grade['CREDIT_ATTEMPTED'];
 						}
 
 						if ( $show['credithours']
@@ -455,6 +465,27 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				ListOutput( $grades_RET, $columns, '.', '.', [], [], [ 'count' => false ] );
 
 				$last_grade = $show['grades'] ? $grade : [];
+
+				if ( strpos( $mp_type_list, 'year' ) === false
+					&& count( $mps ) > 1 )
+				{
+					/**
+					 * Fix Calculate GPA for all Marking Periods when Year not checked
+					 *
+					 * Year Marking Period is not on Transcript & we have more than 1 Quarter/Semester.
+					 * Last grade's CUM_WEIGHTED_GPA would only reflect the GPA of the last Marking Period.
+					 *
+					 * @since 11.5.1
+					 */
+					$last_grade['CUM_WEIGHTED_GPA'] = $total_credit_attempted ?
+						$total_gpa / $total_credit_attempted : 0;
+
+					if ( is_null( $last_grade['SCHOOL_SCALE'] ) )
+					{
+						// No school scale recorded for Historical Grades.
+						$last_grade['SCHOOL_SCALE'] = $school_info['REPORTING_GP_SCALE'];
+					}
+				}
 
 				if ( $show['credits'] )
 				{
@@ -681,14 +712,16 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 		}
 
 		if ( $last_grade
-			&& $last_grade['total_credit_attempted'] > 0 )
+			&& ! empty( $last_grade['total_credit_attempted'] ) )
 		{
 			// Total Credits.
 			echo '<tr><td><span>' . _( 'Total' ) . ' ' . _( 'Credit' ) . ': ' .
 			_( 'Credit Attempted' ) . ': ' . (float) $last_grade['total_credit_attempted'] .
 			' &ndash; ' . _( 'Credit Earned' ) . ': ' . (float) $last_grade['total_credit_earned'] .
-			'</span></td></tr></table>';
+			'</span></td></tr>';
 		}
+
+		echo '</table>';
 
 		if ( ! empty( $certificate_text ) )
 		{
