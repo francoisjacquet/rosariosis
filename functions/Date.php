@@ -194,11 +194,8 @@ function VerifyDate( $date )
 {
 	$date_exploded = ExplodeDate( (string) $date );
 
-	if ( (string) (int) $date_exploded['month'] != $date_exploded['month']
-		|| (string) (int) $date_exploded['day'] != $date_exploded['day']
-		|| (string) (int) $date_exploded['year'] != $date_exploded['year'] )
+	if ( ! $date_exploded['month'] )
 	{
-		// Exploded date components are not integer.
 		return false;
 	}
 
@@ -475,90 +472,27 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 /**
  * Explode a ISO or Oracle date
  *
- * @todo use strtotime()?
+ * @since 11.6 Use strtotime()
+ * @link https://www.php.net/strtotime
  *
  * @param  string $date Postgres or Oracle date.
  *
- * @return array  array( 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' )
+ * @return array  [ 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' ]
  */
 function ExplodeDate( $date )
 {
-	// Invalid format.
-	$year = $month = $day = '';
+	$timestamp = strtotime( $date );
 
-	if ( empty( $date ) )
+	if ( empty( $timestamp ) )
 	{
-		return [ 'year' => $year, 'month' => $month, 'day' => $day ];
+		return [ 'year' => '', 'month' => '', 'day' => '' ];
 	}
 
-	// Oracle format DD-MMM-YY.
-	if ( mb_strlen( $date ) === 9 )
-	{
-		$year = mb_substr( $date, 7, 2 );
-
-		$year = ( $year < 30 ? '20' : '19' ) . $year;
-
-		$month = MonthNWSwitch( mb_substr( $date, 3, 3 ), 'tonum' );
-
-		$day = mb_substr( $date, 0, 2 );
-	}
-	// ISO format YYYY-MM-DD.
-	elseif ( mb_strlen( $date ) === 10 )
-	{
-		$year = mb_substr( $date, 0, 4 );
-
-		$month = mb_substr( $date, 5, 2 );
-
-		$day = mb_substr( $date, 8, 2 );
-
-		if ( ! is_numeric( $year )
-			&& is_numeric( mb_substr( $date, 6, 4 ) ) )
-		{
-			if ( mb_substr( $date, 2, 1 ) === '/' )
-			{
-				// US Format: MM/DD/YYYY.
-				$year = mb_substr( $date, 6, 4 );
-
-				$month = mb_substr( $date, 0, 2 );
-
-				$day = mb_substr( $date, 3, 2 );
-			}
-
-			if ( mb_substr( $date, 2, 1 ) === '-'
-				|| $month > 12 )
-			{
-				// European Format: DD-MM-YYYY.
-				$year = mb_substr( $date, 6, 4 );
-
-				$month = mb_substr( $date, 3, 2 );
-
-				$day = mb_substr( $date, 0, 2 );
-			}
-		}
-	}
-	// Oracle with 4-digits year DD-MMM-YYYY.
-	elseif ( mb_strlen( $date ) === 11 )
-	{
-		$year = mb_substr( $date, 7, 4 );
-
-		$month = MonthNWSwitch( mb_substr( $date, 3, 3 ), 'tonum' );
-
-		$day = mb_substr( $date, 0, 2 );
-	}
-	// Short European Format: DD-MM-YY.
-	elseif ( mb_strlen( $date ) === 8 )
-	{
-		$year = mb_substr( $date, 6, 2 );
-
-		// Add 19 or 20 to complete 4 digits year.
-		$year = 40 >= $year ? '19' . $year : '20' . $year;
-
-		$month = mb_substr( $date, 3, 2 );
-
-		$day = mb_substr( $date, 0, 2 );
-	}
-
-	return [ 'year' => $year, 'month' => $month, 'day' => $day ];
+	return [
+		'year' => date( 'Y', $timestamp ),
+		'month' => date( 'm', $timestamp ),
+		'day' => date( 'd', $timestamp ),
+	];
 }
 
 /**
