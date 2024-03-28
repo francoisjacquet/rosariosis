@@ -479,10 +479,29 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	if ( $result_count > 0 )
 	{
+		// List has input?
+		$list_has_input = false;
+
+		$item = reset( $result );
+
+		foreach ( (array) $item as $string )
+		{
+			if ( $string
+				&& ( strpos( $string, '<input' ) !== false
+					|| strpos( $string, '<select' ) !== false ) )
+			{
+				// First row has input.
+				$list_has_input = true;
+
+				break;
+			}
+		}
+
 		echo '<div class="list-wrapper"><table class="list widefat' .
 			( $options['responsive'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ? ' rt' : '' ) .
 			( $options['valign-middle'] ? ' valign-middle' : '' ) .
-			( ! $list_has_nav ? ' list-no-nav' : '' ) . '"><thead><tr>';
+			( ! $list_has_nav ? ' list-no-nav' : '' ) .
+			( $list_has_input ? ' has-input' : '' ) . '"><thead><tr>';
 
 		$i = 1;
 
@@ -749,7 +768,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( ! empty( $link['add']['html'] ) )
 			{
-				echo '<div class="list-wrapper"><table class="list widefat';
+				echo '<div class="list-wrapper"><table class="list widefat has-input';
 
 				echo $options['responsive'] ? ' rt' : '';
 
