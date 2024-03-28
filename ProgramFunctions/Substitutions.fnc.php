@@ -15,8 +15,9 @@
  * @example echo SubstitutionsInput( array( '__FULL_NAME__' => _( 'Display Name' ), '__SCHOOL_ID__' => _( 'School' ) ) );
  *
  * @uses SelectInput
+ * @uses Select2Input if more than 30 substitution codes
  *
- * @param array $substitutions Associative array containing code as key and
+ * @param array $substitutions Associative array containing code as key and label.
  *
  * @return string Input HTML.
  */
@@ -34,7 +35,9 @@ function SubstitutionsInput( $substitutions )
 
 	$id++;
 
-	$input_html = SelectInput(
+	$select_function = count( $substitutions ) > 30 ? 'Select2Input' : 'SelectInput';
+
+	$input_html = $select_function(
 		'',
 		'substitutions_input_' . $id,
 		'',

@@ -4,6 +4,7 @@
 Changes in 11.6
 ---------------
 - JS FixedMenu Round menu height as 100vh is sometimes not exactly equal to window height in jquery-fixedmenu.js
+- SubstitutionsInput() use Select2Input if more than 30 substitution codes in Substitutions.fnc.php
 
 Changes in 11.5.1
 -----------------
