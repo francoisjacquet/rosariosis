@@ -14,6 +14,7 @@ Changes in 11.6
 - ExplodeDate() use strtotime() in Date.php
 - Remove MonthNWSwitch(), `__mnwswitch_num2char()` & `__mnwswitch_char2num()` functions in Date.php
 - Send wkhtmltopdf error by email in PDF.php
+- Log error if not sending email ($RosarioErrorsAddress not set) in ErrorMessage.fnc.php
 
 Changes in 11.5.1
 -----------------

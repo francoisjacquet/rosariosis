@@ -123,9 +123,12 @@ function ErrorMessage( $errors, $code = 'error' )
  * @since 4.0
  * @since 6.5 Add Profile.
  * @since 10.0 Add Can use modname.
+ * @since 11.6 Log error if not sending email ($RosarioErrorsAddress not set)
  *
  * @param array  $error Error messages. Optional.
  * @param $title string Email title. Optional.
+ *
+ * @return True if email sent, false otherwise.
  */
 function ErrorSendEmail( $error = [], $title = 'PHP Fatal error' )
 {
@@ -162,6 +165,12 @@ function ErrorSendEmail( $error = [], $title = 'PHP Fatal error' )
 
 	if ( ! filter_var( $RosarioErrorsAddress, FILTER_VALIDATE_EMAIL ) )
 	{
+		if ( $title !== 'PHP Fatal error' )
+		{
+			// Log error.
+			error_log( $title . ' - ' . implode( ' ', $error ) );
+		}
+
 		return false;
 	}
 
@@ -208,7 +217,5 @@ function ErrorSendEmail( $error = [], $title = 'PHP Fatal error' )
 		$message = nl2br( $message );
 	}
 
-	SendEmail( $RosarioErrorsAddress, $title, $message );
-
-	return true;
+	return SendEmail( $RosarioErrorsAddress, $title, $message );
 }
