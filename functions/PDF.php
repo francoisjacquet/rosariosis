@@ -62,6 +62,7 @@ function PDFStart( $options = [] )
  * @since 10.9 CSS Add modname class, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php
  * @since 11.2 Security remove $wkhtmltopdfAssetsPath & --enable-local-file-access, use base URL instead
  * @since 11.4.1 Add `functions/PDF.php|pdf_stop_html` & `functions/PDF.php|pdf_stop_pdf` action hooks
+ * @since 11.6 Send wkhtmltopdf error by email
  *
  * @link https://github.com/mikehaertl/phpwkhtmltopdf
  *
@@ -69,7 +70,7 @@ function PDFStart( $options = [] )
  *
  * @param  array $handle from PDFStart(), PDF options.
  *
- * @return string Full path to file if Save mode, else outputs HTML if not wkhtmltopdf or Embed / Download PDF
+ * @return string Full path to file if Save mode (empty if error), else outputs HTML if not wkhtmltopdf or Embed / Download PDF
  */
 function PDFStop( $handle )
 {
@@ -304,6 +305,10 @@ function PDFStop( $handle )
 		if ( ! $pdf->saveAs( $full_path ) )
 		{
 			echo ErrorMessage( [ $pdf->getError() ] );
+
+			ErrorSendEmail( [ $pdf->getError() ], 'wkhtmltopdf error' );
+
+			return '';
 		}
 
 		return $full_path;
@@ -313,6 +318,8 @@ function PDFStop( $handle )
 	if ( ! $pdf->send( $filename . '.pdf', (bool) $handle['mode'] ) ) // Embed or Download.
 	{
 		echo ErrorMessage( [ $pdf->getError() ] );
+
+		ErrorSendEmail( [ $pdf->getError() ], 'wkhtmltopdf error' );
 	}
 
 	return '';

@@ -13,6 +13,7 @@ Changes in 11.6
 - CSS add .has-input class to list having input (input or select fields) in ListOutput.fnc.php
 - ExplodeDate() use strtotime() in Date.php
 - Remove MonthNWSwitch(), `__mnwswitch_num2char()` & `__mnwswitch_char2num()` functions in Date.php
+- Send wkhtmltopdf error by email in PDF.php
 
 Changes in 11.5.1
 -----------------
