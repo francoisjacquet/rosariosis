@@ -12,6 +12,7 @@ Changes in 11.6
 - Add vertically align list data option (defaults to false) in ListOutput.fnc.php
 - CSS add .has-input class to list having input (input or select fields) in ListOutput.fnc.php
 - ExplodeDate() use strtotime() in Date.php
+- Remove MonthNWSwitch(), `__mnwswitch_num2char()` & `__mnwswitch_char2num()` functions in Date.php
 
 Changes in 11.5.1
 -----------------
