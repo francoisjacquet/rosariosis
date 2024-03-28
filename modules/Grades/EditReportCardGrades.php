@@ -361,6 +361,7 @@ if ( UserStudentID() )
 					$tabs,
 					$tab_url . $tab_id
 				),
+				'valign-middle' => true,
 			];
 
 			$LO_columns = [
@@ -446,8 +447,6 @@ if ( UserStudentID() )
 				'&modfunc=remove&mp_id=' . $mp_id;
 
 			$link['remove']['variables'] = [ 'id' => 'ID' ];
-
-			$link['add']['html']['remove'] = button( 'add' );
 
 			// FJ SQL error fix: operator does not exist: character varying = integer, add explicit type casts.
 			// $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';

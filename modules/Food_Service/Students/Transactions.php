@@ -186,8 +186,6 @@ if ( UserStudentID()
 				'type="number" step="0.01" max="999999999999" min="0" required'
 			);
 
-			$link['add']['html']['remove'] = button( 'add' );
-
 			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . '&modfunc=delete&student_id=' . UserStudentID();
 			$link['remove']['variables'] = [ 'id' => 'TRANSACTION_ID' ];
 		}

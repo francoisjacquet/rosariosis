@@ -266,8 +266,6 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
 		$link['remove']['variables'] = [ 'menu_item_id' => 'MENU_ITEM_ID' ];
 
-		$link['add']['html']['remove'] = button( 'add' );
-
 		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
@@ -351,7 +349,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
 		$link['remove']['variables'] = [ 'item_id' => 'ITEM_ID' ];
-		$link['add']['html']['remove'] = button( 'add' );
 
 		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),

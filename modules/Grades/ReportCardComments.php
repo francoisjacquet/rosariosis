@@ -303,7 +303,6 @@ if ( ! $_REQUEST['modfunc'] )
 			'&course_id=' . $_REQUEST['course_id'] . '&tab_id=new';
 
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
-		$link['add']['html']['remove'] = button( 'add' );
 
 		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
@@ -333,7 +332,6 @@ if ( ! $_REQUEST['modfunc'] )
 			'&course_id=' . $_REQUEST['course_id'] . '&tab_id=-1';
 
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
-		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
@@ -405,7 +403,6 @@ if ( ! $_REQUEST['modfunc'] )
 			$_REQUEST['course_id'] . '&tab_id=' . $_REQUEST['tab_id'];
 
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
-		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
