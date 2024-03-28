@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.6
+---------------
+- JS FixedMenu Round menu height as 100vh is sometimes not exactly equal to window height in jquery-fixedmenu.js
+
 Changes in 11.5.1
 -----------------
 - Fix PHP warning undefined array key "" when `$days_array` is empty in PrintSchedules.php & Schedule.inc.php

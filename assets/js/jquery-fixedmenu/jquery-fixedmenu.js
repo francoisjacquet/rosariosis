@@ -72,7 +72,8 @@ function fixedMenu() {
 			Math.round(menu.width()) === window.innerWidth || // isMobileMenu(), #menu width is 100% viewport width.
 			bodyHeight <= windowHeight ||
 			menu.height() >= bodyHeight ||
-			($window.scrollTop() + windowHeight <= menu.outerHeight())) {
+			// Round menu height as 100vh is sometimes not exactly equal to window height
+			Math.round($window.scrollTop() + windowHeight) <= Math.round(menu.outerHeight())) {
 			return unfixMenu();
 		}
 
