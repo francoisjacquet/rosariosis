@@ -5,6 +5,10 @@ Changes in 11.6
 ---------------
 - JS FixedMenu Round menu height as 100vh is sometimes not exactly equal to window height in jquery-fixedmenu.js
 - SubstitutionsInput() use Select2Input if more than 30 substitution codes in Substitutions.fnc.php
+- CSS add .valign-middle class in stylesheet.css
+- CSS increase input horizontal padding in stylesheet.css
+- CSS Vertical align button inside first td, use when row has input (list with fields) in stylesheet.css
+- CSS WPadmin theme use OpenSans Semibold font instead of OpenSans Bold in font.css
 
 Changes in 11.5.1
 -----------------

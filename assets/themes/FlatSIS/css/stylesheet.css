@@ -142,7 +142,7 @@ input[type=radio] {
 }
 
 input[type=number] {
-	width: 50px
+	width: 58px
 }
 
 input[type=number][name*=AMOUNT],
@@ -247,11 +247,15 @@ select,
 textarea {
 	line-height: 1.3;
 	margin: 1px 1px 1px 0;
-	padding: 2px;
+	padding: 2px 4px;
+}
+
+input[type=number] {
+	padding-right: 2px;
 }
 
 select {
-	padding: 0 3px;
+	padding: 0 2px 0 4px;
 	height: 27px
 }
 
@@ -617,6 +621,12 @@ textarea {
 
 label {
 	vertical-align: middle
+}
+
+/* Choose checkbox, see MakeChooseCheckbox() */
+
+.list td:first-of-type label input[type="checkbox"] {
+	vertical-align: initial
 }
 
 /* Proper Date, see ProperDate() */
@@ -1069,7 +1079,7 @@ textarea {
 	border-width: 1px;
 	border-bottom-width: 2px;
 	border-style: solid;
-	padding: 2px 7px;
+	padding: 2px 4px;
 	margin-bottom: 2px;
 	box-sizing: border-box;
 	overflow-y: auto;
@@ -1164,6 +1174,18 @@ td.valign-bottom,
 tr.valign-bottom td,
 table.valign-bottom td {
 	vertical-align: bottom
+}
+
+td.valign-middle,
+tr.valign-middle td,
+table.valign-middle td {
+	vertical-align: middle
+}
+
+/* Vertical align button inside first td, use when row has input (list with fields) */
+
+.list.has-input:not(.valign-middle) > tbody > tr > td:first-child .button {
+	padding-top: 8px
 }
 
 .align-right,

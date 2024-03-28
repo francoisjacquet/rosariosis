@@ -14,7 +14,7 @@
 	font-style: italic;
 }
 
-@font-face {
+/*@font-face {
 	font-family: 'Open Sans';
 	src: url('fonts/opensans/BoldItalic.woff') format('woff'), url('fonts/opensans/BoldItalic.ttf') format('truetype');
 	font-weight: 700;
@@ -26,7 +26,7 @@
 	src: url('fonts/opensans/Bold.woff') format('woff'), url('fonts/opensans/Bold.ttf') format('truetype');
 	font-weight: 700;
 	font-style: normal;
-}
+}*/
 
 /*@font-face {
 	font-family: 'Open Sans';
@@ -58,20 +58,18 @@
 		 url('fonts/opensans/Light.ttf') format('truetype');
 	font-weight: 300;
 	font-style: normal;
-}
+}*/
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/SemiboldItalic.woff') format('woff'),
-		 url('fonts/opensans/SemiboldItalic.ttf') format('truetype');
+	src: url('fonts/opensans/SemiboldItalic.woff') format('woff'), url('fonts/opensans/SemiboldItalic.ttf') format('truetype');
 	font-weight: 600;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Open Sans';
-	src: url('fonts/opensans/Semibold.woff') format('woff'),
-		 url('fonts/opensans/Semibold.ttf') format('truetype');
+	src: url('fonts/opensans/Semibold.woff') format('woff'), url('fonts/opensans/Semibold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;
-}*/
+}

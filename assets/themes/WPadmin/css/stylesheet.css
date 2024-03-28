@@ -221,11 +221,15 @@ select,
 textarea {
 	line-height: 1.3;
 	margin: 1px 1px 1px 0;
-	padding: 3px;
+	padding: 3px 6px;
+}
+
+input[type=number] {
+	padding-right: 3px;
 }
 
 select {
-	padding: 0 3px;
+	padding: 0 3px 0 6px;
 	height: 26px
 }
 
@@ -582,6 +586,12 @@ label {
 	vertical-align: middle
 }
 
+/* Choose checkbox, see MakeChooseCheckbox() */
+
+.list td:first-of-type label input[type="checkbox"] {
+	vertical-align: initial
+}
+
 /* Proper Date, see ProperDate() */
 
 .proper-date {
@@ -890,7 +900,7 @@ h3 span {
 }
 
 .header2 table {
-	line-height: 1;
+	line-height: 1.1;
 	margin-left: -3px;
 }
 
@@ -995,7 +1005,7 @@ textarea {
 	display: none;
 	border-width: 1px;
 	border-style: solid;
-	padding: 2px 7px;
+	padding: 3px 6px;
 	margin-bottom: 2px;
 	box-sizing: border-box;
 	overflow-y: auto;
@@ -1075,6 +1085,18 @@ td.valign-bottom,
 tr.valign-bottom td,
 table.valign-bottom td {
 	vertical-align: bottom
+}
+
+td.valign-middle,
+tr.valign-middle td,
+table.valign-middle td {
+	vertical-align: middle
+}
+
+/* Vertical align button inside first td, use when row has input (list with fields) */
+
+.list.has-input:not(.valign-middle) > tbody > tr > td:first-child .button {
+	padding-top: 6px
 }
 
 .align-right,
