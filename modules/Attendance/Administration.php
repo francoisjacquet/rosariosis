@@ -335,7 +335,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 
 	DrawHeader( $headerl, $headerr );
 
-	ListOutput( $schedule_RET, $columns, 'Course', 'Courses' );
+	ListOutput( $schedule_RET, $columns, 'Course', 'Courses', [], [], [ 'valign-middle' => true ] );
 
 	echo '</form>';
 }
@@ -556,6 +556,8 @@ else
 	DrawHeader( $headerl, $headerr );
 
 	$_REQUEST['search_modfunc'] = 'list';
+
+	$extra['options']['valign-middle'] = true;
 
 	Search( 'student_id', $extra );
 

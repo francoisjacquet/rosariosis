@@ -255,6 +255,8 @@ if ( UserStudentID()
 		$options = [ 'center' => false, 'add' => false ];
 	}
 
+	$options['valign-middle'] = true;
+
 	ListOutput(
 		$RET,
 		$columns,

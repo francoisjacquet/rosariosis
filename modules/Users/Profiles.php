@@ -355,7 +355,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 			echo '></span> ' . $module_title . '</h3>';
 
-			echo '<table class="widefat fixed-col"><tr><th class="align-right"><label>' . _( 'Can Use' ) . ' ' .
+			echo '<table class="widefat fixed-col valign-middle"><tr><th class="align-right"><label>' . _( 'Can Use' ) . ' ' .
 				( AllowEdit() ?
 				'<input type="checkbox" name="' . AttrEscape( 'can_use_' . $modcat ) .
 				'" onclick="' . AttrEscape( 'checkAll(this.form,this.form.can_use_' . $modcat .

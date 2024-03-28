@@ -325,7 +325,7 @@ if ( UserStudentID()
 
 	VerifySchedule( $schedule_RET );
 
-	ListOutput( $schedule_RET, $columns, 'Course', 'Courses', $link );
+	ListOutput( $schedule_RET, $columns, 'Course', 'Courses', $link, [], [ 'valign-middle' => true ] );
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';

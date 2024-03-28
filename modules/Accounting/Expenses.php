@@ -149,6 +149,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
+	$link = [];
+
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{
@@ -185,7 +187,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
-		$options = [];
+		$options = [ 'valign-middle' => true ];
 	}
 	else
 	{

@@ -234,7 +234,7 @@ if ( ! empty( $_REQUEST['values'] )
 	unset( $current_RET );
 }
 
-$LO_options = [ 'search' => false ];
+$LO_options = [ 'search' => false, 'valign-middle' => true ];
 
 if ( UserStudentID() )
 {

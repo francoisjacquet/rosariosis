@@ -218,6 +218,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'search' => false,
 		'save' => false,
 		'count' => false,
+		'valign-middle' => true,
 	];
 
 	if ( ! in_array( $_REQUEST['tab'], [ 'student_fields', 'staff_fields' ] ) )

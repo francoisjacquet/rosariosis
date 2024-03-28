@@ -316,7 +316,7 @@ if ( $_REQUEST['student_id']
 	}
 
 	// Student view, list courses.
-	ListOutput( $student_RET, $columns, 'Course', 'Courses' );
+	ListOutput( $student_RET, $columns, 'Course', 'Courses', [], [], [ 'valign-middle' => true ] );
 }
 else
 {
@@ -381,6 +381,8 @@ else
 	$extra['new'] = true;
 
 	$extra['action'] = '&report=' . $_REQUEST['report'];
+
+	$extra['options']['valign-middle'] = true;
 
 	Search( 'student_id', $extra );
 

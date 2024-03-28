@@ -439,9 +439,11 @@ foreach ( (array) $categories_RET as $category )
 	];
 }
 
+$LO_options = [ 'valign-middle' => true ];
+
 if ( ! empty( $categories_RET ) )
 {
-	$LO_options = [
+	$LO_options += [
 		'download' => false,
 		'search' => false,
 		'header' => WrapTabs(
@@ -452,10 +454,7 @@ if ( ! empty( $categories_RET ) )
 		),
 	];
 }
-else
-{
-	$LO_options = [];
-}
+
 
 echo '<br />';
 

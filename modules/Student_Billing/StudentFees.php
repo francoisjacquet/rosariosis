@@ -256,6 +256,8 @@ if ( UserStudentID()
 		$options = [ 'center' => false ];
 	}
 
+	$options['valign-middle'] = true;
+
 	// Do hook.
 	do_action( 'Student_Billing/StudentFees.php|student_fees_header' );
 

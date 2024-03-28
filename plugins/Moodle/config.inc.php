@@ -171,7 +171,15 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 
 		$LO_users = MoodleUsersMake( $users_filtered );
 
-		ListOutput( $LO_users, $columns, 'Moodle User', 'Moodle Users' );
+		ListOutput(
+			$LO_users,
+			$columns,
+			'Moodle User',
+			'Moodle Users',
+			[],
+			[],
+			[ 'valign-middle' => true ]
+		);
 
 		echo '<br /><div class="center">' . SubmitButton(
 			_( 'Import Selected Users' ),

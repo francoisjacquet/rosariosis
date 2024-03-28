@@ -154,7 +154,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&staff_id=' . UserStaffID() ) . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
-		$options = [];
+		$options = [ 'valign-middle' => true ];
 	}
 	else
 	{

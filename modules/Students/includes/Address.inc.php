@@ -457,7 +457,7 @@ if ( ! $_REQUEST['modfunc'] )
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 
 	echo '<table><tr class="address st"><td class="valign-top">';
-	echo '<table class="widefat cellpadding-5">';
+	echo '<table class="widefat cellpadding-5 valign-middle">';
 
 	$i = 1;
 
@@ -695,7 +695,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( ! empty( $contacts_RET ) || AllowEdit() )
 			{
-				echo '<table class="widefat width-100p"><tr><th colspan="3">';
+				echo '<table class="widefat width-100p valign-middle"><tr><th colspan="3">';
 
 				echo ( $_REQUEST['address_id'] == '0' ? _( 'Contacts without an Address' ) : _( 'Contacts at this Address' ) ) . '</th></tr>';
 			}
@@ -1005,7 +1005,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 			}
 
-			echo '<br /><table class="widefat width-100p"><tr><td>' .
+			echo '<br /><table class="widefat width-100p valign-middle"><tr><td>' .
 				button( 'house', '', '', 'bigger' ) .
 				'</td><td>' .
 				CheckboxInput(

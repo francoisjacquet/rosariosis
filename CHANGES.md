@@ -6,10 +6,12 @@ Changes in 11.6
 - JS FixedMenu Round menu height as 100vh is sometimes not exactly equal to window height in jquery-fixedmenu.js
 - SubstitutionsInput() use Select2Input if more than 30 substitution codes in Substitutions.fnc.php
 - CSS add .valign-middle class in stylesheet.css
+- Use .valign-middle class for tables in Address.inc.php, Exceptions.php & Profiles.php
 - CSS increase input horizontal padding in stylesheet.css
 - CSS Vertical align button inside first td, use when row has input (list with fields) in stylesheet.css
 - CSS WPadmin theme use OpenSans Semibold font instead of OpenSans Bold in font.css
 - Add vertically align list data option (defaults to false) in ListOutput.fnc.php
+- Use vertically align list data option 'valign-middle', program wide
 - CSS add .has-input class to list having input (input or select fields) in ListOutput.fnc.php
 - ExplodeDate() use strtotime() in Date.php
 - Remove MonthNWSwitch(), `__mnwswitch_num2char()` & `__mnwswitch_char2num()` functions in Date.php

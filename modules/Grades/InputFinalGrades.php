@@ -1470,7 +1470,7 @@ foreach ( (array) $categories_RET as $id => $category )
 	] + ( $category[1]['COLOR'] ? [ 'color' => $category[1]['COLOR'] ] : [] );
 }
 
-$LO_options = [ 'save' => false, 'search' => false ];
+$LO_options = [ 'save' => false, 'search' => false, 'valign-middle' => true ];
 
 if ( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 {

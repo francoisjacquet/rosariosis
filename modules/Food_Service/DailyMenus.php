@@ -371,6 +371,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'search' => false,
 		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&menu_id=' . $_REQUEST['menu_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ),
+		'valign-middle' => true,
 	];
 
 	$singular = sprintf( _( '%s Day' ), $menu_title );

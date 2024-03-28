@@ -103,7 +103,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader( '', SubmitButton() );
 
-	ListOutput( $grades_RET, $columns, 'Grade Level', 'Grade Levels', $link );
+	ListOutput( $grades_RET, $columns, 'Grade Level', 'Grade Levels', $link, [], [ 'valign-middle' => true ] );
 
 	echo '<div class="center">' . SubmitButton() . '</div></form>';
 }

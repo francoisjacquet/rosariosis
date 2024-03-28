@@ -113,7 +113,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$LO_columns,
 		'Category',
 		'Categories',
-		$link
+		$link,
+		[],
+		[ 'valign-middle' => true ]
 	);
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div></form>';

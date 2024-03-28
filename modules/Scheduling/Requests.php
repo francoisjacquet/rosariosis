@@ -230,7 +230,9 @@ function processRequest()
 		$columns,
 		'Request',
 		'Requests',
-		$link
+		$link,
+		[],
+		[ 'valign-middle' => true ]
 	);
 
 	echo '</div>';

@@ -147,7 +147,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader( '', SubmitButton() );
 
-	ListOutput( $periods_RET, $columns, 'Period', 'Periods', $link );
+	ListOutput( $periods_RET, $columns, 'Period', 'Periods', $link, [], [ 'valign-middle' => true ] );
 
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';

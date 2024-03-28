@@ -185,7 +185,7 @@ ListOutput(
 	'Enrollment Records',
 	$link,
 	[],
-	[ 'save' => false, 'search' => false ]
+	[ 'save' => false, 'search' => false, 'valign-middle' => true ]
 );
 
 if ( ! empty( $PopTable_opened ) )

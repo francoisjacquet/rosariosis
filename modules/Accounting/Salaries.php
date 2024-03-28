@@ -171,7 +171,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			DrawHeader( '', SubmitButton() );
 		}
 
-		$options = [];
+		$options = [ 'valign-middle' => true ];
 	}
 	else
 	{
