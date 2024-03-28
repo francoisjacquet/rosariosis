@@ -22,20 +22,20 @@ $menu['Discipline']['admin'] = [
 	'Discipline/ReferralLog.php' => _( 'Discipline Log' ),
 	2 => _( 'Setup' ),
 	'Discipline/DisciplineForm.php' => _( 'Referral Form' ),
-];
+] + issetVal( $menu['Discipline']['admin'], [] );
 
 $menu['Discipline']['teacher'] = [
 	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
 	'Discipline/Referrals.php' => _( 'Referrals' ),
-];
+] + issetVal( $menu['Discipline']['teacher'], [] );
 
 $menu['Discipline']['parent'] = [
 	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/Referrals.php' => _( 'Referrals' ),
-];
+] + issetVal( $menu['Discipline']['parent'], [] );
 
 $exceptions['Discipline'] = [
 ];

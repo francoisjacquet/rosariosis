@@ -29,7 +29,7 @@ $menu['School_Setup']['admin'] = [
 	3 => dgettext( 'Access_Log', _( 'Security' ) ),
 	'School_Setup/AccessLog.php' => _( 'Access Log' ),
 	'School_Setup/DatabaseBackup.php' => _( 'Database Backup' ),
-];
+] + issetVal( $menu['School_Setup']['admin'], [] );
 
 $menu['School_Setup']['teacher'] = [
 	'title' => _( 'School' ),
@@ -39,7 +39,7 @@ $menu['School_Setup']['teacher'] = [
 	'School_Setup/MarkingPeriods.php' => _( 'Marking Periods' ),
 	// Add Periods to teachers.
 	'School_Setup/Periods.php' => _( 'Periods' ),
-];
+] + issetVal( $menu['School_Setup']['teacher'], [] );
 
 $menu['School_Setup']['parent'] = [
 	'title' => _( 'School' ),
@@ -48,7 +48,7 @@ $menu['School_Setup']['parent'] = [
 	'School_Setup/Calendar.php' => _( 'Calendars' ),
 	// Add Marking Periods to parents & students.
 	'School_Setup/MarkingPeriods.php' => _( 'Marking Periods' ),
-];
+] + issetVal( $menu['School_Setup']['parent'], [] );
 
 $exceptions['School_Setup'] = [
 	'School_Setup/PortalNotes.php' => true,

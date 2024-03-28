@@ -21,10 +21,9 @@ $menu['Student_Billing']['admin'] = [
 	'Student_Billing/StudentBalances.php' => _( 'Student Balances' ),
 	'Student_Billing/DailyTransactions.php' => _( 'Daily Transactions' ),
 	'Student_Billing/Statements.php' => _( 'Print Statements' ),
-];
+] + issetVal( $menu['Student_Billing']['admin'], [] );
 
-// FJ fix error Warning: Invalid argument supplied for foreach().
-$menu['Student_Billing']['teacher'] = [];
+$menu['Student_Billing']['teacher'] = issetVal( $menu['Student_Billing']['teacher'], [] );
 
 $menu['Student_Billing']['parent'] = [
 	'title' => _( 'Student Billing' ),
@@ -35,6 +34,6 @@ $menu['Student_Billing']['parent'] = [
 	'Student_Billing/DailyTransactions.php' => _( 'Daily Transactions' ),
 	// FJ fix bug PDF.
 	'Student_Billing/Statements.php&_ROSARIO_PDF' => _( 'Print Statements' ),
-];
+] + issetVal( $menu['Student_Billing']['parent'], [] );
 
 $exceptions['Student_Billing'] = [];

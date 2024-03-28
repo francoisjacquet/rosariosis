@@ -29,7 +29,7 @@ $menu['Students']['admin'] = [
 	2 => _( 'Setup' ),
 	'Students/StudentFields.php' => _( 'Student Fields' ),
 	'Students/EnrollmentCodes.php' => _( 'Enrollment Codes' ),
-];
+] + issetVal( $menu['Students']['admin'], [] );
 
 $menu['Students']['teacher'] = [
 	'title' => _( 'Students' ),
@@ -40,13 +40,13 @@ $menu['Students']['teacher'] = [
 	'Students/AdvancedReport.php' => _( 'Advanced Report' ),
 	'Students/StudentLabels.php' => _( 'Print Student Labels' ),
 	'Students/Letters.php' => _( 'Print Letters' ),
-];
+] + issetVal( $menu['Students']['teacher'], [] );
 
 $menu['Students']['parent'] = [
 	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
-];
+] + issetVal( $menu['Students']['parent'], [] );
 
 $exceptions['Students'] = [
 	'Students/Student.php&include=General_Info&student_id=new' => true,

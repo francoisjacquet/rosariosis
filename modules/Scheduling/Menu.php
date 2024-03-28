@@ -30,7 +30,7 @@ $menu['Scheduling']['admin'] = [
 	2 => _( 'Setup' ),
 	'Scheduling/Courses.php' => _( 'Courses' ),
 	'Scheduling/Scheduler.php' => _( 'Run Scheduler' ),
-];
+] + issetVal( $menu['Scheduling']['admin'], [] );
 
 $menu['Scheduling']['teacher'] = [
 	'title' => _( 'Scheduling' ),
@@ -42,7 +42,7 @@ $menu['Scheduling']['teacher'] = [
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' ),
-];
+] + issetVal( $menu['Scheduling']['teacher'], [] );
 
 $menu['Scheduling']['parent'] = [
 	'title' => _( 'Scheduling' ),
@@ -55,7 +55,7 @@ $menu['Scheduling']['parent'] = [
 	// Activate Print Schedules for parents and students.
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Class Pictures' ),
-];
+] + issetVal( $menu['Scheduling']['parent'], [] );
 
 $exceptions['Scheduling'] = [
 	'Scheduling/Requests.php' => true,

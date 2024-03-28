@@ -24,7 +24,7 @@ $menu['Accounting']['admin'] = [
 	'Accounting/Statements.php' => _( 'Print Statements' ),
 	3 => _( 'Setup' ),
 	'Accounting/Categories.php' => _( 'Categories' ),
-];
+] + issetVal( $menu['Accounting']['admin'], [] );
 
 $menu['Accounting']['teacher'] = [
 	'title' => _( 'Accounting' ),
@@ -34,6 +34,6 @@ $menu['Accounting']['teacher'] = [
 	'Accounting/StaffPayments.php' => _( 'Staff Payments' ),
 	2 => _( 'Reports' ),
 	'Accounting/Statements.php&_ROSARIO_PDF' => _( 'Print Statements' ),
-];
+] + issetVal( $menu['Accounting']['teacher'], [] );
 
 $menu['Accounting']['parent'] = [];

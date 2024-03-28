@@ -30,7 +30,7 @@ $menu['Food_Service']['admin'] = [
 	'Food_Service/Kiosk.php' => _( 'Kiosk Preview' )
 	//3 => 'Utilities',
 	//'Food_Service/AssignSchool.php' => 'Assign School'
-];
+] + issetVal( $menu['Food_Service']['admin'], [] );
 
 $menu['Food_Service']['teacher'] = [
 	'title' => _( 'Food Service' ),
@@ -40,7 +40,7 @@ $menu['Food_Service']['teacher'] = [
 	1 => _( 'Menu' ),
 	'Food_Service/DailyMenus.php' => _( 'Daily Menus' ),
 	'Food_Service/MenuItems.php' => _( 'Meal Items' )
-];
+] + issetVal( $menu['Food_Service']['teacher'], [] );
 
 $menu['Food_Service']['parent'] = [
 	'title' => _( 'Food Service' ),
@@ -50,7 +50,7 @@ $menu['Food_Service']['parent'] = [
 	1 => _( 'Menu' ),
 	'Food_Service/DailyMenus.php' => _( 'Daily Menus' ),
 	'Food_Service/MenuItems.php' => _( 'Meal Items' )
-];
+] + issetVal( $menu['Food_Service']['parent'], [] );
 
 $exceptions['Food_Service'] = [
 	'Food_Service/ServeMenus.php' => true

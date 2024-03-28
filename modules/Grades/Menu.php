@@ -32,7 +32,7 @@ $menu['Grades']['admin'] = [
 	3 => _( 'Utilities' ),
 	'Grades/EditReportCardGrades.php' => _( 'Historical Grades' ),
 	'Grades/MassCreateAssignments.php' => _( 'Mass Create Assignments' ),
-];
+] + issetVal( $menu['Grades']['admin'], [] );
 
 $menu['Grades']['teacher'] = [
 	'title' => _( 'Grades' ),
@@ -56,7 +56,7 @@ $menu['Grades']['teacher'] = [
 	'Grades/ReportCardGrades.php' => _( 'Grading Scales' ),
 	'Grades/ReportCardComments.php' => _( 'Report Card Comments' ),
 	'Grades/ReportCardCommentCodes.php' => _( 'Comment Codes' ),
-];
+] + issetVal( $menu['Grades']['teacher'], [] );
 
 $menu['Grades']['parent'] = [
 	'title' => _( 'Grades' ),
@@ -68,11 +68,11 @@ $menu['Grades']['parent'] = [
 	'Grades/ProgressReports.php' => _( 'Progress Reports' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
 	'Grades/GPARankList.php' => _( 'GPA / Class Rank' ),
-];
+] + issetVal( $menu['Grades']['parent'], [] );
 
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] += [
+	$menu['Users']['admin'] = issetVal( $menu['Users']['admin'], [] ) + [
 		'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),

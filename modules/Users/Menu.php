@@ -23,21 +23,21 @@ $menu['Users']['admin'] = [
 	'Users/Exceptions.php' => _( 'User Permissions' ),
 	'Users/UserFields.php' => _( 'User Fields' ),
 	2 => _( 'Teacher Programs' ),
-];
+] + issetVal( $menu['Users']['admin'], [] );
 
 $menu['Users']['teacher'] = [
 	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/Preferences.php' => _( 'My Preferences' )
-];
+] + issetVal( $menu['Users']['teacher'], [] );
 
 $menu['Users']['parent'] = [
 	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/Preferences.php' => _( 'My Preferences' )
-];
+] + issetVal( $menu['Users']['parent'], [] );
 
 // FJ enable password change for students
 if ( User( 'PROFILE' ) === 'student' )

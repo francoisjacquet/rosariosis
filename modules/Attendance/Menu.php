@@ -24,26 +24,24 @@ $menu['Attendance']['admin'] = [
 	'Attendance/DuplicateAttendance.php' => _( 'Delete Duplicate Attendance' ),
 	3 => _( 'Setup' ),
 	'Attendance/AttendanceCodes.php' => _( 'Attendance Codes' ),
-];
+] + issetVal( $menu['Attendance']['admin'], [] );
 
 $menu['Attendance']['teacher'] = [
 	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/TakeAttendance.php',
 	'Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
 	'Attendance/DailySummary.php' => _( 'Attendance Chart' ),
-];
+] + issetVal( $menu['Attendance']['teacher'], [] );
 
 $menu['Attendance']['parent'] = [
 	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/DailySummary.php',
 	'Attendance/DailySummary.php' => _( 'Daily Summary' )
-];
+] + issetVal( $menu['Attendance']['parent'], [] );
 
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] += [
-		'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
-	];
+	$menu['Users']['admin']['Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php'] = _( 'Take Attendance' );
 }
 
 $exceptions['Attendance'] = [
