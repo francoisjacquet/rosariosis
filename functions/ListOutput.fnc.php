@@ -28,6 +28,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		// @since 10.9 Add pagination option (defaults to false)
 		// Deactivated by default as yields strange results when multiple lists on same page.
 		'pagination' => false,
+		// @since 11.6 Add vertically align list data option (defaults to false)
+		// Use when some columns are text & others input & should be displayed on 1 line only.
+		'valign-middle' => false,
 	];
 
 	$options = empty( $options ) ?
@@ -478,6 +481,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	{
 		echo '<div class="list-wrapper"><table class="list widefat' .
 			( $options['responsive'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ? ' rt' : '' ) .
+			( $options['valign-middle'] ? ' valign-middle' : '' ) .
 			( ! $list_has_nav ? ' list-no-nav' : '' ) . '"><thead><tr>';
 
 		$i = 1;
@@ -748,6 +752,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '<div class="list-wrapper"><table class="list widefat';
 
 				echo $options['responsive'] ? ' rt' : '';
+
+				echo $options['valign-middle'] ? ' valign-middle' : '';
 
 				echo $list_has_nav ? '' : ' list-no-nav';
 

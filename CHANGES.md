@@ -9,6 +9,7 @@ Changes in 11.6
 - CSS increase input horizontal padding in stylesheet.css
 - CSS Vertical align button inside first td, use when row has input (list with fields) in stylesheet.css
 - CSS WPadmin theme use OpenSans Semibold font instead of OpenSans Bold in font.css
+- Add vertically align list data option (defaults to false) in ListOutput.fnc.php
 
 Changes in 11.5.1
 -----------------
