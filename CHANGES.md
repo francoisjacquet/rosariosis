@@ -7,6 +7,7 @@ Changes in 11.5.1
 - Fix Calculate GPA for all Marking Periods when Year not checked in Transcripts.fnc.php
 - Fix HTML display Transcript footer when Credits unchecked in Transcripts.fnc.php
 - Format Credit Earned, display 0.33 instead of 0.333333333333333 in Transcripts.fnc.php
+- Fix PHP8.3 fatal error Duplicate declaration of static variable in classes/Markdownify/Converter.php
 
 Changes in 11.5
 ---------------
