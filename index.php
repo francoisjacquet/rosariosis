@@ -110,7 +110,7 @@ elseif ( isset( $_POST['USERNAME'] )
 				mb_substr( sha1( rand( 999999999, 9999999999 ), true ), 0, 16 ) ) );
 	}
 
-	$username = $_REQUEST['USERNAME'];
+	$username = (string) $_REQUEST['USERNAME'];
 
 	unset( $_REQUEST['USERNAME'], $_POST['USERNAME'] );
 
