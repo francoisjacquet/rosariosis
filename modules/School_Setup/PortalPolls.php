@@ -10,10 +10,7 @@ AddRequestedDates( 'values', 'post' );
 $profiles_RET = DBGet( "SELECT ID,TITLE FROM user_profiles ORDER BY ID" );
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& (  ( $_REQUEST['profiles']
-		&& $_POST['profiles'] )
-		|| ( $_REQUEST['values']
-			&& $_POST['values'] ) )
+	&& ( ! empty( $_REQUEST['profiles'] ) || ! empty( $_REQUEST['values'] ) )
 	&& AllowEdit() )
 {
 	$polls_RET = DBGet( "SELECT ID
@@ -55,8 +52,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& $_REQUEST['values']
-	&& $_POST['values']
+	&& ! empty( $_REQUEST['values'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
