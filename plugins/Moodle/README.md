@@ -57,4 +57,4 @@ Grades
 
 Please follow [this tutorial](https://gitlab.com/francoisjacquet/rosariosis/wikis/Moodle-integrator-setup)
 
-Requires Moodle **3.1** or higher & PHP `curl` & `xmlrpc` extensions.
+Requires Moodle **3.1** or higher & PHP `curl` extension.
