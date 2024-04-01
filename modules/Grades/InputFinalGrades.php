@@ -111,7 +111,7 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 
 if ( ! isset( $_REQUEST['tab_id'] )
 	|| $_REQUEST['tab_id'] == ''
-	|| ! $categories_RET[$_REQUEST['tab_id']] )
+	|| empty( $categories_RET[$_REQUEST['tab_id']] ) )
 {
 	$_REQUEST['tab_id'] = key( $categories_RET ) . '';
 }
