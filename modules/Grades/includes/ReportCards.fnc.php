@@ -860,6 +860,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 			}
 
+			// Parent: associated students.
+			$extra2['ASSOCIATED'] = User( 'STAFF_ID' );
+
 			$student = GetStuList( $extra2 );
 
 			$student = $student[1];
