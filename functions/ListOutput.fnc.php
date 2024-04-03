@@ -501,7 +501,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			( $options['responsive'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ? ' rt' : '' ) .
 			( $options['valign-middle'] ? ' valign-middle' : '' ) .
 			( ! $list_has_nav ? ' list-no-nav' : '' ) .
-			( $list_has_input ? ' has-input' : '' ) . '"><thead><tr>';
+			( $list_has_input ? ' has-input' : '' ) .
+			'" data-list-id="' . $list_id . '"><thead><tr>';
 
 		$i = 1;
 
@@ -778,7 +779,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				echo $options['center'] ? ' center' : '';
 
-				echo '"><thead><tr>';
+				echo '" data-list-id="' . $list_id . '"><thead><tr>';
 
 				echo '<th><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
 
