@@ -561,9 +561,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( isset( $link['add']['first'] )
 			&& ( $stop - $start + 1 ) >= $link['add']['first'] )
 		{
-			if ( $link['add']['link'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			if ( isset( $link['add']['link'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+				echo '<tr class="list-add-row"><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
 					button(
 						'add',
 						issetVal( $link['add']['title'], '' ),
@@ -572,14 +572,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 							URLEscape( $link['add']['link'] ) )
 					) . '</td></tr>';
 			}
-			elseif ( $link['add']['span'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			elseif ( isset( $link['add']['span'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+				echo '<tr class="list-add-row"><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
 					button( 'add' ) . $link['add']['span'] . '</td></tr>';
 			}
-			elseif ( $link['add']['html'] && $cols )
+			elseif ( isset( $link['add']['html'] ) && $cols )
 			{
-				echo '<tr>';
+				echo '<tr class="list-add-row">';
 
 				if ( $remove && ! isset( $_REQUEST['_ROSARIO_PDF'] ) && $link['add']['html']['remove'] )
 				{
@@ -592,7 +592,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value )
 				{
-					echo '<td>' . $link['add']['html'][$key] . '</td>';
+					echo '<td>' . issetVal( $link['add']['html'][$key], '' ) . '</td>';
 				}
 
 				echo '</tr>';
@@ -701,7 +701,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( isset( $link['add']['link'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+				echo '<tr class="list-add-row"><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
 				button(
 					'add',
 					issetVal( $link['add']['title'], '' ),
@@ -712,12 +712,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			}
 			elseif ( isset( $link['add']['span'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+				echo '<tr class="list-add-row"><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
 					button( 'add' ) . $link['add']['span'] . '</td></tr>';
 			}
 			elseif ( isset( $link['add']['html'] ) && $cols )
 			{
-				echo '<tr>';
+				echo '<tr class="list-add-row">';
 
 				if ( $remove
 					&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
@@ -787,7 +787,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo '<th>' . ParseMLField( $value ) . '</th>';
 				}
 
-				echo '</tr></thead><tbody><tr><td>';
+				echo '</tr></thead><tbody><tr class="list-add-row"><td>';
 
 				echo ! empty( $link['add']['html']['remove'] ) ?
 					$link['add']['html']['remove'] :
@@ -808,7 +808,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				echo $options['center'] ? ' center' : '';
 
-				echo '"><tr><td>' . button( 'add' ) . $link['add']['span'] . '</td></tr></table>';
+				echo '"><tr class="list-add-row"><td>' . button( 'add' ) . $link['add']['span'] . '</td></tr></table>';
 			}
 		}
 
