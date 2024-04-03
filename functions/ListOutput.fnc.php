@@ -222,15 +222,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			$dir = $LO_dir == -1 ? SORT_DESC : SORT_ASC;
 
-			if ( is_int( $sort_array[1] )
-				|| is_double( $sort_array[1] ) )
-			{
-				array_multisort( $sort_array, $dir, SORT_NUMERIC, $result );
-			}
-			else
-			{
-				array_multisort( $sort_array, $dir, $result );
-			}
+			$flag = is_numeric( $sort_array[1] ) ? SORT_NUMERIC : SORT_STRING | SORT_FLAG_CASE;
+
+			array_multisort( $sort_array, $dir, $flag, $result );
 
 			array_unshift( $result, [ 'always_start_list_at_key_1' ] );
 
