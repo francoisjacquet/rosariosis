@@ -13,6 +13,7 @@ Changes in 11.6
 - Add vertically align list data option (defaults to false) in ListOutput.fnc.php
 - Use vertically align list data option 'valign-middle', program wide
 - CSS add .has-input class to list having input (input or select fields) in ListOutput.fnc.php
+- CSS add .list-save class to Export list link in ListOutput.fnc.php
 - ExplodeDate() use strtotime() in Date.php
 - Remove MonthNWSwitch(), `__mnwswitch_num2char()` & `__mnwswitch_char2num()` functions in Date.php
 - Send wkhtmltopdf error by email in PDF.php
