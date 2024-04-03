@@ -315,5 +315,8 @@ plugins/PR_Report_Cards*
 plugins/Append_Custom_Field_to_Grade_Level*
 plugins/Templates*
 plugins/iStudent_Report_Cards*
+plugins/IBCDB_Transcripts*
+plugins/Custom_Menu*
+plugins/Instant_List_Search_Sorting*
 locale/fr_FR.utf8_ParisComSup
 functions/1GetMP.php
