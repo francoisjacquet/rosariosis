@@ -108,6 +108,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$RET = [];
 
+	$title = '';
+
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
