@@ -20,6 +20,10 @@ Changes in 11.6
 - Log error if not sending email ($RosarioErrorsAddress not set) in ErrorMessage.fnc.php
 - Remove `$link['add']['html']['remove'] = button( 'add' );` (button added by default), program wide
 
+Changes in 11.5.2
+-----------------
+- Fix get Student Info when Parent associated to various students in ReportCards.fnc.php
+
 Changes in 11.5.1
 -----------------
 - Fix PHP warning undefined array key "" when `$days_array` is empty in PrintSchedules.php & Schedule.inc.php
