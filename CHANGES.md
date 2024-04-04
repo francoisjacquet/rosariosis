@@ -22,7 +22,7 @@ Changes in 11.6
 - Send wkhtmltopdf error by email in PDF.php
 - Log error if not sending email ($RosarioErrorsAddress not set) in ErrorMessage.fnc.php
 - Remove `$link['add']['html']['remove'] = button( 'add' );` (button added by default), program wide
-- HTML add #BottomBackButton id in Bottom.php
+- HTML add #BottomButtonBack id in Bottom.php
 - Fix check no assignment_id requested before deleting assignment type in Assignments.php
 
 Changes in 11.5.2

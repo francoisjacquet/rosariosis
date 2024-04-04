@@ -57,7 +57,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 					$back_text = sprintf( _( '%s List' ), $_SESSION['Back_PHP_SELF'] );
 			} ?>
 
-			<a href="<?php echo URLEscape( $_SESSION['List_PHP_SELF'] ); ?>&amp;bottom_back=true" title="<?php echo AttrEscape( $back_text ); ?>" class="BottomButton" id="BottomBackButton">
+			<a href="<?php echo URLEscape( $_SESSION['List_PHP_SELF'] ); ?>&amp;bottom_back=true" title="<?php echo AttrEscape( $back_text ); ?>" class="BottomButton" id="BottomButtonBack">
 				<img src="<?php echo $btn_path; ?>back.png" alt="">
 				<span><?php echo $back_text; ?></span>
 			</a>
