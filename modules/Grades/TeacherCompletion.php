@@ -104,6 +104,8 @@ if ( empty( $_REQUEST['school_period'] ) )
 {
 	$i = 0;
 
+	$staff_RET = [];
+
 	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;
