@@ -359,9 +359,10 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
 	}
 	// SQL Check requested assignment type belongs to teacher.
-	elseif ( DBGetOne( "SELECT 1 FROM gradebook_assignment_types
-		WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
-		AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" ) )
+	elseif ( empty( $_REQUEST['assignment_id'] )
+		&& DBGetOne( "SELECT 1 FROM gradebook_assignment_types
+			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" ) )
 	{
 		$assignment_type_has_assignments = DBGet( "SELECT 1
 			FROM gradebook_assignments
