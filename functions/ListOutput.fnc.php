@@ -192,7 +192,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			foreach ( (array) $result as $sort )
 			{
-				if ( ! isset( $sort[$LO_sort] ) )
+				if ( ! isset( $sort[$LO_sort] )
+					|| (string) $sort[$LO_sort] === '' )
 				{
 					$sort_array[] = '';
 
@@ -201,13 +202,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				if ( mb_substr( (string) $sort[$LO_sort], 0, 4 ) != '<!--' )
 				{
-					//FJ better list sorting by isolating the values
-					//$sort_array[] = $sort[ $LO_sort ];
-					$sort_array[] = strip_tags( preg_replace(
+					// Better list sorting by isolating the values
+					$inner_text = trim( strip_tags( preg_replace(
 						'/<script\b[^>]*>(.*?)<\/script>/is',
 						"",
 						(string) $sort[$LO_sort]
-					) );
+					) ) );
+
+					$sort_array[] = $inner_text !== '' ? $inner_text : trim( $sort[ $LO_sort ] );
 
 					continue;
 				}

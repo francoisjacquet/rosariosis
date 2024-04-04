@@ -17,6 +17,7 @@ Changes in 11.6
 - CSS add .list-add-row class (see `$link['add']` parameter) in ListOutput.fnc.php
 - HTML add data-list-id attribute to list in ListOutput.fnc.php
 - Sort list numerically or as strings case-insensitively in ListOutput.fnc.php
+- Sort list using cell's HTML if no inner text in ListOutput.fnc.php
 - ExplodeDate() use strtotime() in Date.php
 - Remove MonthNWSwitch(), `__mnwswitch_num2char()` & `__mnwswitch_char2num()` functions in Date.php
 - Send wkhtmltopdf error by email in PDF.php
