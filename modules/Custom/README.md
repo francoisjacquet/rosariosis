@@ -1,4 +1,5 @@
-# Custom module
+Custom module
+=============
 
 This module is part of [RosarioSIS](https://www.rosariosis.org)
 
