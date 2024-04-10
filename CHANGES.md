@@ -25,6 +25,7 @@ Changes in 11.6
 - Remove `$link['add']['html']['remove'] = button( 'add' );` (button added by default), program wide
 - HTML add #BottomButtonBack id in Bottom.php
 - Fix check no assignment_id requested before deleting assignment type in Assignments.php
+- Fix PHP notice undefined array key "TITLE" on Assignment update in plugins/Moodle/Grades/Assignments.php
 
 Changes in 11.5.2
 -----------------

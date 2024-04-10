@@ -29,6 +29,22 @@ function core_calendar_create_calendar_events_object()
 
 	//assignment due date must be set (due date = Moodle event time start)
 
+	if ( ! isset( $columns['TITLE'] )
+		&& ! empty( $_REQUEST['assignment_id'] ) )
+	{
+		// Fix PHP notice undefined array key "TITLE" on Assignment update
+		$columns = DBGet( "SELECT TITLE,DUE_DATE,ASSIGNED_DATE,DESCRIPTION
+			FROM gradebook_assignments
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
+
+		if ( empty( $columns[1] ) )
+		{
+			return null;
+		}
+
+		$columns = $columns[1];
+	}
+
 	if ( empty( $columns['DUE_DATE'] ) )
 	{
 		return null;
