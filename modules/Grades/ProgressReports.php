@@ -525,6 +525,11 @@ function _makeExtraGrade( $value, $column )
 		return _( 'N/A' );
 	}
 
+	if ( ! isset( $weighted_grade[$THIS_RET['ASSIGNMENT_TYPE_ID']] ) )
+	{
+		$weighted_grade[$THIS_RET['ASSIGNMENT_TYPE_ID']] = 0;
+	}
+
 	if ( empty( $THIS_RET['DUE'] )
 		&& $value != '' )
 	{
@@ -537,11 +542,6 @@ function _makeExtraGrade( $value, $column )
 	}
 
 	$percent = _makeLetterGrade( $value / $THIS_RET['TOTAL_POINTS'], $cp_id, $teacher_id, '%' );
-
-	if ( ! isset( $weighted_grade[$THIS_RET['ASSIGNMENT_TYPE_ID']] ) )
-	{
-		$weighted_grade[$THIS_RET['ASSIGNMENT_TYPE_ID']] = 0;
-	}
 
 	// @since 11.0 Add Weight Assignments option
 	$weighted_grade[$THIS_RET['ASSIGNMENT_TYPE_ID']] += ( $value / $THIS_RET['TOTAL_POINTS'] ) * $THIS_RET['WEIGHT'];
