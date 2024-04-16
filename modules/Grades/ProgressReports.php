@@ -122,12 +122,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		unset( $_ROSARIO['DrawHeader'] );
 
-		if ( isset( $_REQUEST['mailing_labels'] )
-			&& $_REQUEST['mailing_labels'] == 'Y' )
-		{
-			echo '<br /><br /><br />';
-		}
-
 		DrawHeader( _( 'Progress Report' ) );
 		DrawHeader( $student['FULL_NAME'], $student['STUDENT_ID'] );
 		DrawHeader( $student['GRADE_ID'], SchoolInfo( 'TITLE' ) );
@@ -136,8 +130,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( isset( $_REQUEST['mailing_labels'] )
 			&& $_REQUEST['mailing_labels'] == 'Y' )
 		{
-			echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' .
-				$student['MAILING_LABEL'] . '</td></tr></table><br />';
+			// @since 11.6 Add Mailing Label position
+			echo MailingLabelPositioned( $student['MAILING_LABEL'] );
 		}
 
 		if ( User( 'PROFILE' ) !== 'teacher' )

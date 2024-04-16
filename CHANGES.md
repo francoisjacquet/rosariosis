@@ -29,7 +29,7 @@ Changes in 11.6
 - Add MailingLabelPositioned() function in MailingLabel.fnc.php
 - CSS add .mailing-label-left, .mailing-label-right & .mailing-label-top-margin classes in stylesheet.css
 - CSS Adjust Mailing Labels top margin for Report Cards in wkhtmltopdf.css
-- Use MailingLabelPositioned() function in ReportCards.fnc.php, PrintRequests.php, PrintSchedules.php, Statements.php, Letters.php & PrintStudentInfo.php
+- Use MailingLabelPositioned() function in ReportCards.fnc.php, ProgressReports.php, PrintRequests.php, PrintSchedules.php, Statements.php, Letters.php & PrintStudentInfo.php
 - Add Mailing Label Position option (left or right) in User.fnc.php & Preferences.php
 
 Changes in 11.5.2
