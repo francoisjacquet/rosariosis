@@ -288,6 +288,7 @@ modules/TTHotel_Smart_Locks*
 modules/Email_Log*
 modules/PDF_Archive*
 modules/Slovenian_Attendance_Excel_Sheet*
+modules/Slovenian_Grades*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
