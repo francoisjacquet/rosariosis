@@ -50,14 +50,14 @@ else
 			{
 				foreach ( (array) $courses as $address )
 				{
-					echo '<br /><br /><br />';
 					unset( $_ROSARIO['DrawHeader'] );
 					DrawHeader( _( 'Student Requests' ) );
 					DrawHeader( $address[1]['FULL_NAME'], $address[1]['STUDENT_ID'] );
 					DrawHeader( $address[1]['GRADE_ID'] );
 					DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
-					echo '<br /><br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $address[1]['MAILING_LABEL'] . '</td></tr></table><br />';
+					// @since 11.6 Add Mailing Label position
+					echo MailingLabelPositioned( $address[1]['MAILING_LABEL'] );
 
 					ListOutput( $address, $columns, 'Request', 'Requests', [], [], [ 'center' => false, 'print' => false ] );
 					echo '<div style="page-break-after: always;"></div>';

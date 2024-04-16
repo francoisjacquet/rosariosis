@@ -110,17 +110,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				foreach ( (array) $courses as $address )
 				{
-					echo '<br /><br /><br />';
 					unset( $_ROSARIO['DrawHeader'] );
 					DrawHeader( _( 'Student Schedule' ) );
 					DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( $date ) );
 					DrawHeader( $address[1]['FULL_NAME'], $address[1]['STUDENT_ID'] );
 					DrawHeader( $address[1]['GRADE_ID'], $_REQUEST['mp_id'] ? GetMP( $_REQUEST['mp_id'] ) : '' );
 
-					echo '<br /><br /><br /><table class="width-100p"><tr>
-						<td style="width:50px;"> &nbsp; </td>
-						<td>' . $address[1]['MAILING_LABEL'] . '</td>
-					</tr></table><br />';
+					// @since 11.6 Add Mailing Label position
+					echo MailingLabelPositioned( $address[1]['MAILING_LABEL'] );
 
 					ListOutput(
 						$address,
@@ -270,17 +267,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				foreach ( (array) $RET[$student_id] as $address )
 				{
-					echo '<br /><br /><br />';
 					unset( $_ROSARIO['DrawHeader'] );
 					DrawHeader( _( 'Student Schedule' ) );
 					DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( $date ) );
 					DrawHeader( $address[1]['FULL_NAME'], $address[1]['STUDENT_ID'] );
 					DrawHeader( $address[1]['GRADE_ID'], $_REQUEST['mp_id'] ? GetMP( $_REQUEST['mp_id'] ) : '' );
 
-					echo '<br /><br /><br /><table class="width-100p"><tr>
-						<td style="width:50px;"> &nbsp; </td>
-						<td>' . $address[1]['MAILING_LABEL'] . '</td>
-					</tr></table><br />';
+					// @since 11.6 Add Mailing Label position
+					echo MailingLabelPositioned( $address[1]['MAILING_LABEL'] );
 
 					$schedule_table = _schedule_table_RET( $schedule_table );
 

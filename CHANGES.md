@@ -26,6 +26,7 @@ Changes in 11.6
 - HTML add #BottomButtonBack id in Bottom.php
 - Fix check no assignment_id requested before deleting assignment type in Assignments.php
 - Fix PHP notice undefined array key "TITLE" on Assignment update in plugins/Moodle/Grades/Assignments.php
+- Use MailingLabelPositioned() function in ReportCards.fnc.php, PrintRequests.php, PrintSchedules.php, Statements.php, Letters.php & PrintStudentInfo.php
 
 Changes in 11.5.2
 -----------------

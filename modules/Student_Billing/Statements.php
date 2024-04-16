@@ -38,8 +38,6 @@ else
 			{
 				foreach ( (array) $student as $address )
 				{
-					echo '<br /><br /><br />';
-
 					unset( $_ROSARIO['DrawHeader'] );
 
 					DrawHeader( _( 'Statement' ) );
@@ -47,8 +45,8 @@ else
 					DrawHeader( $address['GRADE_ID'] );
 					DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
-					echo '<br /><br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td>
-						<td>' . $address['MAILING_LABEL'] . '</td></tr></table><br />';
+					// @since 11.6 Add Mailing Label position
+					echo MailingLabelPositioned( $address['MAILING_LABEL'] );
 
 					SetUserStudentID( $address['STUDENT_ID'] );
 

@@ -60,11 +60,6 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				unset( $_ROSARIO['DrawHeader'] );
 
-				if ( $_REQUEST['mailing_labels'] == 'Y' )
-				{
-					echo '<br /><br /><br />';
-				}
-
 				//School logo
 				$logo_pic = 'assets/school_logo_' . UserSchool() . '.jpg';
 
@@ -85,7 +80,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				if ( $_REQUEST['mailing_labels'] == 'Y' )
 				{
-					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $student['MAILING_LABEL'] . '</td></tr></table><br />';
+					// @since 11.6 Add Mailing Label position
+					echo MailingLabelPositioned( $student['MAILING_LABEL'] );
 				}
 
 				if ( ! empty( $_REQUEST['category']['1'] ) )
