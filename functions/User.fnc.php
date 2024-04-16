@@ -148,6 +148,14 @@ function Preferences( $item, $program = 'Preferences' )
 		'PAGE_SIZE' => 'A4',
 		'HIDE_ALERTS' => 'N',
 		'DEFAULT_FAMILIES' => 'N',
+		/**
+		 * Add Mailing Label Position
+		 * Position or side for a windowed envelope
+		 * Defaults to right for French speaking countries
+		 *
+		 * @since 11.6
+		 */
+		'MAILING_LABEL_POSITION' => ( mb_substr( $locale, 0, 2 ) === 'fr' ? 'right' : 'left' ),
 	];
 
 	if ( ! isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )

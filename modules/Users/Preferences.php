@@ -460,6 +460,25 @@ if ( ! $_REQUEST['modfunc'] )
 			$div
 		);
 
+		echo '</td></tr><tr><td>';
+
+		/**
+		 * Add Mailing Label Position
+		 * Position or side for a windowed envelope
+		 * Defaults to right for French speaking countries
+		 *
+		 * @since 11.6
+		 */
+		echo SelectInput(
+			Preferences( 'MAILING_LABEL_POSITION' ),
+			'values[Preferences][MAILING_LABEL_POSITION]',
+			_( 'Mailing Label Position' ),
+			[ 'left' => _( 'Left' ), 'right' => _( 'Right' ) ],
+			$allow_na,
+			$extra,
+			$div
+		);
+
 		echo '</td></tr><tr><td></table>';
 	}
 
