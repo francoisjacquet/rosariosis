@@ -1255,6 +1255,10 @@ a > .button {
 	padding-bottom: 13px;
 }
 
+.BottomButton.hide {
+	display: none;
+}
+
 /* Loading spinner */
 
 .loading {
@@ -1841,4 +1845,37 @@ input[type=checkbox].toggle {
 .password-strength-bars ~ label {
 	display: inline-block;
 	margin-top: -2px;
+}
+
+/**
+ * Mailing Labels
+ *
+ * @since 11.6 Add Mailing Label position
+ */
+
+.mailing-label-left,
+.mailing-label-right {
+	margin-top: 21px;
+	margin-bottom: 36px;
+}
+
+.mailing-label-left td:first-of-type,
+.mailing-label-right td:last-of-type {
+	width: 60px;
+}
+
+.mailing-label-left td:last-of-type,
+.mailing-label-right td:first-of-type {
+	width: 400px;
+}
+
+.mailing-label-right {
+	width: auto;
+	margin-right: 0;
+	margin-left: auto;
+}
+
+.mailing-label-top-margin {
+	/* Add the equivalent of 6 line breaks. */
+	margin-top: 126px;
 }

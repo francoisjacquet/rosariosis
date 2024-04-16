@@ -27,6 +27,8 @@ Changes in 11.6
 - Fix check no assignment_id requested before deleting assignment type in Assignments.php
 - Fix PHP notice undefined array key "TITLE" on Assignment update in plugins/Moodle/Grades/Assignments.php
 - Add MailingLabelPositioned() function in MailingLabel.fnc.php
+- CSS add .mailing-label-left, .mailing-label-right & .mailing-label-top-margin classes in stylesheet.css
+- CSS Adjust Mailing Labels top margin for Report Cards in wkhtmltopdf.css
 - Use MailingLabelPositioned() function in ReportCards.fnc.php, PrintRequests.php, PrintSchedules.php, Statements.php, Letters.php & PrintStudentInfo.php
 
 Changes in 11.5.2

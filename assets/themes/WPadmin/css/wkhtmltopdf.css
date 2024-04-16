@@ -37,6 +37,17 @@ body {
 	width: 33%;
 }
 
+/**
+ * Adjust Mailing Labels top margin for Report Cards
+ *
+ * @since 11.6 Add Mailing Label position
+ */
+
+.modname-grades-reportcards-php .mailing-label-top-margin {
+	/* Add the equivalent of 4 line breaks. */
+	margin-top: 84px;
+}
+
 /* @since 4.3 */
 
 .wkhtmltopdf-header,
