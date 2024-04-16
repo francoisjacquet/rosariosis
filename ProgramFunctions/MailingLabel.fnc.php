@@ -1,6 +1,6 @@
 <?php
 /**
- * Mailing Label function
+ * Mailing Label functions
  *
  * @package RosarioSIS
  * @subpackage ProgramFunctions
@@ -82,4 +82,56 @@ function MailingLabel( $address_id )
 	}
 
 	return $mailing_labels[ $address_id ][ $student_id ];
+}
+
+/**
+ * Positioned Mailing Label
+ * Envelopes may have their window on the right (French speaking coutries)
+ * In case a PDF Header is defined, no top margin is added
+ *
+ * @since 11.6
+ *
+ * @uses .mailing-label-left, .mailing-label-right & .mailing-label-top-margin CSS classes
+ *
+ * @param string $mailing_label Mailing Label address.
+ * @param string $position      'left' or 'right'. If empty, we get user preference.
+ *
+ * @return string Positioned Mailing Label HTML
+ */
+function MailingLabelPositioned( $mailing_label, $position = '' )
+{
+	global $wkhtmltopdfPath,
+		$RosarioPlugins;
+
+	if ( ! $position )
+	{
+		$position = Preferences( 'MAILING_LABEL_POSITION' );
+	}
+
+	if ( ! in_array( (string) $position, [ 'left', 'right' ] ) )
+	{
+		$position = 'left';
+	}
+
+	$classes = '';
+
+	if ( empty( $wkhtmltopdfPath )
+		|| empty( $RosarioPlugins['PDF_Header_Footer'] )
+		|| ! empty( $_REQUEST['pdf_header_footer_hide'] )
+		|| ! ProgramConfig( 'pdf_header_footer', 'PDF_HEADER_FOOTER_MARGIN_TOP' ) )
+	{
+		// No PDF header, add the equivalent of 6 line breaks.
+		$classes .= ' mailing-label-top-margin';
+	}
+
+	if ( $position === 'left' )
+	{
+		return '<table class="mailing-label-left' . $classes . '"><tr><td>&nbsp;</td><td>' .
+			$mailing_label . '</td></tr></table>';
+	}
+
+	// Position: right.
+	return '<table class="mailing-label-right' . $classes . '"><tr><td>' .
+		$mailing_label .
+		'</td><td>&nbsp;</td></tr></table>';
 }
