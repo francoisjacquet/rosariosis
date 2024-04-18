@@ -86,7 +86,7 @@ function fixedMenu() {
 		 * Add .fixedmenu-fixed CSS class to menu
 		 * Show ghost div.
 		 */
-		var bottom = windowHeight - menu.outerHeight();
+		var bottom = Math.round(windowHeight - menu.outerHeight());
 
 		var css = {
 			'position': 'fixed',
