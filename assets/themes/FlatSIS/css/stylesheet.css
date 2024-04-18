@@ -1864,6 +1864,10 @@ input[type=checkbox].toggle {
 	padding-right: 15px;
 }
 
+.select2-container {
+	min-width: 55px;
+}
+
 /* Add 23px to multiple Chosen/Select2 select */
 
 .chosen-select[multiple],

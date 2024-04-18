@@ -31,6 +31,7 @@ Changes in 11.6
 - CSS Adjust Mailing Labels top margin for Report Cards in wkhtmltopdf.css
 - Use MailingLabelPositioned() function in ReportCards.fnc.php, ProgressReports.php, PrintRequests.php, PrintSchedules.php, Statements.php, Letters.php & PrintStudentInfo.php
 - Add Mailing Label Position option (left or right) in User.fnc.php & Preferences.php
+- CSS fix Select2 min-width when hidden in stylesheet.css
 
 Changes in 11.5.2
 -----------------
