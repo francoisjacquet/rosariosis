@@ -32,6 +32,7 @@ Changes in 11.6
 - Use MailingLabelPositioned() function in ReportCards.fnc.php, ProgressReports.php, PrintRequests.php, PrintSchedules.php, Statements.php, Letters.php & PrintStudentInfo.php
 - Add Mailing Label Position option (left or right) in User.fnc.php & Preferences.php
 - CSS fix Select2 min-width when hidden in stylesheet.css
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 11.5.2
 -----------------
