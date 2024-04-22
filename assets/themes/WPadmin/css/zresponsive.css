@@ -211,7 +211,9 @@
 		width: auto;
 		position: relative;
 		overflow-x: auto;
-		white-space: nowrap
+		white-space: nowrap;
+		/* Prevent overscroll/bounce in iOS 16+ MobileSafari and Chrome */
+		overscroll-behavior-y: none;
 	}
 	.rt thead tr {
 		display: block

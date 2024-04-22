@@ -33,6 +33,8 @@ Changes in 11.6
 - Add Mailing Label Position option (left or right) in User.fnc.php & Preferences.php
 - CSS fix Select2 min-width when hidden in stylesheet.css
 - Update French & Spanish translations in rosariosis.po
+- CSS responsive tables: Prevent overscroll/bounce in iOS 16+ MobileSafari and Chrome in zresponsive.css
+- CSS select: Normalize color on iOS 15+ in colors.css
 
 Changes in 11.5.2
 -----------------

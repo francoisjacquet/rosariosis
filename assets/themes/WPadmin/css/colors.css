@@ -18,6 +18,8 @@ input[type="time"],
 select {
 	border-color: #dfdfdf;
 	background: #fff;
+	/* Normalize color on iOS 15+ */
+	color: inherit;
 }
 
 .select2-container--default .select2-selection--single,
