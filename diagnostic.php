@@ -166,13 +166,14 @@ if ( ! empty( $DatabaseDumpPath )
 	$error[] = 'The value for $DatabaseDumpPath in the config.inc.php file is not correct. pg_dump utility not found.';
 }
 
-// Check mysqldump binary exists.
+// Check mysqldump or mariadb-dump binary exists.
 if ( ! empty( $DatabaseDumpPath )
 	&& $DatabaseType === 'mysql'
 	&& ( ! file_exists( $DatabaseDumpPath )
-		|| strpos( basename( $DatabaseDumpPath ), 'mysqldump' ) !== 0 ) )
+		|| ( strpos( basename( $DatabaseDumpPath ), 'mysqldump' ) !== 0
+			&& strpos( basename( $DatabaseDumpPath ), 'mariadb-dump' ) !== 0 ) ) )
 {
-	$error[] = 'The value for $DatabaseDumpPath in the config.inc.php file is not correct. mysqldump utility not found.';
+	$error[] = 'The value for $DatabaseDumpPath in the config.inc.php file is not correct. mysqldump or mariadb-dump utility not found.';
 }
 
 // Check for gd extension.
