@@ -31,10 +31,11 @@ if ( ( ! empty( $_POST['values'] )
 				if ( $DatabaseType === 'mysql' )
 				{
 					// @since 10.0 Use GROUP BY instead of DISTINCT ON for MySQL
+					// @since 11.5.3 Fix MySQL 5.7.5+ error due to ONLY_FULL_GROUP_BY mode: use MIN()
 					DBQuery( "INSERT INTO students_join_people
 						(STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 						SELECT '" . UserStudentID() . "',PERSON_ID,
-						ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
+						MIN(ADDRESS_ID),MIN(CUSTODY),MIN(EMERGENCY),MIN(STUDENT_RELATION)
 						FROM students_join_people
 						WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 						GROUP BY PERSON_ID" );

@@ -37,6 +37,10 @@ Changes in 11.6
 - CSS select: Normalize color on iOS 15+ in colors.css
 - MariaDB $DatabaseDumpPath allow 'mariadb-dump' binary in diagnostic.php & config.inc.sample.php
 
+Changes in 11.5.3
+-----------------
+- Fix MySQL 5.7.5+ error due to ONLY_FULL_GROUP_BY mode: use MIN() in Address.inc.php
+
 Changes in 11.5.2
 -----------------
 - Fix get Student Info when Parent associated to various students in ReportCards.fnc.php
