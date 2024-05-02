@@ -2,6 +2,19 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.6
+-----------
+
+Users
+- My Preferences > Print Options: Mailing Label Position (left or right)
+
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/): link your [Stripe](https://stripe.com/) account and accept payments. Stripe is [available in 46 countries](https://stripe.com/global).
+
+[Custom Menu](https://gitlab.com/francoisjacquet/Custom_Menu/) plugin sponsored by AT group, Slovenia
+
+[Instant List Search and Sorting](https://gitlab.com/francoisjacquet/Instant_List_Search_Sorting/) plugin sponsored by AT group, Slovenia
+
+
 New in 11.5
 -----------
 
