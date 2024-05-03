@@ -1184,7 +1184,8 @@ table.valign-middle td {
 
 /* Vertical align button inside first td, use when row has input (list with fields) */
 
-.list.has-input:not(.valign-middle) > tbody > tr > td:first-child .button {
+.list.has-input:not(.valign-middle) > tbody > tr > td:first-child .button,
+.list.has-input:not(.valign-middle) > tbody > tr > td:first-child .button + b {
 	padding-top: 8px
 }
 
@@ -1647,6 +1648,7 @@ a .button + b {
 	font-weight: normal;
 	text-transform: uppercase;
 	font-size: 14px;
+	vertical-align: middle;
 }
 
 /* Tooltip */
