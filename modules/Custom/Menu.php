@@ -13,12 +13,8 @@
 // Custom Students programs
 if ( $RosarioModules['Students'] )
 {
-	$menu['Students']['admin'] = issetVal( $menu['Students']['admin'], [] );
-	$menu['Students']['parent'] = issetVal( $menu['Students']['parent'], [] );
-	$exceptions['Students'] = issetVal( $exceptions['Students'], [] );
-
+	$menu['Students']['admin'][] = _( 'Utilities' );
 	$menu['Students']['admin'] += [
-		3 => _( 'Utilities' ),
 		'Custom/MyReport.php' => _( 'My Report' ),
 		'Custom/CreateParents.php' => _( 'Create Parent Users' ),
 		// @since 6.6 Add Registration program for Administrators.
@@ -26,29 +22,18 @@ if ( $RosarioModules['Students'] )
 		'Custom/RemoveAccess.php' => _( 'Remove Access' ),
 	];
 
-	$exceptions['Students'] += [
-		'Custom/CreateParents.php' => true,
-	];
+	$exceptions['Students']['Custom/CreateParents.php'] = true;
 
-	$menu['Students']['parent'] += [
-		'Custom/Registration.php' => _( 'Registration' ),
-	];
+	$menu['Students']['parent']['Custom/Registration.php'] = _( 'Registration' );
 }
 
 // Custom Users programs
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] = issetVal( $menu['Users']['admin'], [] );
-	$exceptions['Users'] = issetVal( $exceptions['Users'], [] );
+	$menu['Users']['admin'][] = _( 'Utilities' );
+	$menu['Users']['admin']['Custom/NotifyParents.php'] = _( 'Notify Parents' );
 
-	$menu['Users']['admin'] += [
-		3 => _( 'Utilities' ),
-		'Custom/NotifyParents.php' => _( 'Notify Parents' ),
-	];
-
-	$exceptions['Users'] += [
-		'Custom/NotifyParents.php' => true,
-	];
+	$exceptions['Users']['Custom/NotifyParents.php'] = true;
 }
 
 // Custom Attendance programs
