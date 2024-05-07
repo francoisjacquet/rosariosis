@@ -13,6 +13,10 @@
 // Custom Students programs
 if ( $RosarioModules['Students'] )
 {
+	$menu['Students']['admin'] = issetVal( $menu['Students']['admin'], [] );
+	$menu['Students']['parent'] = issetVal( $menu['Students']['parent'], [] );
+	$exceptions['Students'] = issetVal( $exceptions['Students'], [] );
+
 	$menu['Students']['admin'] += [
 		3 => _( 'Utilities' ),
 		'Custom/MyReport.php' => _( 'My Report' ),
@@ -34,6 +38,9 @@ if ( $RosarioModules['Students'] )
 // Custom Users programs
 if ( $RosarioModules['Users'] )
 {
+	$menu['Users']['admin'] = issetVal( $menu['Users']['admin'], [] );
+	$exceptions['Users'] = issetVal( $exceptions['Users'], [] );
+
 	$menu['Users']['admin'] += [
 		3 => _( 'Utilities' ),
 		'Custom/NotifyParents.php' => _( 'Notify Parents' ),
@@ -47,6 +54,8 @@ if ( $RosarioModules['Users'] )
 // Custom Attendance programs
 if ( $RosarioModules['Attendance'] )
 {
+	$menu['Attendance']['admin'] = issetVal( $menu['Attendance']['admin'], [] );
+
 	// Place Attendance Summary program before Utilities separator.
 	$utilities_pos = array_search( 2, array_keys( $menu['Attendance']['admin'] ) );
 
