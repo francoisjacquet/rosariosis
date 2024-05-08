@@ -301,6 +301,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 					FROM staff_fields
 					ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
+				$update_columns = [];
+
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
 					if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
