@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.6.1
+-----------------
+- MySQL mode: disable ONLY_FULL_GROUP_BY in Warehouse.php
+- Performance: Run all SQL SET (NAMES, SQL_MODE, DATESTYLE, TIMEZONE) queries at once in Warehouse.php
+
 Changes in 11.6
 ---------------
 - JS FixedMenu Round menu height as 100vh is sometimes not exactly equal to window height in jquery-fixedmenu.js

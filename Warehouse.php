@@ -110,18 +110,30 @@ if ( $DatabaseType === 'mysql' )
 	 * 	and (utf8mb4_general_ci,IMPLICIT) for operation '='"
 	 * @link https://www.php.net/manual/en/mysqli.set-charset.php#121647
 	 */
-	DBQuery( "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci" );
+	$sql_set = "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_520_ci;";
 
-	/**
-	 * Set MySQL mode to accept pipes || as concatenation operator.
-	 * For backward-compatibility purpose only, try to always use CONCAT() instead of ||
-	 *
-	 * @since 10.0
-	 * @link https://stackoverflow.com/questions/5975958/string-concatenation-in-mysql#5975980
-	 */
 	if ( ! ROSARIO_DEBUG )
 	{
-		DBQuery( "SET @@sql_mode=CONCAT(@@sql_mode,',PIPES_AS_CONCAT')" );
+		/**
+		 * Set MySQL mode to accept pipes || as concatenation operator.
+		 * For backward-compatibility purpose only, try to always use CONCAT() instead of ||
+		 *
+		 * @since 10.0
+		 * @link https://stackoverflow.com/questions/5975958/string-concatenation-in-mysql#5975980
+		 *
+		 * MySQL mode: disable ONLY_FULL_GROUP_BY
+		 *
+		 * @since 11.6.1
+		 *
+		 * Fix SQL error "Mixing of GROUP columns (MIN(),MAX(),COUNT(),...)
+		 *  with no GROUP columns is illegal if there is no GROUP BY clause"
+		 * Fix SQL error "Expression of SELECT list is not in GROUP BY clause and contains
+		 *  nonaggregated column which is not functionally dependent on columns in GROUP BY clause"
+		 *
+		 * ONLY_FULL_GROUP_BY mode is enabled by default since MySQL 5.7.5
+		 * @link https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_only_full_group_by
+		 */
+		$sql_set .= "SET sql_mode=CONCAT(REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''),',PIPES_AS_CONCAT');";
 	}
 }
 
@@ -136,7 +148,7 @@ if ( $DatabaseType === 'postgresql' )
 	 * @since 2.9
 	 * @since 10.0 Move query from Date.php to Warehouse.php
 	 */
-	DBQuery( "SET DATESTYLE='ISO'" );
+	$sql_set = "SET DATESTYLE='ISO';";
 }
 
 if ( isset( $Timezone ) )
@@ -157,12 +169,12 @@ if ( isset( $Timezone ) )
 			$offset = $date_time_zone->getOffset( $date );
 			$offset = ( $offset < 0 ? '-' : '+' ) . gmdate( 'H:i', abs( $offset ) );
 
-			DBQuery( "SET time_zone='" . $offset . "'" );
+			$sql_set .= "SET time_zone='" . $offset . "';";
 		}
 		else
 		{
 			// If valid PHP timezone_identifier, should be OK for PostgreSQL.
-			DBQuery( "SET TIMEZONE TO '" . $Timezone . "'" );
+			$sql_set .= "SET TIMEZONE TO '" . $Timezone . "';";
 		}
 	}
 }
@@ -171,6 +183,9 @@ else
 	// Fix PHP error if date.timezone ini setting is an invalid time zone identifier.
 	date_default_timezone_set( date_default_timezone_get() );
 }
+
+// Performance: Run all SQL SET (NAMES, SQL_MODE, DATESTYLE, TIMEZONE) queries at once.
+DBQuery( $sql_set );
 
 // Send email on PHP fatal error.
 register_shutdown_function( 'ErrorSendEmail' );
