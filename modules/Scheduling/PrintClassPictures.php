@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt( _( 'You must choose at least one course period.' ) );
 	}
 
-	$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+	$cp_list = implode( ',', array_map( 'intval', $_REQUEST['cp_arr'] ) );
 
 	//FJ multiple school periods for a course period
 	//$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM course_periods cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM school_periods WHERE PERIOD_ID=cp.PERIOD_ID)" );

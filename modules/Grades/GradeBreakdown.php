@@ -80,7 +80,7 @@ foreach ( (array) $grouped_RET as $staff_id => $grades )
 		AND rs.ID=rg.GRADE_SCALE_ID
 		AND rg.GRADE_SCALE_ID IN (SELECT GRADE_SCALE_ID
 			FROM report_card_grades
-			WHERE ID IN('" . implode( "','", $report_card_grade_ids ) . "'))
+			WHERE ID IN(" . implode( ',', array_map( 'intval', $report_card_grade_ids ) ) . "))
 		ORDER BY rs.SORT_ORDER IS NULL,rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER IS NULL,rg.SORT_ORDER" );
 }
 

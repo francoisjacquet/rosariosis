@@ -287,7 +287,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 			}
 
 			$weekdays_list = $weekdays_list ?
-				"'" . implode( "','", $weekdays_list ) . "'" : '';
+				implode( ',', array_map( 'intval', $weekdays_list ) ) : '';
 
 			$date_min = RequestedDate( 'min', '' );
 

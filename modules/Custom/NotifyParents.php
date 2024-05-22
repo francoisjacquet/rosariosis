@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	if ( ! empty( $_REQUEST['staff'] ) )
 	{
-		$st_list = "'" . implode( "','", $_REQUEST['staff'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['staff'] ) );
 
 		$extra['SELECT'] = "," . DisplayNameSQL( 's' ) . " AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
 		$extra['WHERE'] = " AND s.STAFF_ID IN (" . $st_list . ")";

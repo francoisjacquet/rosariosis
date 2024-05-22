@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt( _( 'You must choose at least one course period.' ) );
 	}
 
-	$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+	$cp_list = implode( ',', array_map( 'intval', $_REQUEST['cp_arr'] ) );
 
 	$extra['DATE'] = DBGetOne( "SELECT min(SCHOOL_DATE) AS START_DATE
 		FROM attendance_calendar

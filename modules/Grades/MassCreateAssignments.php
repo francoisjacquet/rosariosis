@@ -80,7 +80,7 @@ if ( AllowEdit()
 			}
 			else
 			{
-				$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+				$cp_list = implode( ',', array_map( 'intval', $_REQUEST['cp_arr'] ) );
 			}
 
 			$fields = "MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
@@ -96,7 +96,7 @@ if ( AllowEdit()
 			}
 			else
 			{
-				$c_list = "'" . implode( "','", $_REQUEST['c_arr'] ) . "'";
+				$c_list = implode( ',', array_map( 'intval', $_REQUEST['c_arr'] ) );
 
 				$assignment_courses_teachers_RET = DBGet( "SELECT DISTINCT COURSE_ID,TEACHER_ID
 				FROM course_periods

@@ -1,8 +1,9 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 11.6.1
------------------
+Changes in 11.7
+---------------
+- Fix SQL error invalid input syntax for type integer: cast to integer, program wide
 - MySQL mode: disable ONLY_FULL_GROUP_BY in Warehouse.php
 - Performance: Run all SQL SET (NAMES, SQL_MODE, DATESTYLE, TIMEZONE) queries at once in Warehouse.php
 

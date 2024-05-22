@@ -87,7 +87,7 @@ function GetClassRankRow( $student_id, $mp_array )
 		return [];
 	}
 
-	$mp_list = "'" . implode( "','", $mp_array ) . "'";
+	$mp_list = implode( ',', array_map( 'intval', $mp_array ) );
 
 	$class_rank_RET = DBGet( "SELECT MARKING_PERIOD_ID,
 		CLASS_SIZE,CUM_RANK
@@ -151,9 +151,9 @@ function GetClassAverageRow( $course_periods )
 		}
 	}
 
-	$mp_list = "'" . implode( "','", $mp_list ) . "'";
+	$mp_list = implode( ',', array_map( 'intval', $mp_list ) );
 
-	$cp_list = "'" . implode( "','", $cp_list ) . "'";
+	$cp_list = implode( ',', array_map( 'intval', $cp_list ) );
 
 	$class_average_row = [
 		'COURSE_PERIOD_ID' => '-3',

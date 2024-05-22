@@ -349,9 +349,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			return false;
 		}
 
-		$mp_list = "'" . implode( "','", $mp_array ) . "'";
+		$mp_list = implode( ',', array_map( 'intval', $mp_array ) );
 
-		$st_list = "'" . implode( "','", $student_array ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $student_array ) );
 
 		$extra = GetReportCardsExtra( $mp_list, $st_list );
 
@@ -1844,9 +1844,9 @@ function GetReportCardMinMaxGrades( $course_periods )
 		}
 	}
 
-	$mp_list = "'" . implode( "','", $mp_list ) . "'";
+	$mp_list = implode( ',', array_map( 'intval', $mp_list ) );
 
-	$cp_list = "'" . implode( "','", $cp_list ) . "'";
+	$cp_list = implode( ',', array_map( 'intval', $cp_list ) );
 
 	if ( ! isset( $min_max_grades[$cp_list][$mp_list] ) )
 	{

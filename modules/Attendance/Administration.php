@@ -484,7 +484,7 @@ else
 	{
 		$current_schedules_RET = DBGet( str_replace(
 			"='__student_id__'",
-			" IN('" . implode( "','", $student_ids ) . "')",
+			" IN(" . implode( ',', array_map( 'intval', $student_ids ) ) . ")",
 			$current_schedule_Q
 		), [], [ 'PERIOD_ID' ] );
 	}

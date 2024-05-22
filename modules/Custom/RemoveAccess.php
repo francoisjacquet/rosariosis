@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			issetVal( $_REQUEST['username_prefix_add'] )
 		);
 
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$update_sql = "UPDATE students
 			SET USERNAME=CONCAT('" . $username_prefix_add . "', USERNAME)

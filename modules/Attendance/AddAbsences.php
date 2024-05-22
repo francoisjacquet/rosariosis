@@ -24,9 +24,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		&& ! empty( $_REQUEST['student'] )
 		&& ! empty( $_REQUEST['dates'] ) )
 	{
-		$periods_list = "'" . implode( "','", array_keys( $_REQUEST['period'] ) ) . "'";
+		$periods_list = implode( ',', array_map( 'intval', array_keys( $_REQUEST['period'] ) ) );
 
-		$students_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
+		$students_list = implode( ',', array_map( 'intval', $_REQUEST['student'] ) );
 
 		$current_RET = DBGet( "SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
 		FROM attendance_period

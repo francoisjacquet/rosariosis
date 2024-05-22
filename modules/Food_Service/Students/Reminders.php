@@ -25,7 +25,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN(" . $st_list . ")
 			AND fsa.STUDENT_ID=s.STUDENT_ID";

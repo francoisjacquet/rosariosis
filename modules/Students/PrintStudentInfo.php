@@ -7,7 +7,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	{
 		$_REQUEST['mailing_labels'] = issetVal( $_REQUEST['mailing_labels'], '' );
 
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 

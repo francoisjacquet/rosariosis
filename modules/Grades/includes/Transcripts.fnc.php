@@ -213,14 +213,14 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 		// Limit School & Year to current ones if not admin.
 		$syear_list = ( User( 'PROFILE' ) === 'admin' && $syear_array ?
-			"'" . implode( "','", $syear_array ) . "'" :
+			implode( ',', array_map( 'intval', $syear_array ) ) :
 			"'" . UserSyear() . "'" );
 
 		$school_id = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['SCHOOL_ID'] ? $_REQUEST['SCHOOL_ID'] : UserSchool() );
 
-		$mp_type_list = "'" . implode( "','", $mp_type_array ) . "'";
+		$mp_type_list = implode( ',', array_map( 'intval', $mp_type_array ) );
 
-		$st_list = "'" . implode( "','", $student_array ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $student_array ) );
 
 		$RET = 1;
 

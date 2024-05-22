@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 	$_REQUEST['hide_headers'] = issetVal( $_REQUEST['hide_headers'], '' );
 
-	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+	$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 

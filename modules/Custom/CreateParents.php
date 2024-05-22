@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 	if ( ! empty( $_REQUEST['student'] ) )
 	{
-		$st_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['student'] ) );
 
 		$extra['SELECT'] = ",trim(lower(" . $email_column . ")) AS EMAIL";
 		$extra['SELECT'] .= ",(SELECT STAFF_ID

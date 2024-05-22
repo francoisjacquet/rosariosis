@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$staffs = DBGet( "SELECT s.FIRST_NAME," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,fsa.STATUS,fsa.BALANCE,s.STAFF_ID

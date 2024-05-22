@@ -203,7 +203,7 @@ if ( ! function_exists( 'GetStudentLabelsExtra' ) )
 	 */
 	function GetStudentLabelsExtra( $extra = [] )
 	{
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
@@ -342,7 +342,7 @@ if ( ! function_exists( 'GetMailingLabelsExtra' ) )
 	 */
 	function GetMailingLabelsExtra( $extra = [] )
 	{
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 

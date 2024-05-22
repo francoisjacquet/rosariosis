@@ -14,7 +14,7 @@
  */
 function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 {
-	$student_list = "'" . implode( "','", $student_array ) . "'";
+	$student_list = implode( ',', array_map( 'intval', $student_array ) );
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 
@@ -206,7 +206,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
  */
 function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 {
-	$student_list = "'" . implode( "','", $student_array ) . "'";
+	$student_list = implode( ',', array_map( 'intval', $student_array ) );
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 

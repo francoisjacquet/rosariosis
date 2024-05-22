@@ -44,9 +44,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	if ( ! empty( $_REQUEST['mp_arr'] )
 		&& ! empty( $_SESSION['FinalGrades.php']['st'] ) )
 	{
-		$mp_list = "'" . implode( "','", $_REQUEST['mp_arr'] ) . "'";
+		$mp_list = implode( ',', array_map( 'intval', $_REQUEST['mp_arr'] ) );
 
-		$st_list = "'" . implode( "','", $_SESSION['FinalGrades.php']['st'] ) . "'";
+		$st_list = implode( ',', array_map( 'intval', $_SESSION['FinalGrades.php']['st'] ) );
 
 		$last_mp = end( $_REQUEST['mp_arr'] );
 
@@ -419,7 +419,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$cp_list[] = $grade['COURSE_PERIOD_ID'];
 				}
 
-				$cp_list = "'" . implode( "','", $cp_list ) . "'";
+				$cp_list = implode( ',', array_map( 'intval', $cp_list ) );
 
 				//FJ limit comment scales to the ones used in students' courses
 				$students_comment_scales_RET = DBGet( "SELECT cs.ID

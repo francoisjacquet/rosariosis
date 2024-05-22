@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt( _( 'You must choose at least one student.' ) );
 	}
 
-	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+	$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
