@@ -202,7 +202,7 @@ class Widget_course implements Widget
 			'group onchange="wCourseIdUpdate(this.value);" autocomplete="off"'
 		);
 
-		$html = '<tr class="st"><td>' . _( 'Course' ) . '</td><td>' .
+		$html = '<tr class="st"><td><label for="course_period_select">' . _( 'Course' ) . '</label></td><td>' .
 		$course_period_chosen_select .
 		'<div id="course_div" class="hide">
 		<label><input type="checkbox" name="w_course_period_id_not" value="Y"> ' .

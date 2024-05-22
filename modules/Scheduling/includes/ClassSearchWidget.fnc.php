@@ -55,9 +55,9 @@ function _classSearchWidgetFindCourse( $extra )
 		AND SYEAR='" . UserSyear() . "'
 		ORDER BY FULL_NAME" );
 
-	echo '<tr class="st"><td>' . _( 'Teacher' ) . '</td><td>';
+	echo '<tr class="st"><td><label for="teacher_id">' . _( 'Teacher' ) . '</label></td><td>';
 
-	echo '<select name="teacher_id"><option value="">' . _( 'N/A' ) . '</option>';
+	echo '<select name="teacher_id" id="teacher_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 	foreach ( (array) $RET as $teacher )
 	{
@@ -72,9 +72,9 @@ function _classSearchWidgetFindCourse( $extra )
 		AND SYEAR='" . UserSyear() . "'
 		ORDER BY TITLE" );
 
-	echo '<tr class="st"><td>' . _( 'Subject' ) . '</td><td>';
+	echo '<tr class="st"><td><label for="subject_id">' . _( 'Subject' ) . '</label></td><td>';
 
-	echo '<select name="subject_id"><option value="">' . _( 'N/A' ) . '</option>';
+	echo '<select name="subject_id" id="subject_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 	foreach ( (array) $RET as $subject )
 	{
@@ -89,9 +89,9 @@ function _classSearchWidgetFindCourse( $extra )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER IS NULL,SORT_ORDER" );
 
-	echo '<tr class="st"><td>' . _( 'Period' ) . '</td><td>';
+	echo '<tr class="st"><td><label for="period_id">' . _( 'Period' ) . '</label></td><td>';
 
-	echo '<select name="period_id"><option value="">' . _( 'N/A' ) . '</option>';
+	echo '<select name="period_id" id="period_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 	foreach ( (array) $RET as $period )
 	{
