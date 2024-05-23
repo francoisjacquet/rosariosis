@@ -7,6 +7,7 @@ Changes in 11.7
 - MySQL mode: disable ONLY_FULL_GROUP_BY in Warehouse.php
 - Performance: Run all SQL SET (NAMES, SQL_MODE, DATESTYLE, TIMEZONE) queries at once in Warehouse.php
 - HTML add label to Class Search widget in ClassSearchWidget.fnc.php & Widget.php
+- Add SQLLimitForList() function in database.in.php & ListOutput.fnc.php
 
 Changes in 11.6
 ---------------

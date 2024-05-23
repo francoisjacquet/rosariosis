@@ -10,6 +10,8 @@
 
 function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = [], $group = [], $options = [] )
 {
+	global $_ROSARIO;
+
 	static $list_id = -1;
 
 	// @since 11.3 Fix list sort, search, page, save when multiple lists on same page
@@ -72,6 +74,32 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	$result_count = $display_count = count( (array) $result );
 
 	$num_displayed = 1000;
+
+	if ( ! empty( $_ROSARIO['SQLLimitForList']['limit'] ) )
+	{
+		/**
+		 * Limit SQL result for List
+		 * Improve performance for lists > 1000 results
+		 *
+		 * @see SQLLimitForList() function
+		 *
+		 * @since 11.7
+		 */
+		$num_displayed = $_ROSARIO['SQLLimitForList']['limit'];
+		$sql_count = $_ROSARIO['SQLLimitForList']['sql_count'];
+
+		// Reset for multiple lists on same page, so we can call SQLLimitForList() again.
+		unset( $_ROSARIO['SQLLimitForList'] );
+
+		if ( $num_displayed == $result_count && $sql_count )
+		{
+			// Limit reached, get total count.
+			$result_count = (int) DBGetOne( $sql_count );
+
+			// Force start to 1 as we limited results in SQL.
+			$start = 1;
+		}
+	}
 
 	// PREPARE LINKS ---.
 	$extra = URLEscape( 'LO_page=' . $LO_page .
@@ -260,7 +288,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	{
 		if ( $result_count >= $num_displayed )
 		{
-			$start = ( $LO_page - 1 ) * $num_displayed + 1;
+			$start = issetVal( $start, ( $LO_page - 1 ) * $num_displayed + 1 );
 			$stop = $start + ( $num_displayed - 1 );
 
 			if ( $stop > $result_count )
@@ -275,7 +303,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				$total_pages = ceil( $result_count / $num_displayed );
 
-				$pagination = [ '<span class="size-1">' . _( 'Page' ) . ':' ];
+				$pagination = [ '<span class="rseparator"></span><span class="size-1">' . _( 'Page' ) . ':' ];
 
 				for ( $i = 1; $i <= $total_pages; $i++ )
 				{

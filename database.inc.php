@@ -861,3 +861,33 @@ function DBSQLCommaSeparatedResult( $column, $separator = ',' )
 
 	return "ARRAY_TO_STRING(ARRAY_AGG(" . $column . "), '" . DBEscapeString( $separator ) . "')";
 }
+
+/**
+ * Limit SQL result for List
+ * Improve performance for lists > 1000 results
+ * Useful for ListOutput() with pagination option set to true
+ * Allow setting a custom limit higher or lower than the default 1000
+ *
+ * @see ListOutput() $num_displayed var
+ * @example See GetStuList() & AccessLog.php
+ *
+ * @since 11.7
+ * @param string  $sql_count SQL query to COUNT total results. Run in ListOutput() if limit is reached.
+ * @param integer $limit     Limit (defaults to 1000 = ListOutput() default).
+ *
+ * @return string SQL LIMIT.
+ */
+// TODO when commit test Email Log, PDF Archive, Entry Exit, TTHotel on demo.
+function SQLLimitForList( $sql_count, $limit = 1000 )
+{
+	global $_ROSARIO;
+
+	// Save in $_ROSARIO global var for later use in ListOutput().
+	$_ROSARIO['SQLLimitForList'] = [ 'limit' => (int) $limit, 'sql_count' => $sql_count ];
+
+	$LO_page = empty( $_REQUEST['LO_page'] ) ? 1 : $_REQUEST['LO_page'];
+
+	return " LIMIT " . (int) $limit .
+		// Page > 1: add OFFSET.
+		( $LO_page > 1 ? " OFFSET " . ( $LO_page -1 ) * $limit : '' );
+}
