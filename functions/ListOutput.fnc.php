@@ -26,7 +26,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'header_color' => Preferences( 'HEADER' ),
 		// @since 11.3 To disable responsive list layout, add `&LO_disable_responsive=Y` to the URL
 		'responsive' => empty( $_REQUEST['LO_disable_responsive'] ),
-		'add' => true,
+		// @since 11.7 Allow display of $link['add'] (or remove) on PDF or if not allowed to edit
+		'add' => ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ),
 		// @since 10.9 Add pagination option (defaults to false)
 		// Deactivated by default as yields strange results when multiple lists on same page.
 		'pagination' => false,
@@ -60,15 +61,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		$LO_save = issetVal( $_REQUEST['LO_save'], '' );
 	}
 
-	if ( ! $options['add']
-		|| ! AllowEdit()
-		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! $options['add'] && ! empty( $link ) )
 	{
-		if ( ! empty( $link ) )
-		{
-			unset( $link['add'] );
-			unset( $link['remove'] );
-		}
+		unset( $link['add'] );
+		unset( $link['remove'] );
 	}
 
 	$result_count = $display_count = count( (array) $result );
