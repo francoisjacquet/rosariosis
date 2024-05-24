@@ -576,8 +576,13 @@ hr {
 
 /* colorBox */
 
+#cboxContent {
+	background: transparent;
+}
+
 #cboxLoadedContent {
-	background: #fff !important
+	background: #fff !important;
+	box-shadow: rgba(0, 0, 0, 0.3) 0 3px 8px;
 }
 
 /* Tooltip */

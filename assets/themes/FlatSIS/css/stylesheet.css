@@ -1268,6 +1268,10 @@ img.image-radio-list {
 	max-width: none;
 }
 
+a:has(.button) {
+	white-space: nowrap;
+}
+
 a > .button {
 	padding: 1px;
 }
@@ -1506,8 +1510,15 @@ td.calendar-menu {
 
 /* colorBox */
 
+#cboxContent {
+	padding: 0 0 8px 8px;
+	margin-left: -8px;
+	margin-right: 8px;
+	box-sizing: border-box;
+}
+
 #cboxLoadedContent {
-	margin: 1px;
+	margin: 0 0 0 8px !important;
 	padding: 8px 12px !important;
 }
 
@@ -1918,8 +1929,9 @@ input[type=checkbox].toggle {
 	font-size: 14px;
 }
 
-.dashboard-module-title img {
-	vertical-align: middle;
+.dashboard-module-title img,
+.dashboard-module-title .module-icon {
+	vertical-align: -70%;
 }
 
 /* Teacher Programs */
