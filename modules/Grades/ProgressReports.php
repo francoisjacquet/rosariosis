@@ -300,8 +300,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$percent = _makeLetterGrade( $sum_grade, $cp_id, $teacher_id, '%' );
 
-			// Do not add Total to $link['add']['html']: PDF and no AllowEdit().
-			$total_last_row = [
+			$link['add']['html'] = [
 				'TITLE' => '<b>' . _( 'Total' ) . '</b>',
 				'ASSIGNED_DATE' => '&nbsp;',
 				'DUE_DATE' => '&nbsp;',
@@ -311,33 +310,32 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				'COMMENT' => '&nbsp;',
 			];
 
+			// Force display of $link['add'] on PDF or if not allowed to edit
+			$options['add'] = true;
+
 			if ( isset( $_REQUEST['by_category'] )
 				&& $_REQUEST['by_category'] == 'Y' )
 			{
-				$grades_RET[$assignment_type_id][] = $total_last_row;
-
 				ListOutput(
 					$grades_RET,
 					$LO_columns,
 					'Assignment Type',
 					'Assignment Types',
-					[],
+					$link,
 					$LO_group,
-					[ 'center' => false, 'add' => true ]
+					$options
 				);
 			}
 			else
 			{
-				$grades_RET[] = $total_last_row;
-
 				ListOutput(
 					$grades_RET,
 					$LO_columns,
 					'Assignment',
 					'Assignments',
-					[],
+					$link,
 					$LO_group,
-					[ 'center' => false, 'add' => true ]
+					$options
 				);
 			}
 		}

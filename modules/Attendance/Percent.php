@@ -214,12 +214,17 @@ if ( ! $_REQUEST['modfunc'] )
 			'AVERAGE_ABSENT' => round( issetVal( $sum['AVERAGE_ABSENT'], 0 ), 1 ),
 		];
 
+		// Force display of $link['add'] on PDF or if not allowed to edit
+		$options['add'] = true;
+
 		ListOutput(
 			$student_days_possible,
 			$columns,
 			'Grade Level',
 			'Grade Levels',
-			$link
+			$link,
+			[],
+			$options
 		);
 	}
 }

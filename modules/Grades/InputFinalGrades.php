@@ -1495,6 +1495,9 @@ if ( $stu_RET )
 			ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' )
 		),
 	];
+
+	// Force display of $link['add'] on PDF or if not allowed to edit
+	$LO_options['add'] = true;
 }
 
 echo '<br />';

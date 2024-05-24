@@ -299,11 +299,12 @@ if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 $link['add']['html'] += [
 	'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>',
 	'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>',
-	'DATE' => '&nbsp;',
-	'EXPLANATION' => '&nbsp;',
 ];
 
-ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link );
+// Force display of $link['add'] on PDF or if not allowed to edit
+$options['add'] = true;
+
+ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link, [], $options );
 
 /**
  * @param $value
