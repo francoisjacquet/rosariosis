@@ -183,15 +183,13 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</form>';
 	}
 
+	$options = [];
+
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
 		echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = [ 'valign-middle' => true ];
-	}
-	else
-	{
-		$options = [ 'center' => false, 'add' => false ];
 	}
 
 	ListOutput( $RET, $columns, 'Expense', 'Expenses', $link, [], $options );

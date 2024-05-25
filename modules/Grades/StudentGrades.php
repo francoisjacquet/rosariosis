@@ -299,7 +299,7 @@ if ( UserStudentID()
 				'Courses',
 				$link,
 				[],
-				[ 'center' => false, 'save' => false, 'search' => false ]
+				[ 'save' => false, 'search' => false ]
 			);
 		}
 		else
@@ -548,7 +548,7 @@ if ( UserStudentID()
 					'Assignments',
 					[],
 					[],
-					[ 'center' => false, 'save' => $_REQUEST['id'] != 'all', 'search' => false ]
+					[ 'save' => $_REQUEST['id'] != 'all', 'search' => false ]
 				);
 			}
 			elseif ( $_REQUEST['id'] !== 'all' )

@@ -227,6 +227,8 @@ if ( UserStudentID()
 		];
 	}
 
+	$options = [];
+
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&student_id=' . UserStudentID() ) . '" method="POST">';
@@ -247,16 +249,10 @@ if ( UserStudentID()
 			}
 
 			DrawHeader( $expanded_view_header, SubmitButton() );
+
+			$options['valign-middle'] = true;
 		}
-
-		$options = [];
 	}
-	else
-	{
-		$options = [ 'center' => false ];
-	}
-
-	$options['valign-middle'] = true;
 
 	// Do hook.
 	do_action( 'Student_Billing/StudentFees.php|student_fees_header' );

@@ -162,20 +162,15 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		];
 	}
 
-	if ( empty( $_REQUEST['print_statements'] ) )
+	$options = [];
+
+	if ( empty( $_REQUEST['print_statements'] ) && AllowEdit() )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&staff_id=' . UserStaffID()  ) . '" method="POST">';
 
-		if ( AllowEdit() )
-		{
-			DrawHeader( '', SubmitButton() );
-		}
+		DrawHeader( '', SubmitButton() );
 
 		$options = [ 'valign-middle' => true ];
-	}
-	else
-	{
-		$options = [ 'center' => false ];
 	}
 
 	ListOutput( $RET, $columns, 'Salary', 'Salaries', $link, [], $options );

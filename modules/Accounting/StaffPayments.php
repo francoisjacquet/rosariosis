@@ -149,16 +149,14 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		];
 	}
 
+	$options = [];
+
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&staff_id=' . UserStaffID() ) . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = [ 'valign-middle' => true ];
-	}
-	else
-	{
-		$options = [ 'center' => false, 'add' => false ];
 	}
 
 	ListOutput( $RET, $columns, 'Payment', 'Payments', $link, [], $options );

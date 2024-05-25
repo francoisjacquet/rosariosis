@@ -123,10 +123,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						$address,
 						$columns,
 						'Course',
-						'Courses',
-						[],
-						[],
-						[ 'center' => false, 'print' => false ]
+						'Courses'
 					);
 
 					echo '<div style="page-break-after: always;"></div>';
@@ -149,10 +146,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$courses,
 					$columns,
 					'Course',
-					'Courses',
-					[],
-					[],
-					[ 'center' => false, 'print' => false ]
+					'Courses'
 				);
 
 				echo '<div style="page-break-after: always;"></div>';

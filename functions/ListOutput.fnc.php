@@ -20,7 +20,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	$default_options = [
 		'save' => '1',
 		'search' => true,
-		'center' => true,
 		'count' => true,
 		'sort' => empty( $group ),
 		'header_color' => Preferences( 'HEADER' ),
@@ -797,8 +796,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				echo $list_has_nav ? '' : ' list-no-nav';
 
-				echo $options['center'] ? ' center' : '';
-
 				echo '" data-list-id="' . $list_id . '"><thead><tr>';
 
 				echo '<th><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
@@ -825,11 +822,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			}
 			elseif ( ! empty( $link['add']['span'] ) )
 			{
-				echo '<table class="postbox';
-
-				echo $options['center'] ? ' center' : '';
-
-				echo '"><tr class="list-add-row"><td>' . button( 'add' ) . $link['add']['span'] . '</td></tr></table>';
+				echo '<table class="widefat"><tr class="list-add-row"><td>' .
+					button( 'add' ) . $link['add']['span'] . '</td></tr></table>';
 			}
 		}
 

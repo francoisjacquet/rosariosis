@@ -191,15 +191,31 @@ if ( AllowUse( $modname ) )
 	}
 }
 
-//FJ add translation
+$options = [ 'save' => false, 'search' => false ];
 
 if ( UserStudentID() )
 {
-	ListOutput( $students_RET, $columns, 'Anomalous Grade', 'Anomalous Grades', $link, $group, [ 'center' => false, 'save' => false, 'search' => false ] );
+	ListOutput(
+		$students_RET,
+		$columns,
+		'Anomalous Grade',
+		'Anomalous Grades',
+		$link,
+		$group,
+		$options
+	);
 }
 else
 {
-	ListOutput( $students_RET, $columns, 'Student with Anomalous Grades', 'Students with Anomalous Grades', $link, $group, [ 'center' => false, 'save' => false, 'search' => false ] );
+	ListOutput(
+		$students_RET,
+		$columns,
+		'Student with Anomalous Grades',
+		'Students with Anomalous Grades',
+		$link,
+		$group,
+		$options
+	);
 }
 
 /**

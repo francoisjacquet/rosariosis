@@ -227,6 +227,8 @@ if ( UserStudentID()
 	// @since 6.5.1 Move header action hook above form.
 	do_action( 'Student_Billing/StudentPayments.php|student_payments_header' );
 
+	$options = [];
+
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&student_id=' . UserStudentID() ) . '" method="POST">';
@@ -246,16 +248,10 @@ if ( UserStudentID()
 			}
 
 			DrawHeader( $expanded_view_header, SubmitButton() );
+
+			$options['valign-middle'] = true;
 		}
-
-		$options = [];
 	}
-	else
-	{
-		$options = [ 'center' => false, 'add' => false ];
-	}
-
-	$options['valign-middle'] = true;
 
 	ListOutput(
 		$RET,

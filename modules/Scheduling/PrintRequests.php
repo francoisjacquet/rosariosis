@@ -59,7 +59,8 @@ else
 					// @since 11.6 Add Mailing Label position
 					echo MailingLabelPositioned( $address[1]['MAILING_LABEL'] );
 
-					ListOutput( $address, $columns, 'Request', 'Requests', [], [], [ 'center' => false, 'print' => false ] );
+					ListOutput( $address, $columns, 'Request', 'Requests' );
+
 					echo '<div style="page-break-after: always;"></div>';
 				}
 			}
@@ -71,7 +72,8 @@ else
 				DrawHeader( $courses[1]['GRADE_ID'] );
 				DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
-				ListOutput( $courses, $columns, 'Request', 'Requests', [], [], [ 'center' => false, 'print' => false ] );
+				ListOutput( $courses, $columns, 'Request', 'Requests' );
+
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}
