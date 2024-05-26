@@ -113,10 +113,8 @@ if ( isset( $_REQUEST['expanded_view'] )
 $link['add']['html'] = [
 	'FULL_NAME' => _( 'Total' ) . ': ' .
 		'<b>' . Currency( $totals['CREDIT'] - $totals['DEBIT'] ) . '</b>',
-	'DEBIT' => '<b>' . Currency( ( isset( $totals['DEBIT'] ) ? $totals['DEBIT'] : 0 ) ) . '</b>',
-	'CREDIT' => '<b>' . Currency( ( isset( $totals['CREDIT'] ) ? $totals['CREDIT'] : 0 ) ) . '</b>',
-	'DATE' => '&nbsp;',
-	'EXPLANATION' => '&nbsp;',
+	'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>',
+	'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>',
 ];
 
 // Force display of $link['add'] on PDF or if not allowed to edit
