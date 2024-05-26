@@ -16,6 +16,7 @@
  *
  * @since 4.8 Search Parents by Student Grade Level.
  * @since 11.4 Add 'SELECT_ONLY' to $extra param
+ * @since 11.7 Add 'GROUP' to $extra param
  * @since 11.7 Add 'LIMIT' to $extra param (default to 1000)
  *
  * @see Search()
@@ -266,6 +267,12 @@ function GetStaffList( &$extra = [] )
 
 	// Extra WHERE.
 	$sql .= $extra['WHERE'] . ' ';
+
+	// GROUP BY.
+	if ( isset( $extra['GROUP'] ) )
+	{
+		$sql .= ' GROUP BY ' . $extra['GROUP'];
+	}
 
 	$sql_before_order_by = $sql;
 
