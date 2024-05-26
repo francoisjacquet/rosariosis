@@ -15,6 +15,7 @@ Changes in 11.7
 - Allow display of `$link['add']` (or remove) on PDF or if not allowed to edit in ListOutput.fnc.php
 - Force display of `$link['add']` on PDF or if not allowed to edit in DailyTransactions.php, Percent.php, InputFinalGrades.php & ProgressReports.php
 - Remove useless center option in ListOutput() & program wide
+- Fix SQL when "Search All Schools" checked in GetTeacher.fnc.php
 
 Changes in 11.6
 ---------------
