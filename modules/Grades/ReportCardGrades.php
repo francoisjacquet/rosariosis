@@ -219,7 +219,8 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$sql = "SELECT ID,TITLE,GP_SCALE,GP_PASSING_VALUE,COMMENT,
-			HHR_GPA_VALUE,HR_GPA_VALUE,HRS_GPA_VALUE,SORT_ORDER
+			HHR_GPA_VALUE,HR_GPA_VALUE,HRS_GPA_VALUE,SORT_ORDER,
+			'' AS HONOR_ROLL_GPA_MIN
 			FROM report_card_grade_scales
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
@@ -230,9 +231,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'GP_SCALE' => '_makeGradesInput',
 			'GP_PASSING_VALUE' => '_makeGradesInput',
 			'COMMENT' => '_makeTextInput',
-			'HHR_GPA_VALUE' => '_makeGradesInput',
-			'HR_GPA_VALUE' => '_makeGradesInput',
-			'HRS_GPA_VALUE' => '_makeGradesInput',
+			'HONOR_ROLL_GPA_MIN' => '_makeHonorRollGPAMinInputs',
 			'SORT_ORDER' => '_makeTextInput',
 		];
 
@@ -241,9 +240,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'GP_SCALE' => _( 'Scale Value' ),
 			'GP_PASSING_VALUE' => _( 'Minimum Passing Grade' ),
 			'COMMENT' => _( 'Comment' ),
-			'HHR_GPA_VALUE' => _( 'High Honor Roll GPA Min' ),
-			'HR_GPA_VALUE' => _( 'Honor Roll GPA Min' ),
-			'HRS_GPA_VALUE' => _( 'Honor Roll by Subject GPA Min' ),
+			'HONOR_ROLL_GPA_MIN' => _( 'Honor Roll GPA Min' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
 		];
 
@@ -252,9 +249,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'GP_SCALE' => _makeGradesInput( '', 'GP_SCALE' ),
 			'GP_PASSING_VALUE' => _makeGradesInput( '', 'GP_PASSING_VALUE' ),
 			'COMMENT' => _makeTextInput( '', 'COMMENT' ),
-			'HHR_GPA_VALUE' => _makeGradesInput( '', 'HHR_GPA_VALUE' ),
-			'HR_GPA_VALUE' => _makeGradesInput( '', 'HR_GPA_VALUE' ),
-			'HRS_GPA_VALUE' => _makeGradesInput( '', 'HRS_GPA_VALUE' ),
+			'HONOR_ROLL_GPA_MIN' => _makeHonorRollGPAMinInputs( '', 'HONOR_ROLL_GPA_MIN' ),
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		];
 
@@ -366,6 +361,71 @@ function _makeGradesInput( $value, $name )
 		'',
 		$extra
 	);
+}
+
+/**
+ * Make Honor Roll GPA Min Inputs
+ * - High Honor Roll GPA Min
+ * - Honor Roll GPA Min
+ * - Honor Roll by Subject GPA Min
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 11.7
+ *
+ * @param  string $value Value.
+ * @param  string $name  Column name. Defaults to 'HONOR_ROLL_GPA_MIN'.
+ *
+ * @return string        Honor Roll GPA Min Inputs
+ */
+function _makeHonorRollGPAMinInputs( $value, $name = 'HONOR_ROLL_GPA_MIN' )
+{
+	global $THIS_RET;
+
+	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
+
+	$columns = [
+		'HHR_GPA_VALUE' => _( 'High Honor Roll GPA Min' ),
+		'HR_GPA_VALUE' => _( 'Honor Roll GPA Min' ),
+		'HRS_GPA_VALUE' => _( 'Honor Roll by Subject GPA Min' ),
+	];
+
+	$extra = ' type="number" min="0" max="99999" step="0.01"';
+
+	$return = '';
+
+	foreach ( $columns as $name => $title )
+	{
+		$value = '';
+
+		if ( $id !== 'new' )
+		{
+			$value = $THIS_RET[ $name ];
+		}
+
+		if ( $value )
+		{
+			$value = number_format( (float) $value, 2, '.', '' );
+		}
+
+		$return .= TextInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			$title,
+			$extra
+		);
+
+		if ( $id === 'new'
+			|| is_null( $value )
+			|| trim( $value ) == '' )
+		{
+			$return .= '<br>';
+		}
+	}
+
+	// Add HTML inside colorBox on mobile devices using the responsive table 2 colorBox class.
+	return '<div id="divHonorRoll' . $id . '" class="rt2colorBox">' . $return . '</div>';
 }
 
 /**

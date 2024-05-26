@@ -16,6 +16,7 @@ Changes in 11.7
 - Force display of `$link['add']` on PDF or if not allowed to edit in DailyTransactions.php, Percent.php, InputFinalGrades.php & ProgressReports.php
 - Remove useless center option in ListOutput() & program wide
 - Fix SQL when "Search All Schools" checked in GetTeacher.fnc.php
+- Add `_makeHonorRollGPAMinInputs()` function, group Honor Roll GPA Min inputs in same column in ReportCardGrades.php
 
 Changes in 11.6
 ---------------
