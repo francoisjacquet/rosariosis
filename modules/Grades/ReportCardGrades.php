@@ -162,8 +162,15 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER
-			LIMIT 10101"; // 10100 is base 100 + 2 decimal places
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER";
+
+		$sql_count = "SELECT COUNT(1)
+			FROM report_card_grades
+			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'";
+
+		$sql .= SQLLimitForList( $sql_count );
 
 		$functions = [
 			'TITLE' => '_makeTextInput',

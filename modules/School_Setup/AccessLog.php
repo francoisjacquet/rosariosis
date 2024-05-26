@@ -81,13 +81,21 @@ if ( ! $_REQUEST['modfunc'] )
 		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
 	];
 
-	$access_logs_RET = DBGet( "SELECT
+	$access_logs_sql = "SELECT
 		DISTINCT USERNAME,PROFILE,CREATED_AT,IP_ADDRESS,STATUS,USER_AGENT
 		FROM access_log
 		WHERE CREATED_AT >='" . $start_date . "'
 		AND CREATED_AT <='" . $end_date . ' 23:59:59' . "'
-		ORDER BY CREATED_AT DESC
-		LIMIT 3000", $access_logs_functions );
+		ORDER BY CREATED_AT DESC";
+
+	$sql_count = "SELECT COUNT(1)
+		FROM access_log
+		WHERE CREATED_AT >='" . $start_date . "'
+		AND CREATED_AT <='" . $end_date . ' 23:59:59' . "'";
+
+	$access_logs_sql .= SQLLimitForList( $sql_count );
+
+	$access_logs_RET = DBGet( $access_logs_sql, $access_logs_functions );
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete' ) . '" method="POST">';
 

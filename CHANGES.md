@@ -8,6 +8,7 @@ Changes in 11.7
 - Performance: Run all SQL SET (NAMES, SQL_MODE, DATESTYLE, TIMEZONE) queries at once in Warehouse.php
 - HTML add label to Class Search widget in ClassSearchWidget.fnc.php & Widget.php
 - Add SQLLimitForList() function in database.in.php & ListOutput.fnc.php
+- Use SQLLimitForList() function in GetStuList.fnc.php, GetStaffList.fnc.php, ReportCardGrades.php & AccessLog.php
 - Add 'LIMIT' to $extra param (default to 1000) in GetStuList.fnc.php & GetStaffList.fnc.php
 - Add 'GROUP' to $extra param in GetStaffList.fnc.php
 - CSS FlatSIS theme: add box-shadow to colorBox in colors.css, stylesheet.css & zresponsive.css
