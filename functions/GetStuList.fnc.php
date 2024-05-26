@@ -14,6 +14,8 @@
  *
  * @example $fees_RET = GetStuList( $fees_extra );
  *
+ * @since 11.7 Add 'LIMIT' to $extra param (default to 1000)
+ *
  * @see Search()
  *
  * @uses Widgets()               add Widgets SQL to $extra
@@ -63,6 +65,8 @@ function GetStuList( &$extra = [] )
 	$extra['WHERE'] .= appendSQL( '', $extra );
 
 	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
+
+	$extra['LIMIT'] = issetVal( $extra['LIMIT'], 1000 );
 
 	$functions = [];
 
@@ -656,6 +660,8 @@ function GetStuList( &$extra = [] )
 		$sql .= ' GROUP BY ' . $extra['GROUP'];
 	}
 
+	$sql_before_order_by = $sql;
+
 	// ORDER BY.
 	if ( ! isset( $extra['ORDER_BY'] )
 		&& ! isset( $extra['SELECT_ONLY'] ) )
@@ -677,6 +683,19 @@ function GetStuList( &$extra = [] )
 	elseif ( ! empty( $extra['ORDER_BY'] ) )
 	{
 		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
+	}
+
+	if ( $extra['LIMIT'] )
+	{
+		// @link https://stackoverflow.com/questions/5146978/count-number-of-records-returned-by-group-by
+		$count = isset( $extra['GROUP'] ) ? "DISTINCT COUNT(1) OVER ()" : "COUNT(1)";
+
+		$sql_count = "SELECT " . $count . mb_substr(
+			$sql_before_order_by,
+			mb_strpos( $sql_before_order_by, " FROM students s " )
+		);
+
+		$sql .= SQLLimitForList( $sql_count, (int) $extra['LIMIT'] );
 	}
 
 	// FJ bugfix if PDF, dont echo SQL.

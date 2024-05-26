@@ -16,6 +16,7 @@
  *
  * @since 4.8 Search Parents by Student Grade Level.
  * @since 11.4 Add 'SELECT_ONLY' to $extra param
+ * @since 11.7 Add 'LIMIT' to $extra param (default to 1000)
  *
  * @see Search()
  *
@@ -67,6 +68,8 @@ function GetStaffList( &$extra = [] )
 	$extra['WHERE'] .= appendStaffSQL( '', $extra );
 
 	$extra['WHERE'] .= CustomFields( 'where', 'staff', $extra );
+
+	$extra['LIMIT'] = issetVal( $extra['LIMIT'], 1000 );
 
 	$functions = [];
 
@@ -264,6 +267,8 @@ function GetStaffList( &$extra = [] )
 	// Extra WHERE.
 	$sql .= $extra['WHERE'] . ' ';
 
+	$sql_before_order_by = $sql;
+
 	// ORDER BY.
 	if ( ! isset( $extra['ORDER_BY'] )
 		&& ! isset( $extra['SELECT_ONLY'] ) )
@@ -278,6 +283,19 @@ function GetStaffList( &$extra = [] )
 	elseif ( ! empty( $extra['ORDER_BY'] ) )
 	{
 		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
+	}
+
+	if ( $extra['LIMIT'] )
+	{
+		// @link https://stackoverflow.com/questions/5146978/count-number-of-records-returned-by-group-by
+		$count = isset( $extra['GROUP'] ) ? "DISTINCT COUNT(1) OVER ()" : "COUNT(1)";
+
+		$sql_count = "SELECT " . $count . mb_substr(
+			$sql_before_order_by,
+			mb_strpos( $sql_before_order_by, " FROM staff s " )
+		);
+
+		$sql .= SQLLimitForList( $sql_count, (int) $extra['LIMIT'] );
 	}
 
 	return DBGet( $sql, $functions );
