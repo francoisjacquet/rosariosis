@@ -218,7 +218,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 		$school_id = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['SCHOOL_ID'] ? $_REQUEST['SCHOOL_ID'] : UserSchool() );
 
-		$mp_type_list = implode( ',', array_map( 'intval', $mp_type_array ) );
+		$mp_type_list = "'" . implode( "','", $mp_type_array ) . "'";
 
 		$st_list = implode( ',', array_map( 'intval', $student_array ) );
 
@@ -239,7 +239,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 			FROM transcript_grades
 			WHERE student_id IN (" . $st_list . ")
 			AND mp_type in (" . $mp_type_list . ")
-			AND school_id='" . $school_id . "'
+			AND school_id='" . (int) $school_id . "'
 			AND syear in (" . $syear_list . ")
 			ORDER BY mp_type, end_date", [], [ 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ] );
 
