@@ -612,14 +612,12 @@ if ( ! empty( $_REQUEST['values'] )
 					$percent = '0';
 				}
 
-				if ( $columns['grade']
-					|| $percent != '' )
-				{
-					$grade = ( $columns['grade'] ?
-						$columns['grade'] :
-						_makeLetterGrade( $percent / 100, $course_period_id, 0, 'ID' )
-					);
+				// Fix PHP warning when no grade found for percent
+				$grade = ( ! empty( $columns['grade'] ) ? $columns['grade'] : ( $percent != '' ?
+					_makeLetterGrade( $percent / 100, $course_period_id, 0, 'ID' ) : '' ) );
 
+				if ( $grade )
+				{
 					$letter = $grades_RET[$grade][1]['TITLE'];
 					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
 					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
@@ -638,7 +636,24 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				else
 				{
-					$grade = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
+					if ( $percent != '' )
+					{
+						// @since 11.7 Add "No Grades found for Percent" error
+						$error[ $percent ] = sprintf(
+							_( 'No Grades found for %s Percent.' ),
+							$percent
+						);
+
+						if ( AllowUse( 'Grades/ReportCardGrades.php' ) )
+						{
+							$grading_scales_url = 'Modules.php?modname=Grades/ReportCardGrades.php&tab_id=' . $grade_scale_id;
+
+							$error[ $percent ] .= ' <a href="' . URLEscape( $grading_scales_url ) . '">' .
+								_( 'Grading Scales' ) . '</a>';
+						}
+					}
+
+					$grade = $percent = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
 				}
 
 				$update_columns = [
@@ -740,7 +755,7 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 		}
 		elseif ( ( isset( $columns['percent'] ) && $columns['percent'] != '' )
-			|| $columns['grade']
+			|| ! empty( $columns['grade'] )
 			|| $columns['comment'] )
 		{
 			if ( isset( $columns['percent'] ) && $columns['percent'] != '' )
@@ -762,9 +777,12 @@ if ( ! empty( $_REQUEST['values'] )
 					$percent = '0';
 				}
 
-				if ( $columns['grade'] || $percent != '' )
+				// Fix PHP warning when no grade found for percent
+				$grade = ( ! empty( $columns['grade'] ) ? $columns['grade'] : ( $percent != '' ?
+					_makeLetterGrade( $percent / 100, $course_period_id, 0, 'ID' ) : '' ) );
+
+				if ( $grade )
 				{
-					$grade = ( $columns['grade'] ? $columns['grade'] : _makeLetterGrade( $percent / 100, $course_period_id, 0, 'ID' ) );
 					$letter = $grades_RET[$grade][1]['TITLE'];
 					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
 					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
@@ -782,7 +800,24 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				else
 				{
-					$grade = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
+					if ( $percent != '' )
+					{
+						// @since 11.7 Add "No Grades found for Percent" error
+						$error[ $percent ] = sprintf(
+							_( 'No Grades found for %s Percent.' ),
+							$percent
+						);
+
+						if ( AllowUse( 'Grades/ReportCardGrades.php' ) )
+						{
+							$grading_scales_url = 'Modules.php?modname=Grades/ReportCardGrades.php&tab_id=' . $grade_scale_id;
+
+							$error[ $percent ] .= ' <a href="' . URLEscape( $grading_scales_url ) . '">' .
+								_( 'Grading Scales' ) . '</a>';
+						}
+					}
+
+					$grade = $percent = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
 				}
 			}
 			elseif ( $columns['grade'] )
@@ -1419,6 +1454,7 @@ else
 	DrawHeader( GetMP( UserMP() ) );
 }
 
+echo ErrorMessage( $error );
 echo ErrorMessage( $warning, 'warning' );
 
 $LO_columns = [ 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) ];
