@@ -18,6 +18,7 @@ Changes in 11.7
 - Fix SQL when "Search All Schools" checked in GetTeacher.fnc.php
 - Add `_makeHonorRollGPAMinInputs()` function, group Honor Roll GPA Min inputs in same column in ReportCardGrades.php
 - Add "No Grades found for Percent" error in InputFinalGrades.php
+- Add RolloverDeleteCoursesSQL(), RolloverDoWarning(), RolloverUpdateDefaultSyearWarning() & RolloverUpdateDefaultSyear() functions in Rollover.fnc.php
 
 Changes in 11.6
 ---------------
