@@ -64,7 +64,7 @@ if ( $update_syear_warning )
 elseif ( $DefaultSyear !== UserSyear() )
 {
 	$cannot_rollover_error = sprintf(
-		_( 'You can roll the data for %s (default school year) only.' ),
+		_( 'You can only roll data for the default school year (%s).' ),
 		FormatSyear( $DefaultSyear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
 	);
 
