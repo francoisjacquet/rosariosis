@@ -1,6 +1,7 @@
 <?php
 require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 require_once 'ProgramFunctions/Dashboard.fnc.php';
+require_once 'modules/School_Setup/includes/Rollover.fnc.php';
 
 if ( $RosarioModules['Discipline'] )
 {
@@ -99,6 +100,27 @@ switch ( User( 'PROFILE' ) )
 }
 
 DrawHeader( implode( '<br />', $welcome ) );
+
+if ( Preferences( 'HIDE_ALERTS' ) != 'Y'
+	&& AllowEdit( 'School_Setup/Rollover.php' ) )
+{
+	// Add Do Rollover warning when School Year has ended.
+	$warning_do_rollover = RolloverDoWarning();
+
+	if ( $warning_do_rollover )
+	{
+		$warning[] = $warning_do_rollover;
+	}
+	else
+	{
+		$warning_update_syear = RolloverUpdateDefaultSyearWarning( true );
+
+		if ( $warning_update_syear )
+		{
+			$warning[] = $warning_update_syear;
+		}
+	}
+}
 
 // Do portal_alerts hook.
 do_action( 'misc/Portal.php|portal_alerts' );
@@ -266,33 +288,6 @@ switch ( User( 'PROFILE' ) )
 				[],
 				$portal_LO_options
 			);
-		}
-
-		if ( Preferences( 'HIDE_ALERTS' ) != 'Y'
-			&& AllowEdit( 'School_Setup/Rollover.php' ) )
-		{
-			// Add Do Rollover warning when School Year has ended.
-			$do_rollover = DBGetOne( "SELECT 1 AS DO_ROLLOVER
-				FROM school_marking_periods
-				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'
-				AND MP='FY'
-				AND END_DATE<'" . DBDate() . "'
-				AND NOT EXISTS(SELECT 1
-					FROM school_marking_periods
-					WHERE SYEAR='" . ( UserSyear() + 1 ) . "')" );
-
-			if ( $do_rollover )
-			{
-				$do_rollover_warning = [
-					sprintf(
-						_( 'The school year has ended. It is time to proceed to %s.' ),
-						'<a href="Modules.php?modname=School_Setup/Rollover.php">' . _( 'Rollover' ) . '</a>'
-					)
-				];
-
-				echo ErrorMessage( $do_rollover_warning, 'warning' );
-			}
 		}
 
 		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )

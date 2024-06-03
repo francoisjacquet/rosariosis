@@ -19,6 +19,7 @@ Changes in 11.7
 - Add `_makeHonorRollGPAMinInputs()` function, group Honor Roll GPA Min inputs in same column in ReportCardGrades.php
 - Add "No Grades found for Percent" error in InputFinalGrades.php
 - Add RolloverDeleteCoursesSQL(), RolloverDoWarning(), RolloverUpdateDefaultSyearWarning() & RolloverUpdateDefaultSyear() functions in Rollover.fnc.php
+- Use RolloverDeleteCoursesSQL(), RolloverDoWarning(), RolloverUpdateDefaultSyearWarning() & RolloverUpdateDefaultSyear() functions in Rollover.php & Portal.php
 - Update Slovenian translation (76% complete), thanks to AT group in locale/sl_SI.utf8/
 
 Changes in 11.6

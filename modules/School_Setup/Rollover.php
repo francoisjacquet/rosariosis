@@ -1,6 +1,53 @@
 <?php
 
+require_once 'modules/School_Setup/includes/Rollover.fnc.php';
+
 DrawHeader( ProgramTitle() );
+
+$next_syear = UserSyear() + 1;
+
+if ( AllowEdit()
+	&& $_REQUEST['modfunc'] === 'update_syear' )
+{
+	if ( is_writable( 'config.inc.php' )
+		&& $DefaultSyear === UserSyear() )
+	{
+		// If config.inc.php is writable, offer to update $DefaultSyear
+		$update_syear_question = sprintf(
+			_( 'Do you want to update the default school year to \'%s\' now?' ),
+			FormatSyear( $next_syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
+		);
+
+		if ( Prompt( _( 'Confirm' ), $update_syear_question ) )
+		{
+			$updated = RolloverUpdateDefaultSyear( $next_syear );
+
+			if ( ! $updated )
+			{
+				// Do not translate, shouldn't be displayed.
+				$error[] = 'The $DefaultSyear can\'t be updated in the config.inc.php file. Please update it manually or contact your server administrator.';
+			}
+			else
+			{
+				$note[] = button( 'check', '', '', 'bigger' ) . '&nbsp;' . _( 'Done.' );
+
+			}
+
+			echo ErrorMessage( $note, 'note' );
+
+			echo ErrorMessage( $error );
+
+			RedirectURL( 'modfunc' );
+		}
+
+		// Use return instead of exit. Allows Warehouse( 'footer' ) to run.
+		return;
+	}
+	else
+	{
+		RedirectURL( 'modfunc' );
+	}
+}
 
 if ( AllowEdit( 'School_Setup/DatabaseBackup.php' ) )
 {
@@ -8,7 +55,21 @@ if ( AllowEdit( 'School_Setup/DatabaseBackup.php' ) )
 		_( 'Database Backup' ) . '</a>' );
 }
 
-$next_syear = UserSyear() + 1;
+$update_syear_warning = RolloverUpdateDefaultSyearWarning();
+
+if ( $update_syear_warning )
+{
+	echo ErrorMessage( [ $update_syear_warning ], 'warning' );
+}
+elseif ( $DefaultSyear !== UserSyear() )
+{
+	$cannot_rollover_error = sprintf(
+		_( 'You can roll the data for %s (default school year) only.' ),
+		FormatSyear( $DefaultSyear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
+	);
+
+	echo ErrorMessage( [ $cannot_rollover_error ], 'fatal' );
+}
 
 $tables = [
 	'schools' => _( 'Schools' ),
@@ -46,6 +107,24 @@ if ( $RosarioModules['Food_Service'] )
 if ( $RosarioModules['Discipline'] )
 {
 	$tables += [ 'discipline_field_usage' => _( 'Referral Form' ) ];
+}
+
+$can_delete_courses = DBTransDryRun( RolloverDeleteCoursesSQL( $next_syear ) );
+
+if ( ! $can_delete_courses )
+{
+	/**
+	 * If cannot roll Courses (due to foreign keys), remove from list + dependent tables
+	 * Namely users, school periods, marking periods, calendars, and report card codes
+	 *
+	 * @since 11.4
+	 */
+	unset( $tables['courses'] );
+	unset( $tables['staff'] );
+	unset( $tables['school_periods'] );
+	unset( $tables['school_marking_periods'] );
+	unset( $tables['attendance_calendars'] );
+	unset( $tables['report_card_grades'] );
 }
 
 $table_list = '<table class="widefat center">';
@@ -155,96 +234,78 @@ if ( Prompt(
 {
 	if ( isset( $_REQUEST['tables']['courses'] )
 		&& $exists_RET['report_card_comments'][1]['COUNT']
-		&& ! $_REQUEST['tables']['report_card_comments'] )
+		&& ! isset( $_REQUEST['tables']['report_card_comments'] ) )
 	{
 		// Fix SQL error foreign keys: Roll again Report Card Comment Codes when rolling Courses.
 		$_REQUEST['tables']['report_card_comments'] = 'Y';
 	}
 
-	if ( isset( $_REQUEST['tables']['school_marking_periods'] )
-		&& $exists_RET['courses'][1]['COUNT']
-		&& ! isset( $_REQUEST['tables']['courses'] ) )
+	$rolling_courses_but_no_users_or_periods_or_mps_or_calendars_or_grades = ( isset( $_REQUEST['tables']['courses'] )
+	&& ( ( ! isset( $_REQUEST['tables']['staff'] ) && $exists_RET['staff'][1]['COUNT'] < 1 )
+		|| ( ! isset( $_REQUEST['tables']['school_periods'] ) && $exists_RET['school_periods'][1]['COUNT'] < 1 )
+		|| ( ! isset( $_REQUEST['tables']['school_marking_periods'] ) && $exists_RET['school_marking_periods'][1]['COUNT'] < 1 )
+		|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
+		|| ( ! isset( $_REQUEST['tables']['report_card_grades'] ) && $exists_RET['report_card_grades'][1]['COUNT'] < 1 ) ) );
+
+	if ( $rolling_courses_but_no_users_or_periods_or_mps_or_calendars_or_grades )
 	{
-		// Fix SQL error foreign keys: Roll again Courses when rolling Marking Periods.
-		$_REQUEST['tables']['courses'] = 'Y';
+		$error[] = _( 'You <i>must</i> roll users, school periods, marking periods, calendars, and grading scales at the same time or before rolling courses.' );
 	}
 
-	if ( isset( $_REQUEST['tables']['student_enrollment'] )
-		&& ! $exists_RET['schools'][1]['COUNT']
-		&& ! isset( $_REQUEST['tables']['schools'] ) )
+	$rolling_comments_but_not_courses = isset( $_REQUEST['tables']['report_card_comments'] )
+	&&  ( ! isset( $_REQUEST['tables']['courses'] )
+		&& $exists_RET['courses'][1]['COUNT'] < 1 );
+
+	if ( $rolling_comments_but_not_courses )
 	{
-		// Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment.
-		// Insert schools first.
-		$_REQUEST['tables'] = array_merge( [ 'schools' => 'Y' ], $_REQUEST['tables'] );
+		$error[] = _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' );
 	}
 
-	if ( ! ( isset( $_REQUEST['tables']['courses'] )
-		&& ( ( ! isset( $_REQUEST['tables']['staff'] ) && $exists_RET['staff'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['school_periods'] ) && $exists_RET['school_periods'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['school_marking_periods'] ) && $exists_RET['school_marking_periods'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['attendance_calendars'] ) && $exists_RET['attendance_calendars'][1]['COUNT'] < 1 )
-			|| ( ! isset( $_REQUEST['tables']['report_card_grades'] ) && $exists_RET['report_card_grades'][1]['COUNT'] < 1 ) ) ) )
+	if ( ! $error
+		&& ! empty( $_REQUEST['tables'] ) )
 	{
-		if ( ! ( isset( $_REQUEST['tables']['report_card_comments'] )
-			&&  ( ! isset( $_REQUEST['tables']['courses'] )
-				&& $exists_RET['courses'][1]['COUNT'] < 1 ) ) )
+		// Hook.
+		do_action( 'School_Setup/Rollover.php|rollover_checks' );
+
+		// Fix SQL error foreign keys: Process tables in reverse order.
+		$tables_reverse = array_reverse( $_REQUEST['tables'] );
+
+		foreach ( (array) $tables_reverse as $table => $value )
 		{
-			if ( ! empty( $_REQUEST['tables'] ) )
+			if ( ! $error )
 			{
-				// Hook.
-				do_action( 'School_Setup/Rollover.php|rollover_checks' );
-
-				// Fix SQL error foreign keys: Process tables in reverse order.
-				$tables_reverse = array_reverse( $_REQUEST['tables'] );
-
-				foreach ( (array) $tables_reverse as $table => $value )
-				{
-					if ( ! $error )
-					{
-						// Delete first.
-						Rollover( $table, 'delete' );
-					}
-				}
-
-				foreach ( (array) $_REQUEST['tables'] as $table => $value )
-				{
-					if ( ! $error )
-					{
-						// Then insert, in normal order.
-						Rollover( $table, 'insert' );
-					}
-				}
-
-				/**
-				 * Avoid regression due to lowercase table names:
-				 * Maintain compatibility with add-ons using rollover_after action hooks & $_REQUEST['tables']
-				 * to check if table rolled over:
-				 * Add uppercase table names to $_REQUEST['tables']
-				 *
-				 * @deprecated since 10.0
-				 */
-				if ( ! empty( $_REQUEST['tables'] ) )
-				{
-					$request_uppercase_tables = array_change_key_case( $_REQUEST['tables'], CASE_UPPER );
-
-					$_REQUEST['tables'] = array_merge( $_REQUEST['tables'], $request_uppercase_tables );
-				}
-
-				// @since 4.5 Rollover After action hook.
-				do_action( 'School_Setup/Rollover.php|rollover_after' );
+				// Delete first.
+				Rollover( $table, 'delete' );
 			}
 		}
-		else
-		{
-			$error[] = _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' );
-		}
-	}
-	else
-	{
-		$error[] = _( 'You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.' );
-	}
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
+		foreach ( (array) $_REQUEST['tables'] as $table => $value )
+		{
+			if ( ! $error )
+			{
+				// Then insert, in normal order.
+				Rollover( $table, 'insert' );
+			}
+		}
+
+		/**
+		 * Avoid regression due to lowercase table names:
+		 * Maintain compatibility with add-ons using rollover_after action hooks & $_REQUEST['tables']
+		 * to check if table rolled over:
+		 * Add uppercase table names to $_REQUEST['tables']
+		 *
+		 * @deprecated since 10.0
+		 */
+		if ( ! empty( $_REQUEST['tables'] ) )
+		{
+			$request_uppercase_tables = array_change_key_case( $_REQUEST['tables'], CASE_UPPER );
+
+			$_REQUEST['tables'] = array_merge( $_REQUEST['tables'], $request_uppercase_tables );
+		}
+
+		// @since 4.5 Rollover After action hook.
+		do_action( 'School_Setup/Rollover.php|rollover_after' );
+	}
 
 	if ( ! $error )
 	{
@@ -256,36 +317,21 @@ if ( Prompt(
 			'note'
 		);
 
-		$update_syear_warning = sprintf(
-			_( 'Do not forget to update the $DefaultSyear to \'%d\' in the config.inc.php file when ready.' ),
-			UserSyear() + 1
-		);
-
-		if ( strpos( $_SERVER['HTTP_HOST'], '.rosariosis.com' ) !== false )
+		// Do not repeat warning twice. Check if var exists first.
+		if ( empty( $update_syear_warning ) )
 		{
-			$locale_short = substr( $locale, 0, 2 ) === 'fr' || substr( $locale, 0, 2 ) === 'es' ?
-				substr( $locale, 0, 2 ) . '/' : '';
+			$update_syear_warning = RolloverUpdateDefaultSyearWarning();
 
-			$update_syear_warning = sprintf(
-				_( 'Do not forget to update the default school year to \'%d\' from <a href="%s" target="_blank">your account</a> when ready.' ),
-				UserSyear() + 1,
-				URLEscape( 'https://www.rosariosis.com/' . $locale_short .	'account/' )
-			);
+			if ( $update_syear_warning )
+			{
+				echo ErrorMessage( [ $update_syear_warning ], 'warning' );
+			}
 		}
-
-		echo ErrorMessage(
-			[
-				$update_syear_warning,
-			],
-			'warning'
-		);
 	}
 	else
 	{
 		echo ErrorMessage( $error );
 	}
-
-	echo '<div class="center"><input type="submit" value="' . AttrEscape( _( 'OK' ) ) . '" /></div></form>';
 
 	// Unset tables & redirect URL.
 	RedirectURL( 'tables' );
@@ -656,48 +702,7 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				// Fix SQL error foreign key exists on tables gradebook_assignments,gradebook_assignment_types,schedule_requests
-				// Error happens when an Assignment,or a Schedule request
-				// was added for a rolled-over Course.
-				$delete_sql = "DELETE FROM gradebook_assignments
-					WHERE COURSE_ID IN(SELECT COURSE_ID FROM courses
-						WHERE SYEAR='" . $next_syear . "'
-						AND SCHOOL_ID='" . UserSchool() . "')
-					OR COURSE_PERIOD_ID IN(SELECT COURSE_PERIOD_ID FROM course_periods
-						WHERE SYEAR='" . $next_syear . "'
-						AND SCHOOL_ID='" . UserSchool() . "');";
-
-				$delete_sql .= "DELETE FROM gradebook_assignment_types
-					WHERE COURSE_ID IN(SELECT COURSE_ID FROM courses
-						WHERE SYEAR='" . $next_syear . "'
-						AND SCHOOL_ID='" . UserSchool() . "');";
-
-				$delete_sql .= "DELETE FROM schedule_requests
-					WHERE SYEAR='" . $next_syear . "'
-					AND SCHOOL_ID='" . UserSchool() . "';";
-
-				/**
-				 * Fix MySQL syntax error: no table alias in DELETE.
-				 *
-				 * @link https://stackoverflow.com/questions/34353799/can-aliases-be-used-in-a-sql-delete-query
-				 */
-				$delete_sql .= "DELETE FROM course_period_school_periods
-					WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID
-						FROM course_periods
-						WHERE SYEAR='" . $next_syear . "'
-						AND SCHOOL_ID='" . UserSchool() . "');";
-
-				$delete_sql .= "DELETE FROM course_periods
-					WHERE SYEAR='" . $next_syear . "'
-					AND SCHOOL_ID='" . UserSchool() . "';";
-
-				$delete_sql .= "DELETE FROM courses
-					WHERE SYEAR='" . $next_syear . "'
-					AND SCHOOL_ID='" . UserSchool() . "';";
-
-				$delete_sql .= "DELETE FROM course_subjects
-					WHERE SYEAR='" . $next_syear . "'
-					AND SCHOOL_ID='" . UserSchool() . "';";
+				$delete_sql = RolloverDeleteCoursesSQL( $next_syear );
 
 				DBQuery( $delete_sql );
 
