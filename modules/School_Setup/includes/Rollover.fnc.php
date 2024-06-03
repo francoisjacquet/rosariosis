@@ -97,7 +97,7 @@ function RolloverDoWarning()
 		AND END_DATE<'" . DBDate() . "'
 		AND NOT EXISTS(SELECT 1
 			FROM school_marking_periods
-			WHERE SYEAR='" . UserSyear() + 1 . "'
+			WHERE SYEAR='" . ( UserSyear() + 1 ) . "'
 			AND SCHOOL_ID='" . UserSchool() . "')" );
 
 	if ( ! $do_rollover )
