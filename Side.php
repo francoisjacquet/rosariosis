@@ -700,17 +700,11 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 <?php // Generate Menu.
 	require_once 'Menu.php';
 
-	// Modify loop: use for instead of foreach.
-	$menu_key = array_keys( (array) $_ROSARIO['Menu'] );
-	$size_menu = count( $menu_key );
-
 	global $RosarioCoreModules;
 
-	for ( $i = 0; $i < $size_menu; $i++ ) :
+	foreach ( $_ROSARIO['Menu'] as $menu_i => $modcat_menu ) :
 
-		$menu_i = $menu_key[ $i ];
-
-		if ( ! count( $modcat_menu = $_ROSARIO['Menu'][ $menu_i ] ) )
+		if ( ! $modcat_menu )
 		{
 			continue;
 		}
@@ -739,7 +733,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 		{
 			$modcat_j = $modcat_key[ $j ];
 
-			$title = $_ROSARIO['Menu'][ $menu_i ][ $modcat_j ];
+			$title = $modcat_menu[ $modcat_j ];
 
 			// If URL, not a program.
 			/*if ( mb_stripos( $modcat_j, 'http' ) !== false ) : ?>
@@ -772,7 +766,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 		?>
 		</ul>
 	</li>
-	<?php endfor; ?>
+	<?php endforeach; ?>
 
 </ul><!-- .adminmenu -->
 
