@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-14 16:16-0500\n"
-"PO-Revision-Date: 2023-11-03 10:06+0100\n"
+"PO-Revision-Date: 2024-05-24 09:24+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-KeywordsList: ListOutput:3,4\n"
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: Bottom.php:129 Bottom.php:130 modules/Food_Service/Menu.php:40
@@ -34,7 +34,7 @@ msgstr "Uporabniki"
 
 #: Bottom.php:155
 msgid "Course List"
-msgstr "Vzgojna skupina"
+msgstr "Kategorija Vzgojnih skupin"
 
 #: Bottom.php:160
 #, php-format
@@ -464,7 +464,7 @@ msgstr "Privzeto"
 
 #: ProgramFunctions/Fields.fnc.php:438
 msgid "For dates: YYYY-MM-DD"
-msgstr ""
+msgstr "Zapis: YYYY-MM-DD"
 
 #: ProgramFunctions/Fields.fnc.php:439
 msgid "for checkboxes: Y"
@@ -700,7 +700,7 @@ msgstr "Ne vpiši po tem šolskem letu"
 
 #: ProgramFunctions/miscExport.fnc.php:48
 msgid "Next Grade at "
-msgstr "Naslednji letnik pri "
+msgstr "Naslednji letnik "
 
 #: Side.php:356 functions/GetStuList.fnc.php:508
 #: modules/Custom/AttendanceSummary.php:99 modules/Custom/CreateParents.php:287
@@ -868,7 +868,7 @@ msgstr "Informacije o dijaku"
 
 #: Side.php:696
 msgid "Clear working user"
-msgstr ""
+msgstr "Počisti delovnega uporabnika"
 
 #: Side.php:700 modules/Users/Menu.php:16 modules/Users/Menu.php:30
 #: modules/Users/Menu.php:37
@@ -1102,7 +1102,7 @@ msgstr "Profil"
 
 #: functions/GetStaffList.fnc.php:306
 msgid " w/Custom"
-msgstr ""
+msgstr " w/Po meri"
 
 #: functions/GetStuList.fnc.php:124
 #: modules/Students/includes/Address.inc.php:804
@@ -1215,7 +1215,7 @@ msgstr "Status Dijaškega doma"
 #: functions/GetStuList.fnc.php:550 modules/Grades/AnomalousGrades.php:118
 #: modules/Grades/Grades.php:310 modules/Grades/InputFinalGrades.php:1015
 msgid "Course Status"
-msgstr "Course Status"
+msgstr "Stanje Vzgojne skupine"
 
 #: functions/GetStuList.fnc.php:736
 #: modules/Students/includes/Address.inc.php:281
@@ -1315,7 +1315,7 @@ msgstr "%s ID"
 #: modules/misc/Export.php:475 modules/misc/Portal.php:243
 #: modules/misc/Portal.php:550 plugins/Paypal_Registration/config.inc.php:300
 msgid "Grade Level"
-msgstr "Letnik"
+msgstr "Letnik / VZ / Soba"
 
 #: functions/GetStuList.fnc.php:1209 functions/Widgets.fnc.php:763
 #: modules/Eligibility/Student.php:158 modules/Eligibility/StudentList.php:106
@@ -1353,7 +1353,7 @@ msgstr ""
 
 #: functions/Inputs.php:524
 msgid "Nothing to preview."
-msgstr ""
+msgstr "Nič za predogled."
 
 #: functions/Inputs.php:910
 msgid "Select some Options"
@@ -1483,12 +1483,12 @@ msgstr "Vrednost za %s"
 #: functions/SaveData.fnc.php:54
 #, php-format
 msgid "There is no column for %s. This value was not saved."
-msgstr ""
+msgstr "Ni stolpca za %s. Ta vrednost ni bila shranjena."
 
 #: functions/SaveData.fnc.php:65
 #, php-format
 msgid "%s was too long. It was truncated to fit in the field."
-msgstr ""
+msgstr "%s je bil predolg. Bil je okrnjen, da se prilega polju."
 
 #: functions/SaveData.fnc.php:74
 #, php-format
@@ -1496,16 +1496,20 @@ msgid ""
 "%s, a numerical field, contained non-numerical characters. These characters "
 "were removed."
 msgstr ""
+"%s, številsko polje, je vsebovalo neštevilske znake. Ti znaki so bili "
+"odstranjeni."
 
 #: functions/SaveData.fnc.php:82
 #, php-format
 msgid "%s, a date field, was not a valid date. This value could not be saved."
 msgstr ""
+"%s, datumsko polje, ni bil veljaven datum. Te vrednosti ni bilo mogoče "
+"shraniti."
 
 #: functions/Search.fnc.php:157 modules/School_Setup/CopySchool.php:11
 #: modules/School_Setup/Menu.php:21
 msgid "Grade Levels"
-msgstr "Letnik"
+msgstr "Letniki"
 
 #: functions/Search.fnc.php:159 functions/Widgets.fnc.php:1510
 #: functions/Widgets.fnc.php:1522
@@ -1715,7 +1719,7 @@ msgstr "Vpis"
 #: functions/Widgets.fnc.php:96 modules/Scheduling/Menu.php:14
 #: modules/Scheduling/Menu.php:38 modules/Scheduling/Menu.php:48
 msgid "Scheduling"
-msgstr "Razporejanje"
+msgstr "Vzgojna skupina"
 
 #: functions/Widgets.fnc.php:108 modules/Attendance/Administration.php:207
 #: modules/Attendance/AttendanceCodes.php:125 modules/Attendance/Menu.php:14
@@ -1812,7 +1816,7 @@ msgstr "Vzgojna skupina"
 #: modules/Users/includes/Schedule.inc.php:25
 #: modules/Users/includes/Schedule.inc.php:61 modules/misc/ChooseCourse.php:14
 msgid "Course Period"
-msgstr "Obdobje učne ure"
+msgstr "Vzgojna skupina"
 
 #: functions/Widgets.fnc.php:287 functions/Widgets.fnc.php:350
 #: modules/Scheduling/Courses.php:1031 modules/Scheduling/functions.inc.php:32
@@ -1830,7 +1834,7 @@ msgstr "Zahteva"
 
 #: functions/Widgets.fnc.php:337
 msgid "Missing Request"
-msgstr "Manjka Request"
+msgstr "Manjka zahteva"
 
 #: functions/Widgets.fnc.php:397 functions/Widgets.fnc.php:495
 msgid "this school year to date"
@@ -1855,13 +1859,15 @@ msgstr "YTD"
 
 #: functions/Widgets.fnc.php:514 functions/Widgets.fnc.php:521
 msgid "Course Period Absences"
-msgstr "Odsotnosti v času  učne ure"
+msgstr "Odsotnosti v času učne ure"
 
 #: functions/Widgets.fnc.php:523
 msgid ""
 "Use the Choose link of the Course widget (under Scheduling) to select a "
 "Course Period."
 msgstr ""
+"Uporabite povezavo Izberi v pripomočku Tečaj (pod Načrtovanje), da izberete "
+"Vzgojne skupine."
 
 #: functions/Widgets.fnc.php:567 functions/Widgets.fnc.php:587
 #: modules/Grades/GPAMPList.php:109 modules/Grades/GPARankList.php:110
@@ -1889,7 +1895,7 @@ msgstr "Tehtano"
 #: modules/Grades/StudentGrades.php:315 modules/Grades/Transcripts.php:331
 #: modules/Users/Preferences.php:699
 msgid "Class Rank"
-msgstr "Letnik"
+msgstr ""
 
 #: functions/Widgets.fnc.php:726 modules/Scheduling/MassRequests.php:86
 #: modules/Scheduling/Requests.php:274
@@ -1905,7 +1911,7 @@ msgstr "Z"
 
 #: functions/Widgets.fnc.php:728 modules/Grades/ReportCardGrades.php:86
 msgid "Report Card Grade"
-msgstr "Poročilo Card Grade"
+msgstr "Ocena poročila"
 
 #: functions/Widgets.fnc.php:765
 msgid "Did not receive"
@@ -2007,17 +2013,17 @@ msgstr ""
 #: modules/Food_Service/Students/Statements.php:133 modules/misc/Export.php:341
 #: modules/misc/Export.php:564
 msgid "Discount"
-msgstr ""
+msgstr "Popust"
 
 #: functions/Widgets.fnc.php:1738 modules/Food_Service/Student.inc.php:88
 #: modules/Food_Service/Students/Accounts.php:166 modules/misc/Export.php:326
 msgid "Full"
-msgstr ""
+msgstr "Polno"
 
 #: functions/Widgets.fnc.php:1739 modules/Food_Service/Student.inc.php:86
 #: modules/Food_Service/Students/Accounts.php:165
 msgid "Reduced"
-msgstr ""
+msgstr "Znižana"
 
 #: functions/Widgets.fnc.php:1740 modules/Food_Service/Student.inc.php:86
 #: modules/Food_Service/Students/Accounts.php:165
@@ -2026,7 +2032,7 @@ msgstr "Brezplačno"
 
 #: functions/Widgets.fnc.php:1850
 msgid "Food Service Account ID"
-msgstr ""
+msgstr "ID računa Prehrane"
 
 #: functions/Widgets.fnc.php:1855 modules/Food_Service/AssignSchool.php:42
 #: modules/Food_Service/BalanceReport.php:72
@@ -2041,21 +2047,21 @@ msgstr "ID računa"
 
 #: index.php:131
 msgid "Confirm Successful Installation"
-msgstr ""
+msgstr "Potrdite uspešno namestitev"
 
 #: index.php:137
 #, php-format
 msgid "You have successfully installed %s."
-msgstr ""
+msgstr "Uspešno ste namestili %s."
 
 #: index.php:145
 #, php-format
 msgid "Check the %s page to spot remaining configuration problems."
-msgstr ""
+msgstr "Preverite stran %s, da odkrijete preostale težave s konfiguracijo."
 
 #: index.php:175
 msgid "Your account has not yet been activated."
-msgstr ""
+msgstr "Vaš račun še ni bil aktiviran."
 
 #: index.php:176 index.php:305
 msgid ""
@@ -2064,26 +2070,26 @@ msgstr "Obveščeni boste ko vas preveri administrator."
 
 #: index.php:207
 msgid "Incorrect username or password."
-msgstr ""
+msgstr "Nepravilno uporabniško ime ali geslo."
 
 #: index.php:208
 msgid "Please try logging in again."
-msgstr ""
+msgstr "Poskusite se ponovno prijaviti."
 
 #: index.php:279
 #, php-format
 msgid "%s Login"
-msgstr ""
+msgstr "Prijava %s"
 
 #: index.php:287
 #, php-format
 msgid "You must have javascript enabled to use %s."
-msgstr ""
+msgstr "Če želite uporabljati %s, morate imeti omogočen javascript."
 
 #: index.php:296
 #, php-format
 msgid "You must accept cookies to use %s."
-msgstr ""
+msgstr "Za uporabo %s morate sprejeti piškotke."
 
 #: index.php:304
 msgid "Your account has been created."
@@ -2091,7 +2097,7 @@ msgstr "Vaš račun je bil ustvarjen."
 
 #: index.php:306
 msgid "You will then be able to log in."
-msgstr ""
+msgstr "Nato se boste lahko prijavili."
 
 #: index.php:312
 msgid ""
@@ -2163,10 +2169,10 @@ msgstr "%s verzija %s"
 #: modules/Accounting/Expenses.php:80 modules/Accounting/Expenses.php:141
 msgid "Expense"
 msgid_plural "Expenses"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Strošek"
+msgstr[1] "Stroška"
+msgstr[2] "Stroški"
+msgstr[3] "Stroški"
 
 #: modules/Accounting/DailyTotals.php:51
 #: modules/Accounting/DailyTransactions.php:43
@@ -2175,10 +2181,10 @@ msgstr[3] ""
 #: modules/Accounting/Incomes.php:136
 msgid "Income"
 msgid_plural "Incomes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Prihodek"
+msgstr[1] "Prihodka"
+msgstr[2] "Prihodki"
+msgstr[3] "Prihodki"
 
 #: modules/Accounting/DailyTotals.php:55
 #: modules/Accounting/DailyTransactions.php:47 modules/Accounting/Menu.php:18
@@ -2314,7 +2320,7 @@ msgstr "Dijakovo plačilo"
 #: modules/Student_Billing/StudentPayments.php:162
 #: modules/Students/includes/Comments.inc.php:67
 msgid "Comment"
-msgstr "Komentar"
+msgstr "Razlog"
 
 #: modules/Accounting/DailyTransactions.php:195
 #: modules/Food_Service/ActivityReport.php:66
@@ -2409,7 +2415,7 @@ msgstr "Dnevne vsote"
 
 #: modules/Accounting/Menu.php:24
 msgid "Staff Balances"
-msgstr ""
+msgstr "Stanje osebja"
 
 #: modules/Accounting/Menu.php:25 modules/Accounting/Menu.php:35
 #: modules/Student_Billing/Menu.php:24 modules/Student_Billing/Menu.php:39
@@ -2425,7 +2431,7 @@ msgstr "Zapade"
 
 #: modules/Accounting/Salaries.php:130 modules/Accounting/StaffPayments.php:157
 msgid "Total from Salaries"
-msgstr ""
+msgstr "Skupaj iz plač"
 
 #: modules/Accounting/StaffPayments.php:87
 #: modules/Accounting/StaffPayments.php:148
@@ -2470,7 +2476,7 @@ msgstr "Dodaj odsotnosti"
 
 #: modules/Attendance/AddAbsences.php:143
 msgid "Add Absence to Periods"
-msgstr ""
+msgstr "Obdobjem dodajte odsotnost"
 
 #: modules/Attendance/AddAbsences.php:162
 msgid "Absence Code"
@@ -2668,7 +2674,7 @@ msgstr "Vzgojitelj & Pisarna"
 
 #: modules/Attendance/AttendanceCodes.php:226
 msgid "Office Only"
-msgstr ""
+msgstr "Samo pisarna"
 
 #: modules/Attendance/AttendanceCodes.php:233
 #: modules/Attendance/DailySummary.php:265
@@ -2915,7 +2921,7 @@ msgstr[3] "Šolski dnevi"
 
 #: modules/Attendance/StudentSummary.php:68
 msgid "All Periods"
-msgstr ""
+msgstr "Vsa obdobja"
 
 #: modules/Attendance/StudentSummary.php:109
 msgid "State Abs"
@@ -2923,11 +2929,11 @@ msgstr ""
 
 #: modules/Attendance/TakeAttendance.php:51
 msgid "You cannot take attendance for this course period."
-msgstr ""
+msgstr "Za to obdobje se ne morete udeležiti vzgojni skupini."
 
 #: modules/Attendance/TakeAttendance.php:108
 msgid "You cannot take attendance for this period on this day."
-msgstr ""
+msgstr "Ta dan se ne morete udeležiti vzgojne skupine."
 
 #: modules/Attendance/TakeAttendance.php:237
 #: modules/Food_Service/TakeMenuCounts.php:141
@@ -2936,15 +2942,15 @@ msgstr "Izbrani datum ni danes"
 
 #: modules/Attendance/TakeAttendance.php:238
 msgid "You can edit this attendance"
-msgstr ""
+msgstr "To prisotnost lahko urejate"
 
 #: modules/Attendance/TakeAttendance.php:238
 msgid "You cannot edit this attendance"
-msgstr ""
+msgstr "Te udeležbe ne morete urejati"
 
 #: modules/Attendance/TakeAttendance.php:243
 msgid "You already have taken attendance today for this period."
-msgstr ""
+msgstr "Danes ste se že udeležili tega obdobja."
 
 #: modules/Attendance/TeacherCompletion.php:119
 #: modules/Grades/StudentGrades.php:55 modules/Grades/TeacherCompletion.php:78
@@ -2970,12 +2976,12 @@ msgstr "Dokončano"
 #: modules/Attendance/TeacherCompletion.php:154
 #, php-format
 msgid "Teacher who takes %s attendance"
-msgstr ""
+msgstr "Vzgojitelj, ki doda %s prisotnost"
 
 #: modules/Attendance/TeacherCompletion.php:155
 #, php-format
 msgid "Teachers who take %s attendance"
-msgstr ""
+msgstr "Vzgojitelj, ki doda %s prisotnost"
 
 #: modules/Custom/AttendanceSummary.php:95
 msgid "Student Name"
@@ -3014,7 +3020,7 @@ msgstr ""
 #: modules/Custom/AttendanceSummary.php:263
 #: modules/Custom/AttendanceSummary.php:283
 msgid "Create Attendance Report for Selected Students"
-msgstr ""
+msgstr "Ustvarite poročilo o prisotnosti za izbrane dijake"
 
 #: modules/Custom/CreateParents.php:39 modules/Custom/CreateParents.php:57
 msgid "Select Parents email field"
@@ -3035,6 +3041,8 @@ msgid ""
 "You must set the <b>test mode email</b> or have a user email address to use "
 "this script."
 msgstr ""
+"Za uporabo tega skripta morate nastaviti <b>e-pošto v testnem načinu</b> ali "
+"imeti uporabniški e-poštni naslov."
 
 #: modules/Custom/CreateParents.php:89 modules/Custom/CreateParents.php:268
 #: modules/Custom/NotifyParents.php:21 modules/Custom/NotifyParents.php:119
@@ -3065,7 +3073,7 @@ msgstr[3] ""
 
 #: modules/Custom/CreateParents.php:256 modules/Custom/CreateParents.php:321
 msgid "Create Parent Accounts for Selected Students"
-msgstr ""
+msgstr "Ustvarite račune staršev za izbrane dijake"
 
 #: modules/Custom/CreateParents.php:268 modules/Custom/CreateParents.php:276
 #: modules/Custom/NotifyParents.php:119
@@ -3076,7 +3084,7 @@ msgstr "Besedilo e-pošte"
 #: modules/Grades/HonorRoll.php:223 modules/Grades/HonorRollSubject.php:144
 #: modules/Grades/Transcripts.php:510 modules/Students/Letters.php:123
 msgid "Substitutions"
-msgstr "Substitutions"
+msgstr "Koda za kopiranje"
 
 #: modules/Custom/CreateParents.php:281 modules/Custom/NotifyParents.php:124
 msgid "Parent Name"
@@ -3125,12 +3133,12 @@ msgstr "ID naslov"
 #: modules/Custom/MyReport.php:81 modules/Students/Search.inc.php:231
 #: modules/misc/Export.php:446
 msgid "Ungroup by Family"
-msgstr "Razdruži po družini"
+msgstr "A-Z (vklopi)"
 
 #: modules/Custom/MyReport.php:93 modules/Students/Search.inc.php:59
 #: modules/Students/Search.inc.php:229 modules/misc/Export.php:442
 msgid "Group by Family"
-msgstr "Išči po družini"
+msgstr "A-Z (izklopi)"
 
 #: modules/Custom/MyReport.php:109 modules/Custom/Registration.php:379
 #: modules/Students/includes/Address.inc.php:721
@@ -3148,7 +3156,7 @@ msgstr "Telefon"
 
 #: modules/Custom/MyReport.php:122
 msgid "Mailing Street"
-msgstr ""
+msgstr "Ulica"
 
 #: modules/Custom/MyReport.php:123 modules/misc/Export.php:188
 #: modules/misc/Export.php:498
@@ -3227,6 +3235,8 @@ msgid ""
 "We would appreciate it if you would enter just a little bit of information "
 "about you and %s to help us out this school year. Thanks!"
 msgstr ""
+"Hvaležni bi bili, če bi vnesli le nekaj podatkov o sebi in %s, da bi nam "
+"pomagali v tem šolskem letu. Hvala!"
 
 #: modules/Custom/Registration.php:320
 msgid "your parents"
@@ -3475,7 +3485,7 @@ msgstr ""
 #: modules/Discipline/StudentFieldBreakdown.php:244
 #: modules/Students/StudentBreakdown.php:186
 msgid "Please choose a student field"
-msgstr ""
+msgstr "Prosimo izberite študentsko področje"
 
 #: modules/Discipline/includes/EmailReferral.fnc.php:117
 msgid "New discipline incident"
@@ -3492,11 +3502,11 @@ msgstr[3] ""
 
 #: modules/Discipline/includes/ReferralLog.fnc.php:34
 msgid "Include in Discipline Log"
-msgstr ""
+msgstr "Vključi v disciplinski dnevnik"
 
 #: modules/Discipline/includes/ReferralLog.fnc.php:44
 msgid "Entry Date"
-msgstr ""
+msgstr "Vstopni Datum"
 
 #: modules/Eligibility/Activities.php:93
 #: modules/School_Setup/MarkingPeriods.php:493
@@ -3535,7 +3545,7 @@ msgstr ""
 
 #: modules/Eligibility/EnterEligibility.php:135
 msgid "Incomplete"
-msgstr ""
+msgstr "Ne kompletno"
 
 #: modules/Eligibility/EnterEligibility.php:144
 #, php-format
@@ -3853,7 +3863,7 @@ msgstr "Opomniki"
 #: modules/Food_Service/Menu.php:27 modules/Food_Service/Menu.php:41
 #: modules/Food_Service/Menu.php:51
 msgid "Daily Menus"
-msgstr ""
+msgstr "Dnevni Meniji"
 
 #: modules/Food_Service/Menu.php:28 modules/Food_Service/Menu.php:42
 #: modules/Food_Service/Menu.php:52
@@ -3862,11 +3872,11 @@ msgstr ""
 
 #: modules/Food_Service/Menu.php:29
 msgid "Meals"
-msgstr ""
+msgstr "Obroki"
 
 #: modules/Food_Service/Menu.php:30
 msgid "Kiosk Preview"
-msgstr ""
+msgstr "Predogled"
 
 #: modules/Food_Service/MenuItems.php:106
 #: modules/Food_Service/MenuItems.php:241
@@ -3928,12 +3938,12 @@ msgstr ""
 #: modules/Food_Service/MenuItems.php:199
 #: modules/Food_Service/MenuItems.php:202
 msgid "Student Price"
-msgstr ""
+msgstr "Cena za dijake"
 
 #: modules/Food_Service/MenuItems.php:199
 #: modules/Food_Service/MenuItems.php:209
 msgid "Reduced Price"
-msgstr ""
+msgstr "Znižana cena"
 
 #: modules/Food_Service/MenuItems.php:199
 #: modules/Food_Service/MenuItems.php:211
@@ -3943,7 +3953,7 @@ msgstr "Zastonj"
 #: modules/Food_Service/MenuItems.php:199
 #: modules/Food_Service/MenuItems.php:213
 msgid "Staff Price"
-msgstr ""
+msgstr "Cena za zaposlene"
 
 #: modules/Food_Service/MenuReports.php:91
 msgid "Eligible"
@@ -4168,12 +4178,12 @@ msgstr ""
 #: modules/Food_Service/Students/ServeMenus.php:86
 #: modules/Food_Service/Users/ServeMenus.php:73
 msgid "Cancel Sale"
-msgstr ""
+msgstr "Prekliči prodajo"
 
 #: modules/Food_Service/Students/ServeMenus.php:86
 #: modules/Food_Service/Users/ServeMenus.php:73
 msgid "Complete Sale"
-msgstr ""
+msgstr "Zaključena prodaja"
 
 #: modules/Food_Service/Students/ServeMenus.php:99
 #: modules/Food_Service/Users/ServeMenus.php:92
@@ -4190,13 +4200,13 @@ msgstr ""
 #: modules/Food_Service/Students/ServeMenus.php:148
 #: modules/Food_Service/Users/ServeMenus.php:135
 msgid "Price"
-msgstr ""
+msgstr "Cena"
 
 #: modules/Food_Service/Students/ServeMenus.php:165
 #: modules/Food_Service/Students/Statements.php:153
 #: modules/Food_Service/Students/Transactions.php:126
 msgid "This student does not have a valid Meal Account."
-msgstr ""
+msgstr "Dijak nima pravilnega računa za prehrano."
 
 #: modules/Food_Service/Students/Statements.php:102
 msgid "Seller"
@@ -4244,10 +4254,10 @@ msgstr ""
 #: modules/Food_Service/TakeMenuCounts.php:202
 msgid "Ineligible Student"
 msgid_plural "Ineligible Students"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Neupravičen dijak"
+msgstr[1] "Neupravičena dijaka"
+msgstr[2] "Neupravičeni dijaki"
+msgstr[3] "Neupravičeni dijaki"
 
 #: modules/Food_Service/TeacherCompletion.php:134
 #, php-format
@@ -4449,7 +4459,6 @@ msgstr ""
 #: modules/Grades/MassCreateAssignments.php:460
 #: modules/Grades/ProgressReports.php:115
 #: modules/Grades/includes/StudentAssignments.fnc.php:283
-#, fuzzy
 msgid "Assignment Type"
 msgid_plural "Assignment Types"
 msgstr[0] "Vrsta naloge"
@@ -4563,7 +4572,7 @@ msgstr ""
 
 #: modules/Grades/Assignments.php:534
 msgid "Apply to all Periods for this Course"
-msgstr "Uporabi se vsi roki za to Course"
+msgstr "Prijavite se na vsa obdobja vzgojne skupine"
 
 #: modules/Grades/Assignments.php:539
 #: modules/Grades/MassCreateAssignments.php:338
@@ -4736,7 +4745,7 @@ msgstr "Grade Post Datum"
 #: modules/School_Setup/MarkingPeriods.php:613
 #: modules/School_Setup/MarkingPeriods.php:623
 msgid "Semester"
-msgstr "Semester/leto"
+msgstr "Šolsko leto"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:192
 #: modules/Grades/Transcripts.php:451
@@ -4825,7 +4834,7 @@ msgstr ""
 #: modules/Grades/FinalGrades.php:289
 #: modules/Grades/includes/ReportCards.fnc.php:747
 msgid "General Comments"
-msgstr ""
+msgstr "Komentarji"
 
 #: modules/Grades/FinalGrades.php:292 modules/Grades/FinalGrades.php:293
 #: modules/Grades/FinalGrades.php:343 modules/Grades/InputFinalGrades.php:919
@@ -4849,7 +4858,7 @@ msgstr ""
 #: modules/Grades/FinalGrades.php:396
 #: modules/Grades/includes/ReportCards.fnc.php:749
 msgid "Course-specific Comments"
-msgstr ""
+msgstr "VZ-določeni Komentarji"
 
 #: modules/Grades/FinalGrades.php:412 modules/Grades/ReportCards.php:31
 #: modules/Grades/Transcripts.php:382
@@ -5010,7 +5019,7 @@ msgstr "Splošno"
 #: modules/Grades/InputFinalGrades.php:918 modules/Grades/Menu.php:30
 #: modules/Grades/Menu.php:62
 msgid "Report Card Comments"
-msgstr "Poročilo Card Komentarji"
+msgstr "Poročilo"
 
 #: modules/Grades/InputFinalGrades.php:979
 #, php-format
@@ -5574,7 +5583,7 @@ msgstr ""
 
 #: modules/Scheduling/Courses.php:841
 msgid "New Period"
-msgstr ""
+msgstr "Novo Obdobje"
 
 #: modules/Scheduling/Courses.php:912
 msgid "Takes Attendance"
@@ -5614,7 +5623,7 @@ msgstr "Parent Course Obdobje"
 
 #: modules/Scheduling/Courses.php:1061
 msgid "New Course"
-msgstr "Neva vzgojna skupina"
+msgstr "Nova vzgojna skupina"
 
 #: modules/Scheduling/Courses.php:1121
 msgid "New Subject"
@@ -5761,7 +5770,7 @@ msgstr "Razpored dijakov"
 #: modules/Scheduling/PrintRequests.php:45
 #: modules/Scheduling/PrintRequests.php:60
 msgid "Student Requests"
-msgstr "Student Prošnje"
+msgstr "Želje dijakov"
 
 #: modules/Scheduling/Menu.php:18
 msgid "Group Schedule"
@@ -5802,7 +5811,7 @@ msgstr "Poročilo o urniku"
 
 #: modules/Scheduling/Menu.php:28
 msgid "Requests Report"
-msgstr "Prošnje Poročilo"
+msgstr "Poročilo o zahtevah"
 
 #: modules/Scheduling/Menu.php:29 modules/Scheduling/UnfilledRequests.php:49
 msgid "Unfilled Requests"
@@ -5810,15 +5819,15 @@ msgstr "Nezasedenih Prošnje"
 
 #: modules/Scheduling/Menu.php:30
 msgid "Incomplete Schedules"
-msgstr "Nepopolna Urniki"
+msgstr "Nepopolni Urniki"
 
 #: modules/Scheduling/Menu.php:31 modules/Students/Menu.php:22
 msgid "Add / Drop Report"
-msgstr "Poročilo o vpisu"
+msgstr "Poročilo o izpisu"
 
 #: modules/Scheduling/Menu.php:34
 msgid "Run Scheduler"
-msgstr "Run Scheduler"
+msgstr "Kreiraj Urnik"
 
 #: modules/Scheduling/Menu.php:40 modules/Scheduling/Menu.php:50
 msgid "Schedule"
@@ -5865,7 +5874,7 @@ msgstr "Vključi učiteljev"
 
 #: modules/Scheduling/PrintClassPictures.php:172
 msgid "Use Last Year's if Missing"
-msgstr ""
+msgstr "Vzemi podatki lanskega leta, v primeru, da manjkajo podatki"
 
 #: modules/Scheduling/PrintRequests.php:84
 msgid "Not With"
@@ -5892,7 +5901,7 @@ msgstr "Obdobje"
 #: modules/Scheduling/PrintSchedules.php:85 modules/School_Setup/Menu.php:20
 #: modules/School_Setup/Menu.php:41 modules/Users/includes/Schedule.inc.php:101
 msgid "Periods"
-msgstr "Obdobja"
+msgstr "Časovna obdobja"
 
 #: modules/Scheduling/PrintSchedules.php:144
 #, php-format
@@ -5904,7 +5913,7 @@ msgstr ""
 #: modules/Scheduling/PrintSchedules.php:245
 #: modules/Scheduling/PrintSchedules.php:286
 msgid "Create Schedules for Selected Students"
-msgstr ""
+msgstr "Ustvarite urnike za izbrane dijake"
 
 #: modules/Scheduling/PrintSchedules.php:249
 msgid "Include only courses active as of"
@@ -5966,12 +5975,10 @@ msgstr "Sekcije"
 #: modules/Scheduling/UnfilledRequests.php:48
 msgid "Unfilled Request"
 msgid_plural "Unfilled Requests"
-msgstr[0] ""
-"#-#-#-#-#  12extracted.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-"#-#-#-#-#  13extracted.pot (PACKAGE VERSION)  #-#-#-#-#"
-msgstr[1] "#-#-#-#-#  12extracted.pot (PACKAGE VERSION)  #-#-#-#-#"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Neizpolnjena zahteva"
+msgstr[1] "Neizpolnjeni zahtevi"
+msgstr[2] "Neizpolnjene zahteve"
+msgstr[3] "Neizpolnjene zahteve"
 
 #: modules/Scheduling/Schedule.php:334
 msgid "This section is already full."
@@ -6453,7 +6460,7 @@ msgstr[3] "Napredovanje v obdobjih"
 
 #: modules/School_Setup/MarkingPeriods.php:469
 msgid "Graded"
-msgstr "Ocenjeno"
+msgstr ""
 
 #: modules/School_Setup/MarkingPeriods.php:515
 msgid "Grade Posting Begins"
@@ -6856,16 +6863,16 @@ msgstr[3] "Povezani starši"
 
 #: modules/Students/AddressFields.php:128
 msgid "Address Field"
-msgstr ""
+msgstr "Naslov"
 
 #: modules/Students/AddressFields.php:139
 msgid "Address Field Category"
-msgstr ""
+msgstr "Kategorija naslovnega polja"
 
 #: modules/Students/AddressFields.php:140 modules/Students/PeopleFields.php:140
 #: modules/Students/StudentFields.php:170 modules/Users/UserFields.php:170
 msgid "and all fields in the category"
-msgstr ""
+msgstr "in vsa polja v kategoriji"
 
 #: modules/Students/AddressFields.php:184
 msgid "New Address Field"
@@ -6915,14 +6922,16 @@ msgid ""
 "second time on the date you specified. Please fix, and try enrolling the "
 "student again."
 msgstr ""
+"Dijak je že vpisan na ta datum in ga ni mogoče drugič vpisati na datum, ki "
+"ste ga določili. Popravite in poskusite znova vpisati Dijaka."
 
 #: modules/Students/AssignOtherInfo.php:112
 msgid "No data was entered."
-msgstr ""
+msgstr "Podatki niso bili vneseni."
 
 #: modules/Students/AssignOtherInfo.php:115
 msgid "The specified information was applied to the selected students."
-msgstr ""
+msgstr "Navedene informacije so bile uporabljene za izbrane dijake."
 
 #: modules/Students/AssignOtherInfo.php:118
 msgid "You must choose at least one field and one student"
@@ -6935,7 +6944,7 @@ msgstr "Vse kategorije"
 #: modules/Students/AssignOtherInfo.php:320
 #: modules/Students/includes/Enrollment.inc.php:139 modules/misc/Export.php:478
 msgid "Rolling / Retention Options"
-msgstr "Rolling / Ohranjanje Options"
+msgstr "Rotiranje / Možnosti hrambe"
 
 #: modules/Students/AssignOtherInfo.php:352
 #: modules/Students/includes/Enrollment.inc.php:41
@@ -6967,7 +6976,7 @@ msgstr ""
 
 #: modules/Students/Letters.php:104 modules/Students/Letters.php:160
 msgid "Print Letters for Selected Students"
-msgstr "Natisni Pisma Izbranih Dijakov"
+msgstr "Natisni obrazce izbranim Dijakom"
 
 #: modules/Students/Letters.php:119
 msgid "Letter Text"
@@ -7054,7 +7063,7 @@ msgstr "Grafi"
 
 #: modules/Students/Menu.php:25 modules/Students/Menu.php:44
 msgid "Print Letters"
-msgstr "Natisni Pisma"
+msgstr "Obrazci"
 
 #: modules/Students/Menu.php:26
 msgid "Print Mailing Labels"
@@ -7149,9 +7158,9 @@ msgstr "Razširjen pogled"
 msgid "Family"
 msgid_plural "Families"
 msgstr[0] "Družina"
-msgstr[1] "Družine"
-msgstr[2] "Family"
-msgstr[3] "Family"
+msgstr[1] "Družini"
+msgstr[2] "Družine"
+msgstr[3] "Družine"
 
 #: modules/Students/Student.php:128 modules/Users/User.php:193
 msgid ""
@@ -7494,7 +7503,7 @@ msgstr "Oblika možnosti prikaza"
 
 #: modules/Users/Preferences.php:298
 msgid "Display student search screen"
-msgstr "Prikaži dijaka v  iskanju"
+msgstr "Prikaži dijaka v iskanju"
 
 #: modules/Users/Preferences.php:310
 msgid "Group by family by default"
@@ -7765,7 +7774,7 @@ msgstr[3] ""
 
 #: modules/misc/Portal.php:214
 msgid "Teachers have missing attendance data"
-msgstr "Učitelji so manjkajoče podatke udeležba"
+msgstr "Dnevnik ni v celoti izpolnjen"
 
 #: modules/misc/Portal.php:216 modules/misc/Portal.php:403
 msgid "Course Period with missing attendance data"
