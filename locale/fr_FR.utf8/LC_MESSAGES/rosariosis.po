@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 19:05+0200\n"
-"PO-Revision-Date: 2024-06-03 19:06+0200\n"
+"POT-Creation-Date: 2024-06-05 18:40+0200\n"
+"PO-Revision-Date: 2024-06-05 18:54+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -209,7 +209,7 @@ msgstr "Administrateur"
 #: modules/Users/includes/General_Info.inc.php:208
 #: modules/Users/includes/General_Info.inc.php:230 modules/misc/Export.php:222
 #: modules/misc/Export.php:232 modules/misc/Export.php:696
-#: modules/misc/Portal.php:161 modules/misc/Portal.php:193
+#: modules/misc/Portal.php:152 modules/misc/Portal.php:184
 #: plugins/Moodle/includes/ImportUsers.fnc.php:158
 msgid "Teacher"
 msgid_plural "Teachers"
@@ -281,8 +281,8 @@ msgstr "Parent"
 #: modules/Students/AddDrop.php:51 modules/Students/Search.inc.php:244
 #: modules/Students/Search.inc.php:365 modules/Students/Student.php:565
 #: modules/Users/AddStudents.php:125 modules/misc/Export.php:540
-#: modules/misc/Portal.php:464 modules/misc/Portal.php:468
-#: modules/misc/Portal.php:903 modules/misc/Portal.php:909
+#: modules/misc/Portal.php:455 modules/misc/Portal.php:459
+#: modules/misc/Portal.php:894 modules/misc/Portal.php:900
 #: plugins/Moodle/includes/ImportUsers.fnc.php:157
 msgid "Student"
 msgid_plural "Students"
@@ -486,8 +486,8 @@ msgstr "Nombre"
 #: modules/Student_Billing/StudentPayments.php:191
 #: modules/Student_Billing/includes/DailyTransactions.php:104
 #: modules/Students/includes/Medical.inc.php:111
-#: modules/Students/includes/Medical.inc.php:186 modules/misc/Portal.php:154
-#: modules/misc/Portal.php:160
+#: modules/Students/includes/Medical.inc.php:186 modules/misc/Portal.php:145
+#: modules/misc/Portal.php:151
 msgid "Date"
 msgstr "Date"
 
@@ -592,8 +592,8 @@ msgstr "Ordre de tri"
 #: modules/Student_Billing/MassAssignFees.php:77
 #: modules/Students/EnrollmentCodes.php:89 modules/Users/Exceptions.php:408
 #: modules/Users/Profiles.php:298
-#: modules/Users/includes/General_Info.inc.php:75 modules/misc/Portal.php:141
-#: modules/misc/Portal.php:148
+#: modules/Users/includes/General_Info.inc.php:75 modules/misc/Portal.php:132
+#: modules/misc/Portal.php:139
 msgid "Title"
 msgstr "Titre"
 
@@ -733,9 +733,9 @@ msgstr "Autre"
 #: modules/Students/includes/Enrollment.inc.php:44
 #: modules/Students/includes/General_Info.inc.php:213
 #: modules/Users/includes/Schedule.inc.php:44 modules/misc/Export.php:188
-#: modules/misc/Export.php:561 modules/misc/Portal.php:168
-#: modules/misc/Portal.php:170 modules/misc/Portal.php:172
-#: modules/misc/Portal.php:178
+#: modules/misc/Export.php:561 modules/misc/Portal.php:159
+#: modules/misc/Portal.php:161 modules/misc/Portal.php:163
+#: modules/misc/Portal.php:169
 msgid "School"
 msgstr "École"
 
@@ -766,7 +766,7 @@ msgstr "Organisation"
 #: modules/Scheduling/includes/MasterScheduleReport.php:63
 #: modules/Scheduling/includes/RequestsReport.php:54
 #: modules/School_Setup/Configuration.php:201
-#: modules/School_Setup/Rollover.php:83 modules/Students/Menu.php:14
+#: modules/School_Setup/Rollover.php:92 modules/Students/Menu.php:14
 #: modules/Students/Menu.php:35 modules/Students/Menu.php:46
 #: modules/Students/includes/Dashboard.inc.php:76
 #: modules/Users/AddStudents.php:124
@@ -869,7 +869,7 @@ msgstr "Télécharger"
 #: modules/Accounting/Salaries.php:146 modules/Accounting/StaffPayments.php:135
 #: modules/School_Setup/PortalNotes.php:219
 #: modules/Student_Billing/StudentFees.php:202
-#: modules/Student_Billing/StudentPayments.php:198 modules/misc/Portal.php:143
+#: modules/Student_Billing/StudentPayments.php:198 modules/misc/Portal.php:134
 msgid "File Attached"
 msgstr "Fichier joint"
 
@@ -977,7 +977,7 @@ msgstr "Samedi"
 #: modules/Users/includes/Schedule.inc.php:113
 #: modules/Users/includes/Schedule.inc.php:114
 #: modules/Users/includes/Schedule.inc.php:115
-#: modules/Users/includes/Schedule.inc.php:116 modules/misc/Portal.php:153
+#: modules/Users/includes/Schedule.inc.php:116 modules/misc/Portal.php:144
 msgid "Day"
 msgid_plural "Days"
 msgstr[0] "Jour"
@@ -987,7 +987,7 @@ msgstr[1] "Jours"
 #: modules/Grades/MassCreateAssignments.php:609
 #: modules/Scheduling/PrintSchedules.php:50 modules/Scheduling/Schedule.php:286
 #: modules/Scheduling/includes/ScheduleReport.php:284
-#: modules/School_Setup/Calendar.php:658 modules/misc/Portal.php:161
+#: modules/School_Setup/Calendar.php:658 modules/misc/Portal.php:152
 msgid "Days"
 msgstr "Jours"
 
@@ -1273,7 +1273,7 @@ msgid "School Year"
 msgstr "Année scolaire"
 
 #: Side.php:562 modules/Scheduling/includes/Dashboard.inc.php:65
-#: modules/School_Setup/Periods.php:134 modules/School_Setup/Rollover.php:187
+#: modules/School_Setup/Periods.php:134 modules/School_Setup/Rollover.php:196
 #: modules/Users/TeacherPrograms.php:78
 msgid "Course Periods"
 msgstr "Classes"
@@ -1383,7 +1383,7 @@ msgstr "Solde du compte cantine"
 #: modules/Student_Billing/includes/Dashboard.inc.php:89
 #: modules/misc/Export.php:387 modules/misc/Export.php:408
 #: modules/misc/Export.php:665 modules/misc/Export.php:675
-#: modules/misc/Portal.php:466 modules/misc/Portal.php:906
+#: modules/misc/Portal.php:457 modules/misc/Portal.php:897
 msgid "Balance"
 msgstr "Solde"
 
@@ -1500,7 +1500,7 @@ msgstr "Entre"
 #: modules/Food_Service/Reminders.php:25 modules/Food_Service/ServeMenus.php:52
 #: modules/Food_Service/Statements.php:35
 #: modules/Food_Service/Transactions.php:34
-#: modules/School_Setup/Rollover.php:76 modules/Users/Menu.php:14
+#: modules/School_Setup/Rollover.php:85 modules/Users/Menu.php:14
 #: modules/Users/Menu.php:29 modules/Users/Menu.php:36
 #: modules/Users/includes/Dashboard.inc.php:79
 msgid "Users"
@@ -1590,7 +1590,7 @@ msgstr "Pas"
 #: modules/Scheduling/includes/ScheduleReport.php:205
 #: modules/School_Setup/Calendar.php:680 modules/Users/Preferences.php:689
 #: modules/Users/includes/Schedule.inc.php:34 modules/misc/ChooseCourse.php:39
-#: modules/misc/Portal.php:186 plugins/Custom_Transcripts/functions.php:317
+#: modules/misc/Portal.php:177 plugins/Custom_Transcripts/functions.php:317
 msgid "Course"
 msgid_plural "Courses"
 msgstr[0] "Cours"
@@ -1895,7 +1895,7 @@ msgstr "ID du compte cantine"
 #: modules/Food_Service/Students/ActivityReport.php:93
 #: modules/Food_Service/Students/ActivityReport.php:139
 #: modules/misc/Export.php:383 modules/misc/Export.php:661
-#: modules/misc/Portal.php:905
+#: modules/misc/Portal.php:896
 msgid "Account ID"
 msgstr "ID du compte"
 
@@ -2046,9 +2046,9 @@ msgstr "Ouvrir le calendrier"
 
 #: functions/ErrorMessage.fnc.php:47 modules/School_Setup/PortalNotes.php:174
 #: modules/School_Setup/PortalNotes.php:217
-#: modules/School_Setup/PortalNotes.php:240 modules/misc/Portal.php:142
-#: modules/misc/Portal.php:232 modules/misc/Portal.php:501
-#: modules/misc/Portal.php:765 modules/misc/Portal.php:952
+#: modules/School_Setup/PortalNotes.php:240 modules/misc/Portal.php:133
+#: modules/misc/Portal.php:223 modules/misc/Portal.php:492
+#: modules/misc/Portal.php:756 modules/misc/Portal.php:943
 msgid "Note"
 msgid_plural "Notes"
 msgstr[0] "Note"
@@ -2322,8 +2322,8 @@ msgstr "ID %s"
 #: modules/Students/includes/Enrollment.inc.php:116
 #: modules/Students/includes/General_Info.inc.php:242
 #: modules/Users/Preferences.php:252 modules/misc/Export.php:187
-#: modules/misc/Export.php:560 modules/misc/Portal.php:465
-#: modules/misc/Portal.php:904 plugins/Moodle/includes/ImportUsers.fnc.php:229
+#: modules/misc/Export.php:560 modules/misc/Portal.php:456
+#: modules/misc/Portal.php:895 plugins/Moodle/includes/ImportUsers.fnc.php:229
 msgid "Grade Level"
 msgid_plural "Grade Levels"
 msgstr[0] "Niveau scolaire"
@@ -2448,7 +2448,7 @@ msgstr "de, du, des, un, une, à, le, la, les"
 
 #: functions/Prompts.php:57 functions/Prompts.php:105
 #: modules/Attendance/FixDailyAttendance.php:54
-#: modules/School_Setup/Rollover.php:21 modules/School_Setup/Rollover.php:226
+#: modules/School_Setup/Rollover.php:21 modules/School_Setup/Rollover.php:235
 msgid "Confirm"
 msgstr "Confirmer"
 
@@ -2625,7 +2625,7 @@ msgstr "Catégorie de %s"
 #: modules/School_Setup/GradeLevels.php:89
 #: modules/School_Setup/MarkingPeriods.php:451
 #: modules/School_Setup/Periods.php:130 modules/School_Setup/Schools.php:289
-#: modules/Students/EnrollmentCodes.php:90 modules/misc/Portal.php:161
+#: modules/Students/EnrollmentCodes.php:90 modules/misc/Portal.php:152
 msgid "Short Name"
 msgstr "Nom court"
 
@@ -2776,7 +2776,7 @@ msgstr "Période"
 #: modules/Food_Service/Users/Statements.php:36
 #: modules/Grades/GradebookBreakdown.php:282 modules/Scheduling/AddDrop.php:17
 #: modules/School_Setup/AccessLog.php:65 modules/School_Setup/Calendar.php:743
-#: modules/School_Setup/includes/Rollover.fnc.php:186
+#: modules/School_Setup/includes/Rollover.fnc.php:228
 #: modules/Student_Billing/includes/DailyTotals.php:21
 #: modules/Student_Billing/includes/DailyTransactions.php:35
 #: modules/Students/AddDrop.php:17
@@ -3087,7 +3087,7 @@ msgstr "Le jour sélectionné n'est pas dans une période scolaire."
 #: modules/Scheduling/includes/UnfilledRequests.php:67
 #: modules/School_Setup/Periods.php:75 modules/School_Setup/Periods.php:150
 #: modules/Users/includes/Schedule.inc.php:133
-#: modules/Users/includes/Schedule.inc.php:148 modules/misc/Portal.php:161
+#: modules/Users/includes/Schedule.inc.php:148 modules/misc/Portal.php:152
 msgid "Period"
 msgid_plural "Periods"
 msgstr[0] "Tranche horaire"
@@ -3165,7 +3165,7 @@ msgstr "Commentaires"
 #: modules/Scheduling/Courses.php:1537 modules/Scheduling/Menu.php:31
 #: modules/Scheduling/Menu.php:40 modules/Scheduling/Menu.php:53
 #: modules/Scheduling/includes/Dashboard.inc.php:68
-#: modules/School_Setup/Rollover.php:81
+#: modules/School_Setup/Rollover.php:90
 msgid "Courses"
 msgstr "Cours"
 
@@ -3312,7 +3312,7 @@ msgstr "Effacer les absences redondantes"
 #: modules/Attendance/includes/AttendanceCodes.fnc.php:135
 #: modules/Grades/includes/ReportCards.fnc.php:114
 #: modules/Grades/includes/ReportCards.fnc.php:133
-#: modules/School_Setup/CopySchool.php:11 modules/School_Setup/Rollover.php:80
+#: modules/School_Setup/CopySchool.php:11 modules/School_Setup/Rollover.php:89
 msgid "Attendance Codes"
 msgstr "Codes de présence"
 
@@ -3997,7 +3997,7 @@ msgstr "Répartition par champ élève"
 msgid "Discipline Log"
 msgstr "Journal de discipline"
 
-#: modules/Discipline/Menu.php:24 modules/School_Setup/Rollover.php:109
+#: modules/Discipline/Menu.php:24 modules/School_Setup/Rollover.php:118
 msgid "Referral Form"
 msgstr "Formulaire de discipline"
 
@@ -4325,7 +4325,7 @@ msgstr "ou sélectionner le repas précédent"
 #: modules/Grades/MassCreateAssignments.php:404
 #: modules/Scheduling/Courses.php:1436 modules/School_Setup/Calendar.php:758
 #: modules/Students/includes/Address.inc.php:1342
-#: modules/Students/includes/Address.inc.php:1350 modules/misc/Portal.php:156
+#: modules/Students/includes/Address.inc.php:1350 modules/misc/Portal.php:147
 msgid "Description"
 msgstr "Description"
 
@@ -4921,7 +4921,7 @@ msgstr "Nom"
 #: modules/Grades/ProgressReports.php:41 modules/Grades/ProgressReports.php:334
 #: modules/Grades/StudentGrades.php:547
 #: modules/Grades/includes/StudentAssignments.fnc.php:661
-#: modules/misc/Portal.php:184
+#: modules/misc/Portal.php:175
 msgid "Assignment"
 msgid_plural "Assignments"
 msgstr[0] "Devoir"
@@ -5014,7 +5014,7 @@ msgstr "Date de début"
 #: modules/Grades/includes/StudentAssignments.fnc.php:327
 #: modules/Grades/includes/StudentAssignments.fnc.php:647
 #: modules/School_Setup/Calendar.php:629
-#: modules/Student_Billing/MassAssignFees.php:88 modules/misc/Portal.php:183
+#: modules/Student_Billing/MassAssignFees.php:88 modules/misc/Portal.php:174
 msgid "Due Date"
 msgstr "Date d'échéance"
 
@@ -5486,12 +5486,12 @@ msgstr "Aucune note trouvée pour %s pourcent."
 
 #: modules/Grades/InputFinalGrades.php:652
 #: modules/Grades/InputFinalGrades.php:816 modules/Grades/Menu.php:28
-#: modules/Grades/Menu.php:56 modules/School_Setup/Rollover.php:84
+#: modules/Grades/Menu.php:56 modules/School_Setup/Rollover.php:93
 msgid "Grading Scales"
 msgstr "Échelles de notation"
 
 #: modules/Grades/InputFinalGrades.php:1281 modules/Grades/Menu.php:29
-#: modules/Grades/Menu.php:57 modules/School_Setup/Rollover.php:85
+#: modules/Grades/Menu.php:57 modules/School_Setup/Rollover.php:94
 msgid "Report Card Comments"
 msgstr "Commentaires du bulletin"
 
@@ -5909,7 +5909,7 @@ msgstr "Texte libre"
 #: modules/Grades/includes/Transcripts.fnc.php:179
 #: modules/School_Setup/CopySchool.php:5 modules/School_Setup/Menu.php:19
 #: modules/School_Setup/Menu.php:39 modules/School_Setup/Menu.php:50
-#: modules/School_Setup/Rollover.php:78
+#: modules/School_Setup/Rollover.php:87
 msgid "Marking Periods"
 msgstr "Périodes scolaires"
 
@@ -5991,7 +5991,7 @@ msgid "Submit Assignment"
 msgstr "Remettre le devoir"
 
 #: modules/Grades/includes/StudentAssignments.fnc.php:651
-#: modules/misc/Portal.php:194
+#: modules/misc/Portal.php:185
 msgid "Submitted"
 msgstr "Remis"
 
@@ -6694,7 +6694,7 @@ msgid "There are no calendars setup yet."
 msgstr "Il n'y a pas de calendriers définis."
 
 #: modules/School_Setup/Calendar.php:557 modules/School_Setup/Calendar.php:757
-#: modules/School_Setup/Calendar.php:761 modules/misc/Portal.php:155
+#: modules/School_Setup/Calendar.php:761 modules/misc/Portal.php:146
 msgid "Event"
 msgid_plural "Events"
 msgstr[0] "Évènement"
@@ -6971,11 +6971,11 @@ msgstr "Solde minimum du compte cantine"
 msgid "Food Service Balance target amount"
 msgstr "Solde cible du compte cantine"
 
-#: modules/School_Setup/CopySchool.php:4 modules/School_Setup/Rollover.php:86
+#: modules/School_Setup/CopySchool.php:4 modules/School_Setup/Rollover.php:95
 msgid "School Configuration"
 msgstr "Configuration de l'école"
 
-#: modules/School_Setup/CopySchool.php:6 modules/School_Setup/Rollover.php:77
+#: modules/School_Setup/CopySchool.php:6 modules/School_Setup/Rollover.php:86
 msgid "School Periods"
 msgstr "Tranches horaires"
 
@@ -6987,7 +6987,7 @@ msgstr "Codes du bulletin de notes"
 msgid "Report Card Comment Codes"
 msgstr "Codes de commentaires du bulletin"
 
-#: modules/School_Setup/CopySchool.php:10 modules/School_Setup/Rollover.php:99
+#: modules/School_Setup/CopySchool.php:10 modules/School_Setup/Rollover.php:108
 msgid "Eligibility Activities"
 msgstr "Activités éligibles"
 
@@ -7121,7 +7121,7 @@ msgid "Portal Polls"
 msgstr "Sondages du portail"
 
 #: modules/School_Setup/Menu.php:18 modules/School_Setup/Menu.php:38
-#: modules/School_Setup/Menu.php:48 modules/School_Setup/Rollover.php:79
+#: modules/School_Setup/Menu.php:48 modules/School_Setup/Rollover.php:88
 msgid "Calendars"
 msgstr "Calendriers"
 
@@ -7138,7 +7138,7 @@ msgstr "Copier l'école"
 msgid "School Fields"
 msgstr "Champs école"
 
-#: modules/School_Setup/Menu.php:28 modules/School_Setup/Rollover.php:226
+#: modules/School_Setup/Menu.php:28 modules/School_Setup/Rollover.php:235
 #: modules/School_Setup/includes/Rollover.fnc.php:110
 msgid "Rollover"
 msgstr "Report final"
@@ -7160,9 +7160,9 @@ msgstr "Options de publication"
 
 #: modules/School_Setup/PortalPolls.php:210
 #: modules/School_Setup/PortalPolls.php:252
-#: modules/School_Setup/PortalPolls.php:274 modules/misc/Portal.php:149
-#: modules/misc/Portal.php:257 modules/misc/Portal.php:528
-#: modules/misc/Portal.php:792 modules/misc/Portal.php:979
+#: modules/School_Setup/PortalPolls.php:274 modules/misc/Portal.php:140
+#: modules/misc/Portal.php:248 modules/misc/Portal.php:519
+#: modules/misc/Portal.php:783 modules/misc/Portal.php:970
 msgid "Poll"
 msgid_plural "Polls"
 msgstr[0] "Sondage"
@@ -7183,14 +7183,14 @@ msgid "Do you want to update the default school year to '%s' now?"
 msgstr ""
 "Souhaitez-vous changer l'année scolaire par défaut pour '%s' maintenant ?"
 
-#: modules/School_Setup/Rollover.php:67
+#: modules/School_Setup/Rollover.php:76
 #, php-format
 msgid "You can only roll data for the default school year (%s)."
 msgstr ""
 "Vous ne pouvez reporter les données que pour l'année scolaire par défaut "
 "(%s)."
 
-#: modules/School_Setup/Rollover.php:75 modules/Users/Exceptions.php:82
+#: modules/School_Setup/Rollover.php:84 modules/Users/Exceptions.php:82
 #: modules/Users/Exceptions.php:347 modules/Users/Profiles.php:143
 #: modules/Users/Profiles.php:536
 #: modules/Users/includes/General_Info.inc.php:373
@@ -7198,11 +7198,11 @@ msgstr ""
 msgid "Schools"
 msgstr "Écoles"
 
-#: modules/School_Setup/Rollover.php:82
+#: modules/School_Setup/Rollover.php:91
 msgid "Student Enrollment Codes"
 msgstr "Codes d'inscription élèves"
 
-#: modules/School_Setup/Rollover.php:90
+#: modules/School_Setup/Rollover.php:99
 msgid ""
 "You <i>must</i> roll users, school periods, marking periods, calendars, and "
 "report card codes at the same time or before rolling courses."
@@ -7211,7 +7211,7 @@ msgstr ""
 "scolaires, calendriers et échelles de notes en même temps ou avant de "
 "reporter les cours."
 
-#: modules/School_Setup/Rollover.php:91
+#: modules/School_Setup/Rollover.php:100
 msgid ""
 "You <i>must</i> roll enrollment codes at the same time or before rolling "
 "students."
@@ -7219,7 +7219,7 @@ msgstr ""
 "Vous <i>devez</i> reporter les codes d'inscription en même temps ou avant de "
 "reporter les élèves."
 
-#: modules/School_Setup/Rollover.php:92 modules/School_Setup/Rollover.php:261
+#: modules/School_Setup/Rollover.php:101 modules/School_Setup/Rollover.php:270
 msgid ""
 "You <i>must</i> roll courses at the same time or before rolling report card "
 "comments."
@@ -7227,11 +7227,11 @@ msgstr ""
 "Vous <i>devez</i> reporter les cours en même temps ou avant de reporter les "
 "commentaires du bulletin."
 
-#: modules/School_Setup/Rollover.php:104
+#: modules/School_Setup/Rollover.php:113
 msgid "Food Service Staff Accounts"
 msgstr "Comptes cantine du personnel"
 
-#: modules/School_Setup/Rollover.php:215
+#: modules/School_Setup/Rollover.php:224
 msgid ""
 "Greyed items already have data in the next school year (They might have been "
 "rolled)."
@@ -7239,7 +7239,7 @@ msgstr ""
 "Les éléments grisés ont déjà des données pour l'année suivante (ils ont peut-"
 "être été reportés)."
 
-#: modules/School_Setup/Rollover.php:216
+#: modules/School_Setup/Rollover.php:225
 msgid ""
 "Rolling greyed items will delete already existing data in the next school "
 "year."
@@ -7247,14 +7247,14 @@ msgstr ""
 "Reporter les éléments grisés va détruire les données existantes de l'année "
 "suivante."
 
-#: modules/School_Setup/Rollover.php:229
+#: modules/School_Setup/Rollover.php:238
 #, php-format
 msgid "Are you sure you want to roll the data for %s to the next school year?"
 msgstr ""
 "Êtes-vous sûr de vouloir reporter les données de %s à l'année scolaire "
 "suivante ?"
 
-#: modules/School_Setup/Rollover.php:252
+#: modules/School_Setup/Rollover.php:261
 msgid ""
 "You <i>must</i> roll users, school periods, marking periods, calendars, and "
 "grading scales at the same time or before rolling courses."
@@ -7263,7 +7263,7 @@ msgstr ""
 "scolaires, calendriers et échelles de notes en même temps ou avant de "
 "reporter les cours."
 
-#: modules/School_Setup/Rollover.php:315
+#: modules/School_Setup/Rollover.php:324
 msgid "The data have been rolled."
 msgstr "Les données ont été reportées."
 
@@ -7385,14 +7385,20 @@ msgstr "Probablement un module. Déplacez-le dans le dossier modules/."
 msgid "The school year has ended. It is time to proceed to %s."
 msgstr "L'année scolaire est terminée. Il est temps de procéder au %s."
 
-#: modules/School_Setup/includes/Rollover.fnc.php:179
+#: modules/School_Setup/includes/Rollover.fnc.php:153
+msgid "Please make sure Rollover is done for all schools."
+msgstr ""
+"Veuillez vous assurer que le report final est effectué pour toutes les "
+"écoles."
+
+#: modules/School_Setup/includes/Rollover.fnc.php:221
 #, php-format
 msgid "Please update the default school year to '%s' when ready."
 msgstr ""
 "Veuillez changer l'année scolaire par défaut pour '%s' lorsque vous êtes "
 "prêt."
 
-#: modules/School_Setup/includes/Rollover.fnc.php:200
+#: modules/School_Setup/includes/Rollover.fnc.php:242
 #, php-format
 msgid ""
 "Do not forget to update the default school year to '%d' from <a href=\"%s\" "
@@ -7401,7 +7407,7 @@ msgstr ""
 "N'oubliez pas de passer l'année scolaire par défaut à '%d' depuis <a "
 "href=\"%s\" target=\"_blank\">votre compte</a> lorsque vous êtes prêt."
 
-#: modules/School_Setup/includes/Rollover.fnc.php:207
+#: modules/School_Setup/includes/Rollover.fnc.php:249
 #, php-format
 msgid ""
 "Do not forget to update the $DefaultSyear to '%d' in the config.inc.php file "
@@ -8430,29 +8436,29 @@ msgstr "Vous êtes connecté en tant que <b>parent</b>."
 msgid "You are a <b>Student</b> on the system."
 msgstr "Vous êtes connecté comme <b>élève</b>."
 
-#: modules/misc/Portal.php:140 modules/misc/Portal.php:147
+#: modules/misc/Portal.php:131 modules/misc/Portal.php:138
 msgid "Date Posted"
 msgstr "Date de parution"
 
-#: modules/misc/Portal.php:285 modules/misc/Portal.php:555
-#: modules/misc/Portal.php:819 modules/misc/Portal.php:1003
+#: modules/misc/Portal.php:276 modules/misc/Portal.php:546
+#: modules/misc/Portal.php:810 modules/misc/Portal.php:994
 msgid "Day With Upcoming Events"
 msgid_plural "Days With Upcoming Events"
 msgstr[0] "Jour avec des évènements"
 msgstr[1] "Jours avec des évènements"
 
-#: modules/misc/Portal.php:403
+#: modules/misc/Portal.php:394
 msgid "Teachers have missing attendance data"
 msgstr "Des enseignants n'ont pas renseigné les absences."
 
-#: modules/misc/Portal.php:408 modules/misc/Portal.php:716
+#: modules/misc/Portal.php:399 modules/misc/Portal.php:707
 msgid "Course Period with missing attendance data"
 msgid_plural "Course Periods with missing attendance data"
 msgstr[0] "Classe avec des absences non renseignées"
 msgstr[1] "Classes avec des absences non renseignées"
 
-#: modules/misc/Portal.php:439 modules/misc/Portal.php:737
-#: modules/misc/Portal.php:926
+#: modules/misc/Portal.php:430 modules/misc/Portal.php:728
+#: modules/misc/Portal.php:917
 #, php-format
 msgid ""
 "You have a <b>negative</b> food service balance of <span style=\"color:"
@@ -8461,23 +8467,23 @@ msgstr ""
 "Le solde du compte cantine est <b>négatif</b> de <span style=\"color:"
 "red\">%s</span>"
 
-#: modules/misc/Portal.php:459
+#: modules/misc/Portal.php:450
 #, php-format
 msgid "Some students have food service balances below %1.2f"
 msgstr "Des élèves ont un solde de compte cantine inférieur à %1.2f"
 
-#: modules/misc/Portal.php:596 modules/misc/Portal.php:867
-#: modules/misc/Portal.php:1051
+#: modules/misc/Portal.php:587 modules/misc/Portal.php:858
+#: modules/misc/Portal.php:1042
 msgid "Upcoming Assignment"
 msgid_plural "Upcoming Assignments"
 msgstr[0] "Prochain devoir"
 msgstr[1] "Prochains devoirs"
 
-#: modules/misc/Portal.php:711
+#: modules/misc/Portal.php:702
 msgid "You have missing attendance data"
 msgstr "Vous avez des absences non renseignées"
 
-#: modules/misc/Portal.php:896
+#: modules/misc/Portal.php:887
 #, php-format
 msgid ""
 "You have students with food service balance below %1.2f - please deposit at "
@@ -8486,7 +8492,7 @@ msgstr ""
 "Vous avez des élèves avec un solde de compte cantine inférieur à %1.2f - "
 "merci de déposer au moins le minimum sur le compte des vos enfants."
 
-#: modules/misc/Portal.php:907
+#: modules/misc/Portal.php:898
 msgid "Minimum Deposit"
 msgstr "Dépôt minimum"
 
