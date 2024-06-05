@@ -1268,6 +1268,16 @@ img.image-radio-list {
 	max-width: none;
 }
 
+.error .button,
+.updated .button {
+	vertical-align: -12%;
+}
+
+.error .button.bigger,
+.updated .button.bigger {
+	vertical-align: -32%;
+}
+
 a:has(.button) {
 	white-space: nowrap;
 }

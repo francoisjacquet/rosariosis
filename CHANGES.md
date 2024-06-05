@@ -21,6 +21,7 @@ Changes in 11.7
 - Add RolloverDeleteCoursesSQL(), RolloverDoWarning(), RolloverUpdateDefaultSyearWarning() & RolloverUpdateDefaultSyear() functions in Rollover.fnc.php
 - Use RolloverDeleteCoursesSQL(), RolloverDoWarning(), RolloverUpdateDefaultSyearWarning() & RolloverUpdateDefaultSyear() functions in Rollover.php & Portal.php
 - Update Slovenian translation (76% complete), thanks to AT group in locale/sl_SI.utf8/
+- CSS adjust vertical alignment of buttons inside note/error message in stylesheet.css
 
 Changes in 11.6
 ---------------

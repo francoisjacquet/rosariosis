@@ -1179,6 +1179,20 @@ img.image-radio-list {
 	max-width: none;
 }
 
+.error .button,
+.updated .button {
+	vertical-align: -15%;
+}
+
+.error .button.bigger,
+.updated .button.bigger {
+	vertical-align: -35%;
+}
+
+a:has(.button) {
+	white-space: nowrap;
+}
+
 a > .button {
 	padding: 1px;
 }
