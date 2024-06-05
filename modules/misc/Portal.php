@@ -111,15 +111,6 @@ if ( Preferences( 'HIDE_ALERTS' ) != 'Y'
 	{
 		$warning[] = $warning_do_rollover;
 	}
-	else
-	{
-		$warning_update_syear = RolloverUpdateDefaultSyearWarning( true );
-
-		if ( $warning_update_syear )
-		{
-			$warning[] = $warning_update_syear;
-		}
-	}
 }
 
 // Do portal_alerts hook.
