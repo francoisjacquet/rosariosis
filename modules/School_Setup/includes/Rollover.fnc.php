@@ -112,6 +112,48 @@ function RolloverDoWarning()
 }
 
 /**
+ * Make sure Rollover is done for all schools warning
+ * Invite user to do Rollover for all schools now
+ * because after updating the default school year,
+ * it won't be possible unless you edit the config.inc.php file
+ *
+ * Check if config.inc.php's $DefaultSyear matches user School Year
+ * Check if we have more than 1 school
+ * Check if Rollover is done for all schools
+ *
+ * @since 11.7
+ *
+ * @global $DefaultSyear
+ *
+ * @return string Empty or warning text.
+ */
+function RolloverAllSchoolsDoneWarning()
+{
+	global $DefaultSyear;
+
+	if ( $DefaultSyear !== UserSyear()
+		|| SchoolInfo( 'SCHOOLS_NB' ) == 1 )
+	{
+		// Default School Year in config.inc.php is not user School Year.
+		// Or only one school.
+		return '';
+	}
+
+	// Count schools having FY MP in next school year.
+	$rollover_schools_done = (int) DBGetOne( "SELECT COUNT(1)
+		FROM school_marking_periods
+		WHERE SYEAR='" . ( UserSyear() + 1 ) . "'
+		AND MP='FY'" );
+
+	if ( $rollover_schools_done >= SchoolInfo( 'SCHOOLS_NB' ) )
+	{
+		return '';
+	}
+
+	return _( 'Please make sure Rollover is done for all schools.' );
+}
+
+/**
  * Update default school year warning
  * Check if config.inc.php's $DefaultSyear matches user School Year
  * Check if Rollover is done (and if school year has ended)

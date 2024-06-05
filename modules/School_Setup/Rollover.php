@@ -55,11 +55,22 @@ if ( AllowEdit( 'School_Setup/DatabaseBackup.php' ) )
 		_( 'Database Backup' ) . '</a>' );
 }
 
+// Update default school year warning when Rollover done.
 $update_syear_warning = RolloverUpdateDefaultSyearWarning();
 
 if ( $update_syear_warning )
 {
-	echo ErrorMessage( [ $update_syear_warning ], 'warning' );
+	// Make sure Rollover is done for all schools warning.
+	$rollover_all_schools_done_warning = RolloverAllSchoolsDoneWarning();
+
+	if ( $rollover_all_schools_done_warning )
+	{
+		$rollover_warning[] = $rollover_all_schools_done_warning;
+	}
+
+	$rollover_warning[] = $update_syear_warning;
+
+	echo ErrorMessage( $rollover_warning, 'warning' );
 }
 elseif ( $DefaultSyear !== UserSyear() )
 {
