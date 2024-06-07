@@ -24,6 +24,7 @@ Changes in 11.7
 - Update Slovenian translation (76% complete), thanks to AT group in locale/sl_SI.utf8/
 - Update French & Spanish translations in rosariosis.po
 - CSS adjust vertical alignment of buttons inside note/error message in stylesheet.css
+- Update default school year to 2024 in config.inc.sample.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 11.6
 ---------------
