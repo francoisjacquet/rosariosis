@@ -2,6 +2,20 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.7
+-----------
+
+Default School Year: 2024 (2024-2025)
+
+School
+- Rollover: update the default school year (if the `config.inc.php` file can be edited). [Rollover Guide PDF](https://www.rosariosis.org/documentation/) update
+
+Limit SQL result for List: Improve performance for lists > 1000 results (e.g., schools having more than 1000 students)
+
+[Templates](https://www.rosariosis.org/plugins/templates) plugin
+- Integrates with the _Grades > Report Cards_ program (Free Text), sponsored by Petit Rousseau, Cameroon
+
+
 New in 11.6
 -----------
 
