@@ -33,9 +33,9 @@ if ( isset( $_SESSION['email_column'] ) && empty( $email_column ) )
 {
 	$email_column = $_SESSION['email_column'];
 }
-elseif ( isset( $_POST['email_column'] ) )
+elseif ( isset( $_REQUEST['email_column'] ) )
 {
-	$email_column = $_SESSION['email_column'] = $_POST['email_column'];
+	$email_column = $_SESSION['email_column'] = $_REQUEST['email_column'];
 }
 
 if ( empty( $email_column ) )
@@ -133,10 +133,15 @@ if ( $_REQUEST['modfunc'] === 'save'
 	{
 		$st_list = implode( ',', array_map( 'intval', $_REQUEST['student'] ) );
 
-		$extra['SELECT'] = ",trim(lower(" . $email_column . ")) AS EMAIL";
+		$email_table_prefix = mb_substr( $email_column, 0, 2 ) === 's.' ? 's.' : 'a.';
+
+		// Remove table prefix so we can use DBEscapeIdentifier() below (and prevent SQL injection).
+		$email_columnn = mb_substr( $email_column, 2 );
+
+		$extra['SELECT'] = ",trim(lower(" . $email_table_prefix . DBEscapeIdentifier( $email_column ) . ")) AS EMAIL";
 		$extra['SELECT'] .= ",(SELECT STAFF_ID
 			FROM staff
-			WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
+			WHERE trim(lower(EMAIL))=trim(lower(" . $email_table_prefix . DBEscapeIdentifier( $email_column ) . "))
 			AND PROFILE='parent'
 			AND SYEAR=ssm.SYEAR
 			LIMIT 1) AS STAFF_ID";

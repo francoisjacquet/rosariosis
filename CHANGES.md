@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.7.1
+-----------------
+- Fix Security issue #344 SQL injection in CreateParents.php, thanks to @fishinspace
+
 Changes in 11.7
 ---------------
 - Fix SQL error invalid input syntax for type integer: cast to integer, program wide
