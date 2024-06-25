@@ -89,6 +89,7 @@ else
 			{
 				$numeric_columns = [
 					'ATTENDANCE_FULL_DAY_MINUTES',
+					'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL',
 					'FAILED_LOGIN_LIMIT',
 					'PASSWORD_STRENGTH',
 				];

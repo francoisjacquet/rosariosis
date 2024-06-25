@@ -370,7 +370,8 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 			// @since 6.3 Create Student Account Default School.
 			// @link https://stackoverflow.com/questions/1250156/how-do-i-return-rows-with-a-specific-value-first#comment-67097263
 			$sql_order_by = Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) ?
-				"ID='" . Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) . "' DESC,ID" : "ID";
+				// Prevent SQL injection, cast to integer.
+				"ID='" . (int) Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) . "' DESC,ID" : "ID";
 
 			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
 				WHERE SYEAR='" . Config( 'SYEAR' ) . "'

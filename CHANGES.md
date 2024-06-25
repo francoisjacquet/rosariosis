@@ -5,6 +5,7 @@ Changes in 11.7.2
 -----------------
 - Fix Security issue #345 SQL injection in RemoveAccess.php, thanks to @fishinspace
 - Fix Security issue #346 SQL injection in AttendanceSummary.php & Configuration.php, thanks to @fishinspace
+- Fix Security issue #347 SQL injection in index.php & Configuration.php, thanks to @fishinspace
 
 Changes in 11.7.1
 -----------------
