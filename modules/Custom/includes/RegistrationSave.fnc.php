@@ -350,8 +350,8 @@ function RegistrationSaveJoinAddress( $address_id )
 		$students_join_address = [
 			'MAILING' => 'Y',
 			'RESIDENCE' => 'Y',
-			'BUS_PICKUP' => ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
-			'BUS_DROPOFF' => ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
+			'BUS_PICKUP' => DBEscapeString( ProgramConfig( 'students', 'STUDENTS_USE_BUS' ) ),
+			'BUS_DROPOFF' => DBEscapeString( ProgramConfig( 'students', 'STUDENTS_USE_BUS' ) ),
 		];
 
 		$inserted_address = true;
