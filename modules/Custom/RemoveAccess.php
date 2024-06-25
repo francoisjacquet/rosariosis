@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$st_list = implode( ',', array_map( 'intval', $_REQUEST['st_arr'] ) );
 
 		$update_sql = "UPDATE students
-			SET USERNAME=CONCAT('" . $username_prefix_add . "', USERNAME)
+			SET USERNAME=CONCAT('" . DBEscapeString( $username_prefix_add ) . "', USERNAME)
 			WHERE STUDENT_ID IN (" . $st_list . ")";
 
 		if ( $accessfunc === 'grant' )
@@ -35,10 +35,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 			$update_sql = "UPDATE students
 				SET USERNAME=CONCAT(
 					REPLACE(
-						SUBSTRING(USERNAME, 1, LENGTH('" . $username_prefix_add . "')),
-						'" . $username_prefix_add . "',
+						SUBSTRING(USERNAME, 1, LENGTH('" . DBEscapeString( $username_prefix_add ) . "')),
+						'" . DBEscapeString( $username_prefix_add ) . "',
 						''),
-					SUBSTR(USERNAME, LENGTH('" . $username_prefix_add . "')+1, 100))
+					SUBSTR(USERNAME, LENGTH('" . DBEscapeString( $username_prefix_add ) . "')+1, 100))
 				WHERE STUDENT_ID IN (" . $st_list . ")";
 		}
 
