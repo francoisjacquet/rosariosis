@@ -73,7 +73,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	foreach ( (array) $RET as $student )
 	{
-		$full_day_minutes = Config( 'ATTENDANCE_FULL_DAY_MINUTES' );
+		// Prevent SQL injection, cast to integer.
+		$full_day_minutes = (int) Config( 'ATTENDANCE_FULL_DAY_MINUTES' );
 
 		if ( ! $full_day_minutes )
 		{
@@ -82,11 +83,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$student['STUDENT_ID'],
 				'ac.SCHOOL_DATE'
 			) . ")";
-		}
-		else
-		{
-			// Prevent SQL injection, add quotes around minutes.
-			$full_day_minutes = "'" . $full_day_minutes . "'";
 		}
 
 		// @since 9.2.1 SQL use extract() instead of to_char() for MySQL compatibility

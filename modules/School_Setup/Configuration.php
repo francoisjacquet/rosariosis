@@ -88,6 +88,7 @@ else
 			foreach ( (array) $_REQUEST['values']['config'] as $column => $value )
 			{
 				$numeric_columns = [
+					'ATTENDANCE_FULL_DAY_MINUTES',
 					'FAILED_LOGIN_LIMIT',
 					'PASSWORD_STRENGTH',
 				];
@@ -122,7 +123,6 @@ else
 				foreach ( (array) $columns as $column => $value )
 				{
 					$numeric_columns = [
-						'ATTENDANCE_FULL_DAY_MINUTES',
 						'ATTENDANCE_EDIT_DAYS_BEFORE',
 						'ATTENDANCE_EDIT_DAYS_AFTER',
 						'FOOD_SERVICE_BALANCE_WARNING',
