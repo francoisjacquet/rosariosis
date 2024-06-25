@@ -2,7 +2,7 @@
 DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& $_REQUEST['values']
+	&& ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit() )
 {
