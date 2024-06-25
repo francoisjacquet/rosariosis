@@ -134,7 +134,7 @@ if ( ! empty( $_POST['tables'] )
 		}
 
 		// New: check for Title.
-		elseif ( $columns['TITLE'] )
+		elseif ( ! empty( $columns['TITLE'] ) )
 		{
 			$insert_columns = [
 				'MP' => $_REQUEST['mp_term'],
