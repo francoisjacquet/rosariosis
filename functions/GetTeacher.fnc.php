@@ -47,9 +47,9 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 			// Restrict Search All Schools to user schools.
 			$sql_schools_like = explode( ',', trim( User( 'SCHOOLS' ), ',' ) );
 
-			$sql_schools_like = implode( ",' IN s.SCHOOLS)>0 OR position(',", $sql_schools_like );
+			$sql_schools_like = implode( ",' IN SCHOOLS)>0 OR position(',", $sql_schools_like );
 
-			$sql_schools_like = "position('," . $sql_schools_like . ",' IN s.SCHOOLS)>0";
+			$sql_schools_like = "position('," . $sql_schools_like . ",' IN SCHOOLS)>0";
 
 			$schools_sql = " AND (SCHOOLS IS NULL OR " . $sql_schools_like . ") ";
 		}

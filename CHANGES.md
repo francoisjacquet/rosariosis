@@ -8,6 +8,7 @@ Changes in 11.7.2
 - Fix Security issue #347 SQL injection in index.php & Configuration.php, thanks to @fishinspace
 - Fix potential authenticated SQL injection (administrator), cast to float in Reminders.php
 - Fix authenticated SQL injection (administrator) via Configuration, escape string in RegistrationSave.fnc.php
+- Fix SQL error when Search All Schools in GetTeacher.fnc.php
 
 Changes in 11.7.1
 -----------------
