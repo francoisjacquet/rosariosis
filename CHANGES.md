@@ -3,7 +3,7 @@
 
 Changes in 11.8
 ---------------
-- SQL performance: reduce staff table row size (was 3.8KB) & remove HOMEROOM column in rosariosis.sql & rosariosis_mysql.sql
+- SQL performance: reduce staff table row size (was 3.8KB) & remove HOMEROOM column in Rollover.php, rosariosis.sql & rosariosis_mysql.sql
 - Fix rare DB error "null value in column "last_name" violates not-null constraint" in Student.php & User.php
 - Fix SQL error null value in column "student_id" violates not-null constraint in Requests.php
 - HTML lower max Display Columns to 6 (was 10) in StudentFields.php & UserFields.php
