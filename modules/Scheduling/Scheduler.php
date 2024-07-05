@@ -403,6 +403,11 @@ function _scheduleRequest( $request, $not_parent_id = false )
 
 	$possible = [];
 
+	if ( empty( $cp_course_RET[$request['COURSE_ID']] ) )
+	{
+		return false;
+	}
+
 	foreach ( (array) $cp_course_RET[$request['COURSE_ID']] as $course_period )
 	{
 		foreach ( (array) $cp_parent_RET[$course_period['COURSE_PERIOD_ID']] as $slice )
