@@ -4,6 +4,7 @@
 Changes in 11.8
 ---------------
 - SQL performance: reduce staff table row size (was 3.8KB) & remove HOMEROOM column in rosariosis.sql & rosariosis_mysql.sql
+- Fix rare DB error "null value in column "last_name" violates not-null constraint" in Student.php & User.php
 Changes in 11.7.3
 -----------------
 - Fix regression since 11.7.1 typo generating SQL error in CreateParents.php

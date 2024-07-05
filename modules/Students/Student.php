@@ -130,9 +130,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		$required_error = false;
 
-		if (  ( isset( $_REQUEST['students']['FIRST_NAME'] )
+		if (  ( ( isset( $_REQUEST['students']['FIRST_NAME'] ) || ! UserStudentID() )
 				&& empty( $_REQUEST['students']['FIRST_NAME'] ) )
-			|| ( isset( $_REQUEST['students']['LAST_NAME'] )
+			|| ( ( isset( $_REQUEST['students']['LAST_NAME'] ) || ! UserStudentID() )
 				&& empty( $_REQUEST['students']['LAST_NAME'] ) ) )
 		{
 			// Check FIRST_NAME, LAST_NAME is not null.
