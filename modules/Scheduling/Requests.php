@@ -95,6 +95,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 if ( $_REQUEST['modfunc'] === 'add' )
 {
 	if ( $_REQUEST['course']
+		&& UserStudentID() // Fix SQL error null value in column "student_id" violates not-null constraint
 		&& AllowEdit() )
 	{
 		$course_id = $_REQUEST['course'];
