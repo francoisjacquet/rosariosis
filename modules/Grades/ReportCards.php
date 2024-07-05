@@ -13,7 +13,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	if ( isset( $_REQUEST['mp_arr'] )
 		&& isset( $_REQUEST['st_arr'] ) )
 	{
-		if ( ! empty( $_REQUEST['elements']['freetext'] ) )
+		if ( ! empty( $_REQUEST['elements']['freetext'] )
+			&& User( 'PROFILE' ) === 'admin' )
 		{
 			// Bypass strip_tags on the $_REQUEST vars.
 			$REQUEST_inputfreetext = DBEscapeString( SanitizeHTML( $_POST['inputfreetext'] ) );

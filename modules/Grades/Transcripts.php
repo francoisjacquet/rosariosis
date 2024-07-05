@@ -13,7 +13,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	if ( ! empty( $_REQUEST['mp_type_arr'] )
 		&& ! empty( $_REQUEST['st_arr'] ) )
 	{
-		if ( ! empty( $_REQUEST['showcertificate'] ) )
+		if ( ! empty( $_REQUEST['showcertificate'] )
+			&& User( 'PROFILE' ) === 'admin' )
 		{
 			// FJ bypass strip_tags on the $_REQUEST vars.
 			$REQUEST_inputcertificatetext = DBEscapeString( SanitizeHTML( $_POST['inputcertificatetext'] ) );
