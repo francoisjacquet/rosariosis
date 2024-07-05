@@ -3,7 +3,7 @@
 
 Changes in 11.7.3
 -----------------
-- Fix typo generating SQL error in CreateParents.php
+- Fix regression since 11.7.1 typo generating SQL error in CreateParents.php
 
 Changes in 11.7.2
 -----------------
