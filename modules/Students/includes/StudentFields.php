@@ -247,7 +247,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$RET['COLUMNS'],
 			'tables[' . $_REQUEST['category_id'] . '][COLUMNS]',
 			_( 'Display Columns' ),
-			' type="number" min="1" max="10"'
+			' type="number" min="1" max="6"'
 		) ];
 
 		if ( $_REQUEST['category_id'] > 4
