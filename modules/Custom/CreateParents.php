@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$email_table_prefix = mb_substr( $email_column, 0, 2 ) === 's.' ? 's.' : 'a.';
 
 		// Remove table prefix so we can use DBEscapeIdentifier() below (and prevent SQL injection).
-		$email_columnn = mb_substr( $email_column, 2 );
+		$email_column = mb_substr( $email_column, 2 );
 
 		$extra['SELECT'] = ",trim(lower(" . $email_table_prefix . DBEscapeIdentifier( $email_column ) . ")) AS EMAIL";
 		$extra['SELECT'] .= ",(SELECT STAFF_ID

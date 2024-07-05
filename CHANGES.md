@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.7.3
+-----------------
+- Fix typo generating SQL error in CreateParents.php
+
 Changes in 11.7.2
 -----------------
 - Fix Security issue #345 SQL injection in RemoveAccess.php, thanks to @fishinspace
