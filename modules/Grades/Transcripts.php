@@ -37,10 +37,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		if ( $transcripts )
 		{
-			$transcripts_html = '<style type="text/css"> * {font-size:large; line-height:1.2;} </style>';
-
 			// Insert page breaks
-			$transcripts_html .= implode(
+			$transcripts_html = implode(
 				'<div style="page-break-after: always;"></div>',
 				$transcripts
 			);

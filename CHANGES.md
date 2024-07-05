@@ -8,6 +8,7 @@ Changes in 11.8
 - Fix SQL error null value in column "student_id" violates not-null constraint in Requests.php
 - HTML lower max Display Columns to 6 (was 10) in StudentFields.php & UserFields.php
 - Check is admin before saving Template in ReportCards.php & Transcripts.php
+- CSS remove forced large font size for Transcripts PDF in Transcripts.php
 
 Changes in 11.7.3
 -----------------
