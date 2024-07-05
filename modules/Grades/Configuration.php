@@ -471,6 +471,8 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 			) . '</td>';
 
 			$total += $gradebook_config_fy_sem;
+
+			$table .= '</tr><tr><td></td>';
 		}
 	}
 
