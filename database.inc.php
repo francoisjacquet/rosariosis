@@ -871,13 +871,16 @@ function DBSQLCommaSeparatedResult( $column, $separator = ',' )
  * @see ListOutput() $num_displayed var
  * @example See GetStuList() & AccessLog.php
  *
+ * Note: if you display a list made of multiple SQLLimitForList() / GetStuList() / GetStaffList() calls
+ * please make sure you sum SQL queries to COUNT total results before ListOutput().
+ * @see example in Student_Billing/includes/DailyTransactions.php
+ *
  * @since 11.7
  * @param string  $sql_count SQL query to COUNT total results. Run in ListOutput() if limit is reached.
  * @param integer $limit     Limit (defaults to 1000 = ListOutput() default).
  *
  * @return string SQL LIMIT.
  */
-// TODO when commit test Email Log, PDF Archive, Entry Exit, TTHotel on demo.
 function SQLLimitForList( $sql_count, $limit = 1000 )
 {
 	global $_ROSARIO;

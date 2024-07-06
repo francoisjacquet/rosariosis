@@ -4,6 +4,7 @@
 Changes in 11.7.4
 -----------------
 - Fix regression since 11.7 no results if more than 1000 fees but 0 payments for timeframe in DailyTransactions.php
+- Fix result count < results (wrong SQL query to COUNT total results) in ListOutput.fnc.php
 
 Changes in 11.7.3
 -----------------

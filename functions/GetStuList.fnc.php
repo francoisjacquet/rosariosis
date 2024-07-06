@@ -15,6 +15,9 @@
  * @example $fees_RET = GetStuList( $fees_extra );
  *
  * @since 11.7 Add 'LIMIT' to $extra param (default to 1000)
+ * Note about 'LIMIT': if you display a list made of multiple GetStuList() / GetStaffList() calls
+ * please make sure you sum SQL queries to COUNT total results before ListOutput().
+ * @see example in Student_Billing/includes/DailyTransactions.php
  *
  * @see Search()
  *

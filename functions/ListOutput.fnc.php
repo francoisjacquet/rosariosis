@@ -91,6 +91,20 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			// Limit reached, get total count.
 			$result_count = (int) DBGetOne( $sql_count );
 
+			if ( $result_count < $num_displayed )
+			{
+				/**
+				 * Fix result count < results (wrong SQL query to COUNT total results)
+				 * There's a bug, result count shouldn't be < results.
+				 * Can happen for results made of multiple GetStuList() / GetStaffList() calls.
+				 * Please make sure you sum SQL queries to COUNT total results before ListOutput().
+				 * @see example in Student_Billing/includes/DailyTransactions.php
+				 *
+				 * @since 11.7.4
+				 */
+				$result_count = $num_displayed;
+			}
+
 			// Force start to 1 as we limited results in SQL.
 			$start = 1;
 		}
