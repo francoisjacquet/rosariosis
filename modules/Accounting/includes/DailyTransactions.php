@@ -67,7 +67,7 @@ $totals = [
 
 $extra['functions'] = [ 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency', 'DATE' => 'ProperDate' ];
 
-$RET = $debit_col = $credit_col = $name_col = [];
+$RET = $debit_col = $credit_col = $name_col = $sql_count = [];
 
 // Accounting.
 
@@ -125,6 +125,8 @@ if ( ! isset( $_REQUEST['accounting'] )
 		$RET[$i++] = $payment;
 	}
 
+	$sql_count[] = count( $RET );
+
 	$credit_col[] = _( 'Income' );
 	$debit_col[] = _( 'Expense' );
 }
@@ -156,6 +158,8 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 
 	$salaries_RET = GetStaffList( $salaries_extra );
 
+	$sql_count[] = $_ROSARIO['SQLLimitForList']['sql_count'];
+
 	$i = count( $RET ) + 1;
 
 	foreach ( (array) $salaries_RET as $salary )
@@ -179,6 +183,8 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 	$staff_payments_RET = GetStaffList( $staff_payments_extra );
+
+	$sql_count[] = $_ROSARIO['SQLLimitForList']['sql_count'];
 
 	$i = count( $RET ) + 1;
 
@@ -224,6 +230,8 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$fees_RET = GetStuList( $fees_extra );
 
+	$sql_count[] = $_ROSARIO['SQLLimitForList']['sql_count'];
+
 	$i = count( $RET ) + 1;
 
 	foreach ( (array) $fees_RET as $fee )
@@ -253,6 +261,8 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$student_payments_RET = GetStuList( $student_payments_extra );
 
+	$sql_count[] = $_ROSARIO['SQLLimitForList']['sql_count'];
+
 	$i = count( $RET ) + 1;
 
 	foreach ( (array) $student_payments_RET as $student_payment )
@@ -267,6 +277,20 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	{
 		$name_col = _( 'Student' );
 	}
+}
+
+if ( ! empty( $_ROSARIO['SQLLimitForList']['sql_count'] )
+	&& $sql_count )
+{
+	/**
+	 * Fix no results if more than 1000 fees but 0 payments for timeframe.
+	 * Results made of multiple GetStuList() / GetStaffList() calls.
+	 * Sum SQL queries to COUNT total results before ListOutput().
+	 *
+	 * @since 11.7.4
+	 */
+	$_ROSARIO['SQLLimitForList']['sql_count'] = "SELECT (" . implode( ") + (", $sql_count ) . ")
+		AS SUM FROM DUAL";
 }
 
 $credit_col = implode( ' / ', $credit_col );
