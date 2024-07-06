@@ -13,9 +13,9 @@
  * @since 11.4 Smart cache: do not get ALL users database twice if Teacher not found
  * @since 11.7 Fix SQL when "Search All Schools" checked
  *
- * @param  string $teacher_id Teacher ID
- * @param  string  $column     FULL_NAME|TITLE|LAST_NAME|FIRST_NAME|MIDDLE_NAME|USERNAME|PROFILE Column name (optional). Defaults to FULL_NAME.
- * @param  boolean $schools    Is Teacher in current School (optional). Defaults to true.
+ * @param string $teacher_id Teacher ID
+ * @param string $column FULL_NAME|TITLE|LAST_NAME|FIRST_NAME|MIDDLE_NAME|USERNAME|PROFILE|PROFILE_ID Column name (optional). Defaults to FULL_NAME.
+ * @param boolean $schools Is Teacher in current School (optional). Defaults to true.
  *
  * @return string  Teacher Column content
  */
@@ -27,7 +27,7 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 	if ( $column !== 'FULL_NAME'
 		&& ( $column === 'STAFF_ID'
 			|| $column === 'TEACHER_ID'
-			|| ! in_array( $column, [ 'TITLE', 'LAST_NAME', 'FIRST_NAME', 'MIDDLE_NAME', 'USERNAME', 'PROFILE' ] ) ) )
+			|| ! in_array( $column, [ 'TITLE', 'LAST_NAME', 'FIRST_NAME', 'MIDDLE_NAME', 'USERNAME', 'PROFILE', 'PROFILE_ID' ] ) ) )
 	{
 		$column = 'FULL_NAME';
 	}
@@ -58,7 +58,7 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 	if ( is_null( $teachers ) )
 	{
 		$teachers = DBGet( "SELECT STAFF_ID,TITLE,FIRST_NAME,LAST_NAME,MIDDLE_NAME,
-			" . DisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE
+			" . DisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE,PROFILE_ID
 			FROM staff
 			WHERE SYEAR='" . UserSyear() . "'
 			AND PROFILE='teacher'" . $schools_sql,

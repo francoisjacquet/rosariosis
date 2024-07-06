@@ -231,6 +231,7 @@ function UserImpersonateTeacher( $teacher_id = 0 )
 			'NAME' => GetTeacher( $teacher_id ),
 			'USERNAME' => GetTeacher( $teacher_id, 'USERNAME' ),
 			'PROFILE' => 'teacher',
+			'PROFILE_ID' => GetTeacher( $teacher_id, 'PROFILE_ID' ),
 			'SCHOOLS' => ',' . UserSchool() . ',',
 			'SYEAR' => UserSyear(),
 		],
