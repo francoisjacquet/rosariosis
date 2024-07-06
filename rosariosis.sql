@@ -2120,8 +2120,8 @@ INSERT INTO students VALUES (NEXTVAL('students_student_id_seq'), 'Student', 'Stu
 -- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO staff VALUES (2024, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', NULL, ',1,', NULL, 1, NULL);
-INSERT INTO staff VALUES (2024, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', NULL, ',1,', NULL, 2, NULL);
+INSERT INTO staff VALUES (2024, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', ',1,', NULL, NULL, 1, NULL);
+INSERT INTO staff VALUES (2024, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', ',1,', NULL, NULL, 2, NULL);
 INSERT INTO staff VALUES (2024, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$6$947c923597601364$Kgbb0Ey3lYTYnqM66VkFRgJVFDW48cBAfNF7t0CVjokL7drcEFId61whqpLrRI1w0q2J2VPfg86Obaf1tG2Ng1', NULL, NULL, 'parent', NULL, NULL, NULL, 3, NULL);
 
 
