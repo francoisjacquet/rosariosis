@@ -69,6 +69,8 @@ $fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR
 
 $RET = GetStuList( $fees_extra );
 
+$fees_sql_count = $_ROSARIO['SQLLimitForList']['sql_count'];
+
 $payments_extra = $extra;
 
 $payments_extra['SELECT'] = issetVal( $payments_extra['SELECT'], '' );
@@ -81,6 +83,21 @@ $payments_extra['WHERE'] = issetVal( $payments_extra['WHERE'], '' );
 $payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 $payments_RET = GetStuList( $payments_extra );
+
+$payments_sql_count = $_ROSARIO['SQLLimitForList']['sql_count'];
+
+if ( ! empty( $_ROSARIO['SQLLimitForList']['sql_count'] ) )
+{
+	/**
+	 * Fix no results if more than 1000 fees but 0 payments for timeframe.
+	 * Results made of multiple GetStuList() / GetStaffList() calls.
+	 * Sum SQL queries to COUNT total results before ListOutput().
+	 *
+	 * @since 11.7.4
+	 */
+	$_ROSARIO['SQLLimitForList']['sql_count'] = "SELECT (" . $fees_sql_count . ") + (" . $payments_sql_count . ")
+		AS SUM FROM DUAL";
+}
 
 if ( ! empty( $payments_RET ) )
 {

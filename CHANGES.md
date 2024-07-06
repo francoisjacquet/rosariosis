@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.7.4
+-----------------
+- Fix regression since 11.7 no results if more than 1000 fees but 0 payments for timeframe in DailyTransactions.php
+
 Changes in 11.7.3
 -----------------
 - Fix regression since 11.7.1 typo generating SQL error in CreateParents.php
