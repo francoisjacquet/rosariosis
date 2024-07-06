@@ -86,7 +86,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		// Reset for multiple lists on same page, so we can call SQLLimitForList() again.
 		unset( $_ROSARIO['SQLLimitForList'] );
 
-		if ( $num_displayed == $result_count && $sql_count )
+		if ( ( $num_displayed == $result_count
+				|| $LO_page > 1 && $num_displayed > $result_count )
+			&& $sql_count )
 		{
 			// Limit reached, get total count.
 			$result_count = (int) DBGetOne( $sql_count );
@@ -297,16 +299,18 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	{
 		if ( $result_count >= $num_displayed )
 		{
-			$start = issetVal( $start, ( $LO_page - 1 ) * $num_displayed + 1 );
-			$stop = $start + ( $num_displayed - 1 );
+			$start_display = ( $LO_page - 1 ) * $num_displayed + 1;
+			$stop_display = $start_display + ( $num_displayed - 1 );
 
-			if ( $stop > $result_count )
+			$start = issetVal( $start, $start_display );
+
+			if ( $stop_display > $result_count )
 			{
-				$stop = $result_count;
+				$stop_display = $result_count;
 			}
 
 			$where_message = '<span class="size-1">' .
-				sprintf( _( 'Displaying %d through %d' ), $start, $stop ) . '.</span> ';
+				sprintf( _( 'Displaying %d through %d' ), $start_display, $stop_display ) . '.</span> ';
 
 			if ( $options['pagination'] )
 			{
