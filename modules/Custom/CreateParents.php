@@ -423,12 +423,17 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		$extra['extra_header_left'] .= '</table>';
 	}
 
-	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,trim(lower(" . $email_column . ")) AS EMAIL,s.STUDENT_ID AS CONTACT";
+	$email_table_prefix = mb_substr( $email_column, 0, 2 ) === 's.' ? 's.' : 'a.';
+
+	// Remove table prefix so we can use DBEscapeIdentifier() below (and prevent SQL injection).
+	$email_column = mb_substr( $email_column, 2 );
+
+	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,trim(lower(" . $email_table_prefix . DBEscapeIdentifier( $email_column ) . ")) AS EMAIL,s.STUDENT_ID AS CONTACT";
 	// @todo SQL performance: really slow subquery.
 	// But DO NOT use LEFT OUTER JOIN, cannot LIMIT 1...
 	$extra['SELECT'] .= ",(SELECT STAFF_ID
 		FROM staff
-		WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
+		WHERE trim(lower(EMAIL))=trim(lower(" . $email_table_prefix . DBEscapeIdentifier( $email_column ) . "))
 		AND PROFILE='parent'
 		AND SYEAR=ssm.SYEAR
 		LIMIT 1) AS STAFF_ID";
@@ -438,9 +443,9 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
 		AND st.STAFF_ID=sju.STAFF_ID
 		AND st.SYEAR='" . UserSyear() . "'
-		AND trim(lower(st.EMAIL))=trim(lower(" . $email_column . "))
+		AND trim(lower(st.EMAIL))=trim(lower(" . $email_table_prefix . DBEscapeIdentifier( $email_column ) . "))
 		LIMIT 1) AS HAS_ASSOCIATED_PARENTS";
-	//$extra['WHERE'] = " AND " . $email_column . " IS NOT NULL";
+	//$extra['WHERE'] = " AND " . $email_table_prefix . DBEscapeIdentifier( $email_column ) . " IS NOT NULL";
 
 	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['functions'] = [
