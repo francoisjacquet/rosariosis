@@ -25,7 +25,7 @@ if ( $_REQUEST['modfunc'] === 'final_grades_all_mp_save_ajax' )
 
 /**
  * Automatically calculate & save Course Period's Final Grades using Gradebook Grades
- * Include Inactive Students.
+ * Does not include Inactive Students.
  *
  * Call FinalGradesAllMPSave() using 'final_grades_all_mp_save_ajax' modfunc.
  * The benefit of calling FinalGradesAllMPSave() in AJAX is to not make the user wait for the response.
@@ -54,7 +54,7 @@ function FinalGradesAllMPSaveAJAX( $cp_id, $qtr_id )
 		'modfunc' => 'final_grades_all_mp_save_ajax',
 		'cp_id' => $cp_id,
 		'qtr_id' => $qtr_id,
-		'include_inactive' => 'Y',
+		// 'include_inactive' => 'Y',
 	] );
 
 	// Call FinalGradesAllMPSave() using 'final_grades_all_mp_save_ajax' modfunc.
