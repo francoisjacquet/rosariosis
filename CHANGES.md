@@ -11,6 +11,7 @@ Changes in 11.8
 - CSS remove forced large font size for Transcripts PDF in Transcripts.php
 - Add & get PROFILE_ID column in GetTeacher.fnc.php & User.fnc.php
 - Add "Course Periods - Short Name" field in Export.php
+- Add Final Grades functions & AJAX modfunc in FinalGrades.inc.php
 
 Changes in 11.7.4
 -----------------
