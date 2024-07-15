@@ -13,6 +13,8 @@ Changes in 11.8
 - Add "Course Periods - Short Name" field in Export.php
 - Add Final Grades functions & AJAX modfunc in FinalGrades.inc.php
 - Use FinalGradesQtrOrProCalculate() & FinalGradesSemOrFYCalculate() functions in InputFinalGrades.php
+- Add "Automatically calculate and save Final Grades using Gradebook Grades" option in Configuration.php
+- Remove unused "Assignment Sorting" option in Configuration.php
 
 Changes in 11.7.4
 -----------------

@@ -117,32 +117,22 @@ if ( ! empty( $grades ) )
 		_( 'Score Rounding' ),
 		$rounding_options,
 		_( 'None' )
-	) . '</td></tr>';
+	) . '<hr></td></tr>';
 
 	// Allow Edit fields for teachers.
 	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );
 }
 
-if ( empty( $gradebook_config['ASSIGNMENT_SORTING'] ) )
-{
-	$gradebook_config['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
-}
-
-$sorting_options = [
-	'ASSIGNMENT_ID' => _( 'Newest First' ),
-	'DUE_DATE' => _( 'Due Date' ),
-	'ASSIGNED_DATE' => _( 'Assigned Date' ),
-];
-
-echo '<tr><td>' . RadioInput(
-	$gradebook_config['ASSIGNMENT_SORTING'],
-	'values[ASSIGNMENT_SORTING]',
-	_( 'Assignment Sorting' ),
-	$sorting_options,
-	false
+// @since 11.8 Automatically calculate & save Course Period's Final Grades using Gradebook Grades
+echo '<tr><td>' . CheckboxInput(
+	( array_key_exists( 'AUTO_SAVE_FINAL_GRADES', $gradebook_config ) ? $gradebook_config['AUTO_SAVE_FINAL_GRADES'] : '' ),
+	'values[AUTO_SAVE_FINAL_GRADES]',
+	_( 'Automatically calculate and save Final Grades using Gradebook Grades' ),
+	'',
+	( ! array_key_exists( 'AUTO_SAVE_FINAL_GRADES', $gradebook_config ) )
 ) . '</td></tr>';
 
-echo '<tr><td><hr>' . CheckboxInput(
+echo '<tr><td>' . CheckboxInput(
 	( array_key_exists( 'WEIGHT', $gradebook_config ) ? $gradebook_config['WEIGHT'] : '' ),
 	'values[WEIGHT]',
 	_( 'Weight Assignment Categories' ),
