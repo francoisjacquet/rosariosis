@@ -12,6 +12,7 @@ Changes in 11.8
 - Add & get PROFILE_ID column in GetTeacher.fnc.php & User.fnc.php
 - Add "Course Periods - Short Name" field in Export.php
 - Add Final Grades functions & AJAX modfunc in FinalGrades.inc.php
+- Use FinalGradesQtrOrProCalculate() & FinalGradesSemOrFYCalculate() functions in InputFinalGrades.php
 
 Changes in 11.7.4
 -----------------
