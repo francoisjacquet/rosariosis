@@ -10,6 +10,7 @@ Changes in 11.8
 - Check is admin before saving Template in ReportCards.php & Transcripts.php
 - CSS remove forced large font size for Transcripts PDF in Transcripts.php
 - Add & get PROFILE_ID column in GetTeacher.fnc.php & User.fnc.php
+- Add "Course Periods - Short Name" field in Export.php
 
 Changes in 11.7.4
 -----------------

@@ -219,6 +219,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 			$fields_list += $extra['field_names'];
 		}
 
+		$fields_list['COURSE_PERIODS_SHORT_NAME'] = _( 'Course Periods' ) . ' - ' . _( 'Short Name' );
 		$fields_list['PERIOD_ATTENDANCE'] = _( 'Teacher' );
 
 		$periods_RET = DBGet( "SELECT TITLE,PERIOD_ID
@@ -294,12 +295,36 @@ if ( isset( $_REQUEST['search_modfunc'] )
 			$extra['functions']['END_DATE'] = 'ProperDate';
 	}
 
+	$date = DBDate();
+
 	if ( ! empty( $_REQUEST['month_include_active_date'] ) )
+	{
 		$date = $_REQUEST['day_include_active_date'] . '-' .
 			$_REQUEST['month_include_active_date'] . '-' .
 			$_REQUEST['year_include_active_date'];
-	else
-		$date = DBDate();
+	}
+
+	if ( ! empty( $_REQUEST['fields']['COURSE_PERIODS_SHORT_NAME'] ) )
+	{
+		/**
+		 * Add "Course Periods - Short Name" field
+		 *
+		 * @since 11.8
+		 *
+		 * Note: SQL ORDER BY inside DBSQLCommaSeparatedResult(), not a the end or will throw error:
+		 * Mixing of GROUP columns (MIN(),MAX(),COUNT(),...) with no GROUP columns is illegal if there is no GROUP BY clause
+		 */
+		$extra['SELECT'] .= ",(SELECT " . DBSQLCommaSeparatedResult( 'cp.SHORT_NAME ORDER BY cp.SHORT_NAME', ', ' ) . "
+		FROM course_periods cp,schedule sch
+		WHERE cp.SCHOOL_ID='" . UserSchool() . "'
+		AND cp.SYEAR='" . UserSyear() . "'
+		AND sch.SYEAR=cp.SYEAR
+		AND sch.SCHOOL_ID=cp.SCHOOL_ID
+		AND s.STUDENT_ID=sch.STUDENT_ID
+		AND cp.COURSE_PERIOD_ID=sch.COURSE_PERIOD_ID
+		AND '" . $date . "'>=sch.START_DATE
+		AND (sch.END_DATE IS NULL OR '" . $date . "'<=sch.END_DATE)) AS COURSE_PERIODS_SHORT_NAME";
+	}
 
 	if ( ! empty( $_REQUEST['fields']['PERIOD_ATTENDANCE'] ) )
 	{
@@ -681,6 +706,8 @@ else
 	// Scheduling
 	if ( $RosarioModules['Scheduling'] )
 	{
+		// @since 11.8 Add "Course Periods - Short Name" field
+		$fields_list['Scheduling']['COURSE_PERIODS_SHORT_NAME'] = _( 'Course Periods' ) . ' - ' . _( 'Short Name' );
 		$fields_list['Scheduling']['PERIOD_ATTENDANCE'] = _( 'Attendance Period Teacher' ) . ' - ' . _( 'Room' );
 
 		$periods_RET = DBGet( "SELECT TITLE,PERIOD_ID
