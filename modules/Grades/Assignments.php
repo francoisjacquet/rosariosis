@@ -3,6 +3,7 @@
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+require_once 'modules/Grades/includes/FinalGrades.inc.php';
 
 $_REQUEST['assignment_id'] = issetVal( $_REQUEST['assignment_id'], '' );
 $_REQUEST['assignment_type_id'] = issetVal( $_REQUEST['assignment_type_id'], '' );
@@ -99,8 +100,6 @@ if ( ! empty( $_POST['tables'] ) )
 			$error[] = _( 'Please enter a valid Sort Order.' );
 		}
 
-		$gradebook_assignment_update = false;
-
 		if ( $id !== 'new' )
 		{
 			if ( ! empty( $columns['ASSIGNMENT_TYPE_ID'] )
@@ -167,8 +166,6 @@ if ( ! empty( $_POST['tables'] ) )
 			DBEscapeIdentifier( mb_substr( $table, 10, -1 ) . '_ID' ) . "='" . $id . "';";
 
 			$go = true;
-
-			$gradebook_assignment_update = true;
 		}
 
 		// New: check for Title.
@@ -259,6 +256,8 @@ if ( ! empty( $_POST['tables'] ) )
 		{
 			DBQuery( $sql );
 
+			$is_update = $id !== 'new';
+
 			if ( $id === 'new' )
 			{
 				$id = DBLastInsertID();
@@ -304,7 +303,20 @@ if ( ! empty( $_POST['tables'] ) )
 
 			if ( $table === 'gradebook_assignments' )
 			{
-				if ( $gradebook_assignment_update )
+				if ( ( isset( $columns['POINTS'] ) || isset( $columns['WEIGHT'] ) )
+					&& ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
+				{
+					/**
+					 * Automatically calculate & save Course Period's Final Grades using Gradebook Grades
+					 *
+					 * @since 11.8
+					 *
+					 * On Assignment insert or "Points"/"Weight" update
+					 */
+					FinalGradesAllMPSaveAJAX( UserCoursePeriod(), UserMP() );
+				}
+
+				if ( $is_update )
 				{
 					// Hook.
 					do_action( 'Grades/Assignments.php|update_assignment' );
@@ -313,6 +325,24 @@ if ( ! empty( $_POST['tables'] ) )
 				{
 					// Hook.
 					do_action( 'Grades/Assignments.php|create_assignment' );
+				}
+			}
+			elseif ( $table === 'gradebook_assignment_types' )
+			{
+				if ( $is_update )
+				{
+					if ( isset( $columns['FINAL_GRADE_PERCENT'] )
+						&& ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
+					{
+						/**
+						 * Automatically calculate & save Course Period's Final Grades using Gradebook Grades
+						 *
+						 * @since 11.8
+						 *
+						 * On Assignment Type's "Percent of Final Grade" update only
+						 */
+						FinalGradesAllMPSaveAJAX( UserCoursePeriod(), UserMP() );
+					}
 				}
 			}
 		}
@@ -441,6 +471,12 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			{
 				// Remove Student Assignment Submission files.
 				unlink( $student_assignments_file );
+			}
+
+			if ( ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
+			{
+				// @since 11.8 Automatically calculate & save Course Period's Final Grades using Gradebook Grades
+				FinalGradesAllMPSaveAJAX( UserCoursePeriod(), UserMP() );
 			}
 
 			// Hook.

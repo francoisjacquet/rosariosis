@@ -6,6 +6,7 @@
 
 require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+require_once 'modules/Grades/includes/FinalGrades.inc.php';
 
 if ( ! empty( $_REQUEST['period'] ) )
 {
@@ -162,6 +163,8 @@ if ( ! empty( $_REQUEST['values'] )
 		);
 	}
 
+	$inserted_or_updated = false;
+
 	foreach ( (array) $_REQUEST['values'] as $student_id => $assignments )
 	{
 		foreach ( (array) $assignments as $assignment_id => $columns )
@@ -200,7 +203,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 			if ( ! empty( $current_RET[$student_id][$assignment_id] ) )
 			{
-				DBUpdate(
+				$inserted_or_updated = DBUpdate(
 					'gradebook_grades',
 					$columns,
 					[
@@ -214,7 +217,7 @@ if ( ! empty( $_REQUEST['values'] )
 				|| ( isset( $columns['COMMENT'] ) && $columns['COMMENT'] != '' ) )
 			{
 				// @deprecated since 6.9 SQL gradebook_grades column PERIOD_ID.
-				DBInsert(
+				$inserted_or_updated = DBInsert(
 					'gradebook_grades',
 					[
 						'STUDENT_ID' => (int) $student_id,
@@ -226,6 +229,13 @@ if ( ! empty( $_REQUEST['values'] )
 				);
 			}
 		}
+	}
+
+	if ( $inserted_or_updated
+		&& ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
+	{
+		// @since 11.8 Automatically calculate & save Course Period's Final Grades using Gradebook Grades
+		FinalGradesAllMPSaveAJAX( UserCoursePeriod(), UserMP() );
 	}
 
 	// Unset values & redirect URL.

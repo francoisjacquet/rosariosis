@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'modules/Grades/includes/FinalGrades.inc.php';
 
 $_REQUEST['assignment_type'] = issetVal( $_REQUEST['assignment_type'], '' );
 
@@ -173,6 +174,8 @@ if ( AllowEdit()
 
 		$sql = '';
 
+		$insert_assignment_cp_ids = [];
+
 		if ( $table === 'gradebook_assignments'
 			&& ! empty( $_REQUEST['cp_arr'] ) )
 		{
@@ -209,6 +212,8 @@ if ( AllowEdit()
 
 				$sql .= '(' . mb_substr( $fields_final, 0, -1 ) .
 					') values(' . mb_substr( $values_final, 0, -1 ) . ');';
+
+				$insert_assignment_cp_ids[] = $cp_id;
 			}
 		}
 		elseif ( $table === 'gradebook_assignment_types'
@@ -259,6 +264,18 @@ if ( AllowEdit()
 
 			if ( $table === 'gradebook_assignments' )
 			{
+				if ( ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
+				{
+					/**
+					 * Automatically calculate & save Course Period's Final Grades using Gradebook Grades
+					 *
+					 * @since 11.8
+					 *
+					 * On Assignment insert
+					 */
+					FinalGradesAllMPSaveAJAX( $insert_assignment_cp_ids, UserMP() );
+				}
+
 				// TODO Hook.
 				// do_action( 'Grades/MassCreateAssignments.php|mass_create_assignments' );
 			}
@@ -574,7 +591,12 @@ if ( ! $_REQUEST['modfunc'] )
 					AND cp.SYEAR=c.SYEAR
 					AND cp.COURSE_ID=c.COURSE_ID)
 				ORDER BY cs.TITLE, c.TITLE",
-				[ 'COURSE_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' ]
+				[
+					'COURSE_ID' => 'MakeChooseCheckbox',
+					'MARKING_PERIOD_ID' => 'GetMP',
+					'TITLE' => 'ParseMLField',
+					'SUBJECT' => 'ParseMLField',
+				]
 			);
 
 			ListOutput(
