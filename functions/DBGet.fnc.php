@@ -35,6 +35,7 @@
  *
  * @since 4.5 Can omit DBQuery call.
  * @example $table_RET = DBGet( "SELECT column FROM table;" );
+ * @since 11.8 Performance: avoid silencing PHP error with @, use isset() instead
  *
  * @global array    $THIS_RET  Current row of the query result
  *
@@ -87,22 +88,9 @@ function DBGet( $QI, $functions = [], $index = [] )
 				$ind[] = issetVal( $RET[ $col ] );
 			}
 
-			if ( $index_count === 1 )
-			{
-				$this_ind = @++$s[ $ind[0] ];
-			}
-			elseif ( $index_count === 2 )
-			{
-				$this_ind = @++$s[ $ind[0] ][ $ind[1] ];
-			}
-			elseif ( $index_count === 3 )
-			{
-				$this_ind = @++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ];
-			}
-			elseif ( $index_count === 4 )
-			{
-				$this_ind = @++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ];
-			}
+			$ind_concat = implode( '', $ind );
+
+			$this_ind = isset( $s[ $ind_concat ] ) ? ++$s[ $ind_concat ] : ( $s[ $ind_concat ] = 1 );
 		}
 		else
 			$s++; // 1-based if no index specified.
