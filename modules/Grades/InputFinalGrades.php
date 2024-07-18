@@ -502,7 +502,7 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					// @since 11.4 Add "Use Grade Scale Comments" option.
 					// Comment field was sent but is empty & we have a grade: get Grade Scale Comment.
-					$columns['comment'] = $grades_RET[$grade][1]['COMMENT'];
+					$columns['comment'] = DBEscapeString( $grades_RET[$grade][1]['COMMENT'] );
 				}
 
 				$update_columns['COMMENT'] = $columns['comment'];
@@ -621,7 +621,7 @@ if ( ! empty( $_REQUEST['values'] )
 			{
 				// @since 11.4 Add "Use Grade Scale Comments" option.
 				// Comment field was sent but is empty & we have a grade: get Grade Scale Comment.
-				$columns['comment'] = $grades_RET[$grade][1]['COMMENT'];
+				$columns['comment'] = DBEscapeString( $grades_RET[$grade][1]['COMMENT'] );
 			}
 
 			DBInsert(
@@ -727,43 +727,35 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 		}
 
-		// create change list
-		$change = [];
-
 		if ( isset( $columns['commentsB'] ) && is_array( $columns['commentsB'] ) )
 		{
+			// create change list
+			$change = [];
+
 			foreach ( (array) $columns['commentsB'] as $i => $comment )
 			{
 				$change[$i] = [ 'REPORT_CARD_COMMENT_ID' => 0 ];
 			}
-		}
 
-		// prune changes already in current set and reserve if in change list
+			// prune changes already in current set and reserve if in change list
 
-		if ( isset( $columns['commentsB'] ) && is_array( $columns['commentsB'] ) )
-		{
 			foreach ( (array) $columns['commentsB'] as $i => $comment )
 			{
-				if ( $comment )
+				if ( $comment
+					&& ! empty( $old[$comment] ) )
 				{
-					if ( ! empty( $old[$comment] ) )
+					if ( ! empty( $change[$old[$comment]] ) )
 					{
-						if ( $change[$old[$comment]] )
-						{
-							$change[$old[$comment]]['REPORT_CARD_COMMENT_ID'] = $comment;
-						}
-
-						$columns['commentsB'][$i] = false;
+						$change[$old[$comment]]['REPORT_CARD_COMMENT_ID'] = $comment;
 					}
+
+					$columns['commentsB'][$i] = false;
 				}
 			}
-		}
 
-		// assign changes at their index if possible
-		$new = [];
+			// assign changes at their index if possible
+			$new = [];
 
-		if ( isset( $columns['commentsB'] ) && is_array( $columns['commentsB'] ) )
-		{
 			foreach ( (array) $columns['commentsB'] as $i => $comment )
 			{
 				if ( $comment )
