@@ -16,6 +16,7 @@ Changes in 11.8
 - Use FinalGradesAllMPSaveAJAX() function in Assignments.php, Grades.php & MassCreateAssignments.php
 - Add "Automatically calculate and save Final Grades using Gradebook Grades" option in Configuration.php
 - Remove unused "Assignment Sorting" option in Configuration.php
+- Add pagination for list > 1000 results in DailyTransactions.php
 
 Changes in 11.7.4
 -----------------

@@ -137,6 +137,9 @@ $link['add']['html'] = [
 // Force display of $link['add'] on PDF or if not allowed to edit
 $options['add'] = true;
 
+// @since 11.8 Add pagination for list > 1000 results
+$options['pagination'] = true;
+
 ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link, [], $options );
 //$payments_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE FROM billing_payments p,students s WHERE p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."' AND p.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'" );
 
