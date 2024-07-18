@@ -10,6 +10,8 @@
  * Get Configuration value
  * Insert or update (for current school) value if passed as argument.
  *
+ * Security: if you use the return value in a SQL query, use `DBEscapeString()`
+ *
  * @example  Config( 'SYEAR' )
  *
  * @since 4.4 Add $value param to INSERT or UPDATE.
@@ -88,6 +90,8 @@ function Config( $item, $value = null )
  * Insert or update value if passed as argument.
  *
  * Values set in School Configuration or directly in Module (ex.: Eligibility Entry times)
+ *
+ * Security: if you use the return value in a SQL query, use `DBEscapeString()`
  *
  * @example if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
  *
