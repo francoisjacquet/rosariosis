@@ -17,6 +17,7 @@ Changes in 11.8
 - Add "Automatically calculate and save Final Grades using Gradebook Grades" option in Configuration.php
 - Remove unused "Assignment Sorting" option in Configuration.php
 - Add pagination for list > 1000 results in DailyTransactions.php
+- Prevent hacking & fix SQL error: MPs & Students list must be a comma separated list of integers in ReportCards.fnc.php
 
 Changes in 11.7.4
 -----------------

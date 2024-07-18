@@ -1132,16 +1132,23 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 	 *
 	 * @since 11.4 Group courses by subject
 	 *
-	 * @param  array $mp_list MPs list.
-	 * @param  array $st_list Students list.
+	 * @param  string $mp_list Comma separated MPs list.
+	 * @param  string $st_list Comma separated Students list.
 	 * @return array $extra
 	 */
 	function GetReportCardsExtra( $mp_list, $st_list )
 	{
 		global $DatabaseType;
 
+		if ( ! preg_match( '/^[\d,\']+$/', $mp_list )
+			|| ! preg_match( '/^[\d,\']+$/', $st_list ) )
+		{
+			// Prevent hacking & fix SQL error: MPs & Students list must be a comma separated list of integers.
+			return [];
+		}
+
 		// Student List Extra.
-		$extra['WHERE'] = " AND s.STUDENT_ID IN ( " . $st_list . ")";
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 		// Student Details. TODO test if ReportCards needs GRADE_ID!!
 		$extra['SELECT_ONLY'] = "DISTINCT s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
