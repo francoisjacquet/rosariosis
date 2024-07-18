@@ -19,6 +19,7 @@ Changes in 11.8
 - Add pagination for list > 1000 results in DailyTransactions.php
 - Prevent hacking & fix SQL error: MPs & Students list must be a comma separated list of integers in ReportCards.fnc.php
 - Fix authenticated SQL injection (administrator) via Grading Scales, escape string in InputFinalGrades.php
+- Fix always get scale title for "Use the "%s" Grade Scale Comments" in InputFinalGrades.php
 
 Changes in 11.7.4
 -----------------

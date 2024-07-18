@@ -1177,17 +1177,15 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 
 			if ( $grade_scale_has_comments )
 			{
-				$grade_scale_link = '';
+				$grade_scale_title = DBGetOne( "SELECT TITLE
+					FROM report_card_grade_scales
+					WHERE ID='" . (int) $grade_scale_id . "'" );
 
 				if ( AllowUse( 'Grades/ReportCardGrades.php' ) )
 				{
 					$grade_scale_link = 'Modules.php?modname=Grades/ReportCardGrades.php&tab_id=' . $grade_scale_id;
 
-					$grade_scale_title = DBGetOne( "SELECT TITLE
-						FROM report_card_grade_scales
-						WHERE ID='" . (int) $grade_scale_id . "'" );
-
-					$grade_scale_link = '<a href="' . URLEscape( $grade_scale_link ) . '">' .
+					$grade_scale_title = '<a href="' . URLEscape( $grade_scale_link ) . '">' .
 						$grade_scale_title . '</a>';
 				}
 
@@ -1197,7 +1195,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					'use_grade_scale_comments',
 					sprintf(
 						_( 'Use the "%s" Grade Scale Comments' ),
-						$grade_scale_link
+						$grade_scale_title
 					),
 					'',
 					true
