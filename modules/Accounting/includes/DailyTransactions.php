@@ -328,6 +328,9 @@ $link['add']['html'] += [
 // Force display of $link['add'] on PDF or if not allowed to edit
 $options['add'] = true;
 
+// @since 11.8 Add pagination for list > 1000 results
+$options['pagination'] = true;
+
 ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link, [], $options );
 
 /**
