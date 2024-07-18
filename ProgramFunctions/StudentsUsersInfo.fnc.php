@@ -520,10 +520,10 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 
 		$file_size = HumanFilesize( filesize( $file_path ) );
 
-		// Truncate file name if > 36 chars.
-		$file_name_display = mb_strlen( $file_name ) <= 36 ?
+		// Truncate file name if > 31 chars.
+		$file_name_display = mb_strlen( $file_name ) <= 31 ?
 			$file_name :
-			mb_substr( $file_name, 0, 30 ) . '..' . mb_strrchr( $file_name, '.' );
+			mb_substr( $file_name, 0, 25 ) . '..' . mb_strrchr( $file_name, '.' );
 
 		$file = button(
 			'download',
