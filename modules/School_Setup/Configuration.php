@@ -251,9 +251,6 @@ else
 				MLTextInput( Config( 'TITLE' ), 'values[config][TITLE]', _( 'Program Title' ) ) .
 			'</td></tr>';
 
-			// FJ add Default Theme to Configuration.
-			echo '<tr><td><table class="width-100p"><tr>';
-
 			$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
 
 			$theme_options = [];
@@ -287,7 +284,7 @@ else
 				_( 'Force' ),
 				'',
 				true
-			) . '</td></tr></table></td></tr>';
+			) . '</td></tr>';
 
 			echo '<tr><td><fieldset><legend>' . _( 'Public Registration' ) . '</legend><table>';
 
@@ -324,7 +321,7 @@ else
 
 			// @since 5.9 Automatic Student Account Activation.
 			// HTML add arrow to indicate sub-option.
-			echo '<tr><td class="valign-top">&#10551; </td><td>' . CheckboxInput(
+			echo '<tr><td class="valign-middle">&#10551; </td><td>' . CheckboxInput(
 				Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ),
 				'values[config][CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION]',
 				_( 'Automatic Student Account Activation' ),
@@ -348,7 +345,7 @@ else
 
 			// @since 6.3 Create Student Account Default School.
 			// HTML add arrow to indicate sub-option.
-			echo '<tr><td class="valign-top">&#10551; </td><td>' . SelectInput(
+			echo '<tr><td class="valign-middle">&#10551; </td><td>' . SelectInput(
 				Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ),
 				'values[config][CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL]',
 				_( 'Default School' ),
