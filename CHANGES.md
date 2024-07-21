@@ -23,6 +23,7 @@ Changes in 11.8
 - Performance: avoid silencing PHP error with @, use isset() instead in DBGet.fnc.php
 - Remove "Number of Days for the Rotation" option from School Information in Schools.php
 - Use DBUpdate() function in Schools.php
+- Move "Number of Days for the Rotation" option to School Configuration in Configuration.php
 
 Changes in 11.7.4
 -----------------

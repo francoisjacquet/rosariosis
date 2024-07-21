@@ -146,6 +146,32 @@ else
 				}
 			}
 
+			$_REQUEST['values']['schools'] = issetVal( $_REQUEST['values']['schools'] );
+
+			foreach ( (array) $_REQUEST['values']['schools'] as $column => $value )
+			{
+				$numeric_columns = [
+					'NUMBER_DAYS_ROTATION',
+				];
+
+				if ( in_array( $column, $numeric_columns )
+					&& $value != ''
+					&& ! is_numeric( $value ) )
+				{
+					$numeric_error = true;
+
+					continue;
+				}
+
+				$updated = DBUpdate(
+					'schools',
+					[ $column => $value ],
+					[ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ]
+				);
+
+				UpdateSchoolArray( UserSchool() );
+			}
+
 			if ( $updated )
 			{
 				$note[] = button( 'check' ) . '&nbsp;' .
@@ -487,6 +513,18 @@ else
 				false,
 				button( 'check' ),
 				button( 'x' )
+			) . '</td></tr>';
+
+			// Number of Days for the Rotation.
+			// @since 11.8 Move "Number of Days for the Rotation" option from School Information to Configuration
+			echo '<tr><td>' . TextInput(
+				SchoolInfo( 'NUMBER_DAYS_ROTATION' ),
+				'values[schools][NUMBER_DAYS_ROTATION]',
+				_( 'Number of Days for the Rotation' ) .
+				'<div class="tooltip"><i>' .
+				_( 'Leave the field blank if the school does not use a Rotation of Numbered Days' ) .
+				'</i></div>',
+				'type=number size=1 min=2 max=7'
 			) . '</td></tr>';
 
 			// Upload school logo.
