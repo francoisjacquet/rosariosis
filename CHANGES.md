@@ -21,6 +21,8 @@ Changes in 11.8
 - Fix authenticated SQL injection (administrator) via Grading Scales, escape string in InputFinalGrades.php
 - Fix always get scale title for "Use the "%s" Grade Scale Comments" in InputFinalGrades.php
 - Performance: avoid silencing PHP error with @, use isset() instead in DBGet.fnc.php
+- Remove "Number of Days for the Rotation" option from School Information in Schools.php
+- Use DBUpdate() function in Schools.php
 
 Changes in 11.7.4
 -----------------

@@ -28,28 +28,25 @@ if ( $_REQUEST['modfunc'] === 'update'
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'school_fields', 'values' );
 
-		if ( ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
-				&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
-			|| ( ! empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-				&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] ) ) )
-		{
-			$error[] = _( 'Please enter valid Numeric data.' );
-		}
-
 		if ( ! $error )
 		{
-			$sql = "UPDATE schools SET ";
-
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM school_fields
 				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
-			$go = 0;
+			$updated = false;
+
+			$update_columns = [];
 
 			foreach ( (array) $_REQUEST['values'] as $column => $value )
 			{
-				if ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
-					&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+				$numeric_columns = [
+					'REPORTING_GP_SCALE',
+				];
+
+				if ( ( ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' )
+						|| in_array( $column, $numeric_columns ) )
 					&& $value != ''
 					&& ! is_numeric( $value ) )
 				{
@@ -63,15 +60,16 @@ if ( $_REQUEST['modfunc'] === 'update'
 					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 				}
 
-				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-				$go = true;
+				$update_columns[ $column ] = $value;
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
-
-			if ( $go )
+			if ( $update_columns )
 			{
-				DBQuery( $sql );
+				$updated = DBUpdate(
+					'schools',
+					$update_columns,
+					[ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ]
+				);
 			}
 
 			$uploaded = FilesUploadUpdate(
@@ -80,7 +78,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$FileUploadsPath . 'Schools/' . UserSchool() . '/'
 			);
 
-			if ( $go || $uploaded )
+			if ( $updated || $uploaded )
 			{
 				$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
 			}
@@ -303,26 +301,6 @@ if ( ! $_REQUEST['modfunc'] )
 		_( 'Base Grading Scale' ),
 		'type="number" min="1" max="10000" required'
 	) . '</td></tr>';
-
-	if ( AllowEdit() )
-	{
-		echo '<tr><td colspan="3">' . TextInput(
-			$schooldata['NUMBER_DAYS_ROTATION'],
-			'values[NUMBER_DAYS_ROTATION]',
-			_( 'Number of Days for the Rotation' ) .
-			'<div class="tooltip"><i>' .
-			_( 'Leave the field blank if the school does not use a Rotation of Numbered Days' ) .
-			'</i></div>',
-			'type=number size=1 min=2 max=7'
-		) . '</td></tr>';
-	}
-	elseif ( ! empty( $schooldata['NUMBER_DAYS_ROTATION'] ) ) //do not show if no rotation set
-	{
-		echo '<tr><td colspan="3">' . NoInput(
-			$schooldata['NUMBER_DAYS_ROTATION'],
-			_( 'Number of Days for the Rotation' )
-		) . '</td></tr>';
-	}
 
 	// FJ add School Fields.
 	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
