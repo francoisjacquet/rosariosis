@@ -27,6 +27,7 @@ Changes in 11.8
 - Add help text for "Number of Days for the Rotation" option in Help_en.php
 - Translate help text for "Number of Days for the Rotation" option to Spanish & French in help.po
 - JS set ghost div height to 4000px in jquery-fixedmenu.js
+- JS add detectBrowser() function & add .browser-[name] CSS class to html in warehouse.js & plugins.min.js
 
 Changes in 11.7.4
 -----------------

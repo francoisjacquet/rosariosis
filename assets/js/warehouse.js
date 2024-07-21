@@ -91,6 +91,43 @@ if (!isTouchDevice()) {
 	document.documentElement.className += " no-touch";
 }
 
+/**
+ * Detect user browser
+ *
+ * @since 11.8
+ *
+ * @link https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browsers
+ *
+ * @return {string} User browser or 'unknown'
+ */
+navigator.browser = (function() {
+	var ua = navigator.userAgent;
+
+	if ((ua.indexOf("Opera") || ua.indexOf('OPR')) != -1) {
+		return 'opera';
+	}
+	if (ua.indexOf("Edg") != -1) {
+		return 'edge';
+	}
+	if (ua.indexOf("Chrome") != -1) {
+		return 'chrome';
+	}
+	if (ua.indexOf("Safari") != -1) {
+		return 'safari';
+	}
+	if (ua.indexOf("Firefox") != -1) {
+		return 'firefox';
+	}
+	if ((ua.indexOf("MSIE") != -1) || (!!document.documentMode == true)) {
+		return 'ie';
+	}
+	return 'unknown';
+})();
+
+// @since 11.8 Add .browser-[name] CSS class to html
+document.documentElement.className += ' browser-' + navigator.browser;
+
+
 var ColorBox = function() {
 	var cWidth = 640,
 		cHeight = 390;
