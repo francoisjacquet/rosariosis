@@ -26,6 +26,7 @@ Changes in 11.8
 - Move "Number of Days for the Rotation" option to School Configuration in Configuration.php
 - Add help text for "Number of Days for the Rotation" option in Help_en.php
 - Translate help text for "Number of Days for the Rotation" option to Spanish & French in help.po
+- JS set ghost div height to 4000px in jquery-fixedmenu.js
 
 Changes in 11.7.4
 -----------------
