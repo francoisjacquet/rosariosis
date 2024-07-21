@@ -24,6 +24,7 @@ Changes in 11.8
 - Remove "Number of Days for the Rotation" option from School Information in Schools.php
 - Use DBUpdate() function in Schools.php
 - Move "Number of Days for the Rotation" option to School Configuration in Configuration.php
+- Add help text for "Number of Days for the Rotation" option in Help_en.php
 
 Changes in 11.7.4
 -----------------

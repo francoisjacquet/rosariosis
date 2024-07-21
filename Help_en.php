@@ -144,62 +144,61 @@ if ( User( 'PROFILE' ) === 'admin' ):
 	<p>' . _help( 'Note: Students are enrolled or retained depending on their "Rolling / Retention options" set in the <i>Students > Student Info</i> program. In case the option is set to another school, the student will be enrolled either in the first Grade Level (Sort Order 1) or in the same Grade Level (same Title).' ) . '</p>';
 
 	$help['School_Setup/Configuration.php'] = '<p>' . _help( '<i>Configuration</i> offers various groups of options to help you configure:' ) . '</p>
+
+	<p>RosarioSIS</p>
 	<ul>
-		<li>RosarioSIS:
-			<ul>
-				<li>' . _help( '<i>Program Title</i> & <i>Program Name</i>: rebrand RosarioSIS' ) . '</li>
-				<li>' . _help( 'Set the <i>Default Theme</i>, and eventually <i>Force</i> it to override users\' preferred theme.' ) . '</li>
-				<li>' . _help( '<i>Create User Account</i> & <i>Create Student Account</i>: activate online registration. "Create User / Student Account" links will be displayed on the login page.' ) . '</li>
-				<li>' . _help( '<i>Automatic Student Account Activation</i>: new students are added as Inactive students. Check this box so students are enrolled on the same day.' ) . '</li>
-				<li>' . _help( '<i>Default School</i>: selected school on the "Create Student Account" screen.' ) . '</li>
-				<li>' . _help( '<i>Student email field</i>: choose the field which you will use to store your students emails. This can be the Username field or any other text field from the General Info tab. Setting this field will enable new features for or related to students within RosarioSIS such as "Password Reset".' ) . '</li>
-				<li>' . _help( '<i>Failed Login Attempts Limit</i>: ban access during 10 minutes if failed login attempts limit is reached. The "Too many failed login attempts. Please try logging in later." error will be shown on the login screen and the corresponding Access Log will have the "Banned" status.' ) . '</li>
-				<li>' . _help( '<i>Password Strength</i>: minimum password strength required. Estimations are based on the <i>zxcvbn</i> tool. Set to 0 to disable.' ) . '</li>
-				<li>' . _help( '<i>Force Password Change on First Login</i>: activate to prompt users and students for a new password when they login for the first time.' ) . '</li>
-				<li>' . _help( '<i>Display Name</i>: select the format which will be used to display User and Student full name.' ) . '</li>
-			</ul>
-		</li>
-		<li>' . _help( 'The School:' ) .
-	'<ul>
-				<li>' . _help( '<i>School year over two calendar years</i>: whether the school year should be displayed as "2014" or "2014-2015"' ) . '</li>
-				<li>' . _help( '<i>School logo (.jpg)</i>: upload the school logo (displayed in Report Cards, Transcripts, School Information & Print student Info)' ) . '</li>
-				<li>' . _help( '<i>Currency Symbol</i>: the currency / monetary symbol used in Accounting & Student Billing modules' ) . '</li>
-				<li>' . _help( '<i>Thousands separator</i>: use a comma or point or non-breaking space in digit grouping' ) . '</li>
-				<li>' . _help( '<i>Decimal separator</i>: use a point or comma to separate the integer part from the fractional part of a number' ) . '</li>
-				<li>' . _help( '<i>Course Widget</i>: whether the method for selecting a course is done through a Popup window (default) or using a select drop-down listing all course periods at once.' ) . '</li>
-			</ul>
-		</li>
-		<li>' . _help( 'The Students module:' ) .
-	'<ul>
-				<li>' . _help( '<i>Display Mailing Address</i>: whether to record and display the student\'s mailing address as a different address.' ) . '</li>
-				<li>' . _help( '<i>Check Bus Pickup / Dropoff by default</i>: whether to check Bus Pickup / Dropoff checkboxes by default when entering the student address' ) . '</li>
-				<li>' . _help( '<i>Enable Legacy Contact Information</i>: the ability to add information to the student contacts' ) . '</li>
-				<li>' . _help( '<i>Use Semester Comments instead of Quarter Comments</i>: have a new student comments field each semester instead of each quarter' ) . '</li>
-				<li>' . _help( '<i>Limit Existing Contacts & Addresses to current school</i>: global setting (applies to all schools) that will limit the lists of Persons & Addresses to the ones associated with the user\'s current school when Adding an Existing Contact or Address' ) . '</li>
-			</ul>
-		</li>
-		<li>' . _help( 'The Grades module:' ) .
-	'<ul>
-				<li>' . _help( '<i>Grades</i>: whether your school uses percent grades, letter grades or both. Will then hide the percent or letter grades accordingly.' ) . '</li>
-				<li>' . _help( '<i>Hide grade comment except for attendance period courses</i>: whether to hide grade comment for non attendance period courses' ) . '</li>
-				<li>' . _help( '<i>Allow Teachers to edit grades after grade posting period</i>: the grade posting period for each marking period is set in the School > Marking Periods program' ) . '</li>
-				<li>' . _help( '<i>Enable Anonymous Grade Statistics for Parents and Students / Administrators and Teachers</i>: the Anonymous Grade Statistics are displayed in the Student Grades program' ) . '</li>
-			</ul>
-		</li>
-		<li>' . _help( 'The Attendance module:' ) .
-	'<ul>
-				<li>' . _help( '<i>Minutes in a Full School Day</i>: if a student attends school for 300 minutes or more, RosarioSIS will automatically mark him Present for the day. If a student attends school for 150 minutes to 299 minutes, RosarioSIS will marked him Half Day present. If a student attends school for less than 150 minutes, RosarioSIS will mark him Absent. If your School Day is not 300 minutes long, then please adjust the Minutes in a Full School Day' ) . '<br />' .
-				_help( 'Set to 0 for dynamic Daily Attendance calculation based on total course period minutes. That is, the sum of the lengths of each course period during the day. Period lengths (in minutes) are defined in the School > Periods program.' ) . '</li>
-				<li>' . _help( '<i>Number of days before / after the school date teachers can edit attendance</i>: leave the fields blank to always allow teachers to edit attendance' ) . '</li>
-			</ul>
-		</li>
-		<li>' . _help( 'The Food Service module:' ) .
-	'<ul>
-				<li>' . _help( '<i>Food Service Balance minimum amount for warning</i>: set the minimum amount under which a warning will be displayed to the student and its parents on the Portal and to generate Reminders' ) . '</li>
-				<li>' . _help( '<i>Food Service Balance minimum amount</i>: set the minimum amount allowed' ) . '</li>
-				<li>' . _help( '<i>Food Service Balance target amount</i>: set the target amount to calculate the minimum deposit' ) . '</li>
-			</ul>
-		</li>
+		<li>' . _help( '<i>Program Title</i> & <i>Program Name</i>: rebrand RosarioSIS' ) . '</li>
+		<li>' . _help( 'Set the <i>Default Theme</i>, and eventually <i>Force</i> it to override users\' preferred theme.' ) . '</li>
+		<li>' . _help( '<i>Create User Account</i> & <i>Create Student Account</i>: activate online registration. "Create User / Student Account" links will be displayed on the login page.' ) . '</li>
+		<li>' . _help( '<i>Automatic Student Account Activation</i>: new students are added as Inactive students. Check this box so students are enrolled on the same day.' ) . '</li>
+		<li>' . _help( '<i>Default School</i>: selected school on the "Create Student Account" screen.' ) . '</li>
+		<li>' . _help( '<i>Student email field</i>: choose the field which you will use to store your students emails. This can be the Username field or any other text field from the General Info tab. Setting this field will enable new features for or related to students within RosarioSIS such as "Password Reset".' ) . '</li>
+		<li>' . _help( '<i>Failed Login Attempts Limit</i>: ban access during 10 minutes if failed login attempts limit is reached. The "Too many failed login attempts. Please try logging in later." error will be shown on the login screen and the corresponding Access Log will have the "Banned" status.' ) . '</li>
+		<li>' . _help( '<i>Password Strength</i>: minimum password strength required. Estimations are based on the <i>zxcvbn</i> tool. Set to 0 to disable.' ) . '</li>
+		<li>' . _help( '<i>Force Password Change on First Login</i>: activate to prompt users and students for a new password when they login for the first time.' ) . '</li>
+		<li>' . _help( '<i>Display Name</i>: select the format which will be used to display User and Student full name.' ) . '</li>
+	</ul>
+
+	<p>' . _help( 'The School:' ) . '</p>
+	<ul>
+		<li>' . _help( '<i>School year over two calendar years</i>: whether the school year should be displayed as "2014" or "2014-2015"' ) . '</li>
+		<li>' . _help( '<i>Number of Days for the Rotation</i>: school days are numbered on the calendar. For example for a 3-day rotation and school days from Monday to Friday. Monday is day 1, Tuesday is day 2, Wednesday is day 3, Thursday is day 1, Friday is day 2, and so on. Then, instead of assigning days to course periods, you will assign numbers. This is for example used with a 5-day rotation, so that a holiday does not cancel classes.' ) . '</li>
+		<li>' . _help( '<i>School logo (.jpg)</i>: upload the school logo (displayed in Report Cards, Transcripts, School Information & Print student Info)' ) . '</li>
+		<li>' . _help( '<i>Currency Symbol</i>: the currency / monetary symbol used in Accounting & Student Billing modules' ) . '</li>
+		<li>' . _help( '<i>Thousands separator</i>: use a comma or point or non-breaking space in digit grouping' ) . '</li>
+		<li>' . _help( '<i>Decimal separator</i>: use a point or comma to separate the integer part from the fractional part of a number' ) . '</li>
+		<li>' . _help( '<i>Course Widget</i>: whether the method for selecting a course is done through a Popup window (default) or using a select drop-down listing all course periods at once.' ) . '</li>
+	</ul>
+
+	<p>' . _help( 'The Students module:' ) . '</p>
+	<ul>
+		<li>' . _help( '<i>Display Mailing Address</i>: whether to record and display the student\'s mailing address as a different address.' ) . '</li>
+		<li>' . _help( '<i>Check Bus Pickup / Dropoff by default</i>: whether to check Bus Pickup / Dropoff checkboxes by default when entering the student address' ) . '</li>
+		<li>' . _help( '<i>Enable Legacy Contact Information</i>: the ability to add information to the student contacts' ) . '</li>
+		<li>' . _help( '<i>Use Semester Comments instead of Quarter Comments</i>: have a new student comments field each semester instead of each quarter' ) . '</li>
+		<li>' . _help( '<i>Limit Existing Contacts & Addresses to current school</i>: global setting (applies to all schools) that will limit the lists of Persons & Addresses to the ones associated with the user\'s current school when Adding an Existing Contact or Address' ) . '</li>
+	</ul>
+
+	<p>' . _help( 'The Grades module:' ) . '</p>
+	<ul>
+		<li>' . _help( '<i>Grades</i>: whether your school uses percent grades, letter grades or both. Will then hide the percent or letter grades accordingly.' ) . '</li>
+		<li>' . _help( '<i>Hide grade comment except for attendance period courses</i>: whether to hide grade comment for non attendance period courses' ) . '</li>
+		<li>' . _help( '<i>Allow Teachers to edit grades after grade posting period</i>: the grade posting period for each marking period is set in the School > Marking Periods program' ) . '</li>
+		<li>' . _help( '<i>Enable Anonymous Grade Statistics for Parents and Students / Administrators and Teachers</i>: the Anonymous Grade Statistics are displayed in the Student Grades program' ) . '</li>
+	</ul>
+
+	<p>' . _help( 'The Attendance module:' ) . '</p>
+	<ul>
+		<li>' . _help( '<i>Minutes in a Full School Day</i>: if a student attends school for 300 minutes or more, RosarioSIS will automatically mark him Present for the day. If a student attends school for 150 minutes to 299 minutes, RosarioSIS will marked him Half Day present. If a student attends school for less than 150 minutes, RosarioSIS will mark him Absent. If your School Day is not 300 minutes long, then please adjust the Minutes in a Full School Day' ) . '<br />' .
+		_help( 'Set to 0 for dynamic Daily Attendance calculation based on total course period minutes. That is, the sum of the lengths of each course period during the day. Period lengths (in minutes) are defined in the School > Periods program.' ) . '</li>
+		<li>' . _help( '<i>Number of days before / after the school date teachers can edit attendance</i>: leave the fields blank to always allow teachers to edit attendance' ) . '</li>
+	</ul>
+
+	<p>' . _help( 'The Food Service module:' ) . '</p>
+	<ul>
+		<li>' . _help( '<i>Food Service Balance minimum amount for warning</i>: set the minimum amount under which a warning will be displayed to the student and its parents on the Portal and to generate Reminders' ) . '</li>
+		<li>' . _help( '<i>Food Service Balance minimum amount</i>: set the minimum amount allowed' ) . '</li>
+		<li>' . _help( '<i>Food Service Balance target amount</i>: set the target amount to calculate the minimum deposit' ) . '</li>
 	</ul>
 	<p>' . _help( '<b>Modules</b> tab: manage RosarioSIS modules. Deactivate any module you will not use or install new ones.' ) . '</p>
 
