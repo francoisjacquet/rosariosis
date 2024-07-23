@@ -34,8 +34,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 				FROM school_fields
 				ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'ID' ] );
 
-			$updated = false;
-
 			$update_columns = [];
 
 			foreach ( (array) $_REQUEST['values'] as $column => $value )
@@ -65,7 +63,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( $update_columns )
 			{
-				$updated = DBUpdate(
+				DBUpdate(
 					'schools',
 					$update_columns,
 					[ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ]
@@ -78,7 +76,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$FileUploadsPath . 'Schools/' . UserSchool() . '/'
 			);
 
-			if ( $updated || $uploaded )
+			if ( $update_columns || $uploaded )
 			{
 				$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
 			}
