@@ -15,7 +15,6 @@ Changes in 11.8
 - Use FinalGradesQtrOrProCalculate() & FinalGradesSemOrFYCalculate() functions in InputFinalGrades.php
 - Use FinalGradesAllMPSaveAJAX() function in Assignments.php, Grades.php & MassCreateAssignments.php
 - Add "Automatically calculate and save Final Grades using Gradebook Grades" option in Configuration.php
-- Remove unused "Assignment Sorting" option in Configuration.php
 - Add pagination for list > 1000 results in DailyTransactions.php
 - Prevent hacking & fix SQL error: MPs & Students list must be a comma separated list of integers in ReportCards.fnc.php
 - Fix authenticated SQL injection (administrator) via Grading Scales, escape string in InputFinalGrades.php

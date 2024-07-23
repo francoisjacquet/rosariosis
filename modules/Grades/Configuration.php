@@ -123,6 +123,25 @@ if ( ! empty( $grades ) )
 	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );
 }
 
+if ( empty( $gradebook_config['ASSIGNMENT_SORTING'] ) )
+{
+	$gradebook_config['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
+}
+
+$sorting_options = [
+	'ASSIGNMENT_ID' => _( 'Newest First' ),
+	'DUE_DATE' => _( 'Due Date' ),
+	'ASSIGNED_DATE' => _( 'Assigned Date' ),
+];
+
+echo '<tr><td>' . RadioInput(
+	$gradebook_config['ASSIGNMENT_SORTING'],
+	'values[ASSIGNMENT_SORTING]',
+	_( 'Assignment Sorting' ),
+	$sorting_options,
+	false
+) . '</td></tr>';
+
 // @since 11.8 Automatically calculate & save Course Period's Final Grades using Gradebook Grades
 echo '<tr><td>' . CheckboxInput(
 	( array_key_exists( 'AUTO_SAVE_FINAL_GRADES', $gradebook_config ) ? $gradebook_config['AUTO_SAVE_FINAL_GRADES'] : '' ),
