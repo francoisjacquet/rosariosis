@@ -46,7 +46,7 @@
 	#menu .logo {
 		max-width: 64px;
 		max-height: 64px;
-		margin: 5px;
+		margin: 8px 11px;
 		float: right
 	}
 	#menu {
@@ -92,8 +92,13 @@
 	.header1 h2 {
 		font-size: 24px;
 		line-height: 26px;
-		padding-left: 36px;
-		text-indent: -36px;
+		padding-left: 34px;
+		text-indent: -34px;
+	}
+	.header1 .module-icon {
+		vertical-align: -6px;
+		width: 30px;
+		height: 30px;
 	}
 	.header2 .fixed-col {
 		word-break: break-all;
@@ -155,10 +160,10 @@
 	}
 	/* Smaller tooltip size */
 	.tooltip > i {
-		bottom: 150%;
 		left: -70px;
 		width: 140px;
 		font-size: 0.9em;
+		padding: 5px 7px 7px;
 		line-height: 1.4
 	}
 	/* Login, First login & Password Reset pages */

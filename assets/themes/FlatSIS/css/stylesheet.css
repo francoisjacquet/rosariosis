@@ -124,8 +124,6 @@ select {
 	width: auto;
 }
 
-input[type=text],
-input[type=password],
 textarea {
 	-ms-box-sizing: border-box;
 	box-sizing: border-box;
@@ -142,14 +140,14 @@ input[type=radio] {
 }
 
 input[type=number] {
-	width: 58px
+	width: 64px
 }
 
 input[type=number][name*=AMOUNT],
 input[type=number][name*=amount],
 input[type=number][name*=balance],
 input[type=number][name*=PRICE] {
-	width: 80px
+	width: 88px
 }
 
 input[type=color] {
@@ -157,12 +155,13 @@ input[type=color] {
 	border-style: solid;
 	padding: 0;
 	cursor: pointer;
+	width: 40px;
 }
 
-input[type=color],
 .color-input-value {
-	height: 26px;
+	height: 25px;
 	width: 40px;
+	margin: 1px 1px 1px 0;
 }
 
 fieldset[disabled] button,
@@ -255,8 +254,11 @@ input[type=number] {
 }
 
 select {
+	padding: 0 2px;
+}
+
+.browser-firefox select {
 	padding: 0 2px 0 4px;
-	height: 27px
 }
 
 a,
@@ -387,6 +389,21 @@ select,
 .postbox {
 	border-width: 1px;
 	border-style: solid
+}
+
+input[type=text],
+input[type=password],
+input[type=file],
+input[type=email],
+input[type=number],
+input[type=search],
+input[type=tel],
+input[type=url],
+input[type=time],
+input[type=color],
+select {
+	box-sizing: border-box;
+	height: 27px;
 }
 
 .postbox {
@@ -617,10 +634,6 @@ textarea {
 .button-primary {
 	line-height: 16px;
 	white-space: nowrap;
-}
-
-label {
-	vertical-align: middle
 }
 
 /* Choose checkbox, see MakeChooseCheckbox() */
@@ -935,7 +948,7 @@ h3 span {
 }
 
 .underline-dots .button {
-	vertical-align: baseline;
+	vertical-align: text-top;
 	height: 16px;
 }
 
@@ -1021,20 +1034,24 @@ div.underline-dots {
 	line-height: inherit;
 }
 
-.underline-dots,
+span.underline-dots,
 .checkbox-label,
 .no-input-value {
-	line-height: 28px;
-	padding-bottom: 1px;
-}
-
-.checkbox-label,
-.underline-dots {
-	line-height: 31px;
+	display: inline-block;
+	box-sizing: border-box;
+	line-height: 27px;
+	height: 27px;
+	padding: 2px 0;
+	margin-bottom: 2px;
 }
 
 .span-grade-points + label {
-	line-height: 31px;
+	line-height: 29px;
+}
+
+.span-grade-points + label + span {
+	display: inline-block;
+	vertical-align: middle;
 }
 
 textarea {
@@ -1316,6 +1333,7 @@ a > .button {
 	font-size: 20px;
 	width: 100%;
 	max-width: 100%;
+	height: 34px;
 	padding: 3px;
 	margin-top: 2px;
 	margin-right: 6px;
@@ -1395,7 +1413,6 @@ input + .loading {
 input[type=file] {
 	padding: 0;
 	max-width: calc( 100% - 38px);
-	height: 25px;
 }
 
 /* Reduce File input size when inside list */
@@ -1472,7 +1489,7 @@ div.st > .list-outer {
 }
 
 .calendar-event {
-	height: 32px;
+	height: 26px;
 	font-size: 14px;
 }
 
@@ -1678,6 +1695,7 @@ a .button + b {
 	position: absolute;
 	display: inline-block;
 	margin-left: 5px;
+	margin-top: -1px;
 	cursor: help;
 	text-transform: none;
 }
@@ -1699,7 +1717,7 @@ a .button + b {
 	visibility: hidden;
 	opacity: 0;
 	position: absolute;
-	bottom: 110%;
+	bottom: 100%;
 	left: -90px;
 	width: 180px;
 	z-index: 999;
@@ -1710,6 +1728,11 @@ a .button + b {
 	font-size: 14px;
 	line-height: 1.5;
 	white-space: normal;
+}
+
+.legend-gray .tooltip > i,
+.legend-red .tooltip > i {
+	bottom: 130%;
 }
 
 .tooltip:hover > i {

@@ -46,7 +46,7 @@
 	}
 	#menu .logo {
 		max-width: 130px;
-		margin: 2px;
+		margin: 5px;
 		max-height: 130px;
 		float: right
 	}
@@ -90,8 +90,13 @@
 	.header1 h2 {
 		font-size: 22px;
 		line-height: 24px;
-		padding-left: 42px;
-		text-indent: -42px;
+		padding-left: 38px;
+		text-indent: -38px;
+	}
+	.header1 .module-icon {
+		vertical-align: -8px;
+		width: 32px;
+		height: 32px;
 	}
 	.header2 .fixed-col {
 		word-break: break-all;
@@ -156,6 +161,7 @@
 		left: -70px;
 		width: 140px;
 		font-size: 0.85em;
+		padding: 6px 7px 7px;
 	}
 	/* Login, First login & Password Reset pages */
 	.login,

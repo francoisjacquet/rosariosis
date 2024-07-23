@@ -15,6 +15,7 @@ input[type="search"],
 input[type="tel"],
 input[type="url"],
 input[type="time"],
+input[type="color"],
 select {
 	border-color: #cacaca;
 	background: #fff;
@@ -40,6 +41,7 @@ input[type="text"]:hover,
 input[type="url"]:hover,
 input[type="color"]:hover,
 input[type="time"]:hover,
+input[type="color"]:hover,
 select:hover,
 textarea:hover {
 	border-color: #aaa;
@@ -58,6 +60,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="time"]:focus,
+input[type="color"]:focus,
 select:focus {
 	border-color: #aaa;
 	border-bottom-color: #298cba;
@@ -118,6 +121,12 @@ h6 {
 	background: #121212;
 	border-color: #000;
 	color: #fff;
+}
+
+/*FixedMenu bug not properly fixed to bottom*/
+
+#menu.fixedmenu-fixed + div {
+	background: #121212;
 }
 
 #menu-top select {

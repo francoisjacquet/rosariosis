@@ -15,6 +15,7 @@ input[type="search"],
 input[type="tel"],
 input[type="url"],
 input[type="time"],
+input[type="color"],
 select {
 	border-color: #dfdfdf;
 	background: #fff;
@@ -40,6 +41,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="time"]:focus,
+input[type="color"]:focus,
 select:focus {
 	border-color: #aaa;
 	outline: none;
