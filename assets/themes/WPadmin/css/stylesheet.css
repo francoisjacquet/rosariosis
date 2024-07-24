@@ -966,8 +966,12 @@ div.underline-dots {
 	line-height: inherit;
 }
 
+.checkbox-label {
+	padding: 1px 0;
+}
+
 span.underline-dots,
-.checkbox-label,
+label.checkbox-label,
 .no-input-value {
 	display: inline-block;
 	box-sizing: border-box;

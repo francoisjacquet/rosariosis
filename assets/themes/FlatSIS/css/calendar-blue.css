@@ -2,7 +2,8 @@
 
 div.calendar {
 	position: relative;
-	z-index: 100;
+	/* Fix z-index when inside colorBox */
+	z-index: 10000;
 }
 
 .calendar,
