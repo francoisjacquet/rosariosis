@@ -134,7 +134,7 @@ if ( ! function_exists( 'GetStudentLabelsFormJS' ) )
 		ob_start();
 		?>
 		<script>
-			$('input[name=mailing_labels]').click(function(event){
+			$('input[name=mailing_labels]').change(function(event){
 				// Toggle fieldset disabled attribute.
 				$('input[name=mailing_labels]').parents('fieldset').prop('disabled', function(i, v) {
 					return !v;
