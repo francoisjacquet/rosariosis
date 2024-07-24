@@ -166,7 +166,7 @@ else
 				$updated = DBUpdate(
 					'schools',
 					[ $column => $value ],
-					[ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ]
+					[ 'ID' => UserSchool(), 'SYEAR' => UserSyear() ]
 				);
 
 				UpdateSchoolArray( UserSchool() );
