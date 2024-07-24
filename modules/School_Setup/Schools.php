@@ -66,7 +66,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				DBUpdate(
 					'schools',
 					$update_columns,
-					[ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ]
+					[ 'ID' => UserSchool(), 'SYEAR' => UserSyear() ]
 				);
 			}
 
