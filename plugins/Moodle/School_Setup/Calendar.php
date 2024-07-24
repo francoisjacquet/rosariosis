@@ -45,7 +45,7 @@ function core_calendar_create_calendar_events_object()
 		$name = $_REQUEST['values']['TITLE'];
 	}
 
-	if ( empty( $_REQUEST['values']['DESCRIPTION'] ) )
+	if ( ! isset( $_REQUEST['values']['DESCRIPTION'] ) )
 	{
 		$description = $calendar_event[1]['DESCRIPTION'];
 	}
