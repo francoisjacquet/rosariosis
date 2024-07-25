@@ -1893,7 +1893,17 @@ input[type=checkbox].toggle {
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
 	border-bottom-width: 2px !important;
-	min-height: 28px !important;
+	min-height: 27px !important;
+}
+
+.select2-container--default .select2-search__field {
+	height: auto;
+}
+
+.select2-container--default .select2-search__field,
+.select2-container--default .select2-selection__choice {
+	margin-top: 2px !important;
+	margin-bottom: 0;
 }
 
 .select2-container--default li {
