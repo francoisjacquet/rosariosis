@@ -2,6 +2,28 @@
 
 ## RosarioSIS Student Information System
 
+New in 11.8
+-----------
+
+School
+- Configuration: Move "Number of Days for the Rotation" option from School Information to Configuration
+
+Students
+- Advanced Report: Add "Course Periods - Short Name" field
+
+Scheduling
+- Print Class Lists: Add "Course Periods - Short Name" field
+
+Grades
+- Gradebook Configuration: Add "Automatically calculate and save Final Grades using Gradebook Grades" option, sponsored by AEP Saint-Joseph-des-Carmes, France
+
+[Staff and Parents Import](https://www.rosariosis.org/modules/staff-parents-import/) module
+- Assign users to a specific school, sponsored by LGBTQInnos, USA
+
+[Templates](https://www.rosariosis.org/plugins/templates) plugin
+- Integrates with the [Messaging Premium](https://www.rosariosis.org/modules/messaging/) module, sponsored by @Hirama666
+
+
 New in 11.7
 -----------
 
