@@ -727,11 +727,11 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 		}
 
+		// create change list
+		$change = [];
+
 		if ( isset( $columns['commentsB'] ) && is_array( $columns['commentsB'] ) )
 		{
-			// create change list
-			$change = [];
-
 			foreach ( (array) $columns['commentsB'] as $i => $comment )
 			{
 				$change[$i] = [ 'REPORT_CARD_COMMENT_ID' => 0 ];
