@@ -67,9 +67,10 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		'&modfunc=' . $_REQUEST['modfunc'] . '&course_modfunc=search&last_year=' .
 		$_REQUEST['last_year']  ) . '" method="POST">'; // Fix Search: Use POST for Public Pages plugin compatibility.
 
-	echo '<table><tr><td><input type="text" name="search_term" value="' .
-		AttrEscape( DBUnescapeString( issetVal( $_REQUEST['search_term'], '' ) ) ) . '" required autofocus /></td>
-		<td>' . Buttons( _( 'Search' ) ) . '</td></tr></table>';
+	echo '<input type="text" name="search_term" value="' .
+		AttrEscape( DBUnescapeString( issetVal( $_REQUEST['search_term'], '' ) ) ) . '" required autofocus />';
+
+	echo '<br /><br /><div class="center">' . Buttons( _( 'Search' ) ) . '</div>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
 		&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' )
