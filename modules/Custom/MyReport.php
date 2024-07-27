@@ -66,6 +66,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//$extra['WHERE'] = " AND (adr.ADDRESS_ID IS NULL OR adr.ADDRESS_ID=sja.ADDRESS_ID)";
 
+		$header_left = '';
+
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
