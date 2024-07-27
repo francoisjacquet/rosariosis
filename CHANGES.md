@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.8.1
+-----------------
+- Fix IE not propagating focus event to parent on click in Inputs.php
+
 Changes in 11.8
 ---------------
 - SQL performance: reduce staff table row size (was 3.8KB) & remove HOMEROOM column in Rollover.php, rosariosis.sql & rosariosis_mysql.sql
