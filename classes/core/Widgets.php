@@ -256,12 +256,14 @@ class Widgets
 
 		// Scheduling.
 		if ( $RosarioModules['Scheduling']
-			&& ! $this->isBuilt( 'course' )
+			&& ( ! $this->isBuilt( 'course' )
+				|| ! $this->isBuilt( 'request' ) )
 			&& User( 'PROFILE' ) === 'admin' )
 		{
 			$this->wrapHeader( _( 'Scheduling' ) );
 
 			$this->build( 'course' );
+			$this->build( 'request' );
 
 			$this->wrapFooter();
 		}
