@@ -5,6 +5,8 @@ Changes in 11.8.1
 -----------------
 - Fix IE not propagating focus event to parent on click in Inputs.php
 - Fix regression since 8.6 add missing Request Widget to Advanced Student Search in Widgets.php
+- HTML input set width to 100% in PasswordReset.php & Courses.php
+- Use 'search' type for Search input in Courses.php
 
 Changes in 11.8
 ---------------

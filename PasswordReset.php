@@ -116,8 +116,7 @@ if ( isset( $_POST['email'] )
 }
 
 // Password reset form.
-if ( isset( $_REQUEST['h'] )
-	&& ! empty( $_REQUEST['h'] )
+if ( ! empty( $_REQUEST['h'] )
 	&& ( mb_strlen( $_REQUEST['h'] ) == 106
 		|| mb_strlen( $_REQUEST['h'] ) == 105 )
 	&& mb_substr( $_REQUEST['h'], 0, 3 ) == '$6$' )
@@ -289,8 +288,7 @@ _printPageHead( _( 'Forgot your password?' ) );
 
 	<?php PopTable( 'header', _( 'Forgot your password?' ) ); ?>
 
-		<label><input type="email" name="email" id="email" size="25" maxlength="255" tabindex="1" required autofocus />
-		<br />
+		<label><input type="email" name="email" id="email" class="width-100p" maxlength="255" tabindex="1" required autofocus />
 		<?php echo _( 'Email' ); ?></label>
 		<br />
 		<br />
