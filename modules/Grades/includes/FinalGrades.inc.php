@@ -106,6 +106,8 @@ function FinalGradesAllMPSave( $cp_id, $qtr_id )
 
 	foreach ( $pro as $pro_id )
 	{
+		$pro_id = trim( $pro_id, "'" ); // Remove single quotes around ID.
+
 		if ( ! GetMP( $pro_id, 'DOES_GRADES' ) )
 		{
 			continue;

@@ -7,6 +7,8 @@ Changes in 11.8.1
 - Fix regression since 8.6 add missing Request Widget to Advanced Student Search in Widgets.php
 - HTML input set width to 100% in PasswordReset.php & Courses.php
 - Use 'search' type for Search input in Courses.php
+- Rollback JS set ghost div height to 4000px in jquery-fixedmenu.js
+- Fix automatically calculate Final Grades for Progress Periods in FinalGrades.inc.php
 
 Changes in 11.8
 ---------------
