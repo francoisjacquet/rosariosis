@@ -34,7 +34,7 @@ function fixedMenu() {
 			 */
 			menu.after(
 				'<div style="display: none; width: ' + menu.outerWidth() +
-				'px; height: 4000px; float: ' +
+				'px; height: ' + menu.height() + 'px; float: ' +
 				leftOrRight + ';"></div>'
 			);
 
