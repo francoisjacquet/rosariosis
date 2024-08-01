@@ -985,11 +985,6 @@ label.checkbox-label,
 	line-height: 27px;
 }
 
-.span-grade-points + label + span {
-	display: inline-block;
-	vertical-align: middle;
-}
-
 textarea {
 	width: 100%;
 	min-width: 280px;
