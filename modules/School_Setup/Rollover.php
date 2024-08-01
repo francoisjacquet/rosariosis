@@ -160,10 +160,15 @@ foreach ( (array) $tables as $table => $name )
 	$exists_table_count = $exists_RET[$table][1]['COUNT'];
 
 	if ( $RosarioPlugins['Moodle']
-		&& ( $table === 'staff' || $table === 'courses' )
+		&& ( $table === 'courses'
+			|| $table === 'staff'
+			|| $table === 'school_periods'
+			|| $table === 'school_marking_periods'
+			|| $table === 'attendance_calendars'
+			|| $table === 'report_card_grades' )
 		&& $exists_table_count > 0 )
 	{
-		// @since 11.3 Moodle plugin: only roll Users & Courses once
+		// @since 11.3 Moodle plugin: only roll Users, Courses + dependent tables once
 		continue;
 	}
 
@@ -259,6 +264,19 @@ if ( Prompt(
 		|| ( ! isset( $_REQUEST['tables']['report_card_grades'] ) && $exists_RET['report_card_grades'][1]['COUNT'] < 1 ) ) );
 
 	if ( $rolling_courses_but_no_users_or_periods_or_mps_or_calendars_or_grades )
+	{
+		$error[] = _( 'You <i>must</i> roll users, school periods, marking periods, calendars, and grading scales at the same time or before rolling courses.' );
+	}
+
+	$rolling_users_or_periods_or_mps_or_calendars_or_grades_but_not_courses = ( ! isset( $_REQUEST['tables']['courses'] )
+		&& $exists_RET['courses'][1]['COUNT'] > 0 )
+	&& ( isset( $_REQUEST['tables']['staff'] )
+		|| isset( $_REQUEST['tables']['school_periods'] )
+		|| isset( $_REQUEST['tables']['school_marking_periods'] )
+		|| isset( $_REQUEST['tables']['attendance_calendars'] )
+		|| isset( $_REQUEST['tables']['report_card_grades'] ) );
+
+	if ( $rolling_users_or_periods_or_mps_or_calendars_or_grades_but_not_courses )
 	{
 		$error[] = _( 'You <i>must</i> roll users, school periods, marking periods, calendars, and grading scales at the same time or before rolling courses.' );
 	}
