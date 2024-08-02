@@ -101,7 +101,7 @@ elseif ( $DefaultSyear !== UserSyear() )
 		{
 			$reset_defaultsyear_note = sprintf(
 				_( 'You can reset the $DefaultSyear to \'%d\' in the config.inc.php file if needed.' ),
-				FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
+				UserSyear()
 			);
 		}
 
