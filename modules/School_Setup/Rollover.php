@@ -79,7 +79,36 @@ elseif ( $DefaultSyear !== UserSyear() )
 		FormatSyear( $DefaultSyear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
 	);
 
-	echo ErrorMessage( [ $cannot_rollover_error ], 'fatal' );
+	echo ErrorMessage( [ $cannot_rollover_error ] );
+
+	if ( ( $DefaultSyear - 1 ) == UserSyear() )
+	{
+		// User may have updated the default school year by error.
+		if ( strpos( $_SERVER['HTTP_HOST'], '.rosariosis.com' ) !== false )
+		{
+			$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
+
+			$locale_short = $lang_2_chars === 'fr' || $lang_2_chars === 'es' ?
+				$lang_2_chars . '/' : '';
+
+			$reset_defaultsyear_note = sprintf(
+				_( 'You can reset the default school year to \'%d\' from <a href="%s" target="_blank">your account</a> if needed.' ),
+				FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
+				URLEscape( 'https://www.rosariosis.com/' . $locale_short .	'account/' )
+			);
+		}
+		else
+		{
+			$reset_defaultsyear_note = sprintf(
+				_( 'You can reset the $DefaultSyear to \'%d\' in the config.inc.php file if needed.' ),
+				FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
+			);
+		}
+
+		echo ErrorMessage( [ $reset_defaultsyear_note ], 'note' );
+	}
+
+	return;
 }
 
 $tables = [

@@ -14,6 +14,7 @@ Changes in 11.8.1
 - Remove Update default school year warning right after Rollover in Rollover.php
 - Check user exists in the next school year in Rollover.fnc.php
 - Rephrase the update school year warning & button in Rollover.fnc.php
+- Add reset default school year note in Rollover.php
 
 Changes in 11.8
 ---------------
