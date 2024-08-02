@@ -12,6 +12,8 @@ Changes in 11.8.1
 - CSS fix Grade points line height in stylesheet.css
 - Fix SQL error Cannot delete: foreign key constraint fails (marking_period_id + course_periods) in Rollover.php
 - Remove Update default school year warning right after Rollover in Rollover.php
+- Check user exists in the next school year in Rollover.fnc.php
+- Rephrase the update school year warning & button in Rollover.fnc.php
 
 Changes in 11.8
 ---------------

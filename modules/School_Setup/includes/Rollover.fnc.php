@@ -156,24 +156,26 @@ function RolloverAllSchoolsDoneWarning()
 /**
  * Update default school year warning
  * Check if config.inc.php's $DefaultSyear matches user School Year
- * Check if Rollover is done (and if school year has ended)
+ * Check if Rollover is done
+ * Check user exists in the next school year
  *
+ * - if user does not exist in the next school year:
+ * "Your user does not exist in the next school year, please fix that first."
  * - if config.inc.php file is writable & ROSARIOSIS_YEAR environment var is not set (Docker):
- * "Please update the default school year to '2023-2024' when ready. [Go]"
+ * "Do not forget to update the default school year to '2023-2024' when ready. [Yes, I am ready]"
  * - else if on rosariosis.com:
  * "Do not forget to update the default school year to '2023-2024' from your account when ready."
  * - else:
  * "Do not forget to update the $DefaultSyear to '2023' in the config.inc.php file when ready."
  *
  * @since 11.7
+ * @since 11.8.1 Check user exists in the next school year
  *
  * @global $DefaultSyear
  *
- * @param boolean $check_syear_has_ended Check if school year has ended / is over.
- *
  * @return string Empty if rollover not done else warning text.
  */
-function RolloverUpdateDefaultSyearWarning( $check_syear_has_ended = false )
+function RolloverUpdateDefaultSyearWarning()
 {
 	global $DefaultSyear;
 
@@ -185,32 +187,25 @@ function RolloverUpdateDefaultSyearWarning( $check_syear_has_ended = false )
 
 	$next_syear = UserSyear() + 1;
 
-	if ( $check_syear_has_ended )
-	{
-		// Update default school year warning when Rollover is done & school year has ended
-		$update_syear = DBGetOne( "SELECT 1 AS UPDATE_SYEAR
-			FROM school_marking_periods
-			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND MP='FY'
-			AND END_DATE<'" . DBDate() . "'
-			AND EXISTS(SELECT 1
-				FROM school_marking_periods
-				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "')" );
-	}
-	else
-	{
-		// Update default school year warning when Rollover is done
-		$update_syear = DBGetOne( "SELECT 1 AS UPDATE_SYEAR
-			FROM school_marking_periods
-			WHERE SYEAR='" . $next_syear . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" );
-	}
+	// Update default school year warning when Rollover is done
+	$update_syear = DBGetOne( "SELECT 1 AS UPDATE_SYEAR
+		FROM school_marking_periods
+		WHERE SYEAR='" . $next_syear . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	if ( ! $update_syear )
 	{
 		return '';
+	}
+
+	$user_exists_in_next_syear = DBGetOne( "SELECT 1 AS USER_EXISTS
+		FROM staff
+		WHERE SYEAR='" . $next_syear . "'
+		AND USERNAME='" . DBEscapeString( User( 'USERNAME' ) ) . "'" );
+
+	if ( ! $user_exists_in_next_syear )
+	{
+		return _( 'Your user does not exist in the next school year, please fix that first.' );
 	}
 
 	if ( is_writable( 'config.inc.php' )
@@ -218,14 +213,14 @@ function RolloverUpdateDefaultSyearWarning( $check_syear_has_ended = false )
 	{
 		// If config.inc.php is writable, offer to update $DefaultSyear now
 		$update_syear_warning = sprintf(
-			_( 'Please update the default school year to \'%s\' when ready.' ),
+			_( 'Do not forget to update the default school year to \'%s\' when ready.' ),
 			FormatSyear( $next_syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
 		);
 
 		$update_syear_url = 'Modules.php?modname=School_Setup/Rollover.php&modfunc=update_syear';
 
 		$update_syear_warning .= ' <input type="button" name="update_syear" value="' .
-			AttrEscape( _( 'Go' ) ) . '" onclick="' .
+			AttrEscape( _( 'OK, I am ready' ) ) . '" onclick="' .
 			AttrEscape( 'ajaxLink(' . json_encode( $update_syear_url ) . ');' ) . '">';
 
 		return $update_syear_warning;
