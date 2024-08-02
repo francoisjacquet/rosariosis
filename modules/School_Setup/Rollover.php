@@ -345,17 +345,6 @@ if ( Prompt(
 			],
 			'note'
 		);
-
-		// Do not repeat warning twice. Check if var exists first.
-		if ( empty( $update_syear_warning ) )
-		{
-			$update_syear_warning = RolloverUpdateDefaultSyearWarning();
-
-			if ( $update_syear_warning )
-			{
-				echo ErrorMessage( [ $update_syear_warning ], 'warning' );
-			}
-		}
 	}
 	else
 	{

@@ -11,6 +11,7 @@ Changes in 11.8.1
 - Fix automatically calculate Final Grades for Progress Periods in FinalGrades.inc.php
 - CSS fix Grade points line height in stylesheet.css
 - Fix SQL error Cannot delete: foreign key constraint fails (marking_period_id + course_periods) in Rollover.php
+- Remove Update default school year warning right after Rollover in Rollover.php
 
 Changes in 11.8
 ---------------
