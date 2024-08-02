@@ -15,6 +15,7 @@ Changes in 11.8.1
 - Check user exists in the next school year in Rollover.fnc.php
 - Rephrase the update school year warning & button in Rollover.fnc.php
 - Add reset default school year note in Rollover.php
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 11.8
 ---------------
