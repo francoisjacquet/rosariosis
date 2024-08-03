@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-02 22:44+0200\n"
-"PO-Revision-Date: 2024-08-02 22:46+0200\n"
+"PO-Revision-Date: 2024-08-03 11:51+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -7419,6 +7419,8 @@ msgstr ""
 msgid ""
 "Your user does not exist in the next school year, please fix that first."
 msgstr ""
+"Votre utilisateur n'existe pas pour l'année scolaire suivante, veuillez "
+"d'abord remédier à cela."
 
 #: modules/School_Setup/includes/Rollover.fnc.php:216
 #, php-format
