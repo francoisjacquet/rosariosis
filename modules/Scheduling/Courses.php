@@ -1094,7 +1094,7 @@ if (  ( ! $_REQUEST['modfunc']
 				if ( ! $new )
 				{
 					$header .= '<td>' . NoInput(
-						$periods[$school_period['PERIOD_ID']],
+						issetVal( $periods[$school_period['PERIOD_ID']], '' ),
 						_( 'Period' )
 					) . '</td>';
 				}
