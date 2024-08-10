@@ -149,7 +149,7 @@ function GetStaffList( &$extra = [] )
 
 			$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-			$select .= ',s.' . $field_key;
+			$select .= ',s.' . DBEscapeIdentifier( $field_key );
 		}
 
 		$extra['SELECT'] .= $select;

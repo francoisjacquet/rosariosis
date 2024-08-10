@@ -4,6 +4,7 @@
 Changes in 12.0
 ---------------
 - SQL update User password for all school years in PasswordReset.php, Preferences.php & User.php
+- SQL escape dynamic column names in GetStaffList.fnc.php & GetStuList.fnc.php
 
 Changes in 11.8.1
 -----------------

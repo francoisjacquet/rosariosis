@@ -317,12 +317,13 @@ function GetStuList( &$extra = [] )
 					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'] );
 				}
 
-				$select .= ',s.' . $field_key;
+				$select .= ',s.' . DBEscapeIdentifier( $field_key );
 			}
 
 			if ( $view_address_RET )
 			{
-				$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
+				$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." .
+					DBEscapeIdentifier( $view_address_RET ) . "='Y')
 					LEFT OUTER JOIN address a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 				$extra['columns_after'] += [
@@ -410,7 +411,7 @@ function GetStuList( &$extra = [] )
 					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'] );
 				}
 
-				$select .= ',s.' . $field_key;
+				$select .= ',s.' . DBEscapeIdentifier( $field_key );
 			}
 
 			$extra['SELECT'] .= $select;
