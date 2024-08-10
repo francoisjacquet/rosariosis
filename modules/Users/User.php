@@ -326,7 +326,20 @@ if ( $_REQUEST['modfunc'] === 'update'
 							continue;
 						}
 
-						$value = encrypt_password( $_POST['staff']['PASSWORD'] );
+						/**
+						 * SQL update User password for all school years
+						 *
+						 * @since 12.0
+						 *
+						 * Handle case when a user changes password in a non default school year
+						 */
+						DBQuery( "UPDATE staff
+							SET PASSWORD='" . encrypt_password( $_POST['staff']['PASSWORD'] ) . "'
+							WHERE USERNAME=(SELECT USERNAME
+								FROM staff
+								WHERE STAFF_ID='" . UserStaffID() . "')" );
+
+						continue;
 					}
 
 					$update_columns[ $column ] = $value;

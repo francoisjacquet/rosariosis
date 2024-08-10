@@ -46,10 +46,16 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 				else
 				{
+					/**
+					 * SQL update User password for all school years
+					 *
+					 * @since 12.0
+					 *
+					 * Handle case when a user changes password in a non default school year
+					 */
 					DBQuery( "UPDATE staff
 						SET PASSWORD='" . encrypt_password( $new_password ) . "'
-						WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-						AND SYEAR='" . UserSyear() . "'" );
+						WHERE USERNAME='" . DBEscapeString( User( 'USERNAME' ) ) . "'" );
 				}
 
 				$note[] = _( 'Your new password was saved.' );

@@ -96,12 +96,9 @@ if ( isset( $_POST['email'] )
 					$error[] = 'Password reset email could not be sent.';
 				}
 			}
-			else
+			elseif ( ROSARIO_DEBUG )
 			{
-				if ( ROSARIO_DEBUG )
-				{
-					$note[] = 'Success!';
-				}
+				$note[] = 'Success!';
 			}
 		}
 	}
@@ -231,11 +228,15 @@ if ( ! empty( $_REQUEST['h'] )
 
 				if ( $user_type === 'staff' )
 				{
+					/**
+					 * SQL update User password for all school years
+					 *
+					 * @since 12.0
+					 */
 					// Update password.
 					DBQuery( "UPDATE staff SET PASSWORD='" .
 						encrypt_password( $new_password ) . "'
-						WHERE STAFF_ID='" . (int) $user_id . "'
-						AND SYEAR='" . Config( 'SYEAR' ) . "'" );
+						WHERE USERNAME='" . DBEscapeString( $staff['USERNAME'] ) . "'" );
 
 					// If admin, send notification email to server admin.
 					if ( $user_profile == 1 )
