@@ -77,10 +77,10 @@ else
 $menu_title = $menus_RET[$_REQUEST['menu_id']][1]['TITLE'];
 
 if ( $_REQUEST['modfunc'] === 'save'
-	&& $_REQUEST['food_service']
-	&& $_POST['food_service']
 	&& AllowEdit() )
 {
+	$_REQUEST['food_service'] = issetVal( $_REQUEST['food_service'], [] );
+
 	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE
 	FROM calendar_events
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'

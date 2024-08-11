@@ -21,18 +21,20 @@ $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status'
 
 Search( 'student_id', $extra );
 
-if ( ! empty( $_REQUEST['values'] )
-	&& $_POST['values']
-	&& $_REQUEST['modfunc'] === 'save' )
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
-	if ( UserStudentID()
-		&& AllowEdit() )
+	$_REQUEST['values'] = issetVal( $_REQUEST['values'], [] );
+
+	if ( UserStudentID() )
 	{
 		$account_id = DBGetOne( "SELECT ACCOUNT_ID
 			FROM food_service_student_accounts
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
-		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
+		$types = [ 'Deposit', 'Credit', 'Debit' ];
+
+		if ( in_array( $_REQUEST['values']['TYPE'], $types ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
 			$fields = 'SYEAR,SCHOOL_ID,ACCOUNT_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
@@ -74,7 +76,7 @@ if ( ! empty( $_REQUEST['values'] )
 	}
 
 	// Unset modfunc & values redirect URL.
-	RedirectURL( 'modfunc' );
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 echo ErrorMessage( $error );

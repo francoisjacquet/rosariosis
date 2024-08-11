@@ -3,10 +3,10 @@
 DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& $_REQUEST['values']
-	&& $_POST['values']
 	&& AllowEdit() )
 {
+	$_REQUEST['values'] = issetVal( $_REQUEST['values'], [] );
+
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		//FJ fix SQL bug invalid sort order

@@ -12,18 +12,20 @@ $extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status'
 
 Search( 'staff_id', $extra );
 
-if ( ! empty( $_REQUEST['values'] )
-	&& $_POST['values']
-	&& $_REQUEST['modfunc'] === 'save' )
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
-	if ( UserStaffID()
-		&& AllowEdit() )
+	$_REQUEST['values'] = issetVal( $_REQUEST['values'], [] );
+
+	if ( UserStaffID() )
 	{
 		//$existing_account = DBGet( 'SELECT \'exists\' FROM food_service_staff_accounts WHERE STAFF_ID='.UserStaffID() );
 		//if ( !count($existing_account))
 		//	BackPrompt('That user does not have a Meal Account. Choose a different username and try again.');
 
-		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
+		$types = [ 'Deposit', 'Credit', 'Debit' ];
+
+		if ( in_array( $_REQUEST['values']['TYPE'], $types ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
 			$fields = 'SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
@@ -63,8 +65,8 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, values & redirect URL.
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 echo ErrorMessage( $error );

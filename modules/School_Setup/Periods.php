@@ -2,71 +2,69 @@
 
 DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc'] === 'update' )
+if ( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit() )
 {
-	if ( ! empty( $_REQUEST['values'] )
-		&& ! empty( $_POST['values'] )
-		&& AllowEdit() )
+	$_REQUEST['values'] = issetVal( $_REQUEST['values'], [] );
+
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
-		foreach ( (array) $_REQUEST['values'] as $id => $columns )
+		// FJ fix SQL bug invalid numeric data.
+		if ( ( empty( $columns['SORT_ORDER'] )
+				|| is_numeric($columns['SORT_ORDER'] ) )
+			&& ( empty( $columns['LENGTH'] )
+				|| (string) (int) $columns['LENGTH'] == $columns['LENGTH'] ) )
 		{
-			// FJ fix SQL bug invalid numeric data.
-			if ( ( empty( $columns['SORT_ORDER'] )
-					|| is_numeric($columns['SORT_ORDER'] ) )
-				&& ( empty( $columns['LENGTH'] )
-					|| (string) (int) $columns['LENGTH'] == $columns['LENGTH'] ) )
+			// Deprecated: was used for START_TIME & END_TIME.
+			/*if ( $columns['START_TIME_HOUR'] != ''
+				&& $columns['START_TIME_MINUTE']
+				&& $columns['START_TIME_M'] )
 			{
-				// Deprecated: was used for START_TIME & END_TIME.
-				/*if ( $columns['START_TIME_HOUR'] != ''
-					&& $columns['START_TIME_MINUTE']
-					&& $columns['START_TIME_M'] )
-				{
-					$columns['START_TIME'] = $columns['START_TIME_HOUR'] . ':' .
-						$columns['START_TIME_MINUTE'] . ' ' . $columns['START_TIME_M'];
-				}
-
-				unset( $columns['START_TIME_HOUR'] );
-				unset( $columns['START_TIME_MINUTE'] );
-				unset( $columns['START_TIME_M'] );
-
-				if ( $columns['END_TIME_HOUR'] != ''
-					&& $columns['END_TIME_MINUTE']
-					&& $columns['END_TIME_M'] )
-				{
-					$columns['END_TIME'] = $columns['END_TIME_HOUR'] . ':' .
-						$columns['END_TIME_MINUTE'] . ' ' . $columns['END_TIME_M'];
-				}
-
-				unset( $columns['END_TIME_HOUR'] );
-				unset( $columns['END_TIME_MINUTE'] );
-				unset( $columns['END_TIME_M'] );*/
-
-				if ( $id !== 'new' )
-				{
-					DBUpdate(
-						'school_periods',
-						$columns,
-						[ 'PERIOD_ID' => (int) $id ]
-					);
-				}
-				// New: check for Title.
-				elseif ( $columns['TITLE'] )
-				{
-					$insert_columns = [ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ];
-
-					DBInsert(
-						'school_periods',
-						$insert_columns + $columns
-					);
-				}
+				$columns['START_TIME'] = $columns['START_TIME_HOUR'] . ':' .
+					$columns['START_TIME_MINUTE'] . ' ' . $columns['START_TIME_M'];
 			}
-			else
-				$error[] = _( 'Please enter valid Numeric data.' );
+
+			unset( $columns['START_TIME_HOUR'] );
+			unset( $columns['START_TIME_MINUTE'] );
+			unset( $columns['START_TIME_M'] );
+
+			if ( $columns['END_TIME_HOUR'] != ''
+				&& $columns['END_TIME_MINUTE']
+				&& $columns['END_TIME_M'] )
+			{
+				$columns['END_TIME'] = $columns['END_TIME_HOUR'] . ':' .
+					$columns['END_TIME_MINUTE'] . ' ' . $columns['END_TIME_M'];
+			}
+
+			unset( $columns['END_TIME_HOUR'] );
+			unset( $columns['END_TIME_MINUTE'] );
+			unset( $columns['END_TIME_M'] );*/
+
+			if ( $id !== 'new' )
+			{
+				DBUpdate(
+					'school_periods',
+					$columns,
+					[ 'PERIOD_ID' => (int) $id ]
+				);
+			}
+			// New: check for Title.
+			elseif ( $columns['TITLE'] )
+			{
+				$insert_columns = [ 'SCHOOL_ID' => UserSchool(), 'SYEAR' => UserSyear() ];
+
+				DBInsert(
+					'school_periods',
+					$insert_columns + $columns
+				);
+			}
 		}
+		else
+			$error[] = _( 'Please enter valid Numeric data.' );
 	}
 
-	// Unset modfunc & redirect.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, values & redirect.
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
