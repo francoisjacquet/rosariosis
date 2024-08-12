@@ -67,12 +67,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	AND c.SUBJECT_ID=cs.SUBJECT_ID
 	AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")";
 
-	if ( ! empty( $_REQUEST['mp_id'] ) )
+	$all_mp = empty( $_REQUEST['mp_id'] ) ? '' : GetAllMP( GetMP( $_REQUEST['mp_id'], 'MP' ), $_REQUEST['mp_id'] );
+
+	if ( $all_mp )
 	{
-		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN (' . GetAllMP(
-			GetMP( $_REQUEST['mp_id'], 'MP' ),
-			$_REQUEST['mp_id']
-		) . ')';
+		// Fix SQL syntax error at or near ")" when selected MP not in current School Year
+		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN (' . $all_mp . ')';
 	}
 
 	//	$extra['functions'] = array('MARKING_PERIOD_ID' => 'GetMP','DAYS' => '_makeDays');
@@ -216,8 +216,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			AND s.ID='" . UserSchool() . "'
 			AND s.SYEAR=cp.SYEAR
 			AND sp.PERIOD_ID=cpsp.PERIOD_ID
-			AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-			AND sr.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $_REQUEST['mp_id'], 'MP' ), $_REQUEST['mp_id'] ) . ")
+			AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID" .
+			// Fix SQL syntax error at or near ")" when selected MP not in current School Year
+			( $all_mp ? " AND sr.MARKING_PERIOD_ID IN (" . $all_mp . ")" : '' ) . "
 			AND stu.STUDENT_ID IN (" . $st_list . ")
 			AND stu.STUDENT_ID=sr.STUDENT_ID
 			AND cp.SCHOOL_ID=sr.SCHOOL_ID

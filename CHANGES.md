@@ -7,6 +7,7 @@ Changes in 12.0
 - SQL escape dynamic column names in GetStaffList.fnc.php & GetStuList.fnc.php
 - Check `$_REQUEST` after modfunc in case it is empty (no form inputs have changed), program wide
 - SQL Use DBInsert() function instead of DBInsertSQL() in AddActivity.php, Calendar.php, MarkingPeriods.php, MassAssignFees.php & MassAssignPayments.php
+- Fix SQL syntax error at or near ")" when selected MP not in current School Year in PrintSchedules.php
 
 Changes in 11.8.1
 -----------------
