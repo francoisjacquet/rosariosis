@@ -362,14 +362,12 @@ if ( $_REQUEST['modfunc'] === 'create'
 					WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 			}
 
-			$sql_calendar_days = '';
-
 			// Insert Days.
 			for ( $i = $begin; $i <= $end; $i += 86400 )
 			{
 				if ( $_REQUEST['weekdays'][ $weekday ] == 'Y' )
 				{
-					$sql_calendar_days .= DBInsertSQL(
+					$inserted = DBInsert(
 						'attendance_calendar',
 						[
 							'SYEAR' => UserSyear(),
@@ -385,11 +383,6 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 				if ( $weekday == 7 )
 					$weekday = 0;
-			}
-
-			if ( $sql_calendar_days )
-			{
-				DBQuery( $sql_calendar_days );
 			}
 		}
 

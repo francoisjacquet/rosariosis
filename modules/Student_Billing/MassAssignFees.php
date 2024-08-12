@@ -11,12 +11,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$due_date = RequestedDate( 'due', '' );
 
-			// Group SQL inserts.
-			$sql = '';
-
 			foreach ( (array) $_REQUEST['student'] as $student_id )
 			{
-				$sql .= DBInsertSQL(
+				$inserted = DBInsert(
 					'billing_fees',
 					[
 						'SYEAR' => UserSyear(),
@@ -33,10 +30,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				);
 			}
 
-			if ( $sql )
+			if ( ! empty( $inserted ) )
 			{
-				DBQuery( $sql );
-
 				$note[] = button( 'check' ) . '&nbsp;' . _( 'That fee has been added to the selected students.' );
 			}
 		}

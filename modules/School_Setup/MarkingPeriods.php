@@ -60,6 +60,61 @@ if ( ! empty( $_POST['tables'] )
 			break 1;
 		}
 
+		// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
+		$dates_RET = DBGet( "SELECT MARKING_PERIOD_ID
+			FROM school_marking_periods
+			WHERE MP='" . $_REQUEST['mp_term'] . "'
+			AND ( true=false" .
+			( ! empty( $columns['START_DATE'] ) ? " OR '" . $columns['START_DATE'] .
+				"' BETWEEN START_DATE AND END_DATE" : '' ) .
+			( ! empty( $columns['END_DATE'] ) ? " OR '" . $columns['END_DATE'] .
+				"' BETWEEN START_DATE AND END_DATE" : '' ) .
+			( ! empty( $columns['START_DATE'] ) && ! empty( $columns['END_DATE'] ) ?
+				" OR START_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" .
+				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '' ) . ")
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'" .
+			( $id !== 'new' ? " AND SCHOOL_ID='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
+
+		$posting_RET = DBGet( "SELECT MARKING_PERIOD_ID
+			FROM school_marking_periods
+			WHERE MP='" . $_REQUEST['mp_term'] . "'
+			AND ( true=false" .
+			( ! empty( $columns['POST_START_DATE'] ) ? " OR '" . $columns['POST_START_DATE'] .
+				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
+			( ! empty( $columns['POST_END_DATE'] ) ? " OR '" . $columns['POST_END_DATE'] .
+				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
+			( ! empty( $columns['POST_START_DATE'] ) && ! empty( $columns['POST_END_DATE'] ) ?
+				" OR POST_START_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" .
+				" OR POST_END_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" : '' ) . ")
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'" .
+			( $id !== 'new' ? " AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
+
+		if ( ! empty( $dates_RET ) )
+		{
+			$error[] = sprintf(
+				_( 'The beginning and end dates you specified for this marking period overlap with those of "%s".' ),
+				GetMP( $dates_RET[1]['MARKING_PERIOD_ID'] )
+			) . ' ' .
+			_( 'Only one marking period can be open at any time.' );
+
+			continue;
+		}
+
+		if ( ! empty( $posting_RET ) )
+		{
+			$error[] = sprintf(
+				_( 'The grade posting dates you specified for this marking period overlap with those of "%s".' ),
+				GetMP( $posting_RET[1]['MARKING_PERIOD_ID'] )
+			) . ' ' .
+			_( 'Only one grade posting period can be open at any time.' );
+
+			continue;
+		}
+
 		// UPDATE
 
 		if ( $id !== 'new' )
@@ -124,9 +179,7 @@ if ( ! empty( $_POST['tables'] )
 				}
 			}
 
-			$go = true;
-
-			$sql = DBUpdateSQL(
+			$updated = DBUpdate(
 				'school_marking_periods',
 				$columns,
 				[ 'MARKING_PERIOD_ID' => (int) $id ]
@@ -192,77 +245,11 @@ if ( ! empty( $_POST['tables'] )
 				}
 			}
 
-			$go = true;
-
-			$sql = DBInsertSQL(
+			$_REQUEST['marking_period_id'] = DBInsert(
 				'school_marking_periods',
-				$insert_columns + $columns
+				$insert_columns + $columns,
+				'id'
 			);
-		}
-
-		// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
-		$dates_RET = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM school_marking_periods
-			WHERE MP='" . $_REQUEST['mp_term'] . "'
-			AND ( true=false" .
-			( ! empty( $columns['START_DATE'] ) ? " OR '" . $columns['START_DATE'] .
-				"' BETWEEN START_DATE AND END_DATE" : '' ) .
-			( ! empty( $columns['END_DATE'] ) ? " OR '" . $columns['END_DATE'] .
-				"' BETWEEN START_DATE AND END_DATE" : '' ) .
-			( ! empty( $columns['START_DATE'] ) && ! empty( $columns['END_DATE'] ) ?
-				" OR START_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" .
-				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '' ) . ")
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'" .
-			( $id !== 'new' ? " AND SCHOOL_ID='" . UserSchool() . "'
-				AND SYEAR='" . UserSyear() . "'
-				AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
-
-		$posting_RET = DBGet( "SELECT MARKING_PERIOD_ID
-			FROM school_marking_periods
-			WHERE MP='" . $_REQUEST['mp_term'] . "'
-			AND ( true=false" .
-			( ! empty( $columns['POST_START_DATE'] ) ? " OR '" . $columns['POST_START_DATE'] .
-				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
-			( ! empty( $columns['POST_END_DATE'] ) ? " OR '" . $columns['POST_END_DATE'] .
-				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
-			( ! empty( $columns['POST_START_DATE'] ) && ! empty( $columns['POST_END_DATE'] ) ?
-				" OR POST_START_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" .
-				" OR POST_END_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" : '' ) . ")
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'" .
-			( $id !== 'new' ? " AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
-
-		if ( ! empty( $dates_RET ) )
-		{
-			$error[] = sprintf(
-				_( 'The beginning and end dates you specified for this marking period overlap with those of "%s".' ),
-				GetMP( $dates_RET[1]['MARKING_PERIOD_ID'] )
-			) . ' ' .
-			_( 'Only one marking period can be open at any time.' );
-
-			$go = false;
-		}
-
-		if ( ! empty( $posting_RET ) )
-		{
-			$error[] = sprintf(
-				_( 'The grade posting dates you specified for this marking period overlap with those of "%s".' ),
-				GetMP( $posting_RET[1]['MARKING_PERIOD_ID'] )
-			) . ' ' .
-			_( 'Only one grade posting period can be open at any time.' );
-
-			$go = false;
-		}
-
-		if ( $go )
-		{
-			DBQuery( $sql );
-
-			if ( $id === 'new' )
-			{
-				$_REQUEST['marking_period_id'] = DBLastInsertID();
-			}
 		}
 	}
 

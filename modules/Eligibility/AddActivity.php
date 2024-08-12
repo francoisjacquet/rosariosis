@@ -15,14 +15,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				WHERE ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'
 				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
-			// Group SQL inserts.
-			$sql = '';
-
 			foreach ( (array) $_REQUEST['student'] as $student_id )
 			{
 				if ( empty( $current_RET[$student_id] ) )
 				{
-					$sql .= DBInsertSQL(
+					$inserted = DBInsert(
 						'student_eligibility_activities',
 						[
 							'SYEAR' => UserSyear(),
@@ -33,10 +30,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 			}
 
-			if ( $sql )
+			if ( ! empty( $inserted ) )
 			{
-				DBQuery( $sql );
-
 				$note[] = button( 'check' ) . '&nbsp;' . _( 'This activity has been added to the selected students.' );
 			}
 		}

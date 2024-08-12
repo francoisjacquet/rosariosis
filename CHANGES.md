@@ -6,6 +6,7 @@ Changes in 12.0
 - SQL update User password for all school years in PasswordReset.php, Preferences.php & User.php
 - SQL escape dynamic column names in GetStaffList.fnc.php & GetStuList.fnc.php
 - Check `$_REQUEST` after modfunc in case it is empty (no form inputs have changed), program wide
+- SQL Use DBInsert() function instead of DBInsertSQL() in AddActivity.php, Calendar.php, MarkingPeriods.php, MassAssignFees.php & MassAssignPayments.php
 
 Changes in 11.8.1
 -----------------
