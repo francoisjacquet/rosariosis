@@ -69,15 +69,13 @@ if ( $_REQUEST['modfunc'] === 'create'
 	{
 		$copy_calendar_options[ $title['CALENDAR_ID'] ] = $title['TITLE'];
 
-		if ( AllowEdit()
-			&& $title['DEFAULT_CALENDAR'] === 'Y'
+		if ( $title['DEFAULT_CALENDAR'] === 'Y'
 			&& $title['SCHOOL_ID'] === UserSchool() )
 		{
 			$copy_calendar_options[ $title['CALENDAR_ID'] ] .= ' (' . _( 'Default' ) . ')';
 		}
 
-		if ( AllowEdit()
-			&& isset( $_REQUEST['calendar_id'] )
+		if ( isset( $_REQUEST['calendar_id'] )
 			&& $title['CALENDAR_ID'] == $_REQUEST['calendar_id'] )
 		{
 			$recreate_calendar = $title;
@@ -211,7 +209,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	) . '</td></tr></table>';
 
 	$OK = Prompt(
-		! empty( $_REQUEST['calendar_id'] ) ?
+		$recreate_calendar ?
 		sprintf( _( 'Recreate %s calendar' ), $recreate_calendar['TITLE'] ) :
 		_( 'Create new calendar' ),
 		'',
