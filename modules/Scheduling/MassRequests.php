@@ -62,8 +62,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$error[] = _( 'You must choose a course.' );
 	}
 
-	// Unset modfunc redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, student & redirect URL.
+	RedirectURL( [ 'modfunc', 'student' ] );
 
 	unset( $_SESSION['MassRequests.php'] );
 }

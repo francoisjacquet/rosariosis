@@ -142,8 +142,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	if ( empty( $schedule_deletion_pending ) )
 	{
-		// Unset modfunc & redirect URL.
-		RedirectURL( 'modfunc' );
+		// Unset modfunc, st & redirect URL.
+		RedirectURL( [ 'modfunc', 'st' ] );
 
 		unset( $_SESSION['MassDrops.php'] );
 	}

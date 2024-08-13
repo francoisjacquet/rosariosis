@@ -84,8 +84,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 			DBQuery( $sql );
 
-			// Unset modfunc redirect URL.
-			RedirectURL( 'modfunc' );
+			// Unset modfunc, food_service & redirect URL.
+			RedirectURL( [ 'modfunc', 'food_service' ] );
 		}
 	}
 	else

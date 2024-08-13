@@ -168,8 +168,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$error[] = _( 'You must choose at least one period and one student.' );
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, student & redirect URL.
+	RedirectURL( [ 'modfunc', 'student' ] );
 }
 
 echo ErrorMessage( $note, 'note' );

@@ -49,8 +49,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$error[] = _( 'You must choose at least one student.' );
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, student & redirect URL.
+	RedirectURL( [ 'modfunc', 'student' ] );
 }
 
 if ( ! $_REQUEST['modfunc'] )

@@ -98,8 +98,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$error[] = _( 'Please enter valid Numeric data.' );
 			}
 
-			// Unset modfunc & redirect URL.
-			RedirectURL( 'modfunc' );
+			// Unset modfunc, food_service & redirect URL.
+			RedirectURL( [ 'modfunc', 'food_service' ] );
 		}
 	}
 	else

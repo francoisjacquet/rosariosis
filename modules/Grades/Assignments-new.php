@@ -178,8 +178,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		}
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, values & redirect URL.
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove' )

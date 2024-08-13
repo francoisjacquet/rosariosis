@@ -34,8 +34,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$error[] = _( 'You must choose at least one user' );
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, staff & redirect URL.
+	RedirectURL( [ 'modfunc', 'staff' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'delete'

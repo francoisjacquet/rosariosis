@@ -6,9 +6,10 @@ DrawHeader( ProgramTitle() );
 AddRequestedDates( 'values', 'post' );
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& ! empty( $_POST['values'] )
 	&& AllowEdit() )
 {
+	$_REQUEST['values'] = issetVal( $_REQUEST['values'] );
+
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id !== 'new' )
@@ -32,8 +33,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset modfunc, values & redirect URL.
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
