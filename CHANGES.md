@@ -14,6 +14,7 @@ Changes in 12.0
 - ChosenSelectInput() use Select2Input() function & raise deprecation notice in Inputs.php
 - JS Remove jQuery Chosen plugin in assets/js/jquery-chosen/
 - GetInputID() replace non-alpha, non-digit characters (include underscore) in Inputs.php
+- Breaking change: Update PHPMailer from v5.2.8 to v6.9.1 in classes/PHPMailer/ & SendEmail.fnc.php
 
 Changes in 11.8.1
 -----------------

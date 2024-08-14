@@ -13,6 +13,7 @@
  *
  * @since 3.6.1 ProgramFunctions/SendEmail.fnc.php|before_send action hook.
  * @since 8.7 ProgramFunctions/SendEmail.fnc.php|send_error action hook.
+ * @since 12.0 Update PHPMailer from v5.2.8 to v6.9.1
  *
  * @example SendEmail( $to, $subject, $msg, 'Foo <bar@from.address>', $cc, array( array( $pdf_file, $pdf_name ) ) );
  *
@@ -40,13 +41,13 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	}
 
 	// (Re)create it, if it's gone missing.
-	if ( ! ( $phpmailer instanceof PHPMailer ) )
+	if ( ! ( $phpmailer instanceof PHPMailer\PHPMailer\PHPMailer ) )
 	{
-		require_once 'classes/PHPMailer/class.phpmailer.php';
+		require 'classes/PHPMailer/src/PHPMailer.php';
+		require 'classes/PHPMailer/src/SMTP.php';
+		require 'classes/PHPMailer/src/Exception.php';
 
-		require_once 'classes/PHPMailer/class.smtp.php';
-
-		$phpmailer = new PHPMailer( true );
+		$phpmailer = new PHPMailer\PHPMailer\PHPMailer( true );
 	}
 
 	// Set to use PHP's mail().
@@ -57,6 +58,14 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	$phpmailer->clearAttachments();
 	$phpmailer->clearCustomHeaders();
 	$phpmailer->clearReplyTos();
+
+	/**
+	 * Fix error Invalid address: (From) rosariosis@localhost
+	 *
+	 * @since 12.0 Use PCRE8 email address validator
+	 * Uses the same RFC5322 regex on which FILTER_VALIDATE_EMAIL is based, but allows dotless domains.
+	 */
+	PHPMailer\PHPMailer\PHPMailer::$validator = 'pcre8';
 
 	// FJ add email headers.
 	// Get the site domain and get rid of www.
@@ -100,7 +109,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 
 			$phpmailer->addReplyTo( $reply_to, $reply_to_name );
 		}
-		catch ( phpmailerException $e )
+		catch ( PHPMailer\PHPMailer\Exception $e )
 		{
 		}
 	}
@@ -129,7 +138,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 
 			$phpmailer->addAddress( $recipient, $recipient_name );
 		}
-		catch ( phpmailerException $e )
+		catch ( PHPMailer\PHPMailer\Exception $e )
 		{
 			continue;
 		}
@@ -185,7 +194,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 
 				$phpmailer->addCc( $recipient, $recipient_name );
 			}
-			catch ( phpmailerException $e )
+			catch ( PHPMailer\PHPMailer\Exception $e )
 			{
 				continue;
 			}
@@ -205,7 +214,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 				else
 					$phpmailer->addAttachment( $attachment );
 			}
-			catch ( phpmailerException $e )
+			catch ( PHPMailer\PHPMailer\Exception $e )
 			{
 				continue;
 			}
@@ -220,7 +229,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 
 		return $phpmailer->send();
 	}
-	catch ( phpmailerException $e )
+	catch ( PHPMailer\PHPMailer\Exception $e )
 	{
 		global $error;
 
