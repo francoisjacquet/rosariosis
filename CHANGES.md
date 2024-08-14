@@ -12,6 +12,7 @@ Changes in 12.0
 - Remove "Grade Scale" column from the Grades list in ReportCardGrades.php
 - HTML Omit value attribute when empty in Inputs.php
 - ChosenSelectInput() use Select2Input() function & raise deprecation notice in Inputs.php
+- JS Remove jQuery Chosen plugin in assets/js/jquery-chosen/
 
 Changes in 11.8.1
 -----------------
