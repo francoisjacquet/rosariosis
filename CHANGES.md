@@ -16,6 +16,7 @@ Changes in 12.0
 - GetInputID() replace non-alpha, non-digit characters (include underscore) in Inputs.php
 - Breaking change: Update PHPMailer from v5.2.8 to v6.9.1 in classes/PHPMailer/ & SendEmail.fnc.php
 - Breaking change: Remove SaveData() function in SaveData.fnc.php
+- Preferences() remove deprecated 'MONTH', 'DAY' & 'YEAR' items in User.fnc.php
 
 Changes in 11.8.1
 -----------------

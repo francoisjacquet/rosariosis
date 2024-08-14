@@ -110,8 +110,7 @@ function User( $item )
  */
 function Preferences( $item, $program = 'Preferences' )
 {
-	global $_ROSARIO,
-		$locale;
+	global $_ROSARIO;
 
 	if ( ! $item
 		|| ! $program )
@@ -139,9 +138,7 @@ function Preferences( $item, $program = 'Preferences' )
 		'THEME' => Config( 'THEME' ),
 		// @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
 		// @link https://www.w3.org/International/questions/qa-date-format
-		'DATE' => ( $locale === 'en_US.utf8' ? '%B %d %Y' : '%d %B %Y' ),
-		// @deprecated since 7.1 Use Preferences( 'DATE' ).
-		'MONTH' => '%B', 'DAY' => '%d', 'YEAR' => '%Y',
+		'DATE' => ( $_SESSION['locale'] === 'en_US.utf8' ? '%B %d %Y' : '%d %B %Y' ),
 		'DEFAULT_ALL_SCHOOLS' => 'N',
 		'ASSIGNMENT_SORTING' => 'ASSIGNMENT_ID',
 		'ANOMALOUS_MAX' => '100',
@@ -155,7 +152,7 @@ function Preferences( $item, $program = 'Preferences' )
 		 *
 		 * @since 11.6
 		 */
-		'MAILING_LABEL_POSITION' => ( mb_substr( $locale, 0, 2 ) === 'fr' ? 'right' : 'left' ),
+		'MAILING_LABEL_POSITION' => ( mb_substr( $_SESSION['locale'], 0, 2 ) === 'fr' ? 'right' : 'left' ),
 	];
 
 	if ( ! isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )
