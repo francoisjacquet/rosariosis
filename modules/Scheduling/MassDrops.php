@@ -39,10 +39,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						if ( ! empty( $current_RET[$student_id] )
 							&& empty( $schedule_deletion_pending ) )
 						{
-							DBQuery( "UPDATE schedule
-								SET END_DATE='" . $drop_date . "'
-								WHERE STUDENT_ID='" . (int) $student_id . "'
-								AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
+							DBUpdate(
+								'schedule',
+								[ 'END_DATE' => $drop_date ],
+								[
+									'STUDENT_ID' => (int) $student_id,
+									'COURSE_PERIOD_ID' => (int) $_SESSION['MassDrops.php']['course_period_id'],
+								]
+							);
 
 							//$start_end_RET = DBGet( "SELECT START_DATE,END_DATE FROM schedule WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE" );
 							$start_end_RET = DBGet( "SELECT START_DATE,END_DATE

@@ -67,22 +67,17 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		if ( empty( $account_id )
 			|| Prompt( 'Confirm', $question, $message ) )
 		{
-			$sql = 'UPDATE food_service_staff_accounts SET ';
-
-			foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
-			{
-				$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
-			}
-
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE STAFF_ID='" . UserStaffID() . "'";
-
 			if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 			{
 				DBQuery( "UPDATE food_service_staff_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 				DBQuery( "UPDATE food_service_student_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 			}
 
-			DBQuery( $sql );
+			DBUpdate(
+				'food_service_staff_accounts',
+				array_map( 'trim', $_REQUEST['food_service'] ),
+				[ 'STAFF_ID' => UserStaffID() ]
+			);
 
 			// Unset modfunc, food_service & redirect URL.
 			RedirectURL( [ 'modfunc', 'food_service' ] );

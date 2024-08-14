@@ -76,22 +76,17 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				|| ( (string) (int) $_REQUEST['food_service']['ACCOUNT_ID'] === $_REQUEST['food_service']['ACCOUNT_ID']
 					&& $_REQUEST['food_service']['ACCOUNT_ID'] > 0 ) )
 			{
-				$sql = "UPDATE food_service_student_accounts SET ";
-
-				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
-				{
-					$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
-				}
-
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'";
-
 				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
 					DBQuery( "UPDATE food_service_student_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 					DBQuery( "UPDATE food_service_staff_accounts SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 				}
 
-				DBQuery( $sql );
+				DBUpdate(
+					'food_service_student_accounts',
+					array_map( 'trim', $_REQUEST['food_service'] ),
+					[ 'STUDENT_ID' => UserStudentID() ]
+				);
 			}
 			else
 			{
