@@ -9,6 +9,7 @@ Changes in 12.0
 - SQL Use DBInsert() function instead of DBInsertSQL() in AddActivity.php, Calendar.php, MarkingPeriods.php, MassAssignFees.php & MassAssignPayments.php
 - Fix SQL syntax error at or near ")" when selected MP not in current School Year in PrintSchedules.php
 - Unset `$_REQUEST` data (values, student, ...) array once modfunc done, program wide
+- Remove "Grade Scale" column from the Grades list in ReportCardGrades.php
 
 Changes in 11.8.1
 -----------------

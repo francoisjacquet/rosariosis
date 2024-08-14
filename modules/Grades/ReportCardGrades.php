@@ -147,12 +147,10 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$tabs = [];
-	$grade_scale_select = [];
 
 	foreach ( (array) $grade_scales_RET as $id => $grade_scale )
 	{
 		$tabs[] = [ 'title' => $grade_scale[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id ];
-		$grade_scale_select[$id] = $grade_scale[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
@@ -189,12 +187,6 @@ if ( ! $_REQUEST['modfunc'] )
 			'SORT_ORDER' => _( 'Order' ),
 			'COMMENT' => _( 'Comment' ),
 		];
-
-		if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
-		{
-			$functions += [ 'GRADE_SCALE_ID' => '_makeGradesInput' ];
-			$LO_columns += [ 'GRADE_SCALE_ID' => _( 'Grade Scale' ) ];
-		}
 
 		$link['add']['html'] = [
 			'TITLE' => _makeTextInput( '', 'TITLE' ),
@@ -300,22 +292,10 @@ if ( ! $_REQUEST['modfunc'] )
 function _makeGradesInput( $value, $name )
 {
 	global $THIS_RET,
-	$grade_scale_select,
-	$teacher_id,
+		$teacher_id,
 		$gradebook_config;
 
 	$id = ! empty( $THIS_RET['ID'] ) ? $THIS_RET['ID'] : 'new';
-
-	if ( $name === 'GRADE_SCALE_ID' )
-	{
-		return SelectInput(
-			$value,
-			'values[' . $id . '][' . $name . ']',
-			'',
-			$grade_scale_select,
-			false
-		);
-	}
 
 	if ( $name === 'COMMENT' )
 	{
