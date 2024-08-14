@@ -319,5 +319,6 @@ plugins/iStudent_Report_Cards*
 plugins/IBCDB_Transcripts*
 plugins/Custom_Menu*
 plugins/Instant_List_Search_Sorting*
+plugins/Stripe_Registration*
 locale/fr_FR.utf8_ParisComSup
 functions/1GetMP.php
