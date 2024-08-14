@@ -1136,7 +1136,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
  *
  * @example ChosenSelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
  *
- * @uses SelectInput() to generate the Select input
+ * @uses Select2Input() to generate the Select input
  *
  * @param  string         $value    Input value.
  * @param  string         $name     Input name.
@@ -1150,79 +1150,13 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
  */
 function ChosenSelectInput( $value, $name, $title = '', $options = [], $allow_na = 'N/A', $extra = '', $div = true )
 {
-	static $chosen_included = false;
-
-	$js = '';
-
-	if ( ! $chosen_included
-		&& AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-
-		ob_start();	?>
-		<!-- Chosen -->
-		<script src="assets/js/jquery-chosen/chosen.jquery.min.js"></script>
-		<link rel="stylesheet" href="assets/js/jquery-chosen/chosen.min.css">
-		<script>
-			$(document).ready(function(){
-				$('.chosen-select').chosen('.chosen-select');
-			});
-		</script>
-		<?php $chosen_included = true;
-
-		$js = ob_get_clean();
-	}
-
-	// Right to left direction.
-	$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
-
-	$chosen_rtl = in_array( mb_substr( $_SESSION['locale'], 0, 2 ), $RTL_languages ) ? ' chosen-rtl' : '';
-
-	if ( ! $extra
-		|| mb_strpos( $extra, 'class=' ) === false )
-	{
-		$extra .= ' class="chosen-select' . $chosen_rtl . '"';
-	}
-	elseif ( mb_strpos( $extra, 'class=' ) !== false )
-	{
-		$extra = str_replace(
-			[ 'class="', "class='" ],
-			[ 'class="chosen-select' . $chosen_rtl . ' ', "class='chosen-select" . $chosen_rtl . ' ' ],
-			$extra
-		);
-	}
-
-	// Translate default "Select Some Options" multiple placeholder.
-	if ( mb_strpos( $extra, 'multiple' ) !== false
-		&& mb_strpos( $extra, 'data-placeholder=' ) === false )
-	{
-		$extra .= ' data-placeholder="' . AttrEscape( _( 'Select some Options' ) ) . '"';
-	}
-
-	$return = $js . SelectInput(
-		$value,
-		$name,
-		$title,
-		$options,
-		$allow_na,
-		$extra,
-		$div
+	// Raise deprecation notice.
+	trigger_error(
+		'ChosenSelectInput() function is deprecated since RosarioSIS 11.7. Use Select2Input() instead.',
+		E_USER_DEPRECATED
 	);
 
-	if ( $value != ''
-		&& $div
-		&& AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		$id = GetInputID( $name );
-
-		// On InputDivOnClick(), call Chosen.
-		$return .= '<script>$("#div' . $id . '").on("click", function(){
-			$("#' . $id . '").chosen();
-		});</script>';
-	}
-
-	return $return;
+	return Select2Input( $value, $name, $title, $options, $allow_na, $extra, $div );
 }
 
 

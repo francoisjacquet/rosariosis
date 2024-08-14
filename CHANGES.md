@@ -11,6 +11,7 @@ Changes in 12.0
 - Unset `$_REQUEST` data (values, student, ...) array once modfunc done, program wide
 - Remove "Grade Scale" column from the Grades list in ReportCardGrades.php
 - HTML Omit value attribute when empty in Inputs.php
+- ChosenSelectInput() use Select2Input() function & raise deprecation notice in Inputs.php
 
 Changes in 11.8.1
 -----------------
