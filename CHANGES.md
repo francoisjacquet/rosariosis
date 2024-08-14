@@ -13,6 +13,7 @@ Changes in 12.0
 - HTML Omit value attribute when empty in Inputs.php
 - ChosenSelectInput() use Select2Input() function & raise deprecation notice in Inputs.php
 - JS Remove jQuery Chosen plugin in assets/js/jquery-chosen/
+- GetInputID() replace non-alpha, non-digit characters (include underscore) in Inputs.php
 
 Changes in 11.8.1
 -----------------

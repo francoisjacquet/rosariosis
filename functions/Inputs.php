@@ -1716,9 +1716,8 @@ function CheckBoxOnclick( $name, $title = '' )
  * From name attribute value
  *
  * @since 2.9
- * @since 9.0 Use AttrEscape()
  *
- * @example GetInputID( 'cust[CUSTOM_1]' ); will return "custCUSTOM_1"
+ * @example GetInputID( 'cust[CUSTOM_1]' ); // will return "custCUSTOM_1"
  *
  * @param  string $name Input name attribute
  *
@@ -1731,9 +1730,8 @@ function GetInputID( $name )
 		return $name;
 	}
 
-	$id = str_replace( [ '[', ']', '-', ' ' ], '', $name );
-
-	return AttrEscape( $id );
+	// @link https://stackoverflow.com/questions/4724732/preg-replace-in-php-regular-expression-for-not-condition#answer-4724767
+	return preg_replace( '/\W/', '', $name );
 }
 
 
