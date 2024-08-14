@@ -783,7 +783,7 @@ if ( ! $_REQUEST['modfunc'] )
 			ORDER BY sfc.SORT_ORDER IS NULL,sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER IS NULL,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
-			DBQuery( $custom_fields_sql ),
+			$custom_fields_sql,
 			[ 'STAFF_SEARCH' => '_make', 'STAFF_DISPLAY' => '_make' ],
 			[ 'CATEGORY' ]
 		);
