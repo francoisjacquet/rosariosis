@@ -67,6 +67,8 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
  *
  * @example TextInput( Config( 'NAME' ), 'values[config][NAME]', _( 'Program Name' ), 'required' )
  *
+ * @since 12.0 HTML Omit value attribute when empty
+ *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
  * @uses InputDivOnclick()
@@ -110,10 +112,10 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	}
 
 	// Specify input type via $extra (email,...).
-	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
+	$type = mb_strpos( $extra, 'type=' ) === false ? ' type="text"' : '';
 
-	$input = '<input ' . $type . ' id="' . $id . '" name="' . AttrEscape( $name ) .
-		'" value="' . AttrEscape( $value ) . '" ' . $extra . '>' .
+	$input = '<input' . $type . ' id="' . $id . '" name="' . AttrEscape( $name ) .
+		'"' . ( $value != '' ? ' value="' . AttrEscape( $value ) . '"' : '' ) . ' ' . $extra . '>' .
 		FormatInputTitle( $title, $id, $required );
 
 	if ( is_null( $value )
