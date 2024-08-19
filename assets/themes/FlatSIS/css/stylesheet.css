@@ -131,7 +131,9 @@ textarea {
 
 input[type=checkbox],
 input[type=radio] {
-	margin: 0 0 2px 0;
+	margin-bottom: 2px;
+	margin-right: 0;
+	margin-left: 0;
 	vertical-align: middle;
 	height: 16px;
 	width: 16px;
@@ -1127,7 +1129,7 @@ textarea {
 .legend-gray,
 .legend-red {
 	font-size: 15px;
-	margin-top: 0;
+	margin-top: 1px;
 	margin-bottom: 12px;
 	display: inline-block
 }
