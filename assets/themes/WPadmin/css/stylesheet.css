@@ -110,8 +110,7 @@ textarea {
 
 input[type=checkbox],
 input[type=radio] {
-	margin-bottom: 2px;
-	margin-right: 0;
+	margin: 0 0 2px 0;
 	vertical-align: middle;
 	height: 16px;
 	width: 16px;
@@ -973,16 +972,12 @@ div.underline-dots {
 span.underline-dots,
 label.checkbox-label,
 .no-input-value {
-	display: inline-block;
-	box-sizing: border-box;
 	line-height: 25px;
-	height: 25px;
-	padding: 1px 0;
-	margin-bottom: 2px;
+	padding-bottom: 1px;
 }
 
 .span-grade-points + label {
-	line-height: 27px;
+	line-height: 25px;
 }
 
 textarea {
@@ -1053,8 +1048,14 @@ textarea {
 
 .legend-gray,
 .legend-red {
+	margin-top: 0;
 	margin-bottom: 7px;
 	display: inline-block
+}
+
+.underline-dots ~ .legend-gray,
+.underline-dots ~ .legend-red {
+	margin-top: 2px;
 }
 
 .logo {
