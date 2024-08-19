@@ -13,11 +13,12 @@ Changes in 12.0
 - HTML Omit value attribute when empty in Inputs.php
 - ChosenSelectInput() use Select2Input() function & raise deprecation notice in Inputs.php
 - JS Remove jQuery Chosen plugin in assets/js/jquery-chosen/
-- GetInputID() replace non-alpha, non-digit characters (include underscore) in Inputs.php
+- GetInputID() remove non-alpha, non-digit characters (keep underscores) in Inputs.php
 - Breaking change: Update PHPMailer from v5.2.8 to v6.9.1 in classes/PHPMailer/ & SendEmail.fnc.php
 - Breaking change: Remove SaveData() function in SaveData.fnc.php
 - Preferences() remove deprecated 'MONTH', 'DAY' & 'YEAR' items in User.fnc.php
 - Use DBUpdate() function in Accounts.php & MassDrops.php
+- Fix .thu-fri-sat class for Calendar day on Public Pages in CalendarDay.inc.php
 
 Changes in 11.8.1
 -----------------
