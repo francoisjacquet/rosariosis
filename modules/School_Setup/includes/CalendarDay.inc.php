@@ -45,8 +45,6 @@ if ( ! function_exists( 'CalendarDayClasses' ) )
  */
 function CalendarDayClassesDefault( $date, $minutes, $events = [], $assignments = [], $mode = 'day' )
 {
-	global $return_counter;
-
 	$day_classes = '';
 
 	if ( $mode === 'inner' )
@@ -97,8 +95,7 @@ function CalendarDayClassesDefault( $date, $minutes, $events = [], $assignments 
 	}
 
 	// Thursdays, Fridays, Saturdays.
-	if ( ($return_counter + 1) % 7 === 0
-		|| ($return_counter + 1) % 7 > 4 )
+	if ( date( 'w', strtotime( $date ) ) >= 4 )
 	{
 		$day_classes .= ' thu-fri-sat';
 	}
