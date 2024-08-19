@@ -3,6 +3,7 @@
 
 Changes in 11.8.2
 -----------------
+- CSS fix input div onclick & .underline-dots line height in stylesheet.css
 
 Changes in 11.8.1
 -----------------

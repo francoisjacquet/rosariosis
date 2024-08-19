@@ -131,8 +131,7 @@ textarea {
 
 input[type=checkbox],
 input[type=radio] {
-	margin-bottom: 2px;
-	margin-right: 0;
+	margin: 0 0 2px 0;
 	vertical-align: middle;
 	height: 16px;
 	width: 16px;
@@ -1041,16 +1040,12 @@ div.underline-dots {
 span.underline-dots,
 label.checkbox-label,
 .no-input-value {
-	display: inline-block;
-	box-sizing: border-box;
 	line-height: 27px;
-	height: 27px;
-	padding: 2px 0;
-	margin-bottom: 2px;
+	padding-bottom: 1px;
 }
 
 .span-grade-points + label {
-	line-height: 31px;
+	line-height: 27px;
 }
 
 textarea {
@@ -1132,8 +1127,14 @@ textarea {
 .legend-gray,
 .legend-red {
 	font-size: 15px;
+	margin-top: 0;
 	margin-bottom: 12px;
 	display: inline-block
+}
+
+.underline-dots ~ .legend-gray,
+.underline-dots ~ .legend-red {
+	margin-top: 3px;
 }
 
 /* Fix Dashboard tip message row too tall */
