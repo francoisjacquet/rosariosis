@@ -19,6 +19,8 @@ Changes in 12.0
 - Preferences() remove deprecated 'MONTH', 'DAY' & 'YEAR' items in User.fnc.php
 - Use DBUpdate() function in Accounts.php & MassDrops.php
 - Fix .thu-fri-sat class for Calendar day on Public Pages in CalendarDay.inc.php
+- Add BottomButtonBackUpdate() function in Bottom.fnc.php
+- Remove need to make an AJAX call to Bottom.php in Bottom.php, Bottom.fnc.php, MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
 
 Changes in 11.8.1
 -----------------

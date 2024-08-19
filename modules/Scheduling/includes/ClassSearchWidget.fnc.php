@@ -218,13 +218,16 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 
 	if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 	{
-		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_REQUEST, [ 'bottom_back' ] );
-
-		$_SESSION['Back_PHP_SELF'] = 'course';
-
 		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{
-			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
+			/**
+			 * Remove need to make an AJAX call to Bottom.php
+			 *
+			 * @since 12.0 JS Show BottomButtonBack & update its URL & text
+			 */
+			require_once 'ProgramFunctions/Bottom.fnc.php';
+
+			BottomButtonBackUpdate( 'course' );
 		}
 	}
 

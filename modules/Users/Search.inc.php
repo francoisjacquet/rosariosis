@@ -278,12 +278,14 @@ else
 
 		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_REQUEST, [ 'bottom_back' ] );
+			/**
+			 * Remove need to make an AJAX call to Bottom.php
+			 *
+			 * @since 12.0 JS Show BottomButtonBack & update its URL & text
+			 */
+			require_once 'ProgramFunctions/Bottom.fnc.php';
 
-			$_SESSION['Back_PHP_SELF'] = 'staff';
-
-			// Update Bottom.php.
-			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
+			BottomButtonBackUpdate( 'staff' );
 		}
 
 		ListOutput(

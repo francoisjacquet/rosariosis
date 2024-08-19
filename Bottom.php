@@ -30,12 +30,12 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 
 		$btn_path = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/';
 
-		if ( isset( $_SESSION['List_PHP_SELF'] )
-			&& isset( $_SESSION['Back_PHP_SELF'] )
-			&& ( User( 'PROFILE' ) === 'admin'
-				|| User( 'PROFILE' ) === 'teacher') ) :
+		if ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' ) :
 
-			switch ( $_SESSION['Back_PHP_SELF'] )
+			$back_url = issetVal( $_SESSION['List_PHP_SELF'], '' );
+
+			switch ( issetVal( $_SESSION['Back_PHP_SELF'], '' ) )
 			{
 				case 'student':
 
@@ -55,21 +55,34 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 				default:
 
 					$back_text = sprintf( _( '%s List' ), $_SESSION['Back_PHP_SELF'] );
-			} ?>
+			}
 
-			<a href="<?php echo URLEscape( $_SESSION['List_PHP_SELF'] ); ?>&amp;bottom_back=true" title="<?php echo AttrEscape( $back_text ); ?>" class="BottomButton" id="BottomButtonBack">
+			/**
+			 * Remove need to make an AJAX call to Bottom.php
+			 * Which represented up to 10% of total AJAX requests
+			 *
+			 * @since 12.0 JS Show BottomButtonBack & update its URL & text
+			 * @see BottomButtonBackUpdate() function
+			 */
+			?>
+
+			<a href="<?php echo URLEscape( $back_url ); ?>" title="<?php echo AttrEscape( $back_text ); ?>"
+				id="BottomButtonBack" class="BottomButton<?php echo $back_url ? '' : ' hide'; ?>">
 				<img src="<?php echo $btn_path; ?>back.png" alt="">
 				<span><?php echo $back_text; ?></span>
 			</a>
 
 		<?php endif;
 
-		// @since 5.0 "Back to Student/User/Course Search" button removed.
-
-		// Do bottom_buttons hook.
+		/**
+		 * Do bottom_buttons action hook
+		 *
+		 * @see also 'ProgramFunctions/Bottom.fnc.php|bottom_buttons' action hook
+		 */
 		do_action( 'Bottom.php|bottom_buttons' ); ?>
 
-		<a href="Bottom.php?bottomfunc=print" target="_blank" title="<?php echo AttrEscape( _( 'Print' ) ); ?>" class="BottomButton">
+		<a href="" target="_blank" title="<?php echo AttrEscape( _( 'Print' ) ); ?>" class="BottomButton"
+			onclick="this.href = 'Bottom.php?bottomfunc=print&' + window.location.search.substring(1);">
 			<img src="<?php echo $btn_path; ?>print.png" alt="">
 			<span><?php echo _( 'Print' ); ?></span>
 		</a>
