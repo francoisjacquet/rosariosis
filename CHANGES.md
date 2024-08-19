@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.8.2
+-----------------
+- HTML use div instead of span when input value on multiple lines in Inputs.php
+
 Changes in 11.8.1
 -----------------
 - Fix IE not propagating focus event to parent on click in Inputs.php
