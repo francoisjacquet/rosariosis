@@ -22,6 +22,10 @@ Changes in 12.0
 - Add BottomButtonBackUpdate() function in Bottom.fnc.php
 - Remove need to make an AJAX call to Bottom.php in Bottom.php, Bottom.fnc.php, MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
 
+Changes in 11.8.2
+-----------------
+- HTML use div instead of span when input value on multiple lines in Inputs.php
+
 Changes in 11.8.1
 -----------------
 - Fix IE not propagating focus event to parent on click in Inputs.php
