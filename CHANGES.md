@@ -24,7 +24,6 @@ Changes in 12.0
 
 Changes in 11.8.2
 -----------------
-- HTML use div instead of span when input value on multiple lines in Inputs.php
 
 Changes in 11.8.1
 -----------------
