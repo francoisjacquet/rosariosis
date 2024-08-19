@@ -3,7 +3,6 @@
 
 Changes in 11.8.2
 -----------------
-- HTML use div instead of span when input value on multiple lines in Inputs.php
 - CSS fix line height for input value on multiple lines inside .header2 in stylesheet.css
 
 Changes in 11.8.1
