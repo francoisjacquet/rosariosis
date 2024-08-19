@@ -1839,7 +1839,6 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 		<div class="onclick" tabindex="0" ' . $event . '="' .
 		// Do not not convert single quotes to gain a few bytes
 		htmlspecialchars( $onfocus_js, ENT_COMPAT, null, false ) . '">' .
-		( mb_stripos( $value, '<div' ) === 0 ?
 		( mb_stripos( $value, '<div' ) === 0
 			|| mb_stripos( $value, '<br' ) !== false ?
 			'<div class="underline-dots">' . $value . '</div>' :
