@@ -33,6 +33,7 @@ Changes in 12.0
 - JS Remove empty GET params from URL (new method using regex) in warehouse.js
 - CSS Add modname class to body, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php in warehouse.js
 - JS Add inputAddHTML() function wrapper for addHTML() used by InputDivOnclick() in warehouse.js
+- JS use inputAddHTML(): reduce HTML size by up to 26%; declare only 1 global var iHtml in Inputs.php
 
 Changes in 11.8.2
 -----------------

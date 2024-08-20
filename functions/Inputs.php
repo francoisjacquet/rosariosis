@@ -1793,6 +1793,9 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br>' 
  * @todo Fix JS error var is not defined when InputDivOnclick() called twice!
  *
  * @since 2.9
+ * @since 12.0 JS use inputAddHTML(): reduce HTML size by up to 26%; declare only 1 global var iHtml
+ *
+ * @see JS ajaxPrepare() set tabindex="0" Make onclick div focusable when accessed by tab key
  *
  * @example $return = InputDivOnclick( $id,	$textarea_html,	$display_val, $ftitle );
  *
@@ -1808,19 +1811,29 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br>' 
  */
 function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 {
-	// @since 9.0 JS Sanitize string for legal variable name.
-	// @link https://stackoverflow.com/questions/12339942/sanitize-strings-for-legal-variable-names-in-php
-	$id_sanitized = preg_replace( '/^(?![a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)$/', '', $id );
+	static $js_global_var = false;
 
-	$script = '<script>var html' . $id_sanitized . '=' . json_encode( $input_html ).';</script>';
+	$id = GetInputID( $id );
+
+	// Find a way to not repeat <script>...?
+	$script = '<script>';
+
+	if ( ! $js_global_var )
+	{
+		// JS Declare only 1 global variable
+		$script .= 'var iHtml = [];';
+
+		$js_global_var = true;
+	}
+
+	$script .= "iHtml['" . $id . "']=" . json_encode( $input_html ) . ";</script>";
 
 	$value = $value == '' ? '-' : $value;
 
-	$onfocus_js = 'addHTML(html' . $id_sanitized . ',\'div' . $id_sanitized . '\',true);
-		$(\'#' . $id_sanitized . '\').focus(); $(\'#div' . $id_sanitized . '\').click();';
+	$onfocus_js = 'inputAddHTML(\'' . $id . '\');';
 
-	$div_onclick = '<div id="div' . $id_sanitized . '">
-		<div class="onclick" tabindex="0" onfocus="' .
+	$div_onclick = '<div id="div' . $id . '">
+		<div class="onclick" onfocus="' .
 		// Do not not convert single quotes to gain a few bytes
 		htmlspecialchars( $onfocus_js, ENT_COMPAT, null, false ) . '">' .
 		( mb_stripos( $value, '<div' ) === 0 ?
