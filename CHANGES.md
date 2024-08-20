@@ -31,6 +31,7 @@ Changes in 12.0
 - JS Use FormData instead of jQuery Form Plugin in warehouse.js
 - JS Exclude file input with no files selected: disable before creating FormData in warehouse.js
 - JS Remove empty GET params from URL (new method using regex) in warehouse.js
+- CSS Add modname class to body, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php in warehouse.js
 
 Changes in 11.8.2
 -----------------

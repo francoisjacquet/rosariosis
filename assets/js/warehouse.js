@@ -521,7 +521,14 @@ var ajaxPrepare = function(target, scrollTop) {
 
 	document.title = (h2 && h3 ? h2 + ' | ' + h3 : h2 + h3);
 
-	if (target == '#body' || target == 'body') {
+	if (target == '#body') {
+
+		if (window.modname) {
+			// @since 12.0 CSS Add modname class to body, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php
+			var modnameClass = 'modname-' + modname.replace(/([^\-a-z0-9]+)/gi, '-').toLowerCase();
+
+			document.body.setAttribute('class', 'modules ' + modnameClass);
+		}
 
 		openMenu();
 
