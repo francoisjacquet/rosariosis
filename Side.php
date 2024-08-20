@@ -90,6 +90,8 @@ if ( isset( $_REQUEST['sidefunc'] )
 	// Update "#body" Module page.
 	$update_body = true;
 
+	$update_body_params = [];
+
 	// Update Admin & Teachers's current School.
 	if ( ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' )
@@ -161,7 +163,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 				SetUserStaffID( $new_staff_id );
 
 				// Remove staff_id from URL.
-				unset( $_SESSION['_REQUEST_vars']['staff_id'] );
+				$update_body_params['staff_id'] = '';
 			}
 			else
 				$unset_staff = true;
@@ -195,7 +197,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 
 		// Note: Teacher may teach CP in old MP but not in current MP.
 		// Remove period from URL.
-		unset( $_SESSION['_REQUEST_vars']['period'] );
+		$update_body_params['period'] = '';
 	}
 
 	// Update Teacher's current CoursePeriod.
@@ -206,7 +208,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		SetUserCoursePeriod( $_REQUEST['period'] );
 
 		// Remove period from URL.
-		unset( $_SESSION['_REQUEST_vars']['period'] );
+		$update_body_params['period'] = '';
 	}
 
 	// Update Parent's current Student.
@@ -216,11 +218,8 @@ if ( isset( $_REQUEST['sidefunc'] )
 	{
 		SetUserStudentID( $_REQUEST['student_id'] );
 
-		if ( ! empty( $_SESSION['_REQUEST_vars']['student_id'] ) )
-		{
-			// Fix Hacking Log when Parent switching Student.
-			$_SESSION['_REQUEST_vars']['student_id'] = (string) (int) $_REQUEST['student_id'];
-		}
+		// Fix Hacking Log when Parent switching Student.
+		$update_body_params['student_id'] = (string) (int) $_REQUEST['student_id'];
 	}
 
 	if ( User( 'PROFILE' ) === 'teacher'
@@ -252,7 +251,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		unset( $_SESSION['UserCoursePeriod'] );
 
 		// Remove period from URL.
-		unset( $_SESSION['_REQUEST_vars']['period'] );
+		$update_body_params['period'] = '';
 	}
 
 	// Remove current Student/User from menu if user clicked on red cross.
@@ -272,7 +271,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 			$unset_staff = true;
 		}
 
-		unset( $_SESSION['_REQUEST_vars']['search_modfunc'] );
+		$update_body_params['search_modfunc'] = '';
 	}
 }
 
@@ -329,7 +328,7 @@ if ( $unset_student )
 	unset( $_SESSION['student_id'] );
 
 	// Remove student_id from URL.
-	unset( $_SESSION['_REQUEST_vars']['student_id'] );
+	$update_body_params['student_id'] = '';
 }
 
 // Unset current User.
@@ -338,28 +337,22 @@ if ( $unset_staff )
 	unset( $_SESSION['staff_id'] );
 
 	// Remove staff_id from URL.
-	unset( $_SESSION['_REQUEST_vars']['staff_id'] );
+	$update_body_params['staff_id'] = '';
 }
 
 // Update "#body" Module page.
 if ( $update_body )
 {
-	/**
-	 * If last mod is popup, redirect to Portal!
-	 *
-	 * Happens when Current Student / SYear... update while popup opened
-	 * Preserves integrity and prevents bugs
-	 */
-	if ( isPopup( $_SESSION['_REQUEST_vars']['modname'], $_SESSION['_REQUEST_vars']['modfunc'] ) )
-	{
-		$ajax_link = 'Modules.php?modname=misc/Portal.php';
-	}
-	else
-	{
-		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'advanced' ] );
-	}
+	$update_body_params['advanced'] = '';
 
-	$addJavascripts .= 'ajaxLink(' . json_encode( $ajax_link ) . ');';
+	/**
+	 * AJAX update #body with URL GET params removed or replaced
+	 *
+	 * @see warehouse.js
+	 *
+	 * @since 12.0 Remove use of $_SESSION['_REQUEST_vars']
+	 */
+	$addJavascripts .= 'ajaxUpdateBody(' . json_encode( $update_body_params ) . ');';
 }
 
 /**

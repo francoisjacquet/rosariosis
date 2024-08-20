@@ -35,6 +35,8 @@ Changes in 12.0
 - JS Add inputAddHTML() function wrapper for addHTML() used by InputDivOnclick() in warehouse.js
 - JS use inputAddHTML(): reduce HTML size by up to 26%; declare only 1 global var iHtml in Inputs.php
 - JS rework ajaxPrepare() for colorBox & Make onclick div focusable when accessed by tab key in warehouse.js
+- JS add getURLParam() function in warehouse.js
+- JS AJAX update #body with URL GET params removed or replaced in warehouse.js & Side.php
 
 Changes in 11.8.2
 -----------------

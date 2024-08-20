@@ -455,6 +455,42 @@ var ajaxLink = function(link) {
 }
 
 /**
+ * AJAX update #body with URL GET params removed or replaced
+ *
+ * @see Side.php for example
+ *
+ * @since 12.0
+ *
+ * @uses ajaxLink()
+ * @uses getURLParam()
+ *
+ * @param  {object} params Params to remove or replace in URL.
+ * @return {bool}          ajaLink() with updated URL.
+ */
+var ajaxUpdateBody = function(params) {
+	var link = document.URL;
+
+	for(var key in params) {
+		var paramOld = '&' + key + '=' + getURLParam(link, key),
+			replace = params[key] ? '&' + key + '=' + params[key] : '';
+
+		// Remove from URL if empty value or replace value in URL.
+		link = link.replace(paramOld, replace);
+	}
+
+	return ajaxLink(link);
+};
+
+// @link https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getURLParam(url, name) {
+	name = name.replace(/[\[\]]/g, '\\$&');
+	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+		results = regex.exec(url);
+	if (!results || !results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
  * AJAX Post Form
  * Note: form method can be get or post
  *
