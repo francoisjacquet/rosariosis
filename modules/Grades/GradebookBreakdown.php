@@ -79,7 +79,7 @@ $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	AND MARKING_PERIOD_ID='" . UserMP() . "'
 	ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC" );
 
-$assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
+$assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form)">';
 
 $assignment_select .= '<option value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' selected' : '' ) . '>' .
 _( 'Totals' ) .

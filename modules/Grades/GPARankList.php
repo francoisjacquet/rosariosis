@@ -25,7 +25,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="' . $PHP_tmp_SELF . '" method="POST">';
 
-	$mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form,true);">';
+	$mp_select = '<select name="mp" id="mp-select" onchange="ajaxPostForm(this.form);">';
 
 	foreach ( (array) $all_mp_ids as $mp_id )
 	{

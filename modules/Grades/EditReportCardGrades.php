@@ -232,7 +232,7 @@ if ( UserStudentID() )
 		$mp_select = '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&tab_id=' . $tab_id  ) . '" method="POST">';
 
-		$mp_select .= '<select name="mp_id" onchange="ajaxPostForm(this.form,true);">';
+		$mp_select .= '<select name="mp_id" onchange="ajaxPostForm(this.form);">';
 
 		foreach ( $g_mp as $id => $mp_array )
 		{

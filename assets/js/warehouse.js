@@ -395,8 +395,25 @@ var ajaxLink = function(link) {
 	return false;
 }
 
-var ajaxPostForm = function(form, submit) {
-	var target = form.target || 'body';
+/**
+ * AJAX Post Form
+ * Note: form method can be get or post
+ *
+ * @since 12.0 Use FormData instead of jQuery Form Plugin
+ * Breaking change: FormData will not send the submit input name, please use modfunc instead
+ *
+ * @deprecated submit param since 12.0, still set it to `true` if your are developing an add-on.
+ *
+ * @see ajaxPrepare below
+ * @example `<select onchange="ajaxPostForm(this.form);">`
+ *
+ * @param  {object}  form   Form.
+ * @param  {boolean} event  Submit event. Optional param.
+ * @return {boolean}        True if Print PDF, or if target=_top. Else false.
+ */
+var ajaxPostForm = function(form, event) {
+	var target = form.target || 'body',
+		event = (typeof event !== 'undefined') ? event : false;
 
 	if (form.action.indexOf('_ROSARIO_PDF') != -1) // Print PDF.
 	{
@@ -404,7 +421,7 @@ var ajaxPostForm = function(form, submit) {
 		form.method = 'post';
 		return true;
 	}
-	if (target == '_top')
+	if (target.indexOf('_') == 0) // External or top target: _top, _blank.
 		return true;
 
 	if (form.enctype === 'multipart/form-data' &&
@@ -413,9 +430,12 @@ var ajaxPostForm = function(form, submit) {
 		form.enctype = 'application/x-www-form-urlencoded';
 	}
 
-	var options = ajaxOptions(target, form.action, form);
-	if (submit) $(form).ajaxSubmit(options);
-	else $(form).ajaxForm(options);
+	if (event && typeof event.preventDefault === 'function') {
+		event.preventDefault();
+	}
+
+	$.ajax(form.action, ajaxOptions(target, form.action, form));
+
 	return false;
 }
 
@@ -438,10 +458,6 @@ var ajaxSuccess = function(data, target, url) {
 }
 
 var ajaxPrepare = function(target, scrollTop) {
-	$(target + ' form').each(function() {
-		ajaxPostForm(this, false);
-	});
-
 	if (target == '#menu') {
 		if (window.modname) {
 			openMenu(modname);
@@ -519,6 +535,11 @@ window.onload = function() {
 
 	$(document).on('click', 'a', function(e) {
 		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
+	});
+
+	// @since 12.0 Move form submit handler from ajaxPrepare() to onload
+	$(document).on('submit', 'form', function(e) {
+		ajaxPostForm(this, e);
 	});
 
 	if (!isMobileMenu()) {

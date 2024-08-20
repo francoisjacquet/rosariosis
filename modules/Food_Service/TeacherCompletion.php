@@ -29,7 +29,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND DOES_FS_COUNTS='Y')
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER" );
 
-$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form,true);">
+$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form);">
 	<option value="">' . _( 'All' ) . '</option>';
 
 foreach ( (array) $periods_RET as $period )

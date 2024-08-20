@@ -433,7 +433,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 		$select_options,
 		_( 'Please choose a category' ),
-		'onchange="ajaxPostForm(this.form,true);"',
+		'onchange="ajaxPostForm(this.form);"',
 		false
 	);
 

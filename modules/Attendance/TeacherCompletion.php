@@ -16,7 +16,7 @@ $categories_RET = DBGet( "SELECT ID,TITLE
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER IS NULL,SORT_ORDER,TITLE" );
 
-$category_select = '<select name="table" onChange="ajaxPostForm(this.form,true);"><option value="0"' .
+$category_select = '<select name="table" onChange="ajaxPostForm(this.form);"><option value="0"' .
 	( $_REQUEST['table'] == '0' ? ' selected' : '' ) . '>' . _( 'Attendance' ) . '</option>';
 
 foreach ( (array) $categories_RET as $category )
@@ -39,7 +39,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0)
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE", [], [ 'PERIOD_ID' ] );
 
-$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form,true);">
+$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form);">
 	<option value="">' . _( 'All' ) .'</option>';
 
 foreach ( (array) $periods_RET as $id => $period )

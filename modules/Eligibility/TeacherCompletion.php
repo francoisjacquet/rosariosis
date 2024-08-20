@@ -47,7 +47,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE,COALESCE(sp.SHORT_NAME,sp.TI
 		AND cp.SYEAR='" . UserSyear() . "')
 	ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 
-$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form,true);">
+$period_select = '<select name="school_period" id="school_period" onChange="ajaxPostForm(this.form);">
 	<option value="">' . _( 'All' ) . '</option>';
 
 foreach ( (array) $periods_RET as $period )
@@ -81,7 +81,7 @@ if ( $start
 	}
 }
 
-$date_select = '<select name="start_date" id="start_date" onChange="ajaxPostForm(this.form,true);">' . $date_select . '</select>';
+$date_select = '<select name="start_date" id="start_date" onChange="ajaxPostForm(this.form);">' . $date_select . '</select>';
 
 DrawHeader( '<label for="start_date">' . _( 'Timeframe' ) . ':</label> ' . $date_select . ' &mdash; ' .
 	'<label for="school_period">' . _( 'Period' ) . ':</label> ' . $period_select );

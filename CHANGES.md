@@ -21,6 +21,8 @@ Changes in 12.0
 - JS Show BottomButtonBack & update its URL & text: add BottomButtonBackUpdate() function in Bottom.fnc.php
 - Remove need to make an AJAX call to Bottom.php in Bottom.php, Bottom.fnc.php, MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
 - Use colorBox instead of popup window (CSS use .colorbox class) in warehouse.js, Widget.php, Buttons.php, GetStuList.fnc.php, ListOutput.fnc.php, Courses.php, MassDrops.php, MassRequests.php, MassSchedule.php, Schedule.php, Scheduling/function.inc.php, Calendar.php, CalendarDay.inc.php, ChooseCourse.php & ChooseRequest.php
+- JS Move form submit handler from ajaxPrepare() to onload in warehouse.js
+- JS ajaxPostForm() deprecate submit param in warehouse.js & program wide
 
 Changes in 11.8.2
 -----------------

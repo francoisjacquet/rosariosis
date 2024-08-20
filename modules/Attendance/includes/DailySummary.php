@@ -83,7 +83,7 @@ if ( $_REQUEST['search_modfunc']
 
 	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, $remove_request_params );
 
-	$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
+	$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form);">
 		<option value=""' . ( empty( $_REQUEST['period_id'] ) ? ' selected' : '' ) . '>' .
 		_( 'Daily' ) . '</option>';
 

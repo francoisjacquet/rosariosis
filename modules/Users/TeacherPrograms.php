@@ -76,7 +76,7 @@ if ( UserStaffID() )
 	}
 
 	$period_select = '<label for="period" class="a11y-hidden">' . _( 'Course Periods' ) . '</label>
-		<select name="period" id="period" autocomplete="off" onChange="ajaxPostForm(this.form,true);">';
+		<select name="period" id="period" autocomplete="off" onChange="ajaxPostForm(this.form);">';
 
 	$optgroup = $current_cp_found = false;
 

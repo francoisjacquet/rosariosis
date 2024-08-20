@@ -262,7 +262,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$categories_RET = DBGet( "SELECT ID,TITLE
 		FROM student_field_categories", [], [ 'ID' ] );
 
-	$select = '<select name="field_id" id="field_id" onchange="ajaxPostForm(this.form,true);">';
+	$select = '<select name="field_id" id="field_id" onchange="ajaxPostForm(this.form);">';
 
 	$select .= '<option value="">' . _( 'Please choose a student field' ) . '</option>';
 

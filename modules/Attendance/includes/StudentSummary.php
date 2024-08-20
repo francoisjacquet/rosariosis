@@ -40,7 +40,7 @@ if ( $_REQUEST['search_modfunc']
 			" . ( User( 'PROFILE' ) === 'teacher' ? " AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" : '' ) . ")
 		ORDER BY sp.SORT_ORDER IS NULL,sp.SORT_ORDER,sp.TITLE" );
 
-		$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
+		$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form);">
 			<option value="">' . _( 'Daily' ) . '</option>';
 
 		if ( ! empty( $periods_RET ) )
