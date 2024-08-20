@@ -523,6 +523,13 @@ $RosarioActions = [];
 	 * @since 11.4.1
 	 */
 	/*'ProgramFunctions/Template.fnc.php|before_save' => [ &$modname, &$staff_id ],
+
+	/**
+	 * Do bottom_buttons action hook.
+	 *
+	 * @since 12.0
+	 */
+	/*'ProgramFunctions/Bottom.fnc.php|bottom_buttons' => [],
 );*/
 
 /**

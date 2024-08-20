@@ -10,7 +10,11 @@
  * "Back to List" Bottom.php button update
  * Remove need to make an AJAX call to Bottom.php
  *
+ * @see Bottom.php
+ *
  * @since 12.0 JS Show BottomButtonBack & update its URL & text
+ *
+ * @param string Back to list PHP self URL.
  */
 function BottomButtonBackUpdate( $back_php_self )
 {
