@@ -1702,6 +1702,10 @@ a .button + b {
 	text-transform: none;
 }
 
+.underline-dots + .checkbox-label .tooltip {
+	margin-top: 3.5px;
+}
+
 .tooltip:before {
 	content: "i";
 	font-family: monospace;
@@ -1724,7 +1728,7 @@ a .button + b {
 	width: 180px;
 	z-index: 999;
 	display: inline-block;
-	padding: 7px;
+	padding: 5px 7px;
 	transition: opacity .3s;
 	text-align: left;
 	font-size: 14px;
