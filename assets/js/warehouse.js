@@ -19,6 +19,14 @@ var addHTML = function(html, id, replace) {
 	}
 }
 
+// @since 12.0 Wrapper for addHTML() used by InputDivOnclick()
+var inputAddHTML = function(divId) {
+	addHTML(iHtml[divId], 'div' + divId, true);
+
+	$('#' + divId).focus();
+	$('#div' + divId).click();
+};
+
 /**
  * Check all checkboxes given the form,
  * the value/state and the checkboxes name (beginning with).

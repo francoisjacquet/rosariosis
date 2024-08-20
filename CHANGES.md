@@ -32,6 +32,7 @@ Changes in 12.0
 - JS Exclude file input with no files selected: disable before creating FormData in warehouse.js
 - JS Remove empty GET params from URL (new method using regex) in warehouse.js
 - CSS Add modname class to body, ie .modname-grades-reportcards-php for modname=Grades/ReportCards.php in warehouse.js
+- JS Add inputAddHTML() function wrapper for addHTML() used by InputDivOnclick() in warehouse.js
 
 Changes in 11.8.2
 -----------------
