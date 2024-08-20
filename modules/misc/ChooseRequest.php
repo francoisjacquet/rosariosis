@@ -17,9 +17,12 @@ else
 	<label><input type="checkbox" name="missing_request_course" value="Y" /> ' .
 	_( 'Not Requested' ) . '</label>';
 
-	echo '<script>opener.document.getElementById("request_div").innerHTML = ';
+	// @since 12.0 Use colorBox instead of popup window
+	?>
+	<script>
+		document.getElementById("request_div").innerHTML = <?php echo json_encode( $html_to_escape ); ?>;
 
-	echo json_encode( $html_to_escape );
-
-	echo '; window.close();</script>';
+		$.colorbox.close();
+	</script>
+	<?php
 }

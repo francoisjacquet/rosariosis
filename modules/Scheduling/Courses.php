@@ -83,7 +83,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 
 	echo '</form>';
 
-	echo '<script>document.search.search_term.focus();</script>';
+	echo '<script>document.getElementById("search_term").focus();</script>';
 
 	PopTable( 'footer' );
 
@@ -1323,11 +1323,11 @@ if (  ( ! $_REQUEST['modfunc']
 
 				if ( $parent != _( 'N/A' ) && AllowEdit() )
 				{
-					$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+					$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course';
 
-					$popup_link = '<a href="#" onclick="' . AttrEscape( 'popups.open(
-						' . json_encode( $popup_url ) . '
-						); return false;' ) . '">' . _( 'Choose' ) . '</a><br />';
+					// @since 12.0 Use colorBox instead of popup window
+					$popup_link = '<a href="' . URLEscape( $popup_url ) . '" class="colorbox">' .
+						_( 'Choose' ) . '</a><br />';
 				}
 
 				// Parent Course Period.
@@ -1710,20 +1710,43 @@ if (  ( ! $_REQUEST['modfunc']
 	}
 }
 
-if ( $_REQUEST['modname'] === 'Scheduling/Courses.php'
-	&& $_REQUEST['modfunc'] === 'choose_course'
-	&& $_REQUEST['course_period_id'] )
+if ( $_REQUEST['modfunc'] === 'choose_course' )
 {
-	$course_title = DBGetOne( "SELECT TITLE
-		FROM course_periods
-		WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
+	// @since 12.0 Use colorBox instead of popup window
+	?>
+	<script>
+		// 1200px width on desktop & 95% on mobile.
+		$.colorbox.resize({width: ( screen.width > 1200 ? 1200 : '95%' )});
 
-	$html_to_escape = $course_title .
-		'<input type="hidden" name="tables[parent_id]" value="' . AttrEscape( $_REQUEST['course_period_id'] ) . '" />';
+		setTimeout(function(){
+			// Redirect link & form AJAX result to colorBox instead of body (default)
+			$('#cboxLoadedContent a,#cboxLoadedContent form').attr('target', 'cboxLoadedContent');
+		}, 100);
+	</script>
+	<?php
 
-	echo '<script>opener.document.getElementById("' .
-	( $_REQUEST['last_year'] === 'true' ? 'ly_' : '' ) . 'course_div").innerHTML=' .
-	json_encode( $html_to_escape ) . '; window.close();</script>';
+	if ( $_REQUEST['modname'] === 'Scheduling/Courses.php'
+		&& $_REQUEST['course_period_id'] )
+	{
+		$course_title = DBGetOne( "SELECT TITLE
+			FROM course_periods
+			WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
+
+		$html_to_escape = $course_title .
+			'<input type="hidden" name="tables[parent_id]" value="' . AttrEscape( $_REQUEST['course_period_id'] ) . '" />';
+
+		$last_year = $_REQUEST['last_year'] === 'true' ? 'ly_' : '';
+
+		?>
+		<script>
+			document.getElementById(
+				<?php echo json_encode( $last_year ); ?> + "course_div"
+			).innerHTML=<?php echo json_encode( $html_to_escape ); ?>;
+
+			$.colorbox.close();
+		</script>
+		<?php
+	}
 }
 
 /**

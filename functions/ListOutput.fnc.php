@@ -712,9 +712,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 					if ( ! empty( $link[$key]['js'] ) )
 					{
-						echo '<a href="#" onclick="' . AttrEscape( 'popups.open(' .
-							json_encode( $link_url ) .
-							'); return false;' ) . '"';
+						// @since 12.0 Use colorBox instead of popup window
+						echo '<a href="' . $link_url . '" class="colorbox"';
 					}
 					else
 					{

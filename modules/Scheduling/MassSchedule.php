@@ -172,11 +172,11 @@ if ( ! $_REQUEST['modfunc'] )
 				$course_to_add['course_period_title'] . '<br /><br />';
 		}
 
-		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+		$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course';
 
-		echo '</div><a href="#" onclick="' . AttrEscape( 'popups.open(
-			' . json_encode( $popup_url ) . '
-			); return false;' ) . '">' . _( 'Choose a Course' ) . '</a></td></tr>';
+		// @since 12.0 Use colorBox instead of popup window
+		echo '</div><a href="' . URLEscape( $popup_url ) . '" class="colorbox">' .
+			_( 'Choose a Course' ) . '</a></td></tr>';
 
 		echo '<tr><td><br />' . DateInput(
 			DBDate(),
@@ -275,11 +275,20 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 			];
 
 			// Update main window.
-			echo '<script>opener.document.getElementById("course_div").innerHTML += ' .
-				json_encode( $course_title . '<br />' . $period_title . '<br /><br />' ) . ';</script>';
+			?>
+			<script>
+				document.getElementById("course_div").innerHTML += <?php
+					echo json_encode( $course_title . '<br />' . $period_title . '<br /><br />' );
+				?>;
+			</script>
+			<?php
 		}
 
-		// Close popup.
-		echo '<script>window.close();</script>';
+		// @since 12.0 Use colorBox instead of popup window
+		?>
+		<script>
+			$.colorbox.close();
+		</script>
+		<?php
 	}
 }

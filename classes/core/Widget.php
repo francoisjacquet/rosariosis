@@ -151,11 +151,10 @@ class Widget_course implements Widget
 		if ( ! Config( 'COURSE_WIDGET_METHOD' ) )
 		{
 			// Course Widget: Popup window.
+			// @since 12.0 Use colorBox instead of popup window
 			$html = '<tr class="st"><td>' . _( 'Course' ) . '</td><td>
 			<div id="course_div"></div>
-			<a href="#" onclick=\'popups.open(
-					"Modules.php?modname=misc/ChooseCourse.php"
-				); return false;\'>' .
+			<a href="Modules.php?modname=misc/ChooseCourse.php" class="colorbox">' .
 				_( 'Choose' ) .
 			'</a>
 			</td></tr>';
@@ -295,11 +294,11 @@ class Widget_request implements Widget
 
 	function html()
 	{
+		// Request Widget: Popup window.
+		// @since 12.0 Use colorBox instead of popup window
 		return '<tr class="st"><td>'. _( 'Request' ) . '</td><td>
 		<div id="request_div"></div>
-		<a href="#" onclick=\'popups.open(
-				"Modules.php?modname=misc/ChooseRequest.php"
-			); return false;\'>' .
+		<a href="Modules.php?modname=misc/ChooseRequest.php" class="colorbox">' .
 			_( 'Choose' ) .
 		'</a>
 		</td></tr>';

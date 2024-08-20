@@ -937,6 +937,8 @@ function makePhone( $phone, $column = '' )
  *
  * @see DBGet() callback
  *
+ * @since 12.0 Use colorBox instead of popup window
+ *
  * @global $THIS_RET       current return row
  * @global $view_other_RET checks $view_other_RET['ALL_CONTACTS'][1]['VALUE']
  * @global $_ROSARIO       checks $_ROSARIO['makeParents']
@@ -964,7 +966,7 @@ function makeParents( $student_id, $column )
 
 	$constraint = '';
 
-	if ( $_ROSARIO['makeParents'] )
+	if ( ! empty( $_ROSARIO['makeParents'] ) )
 	{
 		$constraint = " AND sjp.STUDENT_RELATION IS NULL";
 
@@ -1012,13 +1014,10 @@ function makeParents( $student_id, $column )
 			continue;
 		}
 
-		$popup_url = URLEscape( 'Modules.php?modname=misc/ViewContact.php&person_id=' .
-			$person['PERSON_ID'] . '&student_id=' . $student_id );
+		$popup_url = 'Modules.php?modname=misc/ViewContact.php&person_id=' .
+			$person['PERSON_ID'] . '&student_id=' . $student_id;
 
-		$parents .= '<a href="#" onclick="' . AttrEscape( 'popups.open(
-				' . json_encode( $popup_url ) . ',
-				"scrollbars=yes,resizable=yes,width=400,height=300"
-			); return false;' ) . '">' .
+		$parents .= '<a href="' . URLEscape( $popup_url ) . '" class="colorbox">' .
 				$person['FULL_NAME'] .
 			'</a></div>';
 	}

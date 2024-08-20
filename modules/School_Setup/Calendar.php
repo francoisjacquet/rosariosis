@@ -525,20 +525,10 @@ if ( $_REQUEST['modfunc'] === 'detail_save'
 			} while( is_numeric( $_REQUEST['REPEAT'] )
 				&& $i <= $_REQUEST['REPEAT'] );
 		}
-
-		// Reload Calendar & close popup
-		// @since 10.2.1 Maintain Calendar when closing event popup
-		$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
-			$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
-		?>
-<script>
-	window.opener.ajaxLink(<?php echo json_encode( $opener_url ); ?>);
-	window.close();
-</script>
-		<?php
 	}
 
-	$_REQUEST['modfunc'] = 'detail';
+	// Unset modfunc, values, event_id & redirect URL.
+	RedirectURL( [ 'modfunc', 'values', 'event_id' ] );
 }
 
 // Delete Event
@@ -553,16 +543,8 @@ if ( $_REQUEST['modfunc'] === 'detail_delete'
 		//hook
 		do_action( 'School_Setup/Calendar.php|delete_calendar_event' );
 
-		// Reload Calendar & close popup
-		// @since 10.2.1 Maintain Calendar when closing Event popup
-		$opener_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" .
-			$_REQUEST['year'] . "&month=" . $_REQUEST['month'] . "&calendar_id=" . $_REQUEST['calendar_id'] );
-		?>
-<script>
-	window.opener.ajaxLink(<?php echo json_encode( $opener_url ); ?>);
-	window.close();
-</script>
-		<?php
+		// Unset modfunc, event_id & redirect URL.
+		RedirectURL( [ 'modfunc', 'event_id' ] );
 	}
 }
 
@@ -693,7 +675,11 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			echo '<input type="button" value="' .
 				AttrEscape( _( 'Delete' ) ) .
 				// Change form action's modfunc to delete.
-				'" onclick="ajaxLink(this.form.action.replace(\'modfunc=detail_save\',\'modfunc=detail_delete\'));" />';
+				// Load AJAX result into colorBox
+				'" onclick="ajaxLink({
+					href: this.form.action.replace(\'modfunc=detail_save\',\'modfunc=detail_delete\'),
+					target: \'cboxLoadedContent\'
+				});" />';
 		}
 
 		echo '</td></tr>';
@@ -1062,19 +1048,6 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$assignments_RET = DBGet( $assignments_SQL, [], [ 'SCHOOL_DATE' ] );
 	}
-
-	// Calendar Events onclick popup.
-	$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' .
-		$_REQUEST['year'] . '&month=' . $_REQUEST['month'] . '&calendar_id=' . $_REQUEST['calendar_id'] );
-?>
-<script>
-	var popupURL = <?php echo json_encode( $popup_url ); ?>;
-
-	function CalEventPopup(url) {
-		popups.open( url, "scrollbars=yes,resizable=yes,width=500,height=400" );
-	}
-</script>
-<?php
 
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{

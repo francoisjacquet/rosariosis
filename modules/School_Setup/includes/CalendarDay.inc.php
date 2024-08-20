@@ -276,6 +276,7 @@ if ( ! function_exists( 'CalendarDayEventsHTML' ) )
  * Default function
  *
  * @since 4.5
+ * @since 12.0 Use colorBox instead of popup window
  *
  * @param string $date        ISO date.
  * @param array  $events      Events array.
@@ -286,16 +287,18 @@ function CalendarDayEventsHTMLDefault( $date, $events )
 {
 	$html = '';
 
+	$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' .
+			$_REQUEST['year'] . '&month=' . $_REQUEST['month'] .
+			'&calendar_id=' . $_REQUEST['calendar_id'];
+
 	foreach ( (array) $events as $event )
 	{
 		$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
 
-		$onclick_js = 'CalEventPopup(popupURL + ' .
-			json_encode( URLEscape( '&event_id=' . $event['ID'] ) ) . '); return false;';
-
 		$html .= '<div>' .
 			( AllowEdit() || $event['DESCRIPTION'] ?
-				'<a href="#" onclick="' . AttrEscape( $onclick_js ) . '" title="' . AttrEscape( $title ) . '">' .
+				'<a href="' . URLEscape( $popup_url . '&event_id=' . $event['ID'] ) .
+					'" class="colorbox" title="' . AttrEscape( $title ) . '">' .
 				$title . '</a>'
 				: '<span title="' . AttrEscape( $title ) . '">' . $title . '</span>'
 			) .
@@ -329,6 +332,7 @@ if ( ! function_exists( 'CalendarDayAssignmentsHTML' ) )
  * Default function
  *
  * @since 4.5
+ * @since 12.0 Use colorBox instead of popup window
  *
  * @param string $date        ISO date.
  * @param array  $assignments Assignments array.
@@ -339,13 +343,15 @@ function CalendarDayAssignmentsHTMLDefault( $date, $assignments )
 {
 	$html = '';
 
+	$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' .
+			$_REQUEST['year'] . '&month=' . $_REQUEST['month'] .
+			'&calendar_id=' . $_REQUEST['calendar_id'];
+
 	foreach ( (array) $assignments as $assignment )
 	{
-		$onclick_js = 'CalEventPopup(popupURL + ' .
-			json_encode( URLEscape( '&assignment_id=' . $assignment['ID'] ) ) . '); return false;';
-
 		$html .= '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
-			'<a href="#" onclick="' . AttrEscape( $onclick_js ) . '" title="' . AttrEscape( $assignment['TITLE'] ) . '">' .
+			'<a href="' . URLEscape( $popup_url . '&assignment_id=' . $assignment['ID'] ) .
+				'" class="colorbox" title="' . AttrEscape( $assignment['TITLE'] ) . '">' .
 				$assignment['TITLE'] .
 			'</a>
 		</div>';
@@ -378,6 +384,7 @@ if ( ! function_exists( 'CalendarDayNewAssignmentHTML' ) )
  * Default function
  *
  * @since 4.5
+ * @since 12.0 Use colorBox instead of popup window
  *
  * @param string $date        ISO date.
  * @param array  $assignments Assignments array.
@@ -391,15 +398,18 @@ function CalendarDayNewAssignmentHTMLDefault( $date, $assignments )
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$onclick_js = 'CalEventPopup(popupURL + ' .
-			json_encode( URLEscape( '&school_date=' . $date . '&event_id=new' ) ) . '); return false;';
+		$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' .
+				$_REQUEST['year'] . '&month=' . $_REQUEST['month'] .
+				'&calendar_id=' . $_REQUEST['calendar_id'];
 
 		// New Event.
 		$html .= '<td>' .
 			button(
 				'add',
 				'',
-				'"#" onclick="' . AttrEscape( $onclick_js ) . '" title="' . AttrEscape( _( 'New Event' ) ) . '"'
+				'"' . URLEscape( $popup_url . '&school_date=' . $date . '&event_id=new' ) .
+					'" title="' . AttrEscape( _( 'New Event' ) ) . '"',
+				'colorbox'
 			) .
 		'</td>';
 	}

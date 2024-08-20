@@ -18,13 +18,14 @@ Changes in 12.0
 - Breaking change: Remove SaveData() function in SaveData.fnc.php
 - Preferences() remove deprecated 'MONTH', 'DAY' & 'YEAR' items in User.fnc.php
 - Use DBUpdate() function in Accounts.php & MassDrops.php
-- Fix .thu-fri-sat class for Calendar day on Public Pages in CalendarDay.inc.php
-- Add BottomButtonBackUpdate() function in Bottom.fnc.php
+- JS Show BottomButtonBack & update its URL & text: add BottomButtonBackUpdate() function in Bottom.fnc.php
 - Remove need to make an AJAX call to Bottom.php in Bottom.php, Bottom.fnc.php, MyReport.php, ClassSearchWidget.fnc.php, Search.inc.php & Export.php
+- Use colorBox instead of popup window (CSS use .colorbox class) in warehouse.js, Widget.php, Buttons.php, GetStuList.fnc.php, ListOutput.fnc.php, Courses.php, MassDrops.php, MassRequests.php, MassSchedule.php, Schedule.php, Scheduling/function.inc.php, Calendar.php, CalendarDay.inc.php, ChooseCourse.php & ChooseRequest.php
 
 Changes in 11.8.2
 -----------------
 - CSS fix input div onclick & .underline-dots line height in stylesheet.css
+- Fix .thu-fri-sat class for Calendar day on Public Pages in CalendarDay.inc.php
 - Rollback Fix IE not propagating focus event to parent on click in Inputs.php
 
 Changes in 11.8.1

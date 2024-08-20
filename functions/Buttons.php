@@ -37,9 +37,11 @@ function Buttons( $submit_value, $reset_value = '' )
  * @example echo button( 'x', '', '', 'bigger' );
  * @example echo button( 'remove', '', URLEscape( 'remove_url.php' ) );
  * @example echo button( 'add', '', '"#!" onclick="javascript:popup.open();"' );
+ * @example echo button( 'comment', '', URLEscape( $url ), 'colorbox' );
  *
  * @since 4.0 Allow for button files missing the "_button" suffix.
  * @since 11.0 HTML put "" around the link href if no spaces in $link & no other attributes
+ * @since 12.0 Open link in a colorBox popup using the 'colorbox' class
  *
  * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image.
  * @param  string $text  button text (optional).

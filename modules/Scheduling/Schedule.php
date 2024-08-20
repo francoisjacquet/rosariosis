@@ -268,15 +268,14 @@ if ( UserStudentID()
 		]
 	);
 
-	$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+	$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=choose_course&day_date=' . $_REQUEST['day_date'] .
 		'&month_date=' . $_REQUEST['month_date'] .
-		'&year_date=' . $_REQUEST['year_date'] );
+		'&year_date=' . $_REQUEST['year_date'];
 
 	// FJ bugfix SQL bug $_SESSION['student_id'] is not set
-	$link['add']['link'] = '"#" onclick="' . AttrEscape( 'popups.open(
-		' . json_encode( $popup_url ) . '
-		); return false;' ) . '"';
+	// @since 12.0 Use colorBox instead of popup window
+	$link['add']['link'] = '"' . URLEscape( $popup_url ) . '" class="colorbox"';
 
 	$link['add']['title'] = _( 'Add a Course' );
 
@@ -506,13 +505,19 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			// Hook.
 			do_action( 'Scheduling/Schedule.php|schedule_student' );
 
-			$opener_URL = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			$opener_url = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&year_date=' . $_REQUEST['year_date'] .
 			'&month_date=' . $_REQUEST['month_date'] .
 			'&day_date=' . $_REQUEST['day_date'] .
-			'&time=' . time() );
+			'&time=' . time();
 
-			echo '<script>window.opener.ajaxLink(' . json_encode( $opener_URL ) . '); window.close();</script>';
+			// @since 12.0 Use colorBox instead of popup window
+			// Note: No need to close colorBox as ajaxLink() will display results in #body
+			?>
+			<script>
+				ajaxLink(<?php echo json_encode( URLEscape( $opener_url ) ); ?>);
+			</script>
+			<?php
 		}
 	}
 }

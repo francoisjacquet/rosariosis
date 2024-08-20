@@ -43,13 +43,17 @@ else
 		$("#w_" + sel + "_title").removeClass( "hide" );
 	};';
 
-	echo '<script>
-		var wCourseTitleUpdateScript = opener.document.createElement("script"),
-		courseDiv = opener.document.getElementById("' . $last_year . 'course_div");
+	// @since 12.0 Use colorBox instead of popup window
+	?>
+	<script>
+		var wCourseTitleUpdateScript = document.createElement("script"),
+			courseDiv = document.getElementById(<?php echo json_encode( $last_year ); ?> + "course_div");
 
-		wCourseTitleUpdateScript.text = ' . json_encode( $js_to_escape ) . '
+		wCourseTitleUpdateScript.text = <?php echo json_encode( $js_to_escape ); ?>;
 		courseDiv.parentNode.insertBefore(wCourseTitleUpdateScript, courseDiv);
-		courseDiv.innerHTML = ' . json_encode( $html_to_escape ) . '
-		window.close();
-	</script>';
+		courseDiv.innerHTML = <?php echo json_encode( $html_to_escape ); ?>;
+
+		$.colorbox.close();
+	</script>
+	<?php
 }

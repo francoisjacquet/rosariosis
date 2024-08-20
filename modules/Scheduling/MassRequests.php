@@ -97,11 +97,11 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			echo $course_title;
 		}
 
-		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+		$popup_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course';
 
-		echo '</div><a href="#" onclick="' . AttrEscape( 'popups.open(
-			' . json_encode( $popup_url ) . '
-			); return false;' ) . '">' . _( 'Choose a Course' ) . '</a><br /><br /></td></tr>';
+		// @since 12.0 Use colorBox instead of popup window
+		echo '</div><a href="' . URLEscape( $popup_url ) . '" class="colorbox">' .
+			_( 'Choose a Course' ) . '</a><br /><br /></td></tr>';
 
 		echo '<tr><td>' . _( 'With' ) . '</td><td>';
 
@@ -189,8 +189,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 if ( $_REQUEST['modfunc'] == 'choose_course' )
 {
-//FJ fix bug window closed
-
 	if ( empty( $_REQUEST['course_id'] ) )
 	{
 		include 'modules/Scheduling/Courses.php';
@@ -204,7 +202,13 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			FROM courses
 			WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'" );
 
-		echo '<script>opener.document.getElementById("course_div").innerHTML = ' .
-		json_encode( $course_title ) . '; window.close();</script>';
+		// @since 12.0 Use colorBox instead of popup window
+		?>
+		<script>
+			document.getElementById("course_div").innerHTML = <?php echo json_encode( $course_title ); ?>;
+
+			$.colorbox.close();
+		</script>
+		<?php
 	}
 }

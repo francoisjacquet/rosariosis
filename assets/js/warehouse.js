@@ -50,7 +50,11 @@ var switchMenu = function(el) {
 	$(el).toggleClass('switched').nextAll('table').first().toggle();
 }
 
-// Popups
+/**
+ * Popups
+ *
+ * @deprecated since 12.0 Use colorBox instead of popup window
+ */
 var popups = new popups();
 
 function popups() {
@@ -129,13 +133,6 @@ document.documentElement.className += ' browser-' + navigator.browser;
 
 
 var ColorBox = function() {
-	var cWidth = 640,
-		cHeight = 390;
-	if (screen.width < 768) {
-		cWidth = 320;
-		cHeight = 195;
-	}
-
 	$('.rt2colorBox').before(function(i) {
 		if (this.id) {
 			var $el = $(this),
@@ -151,12 +148,28 @@ var ColorBox = function() {
 			}
 		}
 	});
-	$('.colorbox').colorbox();
+
+	$('.colorbox').closest('a').attr('target', '_top').colorbox({
+		onComplete: function() {
+			// Force processing any MarkDownToHTML(), JS calendar & list inside colorBox
+			ajaxPrepare('#cboxLoadedContent', false);
+
+			$.colorbox.resize();
+		},
+		title: '',
+		maxWidth: '95%',
+		maxHeight: '85%',
+		minWidth: 306,
+		minHeight: 153,
+		scrolling: true
+	});
+
 	$('.colorboxiframe').colorbox({
 		iframe: true,
-		innerWidth: cWidth,
-		innerHeight: cHeight
+		innerWidth: (screen.width < 768 ? 320 : 640),
+		innerHeight: (screen.width < 768 ? 195 : 390)
 	});
+
 	$('.colorboxinline').colorbox({
 		inline: true,
 		maxWidth: '95%',

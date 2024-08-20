@@ -73,11 +73,11 @@ function MyWidgets( $item )
 				}
 			}
 
+			// @since 12.0 Use colorBox instead of popup window
 			$extra['search'] .= '<tr><td>' . _( 'Last Year Course' ) . '</td>
 				<td><div id="ly_course_div"></div>
-				<a href="#" onclick=\'popups.open(
-					"Modules.php?modname=misc/ChooseCourse.php&last_year=true"
-				); return false;\'>' . _( 'Choose' ) . '</a></td></tr>';
+				<a href="Modules.php?modname=misc/ChooseCourse.php&last_year=true" class="colorbox">' .
+					_( 'Choose' ) . '</a></td></tr>';
 			break;
 	}
 }
