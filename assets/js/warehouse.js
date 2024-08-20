@@ -553,13 +553,32 @@ var ajaxPrepare = function(target, scrollTop) {
 
 		popups.closeAll();
 
-		MarkDownToHTML();
+		$.colorbox.close();
+	}
 
-		ColorBox();
+	if (target != '#menu' && target != '#menu-top' && target != '#footer') {
+		MarkDownToHTML(target);
 
-		JSCalendarSetup();
+		if (target != '#cboxLoadedContent') {
+			ColorBox();
+		}
 
-		repeatListTHead($('table.list'));
+		JSCalendarSetup(target);
+
+		repeatListTHead($(target + ' table.list'));
+
+		/**
+		 * Make onclick div focusable when accessed by tab key
+		 *
+		 * @since 12.0
+		 * @see InputDivOnclick()
+		 *
+		 * Use vanilla JS for speed
+		 */
+		var onclickDivs = document.querySelectorAll(target + ' .onclick');
+		onclickDivs.forEach(function(i){
+			i.setAttribute('tabindex', '0');
+		});
 	}
 }
 
