@@ -37,6 +37,7 @@ Changes in 12.0
 - JS rework ajaxPrepare() for colorBox & Make onclick div focusable when accessed by tab key in warehouse.js
 - JS add getURLParam() function in warehouse.js
 - JS AJAX update #body with URL GET params removed or replaced in warehouse.js & Side.php
+- Add FileDelete() function in FileUpload.fnc.php
 
 Changes in 11.8.2
 -----------------

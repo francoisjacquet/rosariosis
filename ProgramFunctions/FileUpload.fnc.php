@@ -963,3 +963,71 @@ function FileExtensionWhiteList() {
 		'.gz',
 	];
 }
+
+/**
+ * Delete File
+ * Use instead of directly using unlink()
+ * Check if file extension is white listed
+ * Check for Hacking Attempt:
+ * file is outside RosarioSIS, not in one of the global path variables & not in system temp dir
+ *
+ * @since 12.0
+ *
+ * @param string       $file_path      File path.
+ * @param array|string $ext_white_list File extension white list (optional). Defaults to FileExtensionWhiteList().
+ *
+ * @return bool False if file doesn't exist / can't be deleted / wrong extension / wrong path
+ */
+function FileDelete( $file_path, $ext_white_list = [] )
+{
+	global $RosarioPath,
+		$StudentPicturesPath,
+		$UserPicturesPath,
+		$PortalNotesFilesPath,
+		$AssignmentsFilesPath,
+		$FS_IconsPath,
+		$FileUploadsPath;
+
+	if ( ! $file_path
+		|| ! file_exists( $file_path )
+		|| ! is_writable( dirname( $file_path ) ) )
+	{
+		return false;
+	}
+
+	if ( ! $ext_white_list )
+	{
+		$ext_white_list = FileExtensionWhiteList();
+	}
+
+	$file_ext = mb_strtolower( mb_strrchr( $file_path, '.' ) );
+
+	if ( ! in_array( $file_ext, (array) $ext_white_list ) )
+	{
+		return false;
+	}
+
+	$real_path = realpath( $file_path );
+
+	// Check if file is inside RosarioSIS
+	if ( strpos( $real_path, realpath( $RosarioPath ) ) !== 0
+		// Check if file is in tmp dir
+		&& strpos( $real_path, sys_get_temp_dir() ) !== 0
+		// Check if file is inside one of the file paths
+		&& strpos( $real_path, realpath( $FileUploadsPath ) ) !== 0
+		&& strpos( $real_path, realpath( $StudentPicturesPath ) ) !== 0
+		&& strpos( $real_path, realpath( $UserPicturesPath ) ) !== 0
+		// @deprecated since 12.0 Assignments Files upload path $AssignmentsFilesPath global var
+		&& ( ! $AssignmentsFilesPath || strpos( $real_path, realpath( $AssignmentsFilesPath ) ) !== 0 )
+		// @deprecated since 12.0 Portal Notes Files upload path $PortalNotesFilesPath global var
+		&& ( ! $PortalNotesFilesPath || strpos( $real_path, realpath( $PortalNotesFilesPath ) ) !== 0 )
+		// @deprecated since 12.0 Food Service Icons upload path $FS_IconsPath global var
+		&& ( ! $FS_IconsPath || strpos( $real_path, realpath( $FS_IconsPath ) ) !== 0 ) )
+	{
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
+
+		HackingLog();
+	}
+
+	return unlink( $file_path );
+}
