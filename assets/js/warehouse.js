@@ -237,8 +237,19 @@ var MarkDownInputPreview = function(input_id) {
 	md_prev.siblings('.tab').toggleClass('disabled');
 }
 
-var MarkDownToHTML = function() {
-	$('.markdown-to-html').html(function(i, txt) {
+/**
+ * MarkDown to HTML.
+ *
+ * @uses marked JS library for conversion
+ *
+ * @since 12.0 Add target param
+ *
+ * @param {string} target CSS ID or class selector. Example: #body
+ */
+var MarkDownToHTML = function(target) {
+	var target = (typeof target !== 'undefined') ? target + ' ' : '';
+
+	$(target + '.markdown-to-html').html(function(i, txt) {
 		// Fix double HTML character encoding, use jQuery text instead of jQuery html
 		txt = $(this).text();
 
@@ -257,9 +268,18 @@ var MarkDownToHTML = function() {
 	});
 }
 
-// JSCalendar.
-var JSCalendarSetup = function() {
-	$('.button.cal').each(function(i, el) {
+/**
+ * JSCalendar.
+ *
+ * @since 12.0 Add target param
+ *
+ * @param {string} target CSS ID or class selector. Example: #body
+ */
+var JSCalendarSetup = function(target) {
+
+	var target = (typeof target !== 'undefined') ? target + ' ' : '';
+
+	$(target + '.button.cal').each(function(i, el) {
 		var j = el.id.replace('trigger', '');
 
 		Calendar.setup({

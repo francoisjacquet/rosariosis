@@ -27,6 +27,7 @@ Changes in 12.0
 - Remove jQuery Form Plugin in jquery.form.js & Gruntfile.js
 - Fix maintain Enrollment Date in Course Period link (Add a Course popup) in Courses.php
 - JS fix form date & checkbox inside colorBox (Add a Course popup) in Courses.php
+- JS Add target param to JSCalendarSetup() & MarkDownToHTML() functions in warehouse.js
 
 Changes in 11.8.2
 -----------------
