@@ -383,7 +383,7 @@ var ajaxLink = function(link) {
 		target = link.target;
 	}
 
-	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') // Internal/external/top anchor.
+	if (href.indexOf('#') != -1 || target.indexOf('_') == 0) // Internal/external/top anchor.
 		return true;
 
 	if (!target) {
@@ -450,9 +450,7 @@ var ajaxSuccess = function(data, target, url) {
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#' + target).html(data);
 
-	var doc = document;
-
-	if (history.pushState && target == 'body' && doc.URL != url) history.pushState(null, doc.title, url);
+	if (history.pushState && target == 'body' && document.URL != url) history.pushState(null, document.title, url);
 
 	ajaxPrepare('#' + target, true);
 }
@@ -502,10 +500,13 @@ var ajaxPrepare = function(target, scrollTop) {
 
 // Disable links while AJAX (do NOT use disabled attribute).
 // http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing
-$(document).ajaxStart(function() {
-	$('input[type="submit"],input[type="button"],a').css('pointer-events', 'none');
-}).ajaxStop(function() {
-	$('input[type="submit"],input[type="button"],a').css('pointer-events', '');
+$(document).on({
+	'ajaxStart': function() {
+		$('input[type="submit"],input[type="button"],a').css('pointer-events', 'none');
+	},
+	'ajaxStop': function() {
+		$('input[type="submit"],input[type="button"],a').css('pointer-events', '');
+	}
 });
 
 
@@ -515,6 +516,11 @@ window.onload = function() {
 	$.ajaxPrefilter('script', function(options) {
 		options.cache = true;
 	});
+
+	if (typeof NodeList.prototype.forEach !== 'function') {
+		// @link https://stackoverflow.com/questions/52268886/object-doesnt-support-property-or-method-foreach-ie-11
+		NodeList.prototype.forEach = Array.prototype.forEach;
+	}
 
 	// @since 4.4 Open submenu on touch (mobile & tablet).
 	if (isTouchDevice()) {
@@ -558,7 +564,7 @@ window.onload = function() {
 	});
 
 	// Do NOT scroll to top onload.
-	ajaxPrepare('body', false);
+	ajaxPrepare('#body', false);
 
 	// Load body after browser history.
 	if (history.pushState) window.setTimeout(ajaxPopState(), 1);
@@ -630,7 +636,7 @@ var repeatListTHead = function($lists) {
 		return;
 
 	$lists.each(function(i, tbl) {
-		var trs = $(tbl).children("thead,tbody").children("tr"),
+		var trs = $(tbl).children("thead,tbody").children("tr:visible"),
 			tr_num = trs.length,
 			tr_max = 20;
 
@@ -640,8 +646,7 @@ var repeatListTHead = function($lists) {
 
 			// Each 20 rows, or at the end if number of rows <= 40.
 			for (var j = (tr_num > tr_max * 2 ? tr_max : tr_num - 1), trs2th = []; j < tr_num; j += tr_max) {
-				var tr = trs[j];
-				trs2th.push(tr);
+				trs2th.push(trs[j]);
 			}
 
 			// Clone header.
