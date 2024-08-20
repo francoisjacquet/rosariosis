@@ -25,6 +25,7 @@ Changes in 12.0
 - JS ajaxPostForm() deprecate submit param in warehouse.js & program wide
 - Update jQuery from v2.2.4 to v3.7.1 in jquery.js
 - Remove jQuery Form Plugin in jquery.form.js & Gruntfile.js
+- Fix maintain Enrollment Date in Course Period link (Choose Course popup) in Courses.php
 
 Changes in 11.8.2
 -----------------

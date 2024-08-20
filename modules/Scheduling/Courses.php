@@ -1672,7 +1672,7 @@ if (  ( ! $_REQUEST['modfunc']
 				|| ( $_REQUEST['modname'] === 'Scheduling/Schedule.php'
 					&& ! $_REQUEST['include_child_mps'] ) )
 			{
-				$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'];
+				$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&year_date=' . $_REQUEST['year_date'] . '&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'];
 
 				$link['TITLE']['variables'] = [ 'course_period_id' => 'COURSE_PERIOD_ID', 'course_marking_period_id' => 'MARKING_PERIOD_ID' ];
 
