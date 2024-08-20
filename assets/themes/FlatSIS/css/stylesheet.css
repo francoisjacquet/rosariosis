@@ -1703,7 +1703,7 @@ a .button + b {
 }
 
 .underline-dots + .checkbox-label .tooltip {
-	margin-top: 3.5px;
+	margin-top: 4px;
 }
 
 .tooltip:before {
