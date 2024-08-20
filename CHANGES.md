@@ -25,6 +25,7 @@ Changes in 12.0
 Changes in 11.8.2
 -----------------
 - CSS fix input div onclick & .underline-dots line height in stylesheet.css
+- Rollback Fix IE not propagating focus event to parent on click in Inputs.php
 
 Changes in 11.8.1
 -----------------

@@ -1819,24 +1819,8 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 	$onfocus_js = 'addHTML(html' . $id_sanitized . ',\'div' . $id_sanitized . '\',true);
 		$(\'#' . $id_sanitized . '\').focus(); $(\'#div' . $id_sanitized . '\').click();';
 
-	$event = 'onfocus';
-
-	if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'Trident/7' )
-		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) )
-	{
-		/**
-		 * Fix IE not propagating focus event to parent on click
-		 * Related to this CSS rule: `.underline-dots { display: inline-block; }`
-		 *
-		 * @since 11.8.1
-		 *
-		 * @link https://stackoverflow.com/questions/51404782/focus-event-not-fired-on-focusable-parent-html-element-with-display-flex-in-ie1
-		 */
-		$event = 'onclick';
-	}
-
 	$div_onclick = '<div id="div' . $id_sanitized . '">
-		<div class="onclick" tabindex="0" ' . $event . '="' .
+		<div class="onclick" tabindex="0" onfocus="' .
 		// Do not not convert single quotes to gain a few bytes
 		htmlspecialchars( $onfocus_js, ENT_COMPAT, null, false ) . '">' .
 		( mb_stripos( $value, '<div' ) === 0 ?
