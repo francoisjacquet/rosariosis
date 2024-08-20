@@ -1127,14 +1127,15 @@ textarea {
 .legend-gray,
 .legend-red {
 	font-size: 15px;
-	margin-top: 1px;
+	line-height: 1.27;
+	margin-top: 0;
 	margin-bottom: 12px;
 	display: inline-block
 }
 
 .underline-dots ~ .legend-gray,
 .underline-dots ~ .legend-red {
-	margin-top: 3px;
+	margin-top: 2px;
 }
 
 /* Fix Dashboard tip message row too tall */
