@@ -50,7 +50,6 @@ module.exports = function(grunt) {
 			my_target: {
 				files: {
 					'assets/js/plugins.min.js': [
-						'assets/js/jquery.form.js',
 						'assets/js/tipmessage/main17.js',
 						'assets/js/jscalendar/calendar.js',
 						'assets/js/jscalendar/calendar-setup.js',

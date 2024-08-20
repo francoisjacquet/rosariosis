@@ -24,6 +24,7 @@ Changes in 12.0
 - JS Move form submit handler from ajaxPrepare() to onload in warehouse.js
 - JS ajaxPostForm() deprecate submit param in warehouse.js & program wide
 - Update jQuery from v2.2.4 to v3.7.1 in jquery.js
+- Remove jQuery Form Plugin in jquery.form.js & Gruntfile.js
 
 Changes in 11.8.2
 -----------------
