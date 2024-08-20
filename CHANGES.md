@@ -30,6 +30,7 @@ Changes in 12.0
 - JS Add target param to JSCalendarSetup() & MarkDownToHTML() functions in warehouse.js
 - JS Use FormData instead of jQuery Form Plugin in warehouse.js
 - JS Exclude file input with no files selected: disable before creating FormData in warehouse.js
+- JS Remove empty GET params from URL (new method using regex) in warehouse.js
 
 Changes in 11.8.2
 -----------------

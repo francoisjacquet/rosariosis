@@ -328,22 +328,14 @@ var ajaxOptions = function(target, url, form) {
 			if (redirectUrl) {
 				url = redirectUrl;
 			} else if (form && form.method == 'get') {
-				var getStr = [];
+				var getStr = $(form).serialize();
 
-				// Fix advanced search forms (student & user) URL > 2000 chars.
-				if (form.name == 'search') {
-					var formArray = $(form).formToArray();
-
-					$(formArray).each(function(i, el) {
-						// Only add not empty values.
-						if (el.value !== '')
-							getStr.push(el.name + '=' + el.value);
-					});
-
-					getStr = getStr.join('&');
-				} else {
-					getStr = $(form).formSerialize();
-				}
+				/**
+				 * Remove empty GET params from URL
+				 *
+				 * @link https://stackoverflow.com/questions/62989310/how-to-remove-empty-query-params-using-urlsearchparams
+				 */
+				getStr = getStr.replace(/(?:\&|^)[^\&]*?\=(?=\&|$)/g, '');
 
 				url += (url.indexOf('?') != -1 ? '&' : '?') + getStr;
 			}
