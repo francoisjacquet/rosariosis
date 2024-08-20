@@ -1485,17 +1485,34 @@ if (  ( ! $_REQUEST['modfunc']
 
 		if ( $_REQUEST['modname'] === 'Scheduling/Schedule.php' )
 		{
-			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
+			echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 
 			DrawHeader(
 				$choose_a_header_html,
-				_( 'Enrollment Date' ) . ' ' . PrepareDate( $date, '_date', false, [ 'submit' => true ] ),
+				_( 'Enrollment Date' ) . ' ' . PrepareDate( $date, '_date', false ),
 				''
 			);
 
-			DrawHeader( CheckBoxOnclick(
+			// JS post form on date change.
+			// @since 12.0 Use colorBox instead of popup window
+			?>
+			<script>
+				$('#cboxLoadedContent #yearSelect1, #cboxLoadedContent #monthSelect1, #cboxLoadedContent #daySelect1').on('change', function(){
+					ajaxPostForm(this.form,true);
+				});
+			</script>
+			<?php
+
+			DrawHeader( CheckboxInput(
+				issetVal( $_REQUEST['include_child_mps'], '' ),
 				'include_child_mps',
-				_( 'Offer Enrollment in Child Marking Periods' )
+				_( 'Offer Enrollment in Child Marking Periods' ),
+				'',
+				true,
+				'Yes',
+				'No',
+				false,
+				'onchange="ajaxPostForm(this.form,true);"'
 			) );
 
 			echo '</form>';
