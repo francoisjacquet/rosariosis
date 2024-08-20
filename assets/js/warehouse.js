@@ -295,8 +295,20 @@ var JSCalendarSetup = function(target) {
 	});
 }
 
+/**
+ * AJAX request options
+ *
+ * @since 12.0 Use FormData instead of jQuery Form Plugin
+ * @link https://stackoverflow.com/questions/21044798/how-to-use-formdata-for-ajax-file-upload#answer-21045034
+ *
+ * @param  {string} target Target where to output request result: usually '#body'.
+ * @param  {string} url    URL (form action).
+ * @param  {mixed}  form   Form object or false.
+ *
+ * @return {object}        AJAX options for jQuery.ajax()
+ */
 var ajaxOptions = function(target, url, form) {
-	return {
+	var options = {
 		beforeSend: function(data) {
 			// AJAX error hide.
 			$('.ajax-error').hide();
@@ -347,6 +359,33 @@ var ajaxOptions = function(target, url, form) {
 			hideHelp();
 		}
 	};
+
+	if (form && form.method == 'post') {
+		/**
+		 * Exclude file input with no files selected: disable before creating FormData
+		 * Do not set PHP `$_FILES[ $input ]` when no files are uploaded
+		 *
+		 * @since 12.0
+		 *
+		 * @link https://stackoverflow.com/questions/57468389/create-formdata-excluding-not-provided-input-file
+		 */
+		$(form).find('input[type="file"]').prop('disabled', function(){
+			return !this.files.length;
+		});
+		options.data = new FormData(form);
+		// Re-enable after creating FormData
+		$(form).find('input[type="file"]:disabled').prop('disabled', function(){
+			return this.files.length;
+		});
+		options.type = 'post';
+		options.contentType = false; // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+		options.processData = false; // NEEDED, DON'T OMIT THIS
+	} else if (form && form.method) {
+		options.data = $(form).serialize();
+		options.type = form.method;
+	}
+
+	return options;
 }
 
 var ajaxError = function(xhr, status, error, url, target, form) {

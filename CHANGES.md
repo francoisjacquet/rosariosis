@@ -28,6 +28,8 @@ Changes in 12.0
 - Fix maintain Enrollment Date in Course Period link (Add a Course popup) in Courses.php
 - JS fix form date & checkbox inside colorBox (Add a Course popup) in Courses.php
 - JS Add target param to JSCalendarSetup() & MarkDownToHTML() functions in warehouse.js
+- JS Use FormData instead of jQuery Form Plugin in warehouse.js
+- JS Exclude file input with no files selected: disable before creating FormData in warehouse.js
 
 Changes in 11.8.2
 -----------------
