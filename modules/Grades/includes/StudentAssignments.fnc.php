@@ -111,10 +111,9 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 			// Submission file(s) input enabled (may be empty).
 			foreach ( (array) $old_data['files'] as $old_file )
 			{
-				if ( file_exists( $old_file ) )
-				{
-					unlink( $old_file );
-				}
+				// Delete old file(s) if any.
+				// Security: use FileDelete() instead of unlink().
+				FileDelete( $old_file );
 			}
 		}
 	}
@@ -568,12 +567,9 @@ function UploadAssignmentTeacherFile( $assignment_id, $teacher_id, $file_input_i
 	// Filename = [course_title]_[assignment_ID].ext.
 	$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '.' . $microseconds );
 
-	if ( ! empty( $assignment['FILE'] )
-		&& file_exists( $assignment['FILE'] ) )
-	{
-		// Delete existing Assignment File.
-		unlink( $assignment['FILE'] );
-	}
+	// Delete existing Assignment File.
+	// Security: use FileDelete() instead of unlink()
+	FileDelete( $assignment['FILE'] );
 
 	$assignments_path = GetAssignmentsFilesPath( User( 'STAFF_ID' ) );
 

@@ -143,7 +143,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 			$error[] = _( 'Cannot open file.' );
 		}
 
-		unlink( $addon_zip_path );
+		FileDelete( $addon_zip_path, '.zip' );
 	}
 
 	// Unset modfunc & redirect URL.

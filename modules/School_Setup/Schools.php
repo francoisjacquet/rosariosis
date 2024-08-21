@@ -124,19 +124,14 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
-		// Security: sanitize filename with no_accents().
-		$filename = no_accents( $_GET['filename'] );
-
-		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $filename;
+		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $_REQUEST['filename'];
 
 		DBQuery( "UPDATE schools SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 			WHERE ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
-		if ( file_exists( $file ) )
-		{
-			unlink( $file );
-		}
+		// Security: use FileDelete() instead of unlink()
+		FileDelete( $file_to_remove );
 
 		// Unset modfunc, id, filename & redirect URL.
 		RedirectURL( [ 'modfunc', 'id', 'filename' ] );

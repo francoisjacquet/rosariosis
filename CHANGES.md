@@ -38,6 +38,7 @@ Changes in 12.0
 - JS add getURLParam() function in warehouse.js
 - JS AJAX update #body with URL GET params removed or replaced in warehouse.js & Side.php
 - Add FileDelete() function in FileUpload.fnc.php
+- Security: use FileDelete() instead of unlink(), program wide
 
 Changes in 11.8.2
 -----------------

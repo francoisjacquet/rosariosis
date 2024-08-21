@@ -79,12 +79,9 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			FROM accounting_incomes
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
-		if ( ! empty( $file_attached )
-			&& file_exists( $file_attached ) )
-		{
-			// Delete File Attached.
-			unlink( $file_attached );
-		}
+		// Delete File Attached.
+		// Security: use FileDelete() instead of unlink()
+		FileDelete( $file_attached );
 
 		DBQuery( "DELETE FROM accounting_incomes
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );

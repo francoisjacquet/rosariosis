@@ -77,12 +77,9 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			FROM billing_payments
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
-		if ( ! empty( $file_attached )
-			&& file_exists( $file_attached ) )
-		{
-			// Delete File Attached.
-			unlink( $file_attached );
-		}
+		// Delete File Attached.
+		// Security: use FileDelete() instead of unlink()
+		FileDelete( $file_attached );
 
 		DBQuery( "DELETE FROM billing_payments
 			WHERE ID='" . (int) $_REQUEST['id'] . "'

@@ -448,7 +448,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					if ( $old_photo_file !== $new_photo_file )
 					{
-						unlink( $old_photo_file );
+						// Security: use FileDelete() instead of unlink().
+						FileDelete( $old_photo_file, '.jpg' );
 					}
 				}
 			}
@@ -571,7 +572,8 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		foreach ( $old_photo_files as $old_photo_file )
 		{
-			unlink( $old_photo_file );
+			// Security: use FileDelete() instead of unlink().
+			FileDelete( $old_photo_file, '.jpg' );
 		}
 
 		// Hook.
@@ -592,12 +594,9 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
-		// Security: sanitize filename with no_accents().
-		$filename = no_accents( $_GET['filename'] );
-
 		if ( ! empty( $_REQUEST['person_id'] ) )
 		{
-			$file = $FileUploadsPath . 'Contact/' . $_REQUEST['person_id'] . '/' . $filename;
+			$file = $FileUploadsPath . 'Contact/' . (int) $_REQUEST['person_id'] . '/' . $_REQUEST['filename'];
 
 			DBQuery( "UPDATE people
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
@@ -605,7 +604,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 		elseif ( ! empty( $_REQUEST['address_id'] ) )
 		{
-			$file = $FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/' . $filename;
+			$file = $FileUploadsPath . 'Address/' . (int) $_REQUEST['address_id'] . '/' . $_REQUEST['filename'];
 
 			DBQuery( "UPDATE address
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
@@ -613,17 +612,15 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 		else
 		{
-			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $filename;
+			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $_REQUEST['filename'];
 
 			DBQuery( "UPDATE students
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE STUDENT_ID='" . UserStudentID() . "'" );
 		}
 
-		if ( file_exists( $file ) )
-		{
-			unlink( $file );
-		}
+		// Security: use FileDelete() instead of unlink().
+		FileDelete( $file );
 
 		// Unset modfunc, id, filename & redirect URL.
 		RedirectURL( [ 'modfunc', 'id', 'filename' ] );

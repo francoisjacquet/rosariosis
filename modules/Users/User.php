@@ -473,7 +473,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					if ( $old_photo_file !== $new_photo_file )
 					{
-						unlink( $old_photo_file );
+						// Security: use FileDelete() instead of unlink().
+						FileDelete( $old_photo_file, '.jpg' );
 					}
 				}
 			}
@@ -592,7 +593,8 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		foreach ( $old_photo_files as $old_photo_file )
 		{
-			unlink( $old_photo_file );
+			// Security: use FileDelete() instead of unlink().
+			FileDelete( $old_photo_file, '.jpg' );
 		}
 
 		// Hook.
@@ -613,19 +615,14 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
-		// Security: sanitize filename with no_accents().
-		$filename = no_accents( $_GET['filename'] );
-
-		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $filename;
+		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $_REQUEST['filename'];
 
 		DBQuery( "UPDATE staff
 			SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 			WHERE STAFF_ID='" . UserStaffID() . "'" );
 
-		if ( file_exists( $file ) )
-		{
-			unlink( $file );
-		}
+		// Security: use FileDelete() instead of unlink().
+		FileDelete( $file );
 
 		// Unset modfunc, id, filename & redirect URL.
 		RedirectURL( [ 'modfunc', 'id', 'filename' ] );

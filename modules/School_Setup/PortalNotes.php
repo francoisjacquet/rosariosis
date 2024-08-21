@@ -174,11 +174,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			FROM portal_notes
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
-		if ( $file_to_remove
-			&& file_exists( $file_to_remove ) )
-		{
-			unlink( $file_to_remove );
-		}
+		// Security: use FileDelete() instead of unlink()
+		FileDelete( $file_to_remove );
 
 		DBQuery( "DELETE FROM portal_notes WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 

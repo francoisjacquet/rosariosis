@@ -276,6 +276,7 @@ if ( ! empty( $_POST['tables'] ) )
 
 			if ( ! empty( $_FILES['assignment_file']['name'] ) )
 			{
+				// Upload new file & remove old file if any.
 				$file = UploadAssignmentTeacherFile(
 					$id,
 					User( 'STAFF_ID' ),
@@ -284,17 +285,6 @@ if ( ! empty( $_POST['tables'] ) )
 
 				if ( $file )
 				{
-					$old_assignment_file = DBGetOne( "SELECT FILE
-						FROM gradebook_assignments
-						WHERE ASSIGNMENT_ID='" . (int) $id . "'" );
-
-					if ( ! empty( $old_assignment_file )
-						&& file_exists( $old_assignment_file ) )
-					{
-						// Remove old File Attached.
-						unlink( $old_assignment_file );
-					}
-
 					DBQuery( "UPDATE gradebook_assignments
 						SET FILE='" . $file . "'
 						WHERE ASSIGNMENT_ID='" . (int) $id . "';" );
@@ -448,12 +438,9 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			DBQuery( "DELETE FROM gradebook_grades
 				WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
-			if ( ! empty( $assignment_file )
-				&& file_exists( $assignment_file ) )
-			{
-				// Delete File Attached.
-				unlink( $assignment_file );
-			}
+			// Delete File Attached.
+			// Security: use FileDelete() instead of unlink()
+			FileDelete( $assignment_file );
 
 			// Delete Student Assignment Submissions.
 			DBQuery( "DELETE FROM student_assignments
@@ -470,7 +457,8 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			foreach ( $student_assignments_files as $student_assignments_file )
 			{
 				// Remove Student Assignment Submission files.
-				unlink( $student_assignments_file );
+				// Security: use FileDelete() instead of unlink()
+				FileDelete( $student_assignments_file );
 			}
 
 			if ( ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
