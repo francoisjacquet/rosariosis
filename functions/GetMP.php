@@ -320,13 +320,10 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				$qtr_RET = DBGet( $qtr_SQL, [], [ 'PARENT_ID' ] );
 
+				$children_mp[ $mp ]['0'] = '';
+
 				foreach ( $qtr_RET as $sem => $qtrs )
 				{
-					if ( ! isset( $children_mp[ $mp ]['0'] ) )
-					{
-						$children_mp[ $mp ]['0'] = '';
-					}
-
 					$children_mp[ $mp ]['0'] .= ",'" . $sem . "'";
 
 					foreach ( (array) $qtrs as $qtr )
