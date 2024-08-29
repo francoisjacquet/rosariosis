@@ -228,6 +228,8 @@ if ( $_REQUEST['modfunc'] === 'activate'
 				}
 			}
 
+			AddonInstallationStatisticsPost( 'plugin', $_REQUEST['plugin'] );
+
 			$update_RosarioPlugins = true;
 		}
 		else

@@ -237,6 +237,8 @@ if ( $_REQUEST['modfunc'] === 'activate'
 				}
 			}
 
+			AddonInstallationStatisticsPost( 'module', $_REQUEST['module'] );
+
 			$update_RosarioModules = true;
 		}
 		else
