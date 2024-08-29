@@ -82,7 +82,10 @@ function AddonMakeReadMe( $type, $addon_title, $activated = '' )
  */
 function AddonDelTree( $dir, $mode = 'delete' )
 {
-	$return = true;
+	if ( ! is_dir( $dir ) )
+	{
+		return true;
+	}
 
 	if ( $mode === 'delete' )
 	{
@@ -94,6 +97,8 @@ function AddonDelTree( $dir, $mode = 'delete' )
 			return false;
 		}
 	}
+
+	$return = true;
 
 	$files = array_diff( scandir( $dir ), [ '.', '..' ] );
 
