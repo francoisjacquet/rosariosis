@@ -609,7 +609,8 @@ elseif ( ! isset( $_REQUEST['create_account'] ) )
 	 *
 	 * @since 3.8
 	 */
-	$redirect_to = empty( $_REQUEST['redirect_to'] ) ?
+	$redirect_to = empty( $_REQUEST['redirect_to'] )
+		|| mb_strpos( $_REQUEST['redirect_to'], 'modname=misc/' ) === 0 ?
 		'modname=misc/Portal.php' : // Fix #173 resend login form: redirect to Modules.php.
 		str_replace(
 			[ '&_ROSARIO_PDF=true', '&_ROSARIO_PDF', '&LO_save=1' ],
