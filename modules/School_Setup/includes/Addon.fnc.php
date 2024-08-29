@@ -151,3 +151,132 @@ function AddonMakeActivated( $activated )
 
 	return button( 'x' );
 }
+
+/**
+ * Unzip add-on
+ *
+ * @since 12.0
+ *
+ * @global $error "No [Modules|Plugins] were found."
+ *
+ * @uses AddonZipCanUnzip()
+ *
+ * @param string $type            Type: 'module' or 'plugin'.
+ * @param string $zip_path        Path to zip file.
+ * @param string $extract_to_path Path to were the zip files will be extracted.
+ *
+ * @return string Add-on dir path or empty if error.
+ */
+function AddonUnzip( $type, $zip_path, $extract_to_path )
+{
+	global $error;
+
+	if ( ! in_array( $type, [ 'module', 'plugin' ] ) )
+	{
+		return '';
+	}
+
+	if ( ! AddonZipCanUnzip( $zip_path ) )
+	{
+		return '';
+	}
+
+	// Extract zip file.
+	$zip = new ZipArchive;
+	$zip_open = $zip->open( $zip_path );
+
+	$zip->extractTo( $extract_to_path );
+
+	$zip->close();
+
+	$addon_dir_paths = glob( $extract_to_path . '*', GLOB_ONLYDIR );
+
+	$addon_dir_path = '';
+
+	foreach ( (array) $addon_dir_paths as $maybe_addon_dir_path )
+	{
+		if ( basename( $maybe_addon_dir_path ) !== '__MACOSX' )
+		{
+			$addon_dir_path = $maybe_addon_dir_path;
+
+			break;
+		}
+	}
+
+	if ( ! $addon_dir_path )
+	{
+		$error[] = sprintf(
+			_( 'No %s were found.' ),
+			( $type === 'module' ? _( 'Modules' ) : _( 'Plugins' ) )
+		);
+	}
+
+	return $addon_dir_path;
+}
+
+/**
+ * Check if can unzip add-on zip file and if enough free disk space
+ * Send error by email to administrator if not enough free disk space
+ *
+ * @since 12.0
+ *
+ * @global $error "Could not copy files. You may have run out of disk space."
+ *
+ * @uses ErrorSendEmail()
+ *
+ * @link https://github.com/danielmiessler/SecLists/tree/master/Payloads/Zip-Bombs
+ *
+ * @param string $zip_path Zip file path.
+ *
+ * @return bool False if not safe, else true.
+ */
+function AddonZipCanUnzip( $zip_path )
+{
+	global $error;
+
+	$zip = new ZipArchive;
+	$zip_open = $zip->open( $zip_path );
+
+	if ( $zip_open !== true )
+	{
+		$error[] = _( 'Cannot open file.' );
+
+		return false;
+	}
+
+	$uncompressed_size = 0;
+
+	for ( $i = 0; $i < $zip->numFiles; $i++ )
+	{
+		$file_info = $zip->statIndex( $i );
+
+		if ( ! $file_info )
+		{
+			$error[] = _( 'Cannot open file.' );
+
+			return false;
+		}
+
+		$uncompressed_size += $file_info['size'];
+	}
+
+	$free_space = @disk_free_space( dirname( $zip_path ) );
+
+	if ( $free_space
+		&& ( $uncompressed_size * 2.1 ) > $free_space )
+	{
+		// Not enough free space on disk!
+		$free_space_error = _( 'Could not copy files. You may have run out of disk space.' );
+
+		$error[] = $free_space_error;
+
+		ErrorSendEmail( [
+			'Uncompressed size: ' . HumanFilesize( $uncompressed_size ),
+			'Free space: ' . HumanFilesize( $free_space ),
+		], $free_space_error );
+
+		return false;
+	}
+
+	return true;
+}
