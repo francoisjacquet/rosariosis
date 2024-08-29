@@ -200,22 +200,6 @@ else
 
 	$students_RET = GetStuList( $extra );
 
-	if ( isset( $extra['array_function'] )
-		&& function_exists( $extra['array_function'] ) )
-	{
-		if ( ! empty( $_REQUEST['address_group'] ) )
-		{
-			foreach ( (array) $students_RET as $id => $student_RET )
-			{
-				$students_RET[$id] = $extra['array_function']( $student_RET );
-			}
-		}
-		else
-		{
-			$students_RET = $extra['array_function']( $students_RET );
-		}
-	}
-
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'];
 	$name_link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
