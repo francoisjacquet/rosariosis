@@ -41,6 +41,7 @@ Changes in 12.0
 - Security: use FileDelete() instead of unlink(), program wide
 - Students Search: remove unused code for `$extra['array_function']` in Search.inc.php
 - Add AddonUnzip() & AddOnZipCanUnzip() functions in Addons.fnc.php
+- Security: extract to /tmp to avoid zip traversal attack in Modules.inc.php & Plugins.inc.php
 
 Changes in 11.8.2
 -----------------

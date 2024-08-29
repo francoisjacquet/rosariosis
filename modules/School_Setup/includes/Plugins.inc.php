@@ -88,24 +88,21 @@ if ( $_REQUEST['modfunc'] === 'upload'
 	if ( ( ! defined( 'ROSARIO_DISABLE_ADDON_UPLOAD' )
 			|| ! ROSARIO_DISABLE_ADDON_UPLOAD )
 		&& class_exists( 'ZipArchive' )
-		&& ( $addon_zip_path = FileUpload( 'upload', $FileUploadsPath, [ '.zip' ], FileUploadMaxSize(), $error ) ) )
+		&& ( $addon_zip_path = FileUpload( 'upload', sys_get_temp_dir() . '/', [ '.zip' ], FileUploadMaxSize(), $error ) ) )
 	{
-		// Extract zip file.
-		$zip = new ZipArchive;
-		$zip_open = $zip->open( $addon_zip_path );
+		/**
+		 * Security: extract to /tmp to avoid zip traversal attack
+		 *
+		 * @link https://github.com/danielmiessler/SecLists/tree/master/Payloads/Zip-Traversal
+		 */
+		$extract_to_path = sys_get_temp_dir() . '/rosariosis-upload-plugin/';
 
-		if ( $zip_open === true )
+		$addon_dir_path = AddonUnzip( 'plugin', $addon_zip_path, $extract_to_path );
+
+		if ( $addon_dir_path )
 		{
-			$zip->extractTo( $FileUploadsPath . 'upload-plugin/' );
-
-			$zip->close();
-
-			$addon_dir_path = glob( $FileUploadsPath . 'upload-plugin/*', GLOB_ONLYDIR );
-
-			$addon_dir_path = reset( $addon_dir_path );
-
 			// Remove path.
-			$addon_dir = str_replace( $FileUploadsPath . 'upload-plugin/', '', $addon_dir_path );
+			$addon_dir = str_replace( $extract_to_path, '', $addon_dir_path );
 
 			if ( mb_substr( $addon_dir, -7, 7 ) === '-master' )
 			{
@@ -128,20 +125,16 @@ if ( $_REQUEST['modfunc'] === 'upload'
 					// Remove warning if directory already exists: just overwrite.
 					rename( $addon_dir_path, 'plugins/' . $addon_dir );
 
-					$note[] = _( 'Add-on successfully uploaded.' );
+					$note[] = button( 'check' ) . '&nbsp;' . _( 'Add-on successfully uploaded.' );
 				}
 				else
 				{
 					$error[] = sprintf( _( 'Folder not writable' ) . ': %s', 'plugins/' . $addon_dir );
 				}
 			}
+		}
 
-			AddonDelTree( $FileUploadsPath . 'upload-plugin/' );
-		}
-		else
-		{
-			$error[] = _( 'Cannot open file.' );
-		}
+		AddonDelTree( $extract_to_path );
 
 		FileDelete( $addon_zip_path, '.zip' );
 	}
