@@ -280,3 +280,56 @@ function AddonZipCanUnzip( $zip_path )
 
 	return true;
 }
+
+/**
+ * Post add-on installation (first activation) statistics
+ *
+ * @see `ROSARIO_DISABLE_USAGE_STATISTICS` optional configuration constant
+ *
+ * @since 12.0
+ *
+ * @param string $type      Add-on type: module|plugin.
+ * @param string $addon_dir Add-on directory. For example: 'My_Module'.
+ *
+ * @return bool False if usage statistics are disabled, true otherwise.
+ */
+function AddonInstallationStatisticsPost( $type, $addon_dir )
+{
+	if ( ! in_array( $type, [ 'module', 'plugin' ] )
+		|| ! $addon_dir )
+	{
+		return false;
+	}
+
+	if ( defined( 'ROSARIO_DISABLE_USAGE_STATISTICS' )
+		&& ROSARIO_DISABLE_USAGE_STATISTICS )
+	{
+		return false;
+	}
+
+	$data = [
+		'type' => $type,
+		'addon_dir' => $addon_dir,
+		'lang' => mb_substr( $_SESSION['locale'], 0, 5 ),
+	];
+
+	?>
+	<script>
+		$(document).ready(function(){
+			var addonInstallationData = <?php echo json_encode( $data ); ?>;
+
+			$.ajax({
+				type: 'POST',
+				url: 'https://www.rosariosis.org/addon-statistics/installation-submit.php',
+				data: addonInstallationData,
+				complete: function(jqxhr,status) {
+					console.log('status: ' + status);
+					console.log('response: ' + jqxhr.responseText);
+				}
+			});
+		});
+	</script>
+	<?php
+
+	return true;
+}

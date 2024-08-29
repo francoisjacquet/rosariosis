@@ -40,8 +40,9 @@ Changes in 12.0
 - Add FileDelete() function in FileUpload.fnc.php
 - Security: use FileDelete() instead of unlink(), program wide
 - Students Search: remove unused code for `$extra['array_function']` in Search.inc.php
-- Add AddonUnzip() & AddOnZipCanUnzip() functions in Addons.fnc.php
+- Add AddonUnzip() & AddOnZipCanUnzip() functions in Addon.fnc.php
 - Security: extract to /tmp to avoid zip traversal attack in Modules.inc.php & Plugins.inc.php
+- Add AddonInstallationStatisticsPost() function in Addon.fnc.php
 
 Changes in 11.8.2
 -----------------
