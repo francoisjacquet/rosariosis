@@ -1836,9 +1836,10 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 		<div class="onclick" onfocus="' .
 		// Do not not convert single quotes to gain a few bytes
 		htmlspecialchars( $onfocus_js, ENT_COMPAT, null, false ) . '">' .
+		// @since 12.0 CSS Add .uld class, alias of .underline-dots
 		( mb_stripos( $value, '<div' ) === 0 ?
-			'<div class="underline-dots">' . $value . '</div>' :
-			'<span class="underline-dots">' . $value . '</span>' ) .
+			'<div class="uld">' . $value . '</div>' :
+			'<span class="uld">' . $value . '</span>' ) .
 		$input_ftitle . '</div></div>';
 
 	return $script . $div_onclick;

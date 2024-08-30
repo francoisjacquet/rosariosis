@@ -47,6 +47,7 @@ Changes in 12.0
 - CalendarDayClassesDefault() Remove "inner" mode. Move .hover CSS class to table.calendar-day in Calendar.php & Calendar.inc.php
 - CSS add .calendar-event-poptable, .calendar-minutes, .calendar-newevent classes in stylesheet.css, zresponsive.css & Calendar.php
 - SVG menu icon (#BottomButtonMenu) in Bottom.php, colors.css & stylesheet.css
+- CSS Add .uld class, alias of .underline-dots in colors.css, stylesheet.css & Inputs.php
 
 Changes in 11.8.2
 -----------------

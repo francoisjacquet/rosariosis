@@ -1018,14 +1018,18 @@ h3 span {
 	font-size: 17px
 }
 
-.underline-dots {
+/* @since 12.0 Add .uld class, alias of .underline-dots */
+
+.underline-dots,
+.uld {
 	border-bottom-style: dotted;
 	border-bottom-width: 1px
 }
 
 /* Textarea MarkDown */
 
-div.underline-dots {
+div.underline-dots,
+div.uld {
 	display: inline-block;
 	max-height: 240px;
 	max-width: 100%;
@@ -1038,6 +1042,7 @@ div.underline-dots {
 }
 
 span.underline-dots,
+span.uld,
 label.checkbox-label,
 .no-input-value {
 	line-height: 27px;
@@ -1134,7 +1139,9 @@ textarea {
 }
 
 .underline-dots ~ .legend-gray,
-.underline-dots ~ .legend-red {
+.underline-dots ~ .legend-red,
+.uld ~ .legend-gray,
+.uld ~ .legend-red {
 	margin-top: 2px;
 }
 
@@ -1732,7 +1739,8 @@ a .button + b {
 	text-transform: none;
 }
 
-.underline-dots + .checkbox-label .tooltip {
+.underline-dots + .checkbox-label .tooltip,
+.uld + .checkbox-label .tooltip {
 	margin-top: 4px;
 }
 

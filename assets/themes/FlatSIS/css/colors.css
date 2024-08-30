@@ -413,7 +413,10 @@ fieldset {
 	color: red
 }
 
-.underline-dots {
+/* @since 12.0 Add .uld class, alias of .underline-dots */
+
+.underline-dots,
+.uld {
 	border-bottom-color: gray
 }
 
