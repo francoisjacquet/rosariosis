@@ -111,7 +111,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( AllowEdit() )
 	{
-		$tooltip = '<div class="tooltip" style="text-transform: none;"><i>' . _( 'Note: All unchecked means visible to all profiles' ) . '</i></div>';
+		$tooltip = '<div class="tooltip"><i>' . _( 'Note: All unchecked means visible to all profiles' ) . '</i></div>';
 
 		$columns['VISIBLE_TO'] = _( 'Visible To' ) . $tooltip;
 	}
