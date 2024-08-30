@@ -1382,16 +1382,15 @@ div.st > .list-outer {
 
 .calendar-day > table {
 	height: 100%;
-}
-
-.calendar-event {
-	height: 26px;
+	width: 100%;
 }
 
 /*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
 
-.calendar-day td {
-	max-width: 103px;
+.calendar-event {
+	height: 26px;
+	font-size: 14px;
+	max-width: 0;
 	overflow: hidden;
 	white-space: nowrap;
 	line-height: 1.231
@@ -1403,6 +1402,31 @@ div.st > .list-outer {
 
 .calendar-day .number {
 	font-size: 1.2em;
+}
+
+.calendar-minutes {
+	text-align: right;
+}
+
+.calendar-newevent {
+	vertical-align: bottom;
+}
+
+.no-touch .calendar-minutes,
+.no-touch .calendar-newevent {
+	visibility: hidden;
+	opacity: 0;
+	transition: visibility 0s, opacity 0.15s linear;
+}
+
+.calendar-day:hover .calendar-minutes,
+.calendar-minutes input:checked,
+/* @link https://stackoverflow.com/questions/3617020/matching-an-empty-input-box-using-css */
+
+.calendar-minutes input[type=number]:not(:placeholder-shown),
+.calendar-day:hover .calendar-newevent {
+	visibility: visible;
+	opacity: 1;
 }
 
 .calendar-event div {
@@ -1420,6 +1444,10 @@ div.st > .list-outer {
 td.calendar-menu {
 	white-space: normal;
 	max-width: none
+}
+
+.calendar-event-poptable {
+	max-width: 340px;
 }
 
 /* Legend */

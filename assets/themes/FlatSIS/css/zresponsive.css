@@ -327,22 +327,33 @@
 	.calendar-day > table {
 		display: block;
 		width: inherit;
+		padding: 0 1px;
 		z-index: 1
 	}
 	.calendar-day td {
 		display: none;
 	}
-	.calendar-day .hover:hover td,
+	.calendar-day.hover:hover td,
 	.calendar-day .number {
 		display: table-cell;
+	}
+	.calendar-day.hover .calendar-event,
+	.calendar-day.hover .calendar-minutes {
+		width: 100%;
 	}
 	.calendar-day .number {
 		font-size: 1em;
 	}
-	/*.calendar-day .hover:hover .calendar-event{
-		display:inherit;
-	}*/
-	.calendar-day .hover:hover {
+	/* TODO fix when tapping in input div onclick, closes day...*/
+	/* Avoid clicking on link / button before the day is fully displayed to user */
+	@keyframes disable-pointer-events {
+		0%,
+		99% {
+			pointer-events: none;
+		}
+	}
+	.calendar-day.hover:hover > table {
+		animation: disable-pointer-events 0.2s;
 		height: auto;
 		min-width: 202px;
 		min-height: 102px;
@@ -354,14 +365,10 @@
 		box-shadow: 2px 2px 2px 1px #9f9f9f
 	}
 	/*fridays, saturdays*/
-	.calendar-day.thu-fri-sat .hover:hover {
+	.calendar-day.thu-fri-sat.hover:hover > table {
 		right: 0;
 		left: auto;
 		box-shadow: -2px 2px 2px 1px #9f9f9f
-	}
-	/*jscalendar+colorbox*/
-	.calendar {
-		z-index: 10000
 	}
 	/* Scheduling Requests Courses div */
 	#courses_div {

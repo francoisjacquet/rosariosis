@@ -45,6 +45,7 @@ Changes in 12.0
 - Add AddonInstallationStatisticsPost() function in Addon.fnc.php
 - Post add-on installation (first activation) statistics in Modules.inc.php & Plugins.inc.php
 - CalendarDayClassesDefault() Remove "inner" mode. Move .hover CSS class to table.calendar-day in Calendar.php & Calendar.inc.php
+- CSS add .calendar-event-poptable, .calendar-minutes, .calendar-newevent classes in stylesheet.css, zresponsive.css & Calendar.php
 
 Changes in 11.8.2
 -----------------

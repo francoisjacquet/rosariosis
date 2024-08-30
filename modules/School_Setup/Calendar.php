@@ -594,9 +594,11 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 	echo '<br />';
 
-	PopTable( 'header', $title );
+	// Truncate title if > 36 chars.
+	PopTable( 'header', ( mb_strlen( $title ) <= 36 ? $title : mb_substr( $title, 0, 33 ) . '...' ) );
 
-	echo '<table class="cellpadding-5"><tr><td>'  . DateInput(
+	// @since 12.0 CSS add .calendar-event-poptable class
+	echo '<table class="cellpadding-5 width-100p calendar-event-poptable"><tr><td>'  . DateInput(
 		$RET[1]['SCHOOL_DATE'],
 		'values[SCHOOL_DATE]',
 		( empty( $_REQUEST['assignment_id'] ) ? _( 'Date' ) : _( 'Due Date' ) ),
@@ -668,7 +670,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 	if ( AllowEdit() )
 	{
-		echo '<tr><td colspan="2">' . SubmitButton();
+		echo '<tr><td colspan="2" class="center">' . SubmitButton();
 
 		if ( $_REQUEST['event_id'] !== 'new' )
 		{
@@ -1056,7 +1058,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Calendar Header
-	echo '<table id="calendar" class="width-100p valign-top">
+	echo '<table id="calendar" class="width-100p">
 		<thead><tr class="center">';
 
 	echo '<th>' . _( 'Sunday' ) . '</th>' .
@@ -1112,8 +1114,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 
 		// Calendar Day number.
+		// @since 12.0 CSS add .calendar-minutes class
 		echo '<td class="' . AttrEscape( $day_number_classes ) . '">' . $i . '</td>
-		<td class="width-100p align-right">';
+		<td class="calendar-minutes">';
 
 		echo CalendarDayMinutesHTML( $date, $minutes );
 
@@ -1122,13 +1125,14 @@ if ( ! $_REQUEST['modfunc'] )
 		echo CalendarDayBlockHTML( $date, $minutes, $block );
 
 		echo '</td></tr>
-			<tr><td colspan="2" class="calendar-event valign-top">';
+			<tr><td colspan="2" class="calendar-event">';
 
 		echo CalendarDayEventsHTML( $date, $events_date );
 
 		echo CalendarDayAssignmentsHTML( $date, $assignments_date );
 
-		echo '</td></tr><tr class="valign-bottom">';
+		// @since 12.0 CSS add .calendar-newevent class
+		echo '</td></tr><tr class="calendar-newevent">';
 
 		echo CalendarDayNewAssignmentHTML( $date, $assignments_date );
 
