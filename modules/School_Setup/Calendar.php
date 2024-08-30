@@ -1092,14 +1092,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$assignments_date = issetVal( $assignments_RET[ $date ], [] );
 
-		$day_classes = CalendarDayClasses( $date, $minutes );
-
-		$day_inner_classes = CalendarDayClasses(
+		$day_classes = CalendarDayClasses(
 			$date,
 			$minutes,
 			$events_date,
 			$assignments_date,
-			'inner'
+			'day'
 		);
 
 		$day_number_classes = CalendarDayClasses(
@@ -1110,8 +1108,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'number'
 		);
 
-		echo '<td class="calendar-day' . AttrEscape( $day_classes ) . '">
-			<table class="' . AttrEscape( $day_inner_classes ) . '"><tr>';
+		echo '<td class="calendar-day' . AttrEscape( $day_classes ) . '"><table><tr>';
 
 
 		// Calendar Day number.

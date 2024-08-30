@@ -44,6 +44,7 @@ Changes in 12.0
 - Security: extract to /tmp to avoid zip traversal attack in Modules.inc.php & Plugins.inc.php
 - Add AddonInstallationStatisticsPost() function in Addon.fnc.php
 - Post add-on installation (first activation) statistics in Modules.inc.php & Plugins.inc.php
+- CalendarDayClassesDefault() Remove "inner" mode. Move .hover CSS class to table.calendar-day in Calendar.php & Calendar.inc.php
 
 Changes in 11.8.2
 -----------------

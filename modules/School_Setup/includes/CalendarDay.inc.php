@@ -34,32 +34,19 @@ if ( ! function_exists( 'CalendarDayClasses' ) )
  * Default function
  *
  * @since 4.5
+ * @since 12.0 Remove "inner" mode. Move .hover CSS class to table.calendar-day
  *
  * @param string $date        ISO date.
  * @param int    $minutes     Minutes.
  * @param array  $events      Events array (optional).
  * @param array  $assignments Assignments array (optional).
- * @param string $mode        Mode: day|inner|number (optional).
+ * @param string $mode        Mode: day|number (optional).
  *
  * @return string HTML
  */
 function CalendarDayClassesDefault( $date, $minutes, $events = [], $assignments = [], $mode = 'day' )
 {
 	$day_classes = '';
-
-	if ( $mode === 'inner' )
-	{
-		if ( AllowEdit()
-			|| ! empty( $minutes )
-			|| ! empty( $events )
-			|| ! empty( $assignments ) )
-		{
-			// Hover CSS class.
-			$day_classes .= ' hover';
-		}
-
-		return $day_classes;
-	}
 
 	if ( $mode === 'number' )
 	{
@@ -73,6 +60,15 @@ function CalendarDayClassesDefault( $date, $minutes, $events = [], $assignments 
 		}
 
 		return $day_classes;
+	}
+
+	if ( AllowEdit()
+		|| ! empty( $minutes )
+		|| ! empty( $events )
+		|| ! empty( $assignments ) )
+	{
+		// Hover CSS class.
+		$day_classes .= ' hover';
 	}
 
 	if ( ! empty( $minutes ) )
@@ -173,7 +169,13 @@ function CalendarDayMinutesHTMLDefault( $date, $minutes )
 			$minutes,
 			'minutes[' . $date . ']',
 			'<span class="a11y-hidden">' . _( 'Minutes' ) . '</span>',
-			'size="3" type="number" min="1" max="998" title="' . AttrEscape( _( 'Minutes' ) ) . '"',
+			'type="number" min="1" max="998" title="' . AttrEscape( _( 'Minutes' ) ) . '"' .
+			/**
+			 * Add empty placeholder, CSS trick to match empty input
+			 *
+			 * @link https://stackoverflow.com/questions/3617020/matching-an-empty-input-box-using-css
+			 */
+			' placeholder=" "',
 			$div
 		);
 	}
