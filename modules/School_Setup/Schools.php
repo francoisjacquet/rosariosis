@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 			AND SYEAR='" . UserSyear() . "'" );
 
 		// Security: use FileDelete() instead of unlink()
-		FileDelete( $file_to_remove );
+		FileDelete( $file );
 
 		// Unset modfunc, id, filename & redirect URL.
 		RedirectURL( [ 'modfunc', 'id', 'filename' ] );
