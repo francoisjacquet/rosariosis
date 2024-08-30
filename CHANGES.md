@@ -50,6 +50,8 @@ Changes in 12.0
 - CSS Add .uld class, alias of .underline-dots in colors.css, stylesheet.css & Inputs.php
 - CSS add .poll-votes-outer class in zresponsive.css & PortalPolls.php
 - CSS themes vertical alignment fixes for button, select2 & others in colors.css, rtl.css, stylesheet.css, zresponsive.css
+- Breaking change: Rename CalendarDayNewAssignmentHTML() function to CalendarDayNewEventHTML() in Calendar.php & CalendarDay.inc.php
+- Rename CalendarDayNewAssignmentHTMLDefault() function to CalendarDayNewEventHTMLDefault() in CalendarDay.inc.php
 
 Changes in 11.8.2
 -----------------

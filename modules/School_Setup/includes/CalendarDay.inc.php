@@ -363,37 +363,37 @@ function CalendarDayAssignmentsHTMLDefault( $date, $assignments )
 }
 
 
-if ( ! function_exists( 'CalendarDayNewAssignmentHTML' ) )
+if ( ! function_exists( 'CalendarDayNewEventHTML' ) )
 {
 	/**
-	 * Calendar Day New Assignment HTML
+	 * Calendar Day New Event HTML
 	 *
-	 * @since 4.5
+	 * @since 12.0 Rename CalendarDayNewAssignmentHTML() function to CalendarDayNewEventHTML()
 	 *
-	 * @param string $date        ISO date.
-	 * @param array  $assignments Assignments array.
+	 * @param string $date   ISO date.
+	 * @param array  $events Events array.
 	 *
 	 * @return string HTML
 	 */
-	function CalendarDayNewAssignmentHTML( $date, $assignments )
+	function CalendarDayNewEventHTML( $date, $events )
 	{
-		return CalendarDayNewAssignmentHTMLDefault( $date, $assignments );
+		return CalendarDayNewEventHTMLDefault( $date, $events );
 	}
 }
 
 /**
- * Calendar Day New Assignment HTML
+ * Calendar Day New Event HTML
  * Default function
  *
- * @since 4.5
+ * @since 12.0 Rename CalendarDayNewAssignmentHTMLDefault() function to CalendarDayNewEventHTMLDefault()
  * @since 12.0 Use colorBox instead of popup window
  *
- * @param string $date        ISO date.
- * @param array  $assignments Assignments array.
+ * @param string $date   ISO date.
+ * @param array  $events Events array.
  *
  * @return string HTML
  */
-function CalendarDayNewAssignmentHTMLDefault( $date, $assignments )
+function CalendarDayNewEventHTMLDefault( $date, $events )
 {
 	$html = '';
 

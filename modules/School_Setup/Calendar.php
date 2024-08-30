@@ -1134,7 +1134,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// @since 12.0 CSS add .calendar-newevent class
 		echo '</td></tr><tr class="calendar-newevent">';
 
-		echo CalendarDayNewAssignmentHTML( $date, $assignments_date );
+		echo CalendarDayNewEventHTML( $date, $events_date );
 
 		echo CalendarDayRotationNumberHTML( $date, $minutes );
 
