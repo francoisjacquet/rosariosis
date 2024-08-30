@@ -1277,14 +1277,24 @@ a > .button {
 
 #BottomButtonMenu {
 	height: 32px;
-	line-height: 28px;
 	float: left;
+	margin-left: 2px;
 }
 
-#BottomButtonMenu:before {
-	content: "\2261";
-	font-size: 3rem;
-	font-weight: bold;
+/**
+ * SVG menu icon
+ *
+ * @link https://feathericons.com/?query=menu
+ */
+
+#BottomButtonMenu svg {
+	padding: 2px;
+	height: 28px;
+	width: 28px;
+	fill: none;
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 }
 
 .BottomButton.loading {

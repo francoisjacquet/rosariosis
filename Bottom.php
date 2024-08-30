@@ -23,6 +23,11 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 			<?php echo _( 'Skip to main content' ); // Accessibility link to skip menus. ?>
 		</a>
 		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo AttrEscape( _( 'Menu' ) ); ?>" class="BottomButton">
+			<svg viewBox="0 0 24 24">
+				<line x1="3" y1="12" x2="21" y2="12"></line>
+				<line x1="3" y1="6" x2="21" y2="6"></line>
+				<line x1="3" y1="18" x2="21" y2="18"></line>
+			</svg>
 			<span><?php echo _( 'Menu' ); ?></span>
 		</a>
 

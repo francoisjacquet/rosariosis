@@ -564,8 +564,8 @@ hr {
 
 /*bottom*/
 
-#BottomButtonMenu:before {
-	color: #000;
+#BottomButtonMenu svg {
+	stroke: #000;
 	background-color: #fff;
 }
 
