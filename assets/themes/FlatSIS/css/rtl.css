@@ -126,6 +126,12 @@ html[dir="RTL"] #LO_search {
 	padding-left: 28px;
 }
 
+/* Select2 */
+
+html[dir="RTL"] .select2-container--default .select2-selection__rendered {
+	text-align: right;
+}
+
 @media only screen and (max-width:1023px) {
 	/* Calendar responsive */
 	html[dir="RTL"] .calendar-day .hover:hover {

@@ -85,6 +85,15 @@ body {
 	border-color: #ccc;
 }
 
+/*FixedMenu bug not properly fixed to bottom*/
+
+#menu.fixedmenu-fixed + div {
+	background: #ececec;
+	background-image: url(menu-shadow.png);
+	background-position: top right;
+	background-repeat: repeat-y;
+}
+
 #menu,
 .menu-top,
 .menu-top:hover,
@@ -319,6 +328,7 @@ a,
 }
 
 .wp-submenu a:hover,
+.wp-submenu a:active,
 .wp-submenu a:focus,
 #selectedMenuLink {
 	background-color: #EAF2FA;
@@ -521,7 +531,12 @@ hr {
 
 /* colorBox */
 
+#cboxContent {
+	background: transparent;
+}
+
 #cboxLoadedContent {
+	border: 1px solid #dfdfdf;
 	background: #fff !important
 }
 
@@ -567,12 +582,5 @@ hr {
 @media only screen and (max-width: 1023px) {
 	.rt tr {
 		border-right-color: #dfdfdf
-	}
-}
-
-@media only screen and (max-width:736px) {
-	.wp-submenu a:hover {
-		background: transparent;
-		color: #21759b
 	}
 }

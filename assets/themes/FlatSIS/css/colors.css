@@ -379,6 +379,7 @@ a.menu-top,
 }
 
 .wp-submenu a:focus,
+.wp-submenu a:active,
 .wp-submenu a:hover,
 #selectedMenuLink {
 	background-color: #1a1a1a;
@@ -640,14 +641,5 @@ hr {
 @media only screen and (max-width: 1023px) {
 	.rt tr {
 		border-right-color: #dfdfdf
-	}
-}
-
-/*mobile + tablet vertical*/
-
-@media only screen and (max-width:874px) {
-	.wp-submenu a:hover {
-		background: transparent;
-		color: #21759b
 	}
 }

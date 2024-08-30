@@ -469,9 +469,9 @@ function _makePollVotes( $value, $name )
 			return $checkbox;
 		}
 
-		return '<div>' . $checkbox . '</div><div style="float:left;">' .
+		return '<div class="poll-votes-outer"><div>' . $checkbox . '</div><div>' .
 		PortalPollsVotesDisplay( $poll_id, true, $poll_questions_RET, $value ) .
-			'</div>';
+			'</div></div>';
 	}
 
 	return CheckboxInput( '', "values[new][DISPLAY_VOTES]", _( 'Results Display' ), '', true );

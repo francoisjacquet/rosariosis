@@ -48,6 +48,8 @@ Changes in 12.0
 - CSS add .calendar-event-poptable, .calendar-minutes, .calendar-newevent classes in stylesheet.css, zresponsive.css & Calendar.php
 - SVG menu icon (#BottomButtonMenu) in Bottom.php, colors.css & stylesheet.css
 - CSS Add .uld class, alias of .underline-dots in colors.css, stylesheet.css & Inputs.php
+- CSS add .poll-votes-outer class in zresponsive.css & PortalPolls.php
+- CSS themes vertical alignment fixes for button, select2 & others in colors.css, rtl.css, stylesheet.css, zresponsive.css
 
 Changes in 11.8.2
 -----------------

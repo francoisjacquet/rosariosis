@@ -36,6 +36,9 @@
 		top: 0;
 		bottom: auto;
 	}
+	#footerwrap {
+		padding: 3px 12px;
+	}
 	#footerhelp {
 		border-width: 1px 0;
 		border-style: solid;
@@ -64,19 +67,22 @@
 		margin-bottom: 5px;
 	}
 	.adminmenu a {
-		padding: 2px 5px
+		padding: 2px 12px;
 	}
 	.wp-submenu a {
-		padding: 5px
+		padding: 5px 12px;
 	}
 	#menu form {
-		padding: 5px;
+		padding: 5px 12px;
 	}
 	.menu-top img {
 		height: 30px
 	}
 	#menu-top select {
 		max-width: none;
+	}
+	.current-person {
+		padding: 2px 10px;
 	}
 	.no-touch .menu-module:hover .menu-top:after {
 		content: "";
@@ -88,6 +94,9 @@
 		width: auto !important;
 		padding: 0 5px;
 		box-sizing: border-box;
+	}
+	.header1 {
+		padding-left: 6px;
 	}
 	.header1 h2 {
 		font-size: 24px;
@@ -150,6 +159,13 @@
 	}
 	.divPortalPoll {
 		min-width: 0
+	}
+	.rt .poll-votes-outer div {
+		display: inline-block;
+	}
+	.rt .poll-votes-outer > div:first-child {
+		vertical-align: top;
+		padding-right: 6px;
 	}
 	/*bigger tooltip i*/
 	.tooltip::before {
