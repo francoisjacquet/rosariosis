@@ -52,6 +52,8 @@ Changes in 12.0
 - CSS themes vertical alignment fixes for button, select2 & others in colors.css, rtl.css, stylesheet.css, zresponsive.css
 - Breaking change: Rename CalendarDayNewAssignmentHTML() function to CalendarDayNewEventHTML() in Calendar.php & CalendarDay.inc.php
 - Rename CalendarDayNewAssignmentHTMLDefault() function to CalendarDayNewEventHTMLDefault() in CalendarDay.inc.php
+- Deprecate `_getAttendanceDayRET()` & `_getAttendanceRET()` functions in ReportCards.fnc.php
+- Add & use `_getDailyAbsencesMP()` & `_getOtherAttendanceMP()` functions instead in ReportCards.fnc.php
 
 Changes in 11.8.2
 -----------------

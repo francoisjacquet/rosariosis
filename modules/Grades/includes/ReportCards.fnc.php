@@ -1236,7 +1236,7 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 /**
  * Marking Period Daily absences.
  *
- * @uses _getAttendanceDayRET()
+ * @uses _getDailyAbsencesMP()
  *
  * @param  string $st_list    Student List
  * @param  string $last_mp    Last MP
@@ -1245,16 +1245,13 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
  */
 function GetMPAbsences( $st_list, $last_mp, $student_id )
 {
-	$attendance_day_RET = _getAttendanceDayRET( $st_list, $last_mp );
+	$attendance_day_mp = _getDailyAbsencesMP( $st_list, $last_mp );
 
 	$count = 0;
 
-	if ( isset( $attendance_day_RET[$student_id][$last_mp] ) )
+	if ( isset( $attendance_day_mp[$student_id][1]['DAILY_ABSENCE_COUNT'] ) )
 	{
-		foreach ( (array) $attendance_day_RET[$student_id][$last_mp] as $abs )
-		{
-			$count += 1 - $abs['STATE_VALUE'];
-		}
+		$count = $attendance_day_mp[$student_id][1]['DAILY_ABSENCE_COUNT'];
 	}
 
 	return sprintf( _( 'Daily Absences in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' . $count;
@@ -1263,28 +1260,22 @@ function GetMPAbsences( $st_list, $last_mp, $student_id )
 /**
  * Year-to-date Daily Absences.
  *
- * @uses _getAttendanceDayRET()
+ * @uses _getDailyAbsencesMP()
  *
  * @param  string $st_list    Student List
- * @param  string $last_mp    Last MP
+ * @param  string $last_mp    Last MP (deprecated since 12.0)
  * @param  string $student_id Student ID
  * @return string "Daily Absences this year: x"
  */
 function GetYTDAbsences( $st_list, $last_mp, $student_id )
 {
-	$attendance_day_RET = _getAttendanceDayRET( $st_list, $last_mp );
+	$attendance_day_mp = _getDailyAbsencesMP( $st_list, GetFullYearMP() );
 
 	$count = 0;
 
-	if ( isset( $attendance_day_RET[$student_id] ) )
+	if ( isset( $attendance_day_mp[$student_id][1]['DAILY_ABSENCE_COUNT'] ) )
 	{
-		foreach ( (array) $attendance_day_RET[$student_id] as $mp_abs )
-		{
-			foreach ( (array) $mp_abs as $abs )
-			{
-				$count += 1 - $abs['STATE_VALUE'];
-			}
-		}
+		$count = $attendance_day_mp[$student_id][1]['DAILY_ABSENCE_COUNT'];
 	}
 
 	return _( 'Daily Absences this year' ) . ': ' . $count;
@@ -1294,18 +1285,23 @@ function GetYTDAbsences( $st_list, $last_mp, $student_id )
  * Daily Absences this quarter or Year-to-date Daily Absences.
  * Local function.
  *
+ * @deprecated since 12.0 Use _getDailyAbsencesMP() instead
+ *
  * @param  string $st_list              Student List
  * @param  string $last_mp              Last MP
  * @return array  $attendance_day_RET
  */
 function _getAttendanceDayRET( $st_list, $last_mp )
 {
-	/**
-	 * @var mixed
-	 */
 	static $attendance_day_RET = null,
-	$last_st_list,
+		$last_st_list,
 		$last_last_mp;
+
+	// Raise deprecation notice.
+	trigger_error(
+		'_getAttendanceDayRET() function is deprecated since RosarioSIS 12.0. Use _getDailyAbsencesMP() instead.',
+		E_USER_DEPRECATED
+	);
 
 	if ( ! $attendance_day_RET
 		|| $last_st_list !== $st_list
@@ -1337,9 +1333,52 @@ function _getAttendanceDayRET( $st_list, $last_mp )
 }
 
 /**
+ * Daily Absences this quarter or Year-to-date Daily Absences.
+ * Local function.
+ *
+ * @since 12.0
+ *
+ * @param  string $st_list Student List.
+ * @param  string $mp_id   MP ID.
+ *
+ * @return array  $attendance_day_RET[ $mp_id ]
+ */
+function _getDailyAbsencesMP( $st_list, $mp_id )
+{
+	static $attendance_day_RET = null,
+		$last_st_list,
+		$last_mp_id;
+
+	if ( empty( $attendance_day_RET[ $mp_id ] )
+		|| $last_st_list !== $st_list )
+	{
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+
+		$extra['SELECT_ONLY'] = "(SELECT SUM(1 - ad.STATE_VALUE)
+			FROM attendance_day ad
+			WHERE ad.STUDENT_ID=ssm.STUDENT_ID
+			AND ad.SYEAR=ssm.SYEAR
+			AND (ad.STATE_VALUE='0.0' OR ad.STATE_VALUE='.5')
+			AND ad.SCHOOL_DATE<='" . GetMP( $mp_id, 'END_DATE' ) . "'
+			AND ad.SCHOOL_DATE>='" . GetMP( $mp_id, 'START_DATE' ) . "') AS DAILY_ABSENCE_COUNT,ssm.STUDENT_ID";
+
+		$extra['group'] = [ 'STUDENT_ID' ];
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+		$attendance_day_RET[ $mp_id ] = GetStuList( $extra );
+	}
+
+	$last_st_list = $st_list;
+
+	return $attendance_day_RET[ $mp_id ];
+}
+
+/**
  * Marking Period Tardies.
  *
- * @uses _getAttendanceRET()
+ * @uses _getOtherAttendanceMP()
  * @uses _getOtherAttendanceCodes()
  *
  * @param  string $st_list     Student List
@@ -1349,20 +1388,17 @@ function _getAttendanceDayRET( $st_list, $last_mp )
  */
 function GetMPTardies( $st_list, $last_mp, $student_id )
 {
-	// Other Attendance this quarter or Other Attendance Year-to-date.
-	$attendance_RET = _getAttendanceRET( $st_list );
+	// Other Attendance this marking period or Other Attendance Year-to-date.
+	$attendance_mp = _getOtherAttendanceMP( $st_list, $last_mp );
 
 	// Get Other Attendance Codes.
 	$other_attendance_codes = _getOtherAttendanceCodes();
 
 	$count = 0;
 
-	if ( ! empty( $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] ) )
+	if ( ! empty( $attendance_mp[$student_id][$_REQUEST['mp_tardies_code']] ) )
 	{
-		foreach ( (array) $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs )
-		{
-			$count++;
-		}
+		$count = count( $attendance_mp[$student_id][$_REQUEST['mp_tardies_code']] );
 	}
 
 	$tardies_code_title = $other_attendance_codes[$_REQUEST['mp_tardies_code']][1]['TITLE'];
@@ -1374,7 +1410,7 @@ function GetMPTardies( $st_list, $last_mp, $student_id )
 /**
  * Year to Date Tardies.
  *
- * @uses _getAttendanceRET()
+ * @uses _getOtherAttendanceMP()
  * @uses _getOtherAttendanceCodes()
  *
  * @param  string $st_list     Student List
@@ -1383,23 +1419,17 @@ function GetMPTardies( $st_list, $last_mp, $student_id )
  */
 function GetYTDTardies( $st_list, $student_id )
 {
-	// Other Attendance this quarter or Other Attendance Year-to-date.
-	$attendance_RET = _getAttendanceRET( $st_list );
+	// Other Attendance this marking period or Other Attendance Year-to-date.
+	$attendance_mp = _getOtherAttendanceMP( $st_list, GetFullYearMP() );
 
 	// Get Other Attendance Codes.
 	$other_attendance_codes = _getOtherAttendanceCodes();
 
 	$count = 0;
 
-	if ( ! empty( $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] ) )
+	if ( ! empty( $attendance_mp[$student_id][$_REQUEST['ytd_tardies_code']] ) )
 	{
-		foreach ( (array) $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs )
-		{
-			foreach ( (array) $mp_abs as $abs )
-			{
-				$count++;
-			}
-		}
+		$count += count( $attendance_mp[$student_id][$_REQUEST['ytd_tardies_code']] );
 	}
 
 	$tardies_code_title = $other_attendance_codes[$_REQUEST['ytd_tardies_code']][1]['TITLE'];
@@ -1411,16 +1441,21 @@ function GetYTDTardies( $st_list, $student_id )
  * Other Attendance this quarter or Other Attendance Year-to-date.
  * Local function.
  *
+ * @deprecated since 12.0 use _getOtherAttendanceMP() instead
+ *
  * @param  string $st_list   Student List
  * @return array  Attendance RET
  */
 function _getAttendanceRET( $st_list )
 {
-	/**
-	 * @var mixed
-	 */
 	static $attendance_RET = null,
 		$last_st_list;
+
+	// Raise deprecation notice.
+	trigger_error(
+		'_getAttendanceRET() function is deprecated since RosarioSIS 12.0. Use _getOtherAttendanceMP() instead.',
+		E_USER_DEPRECATED
+	);
 
 	if ( ! $attendance_RET
 		|| $last_st_list !== $st_list )
@@ -1448,6 +1483,52 @@ function _getAttendanceRET( $st_list )
 	$last_st_list = $st_list;
 
 	return $attendance_RET;
+}
+
+/**
+ * Other Attendance this marking period or Other Attendance Year-to-date.
+ * Local function.
+ *
+ * @since 12.0
+ *
+ * @param  string $st_list Student List.
+ * @param  string $mp_id   MP ID.
+ *
+ * @return array  $attendance_RET[ $mp_id ]
+ */
+function _getOtherAttendanceMP( $st_list, $mp_id )
+{
+	static $attendance_RET = null,
+		$last_st_list;
+
+	if ( empty( $attendance_RET[ $mp_id ] )
+		|| $last_st_list !== $st_list )
+	{
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+
+		$extra['SELECT_ONLY'] = "ap.SCHOOL_DATE,ap.COURSE_PERIOD_ID,
+			ac.ID AS ATTENDANCE_CODE,ssm.STUDENT_ID";
+
+		$extra['FROM'] = ",attendance_codes ac,attendance_period ap";
+
+		$extra['WHERE'] .= " AND ac.ID=ap.ATTENDANCE_CODE
+			AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)
+			AND ac.SYEAR=ssm.SYEAR
+			AND ap.STUDENT_ID=ssm.STUDENT_ID
+			AND ap.SCHOOL_DATE<='" . GetMP( $mp_id, 'END_DATE' ) . "'
+			AND ap.SCHOOL_DATE>='" . GetMP( $mp_id, 'START_DATE' ) . "'";
+
+		$extra['group'] = [ 'STUDENT_ID', 'ATTENDANCE_CODE' ];
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+		$attendance_RET[ $mp_id ] = GetStuList( $extra );
+	}
+
+	$last_st_list = $st_list;
+
+	return $attendance_RET[ $mp_id ];
 }
 
 /**
