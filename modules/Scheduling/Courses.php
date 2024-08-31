@@ -1693,11 +1693,14 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$link['TITLE']['variables'] = [ 'course_period_id' => 'COURSE_PERIOD_ID', 'course_marking_period_id' => 'MARKING_PERIOD_ID' ];
 
-				if ( $_REQUEST['modfunc'] === 'choose_course' )
+				if ( $_REQUEST['modname'] === 'Scheduling/Schedule.php' )
 				{
 					$link['TITLE']['link'] .= '&year_date=' . $_REQUEST['year_date'] .
 						'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'];
+				}
 
+				if ( $_REQUEST['modfunc'] === 'choose_course' )
+				{
 					$link['TITLE']['link'] .= '&modfunc=' . $_REQUEST['modfunc'] . '&student_id=' . issetVal( $_REQUEST['student_id'], '' ) . '&last_year=' . $_REQUEST['last_year'];
 				}
 				else
