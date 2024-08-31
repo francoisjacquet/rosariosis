@@ -614,7 +614,7 @@ function FinalGradesSave( $cp_id, $mp_id, $final_grades )
 			'WEIGHTED_GP' => $weighted,
 			'UNWEIGHTED_GP' => $unweighted,
 			'GP_SCALE' => $scale,
-			'COURSE_TITLE' => $course_RET[1]['TITLE'],
+			'COURSE_TITLE' => DBEscapeString( $course_RET[1]['COURSE_NAME'] ),
 			'CLASS_RANK' => $course_RET[1]['CLASS_RANK'],
 			'CREDIT_HOURS' => $course_RET[1]['CREDIT_HOURS'],
 			'CREDIT_ATTEMPTED' => $course_RET[1]['CREDITS'],
