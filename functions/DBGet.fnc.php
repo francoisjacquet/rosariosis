@@ -88,7 +88,7 @@ function DBGet( $QI, $functions = [], $index = [] )
 				$ind[] = issetVal( $RET[ $col ] );
 			}
 
-			$ind_concat = implode( '', $ind );
+			$ind_concat = implode( '-', $ind );
 
 			$this_ind = isset( $s[ $ind_concat ] ) ? ++$s[ $ind_concat ] : ( $s[ $ind_concat ] = 1 );
 		}
