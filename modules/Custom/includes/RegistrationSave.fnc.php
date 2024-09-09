@@ -283,7 +283,8 @@ function RegistrationSaveAddress( $config, $values )
 {
 	static $inserted_addresses = [];
 
-	if ( empty( trim( $values['ADDRESS'] ) ) )
+	if ( empty( $values['ADDRESS'] )
+		|| empty( trim( $values['ADDRESS'] ) ) )
 	{
 		return 0;
 	}
