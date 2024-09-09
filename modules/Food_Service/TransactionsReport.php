@@ -156,7 +156,7 @@ function bump_amount( $value, $column )
 {
 	global $THIS_RET, $types, $types_rows, $types_columns, $types_totals;
 
-	if ( $types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']] )
+	if ( ! empty( $types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']] ) )
 	{
 		$types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']][$value] += $THIS_RET['AMOUNT'];
 	}

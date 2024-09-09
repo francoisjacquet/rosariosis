@@ -170,7 +170,7 @@ function bump_count( $value )
 	global $THIS_RET,
 		$types;
 
-	if ( $types[ $value ] )
+	if ( ! empty( $types[ $value ] ) )
 	{
 		$types[ $value ]['COUNT']++;
 		$types[ $value ]['AMOUNT'] += $THIS_RET['AMOUNT'];
