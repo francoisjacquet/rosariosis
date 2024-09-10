@@ -556,6 +556,11 @@ hr {
 	/* Yellow */
 }
 
+.attendance-code select,
+.attendance-code input {
+	color: #111;
+}
+
 /*arrows*/
 
 .switchMenu:before {
