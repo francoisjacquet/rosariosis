@@ -55,6 +55,10 @@ Changes in 12.0
 - Deprecate `_getAttendanceDayRET()` & `_getAttendanceRET()` functions in ReportCards.fnc.php
 - Add & use `_getDailyAbsencesMP()` & `_getOtherAttendanceMP()` functions instead in ReportCards.fnc.php
 
+Changes in 11.8.4
+-----------------
+- CSS fix #349 set color for code select (was white on white background) in colors.css
+
 Changes in 11.8.3
 -----------------
 - Fix SQL error escape course title & save course, not course period title in FinalGrades.inc.php
