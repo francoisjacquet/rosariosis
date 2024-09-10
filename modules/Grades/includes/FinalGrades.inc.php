@@ -578,7 +578,7 @@ function FinalGradesSave( $cp_id, $mp_id, $final_grades )
 		AND rcg.SYEAR='" . $cp['SYEAR'] . "'
 		AND rcg.SCHOOL_ID='" . (int) $cp['SCHOOL_ID'] . "'
 		AND rcg.GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
-		ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER IS NULL,rcg.SORT_ORDER", [], [ 'ID' ] );
+		ORDER BY rcg.BREAK_OFF IS NULL,rcg.BREAK_OFF DESC,rcg.SORT_ORDER IS NULL,rcg.SORT_ORDER", [], [ 'ID' ] );
 
 	if ( ! $grade_scale_id )
 	{

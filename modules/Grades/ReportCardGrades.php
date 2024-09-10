@@ -160,7 +160,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER";
+			ORDER BY BREAK_OFF IS NULL,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER";
 
 		$sql_count = "SELECT COUNT(1)
 			FROM report_card_grades

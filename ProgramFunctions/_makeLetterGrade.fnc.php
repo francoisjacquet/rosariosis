@@ -104,7 +104,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER" );
+			ORDER BY BREAK_OFF IS NULL,BREAK_OFF DESC,SORT_ORDER IS NULL,SORT_ORDER" );
 	}
 
 	// Fix error invalid input syntax for type numeric
