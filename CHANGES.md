@@ -55,6 +55,7 @@ Changes in 12.0
 - Deprecate `_getAttendanceDayRET()` & `_getAttendanceRET()` functions in ReportCards.fnc.php
 - Add & use `_getDailyAbsencesMP()` & `_getOtherAttendanceMP()` functions instead in ReportCards.fnc.php
 - SQL rewrite "ORDER BY COL IS NOT NULL DESC" to its equivalent "ORDER BY COL IS NULL", program wide
+- Close #348 Add School Year & Principal to Substitutions in Letters.php
 
 Changes in 11.8.4
 -----------------

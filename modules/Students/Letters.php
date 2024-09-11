@@ -35,6 +35,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 	// SELECT s.* Custom Fields for Substitutions.
 	$extra['SELECT'] .= ",s.*";
 
+	// Close #348 Add School Year & Principal to Substitutions
+	$extra['SELECT'] .= ",(SELECT sch.PRINCIPAL FROM schools sch
+		WHERE ssm.SCHOOL_ID=sch.ID
+		AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_PRINCIPAL";
+
 	if ( User( 'PROFILE' ) === 'admin' )
 	{
 		if ( isset( $_REQUEST['w_course_period_id_which'] )
@@ -142,6 +147,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 			'__MIDDLE_NAME__' =>  $student['MIDDLE_NAME'],
 			'__STUDENT_ID__' => $student['STUDENT_ID'],
 			'__SCHOOL_TITLE__' => $student['SCHOOL_TITLE'],
+			'__SCHOOL_YEAR__' => FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
+			'__SCHOOL_PRINCIPAL__' => $student['SCHOOL_PRINCIPAL'],
 			'__GRADE_ID__' => $student['GRADE_ID'],
 			'__TEACHER__' => $student['TEACHER'],
 			'__ROOM__' => $student['ROOM'],
@@ -189,6 +196,8 @@ if ( ! $_REQUEST['modfunc'] )
 			'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
 			'__STUDENT_ID__' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 			'__SCHOOL_TITLE__' => _( 'School' ),
+			'__SCHOOL_YEAR__' => _( 'School Year' ),
+			'__SCHOOL_PRINCIPAL__' => _( 'Principal of School' ),
 			'__GRADE_ID__' => _( 'Grade Level' ),
 		];
 
