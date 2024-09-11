@@ -36,35 +36,21 @@ if ( isset( $_POST['email'] )
 		if ( ! $user_RET
 			&& Config( 'STUDENTS_EMAIL_FIELD' ) )
 		{
-			// Check & rebuild custom student email field.
-			$custom_field = false;
+			$email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
+				'USERNAME' : 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 
-			$cust_field_tmp = Config( 'STUDENTS_EMAIL_FIELD' );
-
-			if ( $cust_field_tmp === 'USERNAME' )
-			{
-				$custom_field = 'USERNAME';
-			}
-			elseif ( (string) (int) $cust_field_tmp === $cust_field_tmp )
-			{
-				$custom_field = 'custom_' . $cust_field_tmp;
-			}
-
-			if ( $custom_field )
-			{
-				// SQL Handle case when multiple users have same email: order by Failed Login.
-				$user_RET = DBGet( "SELECT s.STUDENT_ID AS ID,s.USERNAME,'student' AS USER_TYPE,
-					s." . $custom_field . " AS EMAIL
-					FROM students s,student_enrollment ssm
-					WHERE LOWER(s." . $custom_field . ")=LOWER('" . $_REQUEST['email'] . "')
-					AND s.STUDENT_ID=ssm.STUDENT_ID
-					AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
-					AND ('" . DBDate() . "'>=ssm.START_DATE
-					AND (ssm.END_DATE IS NULL
-						OR '" . DBDate() . "'<=ssm.END_DATE ) )
-					ORDER BY s.FAILED_LOGIN IS NULL,s.FAILED_LOGIN DESC
-					LIMIT 1" );
-			}
+			// SQL Handle case when multiple users have same email: order by Failed Login.
+			$user_RET = DBGet( "SELECT s.STUDENT_ID AS ID,s.USERNAME,'student' AS USER_TYPE,
+				s." . DBEscapeIdentifier( $email_field ) . " AS EMAIL
+				FROM students s,student_enrollment ssm
+				WHERE LOWER(s." . DBEscapeIdentifier( $email_field ) . ")=LOWER('" . $_REQUEST['email'] . "')
+				AND s.STUDENT_ID=ssm.STUDENT_ID
+				AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
+				AND ('" . DBDate() . "'>=ssm.START_DATE
+				AND (ssm.END_DATE IS NULL
+					OR '" . DBDate() . "'<=ssm.END_DATE ) )
+				ORDER BY s.FAILED_LOGIN IS NULL,s.FAILED_LOGIN DESC
+				LIMIT 1" );
 		}
 
 		if ( ! $user_RET )
@@ -129,34 +115,20 @@ if ( ! empty( $_REQUEST['h'] )
 
 	if ( Config( 'STUDENTS_EMAIL_FIELD' ) )
 	{
-		// Check & rebuild custom student email field.
-		$custom_field = false;
+		$email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
+			'USERNAME' : 'CUSTOM_' . (int) Config( 'STUDENTS_EMAIL_FIELD' );
 
-		$cust_field_tmp = Config( 'STUDENTS_EMAIL_FIELD' );
-
-		if ( $cust_field_tmp === 'USERNAME' )
-		{
-			$custom_field = 'USERNAME';
-		}
-		elseif ( (string) (int) $cust_field_tmp === $cust_field_tmp )
-		{
-			$custom_field = 'custom_' . $cust_field_tmp;
-		}
-
-		if ( $custom_field )
-		{
-			// Select Students where last login > now & enrolled.
-			$student_RET = DBGet( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
-				s." . $custom_field . " AS EMAIL,
-				" . DisplayNameSQL( 's' ) . " AS FULL_NAME, s.LAST_LOGIN
-				FROM students s, student_enrollment se
-				WHERE s.LAST_LOGIN > CURRENT_TIMESTAMP
-				AND se.SYEAR='" . Config( 'SYEAR' ) . "'
-				AND se.STUDENT_ID=s.STUDENT_ID
-				AND ('" . DBDate() . "'>=se.START_DATE
-					AND ('" . DBDate() . "'<=se.END_DATE
-						OR se.END_DATE IS NULL ) )" );
-		}
+		// Select Students where last login > now & enrolled.
+		$student_RET = DBGet( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
+			s." . DBEscapeIdentifier( $email_field ) . " AS EMAIL,
+			" . DisplayNameSQL( 's' ) . " AS FULL_NAME, s.LAST_LOGIN
+			FROM students s, student_enrollment se
+			WHERE s.LAST_LOGIN > CURRENT_TIMESTAMP
+			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
+			AND se.STUDENT_ID=s.STUDENT_ID
+			AND ('" . DBDate() . "'>=se.START_DATE
+				AND ('" . DBDate() . "'<=se.END_DATE
+					OR se.END_DATE IS NULL ) )" );
 	}
 
 	if ( ! $staff_RET
