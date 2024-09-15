@@ -185,7 +185,7 @@ if ( ! extension_loaded( 'gd' ) )
 // Check for zip extension.
 if ( ! extension_loaded( 'zip' ) )
 {
-	$error[] = 'PHP extensions: RosarioSIS relies on the zip extension (used to upload add-ons and by Import add-ons). Please install and activate it.';
+	$error[] = 'PHP extensions: RosarioSIS relies on the zip extension (used to upload add-ons). Please install and activate it.';
 }
 
 // Check for curl extension.
