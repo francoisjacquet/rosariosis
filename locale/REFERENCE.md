@@ -13,8 +13,8 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | bn_BD | Bengali (Bangladesh)          | 32%       |                     |
 | cs_CZ | Czech (Czech Republic)        | 32%       |                     |
 | da_DK | Danish (Denmark)              | 32%       |                     |
-| el_GR | Greek (Greece)                | 33%       |                     |
 | de_DE | German (Germany)              | **99%**   | Heike Gutsche, @0xD0M1M0 |
+| el_GR | Greek (Greece)                | **99%**   | Georgios Katakalos  |
 | en_CA | English (Canada)              | 1%        | RDH Associates Inc. |
 | es_ES | Spanish (Spain)               | **100%**  | RosarioSIS          |
 | et_EE | Estonian (Estonia)            | 33%       |                     |
@@ -29,7 +29,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | is_IS | Icelandic (Iceland)           | 33%       |                     |
 | it_IT | Italian (Italy)               | 31%       |                     |
 | ja_JP | Japanese (Japan)              | 32%       |                     |
-| km_KH | Khmer                         | **86%**   | Lyle Kozloff        |
+| km_KH | Khmer (Cambodia)              | **86%**   | Lyle Kozloff        |
 | ko_KR | Korean (South Korea)          | 31%       |                     |
 | lt_LT | Lithuanian (Lithuania)        | 33%       |                     |
 | lv_LV | Latvian (Latvia)              | 33%       |                     |
@@ -48,7 +48,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | sr_RS | Serbian (Cyrillic, Bosnia)    | 33%       |                     |
 | sv_SE | Swedish (Sweden)              | 33%       |                     |
 | th_TH | Thai (Thailand)               | 33%       |                     |
-| tr_TR | Turkish (Turkey)              | 32%       |                     |
+| tr_TR | Turkish (Turkey)              | **99%**   | Georgios Katakalos  |
 | uk_UA | Ukrainian (Ukraine)           | 33%       |                     |
 | vi_VN | Vietnamese (Vietnam)          | **99%**   | Steven M. Haag & Trân Thi Kim Thanh |
 | wa_BE | Walloon (Belgium)             | 33%       |                     |
