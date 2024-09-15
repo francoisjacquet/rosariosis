@@ -11,7 +11,6 @@
  * Modules & Plugins
  * Update RosarioSIS
  * Warehouse() function (Output HTML header (including Bottom & Side menus), or footer)
- * isPopup() function (Popup window detection)
  * isAJAX() function (AJAX request detection)
  * ETagCache() function (ETag cache system)
  *
@@ -575,7 +574,6 @@ function _LoadAddons( $addons, $folder )
  *
  * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded'] & $_ROSARIO['page']
  *
- * @uses isPopup()
  * @uses isAJAX()
  * @uses ETagCache()
  *
@@ -663,16 +661,7 @@ function Warehouse( $mode )
 </head>
 <body class="<?php echo AttrEscape( $_ROSARIO['page'] ); ?>">
 <?php
-			if ( $_ROSARIO['page'] === 'modules' ):
-				// If popup window, verify it is an actual popup.
-				if ( isPopup() ):
-				?>
-				<script>if(window == top  && (!window.opener)) window.location.href = "Modules.php?modname=misc/Portal.php";</script>
-					<?php // @since 10.0 Close popup if no UserSchool in session, happens on login redirect.
-					if ( ! UserSchool() ) : ?>
-					<script>window.close();</script>
-					<?php endif;
-				else: ?>
+			if ( $_ROSARIO['page'] === 'modules' ): ?>
 <div id="wrap">
 	<footer id="footer" class="mod">
 		<?php require_once 'Bottom.php'; // Include Bottom menu. ?>
@@ -682,7 +671,6 @@ function Warehouse( $mode )
 	</aside>
 
 <?php
-				endif;
 			endif;
 
 			?>
@@ -734,38 +722,15 @@ function Warehouse( $mode )
 			?>
 	</div><!-- #body -->
 	<div class="ajax-error"></div>
-<?php
-
-				if ( ! isPopup() ):
-				?>
 	</div><!-- #wrap -->
-<?php
-				endif;
-
-			?>
 </body></html>
 <?php
-			endif;
-
-			if ( ! isPopup() ):
-
-				// require_once 'ProgramFunctions/Help.fnc.php';
-
-				// Check if module has help (not default).
-				//$has_help_text = GetHelpTextRaw( $_REQUEST['modname'] );
-
-				/*if ( $has_help_text )
-				{
-					var_dump($_REQUEST['modname']);
-					echo 'Has Help!!!';
-				}*/
-
 			endif;
 
 			elseif ( ! isAJAX() ): // Other pages (not modules).
 
 				?>
-		</div><!-- #body -->
+	</div><!-- #body -->
 </body></html>
 <?php
 			endif;
@@ -804,7 +769,7 @@ function WarehouseHeaderJS()
 /**
  * Popup window detection
  *
- * @todo deprecate & Remove popup, use soft popup with featherlight or https://victordiego.com/lightbox/.
+ * @deprecated since 12.0 Use colorBox instead of popup window
  *
  * Set it once in Modules.php:
  * @example isPopup( $modname, $_REQUEST['modfunc'] );
@@ -818,19 +783,14 @@ function WarehouseHeaderJS()
  */
 function isPopup( $modname = '', $modfunc = '' )
 {
-	static $is_popup = null;
+	// Raise deprecation notice.
+	trigger_error(
+		'isPopup() function is deprecated since RosarioSIS 12.0. Use colorBox instead of popup window.',
+		E_USER_DEPRECATED
+	);
 
-	if ( ! is_null( $is_popup ) )
-	{
-		return $is_popup;
-	}
-
-	$is_popup = false;
-
-	if ( ! $modname )
-	{
-		return $is_popup;
-	}
+	// Always return false.
+	return false;
 
 	/**
 	 * Popup window detection.
