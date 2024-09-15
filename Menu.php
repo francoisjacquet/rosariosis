@@ -37,29 +37,11 @@ foreach ( (array) $RosarioModules as $module => $active )
 
 $profile = User( 'PROFILE' );
 
-if ( User( 'PROFILE_ID' ) != '' )
-{
-	$allow_use_sql = "SELECT MODNAME
-		FROM profile_exceptions
-		WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
-		AND CAN_USE='Y'";
-}
-// If user has custom exceptions.
-else
-{
-	$allow_use_sql = "SELECT MODNAME
-		FROM staff_exceptions
-		WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-		AND CAN_USE='Y'";
-}
-
 if ( $profile == 'student' )
 {
 	// Force student profile to parent (same rights in Menu.php files).
 	$profile = 'parent';
 }
-
-$_ROSARIO['AllowUse'] = DBGet( $allow_use_sql, [], [ 'MODNAME' ] );
 
 $_ROSARIO['Menu'] = [];
 
@@ -84,16 +66,16 @@ foreach ( (array) $menu as $modcat => $profiles )
 		}
 
 		// If program allowed, add it.
-		if ( ! empty( $_ROSARIO['AllowUse'][ $program ] )
-				&& ( $profile !== 'admin'
-					|| empty( $exceptions[ $modcat ][ $program ] )
-					|| AllowEdit( $program ) ) )
+		if ( AllowUse( $program, true ) // Cache all.
+			&& ( $profile !== 'admin'
+				|| empty( $exceptions[ $modcat ][ $program ] )
+				|| AllowEdit( $program, true ) ) ) // Cache all.
 		{
 			$_ROSARIO['Menu'][ $modcat ][ $program ] = $title;
 
 			// Default to first allowed program if default not allowed.
 			if ( ! isset( $_ROSARIO['Menu'][ $modcat ]['default'] )
-				|| empty( $_ROSARIO['AllowUse'][ $_ROSARIO['Menu'][ $modcat ]['default'] ] ) )
+				|| ! AllowUse( $_ROSARIO['Menu'][ $modcat ]['default'] ) )
 			{
 				$_ROSARIO['Menu'][ $modcat ]['default'] = $program;
 			}

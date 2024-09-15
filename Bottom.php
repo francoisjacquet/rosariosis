@@ -137,16 +137,25 @@ elseif ( $_REQUEST['bottomfunc'] === 'print' ) :
 		$_ROSARIO['allow_edit'] = false;
 	}
 
-	// FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html.
-	if ( mb_substr( $modname, -4, 4 ) !== '.php'
-		|| mb_strpos( $modname, '..' ) !== false
-		|| ! is_file( 'modules/' . $modname ) )
+	if ( AllowUse() )
+	{
+		if ( mb_substr( $modname, -4, 4 ) !== '.php'
+			|| mb_strpos( $modname, '..' ) !== false
+			/*|| ! is_file( 'modules/' . $modname )*/ )
+		{
+			require_once 'ProgramFunctions/HackingLog.fnc.php';
+			HackingLog();
+		}
+		else
+			require_once 'modules/' . $modname;
+
+	}
+	// Not allowed, hacking attempt?
+	elseif ( User( 'USERNAME' ) )
 	{
 		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
-	else
-		require_once 'modules/' . $modname;
 
 	// FJ call PDFStop to generate Print PDF.
 	PDFStop( $print_data );

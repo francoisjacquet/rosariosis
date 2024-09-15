@@ -27,62 +27,11 @@ if ( ! isset( $_REQUEST['modfunc'] ) )
 
 $_ROSARIO['page'] = 'modules';
 
-// Set Popup window detection.
-isPopup( $modname, $_REQUEST['modfunc'] );
-
 // Output Header HTML.
 Warehouse( 'header' );
 
-
-/**
- * FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
- * allow PHP scripts in misc/ one by one in place of the whole folder.
- */
-$allowed = in_array(
-	$modname,
-	[
-		'misc/ChooseRequest.php',
-		'misc/ChooseCourse.php',
-		'misc/Portal.php',
-		'misc/ViewContact.php',
-	]
-);
-
-// Browse allowed programs and look for requested modname.
-if ( ! $allowed )
-{
-	// Generate Menu.
-	require_once 'Menu.php';
-
-	// @since 10.3 Fix program not found when query string is URL encoded.
-	$query_string = urldecode( $_SERVER['QUERY_STRING'] );
-
-	foreach ( (array) $_ROSARIO['Menu'] as $modcat => $programs )
-	{
-		foreach ( (array) $programs as $program => $title )
-		{
-			if ( is_int( $program ) )
-			{
-				continue;
-			}
-
-			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
-			if ( $modname == $program
-				|| ( mb_strpos( $program, $modname ) === 0
-					&& mb_strpos( $query_string, $program ) === 8 ) )
-			{
-				$allowed = true;
-
-				// Eg: "Student_Billing/Statements.php&_ROSARIO_PDF".
-				$_ROSARIO['ProgramLoaded'] = $program;
-
-				break 2;
-			}
-		}
-	}
-}
-
-if ( $allowed )
+// Performance: up to 10% faster compared to loading Menu.php.
+if ( AllowUse() )
 {
 	// Force search_modfunc to list.
 	if ( Preferences( 'SEARCH' ) !== 'Y' )
