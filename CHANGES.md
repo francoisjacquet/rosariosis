@@ -56,6 +56,8 @@ Changes in 12.0
 - Add & use `_getDailyAbsencesMP()` & `_getOtherAttendanceMP()` functions instead in ReportCards.fnc.php
 - SQL rewrite "ORDER BY COL IS NOT NULL DESC" to its equivalent "ORDER BY COL IS NULL", program wide
 - Close #348 Add School Year & Principal to Substitutions in Letters.php
+- Give full responsibility to & improve AllowEdit() & AllowUse() in AllowEdit.fnc.php
+- Add smart cache: up to 8ms faster in AllowEdit.fnc.php
 
 Changes in 11.8.4
 -----------------
