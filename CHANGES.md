@@ -23,7 +23,7 @@ Changes in 12.0
 - Use colorBox instead of popup window (CSS use .colorbox class) in warehouse.js, Widget.php, Buttons.php, GetStuList.fnc.php, ListOutput.fnc.php, Courses.php, MassDrops.php, MassRequests.php, MassSchedule.php, Schedule.php, Scheduling/function.inc.php, Calendar.php, CalendarDay.inc.php, ChooseCourse.php & ChooseRequest.php
 - JS Move form submit handler from ajaxPrepare() to onload in warehouse.js
 - JS ajaxPostForm() deprecate submit param in warehouse.js & program wide
-- Update jQuery from v2.2.4 to v3.7.1 in jquery.js
+- Update jQuery from v2.2.4 to v3.7.1 in jquery.js & Warehouse.php
 - Remove jQuery Form Plugin in jquery.form.js & Gruntfile.js
 - Fix maintain Enrollment Date in Course Period link (Add a Course popup) in Courses.php
 - JS fix form date & checkbox inside colorBox (Add a Course popup) in Courses.php

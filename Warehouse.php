@@ -756,7 +756,7 @@ function WarehouseHeaderJS()
 	$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
 	?>
-	<script src="assets/js/jquery.js?v=2.2.4"></script>
+	<script src="assets/js/jquery.js?v=3.7.1"></script>
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<?php
