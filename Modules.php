@@ -65,19 +65,5 @@ elseif ( User( 'USERNAME' ) )
 	HackingLog();
 }
 
-/**
- * Save $_REQUEST vars in session: used to recreate $_REQUEST in Bottom.php
- * Note: Code duplicated inside ErrorMessage() for fatal errors
- *
- * @since 11.5 Copy $_REQUEST to $_SESSION['_REQUEST_vars'] last
- */
-if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
-	&& empty( $_REQUEST['LO_save'] )
-	&& ( mb_strpos( $modname, 'misc/' ) === false
-		|| $modname === 'misc/Portal.php' ) )
-{
-	$_SESSION['_REQUEST_vars'] = $_REQUEST;
-}
-
 // Output Footer HTML.
 Warehouse( 'footer' );

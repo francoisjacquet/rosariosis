@@ -59,6 +59,7 @@ Changes in 12.0
 - Give full responsibility to & improve AllowEdit() & AllowUse() in AllowEdit.fnc.php
 - Add smart cache: up to 8ms faster in AllowEdit.fnc.php
 - Rely solely on AllowUse() in Menu.php, Modules.php & Bottom.php
+- Breaking change: Remove use of `$_SESSION['_REQUEST_vars']` in Bottom.php, Modules.php, ErrorMessage.fnc.php & PreparePHP_SELF.fnc.php
 
 Changes in 11.8.4
 -----------------

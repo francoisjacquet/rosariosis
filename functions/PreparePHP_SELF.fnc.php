@@ -127,7 +127,6 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
  * @since 3.3
  * @since 11.2 Add $add_post argument, POST parameters to add to the URL (optional)
  * @since 11.4 Add XRedirectUrl JS global var for soft redirection when not an AJAX request
- * @since 11.5 Copy $_REQUEST to $_SESSION['_REQUEST_vars'] last in Modules.php, no need to remove here
  *
  * @example RedirectURL( [ 'modfunc', 'id' ] );
  *
