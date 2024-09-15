@@ -708,7 +708,7 @@ function Warehouse( $mode )
 			if ( isset( $_ROSARIO['page'] )
 				&& $_ROSARIO['page'] === 'modules' ): ?>
 <script>
-	var modname = "<?php echo issetVal( $_ROSARIO['ProgramLoaded'], '' ); ?>";
+	var modname = <?php echo json_encode( $_REQUEST['modname'] ); ?>;
 	if (typeof menuStudentID !== 'undefined'
 		&& (menuStudentID != "<?php echo UserStudentID(); ?>"
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
