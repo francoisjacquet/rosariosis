@@ -9,11 +9,9 @@
 
 if ( $_REQUEST['modfunc'] === 'final_grades_all_mp_save_ajax' )
 {
+	// Note: no need to call RedirectURL() & unset $_REQUEST params here as we die just after.
 	$cp_ids = empty( $_REQUEST['cp_id'] ) ? '0' : $_REQUEST['cp_id'];
 	$qtr_id = empty( $_REQUEST['qtr_id'] ) ? '0' : $_REQUEST['qtr_id'];
-
-	// Reset modfunc, mp_id & qtr_id in case Modules is dynamically reloaded based on $_SESSION request.
-	RedirectURL( [ 'modfunc', 'cp_id', 'qtr_id' ] );
 
 	foreach ( (array) $cp_ids as $cp_id )
 	{

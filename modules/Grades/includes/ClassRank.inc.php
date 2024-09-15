@@ -10,10 +10,8 @@
 
 if ( $_REQUEST['modfunc'] === 'class_rank_ajax' )
 {
+	// Note: no need to call RedirectURL() & unset $_REQUEST params here as we die just after.
 	$mp_id = empty( $_REQUEST['mp_id'] ) ? '0' : $_REQUEST['mp_id'];
-
-	// Reset modfunc & mp_id in case Modules is dynamically reloaded based on $_SESSION request.
-	RedirectURL( [ 'modfunc', 'mp_id' ] );
 
 	ClassRankCalculateAJAX( $mp_id );
 }

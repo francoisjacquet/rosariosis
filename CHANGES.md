@@ -61,6 +61,7 @@ Changes in 12.0
 - Rely solely on AllowUse() in Menu.php, Modules.php & Bottom.php
 - Breaking change: Remove use of `$_SESSION['_REQUEST_vars']` in Bottom.php, Modules.php, ErrorMessage.fnc.php & PreparePHP_SELF.fnc.php
 - Only load module's Menu.php file in ProgramTitle.fnc.php
+- No need to call RedirectURL() & unset `$_REQUEST` params as we die just after in ClassRank.inc.php & FinalGrades.inc.php
 
 Changes in 11.8.4
 -----------------
