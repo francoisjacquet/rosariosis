@@ -24,8 +24,6 @@
  */
 function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = true )
 {
-	global $locale;
-
 	// Display prompt.
 	if ( empty( $_REQUEST['delete_ok'] )
 		&& empty( $_REQUEST['delete_cancel'] ) )
