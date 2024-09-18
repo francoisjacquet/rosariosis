@@ -189,7 +189,8 @@ function AllowUse( $modname = false, $cache_all = false )
 			$add_query = '&include=' . $_REQUEST['include'];
 		}
 		elseif ( ( $modname === 'Accounting/Statements.php' || $modname === 'Student_Billing/Statements.php' )
-			&& isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			&& isset( $_REQUEST['_ROSARIO_PDF'] )
+			&& User( 'PROFILE' ) !== 'admin' )
 		{
 			// Print Statements.
 			$add_query = '&_ROSARIO_PDF';
