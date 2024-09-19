@@ -52,7 +52,7 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 		elseif ( isset( $columns['AMOUNT'] )
 			&& is_numeric( $columns['AMOUNT'] )
-			&& $columns['ASSIGNED_DATE']
+			&& ! empty( $columns['ASSIGNED_DATE'] )
 			&& $columns['TITLE'] )
 		{
 			$insert_columns = [ 'SYEAR' => UserSyear(), 'SCHOOL_ID' => UserSchool() ];
