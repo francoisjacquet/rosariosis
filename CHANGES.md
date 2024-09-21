@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.8.5
+-----------------
+- Fix regression since 10.0 allow User Field type & category edit in Fields.fnc.php
+
 Changes in 11.8.4
 -----------------
 - CSS fix #349 set color for code select (was white on white background) in colors.css
