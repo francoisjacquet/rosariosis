@@ -4,6 +4,8 @@
 Changes in 11.8.5
 -----------------
 - Fix regression since 10.0 allow User Field type & category edit in Fields.fnc.php
+- Fix #350 Final Grade calculation when both "Weight Assignments" & "Weight Assignment Categories" checked in Grades.php, FinalGrades.fnc.php & ProgressReports.php
+- Fix Final Grade calculation when "Weight Assignments" checked & excused in Grades.php, FinalGrades.fnc.php
 
 Changes in 11.8.4
 -----------------

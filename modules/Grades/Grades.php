@@ -474,8 +474,10 @@ else
 			if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
 			{
 				// @since 11.0 Add Weight Assignments option
-				$extra['SELECT_ONLY'] .= ",sum(" . db_case( [ 'ga.WEIGHT', "''", "'0'", "ga.WEIGHT" ] ) . ") AS PARTIAL_WEIGHT,
-					sum((gg.POINTS/ga.POINTS)*ga.WEIGHT) AS PARTIAL_WEIGHTED_GRADE";
+				// @since 11.8.5 Fix Final Grade calculation when "Weight Assignments" checked & excused
+				$extra['SELECT_ONLY'] .= ",sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'",
+					db_case( [ 'ga.WEIGHT', "''", "'0'", "ga.WEIGHT" ] ) ] ) . ") AS PARTIAL_WEIGHT,
+					sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", '(gg.POINTS/ga.POINTS)*ga.WEIGHT' ] ) . ") AS PARTIAL_WEIGHTED_GRADE";
 			}
 
 			$extra['FROM'] = " JOIN gradebook_assignments ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
@@ -866,7 +868,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 		case 'PERCENT_GRADE':
 			if ( ! $assignment_id )
 			{
-				$total = $total_percent = $total_weighted_grade = $total_weights = 0;
+				$total = $total_percent = $total_weighted = $total_weights = 0;
 
 				if ( ! empty( $points_RET[$THIS_RET['STUDENT_ID']] ) )
 				{
@@ -893,13 +895,12 @@ function _makeExtraAssnCols( $assignment_id, $column )
 							if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
 							{
 								// @since 11.0 Add Weight Assignments option
-								$total_weighted_grade += ( ! empty( $gradebook_config['WEIGHT'] ) ?
-									$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHTED_GRADE'] :
+								$total_weighted += ( ! empty( $gradebook_config['WEIGHT'] ) && $partial_points['PARTIAL_WEIGHT'] ?
+									$partial_points['FINAL_GRADE_PERCENT'] *
+										( $partial_points['PARTIAL_WEIGHTED_GRADE'] / $partial_points['PARTIAL_WEIGHT'] ) :
 									$partial_points['PARTIAL_WEIGHTED_GRADE'] );
 
-								$total_weights += ( ! empty( $gradebook_config['WEIGHT'] ) ?
-									$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHT'] :
-									$partial_points['PARTIAL_WEIGHT'] );
+								$total_weights += $partial_points['PARTIAL_WEIGHT'];
 							}
 						}
 					}
@@ -913,7 +914,12 @@ function _makeExtraAssnCols( $assignment_id, $column )
 						&& $total_weights > 0 )
 					{
 						// @since 11.0 Add Weight Assignments option
-						$total = $total_weighted_grade / $total_weights;
+						$total = $total_weighted / $total_weights;
+
+						if ( ! empty( $gradebook_config['WEIGHT'] ) )
+						{
+							$total = $total_weighted / $total_percent;
+						}
 					}
 				}
 
