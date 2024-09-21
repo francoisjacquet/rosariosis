@@ -65,6 +65,10 @@ Changes in 12.0
 - Add Greek & Turkish translations (99% completed) in locale/el_GR.utf8, locale/tr_TR.utf8 & REFERENCE.md, thanks to Georgios Katakalos
 - Deprecate isPopup() function & remove use in Warehouse() function in Warehouse.php
 
+Changes in 11.8.5
+-----------------
+- Fix regression since 10.0 allow User Field type & category edit in Fields.fnc.php
+
 Changes in 11.8.4
 -----------------
 - CSS fix #349 set color for code select (was white on white background) in colors.css

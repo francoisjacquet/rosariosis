@@ -412,7 +412,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 		{
 			// Mab - allow changing between select and autos and text and exports.
 			if ( ( $table !== 'staff'
-					|| $id < 200000000 ) // Don't change Email & Phone User Fields type.
+					|| ( $id != 200000000
+						&& $id != 200000001 ) ) // Don't change Email & Phone User Fields type.
 				&& in_array( $RET['TYPE'], [ 'select', 'autos', 'text', 'exports' ] ) )
 			{
 				$type_options = array_intersect_key(
@@ -478,7 +479,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			}
 
 			if ( $table !== 'staff'
-				|| $id < 200000000 ) // Don't change Email & Phone User Fields category.
+				|| ( $id != 200000000
+					&& $id != 200000001 ) ) // Don't change Email & Phone User Fields category.
 			{
 				$header .= '<td>' . SelectInput(
 					$category_id,
