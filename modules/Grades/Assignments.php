@@ -293,7 +293,8 @@ if ( ! empty( $_POST['tables'] ) )
 
 			if ( $table === 'gradebook_assignments' )
 			{
-				if ( ( isset( $columns['POINTS'] ) || isset( $columns['WEIGHT'] ) )
+				if ( ( isset( $columns['POINTS'] ) || isset( $columns['WEIGHT'] )
+						|| isset( $columns['ASSIGNED_DATE'] ) || isset( $columns['DUE_DATE'] ) )
 					&& ! empty( $gradebook_config['AUTO_SAVE_FINAL_GRADES'] ) )
 				{
 					/**
@@ -301,7 +302,7 @@ if ( ! empty( $_POST['tables'] ) )
 					 *
 					 * @since 11.8
 					 *
-					 * On Assignment insert or "Points"/"Weight" update
+					 * On Assignment insert or "Points"/"Weight" or "Assigned"/"Due" date update
 					 */
 					FinalGradesAllMPSaveAJAX( UserCoursePeriod(), UserMP() );
 				}
