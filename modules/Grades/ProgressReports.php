@@ -189,7 +189,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$gradebook_config = ProgramUserConfig( 'Gradebook', $teacher_id );
 
-			$sum_student_points = $sum_weighted_grade = $sum_total_points = $sum_points = $sum_percent = $sum_weights = 0;
+			$sum_student_points = $sum_weighted = $sum_total_points = $sum_points = $sum_percent = $sum_weights = 0;
 
 			foreach ( (array) $percent_weights as $assignment_type_id => $percent )
 			{
@@ -199,13 +199,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$sum_percent += ( ! empty( $gradebook_config['WEIGHT'] ) && $percent ? $percent : $total_points[$assignment_type_id] );
 
 				// @since 11.0 Add Weight Assignments option
-				$sum_weighted_grade += ( ! empty( $gradebook_config['WEIGHT'] ) && $percent ?
-					$percent * $weighted_grade[$assignment_type_id] :
+				$sum_weighted += ( ! empty( $gradebook_config['WEIGHT'] ) && $percent && $total_weights[$assignment_type_id] ?
+					$percent * ( $weighted_grade[$assignment_type_id] / $total_weights[$assignment_type_id] ) :
 					$weighted_grade[$assignment_type_id] );
 
-				$sum_weights += ( ! empty( $gradebook_config['WEIGHT'] ) && $percent ?
-					$percent * $total_weights[$assignment_type_id] :
-					$total_weights[$assignment_type_id] );
+				$sum_weights += $total_weights[$assignment_type_id];
 			}
 
 			$sum_grade = 0;
@@ -217,10 +215,15 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
 			{
-				// @since 11.0 Add Weight Assignments option
 				if ( $sum_weights > 0 )
 				{
-					$sum_grade = $sum_weighted_grade / $sum_weights;
+					// @since 11.0 Add Weight Assignments option
+					$sum_grade = $sum_weighted / $sum_weights;
+
+					if ( ! empty( $gradebook_config['WEIGHT'] ) )
+					{
+						$sum_grade = $sum_weighted / $sum_percent;
+					}
 				}
 
 				foreach ( $grades_RET as $assignment_type_id => $grades )

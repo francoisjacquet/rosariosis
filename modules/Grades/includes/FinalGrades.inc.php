@@ -159,6 +159,7 @@ function FinalGradesAllMPSave( $cp_id, $qtr_id )
  * @uses _makeLetterGrade()
  *
  * @since 11.8
+ * @since 11.8.5 Fix Final Grade calculation when both "Weight Assignments" & "Weight Assignment Categories" checked
  *
  * @param int    $cp_id Course Period ID.
  * @param int    $mp_id Marking Period ID.
@@ -205,7 +206,7 @@ function FinalGradesQtrOrProCalculate( $cp_id, $mp_id )
 
 	foreach ( (array) $points_RET as $student_id => $student )
 	{
-		$total = $total_percent = $total_weighted_grade = $total_weights = 0;
+		$total = $total_percent = $total_weighted = $total_weights = 0;
 
 		foreach ( (array) $student as $partial_points )
 		{
@@ -231,13 +232,12 @@ function FinalGradesQtrOrProCalculate( $cp_id, $mp_id )
 				if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
 				{
 					// @since 11.0 Add Weight Assignments option
-					$total_weighted_grade += ( ! empty( $gradebook_config['WEIGHT'] ) ?
-						$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHTED_GRADE'] :
+					$total_weighted += ( ! empty( $gradebook_config['WEIGHT'] ) && $partial_points['PARTIAL_WEIGHT'] ?
+						$partial_points['FINAL_GRADE_PERCENT'] *
+							( $partial_points['PARTIAL_WEIGHTED_GRADE'] / $partial_points['PARTIAL_WEIGHT'] ) :
 						$partial_points['PARTIAL_WEIGHTED_GRADE'] );
 
-					$total_weights += ( ! empty( $gradebook_config['WEIGHT'] ) ?
-						$partial_points['FINAL_GRADE_PERCENT'] * $partial_points['PARTIAL_WEIGHT'] :
-						$partial_points['PARTIAL_WEIGHT'] );
+					$total_weights += $partial_points['PARTIAL_WEIGHT'];
 				}
 			}
 		}
@@ -251,7 +251,12 @@ function FinalGradesQtrOrProCalculate( $cp_id, $mp_id )
 			&& $total_weights > 0 )
 		{
 			// @since 11.0 Add Weight Assignments option
-			$total = $total_weighted_grade / $total_weights;
+			$total = $total_weighted / $total_weights;
+
+			if ( ! empty( $gradebook_config['WEIGHT'] ) )
+			{
+				$total = $total_weighted / $total_percent;
+			}
 		}
 
 		$import_RET[$student_id] = [
@@ -406,6 +411,7 @@ function FinalGradesSemOrFYCalculate( $cp_id, $mp_id, $mode = 'continue' )
  * (Quarter or Progress Period)
  *
  * @since 11.8
+ * @since 11.8.5 Fix Final Grade calculation when "Weight Assignments" checked & excused
  *
  * @global $_ROSARIO['User'] if we need to impersonate Teacher (when admin & outside Teacher Programs)
  *
@@ -441,8 +447,9 @@ function FinalGradesGetAssignmentsPoints( $cp_id, $mp_id )
 	if ( ! empty( $gradebook_config['WEIGHT_ASSIGNMENTS'] ) )
 	{
 		// @since 11.0 Add Weight Assignments option
-		$extra['SELECT_ONLY'] .= ",sum(" . db_case( [ 'ga.WEIGHT', "''", "'0'", "ga.WEIGHT" ] ) . ") AS PARTIAL_WEIGHT,
-			sum((gg.POINTS/ga.POINTS)*ga.WEIGHT) AS PARTIAL_WEIGHTED_GRADE";
+		$extra['SELECT_ONLY'] .= ",sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'",
+			db_case( [ 'ga.WEIGHT', "''", "'0'", "ga.WEIGHT" ] ) ] ) . ") AS PARTIAL_WEIGHT,
+			sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", '(gg.POINTS/ga.POINTS)*ga.WEIGHT' ] ) . ") AS PARTIAL_WEIGHTED_GRADE";
 	}
 
 	$extra['FROM'] = " JOIN gradebook_assignments ga ON
