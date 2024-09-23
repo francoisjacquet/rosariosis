@@ -61,7 +61,7 @@ function ProgramTitle( $modname = '' )
 		return 'RosarioSIS';
 	}
 
-	if ( isset( $RosarioCoreModules[ $module ] ) )
+	if ( in_array( $module, $RosarioCoreModules ) )
 	{
 		require 'modules/' . $module . '/Menu.php';
 	}
