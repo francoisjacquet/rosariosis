@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 11.8.6
+-----------------
+- Fix Weight when "Group by Assignment Category" is checked in ProgressReports.php
+
 Changes in 11.8.5
 -----------------
 - Fix regression since 10.0 allow User Field type & category edit in Fields.fnc.php
