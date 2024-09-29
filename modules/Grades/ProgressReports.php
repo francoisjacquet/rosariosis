@@ -234,7 +234,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						foreach ( $grades as $grade_i => $grade )
 						{
 							$assignment_weight = ' <span class="size-1">(' .
-								_( 'Weight' ) . ' ' . (int) $grades['WEIGHT'] . ')</span>';
+								_( 'Weight' ) . ' ' . (int) $grade['WEIGHT'] . ')</span>';
 
 							$grades_RET[$assignment_type_id][$grade_i]['TITLE'] .= $assignment_weight;
 						}
@@ -260,7 +260,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					{
 						$percent_of_grade = ' (' . sprintf(
 							_( '%s of grade' ),
-							_Percent( ( $percent_weights[$assignment_type_id] / $sum_percent ) * 100 )
+							_Percent( ( issetVal( $percent_weights[$assignment_type_id], 0 ) / $sum_percent ) * 100 )
 						) . ')';
 					}
 
@@ -292,8 +292,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							$percent_of_grade,
 						'ASSIGNED_DATE' => '&nbsp;',
 						'DUE_DATE' => '&nbsp;',
-						'POINTS' => '<b>' . $student_points[$assignment_type_id] .
-							'&nbsp;/&nbsp;' . $total_points[$assignment_type_id] . '</b>',
+						'POINTS' => '<b>' . issetVal( $student_points[$assignment_type_id], '0' ) .
+							'&nbsp;/&nbsp;' . issetVal( $total_points[$assignment_type_id], '0' ) . '</b>',
 						'PERCENT_GRADE' => $percent_grade,
 						'LETTER_GRADE' => $letter_grade,
 						'COMMENT' => '&nbsp;',
