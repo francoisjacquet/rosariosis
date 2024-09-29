@@ -4,15 +4,15 @@
 
 RosarioSIS es una aplicación web que depende de un servidor web, el lenguaje de script PHP y un servidor de base de datos PostgreSQL o MySQL/MariaDB.
 
-Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL (o MySQL/MariaDB), y PHP (incluyendo las extensiones `pgsql`, `mysqli`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` y `zip`) operativos. La implementación de aquellos varia con el sistema operativo así que está fuera del alcance de este breve documento de instalación.
+Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL (o MySQL/MariaDB), y PHP (incluyendo las extensiones `pgsql`, `mysqli`, `pdo`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` y `zip`) operativos. La implementación de aquellos varia con el sistema operativo así que está fuera del alcance de este breve documento de instalación.
 
 RosarioSIS ha sido probado en:
 
-- Windows 10 x86 con Apache 2.4.16, Postgres 9.3.6, y PHP 7.1.18
+- Windows 10 con Apache 2.4.58, MariaDB 10.4.32, y PHP 8.1.25
 - macOS Monterey con Apache 2.4.54, Postgres 14.4, y PHP 8.0.21
 - Ubuntu 22.04 con Apache 2.4.52, MariaDB 10.6.12, y PHP 5.6.40
 - Ubuntu 22.04 con Apache 2.4.57, Postgres 14.9, y PHP 8.1.2
-- Debian Bullseye con Apache 2.4.54, Postgres 13.7, MariaDB 10.5.15, y PHP 8.2.6
+- Debian Bookworm con Apache 2.4.57, Postgres 15.5, MariaDB 10.11.4, y PHP 8.3.10
 - Shared hosting con cPanel, nginx, Postgres 9.2, y PHP 7.2
 - a traves de Mozilla Firefox y Google Chrome
 - con BrowserStack para la compatibilidad de navegadores (no compatible con Internet Explorer)
@@ -40,7 +40,7 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 - `$DatabasePassword` Contraseña para conectarse a la base de datos.
 - `$DatabaseName` Nombre de la base de datos.
 
-- `$DatabaseDumpPath` Camino completo hacia el utilitario de exportación de base de datos, pg_dump (PostgreSQL) o mysqldump (MySQL).
+- `$DatabaseDumpPath` Camino completo hacia el utilitario de exportación de base de datos, pg_dump (PostgreSQL), mysqldump (MySQL) o mariadb-dump (MariaDB).
 - `$wkhtmltopdfPath` Camino completo hacia el utilitario de generación de PDF, wkhtmltopdf.
 
 - `$DefaultSyear` Año escolar por defecto. Solo cambiar después de haber corrido el programa _Transferir_.
@@ -53,19 +53,17 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 - `$RosarioPath` Camino completo hacia la instalación de RosarioSIS.
 - `$StudentPicturesPath` Camino hacia las fotos de los estudiantes.
 - `$UserPicturesPath` Camino hacia las fotos de los usuarios.
-- `$PortalNotesFilesPath` Camino hacia los archivos adjuntos a las notas del portal.
-- `$AssignmentsFilesPath` Camino hacia los archivos de las tareas de los estudiantes.
-- `$FS_IconsPath` Camino hacia los iconos del servicio de comida.
 - `$FileUploadsPath` Camino hacia los archivos subidos.
 - `$LocalePath` Camino hacia los lenguajes. Reinicie Apache después de cambiarlo.
 - `$PNGQuantPath` Camino hacia [PNGQuant](https://pngquant.org/) (compresión de las imagenes PNG).
 - `$RosarioErrorsAddress` Dirección de email para los errores (PHP fatal, base de datos, intentos de pirateo).
 - `$Timezone` Zona horaria usada por la funciones de fecha y tiempo. [Listado de zonas horarias admitidas](http://php.net/manual/es/timezones.php).
 - `$ETagCache` Pasar a `false` para desactivar el [caché ETag](https://es.wikipedia.org/wiki/HTTP_ETag) y desactivar el caché de sesión "privada". Ver [Sesiones y seguridad](https://secure.php.net/manual/es/session.security.php).
-- `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limitar el tamaño de `$_POST` (16MB por defecto). Detalles [acá](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L290).
+- `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limitar el tamaño de `$_POST` (16MB por defecto). Detalles [acá](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L322).
 - `define( 'ROSARIO_DEBUG', true );` Modo debug activado.
 - `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Desactivar el upload de complementos (módulos y plugins).
 - `define( 'ROSARIO_DISABLE_ADDON_DELETE', true );` Desactivar la posibilidad de eliminar complementos (modules & plugins).
+- `define( 'ROSARIO_DISABLE_USAGE_STATISTICS', true );` Desactivar la colecta de estadísticas de uso.
 
 
 Crear la base de datos
@@ -150,7 +148,7 @@ Extensiones PHP
 
 Instrucciones de instalación para Ubuntu 22.04:
 ```bash
-server$ sudo apt-get install php-pgsql php-mysql php-intl php-mbstring php-gd php-curl php-xml php-zip
+server$ sudo apt-get install php-pgsql php-mysql php-pdo php-intl php-mbstring php-gd php-curl php-xml php-zip
 ```
 
 
@@ -184,9 +182,10 @@ Reiniciar PHP y Apache.
 Otros lenguajes
 ---------------
 
-Instrucciones de instalación para Ubuntu 22.04. Instalar el lenguaje español:
+Instrucciones de instalación para Ubuntu 22.04. Instalar la locale español (España):
 ```bash
-server$ sudo apt-get install language-pack-es
+server$ sudo locale-gen es_ES.UTF-8
+server$ sudo update-locale
 ```
 Luego reinicie el servidor.
 
@@ -194,10 +193,12 @@ Luego reinicie el servidor.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Instrucciones de instalación para Ubuntu 22.04 (jammy):
+Instrucciones de instalación para Ubuntu 22.04 (jammy), funciona también para Ubuntu 24.04 (noble):
 ```bash
 server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 server$ sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+server$ wkhtmltopdf --version
+server$ wkhtmltopdf 0.12.6.1 (with patched qt)
 ```
 
 Definir el camino en el archivo `config.inc.php`:

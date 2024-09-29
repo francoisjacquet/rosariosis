@@ -4,15 +4,15 @@
 
 RosarioSIS est une application web qui dépend d'un serveur web, du langage de script PHP et d'un serveur de base de données PostgreSQL ou MySQL/MariaDB.
 
-Pour que RosarioSIS fonctionne, vous devrez d'abord avoir votre serveur web, PostgreSQL (ou MySQL/MariaDB) et PHP (extensions `pgsql`, `mysqli`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` incluses) en état de marche. L'installation et la configuration des ces derniers varie selon votre système d'exploitation aussi ne seront-elles pas couvertes ici.
+Pour que RosarioSIS fonctionne, vous devrez d'abord avoir votre serveur web, PostgreSQL (ou MySQL/MariaDB) et PHP (extensions `pgsql`, `mysqli`, `pdo`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` incluses) en état de marche. L'installation et la configuration des ces derniers varie selon votre système d'exploitation aussi ne seront-elles pas couvertes ici.
 
 RosarioSIS a été testé sur:
 
-- Windows 10 x86 avec Apache 2.4.16, Postgres 9.3.6, et PHP 7.1.18
+- Windows 10 avec Apache 2.4.58, MariaDB 10.4.32, et PHP 8.1.25
 - macOS Monterey avec Apache 2.4.54, Postgres 14.4, et PHP 8.0.21
 - Ubuntu 22.04 avec Apache 2.4.52, MariaDB 10.6.12, et PHP 5.6.40
 - Ubuntu 22.04 avec Apache 2.4.57, Postgres 14.9, et PHP 8.1.2
-- Debian Bullseye avec Apache 2.4.54, Postgres 13.7, MariaDB 10.5.15, et PHP 8.2.6
+- Debian Bookworm avec Apache 2.4.57, Postgres 15.5, MariaDB 10.11.4, et PHP 8.3.10
 - Hébergement mutualisé avec cPanel, nginx, Postgres 9.2, et PHP 7.2
 - à travers Mozilla Firefox et Google Chrome
 - à travers BrowserStack pour la compatibilité navigateurs (incompatible avec Internet Explorer)
@@ -40,7 +40,7 @@ Décompressez l'archive de RosarioSIS, ou bien clonez le dépôt avec git dans u
 - `$DatabasePassword` Mot de passe pour se connecter à la base de données.
 - `$DatabaseName` Nom de la base de données.
 
-- `$DatabaseDumpPath` Chemin complet vers l'utilitaire d'export de base de donnée, pg_dump (PostgreSQL) ou mysqldump (MySQL).
+- `$DatabaseDumpPath` Chemin complet vers l'utilitaire d'export de base de donnée, pg_dump (PostgreSQL), mysqldump (MySQL) ou mariadb-dump (MariaDB).
 - `$wkhtmltopdfPath` Chemin complet vers l'utilitaire de génération de PDF, wkhtmltopdf.
 
 - `$DefaultSyear` Année scolaire par défaut. Ne changer qu'après avoir lancé le programme _Report Final_.
@@ -53,19 +53,17 @@ Décompressez l'archive de RosarioSIS, ou bien clonez le dépôt avec git dans u
 - `$RosarioPath` Chemin complet vers l'installation de RosarioSIS.
 - `$StudentPicturesPath` Chemin vers les photos des élèves.
 - `$UserPicturesPath` Chemin vers les photos des utilisateurs.
-- `$PortalNotesFilesPath` Chemin vers les fichiers joints des notes du portail.
-- `$AssignmentsFilesPath` Chemin vers les fichiers des devoirs des élèves.
-- `$FS_IconsPath` Chemin vers les icônes de la cantine.
 - `$FileUploadsPath` Chemin vers les fichiers uploadés.
 - `$LocalePath` Chemin vers les packs de langue. Redémarrer Apache après modification.
 - `$PNGQuantPath` Chemin vers [PNGQuant](https://pngquant.org/) (compression des images PNG).
 - `$RosarioErrorsAddress` Adresse email pour les erreurs (PHP fatal, base de donnée, tentatives de piratage).
 - `$Timezone` Fuseau horaire utilisé par les fonctions de date/heure. [Liste des Fuseaux Horaires Supportés](http://php.net/manual/fr/timezones.php).
 - `$ETagCache` Passer à `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et sécurité](https://secure.php.net/manual/fr/session.security.php).
-- `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limiter la taille de `$_POST` (16MB par défaut). Détails [ici](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L290).
+- `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limiter la taille de `$_POST` (16MB par défaut). Détails [ici](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L322).
 - `define( 'ROSARIO_DEBUG', true );` Mode debug activé.
 - `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Désactiver l'upload de compléments (modules et plugins).
 - `define( 'ROSARIO_DISABLE_ADDON_DELETE', true );` Désactiver la possibilité de supprimer les compléments (modules & plugins).
+- `define( 'ROSARIO_DISABLE_USAGE_STATISTICS', true );` Désactiver la collecte de statistiques d'usage.
 
 
 Créer la base de données
@@ -132,9 +130,9 @@ mysql> \q
 Installer la base de données
 ----------------------------
 
-Pour installer la base de données, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/InstallDatabase.php`
+Pour installer la base de données, pointez votre navigateur sur : `http://votredomaine.com/REPERTOIRE_DINSTALLATION/InstallDatabase.php`
 
-C'est tout!... maintenant, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/index.php`
+C'est tout !... maintenant, pointez votre navigateur sur : `http://votredomaine.com/REPERTOIRE_DINSTALLATION/index.php`
 
 et connectez-vous avec le nom d'utilisateur 'admin' et le mot de passe 'admin'. Avec cet utilisateur, vous pourrez créer de nouveaux utilisateurs, et modifier ou supprimer les trois utilisateurs type.
 
@@ -142,22 +140,22 @@ et connectez-vous avec le nom d'utilisateur 'admin' et le mot de passe 'admin'. 
 Problèmes
 ---------
 
-Afin de vous aider à identifier les problèmes, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/diagnostic.php`
+Afin de vous aider à identifier les problèmes, pointez votre navigateur sur : `http://votredomaine.com/REPERTOIRE_DINSTALLATION/diagnostic.php`
 
 
 Extensions PHP
 --------------
 
-Instructions d'installation pour Ubuntu 22.04:
+Instructions d'installation pour Ubuntu 22.04 :
 ```bash
-server$ sudo apt-get install php-pgsql php-mysql php-intl php-mbstring php-gd php-curl php-xml php-zip
+server$ sudo apt-get install php-pgsql php-mysql php-pdo php-intl php-mbstring php-gd php-curl php-xml php-zip
 ```
 
 
 php.ini
 -------
 
-Configuration de PHP recommandée. Editez le fichier [`php.ini`](https://www.php.net/manual/fr/ini.list.php) comme suit:
+Configuration de PHP recommandée. Editez le fichier [`php.ini`](https://www.php.net/manual/fr/ini.list.php) comme suit :
 ```
 ; Maximum time in seconds a PHP script is allowed to run
 max_execution_time = 240
@@ -184,9 +182,10 @@ Redémarrer PHP et Apache.
 Autres langues
 --------------
 
-Instructions d'installation pour Ubuntu 22.04 et la locale _Espagnol_:
+Instructions d'installation pour Ubuntu 22.04 et la locale français (France) :
 ```bash
-server$ sudo apt-get install language-pack-es
+server$ sudo locale-gen fr_FR.UTF-8
+server$ sudo update-locale
 ```
 Ensuite redémarrez le serveur.
 
@@ -194,20 +193,22 @@ Ensuite redémarrez le serveur.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Instructions d'installation pour Ubuntu 22.04 (jammy):
+Instructions d'installation pour Ubuntu 22.04 (jammy), fonctionne aussi pour Ubuntu 24.04 (noble) :
 ```bash
 server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 server$ sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+server$ wkhtmltopdf --version
+server$ wkhtmltopdf 0.12.6.1 (with patched qt)
 ```
 
-Définir le chemin dans le fichier `config.inc.php`:
+Définir le chemin dans le fichier `config.inc.php` :
     `$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
 
 Envoi d'email
 -------------
 
-Instructions d'installation pour Ubuntu 22.04. Activer la fonction `mail()` de PHP:
+Instructions d'installation pour Ubuntu 22.04. Activer la fonction `mail()` de PHP :
 ```bash
 server$ sudo apt-get install sendmail
 ```

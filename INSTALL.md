@@ -4,15 +4,15 @@
 
 RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and a PostgreSQL or MySQL/MariaDB database server.
 
-For RosarioSIS to work you must first have your web server working, PostgreSQL (or MySQL/MariaDB) working, PHP working (including the `pgsql`, `mysqli`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` extensions). Setting these up varies a lot with operating system so it is well beyond the scope of this brief install document.
+For RosarioSIS to work you must first have your web server working, PostgreSQL (or MySQL/MariaDB) working, PHP working (including the `pgsql`, `mysqli`, `pdo`, `gettext`, `intl`, `mbstring`, `gd`, `curl`, `xml` & `zip` extensions). Setting these up varies a lot with operating system so it is well beyond the scope of this brief install document.
 
 RosarioSIS was tested on:
 
-- Windows 10 x86 with Apache 2.4.16, Postgres 9.3.6, and PHP 7.1.18
+- Windows 10 with Apache 2.4.58, MariaDB 10.4.32, and PHP 8.1.25
 - macOS Monterey with Apache 2.4.54, Postgres 14.4, and PHP 8.0.21
 - Ubuntu 22.04 with Apache 2.4.52, MariaDB 10.6.12, and PHP 5.6.40
 - Ubuntu 22.04 with Apache 2.4.57, Postgres 14.9, and PHP 8.1.2
-- Debian Bullseye with Apache 2.4.54, Postgres 13.7, MariaDB 10.5.15, and PHP 8.2.6
+- Debian Bookworm with Apache 2.4.57, Postgres 15.5, MariaDB 10.11.4, and PHP 8.3.10
 - Shared hosting with cPanel, nginx, Postgres 9.2, and PHP 7.2
 - through Mozilla Firefox and Google Chrome
 - through BrowserStack for cross-browser compatibility (not compatible with Internet Explorer)
@@ -40,7 +40,7 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 - `$DatabasePassword` Password used for authenticating the database.
 - `$DatabaseName` Database name.
 
-- `$DatabaseDumpPath` Full path to the database dump utility, pg_dump (PostgreSQL) or mysqldump (MySQL).
+- `$DatabaseDumpPath` Full path to the database dump utility, pg_dump (PostgreSQL), mysqldump (MySQL) or mariadb-dump (MariaDB).
 - `$wkhtmltopdfPath` Full path to the PDF generation utility, wkhtmltopdf.
 
 - `$DefaultSyear` Default school year. Only change after running the _Rollover_ program.
@@ -53,19 +53,17 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 - `$RosarioPath` Full path to RosarioSIS installation.
 - `$StudentPicturesPath` Path to student pictures.
 - `$UserPicturesPath` Path to user pictures.
-- `$PortalNotesFilesPath` Path to portal notes attached files.
-- `$AssignmentsFilesPath` Path to student assignments files.
-- `$FS_IconsPath` Path to food service icons.
 - `$FileUploadsPath` Path to file uploads.
 - `$LocalePath` Path to language packs. Restart Apache after changes to this directory.
 - `$PNGQuantPath` Path to [PNGQuant](https://pngquant.org/) (PNG images compression).
 - `$RosarioErrorsAddress` Email address to receive errors (PHP fatal, database, hacking).
 - `$Timezone` Default time zone used by date/time functions. [List of Supported Timezones](http://php.net/manual/en/timezones.php).
 - `$ETagCache` Set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](https://secure.php.net/manual/en/session.security.php).
-- `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limit `$_POST` array size (default is 16MB). More info [here](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L290).
+- `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limit `$_POST` array size (default is 16MB). More info [here](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L322).
 - `define( 'ROSARIO_DEBUG', true );` Debug mode activated.
 - `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Disable add-ons (modules & plugins) upload.
 - `define( 'ROSARIO_DISABLE_ADDON_DELETE', true );` Disable add-ons (modules & plugins) delete.
+- `define( 'ROSARIO_DISABLE_USAGE_STATISTICS', true );` Disable usage statistics collection.
 
 
 Create database
@@ -150,7 +148,7 @@ PHP extensions
 
 Install instructions for Ubuntu 22.04:
 ```bash
-server$ sudo apt-get install php-pgsql php-mysql php-intl php-mbstring php-gd php-curl php-xml php-zip
+server$ sudo apt-get install php-pgsql php-mysql php-pdo php-intl php-mbstring php-gd php-curl php-xml php-zip
 ```
 
 
@@ -184,9 +182,10 @@ Restart PHP and Apache.
 Other languages
 ---------------
 
-Install instructions for Ubuntu 22.04. Install the _Spanish_ language:
+Install instructions for Ubuntu 22.04. Install the Spanish (Spain) locale:
 ```bash
-server$ sudo apt-get install language-pack-es
+server$ sudo locale-gen es_ES.UTF-8
+server$ sudo update-locale
 ```
 Then restart the server.
 
@@ -194,10 +193,12 @@ Then restart the server.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Install instructions for Ubuntu 22.04 (jammy):
+Install instructions for Ubuntu 22.04 (jammy), also works for Ubuntu 24.04 (noble):
 ```bash
 server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 server$ sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+server$ wkhtmltopdf --version
+server$ wkhtmltopdf 0.12.6.1 (with patched qt)
 ```
 
 Set path in the `config.inc.php` file:
