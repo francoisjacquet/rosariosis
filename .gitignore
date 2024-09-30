@@ -223,7 +223,8 @@ phpdoc/
 #RosarioSIS
 meta/
 /config.inc.php
-assets/FileUploads/
+assets/FileUploads/*
+!assets/FileUploads/FS_icons/
 assets/StudentPhotos/
 assets/UserPhotos/
 assets/school_logo*
