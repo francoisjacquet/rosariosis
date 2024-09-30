@@ -6,11 +6,13 @@
  * @subpackage ProgramFunctions
  */
 
-// Portal Notes attached files Path
-// You can override the Path definition in the config.inc.php file
-
-if ( ! isset( $PortalNotesFilesPath ) )
+// Portal Notes Files upload path global.
+if ( ! isset( $PortalNotesFilesPath )
+	&& is_dir( 'assets/PortalNotesFiles/' )
+	// Check if dir has at least 1 uploaded file (apart from README).
+	&& count( glob( 'assets/PortalNotesFiles/*.*' ) ) >= 1 )
 {
+	// @deprecated since 12.0 Portal Notes Files upload path $PortalNotesFilesPath global var
 	$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
 }
 
@@ -502,9 +504,8 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 
 	if ( $_REQUEST['modname'] == 'School_Setup/PortalNotes.php' )
 	{
-		//hook
-		$args = $id;
-		do_action( 'School_Setup/PortalNotes.php|portal_note_field', $args );
+		// Action hook
+		do_action( 'School_Setup/PortalNotes.php|portal_note_field', [ $id ] );
 	}
 
 	return $visibleTo . '</table>';
@@ -518,8 +519,16 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
  */
 function makeFileAttached( $value, $name )
 {
-	global $THIS_RET, $PortalNotesFilesPath;
+	global $THIS_RET,
+		$PortalNotesFilesPath,
+		$FileUploadsPath;
+
 	static $filesAttachedCount = 0;
+
+	// @since 12.0 Use $FileUploadsPath . 'PortalNotes/' instead of $PortalNotesFilesPath
+	$portal_notes_files_path = $PortalNotesFilesPath ?
+		$PortalNotesFilesPath :
+		$FileUploadsPath . 'PortalNotes/';
 
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
@@ -533,16 +542,16 @@ function makeFileAttached( $value, $name )
 		$filesAttachedCount++;
 
 		//FJ colorbox
-		$view_online = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger"> ' . _( 'View Online' ) . '';
+		$view_online = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger"> <b>' . _( 'View Online' ) . '</b>';
 
-		$download = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/download.png" class="button bigger"> ' . _( 'Download' ) . '';
+		$download = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/download.png" class="button bigger"> <b>' . _( 'Download' ) . '</b>';
 
 		if ( filter_var( $value, FILTER_VALIDATE_URL ) !== false ) //embed link
 		{
 			return '<a href="' . URLEscape( $value ) . '" title="' . AttrEscape( $value ) . '" class="colorboxiframe">' . $view_online . '</a>';
 		}
 
-		return '<a href="' . URLEscape( $value ) . '" title="' . AttrEscape( str_replace( $PortalNotesFilesPath, '', $value ) ) . '" target="_blank">' . $download . '</a>';
+		return '<a href="' . URLEscape( $value ) . '" title="' . AttrEscape( str_replace( $portal_notes_files_path, '', $value ) ) . '" target="_blank">' . $download . '</a>';
 	}
 
 	$id = 'new';

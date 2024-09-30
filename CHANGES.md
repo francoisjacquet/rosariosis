@@ -66,6 +66,7 @@ Changes in 12.0
 - Deprecate isPopup() function & remove use in Warehouse() function in Warehouse.php
 - Fix do not use ProgramTitle() (loads Menu.php in English only) in Help.php
 - Update instructions, add pdo extension, remove deprecated config options in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- Deprecate Portal Notes Files upload path $PortalNotesFilesPath global var in PortalPollsNotes.fnc.php
 
 Changes in 11.8.6
 -----------------
