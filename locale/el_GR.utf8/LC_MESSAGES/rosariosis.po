@@ -10,108 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
-"X-Poedit-KeywordsList: ListOutput:3,4\n"
-"X-Poedit-Basepath: ../../..\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: modules/Email_Students\n"
-"X-Poedit-SearchPathExcluded-1: modules/Quiz\n"
-"X-Poedit-SearchPathExcluded-2: modules/School_Inventory\n"
-"X-Poedit-SearchPathExcluded-3: plugins/PDF_Header_Footer\n"
-"X-Poedit-SearchPathExcluded-4: modules/Email_Parents\n"
-"X-Poedit-SearchPathExcluded-5: modules/Audit\n"
-"X-Poedit-SearchPathExcluded-6: modules/Library\n"
-"X-Poedit-SearchPathExcluded-7: plugins/Calendar_Schedule_View\n"
-"X-Poedit-SearchPathExcluded-8: plugins/Discipline_Score\n"
-"X-Poedit-SearchPathExcluded-9: modules/Student_Billing_Premium\n"
-"X-Poedit-SearchPathExcluded-10: modules/Email_Alerts\n"
-"X-Poedit-SearchPathExcluded-11: modules/Email\n"
-"X-Poedit-SearchPathExcluded-12: modules/Reports\n"
-"X-Poedit-SearchPathExcluded-13: modules/Messaging\n"
-"X-Poedit-SearchPathExcluded-14: modules/Students_Import\n"
-"X-Poedit-SearchPathExcluded-15: modules/Staff_Parents_Import\n"
-"X-Poedit-SearchPathExcluded-16: plugins/Email_SMTP\n"
-"X-Poedit-SearchPathExcluded-17: plugins/Public_Pages\n"
-"X-Poedit-SearchPathExcluded-18: plugins/Public_Pages_Standard\n"
-"X-Poedit-SearchPathExcluded-19: modules/Library_Premium\n"
-"X-Poedit-SearchPathExcluded-20: modules/Timetable_Import\n"
-"X-Poedit-SearchPathExcluded-21: plugins/Setup_Assistant\n"
-"X-Poedit-SearchPathExcluded-22: modules/Rooms\n"
-"X-Poedit-SearchPathExcluded-23: plugins/REST_API\n"
-"X-Poedit-SearchPathExcluded-24: plugins/Siblings\n"
-"X-Poedit-SearchPathExcluded-25: plugins/LDAP\n"
-"X-Poedit-SearchPathExcluded-26: plugins/Force_Password_Change\n"
-"X-Poedit-SearchPathExcluded-27: modules/SMS\n"
-"X-Poedit-SearchPathExcluded-28: modules/Graduation_Paths\n"
-"X-Poedit-SearchPathExcluded-29: plugins/Convert_Names_To_Titlecase\n"
-"X-Poedit-SearchPathExcluded-30: plugins/Grading_Scale_Generation\n"
-"X-Poedit-SearchPathExcluded-31: modules/Attendance_Excel_Sheet\n"
-"X-Poedit-SearchPathExcluded-32: modules/Billing_Elements\n"
-"X-Poedit-SearchPathExcluded-33: modules/Example\n"
-"X-Poedit-SearchPathExcluded-34: modules/Human_Resources\n"
-"X-Poedit-SearchPathExcluded-35: modules/Messaging_Standard\n"
-"X-Poedit-SearchPathExcluded-36: modules/SMS\n"
-"X-Poedit-SearchPathExcluded-37: modules/SMS_Premium\n"
-"X-Poedit-SearchPathExcluded-38: modules/Semester_Rollover\n"
-"X-Poedit-SearchPathExcluded-39: plugins/Relatives\n"
-"X-Poedit-SearchPathExcluded-40: plugins/iCalendar\n"
-"X-Poedit-SearchPathExcluded-41: plugins/TinyMCE_Formula\n"
-"X-Poedit-SearchPathExcluded-42: modules/Example\n"
-"X-Poedit-SearchPathExcluded-43: modules/ENP\n"
-"X-Poedit-SearchPathExcluded-44: modules/Grades_Import\n"
-"X-Poedit-SearchPathExcluded-45: plugins/Iomad\n"
-"X-Poedit-SearchPathExcluded-46: plugins/Paypal_Registration\n"
-"X-Poedit-SearchPathExcluded-47: plugins/TinyMCE_Record_Audio_Video\n"
-"X-Poedit-SearchPathExcluded-48: modules/Jitsi_Meet\n"
-"X-Poedit-SearchPathExcluded-49: modules/Staff_Absences\n"
-"X-Poedit-SearchPathExcluded-50: plugins/Parent_Agreement\n"
-"X-Poedit-SearchPathExcluded-51: modules/Certificate\n"
-"X-Poedit-SearchPathExcluded-52: modules/Class_Diary\n"
-"X-Poedit-SearchPathExcluded-53: modules/Class_Diary_Premium\n"
-"X-Poedit-SearchPathExcluded-54: plugins/Automatic_Attendance\n"
-"X-Poedit-SearchPathExcluded-55: plugins/Google_Social_Login\n"
-"X-Poedit-SearchPathExcluded-56: plugins/RIS_Report_Cards\n"
-"X-Poedit-SearchPathExcluded-57: modules/Email_Log\n"
-"X-Poedit-SearchPathExcluded-58: modules/ParentAttendance\n"
-"X-Poedit-SearchPathExcluded-59: modules/Quiz_Premium\n"
-"X-Poedit-SearchPathExcluded-60: modules/Utilities\n"
-"X-Poedit-SearchPathExcluded-61: plugins/Tutor_Report_Card_Comments\n"
-"X-Poedit-SearchPathExcluded-62: plugins/Savio_Transcripts\n"
-"X-Poedit-SearchPathExcluded-63: assets\n"
-"X-Poedit-SearchPathExcluded-64: modules/RIS\n"
-"X-Poedit-SearchPathExcluded-65: modules/Embedded_Resources\n"
-"X-Poedit-SearchPathExcluded-66: plugins/PCS_Report_Cards\n"
-"X-Poedit-SearchPathExcluded-67: modules/Hostel\n"
-"X-Poedit-SearchPathExcluded-68: modules/Hostel_Premium\n"
-"X-Poedit-SearchPathExcluded-69: modules/Meeting\n"
-"X-Poedit-SearchPathExcluded-70: modules/Student_ID_Card\n"
-"X-Poedit-SearchPathExcluded-71: modules/Student_Pickup\n"
-"X-Poedit-SearchPathExcluded-72: modules/Slovenian_Class_Diary\n"
-"X-Poedit-SearchPathExcluded-73: plugins/Assignment_Max_Points\n"
-"X-Poedit-SearchPathExcluded-74: modules/Marking_Period_Groups\n"
-"X-Poedit-SearchPathExcluded-75: modules/Slovenian_Discipline\n"
-"X-Poedit-SearchPathExcluded-76: modules/Lesson_Plan\n"
-"X-Poedit-SearchPathExcluded-77: modules/Lesson_Plan_Premium\n"
-"X-Poedit-SearchPathExcluded-78: modules/Food_Service_Premium\n"
-"X-Poedit-SearchPathExcluded-79: modules/VLaby\n"
-"X-Poedit-SearchPathExcluded-80: plugins/Absent_for_the_Day_on_First_Absence\n"
-"X-Poedit-SearchPathExcluded-81: plugins/PR_Report_Cards\n"
-"X-Poedit-SearchPathExcluded-82: modules/Entry_Exit\n"
-"X-Poedit-SearchPathExcluded-83: modules/Dashboards\n"
-"X-Poedit-SearchPathExcluded-84: modules/NFC_QR_Actions\n"
-"X-Poedit-SearchPathExcluded-85: modules/TTHotel_Smart_Locks\n"
-"X-Poedit-SearchPathExcluded-86: plugins/iStudent_Report_Cards\n"
-"X-Poedit-SearchPathExcluded-87: plugins/Templates\n"
-"X-Poedit-SearchPathExcluded-88: plugins/Append_Custom_Field_to_Grade_Level\n"
-"X-Poedit-SearchPathExcluded-89: modules/PDF_Archive\n"
-"X-Poedit-SearchPathExcluded-90: modules/Email_Log\n"
-"X-Poedit-SearchPathExcluded-91: modules/Slovenian_Attendance_Excel_Sheet\n"
-"X-Poedit-SearchPathExcluded-92: plugins/IBCDB_Transcripts\n"
-"X-Poedit-SearchPathExcluded-93: modules/Slovenian_Grades\n"
-"X-Poedit-SearchPathExcluded-94: plugins/Custom_Menu\n"
-"X-Poedit-SearchPathExcluded-95: modules/Entry_Exit_Premium\n"
-"X-Poedit-SearchPathExcluded-96: plugins/Stripe_Registration\n"
+"X-Generator: Poedit 3.5\n"
 
 #: Bottom.php:25 Bottom.php:31 modules/Food_Service/Menu.php:40
 #: modules/Food_Service/Menu.php:50
@@ -388,7 +287,7 @@ msgstr "Όνομα πεδίου"
 #: modules/Discipline/DisciplineForm.php:310
 #: modules/School_Setup/Configuration.php:592
 msgid "Pull-Down"
-msgstr "Τράβηξε"
+msgstr "Pull-Down"
 
 #: ProgramFunctions/Fields.fnc.php:399 ProgramFunctions/Fields.fnc.php:422
 #: ProgramFunctions/Fields.fnc.php:516 ProgramFunctions/Fields.fnc.php:724
@@ -398,7 +297,7 @@ msgstr "Αυτόματο Τράβηγμα"
 #: ProgramFunctions/Fields.fnc.php:400 ProgramFunctions/Fields.fnc.php:423
 #: ProgramFunctions/Fields.fnc.php:516 ProgramFunctions/Fields.fnc.php:725
 msgid "Export Pull-Down"
-msgstr "Εξαγωγή Τραβήγματος"
+msgstr "Εξαγωγή Pull-Down"
 
 #: ProgramFunctions/Fields.fnc.php:401 ProgramFunctions/Fields.fnc.php:517
 #: ProgramFunctions/Fields.fnc.php:726
@@ -1957,7 +1856,7 @@ msgstr "Ημέρες απουσίας"
 
 #: classes/core/Widget.php:379 classes/core/Widget.php:495
 msgid "YTD"
-msgstr "YTD"
+msgstr "ΕΜΣ"
 
 #: classes/core/Widget.php:477 classes/core/Widget.php:488
 msgid "Course Period Absences"
@@ -1970,12 +1869,12 @@ msgstr "Χρησιμοποιήστε το σύνδεσμο Επιλογή του
 #: classes/core/Widget.php:543 classes/core/Widget.php:564
 #: modules/Grades/GPARankList.php:65
 msgid "Weighted GPA"
-msgstr "Σταθμισμένος ΣΔΣ"
+msgstr "Σταθμισμένος ΜΟΒ"
 
 #: classes/core/Widget.php:544 classes/core/Widget.php:565
 #: modules/Grades/GPARankList.php:65
 msgid "Unweighted GPA"
-msgstr "Αστάθμιστος ΣΔΣ"
+msgstr "Αστάθμιστος ΜΟΒ"
 
 #: classes/core/Widget.php:575 modules/Grades/EditReportCardGrades.php:266
 #: modules/Grades/includes/Dashboard.inc.php:132
@@ -1985,7 +1884,7 @@ msgstr "Αστάθμιστος ΣΔΣ"
 #: modules/Grades/includes/Transcripts.fnc.php:698
 #: modules/Users/Preferences.php:706
 msgid "GPA"
-msgstr "ΣΔΣ"
+msgstr "ΜΟΒ"
 
 #: classes/core/Widget.php:577 modules/Grades/EditReportCardGrades.php:269
 #: modules/Grades/EditReportCardGrades.php:279
@@ -4733,7 +4632,7 @@ msgstr "Αζύγιστο"
 
 #: modules/Grades/EditReportCardGrades.php:276
 msgid "Class Rank GPA"
-msgstr "Βαθμός τάξης ΣΔΣ"
+msgstr "Βαθμός τάξης ΜΟΒ"
 
 #: modules/Grades/EditReportCardGrades.php:326
 #: modules/School_Setup/MarkingPeriods.php:29
@@ -4846,7 +4745,7 @@ msgstr "Το μάθημα δεν βαθμολογείται."
 #: modules/Grades/GradebookBreakdown.php:329
 #: modules/Grades/ReportCardGrades.php:185
 msgid "GPA Value"
-msgstr "Αξία ΣΔΣ"
+msgstr "Αξία ΜΟΒ"
 
 #: modules/Grades/GradebookBreakdown.php:330
 #: modules/Students/StudentBreakdown.php:343
@@ -4885,14 +4784,14 @@ msgstr "Η/Κ"
 #: modules/Grades/includes/HonorRoll.fnc.php:69
 #: modules/Grades/includes/HonorRoll.fnc.php:243
 msgid "%s Honor Roll"
-msgstr "%s Τιμητικός ρόλος"
+msgstr "%s Τιμητική Διάκριση"
 
 #: modules/Grades/includes/HonorRoll.fnc.php:84
 #: modules/Grades/includes/HonorRoll.fnc.php:166
 #: modules/Grades/includes/HonorRoll.fnc.php:447
 #: modules/Grades/includes/HonorRoll.fnc.php:514
 msgid "High Honor Roll"
-msgstr "Ρόλος υψιλής τιμής"
+msgstr "Υψηλή Τιμητική Διάκριση"
 
 #: modules/Grades/Menu.php:17 modules/Grades/includes/HonorRoll.fnc.php:84
 #: modules/Grades/includes/HonorRoll.fnc.php:166
@@ -4900,7 +4799,7 @@ msgstr "Ρόλος υψιλής τιμής"
 #: modules/Grades/includes/HonorRoll.fnc.php:487
 #: modules/Grades/includes/HonorRoll.fnc.php:536
 msgid "Honor Roll"
-msgstr "Honor Roll"
+msgstr "Τιμητική Διάκριση"
 
 #: modules/Grades/includes/HonorRoll.fnc.php:183
 #: modules/Grades/includes/HonorRoll.fnc.php:332
@@ -4909,7 +4808,7 @@ msgstr "Κύριος"
 
 #: modules/Grades/HonorRoll.php:46 modules/Grades/HonorRoll.php:118
 msgid "Create Honor Roll for Selected Students"
-msgstr "Δημιουργία Roll Τιμής για επιλεγμένους μαθητές"
+msgstr "Δημιουργία Τιμητικής Διάκρισης για επιλεγμένους μαθητές"
 
 #: modules/Grades/HonorRoll.php:53
 msgid "Certificates"
@@ -5050,7 +4949,7 @@ msgstr "Καρτέλα Αναφοράς"
 #: modules/Grades/includes/HonorRoll.fnc.php:399
 #: modules/Grades/includes/HonorRoll.fnc.php:532
 msgid "Honor Roll by Subject"
-msgstr "Honor Roll ανά θέμα"
+msgstr "Τιμητική διάκριση ανά θέμα"
 
 #: modules/Grades/Menu.php:18 modules/Grades/Menu.php:69
 msgid "Transcripts"
@@ -5063,7 +4962,7 @@ msgstr "Βαθμοί Μαθητών"
 
 #: modules/Grades/Menu.php:25 modules/Grades/Menu.php:53
 msgid "GPA / Class Rank List"
-msgstr "ΣΔΣ / Κατηγορία Λίστα Κατάταξη"
+msgstr "ΜΟΒ / Λίστα Κατάταξης Τάξης"
 
 #: modules/Grades/InputFinalGrades.php:426
 #: modules/Grades/InputFinalGrades.php:589 modules/Grades/Menu.php:28
@@ -5099,7 +4998,7 @@ msgstr "Αναφορές  Προόδου"
 
 #: modules/Grades/Menu.php:70
 msgid "GPA / Class Rank"
-msgstr "ΣΔΣ / Κατηγορία Κατάταξη"
+msgstr "ΜΟΒ / Κατάταξη Τάξης"
 
 #: modules/Grades/ProgressReports.php:125
 msgid "Progress Report"
@@ -5188,16 +5087,16 @@ msgstr "Ελάχιστος βαθμός επιτυχίας"
 
 #: modules/Grades/ReportCardGrades.php:403
 msgid "High Honor Roll GPA Min"
-msgstr "Ελάχ. GPA Roll High Honor"
+msgstr "Ελάχ. ΜΟΒ για Υψηλή τιμητική διάκριση"
 
 #: modules/Grades/ReportCardGrades.php:235
 #: modules/Grades/ReportCardGrades.php:404
 msgid "Honor Roll GPA Min"
-msgstr "Honor Roll GPA Min"
+msgstr "Ελαχ. ΜΟΒ για Τιμητική διάκριση"
 
 #: modules/Grades/ReportCardGrades.php:405
 msgid "Honor Roll by Subject GPA Min"
-msgstr "Honor Roll ανά θέμα Ελάχ"
+msgstr "Τιμητική διάκριση l ανά θέμα Ελάχ"
 
 #: modules/Grades/ReportCards.php:84 modules/Grades/ReportCards.php:116
 msgid "Create Report Cards for Selected Students"
@@ -5276,7 +5175,7 @@ msgstr "Πιστοποιητικό Σπουδών"
 #: modules/Grades/includes/Transcripts.fnc.php:447
 #: plugins/Custom_Transcripts/functions.php:414
 msgid "C.H."
-msgstr "C.H."
+msgstr "Ω.Π."
 
 #: modules/Grades/Transcripts.php:79 modules/Grades/Transcripts.php:107
 msgid "Create Transcripts for Selected Students"
@@ -6334,7 +6233,7 @@ msgstr "Ημερολόγια"
 #: modules/School_Setup/Menu.php:28 modules/School_Setup/Rollover.php:271
 #: modules/School_Setup/includes/Rollover.fnc.php:110
 msgid "Rollover"
-msgstr "Rollover"
+msgstr "Ανατροπή"
 
 #: modules/School_Setup/Menu.php:22 modules/School_Setup/Menu.php:37
 #: modules/School_Setup/Menu.php:47
@@ -6741,7 +6640,7 @@ msgstr[1] "Κοιδικοί Καταχώρησης"
 
 #: modules/Students/EnrollmentCodes.php:67
 msgid "There must be exactly one Rollover default enrollment code (of type Add)."
-msgstr "Πρέπει να υπάρχει ακριβώς ένας προεπιλεγμένος κωδικός εγγραφής Rollover (τύπου Προσθήκη)."
+msgstr "Πρέπει να υπάρχει ακριβώς ένας προεπιλεγμένος κωδικός εγγραφής Ανατροπής (τύπου Προσθήκη)."
 
 #: modules/Students/EnrollmentCodes.php:92
 msgid "Rollover Default"
@@ -8260,7 +8159,7 @@ msgstr "Η σχολική χρονιά έχει τελειώσει. Ήρθε η 
 
 #: modules/School_Setup/includes/Rollover.fnc.php:153
 msgid "Please make sure Rollover is done for all schools."
-msgstr "Βεβαιωθείτε ότι η επαναφορά έχει γίνει για όλα τα σχολεία."
+msgstr "Βεβαιωθείτε ότι η ανατροπή έχει γίνει για όλα τα σχολεία."
 
 #: modules/School_Setup/includes/Rollover.fnc.php:208
 msgid "Your user does not exist in the next school year, please fix that first."
