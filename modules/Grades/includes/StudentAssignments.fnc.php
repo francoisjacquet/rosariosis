@@ -522,23 +522,31 @@ function GetAssignmentSubmission( $assignment_id, $student_id )
  * @example $assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
  *
  * @global $AssignmentsFilesPath
+ * @global $FileUploadsPath
  * @since 2.9
+ * @since 12.0 Use $FileUploadsPath . 'Assignments/' instead of $AssignmentsFilesPath
  *
  * @param  string $teacher_id                                                                Teacher ID.
  * @return string AssignmentsFiles/[School_Year]/Quarter[1,2,3,4...]/Teacher[teacher_ID]/
  */
 function GetAssignmentsFilesPath( $teacher_id )
 {
-	global $AssignmentsFilesPath;
+	global $AssignmentsFilesPath,
+		$FileUploadsPath;
+
+	// @since 12.0 Use $FileUploadsPath . 'Assignments/' instead of $AssignmentsFilesPath
+	$assignments_files_path = $AssignmentsFilesPath ?
+		$AssignmentsFilesPath :
+		$FileUploadsPath . 'Assignments/';
 
 	if ( ! $teacher_id )
 	{
-		return $AssignmentsFilesPath;
+		return $assignments_files_path;
 	}
 
 	// File path = AssignmentsFiles/[School_Year]/Quarter[1,2,3,4...]/Teacher[teacher_ID]/.
 
-	return $AssignmentsFilesPath . UserSyear() . '/Quarter' . UserMP() . '/Teacher' . $teacher_id . '/';
+	return $assignments_files_path . UserSyear() . '/Quarter' . UserMP() . '/Teacher' . $teacher_id . '/';
 }
 
 

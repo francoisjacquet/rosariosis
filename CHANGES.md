@@ -70,6 +70,7 @@ Changes in 12.0
 - Use $FileUploadsPath . 'PortalNotes/' instead of $PortalNotesFilesPath in PortalNotes.php
 - Remove Portal Notes Attached Files Folder in assets/PortalNotesFiles/
 - Deprecate Assignments Files upload path $AssignmentsFilesPath global var in StudentAssignments.fnc.php
+- Use $FileUploadsPath . 'Assignments/' instead of $AssignmentsFilesPath in StudentAssignments.fnc.php
 
 Changes in 11.8.6
 -----------------
