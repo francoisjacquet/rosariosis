@@ -73,6 +73,7 @@ Changes in 12.0
 - Use $FileUploadsPath . 'Assignments/' instead of $AssignmentsFilesPath in StudentAssignments.fnc.php
 - Remove Student Assignments Files Folder in assets/AssignmentsFiles/ & .gitignore
 - Deprecate Food Service Icons upload path $FS_IconsPath global var in FS_Icons.inc.php
+- Use $FileUploadsPath . 'FS_icons/' instead of $FS_IconsPath in MenuItems.php & FS_Icons.inc.php
 
 Changes in 11.8.6
 -----------------

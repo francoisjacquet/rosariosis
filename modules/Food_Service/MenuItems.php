@@ -4,6 +4,11 @@ require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
+// @since 12.0 Use $FileUploadsPath . 'FS_icons/' instead of $FS_IconsPath
+$fs_icons_path = ! empty( $FS_IconsPath ) ?
+	$FS_IconsPath :
+	$FileUploadsPath . 'FS_icons/';
+
 if ( $_REQUEST['modfunc'] === 'upload'
 	&& AllowEdit() )
 {
@@ -11,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 	$icon_path = ImageUpload(
 		'upload',
 		[ 'witdh' => 256, 'height' => 256 ],
-		$FS_IconsPath,
+		$fs_icons_path,
 		[ '.jpg', '.jpeg', '.png', '.gif' ]
 	);
 
@@ -276,7 +281,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$icons_select = getFSIcons( $FS_IconsPath );
+		$icons_select = getFSIcons( $fs_icons_path );
 
 		$sql = "SELECT ITEM_ID,DESCRIPTION,SHORT_NAME,ICON,SORT_ORDER,
 		PRICE,PRICE_REDUCED,PRICE_FREE,PRICE_STAFF
@@ -387,7 +392,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( AllowEdit()
 		&& $_REQUEST['tab_id'] === 'new'
-		&& is_writable( $FS_IconsPath ) )
+		&& is_writable( $fs_icons_path ) )
 	{
 		// @since 8.9 Food Service icon upload.
 		echo '<br /><form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&modfunc=upload' ) . '" method="POST" enctype="multipart/form-data">';

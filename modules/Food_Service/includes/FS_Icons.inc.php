@@ -17,7 +17,11 @@ if ( ! isset( $FS_IconsPath )
  *
  * Used in MenuItems.php, ServeMenus.php & Kiosk.php
  *
+ * @global $FS_IconsPath
+ * @global $FileUploadsPath
+ *
  * @since 6.0 Add TipMessage to Food Service Icon.
+ * @since 12.0 Use $FileUploadsPath . 'FS_icons/' instead of $FS_IconsPath
  *
  * @param $value
  * @param $name
@@ -28,11 +32,17 @@ if ( ! isset( $FS_IconsPath )
 function makeIcon( $value, $name, $width = '48' )
 {
 	global $FS_IconsPath,
+		$FileUploadsPath,
 		$THIS_RET;
+
+	// @since 11.4 Use $FileUploadsPath . 'FS_icons/' instead of $FS_IconsPath
+	$fs_icons_path = $FS_IconsPath ?
+		$FS_IconsPath :
+		$FileUploadsPath . 'FS_icons/';
 
 	if ( $value )
 	{
-		$return = '<img src="' . URLEscape( $FS_IconsPath . $value ) . '" width="' . AttrEscape( $width ) . '" />';
+		$return = '<img src="' . URLEscape( $fs_icons_path . $value ) . '" width="' . AttrEscape( $width ) . '" />';
 
 		if ( $THIS_RET )
 		{
@@ -41,7 +51,7 @@ function makeIcon( $value, $name, $width = '48' )
 			require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 			return MakeTipMessage(
-				'<img src="' . URLEscape( $FS_IconsPath . $value ) . '" width="128" />',
+				'<img src="' . URLEscape( $fs_icons_path . $value ) . '" width="128" />',
 				_( 'Icon' ),
 				$return
 			);
