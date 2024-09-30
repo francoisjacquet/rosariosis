@@ -2,10 +2,13 @@
 /**
  * Food Service icons functions
  */
-if ( ! isset( $FS_IconsPath ) )
+// Food Service Icons upload path global.
+if ( ! isset( $FS_IconsPath )
+	&& is_dir( 'assets/FS_icons/' )
+	// Check if dir has files.
+	&& glob( 'assets/FS_icons/*' ) )
 {
-	// Food Service Icons Path
-	// You can override the Path definition in the config.inc.php file.
+	// @deprecated since 12.0 Food Service Icons upload path $FS_IconsPath global var
 	$FS_IconsPath = 'assets/FS_icons/';
 }
 
