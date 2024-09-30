@@ -113,10 +113,15 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				if ( ! empty( $_FILES['FILE_ATTACHED_FILE']['name'] ) )
 				{
+					// @since 12.0 Use $FileUploadsPath . 'PortalNotes/' instead of $PortalNotesFilesPath
+					$portal_notes_files_path = ! empty( $PortalNotesFilesPath ) ?
+						$PortalNotesFilesPath :
+						$FileUploadsPath . 'PortalNotes/';
+
 					// File attached to portal notes
 					$columns['FILE_ATTACHED'] = FileUpload(
 						'FILE_ATTACHED_FILE',
-						$PortalNotesFilesPath,
+						$portal_notes_files_path,
 						FileExtensionWhiteList(),
 						0,
 						$error,
