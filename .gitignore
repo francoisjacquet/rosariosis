@@ -224,7 +224,6 @@ phpdoc/
 meta/
 /config.inc.php
 assets/FileUploads/
-assets/AssignmentsFiles/
 assets/StudentPhotos/
 assets/UserPhotos/
 assets/school_logo*
