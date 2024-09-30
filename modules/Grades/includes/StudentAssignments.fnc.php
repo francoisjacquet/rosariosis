@@ -8,10 +8,14 @@
 
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 
-// Assignments Files upload path global.
 
-if ( ! isset( $AssignmentsFilesPath ) )
+// Assignments Files upload path global.
+if ( ! isset( $AssignmentsFilesPath )
+	&& is_dir( 'assets/AssignmentsFiles/' )
+	// Check if dir has at least 1 subdir (apart from README).
+	&& count( glob( 'assets/AssignmentsFiles/*', GLOB_ONLYDIR ) ) > 1 )
 {
+	// @deprecated since 12.0 Assignments Files upload path $AssignmentsFilesPath global var
 	$AssignmentsFilesPath = 'assets/AssignmentsFiles/';
 }
 
