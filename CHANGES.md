@@ -64,6 +64,7 @@ Changes in 12.0
 - No need to call RedirectURL() & unset `$_REQUEST` params as we die just after in ClassRank.inc.php & FinalGrades.inc.php
 - Add Greek & Turkish translations (99% completed) in locale/el_GR.utf8, locale/tr_TR.utf8 & REFERENCE.md, thanks to Georgios Katakalos
 - Deprecate isPopup() function & remove use in Warehouse() function in Warehouse.php
+- Fix do not use ProgramTitle() (loads Menu.php in English only) in Help.php
 
 Changes in 11.8.5
 -----------------

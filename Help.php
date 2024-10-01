@@ -107,7 +107,24 @@ foreach ( (array) $help as $program => $value ) :
 		echo ParseMLField( Config( 'TITLE' ) ) . ' ' . ROSARIO_VERSION;
 	}
 	else
-		echo ( ProgramTitle() == 'RosarioSIS' ? $program : ProgramTitle() );
+	{
+		$program_title = 'RosarioSIS';
+
+		// Fix do not use ProgramTitle() (loads Menu.php in English only)
+		// Loop modules.
+		foreach ( (array) $_ROSARIO['Menu'] as $modcat => $programs )
+		{
+			// Modname not in current Module, continue.
+			if ( ! isset( $programs[ $_REQUEST['modname'] ] ) )
+			{
+				continue;
+			}
+
+			$program_title = $programs[ $_REQUEST['modname'] ];
+		}
+
+		echo $program_title;
+	}
 ?>
 
 	</h3>
