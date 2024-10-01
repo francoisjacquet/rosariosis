@@ -207,8 +207,8 @@ function ResourcesMakePublishedGradeLevels( $value, $column = 'PUBLISHED_GRADE_L
 		'values[' . $id . '][PUBLISHED_GRADE_LEVELS][]',
 		'',
 		$grade_level_options,
-		'multiple_save_NA', // Save when none selected, add hidden empty input
-		'multiple style="width: 240px"', // Multiple select inputs.
+		'N/A', // Save when none selected, add hidden empty input
+		'multiple style="width: 240px" autocomplete="off"', // Multiple select inputs.
 		false
 	);
 
