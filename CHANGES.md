@@ -4,6 +4,8 @@
 Changes in 11.8.6
 -----------------
 - Fix Weight when "Group by Assignment Category" is checked in ProgressReports.php
+- Automatic Class Rank calculation when automatically calculating final grades in FinalGrades.inc.php
+- SQL INSERT INTO grades_completed so "These grades are complete." is displayed on the Input Final Grades program in FinalGrades.inc.php
 
 Changes in 11.8.5
 -----------------

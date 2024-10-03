@@ -76,6 +76,8 @@ function FinalGradesAllMPSaveAJAX( $cp_id, $qtr_id )
  * @uses FinalGradesSave()
  *
  * @since 11.8
+ * @since 11.8.6 Automatic Class Rank calculation.
+ * @since 11.8.6 SQL INSERT INTO grades_completed so "These grades are complete." is displayed on the Input Final Grades program
  *
  * @param int $cp_id  Course Period ID.
  * @param int $qtr_id Quarter ID.
@@ -100,6 +102,8 @@ function FinalGradesAllMPSave( $cp_id, $qtr_id )
 
 	FinalGradesSave( $cp_id, $qtr_id, $final_grades );
 
+	$final_grade_mps[] = $qtr_id;
+
 	$pro = GetChildrenMP( 'PRO', $qtr_id );
 
 	$pro = explode( ',', $pro );
@@ -119,6 +123,8 @@ function FinalGradesAllMPSave( $cp_id, $qtr_id )
 		if ( $final_grades )
 		{
 			FinalGradesSave( $cp_id, $pro_id, $final_grades );
+
+			$final_grade_mps[] = $pro_id;
 		}
 	}
 
@@ -132,6 +138,8 @@ function FinalGradesAllMPSave( $cp_id, $qtr_id )
 		if ( $final_grades )
 		{
 			FinalGradesSave( $cp_id, $sem_id, $final_grades );
+
+			$final_grade_mps[] = $sem_id;
 		}
 	}
 
@@ -145,7 +153,38 @@ function FinalGradesAllMPSave( $cp_id, $qtr_id )
 		if ( $final_grades )
 		{
 			FinalGradesSave( $cp_id, $fy_id, $final_grades );
+
+			$final_grade_mps[] = $fy_id;
 		}
+	}
+
+	require_once 'modules/Grades/includes/ClassRank.inc.php';
+
+	$teacher_id = DBGetOne( "SELECT TEACHER_ID
+		FROM course_periods
+		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
+
+	foreach ( $final_grade_mps as $mp_id )
+	{
+		$current_completed = (bool) DBGetOne( "SELECT 1
+			FROM grades_completed
+			WHERE STAFF_ID='" . (int) $teacher_id . "'
+			AND MARKING_PERIOD_ID='" . (int) $mp_id . "'
+			AND COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
+
+		if ( ! $current_completed )
+		{
+			DBInsert(
+				'grades_completed',
+				[
+					'STAFF_ID' => (int) $teacher_id,
+					'MARKING_PERIOD_ID' => (int) $mp_id,
+					'COURSE_PERIOD_ID' => (int) $cp_id,
+				]
+			);
+		}
+
+		ClassRankCalculateAddMP( $mp_id );
 	}
 
 	return true;
