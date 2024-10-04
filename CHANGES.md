@@ -74,7 +74,9 @@ Changes in 12.0
 - Remove Student Assignments Files Folder in assets/AssignmentsFiles/ & .gitignore
 - Deprecate Food Service Icons upload path $FS_IconsPath global var in FS_Icons.inc.php
 - Use $FileUploadsPath . 'FS_icons/' instead of $FS_IconsPath in MenuItems.php & FS_Icons.inc.php
-- Move Food Service Icons from assets/FS_icons/ to assets/FileUploads/FS_icons/
+- Move Food Service Icons from assets/FS_icons/ to assets/FileUploads/FS_icons/ in Update.fnc.php
+- Remove assets/AssignmentsFiles/ if only contains README in Update.fnc.php
+- Remove assets/PortalNotesFiles/ if only contains README in Update.fnc.php
 
 Changes in 11.8.6
 -----------------

@@ -269,6 +269,10 @@ function Update()
 		case version_compare( $from_version, '11.4.4', '<' ) :
 
 			$return = _update1144();
+
+		case version_compare( $from_version, '12.0', '<' ) :
+
+			$return = _update120();
 	}
 
 	// Update version in DB config table.
@@ -1166,6 +1170,88 @@ function _update1144()
 	return $return;
 }
 
-// @deprecated since 11.4 Assignments Files upload path $AssignmentsFilesPath global var
-// @deprecated since 11.4 Portal Notes Files upload path $PortalNotesFilesPath global var
-// @deprecated since 11.4 Food Service Icons upload path $FS_IconsPath global var
+/**
+ * Update to version 12.0
+ *
+ * 1. Remove assets/AssignmentsFiles/ if only contains README
+ * 2. Remove assets/PortalNotesFiles/ if only contains README
+ * 3. Move Food Service Icons from assets/FS_icons/ to assets/FileUploads/FS_icons/
+ *
+ * @deprecated Assignments Files upload path $AssignmentsFilesPath global var
+ * @deprecated Portal Notes Files upload path $PortalNotesFilesPath global var
+ * @deprecated Food Service Icons upload path $FS_IconsPath global var
+ *
+ * Local function
+ *
+ * @since 12.0
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update120()
+{
+	global $FileUploadsPath;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	// 1. Remove assets/AssignmentsFiles/ if only contains README
+	if ( is_dir( 'assets/AssignmentsFiles/' )
+		// Check if dir has no subdir (apart from README).
+		&& ! glob( 'assets/AssignmentsFiles/*', GLOB_ONLYDIR )
+		&& is_writable( 'assets/AssignmentsFiles/' ) )
+	{
+		if ( file_exists( 'assets/AssignmentsFiles/README' ) )
+		{
+			@unlink( 'assets/AssignmentsFiles/README' );
+		}
+
+		if ( ! glob( 'assets/AssignmentsFiles/*' ) )
+		{
+			// Dir is empty, delete it.
+			rmdir( 'assets/AssignmentsFiles/' );
+		}
+	}
+
+ 	// 2. Remove assets/PortalNotesFiles/ if only contains README
+	if ( is_dir( 'assets/PortalNotesFiles/' )
+		// Check if dir has no uploaded files (apart from README).
+		&& ! glob( 'assets/PortalNotesFiles/*.*' )
+		&& is_writable( 'assets/PortalNotesFiles/' ) )
+	{
+		if ( file_exists( 'assets/PortalNotesFiles/README' ) )
+		{
+			@unlink( 'assets/PortalNotesFiles/README' );
+		}
+
+		if ( ! glob( 'assets/PortalNotesFiles/*' ) )
+		{
+			// Dir is empty, delete it.
+			rmdir( 'assets/PortalNotesFiles/' );
+		}
+	}
+
+	// 3. Move Food Service Icons from assets/FS_icons/ to assets/FileUploads/FS_icons/
+	if ( is_dir( 'assets/FileUploads/FS_icons/' )
+		&& is_dir( 'assets/FS_icons/' )
+		// Check if dir has files.
+		&& ( $fs_icons_files = glob( 'assets/FS_icons/*' ) ) )
+	{
+		foreach ( (array) $fs_icons_files as $fs_icon_file )
+		{
+			@rename(
+				$fs_icon_file,
+				str_replace( 'assets/FS_icons/', $FileUploadsPath . 'FS_icons/', $fs_icon_file )
+			);
+		}
+
+		if ( ! glob( 'assets/FS_icons/*' )
+			&& is_writable( 'assets/FS_icons/' ) )
+		{
+			// Dir is now empty, delete it.
+			rmdir( 'assets/FS_icons/' );
+		}
+	}
+
+	return $return;
+}
