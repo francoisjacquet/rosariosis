@@ -1269,7 +1269,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	header( "Cache-Control: public" );
 	header( "Content-Type: application/" . $extension );
 	header( "Content-Length: " . strlen( $output ) );
-	header( "Content-Disposition: inline; filename=\"" . ProgramTitle() . "." . $extension . "\"\n" );
+	header( "Content-Disposition: inline; filename=\"" . AttrEscape( ProgramTitle() ) . "." . $extension . "\"\n" );
 
 	echo $output;
 
