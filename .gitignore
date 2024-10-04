@@ -290,6 +290,7 @@ modules/PDF_Archive*
 modules/Slovenian_Attendance_Excel_Sheet*
 modules/Slovenian_Grades*
 modules/Pedagogical_Plan*
+modules/Accounting_Premium*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
