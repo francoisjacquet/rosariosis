@@ -14,6 +14,7 @@ Changes in 12.0
 - ChosenSelectInput() use Select2Input() function & raise deprecation notice in Inputs.php
 - JS Remove jQuery Chosen plugin in assets/js/jquery-chosen/
 - GetInputID() remove non-alpha, non-digit characters (keep underscores) in Inputs.php
+- Breaking change: GetInputID() dots `.` are now removed from ID in Inputs.php
 - Breaking change: Update PHPMailer from v5.2.8 to v6.9.1 in classes/PHPMailer/ & SendEmail.fnc.php
 - Breaking change: Remove SaveData() function in SaveData.fnc.php
 - Preferences() remove deprecated 'MONTH', 'DAY' & 'YEAR' items in User.fnc.php

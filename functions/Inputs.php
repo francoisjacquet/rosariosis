@@ -1716,6 +1716,7 @@ function CheckBoxOnclick( $name, $title = '' )
  * From name attribute value
  *
  * @since 2.9
+ * @since 12.0 Breaking change: Dots `.` are now removed from ID
  *
  * @example GetInputID( 'cust[CUSTOM_1]' ); // will return "custCUSTOM_1"
  *
