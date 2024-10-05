@@ -228,19 +228,19 @@ function _makePoints( $value, $column )
 
 	if ( $value == '' )
 	{
-		return '<span style="color:#ff0000">' . _( 'Missing' ) . '</span>';
+		return '<span style="color:red">' . _( 'Missing' ) . '</span>';
 	}
 	elseif ( $value == '-1' )
 	{
-		return '<span style="color:#00a000">' . _( 'Excused' ) . '</span>';
+		return '<span style="color:green">' . _( 'Excused' ) . '</span>';
 	}
 	elseif ( $value < 0 )
 	{
-		return '<span style="color:#ff0000">' . _( 'Negative' ) . '</span>';
+		return '<span style="color:red">' . _( 'Negative' ) . '</span>';
 	}
 	elseif ( $THIS_RET['TOTAL_POINTS'] == 0 )
 	{
-		return '<span style="color:#0000ff">' . _( 'Extra Credit' ) . '</span>';
+		return '<span style="color:blue">' . _( 'Extra Credit' ) . '</span>';
 	}
 
 	return number_format(  ( $value / $THIS_RET['TOTAL_POINTS'] ) * 100, 0 ) . '%';
