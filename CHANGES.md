@@ -77,6 +77,7 @@ Changes in 12.0
 - Move Food Service Icons from assets/FS_icons/ to assets/FileUploads/FS_icons/ in Update.fnc.php
 - Remove assets/AssignmentsFiles/ if only contains README in Update.fnc.php
 - Remove assets/PortalNotesFiles/ if only contains README in Update.fnc.php
+- Remove Cookie vars from URL, may be included in `$_REQUEST` in PreparePHP_SELF.fnc.php
 
 Changes in 11.8.6
 -----------------

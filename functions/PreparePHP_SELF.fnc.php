@@ -40,6 +40,16 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 		$is_REQUEST = $tmp_REQUEST === $_REQUEST;
 	}
 
+	/**
+	 * Remove Cookie vars from URL, may be included in `$_REQUEST`
+	 *
+	 * @see php.ini request_order
+	 */
+	foreach ( (array) $_COOKIE as $key => $value )
+	{
+		unset( $tmp_REQUEST[ $key ] );
+	}
+
 	// Remove vars in $remove.
 	foreach ( (array) $remove as $key )
 	{
