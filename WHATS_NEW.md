@@ -2,6 +2,42 @@
 
 ## RosarioSIS Student Information System
 
+New in 12.0
+-----------
+
+**Breaking change**, please upgrade the following add-ons:
+- [Email SMTP](https://www.rosariosis.org/plugins/email-smtp/) plugin version 10.4+ (March, 2024)
+- [Email Log](https://gitlab.com/francoisjacquet/Email_Log) module version 1.2+ (March, 2024)
+- [Reports](https://www.rosariosis.org/modules/reports/) module version 10.6+ (May, 2024)
+- [Human Resources](https://www.rosariosis.org/modules/human-resources/) module version 10.2+ (August, 2023)
+- [Calendar Schedule View](https://www.rosariosis.org/plugins/calendar-schedule-view/) plugin version 10.2+ (July, 2024)
+
+Performance improvements: smaller payload, up to 10% faster & less AJAX requests sent to the server
+
+Use [colorBox](http://www.jacklmoore.com/colorbox/) instead of popup window for Course & Request Widgets and Calendar Event
+
+Some optional configuration variables are now **deprecated** (still work if set in the `config.inc.php` file):
+- `$PortalNotesFilesPath` Path to portal notes attached files.
+- `$AssignmentsFilesPath` Path to student assignments files.
+- `$FS_IconsPath` Path to food service icons.
+
+Those files are now uploaded under a subdirectory of `assets/Fileuploads/`. See the [`$FileUploadsPath`](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/INSTALL.md#optional-variables) config variable.
+
+Add-on installations statistics (on first activation). To disable, use the [`ROSARIO_DISABLE_USAGE_STATISTICS`](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/INSTALL.md#optional-variables) config constant.
+
+[New translations](locale/REFERENCE.md) (99% completed), thanks to Georgios Katakalos
+- Greek (Greece), including help
+- Turkish (Turkey)
+
+[Stripe Registration](https://www.rosariosis.org/plugins/stripe-registration/) plugin, sponsored by English National Program, France
+
+[Library Premium](https://www.rosariosis.org/modules/library/)
+- Quick Loan: quickly search and lend a document to a user or student, sponsored by AT group, Slovenia
+
+[Billing Elements](https://www.rosariosis.org/modules/billing-elements/)
+- Daily Transactions, sponsored by Petit Rousseau, Cameroon
+
+
 New in 11.8
 -----------
 
