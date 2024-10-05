@@ -681,7 +681,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 									$comments_arr_key = true;
 								}
-								else
+								elseif ( ! empty( $commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 								{
 									$grade_i['COMMENT'] .= $sep_tmp .
 										$commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
