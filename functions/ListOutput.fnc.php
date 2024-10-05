@@ -909,6 +909,7 @@ function _ReindexResults( $array )
  * @example $result = _listSearch( $result, $LO_search );
  * @since 5.8
  * @since 12.0 Remove Relevance column, do not sort results
+ * @since 12.0 Only return results matching (containing) all terms (AND)
  *
  * @param  array  $result     ListOutput result.
  * @param  string $LO_search  ListOutput search term.
@@ -916,8 +917,6 @@ function _ReindexResults( $array )
  */
 function _listSearch( $result, $LO_search )
 {
-	$result_count = count( $result );
-
 	$search_term = trim( mb_strtolower( DBUnescapeString( $LO_search ) ) );
 
 	$terms = [];
@@ -927,22 +926,15 @@ function _listSearch( $result, $LO_search )
 	{
 		$search_term = str_replace( '"', '', $search_term );
 
-		while ( $space_pos = mb_strpos( $search_term, ' ' ) )
-		{
-			$terms[mb_substr( $search_term, 0, $space_pos )] = 1;
-
-			$search_term = mb_substr( $search_term, ( $space_pos + 1 ) );
-		}
-
-		$terms[trim( $search_term )] = 1;
+		$terms = preg_split('/\s+/', $search_term );
 	}
 	elseif ( mb_strlen( $search_term ) > 2 )
 	{
 		// Search "expression".
 		$search_term = str_replace( '"', '', $search_term );
-
-		$terms[$search_term] = 1;
 	}
+
+	$terms_count = count( $terms );
 
 	/* TRANSLATORS: List of words ignored during search operations */
 	$ignored_words = explode( ', ', _( 'of, the, a, an, in' ) );
@@ -952,72 +944,46 @@ function _listSearch( $result, $LO_search )
 		unset( $terms[trim( $word )] );
 	}
 
-	foreach ( (array) $result as $key => $value )
+	foreach ( (array) $result as $key => $columns )
 	{
-		$values[$key] = 0;
+		$col_concat = implode( ' ', $columns );
 
-		foreach ( (array) $value as $val )
+		// Better list searching by isolating inner text.
+		$col_concat = mb_strtolower( strip_tags( preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $col_concat ) ) );
+
+		if ( mb_strpos( $col_concat, $search_term ) !== false )
 		{
-			if ( empty( $val )
-				&& $val !== '0' )
+			// Exact match.
+			continue;
+		}
+
+		$terms_match = 0;
+
+		foreach ( $terms as $term )
+		{
+			if ( mb_strpos( $col_concat, $term ) !== false )
 			{
-				continue;
-			}
+				// Term found.
+				$terms_match++;
 
-			// FJ better list searching by isolating the values.
-			$val = mb_strtolower( strip_tags( preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $val ) ) );
-
-			if ( $search_term == $val )
-			{
-				// +25 if Exact match.
-				$values[$key] += 25;
-
-				continue;
-			}
-
-			foreach ( $terms as $term => $one )
-			{
-				if ( mb_strpos( $val, $term ) !== false )
+				if ( $terms_match >= $terms_count )
 				{
-					// +3 for each Term found.
-					$values[$key] += 3;
+					continue 2;
 				}
 			}
 		}
 
-		if ( $values[$key] == 0 )
-		{
-			unset( $values[$key] );
-
-			unset( $result[$key] );
-
-			$result_count--;
-		}
+		unset( $result[$key] );
 	}
 
-	// Add Relevance column.
-	if ( ! $result_count )
+	if ( ! $result )
 	{
 		return $result;
 	}
 
-	array_multisort( $values, SORT_DESC, $result );
+	array_unshift( $result, [ 'always_start_list_at_key_1' ] );
 
-	$result = _ReindexResults( $result );
-
-	$values = _ReindexResults( $values );
-
-	$last_value = 1;
-
-	$scale = ( 100 / $values[$last_value] );
-
-	for ( $i = $last_value; $i <= $result_count; $i++ )
-	{
-		$score = (int) ( $values[$i] * $scale );
-
-		$result[$i]['RELEVANCE'] = '<div class="bar relevance" style="width:' .
-			$score . 'px;">' . $score . '</div>';
-	}
+	unset( $result[0] );
 
 	return $result;
 }
