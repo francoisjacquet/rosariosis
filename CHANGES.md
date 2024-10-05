@@ -81,6 +81,7 @@ Changes in 12.0
 - Deprecate `_ReindexResults()` function in ListOutput.fnc.php
 - Search List: Remove Relevance column, do not sort results in ListOutput.fnc.php
 - Search List: Only return results matching (containing) all terms (AND) in ListOutput.fnc.php
+- Fix "Create Student Account" URL, do not use RedirectURL() in index.php
 
 Changes in 11.8.6
 -----------------
