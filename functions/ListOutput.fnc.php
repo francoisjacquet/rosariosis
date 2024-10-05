@@ -6,6 +6,7 @@
  * @subpackage functions
  *
  * @since 4.0 Add List Before and After action hooks
+ * @since 12.0 Remove Relevance column, do not sort results
  */
 
 function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = [], $group = [], $options = [] )
@@ -209,11 +210,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$result = _listSearch( $result, $LO_search );
 
 			$result_count = $display_count = count( $result );
-
-			if ( $result_count )
-			{
-				$column_names['RELEVANCE'] = _( 'Relevance' );
-			}
 
 			if ( $group_count )
 			{
@@ -912,6 +908,7 @@ function _ReindexResults( $array )
  *
  * @example $result = _listSearch( $result, $LO_search );
  * @since 5.8
+ * @since 12.0 Remove Relevance column, do not sort results
  *
  * @param  array  $result     ListOutput result.
  * @param  string $LO_search  ListOutput search term.
