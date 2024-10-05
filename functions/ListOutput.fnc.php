@@ -859,6 +859,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
  * Reindex Results
  * Starting from 1
  *
+ * @deprecated since 12.0
+ *
  * Local function
  *
  * @example $result = _ReindexResults( $result );
@@ -868,6 +870,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
  */
 function _ReindexResults( $array )
 {
+	// Raise deprecation notice.
+	trigger_error(
+		'_ReindexResults() function is deprecated since RosarioSIS 12.0. It will be removed in RosarioSIS 13.0.',
+		E_USER_DEPRECATED
+	);
+
 	$new = [];
 
 	$i = 1;

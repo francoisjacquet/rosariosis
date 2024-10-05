@@ -78,6 +78,7 @@ Changes in 12.0
 - Remove assets/AssignmentsFiles/ if only contains README in Update.fnc.php
 - Remove assets/PortalNotesFiles/ if only contains README in Update.fnc.php
 - Remove Cookie vars from URL, may be included in `$_REQUEST` in PreparePHP_SELF.fnc.php
+- Deprecate `_ReindexResults()` function in ListOutput.fnc.php
 
 Changes in 11.8.6
 -----------------
