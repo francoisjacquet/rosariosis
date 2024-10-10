@@ -25,8 +25,8 @@ Those files are now uploaded under a subdirectory of `assets/Fileuploads/`. See 
 
 Add-on installations statistics (on first activation). To disable, use the [`ROSARIO_DISABLE_USAGE_STATISTICS`](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/INSTALL.md#optional-variables) config constant.
 
-[New translations](locale/REFERENCE.md) (99% completed), thanks to Georgios Katakalos
-- Greek (Greece), including help
+[New translations](locale/REFERENCE.md) (99% completed, includes help), thanks to Georgios Katakalos
+- Greek (Greece)
 - Turkish (Turkey)
 
 [Stripe Registration](https://www.rosariosis.org/plugins/stripe-registration/) plugin, sponsored by English National Program, France
