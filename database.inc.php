@@ -844,8 +844,9 @@ function MySQLRemoveDelimiter( $sql )
  * @link https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_group-concat
  *
  * @example "SELECT " . DBSQLCommaSeparatedResult( 's.STUDENT_ID' ) . " AS STUDENTS_LIST FROM STUDENTS s"
+ * @example DBSQLCommaSeparatedResult( 'ad.SCHOOL_DATE ORDER BY ad.SCHOOL_DATE' )
  *
- * @param string $column    SQL column.
+ * @param string $column    SQL column, can include ORDER BY.
  * @param string $separator List separator, default to comma.
  *
  * @return string MySQL or PostgreSQL function
