@@ -83,6 +83,7 @@ Changes in 12.0
 - Search List: Remove Relevance column, do not sort results in ListOutput.fnc.php
 - Search List: Only return results matching (containing) all terms (AND) in ListOutput.fnc.php
 - Fix "Create Student Account" URL, do not use RedirectURL() in index.php
+- Add support, authors, suggest & extra in composer.json
 
 Changes in 11.8.6
 -----------------

@@ -3,8 +3,34 @@
 	"description": "Student Information System for school management",
 	"keywords": ["school", "education", "student", "management", "erp", "gradebook", "attendance", "teacher", "timetable"],
 	"homepage": "https://gitlab.com/francoisjacquet/rosariosis/",
+	"support": {
+		"issues": "https://gitlab.com/francoisjacquet/rosariosis/-/issues",
+		"forum": "https://www.rosariosis.org/forum/",
+		"wiki": "https://gitlab.com/francoisjacquet/rosariosis/-/wikis/home"
+	},
 	"license": "GPL-2.0-or-later",
+	"authors": [{
+		"name": "François Jacquet",
+	}],
 	"require": {
 		"php": ">=5.5.9"
+	},
+	"suggest": {
+		"ext-pgsql": "RosarioSIS relies on the pgsql extension (used to connect to the PostgreSQL database).",
+		"ext-mysqli": "RosarioSIS relies on the mysql (or mysqli) extension (used to connect to the MySQL database).",
+		"ext-pdo": "RosarioSIS relies on the pdo extension (used for prepared SQL statements).",
+		"ext-mbstring": "RosarioSIS relies on the mbstring extension (used for multibyte strings).",
+		"ext-gettext": "RosarioSIS relies on the gettext extension (used for translations).",
+		"ext-intl": "RosarioSIS relies on the intl extension (used for internationalization).",
+		"ext-zip": "RosarioSIS relies on the zip extension (used to upload add-ons).",
+		"ext-curl": "RosarioSIS relies on the curl extension (used to make external API calls).",
+		"ext-gd": "RosarioSIS relies on the gd extension (used to resize and compress images).",
+	},
+	"extra": {
+		"suggest": {
+			"wkhtmltopdf/wkhtmltopdf": "RosarioSIS relies on wkhtmltopdf to generate PDF reports.",
+			"kornelski/pngquant": "RosarioSIS relies on PNGQuant to compress PNG images."
+		},
+		"self_url": "https://gitlab.com/francoisjacquet/rosariosis/raw/mobile/composer.json"
 	}
 }
