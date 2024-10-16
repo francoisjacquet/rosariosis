@@ -247,7 +247,7 @@ function AllowUse( $modname = false, $cache_all = false )
 
 	foreach ( $allow_modnames as $allow_modname )
 	{
-		if ( str_starts_with( $allow_modname, $modname )
+		if ( mb_strpos( $allow_modname, $modname ) === 0
 			&& mb_strpos( $query_string, $allow_modname ) === 8 )
 		{
 			// Fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
