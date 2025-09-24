@@ -440,7 +440,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 			AND MARKING_PERIOD_ID IN (" . $mps . ")
-			AND (END_DATE IS NULL OR '" . DBDate() . "'<=END_DATE)" );
+			AND (END_DATE IS NULL OR '" . $date . "'<=END_DATE)" );
 
 		if ( ! empty( $current_RET ) )
 		{
@@ -456,7 +456,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		AND s.STUDENT_ID='" . UserStudentID() . "'
 		AND cpsp.PERIOD_ID='" . (int) issetVal( $mp_RET[1]['PERIOD_ID'] ) . "'
 		AND s.MARKING_PERIOD_ID IN (" . $mps . ")
-		AND (s.END_DATE IS NULL OR '" . DBDate() . "'<=s.END_DATE)" );
+		AND (s.END_DATE IS NULL OR '" . $date . "'<=s.END_DATE)" );
 
 		$days_conflict = false;
 
