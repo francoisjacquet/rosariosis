@@ -743,6 +743,18 @@ function SearchField( $field, $type = 'student', $extra = [] )
 				return ' AND ' . $sql_col . "='" . mb_substr( $value, 1, -1 ) . "' ";
 			}
 
+			// @since 12.4.3 Fix exact search for MySQL: double quotes are escaped.
+			if ( mb_substr( $value, 0, 2 ) === '\"'
+				&& mb_substr( $value, -2 ) === '\"' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= mb_substr( $value, 2, -2 ) . '<br />';
+				}
+
+				return ' AND ' . $sql_col . "='" . mb_substr( $value, 2, -2 ) . "' ";
+			}
+
 			// Starts with.
 			if ( ! $no_search_terms )
 			{

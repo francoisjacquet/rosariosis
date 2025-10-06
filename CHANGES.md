@@ -7,6 +7,7 @@ Changes in 12.4.3
 - Fix regression since 12.4.1 search discipline numeric field in Widget.php
 - Fix PHP fatal error division by zero: Percent Total is 0%, N/A final grade in FinalGrades.inc.php
 - Fix check requested enrollment date for conflict (instead of today) in Schedule.php
+- Fix exact search for MySQL: double quotes are escaped in Search.fnc.php
 
 Changes in 12.4.2
 -----------------
