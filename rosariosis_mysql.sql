@@ -2281,7 +2281,7 @@ INSERT INTO attendance_codes VALUES (NULL, 2025, 1, 'Excused Absence', 'E', 'off
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No', CURRENT_TIMESTAMP, NULL);
-INSERT INTO config VALUES (0, 'VERSION', '12.4.2', CURRENT_TIMESTAMP, NULL);
+INSERT INTO config VALUES (0, 'VERSION', '12.4.3', CURRENT_TIMESTAMP, NULL);
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System', CURRENT_TIMESTAMP, NULL);
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS', CURRENT_TIMESTAMP, NULL);
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}', CURRENT_TIMESTAMP, NULL);
