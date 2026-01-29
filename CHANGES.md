@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 12.7.3
+-----------------
+- Fix Help button not showing help, compile error in plugins.min.js
+
 Changes in 12.7.2
 -----------------
 - Fix Checkbox input, use `_makeCheckboxInput()` function in Schools.php
