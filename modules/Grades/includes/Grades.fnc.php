@@ -260,6 +260,7 @@ function GetClassAverage( $course_period_id, $marking_period_id, $letter_or_perc
  * @since 9.1
  * @since 11.0 Cache Class average percent
  * @since 12.4.2 Fix include students active as of requested MP's end date
+ * @since 12.7.4 Fix #367 SQL do not use GetStuList() so we get all students in class
  *
  * @param int $course_period_id  Course Period ID.
  * @param int $marking_period_id Marking Period ID.
@@ -275,19 +276,29 @@ function GetClassAveragePercent( $course_period_id, $marking_period_id )
 		return $percent_averages[ $course_period_id ][ $marking_period_id ];
 	}
 
-	$extra['SELECT_ONLY'] = "sg1.GRADE_PERCENT";
+	$mp_end_date = GetMP( $marking_period_id, 'END_DATE' );
 
-	$extra['FROM'] = ",student_report_card_grades sg1,course_periods rc_cp";
-
-	$extra['WHERE'] = " AND sg1.MARKING_PERIOD_ID='" . (int) $marking_period_id . "'
+	$students_RET = DBGet( "SELECT sg1.GRADE_PERCENT
+		FROM students s
+		JOIN schedule ss ON (ss.STUDENT_ID=s.STUDENT_ID
+			AND ss.SYEAR='" . UserSyear() . "'
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( '', $marking_period_id ) . ")
+			AND ('" . $mp_end_date . "'>=ss.START_DATE
+				AND ('" . $mp_end_date . "'<=ss.END_DATE OR ss.END_DATE IS NULL)))
+		JOIN course_periods cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+			AND cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "')
+		JOIN student_enrollment ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+			AND ssm.SYEAR=ss.SYEAR
+			AND ssm.SCHOOL_ID='" . UserSchool() . "'
+			AND ('" . $mp_end_date . "'>=ssm.START_DATE
+				AND (ssm.END_DATE IS NULL OR '" . $mp_end_date . "'<=ssm.END_DATE))),
+		student_report_card_grades sg1,course_periods rc_cp
+		WHERE TRUE
+		AND sg1.MARKING_PERIOD_ID='" . (int) $marking_period_id . "'
 		AND rc_cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 		AND sg1.STUDENT_ID=ssm.STUDENT_ID
-		AND sg1.GRADE_PERCENT IS NOT NULL";
-
-	$extra['DATE'] = GetMP( $marking_period_id, 'END_DATE' );
-
-	$students_RET = GetStuList( $extra );
+		AND sg1.GRADE_PERCENT IS NOT NULL" );
 
 	if ( ! $students_RET )
 	{

@@ -4,6 +4,7 @@
 Changes in 12.7.4
 -----------------
 - CSP Skip CSP violation triggered by domain: connect.facebook.net in SaveReport.php
+- Fix #367 SQL do not use GetStuList() so we get all students in class in Grades.fnc.php, thanks to @Macadoshis
 
 Changes in 12.7.3
 -----------------
