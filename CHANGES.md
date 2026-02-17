@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 12.7.4
+-----------------
+- CSP Skip CSP violation triggered by domain: connect.facebook.net in SaveReport.php
+
 Changes in 12.7.3
 -----------------
 - Fix Help button not showing help, compile error in plugins.min.js

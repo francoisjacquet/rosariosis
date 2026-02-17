@@ -43,15 +43,15 @@ if ( isset( $csp_report['source-file'] )
 $domain_skip = [
 	'https://www.google-analytics.com', // AJAX request to Google Analytics
 	'https://www.gstatic.com', // CSS file injected by Google Translate
-	'https://me.kis.v2.scr.kaspersky-labs.com', // JS script injected by Kaspersky antivirus
-	'https://ff.kis.v2.scr.kaspersky-labs.com', // JS script injected by Kaspersky antivirus
+	'kis.v2.scr.kaspersky-labs.com', // JS script injected by Kaspersky antivirus
+	'https://connect.facebook.net' // JS file injected by Facebook
 ];
 
 foreach ( $domain_skip as $domain )
 {
-	if ( stripos( $csp_report['blocked-uri'], $domain ) === 0 )
+	if ( stripos( $csp_report['blocked-uri'], $domain ) !== false )
 	{
-		return _skipDie( 'Skip CSP violation triggerd by domain: ' . $domain );
+		return _skipDie( 'Skip CSP violation triggered by domain: ' . $domain );
 	}
 }
 
