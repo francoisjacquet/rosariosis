@@ -5,6 +5,7 @@ Changes in 12.7.4
 -----------------
 - CSP Skip CSP violation triggered by domain: connect.facebook.net in SaveReport.php
 - Fix #367 SQL do not use GetStuList() so we get all students in class in Grades.fnc.php, thanks to @Macadoshis
+- Fix SQL get grade when assignment applies to all periods for this course in StudentGrades.php & ProgressReports.php
 
 Changes in 12.7.3
 -----------------
