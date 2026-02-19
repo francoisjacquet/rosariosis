@@ -367,7 +367,7 @@ if ( UserStudentID()
 				at.TITLE AS CATEGORY,at.COLOR AS ASSIGNMENT_TYPE_COLOR,ga.STAFF_ID,ga.FILE,
 				ga.COURSE_ID,'" . DBEscapeString( $course['COURSE_TITLE'] ) . "' AS COURSE_TITLE
 			FROM gradebook_assignments ga
-			LEFT OUTER JOIN gradebook_grades gg ON (gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.STUDENT_ID='" . UserStudentID() . "'),
+			LEFT OUTER JOIN gradebook_grades gg ON (gg.COURSE_PERIOD_ID='" . (int) $course['COURSE_PERIOD_ID'] . "' AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.STUDENT_ID='" . UserStudentID() . "'),
 			gradebook_assignment_types at
 			WHERE (ga.COURSE_PERIOD_ID='" . (int) $course['COURSE_PERIOD_ID'] . "' OR ga.COURSE_ID='" . (int) $course['COURSE_ID'] . "' AND ga.STAFF_ID='" . (int) $staff_id . "')
 			AND ga.MARKING_PERIOD_ID='" . UserMP() . "'
