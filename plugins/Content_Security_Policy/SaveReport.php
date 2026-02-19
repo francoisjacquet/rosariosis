@@ -44,7 +44,9 @@ $domain_skip = [
 	'https://www.google-analytics.com', // AJAX request to Google Analytics
 	'https://www.gstatic.com', // CSS file injected by Google Translate
 	'kis.v2.scr.kaspersky-labs.com', // JS script injected by Kaspersky antivirus
-	'https://connect.facebook.net' // JS file injected by Facebook
+	'https://connect.facebook.net', // JS file injected by Facebook
+	'https://safesearchinc.com', // ??
+	'https://infird.com', // JS file injected by malware
 ];
 
 foreach ( $domain_skip as $domain )
