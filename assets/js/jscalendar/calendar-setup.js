@@ -139,8 +139,7 @@ Calendar.setup = function (params) {
 				}
 			}
 
-			if (typeof p.dayField.onchange == "function")
-				p.dayField.onchange();
+			p.dayField.dispatchEvent(new Event('change', { 'bubbles': true }));
 		}
 		if (update && p.displayArea)
 			p.displayArea.innerHTML = cal.date.print(p.daFormat);

@@ -5,6 +5,7 @@ Changes in 12.7.4
 -----------------
 - CSP Skip CSP violation triggered by domain: connect.facebook.net, safesearchinc.com, infird.com in SaveReport.php
 - Fix #367 SQL do not use GetStuList() so we get all students in class in Grades.fnc.php, thanks to @Macadoshis
+- JS Fix regression since 12.5 trigger change event when selecting date from calendar in calendar-setup.js
 
 Changes in 12.7.3
 -----------------
