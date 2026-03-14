@@ -489,7 +489,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! empty( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] ) )
 	{
 		// @since 4.5 Hide previous quarters assignment types.
-		$hide_previous_assignment_types_sql = " AND CREATED_MP='" . UserMP() . "' OR CREATED_MP IS NULL";
+		$hide_previous_assignment_types_sql = " AND (CREATED_MP='" . UserMP() . "' OR CREATED_MP IS NULL)";
 	}
 
 	// Check assignment type ID is valid for current school & syear & quarter!

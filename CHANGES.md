@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 12.7.5
+-----------------
+- Fix SQL showing all assignment types when "Hide previous quarters assignment types" is checked in Assignments.php
+
 Changes in 12.7.4
 -----------------
 - CSP Skip CSP violation triggered by domain: connect.facebook.net, safesearchinc.com, infird.com in SaveReport.php
