@@ -94,6 +94,12 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		$mp = GetMP( $marking_period_id, 'MP' );
 	}
 
+	if ( GetMP( $marking_period_id, 'MP' ) === 'PRO' )
+	{
+		// @since 12.7.5 Fix SQL error when Marking Period ID is Progress Period
+		$marking_period_id = GetParentMP( 'QTR', $marking_period_id );
+	}
+
 	if ( is_null( $all_mp )
 		|| ! isset( $all_mp[ $mp ] ) )
 	{

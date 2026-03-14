@@ -4,6 +4,7 @@
 Changes in 12.7.5
 -----------------
 - Fix SQL showing all assignment types when "Hide previous quarters assignment types" is checked in Assignments.php
+- Fix SQL error when Marking Period ID is Progress Period in GetMP.php
 
 Changes in 12.7.4
 -----------------
