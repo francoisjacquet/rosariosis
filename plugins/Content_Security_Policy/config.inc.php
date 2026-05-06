@@ -39,7 +39,7 @@ if ( isset( $_REQUEST['save'] )
 			$domains = explode( "\r", str_replace(
 				[ "\r\n", "\n" ],
 				"\r",
-				$_REQUEST['values']['SCRIPT_SRC_DOMAINS']
+				$_POST['values']['SCRIPT_SRC_DOMAINS']
 			) );
 
 			$set = ContentSecurityPolicySetDomains( 'script-src', $domains );
@@ -50,7 +50,7 @@ if ( isset( $_REQUEST['save'] )
 			$domains = explode( "\r", str_replace(
 				[ "\r\n", "\n" ],
 				"\r",
-				$_REQUEST['values']['STYLE_SRC_DOMAINS']
+				$_POST['values']['STYLE_SRC_DOMAINS']
 			) );
 
 			ContentSecurityPolicySetDomains( 'style-src', $domains );
@@ -61,7 +61,7 @@ if ( isset( $_REQUEST['save'] )
 			$domains = explode( "\r", str_replace(
 				[ "\r\n", "\n" ],
 				"\r",
-				$_REQUEST['values']['CONNECT_SRC_DOMAINS']
+				$_POST['values']['CONNECT_SRC_DOMAINS']
 			) );
 
 			ContentSecurityPolicySetDomains( 'connect-src', $domains );
@@ -72,7 +72,7 @@ if ( isset( $_REQUEST['save'] )
 			$domains = explode( "\r", str_replace(
 				[ "\r\n", "\n" ],
 				"\r",
-				$_REQUEST['values']['FORM_ACTION_DOMAINS']
+				$_POST['values']['FORM_ACTION_DOMAINS']
 			) );
 
 			ContentSecurityPolicySetDomains( 'form-action', $domains );

@@ -7,6 +7,7 @@ Changes in 12.8.1
 - Fix SQL error escape CSP string in Content_Security_Policy/includes/common.fnc.php
 - Multilingual course title: use ParseMLField() in StudentList.php
 - Fix valid domain check: remove FILTER_VALIDATE_DOMAIN, too permissive in Content_Security_Policy/includes/common.fnc.php
+- Fix save various domains in Content_Security_Policy/config.inc.php
 
 Changes in 12.8
 ---------------
