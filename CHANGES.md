@@ -4,6 +4,7 @@
 Changes in 12.8.1
 -----------------
 - Fix Advanced Search "No Value" for custom date and number fields in CustomFields.fnc.php
+- Multilingual course title: use ParseMLField() in StudentList.php
 
 Changes in 12.8
 ---------------

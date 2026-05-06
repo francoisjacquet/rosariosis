@@ -68,7 +68,12 @@ $extra['SELECT'] = ",e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE";
 $extra['FROM'] = ",eligibility e,courses c,course_periods cp";
 $extra['WHERE'] = " AND e.STUDENT_ID=ssm.STUDENT_ID AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
-$extra['functions'] = [ 'ELIGIBILITY_CODE' => '_makeLower', 'FULL_NAME' => 'makePhotoTipMessage' ];
+$extra['functions'] = [
+	'ELIGIBILITY_CODE' => '_makeLower',
+	'FULL_NAME' => 'makePhotoTipMessage',
+	'COURSE_TITLE' => 'ParseMLField',
+];
+
 $extra['group'] = [ 'STUDENT_ID' ];
 
 Widgets( 'eligibility' );
