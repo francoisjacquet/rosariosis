@@ -158,11 +158,6 @@ function ContentSecurityPolicySetDomains( $directive, $domains )
  */
 function ContentSecurityPolicyIsValidDomain( $domain )
 {
-	if ( version_compare( PHP_VERSION, '7.0', '>=' ) )
-	{
-		return (bool) filter_var( $domain, FILTER_VALIDATE_DOMAIN );
-	}
-
 	$domain = str_ireplace( [ 'http://', 'https://' ], '', $domain );
 
     return ( preg_match( "/^([a-z\d\*](-*[a-z\d])*)(\.([a-z\d](-*[a-z\d])*))*$/i", $domain ) // valid chars check
