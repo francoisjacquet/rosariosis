@@ -50,6 +50,18 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 		}
 	}
 
+	if ( isset( $_REQUEST['cust_null'] ) )
+	{
+		// Add No Value (dates and number).
+		foreach ( (array) $_REQUEST['cust_null'] as $key => $value )
+		{
+			if ( $value !== '' )
+			{
+				$cust[ $key ] = $value;
+			}
+		}
+	}
+
 	// Format & Verify begin dates.
 	AddRequestedDates( 'cust_begin' );
 
@@ -65,8 +77,7 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 	// Get custom (staff) fields.
 	if ( ! empty( $cust )
 		|| ! empty( $cust_begin )
-		|| ! empty( $cust_end )
-		|| ! empty( $_REQUEST['cust_null'] ) )
+		|| ! empty( $cust_end ) )
 	{
 		$fields = ParseMLArray( DBGet( "SELECT TITLE,CONCAT('CUSTOM_', ID) AS COLUMN_NAME,
 			TYPE,SELECT_OPTIONS
