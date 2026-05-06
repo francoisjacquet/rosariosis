@@ -141,7 +141,7 @@ function ContentSecurityPolicySetDomains( $directive, $domains )
 
 	$new_csp = implode( '; ', $csp_directives );
 
-	Config( 'CONTENT_SECURITY_POLICY', $new_csp );
+	Config( 'CONTENT_SECURITY_POLICY', DBEscapeString( $new_csp ) );
 
 	return true;
 }
