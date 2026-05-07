@@ -8,6 +8,7 @@ Changes in 12.8.1
 - Multilingual course title: use ParseMLField() in StudentList.php
 - Fix valid domain check: remove FILTER_VALIDATE_DOMAIN, too permissive in Content_Security_Policy/includes/common.fnc.php
 - Fix save various domains in Content_Security_Policy/config.inc.php
+- CSS theme FlatSIS fix "Prevent body from scrolling when submenu open" in stylesheet.css
 
 Changes in 12.8
 ---------------

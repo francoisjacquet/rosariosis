@@ -795,8 +795,6 @@ textarea {
 	width: 223px;
 	max-height: calc(100vh - 80px);
 	overflow-y: auto;
-	/* Prevent body from scrolling when submenu open */
-	overscroll-behavior: contain;
 	word-wrap: break-word;
 	min-height: 36px;
 }
@@ -810,10 +808,18 @@ textarea {
 	width: 223px;
 	max-height: calc(100vh - 80px);
 	overflow-y: auto;
-	/* Prevent body from scrolling when submenu open */
-	overscroll-behavior: contain;
 	word-wrap: break-word;
 	min-height: 36px;
+}
+
+.no-touch .menu-module:focus-within a:not(#selectedModuleLink) + .wp-submenu {
+	/* Prevent body from scrolling when submenu open */
+	overscroll-behavior: contain;
+}
+
+.no-touch .menu-module:hover a:not(#selectedModuleLink) + .wp-submenu {
+	/* Prevent body from scrolling when submenu open */
+	overscroll-behavior: contain;
 }
 
 /* @since 4.4 Open submenu on touch (mobile & tablet), see warehouse.js */
