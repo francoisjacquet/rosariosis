@@ -24,6 +24,9 @@ if ( empty( $json['csp-report'] ) )
 
 $csp_report = $json['csp-report'];
 
+// Security fix #397 Unauthenticated stored XSS: remove HTML tags
+array_rwalk( $csp_report, 'strip_tags' );
+
 // Do not save violations triggered by browser extensions.
 $source_file_skip = [
 	'moz-extension',
