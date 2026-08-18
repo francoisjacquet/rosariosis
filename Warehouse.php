@@ -330,8 +330,11 @@ if ( ! empty( $_REQUEST['modfunc'] )
 		// Security fix #371 check CSRF token for modfunc requests
 		if ( empty( $_SESSION['STAFF_ID'] ) && empty( $_SESSION['STUDENT_ID'] ) )
 		{
-			// No user in session yet, 403 Forbidden error (99% chances its a bot)
-			http_response_code( 403 );
+			if ( ! isAJAX() )
+			{
+				// No user in session yet, 403 Forbidden error (99% chances its a bot)
+				http_response_code( 403 );
+			}
 
 			$error[] = _( 'You\'re not allowed to use this program!' );
 
