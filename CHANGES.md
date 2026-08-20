@@ -69,6 +69,7 @@ Changes in 12.9.3
 -----------------
 - Security fix #397 Unauthenticated stored XSS: remove HTML tags in SaveReport.php, thanks to @Bradsen
 - Only return 403 Forbidden error if not AJAX request in Warehouse.php
+- Logout if no Staff or Student session ID when modfunc=first-login in Warehouse.php
 
 Changes in 12.9.2
 -----------------
