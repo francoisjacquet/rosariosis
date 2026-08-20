@@ -62,6 +62,7 @@ Changes in 13.0
 - Check for add-on updates in Modules.inc.php & Plugins.inc.php
 - Add link to rosariosis.org/modules & rosariosis.org/plugins in Modules.inc.php & Plugins.inc.php
 - Security fix check sibling belongs to the authenticated parent in Registration.php & Registration.fnc.php, thanks to Kai Aizen
+- Do not save violations triggered by "Check your Network" AJAX error in SaveReport.php
 
 Changes in 12.9.3
 -----------------

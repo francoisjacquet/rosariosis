@@ -71,6 +71,14 @@ foreach ( $domain_skip as $domain )
 	}
 }
 
+// Do not save violations triggered by "Check your Network" AJAX error.
+if ( $csp_report['violated-directive'] === 'connect-src'
+	&& mb_stripos( $csp_report['blocked-uri'], RosarioURL() ) === 0  )
+{
+	// connect-src 'self' violation but blocked-uri domain == Rosario domain.
+	return _skipDie( 'Skip CSP violation triggered by "Check your Network" AJAX error' );
+}
+
 // Do not save the following violations
 /**
  * Really common violation but was not able to trace it...
