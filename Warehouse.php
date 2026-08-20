@@ -289,7 +289,10 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
 	&& ( basename( $_SERVER['SCRIPT_NAME'] ) === 'Modules.php'
 		|| basename( $_SERVER['SCRIPT_NAME'] ) === 'Bottom.php'
-		|| basename( $_SERVER['SCRIPT_NAME'] ) === 'Side.php' ) )
+		|| basename( $_SERVER['SCRIPT_NAME'] ) === 'Side.php'
+		|| ( basename( $_SERVER['SCRIPT_NAME'] ) === 'index.php'
+			&& isset( $_REQUEST['modfunc'] )
+			&& $_REQUEST['modfunc'] === 'first-login' ) ) )
 {
 	// Logout if no Staff or Student session ID.
 	/**
