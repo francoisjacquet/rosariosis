@@ -526,6 +526,9 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
+			// Add "Calendars" fieldset.
+			echo '<tr><td><fieldset><legend>' . _( 'Calendars' ) . '</legend><table>';
+
 			// Number of Days for the Rotation.
 			// @since 11.8 Move "Number of Days for the Rotation" option from School Information to Configuration
 			echo '<tr><td>' . TextInput(
@@ -537,6 +540,8 @@ else
 				'</i></div>',
 				'type=number size=1 min=2 max=7'
 			) . '</td></tr>';
+
+			echo '</table></fieldset></td></tr>';
 
 			// Upload school logo.
 			echo '<tr><td>' . ( file_exists( 'assets/school_logo_' . UserSchool() . '.jpg' ) ?
