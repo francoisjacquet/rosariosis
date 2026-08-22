@@ -1134,9 +1134,10 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				$periods[$period['PERIOD_ID']] = $period['TITLE'];
 
-				if ( ! empty( $period['BLOCK'] ) )
+				if ( ! empty( $period['BLOCK'] )
+					&& User( 'PROFILE' ) === 'admin' )
 				{
-					// @since 13.0 Add "Block" mention after Period title
+					// @since 13.0 Add "Block" mention after Period title, only for admins
 					$periods[$period['PERIOD_ID']] .= ' (' . _( 'Block' ) . ')';
 				}
 			}

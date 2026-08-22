@@ -5,7 +5,7 @@ Changes in 13.0
 ---------------
 - Add `&modfunc=save` to form in Courses.php, Assignments.php & MarkingPeriods.php
 - Security: SQL prevent INSERT or UPDATE on any table in Courses.php
-- Add "Block" mention after Period title in Courses.php
+- Add "Block" mention after Period title, only for admins in Courses.php
 - Add Course Period Form inputs action hook in Courses.php & Actions.php
 - Remove deprecated `_updateSchedulesCPMP()` function in Courses.php
 - Security fix #391 IDOR/BOLA: cross-school calendar event access via event_id in Calendar.php, thanks to @P1oNerd
