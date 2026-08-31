@@ -934,6 +934,7 @@ function _ReindexResults( $array )
  * @since 5.8
  * @since 12.0 Remove Relevance column, do not sort results
  * @since 12.0 Only return results matching (containing) all terms (AND)
+ * @since 13.0 Remove List of words ignored during search operations
  *
  * @param  array  $result     ListOutput result.
  * @param  string $LO_search  ListOutput search term.
@@ -960,20 +961,16 @@ function _listSearch( $result, $LO_search )
 
 	$terms_count = count( $terms );
 
-	/* TRANSLATORS: List of words ignored during search operations */
-	$ignored_words = explode( ', ', _( 'of, the, a, an, in' ) );
-
-	foreach ( $ignored_words as $word )
-	{
-		unset( $terms[trim( $word )] );
-	}
-
 	foreach ( (array) $result as $key => $columns )
 	{
 		$col_concat = implode( ' ', $columns );
 
 		// Better list searching by isolating inner text.
-		$col_concat = mb_strtolower( strip_tags( preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $col_concat ) ) );
+		$col_concat = mb_strtolower( strip_tags(
+			preg_replace( '/<div style="display:none;">(.*?)<\/div>/is', "",
+				preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $col_concat )
+			)
+		) );
 
 		if ( mb_strpos( $col_concat, $search_term ) !== false )
 		{
