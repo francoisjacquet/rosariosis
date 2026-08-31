@@ -922,12 +922,13 @@ window.onpageshow=function(event) {
 // onunload: Fix for Firefox to execute Javascript on history back.
 window.onunload = function() {};
 
-// ListOutput JS.
+/**
+ * ListOutput search
+ *
+ * @deprecated since 13.0 Please use instantList.search() instead
+ */
 var LOSearch = function(ev, val, url) {
-	if (ev.type === 'click' || ev.keyCode == 13) {
-		ev.preventDefault();
-		return ajaxLink(url + (val ? '&LO_search=' + encodeURIComponent(val) : ''));
-	}
+	console.warn( 'LOSearch() function is deprecated since RosarioSIS 13.0. Please use instantList.search() instead.' );
 }
 
 // Repeat long list table header.

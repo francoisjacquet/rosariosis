@@ -82,18 +82,8 @@ csp.functions.inputDivOnclick = function() {
 
 /**
  * ListOutput() function JS
- *
- * @todo Remove onKeyPress & onClick in 13.0
  */
 csp.functions.listOutput = {
-	onKeyPress: function(e) {
-		LOSearch(e, this.value, this.dataset.url);
-	},
-	onClick: function(e) {
-		var input = $(this).prev('#LO_search');
-
-		LOSearch(e, input.val(), input.data('url'));
-	},
 	verticalTabNavigation: function() {
 		/**
 		 * Navigate table inputs vertically using tab key.
@@ -111,10 +101,6 @@ csp.functions.listOutput = {
 		});
 	},
 	prepare: function() {
-		$('#' + this.id + ' #LO_search').on('keypress', csp.functions.listOutput.onKeyPress);
-
-		$('#' + this.id + ' #LO_search + .button').on('click', csp.functions.listOutput.onClick);
-
 		$('#' + this.id + ' .list.vertical-tab-navigation').each(csp.functions.listOutput.verticalTabNavigation);
 	}
 }

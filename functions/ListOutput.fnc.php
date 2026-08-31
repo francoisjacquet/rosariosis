@@ -510,9 +510,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$add_to_url['LO_id'] = $list_id;
 			}
 
-			// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
-			$search_url = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ], $add_to_url );
-
 			/**
 			 * Note: do NOT use 'search' type here:
 			 * Chrome adds a cross to remove text which messes up with Instant Search plugin
@@ -520,7 +517,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
 			AttrEscape( DBUnescapeString( $LO_search ) ) .
 			'" placeholder="' . AttrEscape( _( 'Search' ) ) .
-			'" data-url="' . $search_url . '" autocomplete="off">
+			'" autocomplete="off">
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
 				class="button" alt="" title="' . AttrEscape( _( 'Search' ) ) . '">
 				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
