@@ -729,6 +729,11 @@ var ajaxPrepare = function(target, scrollTop) {
 		popups.closeAll();
 
 		$.colorbox.close();
+
+		if (! previousNextStudent.list()) {
+			// @since 13.0 add Previous Next Student plugin to core
+			previousNextStudent.buttons();
+		}
 	}
 
 	if (target != '#menu' && target != '#menu-top' && target != '#footer') {

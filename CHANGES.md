@@ -66,6 +66,7 @@ Changes in 13.0
 - HTML add "Calendars" fieldset in Configuration.php
 - Fix GitHub issue 305 alignment when a course has only a letter grade OR only a percent grade in Transcripts.fnc.php, thanks to @threehappypenguins
 - JS update Chart.js to version 4.5.1 in assets/js/Chart.js/
+- JS add Previous Next Student plugin to core in assets/js/jquery/previous-next-student/, warehouse.js & Gruntfile.js
 
 Changes in 12.9.3
 -----------------
