@@ -267,8 +267,6 @@ Users
 
 [Custom Menu](https://gitlab.com/francoisjacquet/Custom_Menu/) plugin sponsored by AT group, Slovenia
 
-[Instant List Search and Sorting](https://gitlab.com/francoisjacquet/Instant_List_Search_Sorting/) plugin sponsored by AT group, Slovenia
-
 
 New in 11.5
 -----------

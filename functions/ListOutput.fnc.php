@@ -519,7 +519,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'" placeholder="' . AttrEscape( _( 'Search' ) ) .
 			'" autocomplete="off">
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
-				class="button" alt="" title="' . AttrEscape( _( 'Search' ) ) . '">
+				class="button" alt="' . AttrEscape( _( 'Search' ) ) . '">
 				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
 
 			echo '</td>';

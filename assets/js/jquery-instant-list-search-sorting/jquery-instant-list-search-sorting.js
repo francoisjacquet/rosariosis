@@ -68,6 +68,8 @@ instantList.search = function() {
 
 		$searchInput.on('input', debounce(function() {
 			var val = this.value.trim(),
+				valExpr = (val.substring(0, 1) === '"' && val.substring(val.length - 1) === '"') ?
+					val.substring(1, val.length - 1).toLowerCase() : '',
 				escapedRegExp = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), // $& means the whole matched string
 				// FJ fix \b word boundary not working with "é"...
 				// @link https://stackoverflow.com/questions/2449779/why-cant-i-use-accented-characters-next-to-a-word-boundary
@@ -94,11 +96,9 @@ instantList.search = function() {
 						return false;
 					}
 
-					if (val.substring(0, 1) === '"' && val.substring(val.length - 1) === '"') {
+					if (valExpr) {
 						// If "expression", remove double quotes & do a simple indexOf check
-						return this.innerText.toLowerCase().indexOf(
-							val.substring(1, val.length - 1).toLowerCase()
-						) === -1;
+						return this.innerText.toLowerCase().indexOf(valExpr) === -1;
 					}
 
 					return !reg.test(this.innerText.replace(/\s+/g, ' '));
@@ -128,9 +128,6 @@ instantList.search = function() {
 			if (listId) {
 				url = instantList.setURLParam(url, 'LO_id', listId);
 			}
-
-			// Update history URL
-			history.replaceState({}, '', url);
 
 			if ($('#BottomButtonBack').length
 				&& $('#BottomButtonBack').attr('href').indexOf(getURLParam(url, 'modname')) > 0) {
@@ -195,9 +192,6 @@ instantList.sorting = function() {
 			}
 
 			repeatListTHead($list);
-
-			// Update history URL
-			history.replaceState({}, '', e.target.href);
 
 			if ($('#BottomButtonBack').length
 				&& $('#BottomButtonBack').attr('href').indexOf(getURLParam(e.target.href, 'modname')) > 0) {
