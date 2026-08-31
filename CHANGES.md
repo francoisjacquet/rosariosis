@@ -64,6 +64,7 @@ Changes in 13.0
 - Security fix check sibling belongs to the authenticated parent in Registration.php & Registration.fnc.php, thanks to Kai Aizen
 - Do not save violations triggered by "Check your Network" AJAX error in SaveReport.php
 - HTML add "Calendars" fieldset in Configuration.php
+- Fix GitHub issue 305 alignment when a course has only a letter grade OR only a percent grade in Transcripts.fnc.php, thanks to @threehappypenguins
 
 Changes in 12.9.3
 -----------------

@@ -382,8 +382,17 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 							}
 							else
 							{
-								$grades_RET[$i][$mp_id] = '<b>' . $grade['GRADE_LETTER'] . '</b>' .
-									'&nbsp;&nbsp;' . $grade['GRADE_PERCENT'] . '%';
+								// Fix GitHub issue 305 alignment when a course has only a letter grade OR only a percent grade
+								$grades_RET[$i][$mp_id] = $grade['GRADE_LETTER'] != '' ?
+									'<b>' . $grade['GRADE_LETTER'] . '</b>' : '';
+
+								if ( $grade['GRADE_PERCENT'] != '' )
+								{
+									$grades_RET[$i][$mp_id] .= $grades_RET[$i][$mp_id] != '' ?
+										'&nbsp;&nbsp;' : '';
+
+									$grades_RET[$i][$mp_id] .= $grade['GRADE_PERCENT'] . '%';
+								}
 							}
 						}
 
