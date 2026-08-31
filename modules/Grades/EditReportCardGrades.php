@@ -118,8 +118,8 @@ if ( UserStudentID() )
 
 					if ( empty( $columns['CREDIT_EARNED'] ) )
 					{
-						if ( $columns['UNWEIGHTED_GP'] > 0
-							|| $columns['WEIGHTED_GP'] > 0 )
+						if ( ( ! empty( $columns['UNWEIGHTED_GP'] ) && $columns['UNWEIGHTED_GP'] > 0 )
+							|| ( ! empty( $columns['WEIGHTED_GP'] ) && $columns['WEIGHTED_GP'] > 0 ) )
 						{
 							$columns['CREDIT_EARNED'] = 1;
 						}
