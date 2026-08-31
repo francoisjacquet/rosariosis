@@ -759,6 +759,10 @@ var ajaxPrepare = function(target, scrollTop) {
 		onclickDivs.forEach(function(i){
 			i.setAttribute('tabindex', '0');
 		});
+
+		// @since 13.0 add Instant List Search and Sorting plugin to core
+		instantList.search();
+		instantList.sorting();
 	}
 
 	// @since 12.5 Trigger custom ajaxPrepare event

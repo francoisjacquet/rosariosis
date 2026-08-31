@@ -62,6 +62,7 @@ module.exports = function(grunt) {
 						'assets/js/csp/functions.js',
 						'assets/js/csp/programFunctions.js',
 						'assets/js/jquery-previous-next-student/jquery-previous-next-student.js',
+						'assets/js/jquery-instant-list-search-sorting/jquery-instant-list-search-sorting.js',
 					]
 				}
 			}
