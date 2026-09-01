@@ -70,6 +70,7 @@ Changes in 13.0
 - Remove List of words ignored during search operations in ListOutput.fnc.php
 - JS deprecate LO_search() function in warehouse.js, csp/functions.js & ListOutput.fnc.php
 - JS add Instant List Search Sorting plugin to core in assets/js/jquery-instant-list-search-sorting/, warehouse.js & Gruntfile.js
+- Security fix #399 Second-Order SQL Injection in Gradebook Assignment Sorting (Stored) in Assignments-new.php, thanks to @360alphalab
 
 Changes in 12.9.3
 -----------------

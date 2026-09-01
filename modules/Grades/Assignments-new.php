@@ -260,7 +260,7 @@ if ( ! $_REQUEST['modfunc'] )
 		( $DatabaseType === 'mysql' ? '1 DAY' : "'1 DAY'" ) . ') FROM school_marking_periods WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\')', 'TRUE', "'Y'", 'NULL' ] ) . " AS DUE_ERROR " .
 		"FROM gradebook_assignments " .
 		"WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (COURSE_ID=(SELECT COURSE_ID FROM course_periods WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" . ( $_REQUEST['tab_id'] ? " AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['tab_id'] . "'" : '' ) .
-		" AND MARKING_PERIOD_ID='" . UserMP() . "' ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE";
+		" AND MARKING_PERIOD_ID='" . UserMP() . "' ORDER BY " . DBEscapeIdentifier( Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) ) . " DESC,ASSIGNMENT_ID DESC,TITLE";
 		$functions = [ 'TITLE' => '_makeAssnInput', 'POINTS' => '_makeAssnInput', 'ASSIGNED_DATE' => '_makeAssnInput', 'DUE_DATE' => '_makeAssnInput', 'COURSE_ID' => '_makeAssnInput', 'DESCRIPTION' => '_makeAssnInput', 'DEFAULT_POINTS' => '_makeAssnInput' ];
 
 		if ( $_REQUEST['allow_edit'] == 'Y' || ! $_REQUEST['tab_id'] )
