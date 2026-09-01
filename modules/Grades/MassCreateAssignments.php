@@ -68,23 +68,17 @@ if ( AllowEdit()
 			$error[] = _( 'Please enter a valid Sort Order.' );
 		}*/
 
+		$insert_columns = [];
+
 		if ( $table === 'gradebook_assignments' )
 		{
 			if ( ! isset( $_REQUEST['cp_arr'] )
 				|| ! is_array( $_REQUEST['cp_arr'] ) )
 			{
 				$error[] = _( 'You must choose a course.' );
-
-				$cp_list = "''";
-			}
-			else
-			{
-				$cp_list = implode( ',', array_map( 'intval', $_REQUEST['cp_arr'] ) );
 			}
 
-			$fields = "MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
-
-			$values = "'" . UserMP() . "',";
+			$insert_columns['MARKING_PERIOD_ID'] = UserMP(); // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
 		}
 		elseif ( $table === 'gradebook_assignment_types' )
 		{
@@ -102,12 +96,8 @@ if ( AllowEdit()
 				WHERE COURSE_ID IN (" . $c_list . ")", [], [ 'COURSE_ID' ] );
 			}
 
-			$fields = ""; // COURSE_ID,STAFF_ID added for each Course below.
-
-			$values = "";
+			// COURSE_ID,STAFF_ID added for each Course below.
 		}
-
-		$go = false;
 
 		foreach ( (array) $columns as $column => $value )
 		{
@@ -159,23 +149,14 @@ if ( AllowEdit()
 				$value = '-1';
 			}
 
-			if ( $value != '' )
-			{
-				$fields .= DBEscapeIdentifier( $column ) . ',';
-
-				$values .= "'" . $value . "',";
-
-				$go = true;
-			}
+			$insert_columns[ $column ] = $value;
 		}
-
-
-		$sql = '';
 
 		$insert_assignment_cp_ids = [];
 
 		if ( $table === 'gradebook_assignments'
-			&& ! empty( $_REQUEST['cp_arr'] ) )
+			&& ! empty( $_REQUEST['cp_arr'] )
+			&& ! $error )
 		{
 			foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
 			{
@@ -202,20 +183,22 @@ if ( AllowEdit()
 					continue;
 				}
 
-				$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
-
-				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
-
-				$values_final = $values . "'" . $cp_assignment_type . "','" . $cp_teacher . "','" . $cp_id . "',";
-
-				$sql .= '(' . mb_substr( $fields_final, 0, -1 ) .
-					') values(' . mb_substr( $values_final, 0, -1 ) . ');';
+				DBInsert(
+					$table,
+					$insert_columns +
+					[
+						'ASSIGNMENT_TYPE_ID' => (int) $cp_assignment_type,
+						'STAFF_ID' => (int) $cp_teacher,
+						'COURSE_PERIOD_ID' => (int) $cp_id,
+					]
+				);
 
 				$insert_assignment_cp_ids[] = $cp_id;
 			}
 		}
 		elseif ( $table === 'gradebook_assignment_types'
-			&& ! empty( $_REQUEST['c_arr'] ) )
+			&& ! empty( $_REQUEST['c_arr'] )
+			&& ! $error )
 		{
 			foreach ( (array) $_REQUEST['c_arr'] as $c_id )
 			{
@@ -235,22 +218,17 @@ if ( AllowEdit()
 						continue;
 					}
 
-					$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
-
-					$fields_final = $fields . 'COURSE_ID,STAFF_ID,';
-
-					$values_final = $values . "'" . $c_id . "','" . $c_teacher . "',";
-
-					$sql .= '(' . mb_substr( $fields_final, 0, -1 ) .
-						') values(' . mb_substr( $values_final, 0, -1 ) . ');';
+					DBInsert(
+						$table,
+						$insert_columns +
+						[ 'COURSE_ID' => (int) $c_id, 'STAFF_ID' => (int) $c_teacher ]
+					);
 				}
 			}
 		}
 
-		if ( ! $error && $go && $sql )
+		if ( ! $error )
 		{
-			DBQuery( $sql );
-
 			if ( $table === 'gradebook_assignments' )
 			{
 				$note[] = _( 'The Assignments were successfully created.' );
