@@ -78,6 +78,7 @@ Changes in 13.0
 - SQL Change short_name & block columns type to varchar(11) (was varchar(10)). Now allows "14:30-16:30" periods in Periods.php, rosariosis.sql & rosariosis_mysql.sql
 - Update to version 13.0 in Update.fnc.php
 - Enforce CSP (Content Security Policy) in Warehouse.php & plugins/Content_Security_Policy/
+- Security fix #398 Cross-School Tenant Isolation Bypass in Side.php, thanks to @rizviirfan7
 
 Changes in 12.9.4
 -----------------

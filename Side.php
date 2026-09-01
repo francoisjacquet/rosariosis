@@ -96,11 +96,21 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& isset( $_REQUEST['school'] )
 		&& $_REQUEST['school'] != $old_school )
 	{
+		$new_school = DBGetOne( "SELECT ID FROM schools
+		    WHERE SYEAR='" . UserSyear() . "'
+		    AND ID='" . (int) $_REQUEST['school'] . "'" );
+
+		if ( ! $new_school
+			|| ( User( 'SCHOOLS' )
+				&& mb_strpos( User( 'SCHOOLS' ), ',' . $new_school . ',' ) === false ) )
+		{
+			// Security fix #398 Cross-School Tenant Isolation Bypass
+			(new RosarioSIS\Functions\Hacking)->log();
+		}
+
 		$unset_student = $unset_staff = true;
 
-		$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM schools
-			WHERE SYEAR='" . UserSyear() . "'
-			AND ID='" . (int) $_REQUEST['school'] . "'" );
+		$_SESSION['UserSchool'] = $new_school;
 
 		DBUpdate(
 			'staff',
