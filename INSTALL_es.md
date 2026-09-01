@@ -43,10 +43,10 @@ Descomprima la [última versión](https://www.rosariosis.org/es/download/) de Ro
 - `$DatabaseName` Nombre de la base de datos.
 
 - `$wkhtmltopdfPath` Camino completo hacia el utilitario de generación de PDF, wkhtmltopdf.
-
 - `$DefaultSyear` Año escolar por defecto. Solo cambiar después de haber corrido el programa _Transferir_. NO cambiar durante la instalación.
 - `$RosarioNotifyAddress` Dirección de email para las notificaciones (nuevo administrador, nuevo estudiante / usuario, nueva inscripción).
 - `$RosarioLocales` Lista separada por comas de códigos de lenguajes. Ver la carpeta `locale/` para los códigos disponibles.
+- `$RosarioURL` URL que apunta a la instancia de RosarioSIS. Configurado automáticamente al iniciar sesión por primera vez. Actualizar después de cambiar de dominio o después de cambiar el sitio de http a https.
 
 #### Variables opcionales
 

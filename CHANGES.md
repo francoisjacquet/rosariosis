@@ -73,6 +73,7 @@ Changes in 13.0
 - Security fix #399 Second-Order SQL Injection in Gradebook Assignment Sorting (Stored) in Assignments-new.php, thanks to @360alphalab
 - Use DBInsert() function in MassCreateAssignments.php
 - HTML number input type for RosarioSIS ID field in General_Info.inc.php & stylesheet.css
+- Security fix #396 add $RosarioURL config variable in FirstLogin.fnc.php, diagnostic.php, PreparePHP_SELF.fnc.php & INSTALL.md
 
 Changes in 12.9.3
 -----------------

@@ -314,9 +314,9 @@ function URLEscape( $string )
  * @example dir: https://domain.com/rosariosis/ (with trailing slash)
  * @example script: https://domain.com/rosariosis/Modules.php
  * @example request: https://domain.com/rosariosis/Modules.php?modname=Module/Program.php
- * @example [empty]: https://domain.com (without trailing slash)
  *
  * @since 11.2
+ * @since 13.0 Security fix #396 add $RosarioURL config variable
  *
  * @param string $mode dir (site), or script (page), or request (include request params).
  *
@@ -324,37 +324,46 @@ function URLEscape( $string )
  */
 function RosarioURL( $mode = 'dir' )
 {
-	$url = 'http://';
+	global $RosarioURL;
 
-	if ( ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' )
-		|| ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )
-		|| ( isset( $_SERVER['HTTP_X_FORWARDED_SSL'] ) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on' ) )
+	$dir = dirname( $_SERVER['SCRIPT_NAME'] );
+
+	if ( ! empty( $RosarioURL ) )
 	{
-		// Fix detect https inside Docker or behind reverse proxy.
-		$url = 'https://';
+		$url = rtrim( $RosarioURL, '/' ) . '/';
 	}
-
-	$url .= $_SERVER['SERVER_NAME'];
-
-	if ( $_SERVER['SERVER_PORT'] != '80'
-		&& $_SERVER['SERVER_PORT'] != '443' )
+	else
 	{
-		$url .= ':' . $_SERVER['SERVER_PORT'];
-	}
+		$url = 'http://';
 
-	if ( $mode === 'dir' )
-	{
-		$url .= dirname( $_SERVER['SCRIPT_NAME'] ) === DIRECTORY_SEPARATOR ?
+		if ( ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' )
+			|| ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )
+			|| ( isset( $_SERVER['HTTP_X_FORWARDED_SSL'] ) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on' ) )
+		{
+			// Fix detect https inside Docker or behind reverse proxy.
+			$url = 'https://';
+		}
+
+		$url .= $_SERVER['SERVER_NAME'];
+
+		if ( $_SERVER['SERVER_PORT'] != '80'
+			&& $_SERVER['SERVER_PORT'] != '443' )
+		{
+			$url .= ':' . $_SERVER['SERVER_PORT'];
+		}
+
+		$url .= $dir === DIRECTORY_SEPARATOR ?
 			// Add trailing slash.
-			'/' : dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
+			'/' : $dir . '/';
 	}
-	elseif ( $mode === 'script' )
+
+	if ( $mode === 'script' )
 	{
-		$url .= $_SERVER['SCRIPT_NAME'];
+		$url .= str_replace( $dir, '', $_SERVER['SCRIPT_NAME'] );
 	}
 	elseif ( $mode === 'request' )
 	{
-		$url .= $_SERVER['REQUEST_URI'];
+		$url .= str_replace( $dir, '', $_SERVER['REQUEST_URI'] );
 	}
 
 	return URLEscape( $url );

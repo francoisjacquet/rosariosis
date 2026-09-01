@@ -65,6 +65,7 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
  * First Login Form
  *
  * @since 4.0
+ * @since 13.0 Security fix #396 add $RosarioURL config variable
  *
  * @uses FirstLoginFormAfterInstall()
  * @uses FirstLoginFormPasswordChange()
@@ -83,6 +84,31 @@ function FirstLoginForm()
 	if ( Config( 'LOGIN' ) === 'No'
 		&& User( 'STAFF_ID' ) === '1' )
 	{
+		/**
+		 * Add $RosarioURL config variable to config.inc.php file
+		 *
+		 * @since 13.0 Security fix #396 add $RosarioURL config variable
+		 */
+		if ( empty( $RosarioURL )
+			&& is_writable( 'config.inc.php' ) )
+		{
+			$config_lines = '/**
+ * URL that points to the RosarioSIS instance
+ * - Update if you change your site from http to https
+ * - Update after domain migration
+ *
+ * @example https://rosariosis.mydomain.com
+ * @example http://localhost/rosariosis/
+ */
+$RosarioURL = \'' . RosarioURL() . '\';';
+
+			$config = file_get_contents( 'config.inc.php' );
+
+			$config .= "\n" . $config_lines;
+
+			file_put_contents( 'config.inc.php', $config );
+		}
+
 		return FirstLoginFormAfterInstall();
 	}
 

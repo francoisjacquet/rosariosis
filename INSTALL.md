@@ -43,10 +43,10 @@ Unzip the [latest version](https://www.rosariosis.org/download/) of RosarioSIS, 
 - `$DatabaseName` Database name.
 
 - `$wkhtmltopdfPath` Full path to the PDF generation utility, wkhtmltopdf.
-
 - `$DefaultSyear` Default school year. Only change after running the _Rollover_ program. Do NOT change during installation.
 - `$RosarioNotifyAddress` Email address to receive notifications (new administrator, new student / user, new registration).
 - `$RosarioLocales` Comma separated list of locale codes. Check the `locale/` folder for available codes.
+- `$RosarioURL` URL that points to the RosarioSIS instance. Automatically set on first login. Update after domain migration or if you change your site from http to https.
 
 #### Optional variables
 

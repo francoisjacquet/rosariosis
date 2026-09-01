@@ -137,6 +137,18 @@ else
 	}
 }
 
+if ( empty( $RosarioURL )
+	|| ! filter_var( $RosarioURL, FILTER_VALIDATE_URL ) )
+{
+	// @since 13.0 Security fix #396 add $RosarioURL config variable
+	$error[] = 'The value for $RosarioURL in the config.inc.php file is not correct.';
+}
+elseif ( strtolower( rtrim( $RosarioURL, '/' ) ) !== strtolower( _rosarioURL() ) )
+{
+	// @since 13.0 Security fix #396 add $RosarioURL config variable
+	$warning[] = 'The value for $RosarioURL in the config.inc.php file may be incorrect.';
+}
+
 if ( ! is_array( $RosarioLocales )
 	|| empty( $RosarioLocales ) )
 {
@@ -268,4 +280,30 @@ function _ErrorMessage( $error, $code = 'error' )
 	}
 
 	return '';
+}
+
+function _rosarioURL()
+{
+	$url = 'http://';
+
+	if ( ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' )
+		|| ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' )
+		|| ( isset( $_SERVER['HTTP_X_FORWARDED_SSL'] ) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on' ) )
+	{
+		// Fix detect https inside Docker or behind reverse proxy.
+		$url = 'https://';
+	}
+
+	$url .= $_SERVER['SERVER_NAME'];
+
+	if ( $_SERVER['SERVER_PORT'] != '80'
+		&& $_SERVER['SERVER_PORT'] != '443' )
+	{
+		$url .= ':' . $_SERVER['SERVER_PORT'];
+	}
+
+	$url .= dirname( $_SERVER['SCRIPT_NAME'] ) === DIRECTORY_SEPARATOR ?
+		'' : dirname( $_SERVER['SCRIPT_NAME'] );
+
+	return $url;
 }
