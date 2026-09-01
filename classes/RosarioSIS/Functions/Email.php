@@ -81,13 +81,13 @@ class Email
 		 */
 		\PHPMailer\PHPMailer\PHPMailer::$validator = 'pcre8';
 
-		self::setFrom();
+		$this->setFrom();
 
 		// Set Reply To email if any (use instead of From to prevent spam!).
-		self::addReplyTo( $reply_to );
+		$this->addReplyTo( $reply_to );
 
 		// Set destination addresses.
-		self::addTo( $to );
+		$this->addTo( $to );
 
 		// Append Program Name to subject.
 		$subject = Config( 'NAME' ) . ' - ' . $subject;
@@ -112,9 +112,9 @@ class Email
 		}
 
 		// Add any CC and BCC recipients.
-		self::addCc( $cc );
+		$this->addCc( $cc );
 
-		self::addAttachments( $attachments );
+		$this->addAttachments( $attachments );
 
 		try
 		{
