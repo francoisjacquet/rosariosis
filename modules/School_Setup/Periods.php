@@ -190,7 +190,8 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $name !== 'TITLE' )
 	{
-		$extra = 'size=5 maxlength=10';
+		// SQL Change short_name & block columns type to varchar(11) (was varchar(10)). Now allows "14:30-16:30" periods
+		$extra = 'size=7 maxlength=11';
 	}
 	elseif ( $id !== 'new' )
 	{
