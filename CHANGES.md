@@ -72,6 +72,7 @@ Changes in 13.0
 - JS add Instant List Search Sorting plugin to core in assets/js/jquery-instant-list-search-sorting/, warehouse.js & Gruntfile.js
 - Security fix #399 Second-Order SQL Injection in Gradebook Assignment Sorting (Stored) in Assignments-new.php, thanks to @360alphalab
 - Use DBInsert() function in MassCreateAssignments.php
+- HTML number input type for RosarioSIS ID field in General_Info.inc.php & stylesheet.css
 
 Changes in 12.9.3
 -----------------

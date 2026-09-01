@@ -158,6 +158,10 @@ input[type=number][name*=CUSTOM] {
 	width: 90px
 }
 
+input[type=number][name$=_id] {
+	width: 100px
+}
+
 input[type=color] {
 	border-width: 0px;
 	border-style: solid;
@@ -584,7 +588,6 @@ select {
 	position: relative;
 	left: 157px;
 	top: 3px;
-	cursor: pointer;
 	height: 22px;
 	float: right;
 }
@@ -903,6 +906,10 @@ h3 span {
 	margin-left: -12px;
 	font-weight: bold;
 	border: 0 none
+}
+
+.list.rt .highlight {
+	margin-left: 0;
 }
 
 /*added*/
