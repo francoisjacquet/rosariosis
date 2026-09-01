@@ -191,7 +191,7 @@ if ( empty( $_REQUEST['save'] ) )
 		// Fix CSS responsive List width: do NOT use the .fixed-col class, use pure CSS.
 		echo '<table class="width-100p" style="table-layout: fixed;">';
 
-		echo '<tr><td><pre><code>Content-Security-Policy-Report-Only: ' .
+		echo '<tr><td><pre><code>Content-Security-Policy: ' .
 			Config( 'CONTENT_SECURITY_POLICY' ) . '</code></pre></td></tr>';
 
 		$tooltip = '<div class="tooltip"><i>' . _( 'One per line' ) . '</i></div>';

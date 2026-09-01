@@ -349,10 +349,11 @@ if ( ! empty( $_REQUEST['modfunc'] )
  * @link https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/plugins/Content_Security_Policy/README.md
  *
  * @since 12.6
+ * @since 13.0 Enforce CSP (Content Security Policy)
  */
 if ( ! isAJAX() )
 {
-	header( 'Content-Security-Policy-Report-Only: ' . Config( 'CONTENT_SECURITY_POLICY' ) );
+	header( 'Content-Security-Policy: ' . Config( 'CONTENT_SECURITY_POLICY' ) );
 }
 
 /**
