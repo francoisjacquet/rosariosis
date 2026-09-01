@@ -128,8 +128,8 @@ function _makeTextInput( $value, $name )
 
 	if ( $name !== 'TITLE' )
 	{
-		// @since 5.8 Change short_name column type to varchar(3). Now allows French elementary grade levels.
-		$extra .= 'size=3 maxlength=3';
+		// @since 13.0 SQL Change short_name column type to varchar(4). Now allows College grade levels.
+		$extra .= 'size=4 maxlength=4';
 	}
 	else
 	{

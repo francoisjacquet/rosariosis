@@ -74,6 +74,7 @@ Changes in 13.0
 - Use DBInsert() function in MassCreateAssignments.php
 - HTML number input type for RosarioSIS ID field in General_Info.inc.php & stylesheet.css
 - Security fix #396 add $RosarioURL config variable in FirstLogin.fnc.php, diagnostic.php, PreparePHP_SELF.fnc.php & INSTALL.md
+- SQL Change short_name column type to varchar(4). Now allows College grade levels in GradeLevels.php, rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 12.9.3
 -----------------

@@ -1661,7 +1661,7 @@ CREATE TABLE school_fields (
 CREATE TABLE school_gradelevels (
     id serial PRIMARY KEY,
     school_id integer NOT NULL,
-    short_name varchar(3),
+    short_name varchar(4),
     title varchar(50) NOT NULL,
     next_grade_id integer,
     sort_order numeric,
