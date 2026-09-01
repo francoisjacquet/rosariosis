@@ -482,7 +482,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 	{
 		foreach ( (array) $_REQUEST['fields'] as $field => $on )
 		{
-			$columns[ $field ] = ParseMLField( $fields_list[ $field ] );
+			$columns[ $field ] = ParseMLField( issetVal( $fields_list[ $field ], '' ) );
 
 			if ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $field ) )
 			{
