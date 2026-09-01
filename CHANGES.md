@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 12.9.4
+-----------------
+- Fix regression since 12.9 remove CSRF token from files containing &modfunc= in Exceptions.php & Profiles.php
+
 Changes in 12.9.3
 -----------------
 - Security fix #397 Unauthenticated stored XSS: remove HTML tags in SaveReport.php, thanks to @Bradsen
