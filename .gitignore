@@ -342,6 +342,7 @@ plugins/Chrome_To_PDF*
 plugins/Two_Factor_Authentication*
 plugins/RHIT_Report_Cards*
 plugins/Flexible_Schedule*
+plugins/Solomon_Transcripts*
 plugins/update.sh
 locale/fr_FR.utf8_ParisComSup
 functions/1GetMP.php
