@@ -1685,3 +1685,133 @@ function _update126()
 
 	return $return;
 }
+
+
+/**
+ * Update to version 13.0
+ *
+ * 1. school_gradelevels table:
+ * Change short_name column type to varchar(4) (was varchar(3)). Now allows College grade levels.
+ * 2. attendance_calendar table:
+ * Change block column type to varchar(11) (was varchar(10)). Now allows "14:30-16:30" periods.
+ * 3. school_periods table:
+ * Change short_name column type to varchar(11) (was varchar(10)). Now allows "14:30-16:30" periods.
+ * Change block column type to varchar(11) (was varchar(10)). Now allows "14:30-16:30" periods.
+ * 4. Deactivate the Instant List Search Sorting & Previous Next Student plugins
+ * 5. Add $RosarioURL config variable to config.inc.php file
+ *
+ * Local function
+ *
+ * @since 13.0
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update130()
+{
+	global $DatabaseType;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. school_gradelevels table:
+	 * Change short_name column type to varchar(4) (was varchar(3)). Now allows College grade levels.
+	 *
+	 * Must drop enroll_grade view first and recreate it afterwards.
+	 */
+	if ( $DatabaseType === 'mysql' )
+	{
+		$sql_alter_table = "ALTER TABLE school_gradelevels MODIFY short_name varchar(4);";
+	}
+	else
+	{
+		// PostgreSQL.
+		$sql_alter_table = "ALTER TABLE school_gradelevels ALTER short_name TYPE varchar(4);";
+	}
+
+	DBQuery( "BEGIN;
+		DROP VIEW enroll_grade;
+		" . $sql_alter_table . "
+		CREATE VIEW enroll_grade AS
+			SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
+		COMMIT;" );
+
+	/**
+	 * 2. attendance_calendar table:
+	 * Change block column type to varchar(11) (was varchar(10)).
+	 */
+	if ( $DatabaseType === 'mysql' )
+	{
+		$sql_alter_table = "ALTER TABLE attendance_calendar MODIFY block varchar(11);";
+	}
+	else
+	{
+		// PostgreSQL.
+		$sql_alter_table = "ALTER TABLE attendance_calendar ALTER block TYPE varchar(11);";
+	}
+
+	/**
+	 * 3. school_periods table:
+	 * Change short_name column type to varchar(11) (was varchar(10)).
+	 * Change block column type to varchar(11) (was varchar(10)).
+	 */
+	if ( $DatabaseType === 'mysql' )
+	{
+		$sql_alter_table .= "ALTER TABLE school_periods MODIFY short_name varchar(11);";
+		$sql_alter_table .= "ALTER TABLE school_periods MODIFY block varchar(11);";
+	}
+	else
+	{
+		// PostgreSQL.
+		$sql_alter_table .= "ALTER TABLE school_periods ALTER short_name TYPE varchar(11);";
+		$sql_alter_table .= "ALTER TABLE school_periods ALTER block TYPE varchar(11);";
+	}
+
+	DBQuery( $sql_alert_table );
+
+	/**
+	 * 4. Deactivate the Instant List Search Sorting & Previous Next Student plugins
+	 * Now included into core
+	 */
+	$RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
+
+	if ( ! empty( $RosarioPlugins['Instant_List_Search_Sorting'] ) )
+	{
+		$RosarioPlugins['Instant_List_Search_Sorting'] = false;
+	}
+
+	if ( ! empty( $RosarioPlugins['Previous_Next_Student'] ) )
+	{
+		$RosarioPlugins['Previous_Next_Student'] = false;
+	}
+
+	Config( 'PLUGINS', serialize( $RosarioPlugins ) );
+
+	/**
+	 * 5. Add $RosarioURL config variable to config.inc.php file
+	 *
+	 * @since 13.0 Security fix #396 add $RosarioURL config variable
+	 */
+	if ( empty( $RosarioURL )
+		&& is_writable( 'config.inc.php' ) )
+	{
+		$config_lines = '/**
+ * URL that points to the RosarioSIS instance
+ * - Update if you change your site from http to https
+ * - Update after domain migration
+ *
+ * @example https://rosariosis.mydomain.com
+ * @example http://localhost/rosariosis/
+ */
+$RosarioURL = \'' . RosarioURL() . '\';';
+
+		$config = file_get_contents( 'config.inc.php' );
+
+		$config .= "\n" . $config_lines;
+
+		file_put_contents( 'config.inc.php', $config );
+	}
+
+	return $return;
+}

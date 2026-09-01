@@ -76,6 +76,7 @@ Changes in 13.0
 - Security fix #396 add $RosarioURL config variable in FirstLogin.fnc.php, diagnostic.php, PreparePHP_SELF.fnc.php & INSTALL.md
 - SQL Change short_name column type to varchar(4). Now allows College grade levels in GradeLevels.php, rosariosis.sql & rosariosis_mysql.sql
 - SQL Change short_name & block columns type to varchar(11) (was varchar(10)). Now allows "14:30-16:30" periods in Periods.php, rosariosis.sql & rosariosis_mysql.sql
+- Update to version 13.0 in Update.fnc.php
 
 Changes in 12.9.3
 -----------------
