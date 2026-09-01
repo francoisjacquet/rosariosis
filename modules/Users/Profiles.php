@@ -568,6 +568,9 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
 							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
+							// @since 12.9.4 Fix regression since 12.9 remove CSRF token from files containing &modfunc=
+							$file = 'Student_Billing/StudentPayments.php&amp;modfunc=remove';
+
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 							str_replace( '.', '_', $file ) . ']" value="Y"' .
 							( $can_use == 'Y' ? ' checked' : '' ) .
@@ -594,11 +597,14 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 						if ( in_array( $file, $accounting_delete_files ) )
 						{
 							// @since 12.1 Add Admin Delete Permission (Accounting Expenses/Incomes/Salaries/Staff Payments)
-							$file .= '&modfunc=remove';
+							$file_orig = $file . '&modfunc=remove';
 							$title = '&nbsp;&nbsp;&rsaquo; ' . _( 'Delete' );
 
-							$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
-							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
+							$can_use = issetVal( $exceptions_RET[$file_orig][1]['CAN_USE'] );
+							$can_edit = issetVal( $exceptions_RET[$file_orig][1]['CAN_EDIT'] );
+
+							// @since 12.9.4 Fix regression since 12.9 remove CSRF token from files containing &modfunc=
+							$file .= '&amp;modfunc=remove';
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 							str_replace( '.', '_', $file ) . ']" value="Y"' .
