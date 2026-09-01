@@ -1768,7 +1768,7 @@ function _update130()
 		$sql_alter_table .= "ALTER TABLE school_periods ALTER block TYPE varchar(11);";
 	}
 
-	DBQuery( $sql_alert_table );
+	DBQuery( $sql_alter_table );
 
 	/**
 	 * 4. Deactivate the Instant List Search Sorting & Previous Next Student plugins
