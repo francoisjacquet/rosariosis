@@ -256,7 +256,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			$return .= '</tr>';
 		}
 
-		if ( $sem )
+		if ( ! empty( $sem ) )
 		{
 			$fy = GetParentMP( 'FY', $sem );
 
