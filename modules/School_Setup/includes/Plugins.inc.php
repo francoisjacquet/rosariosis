@@ -328,8 +328,6 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$plugins_RET = [ '' ];
 
-	$has_non_core_plugins = false;
-
 	foreach ( (array) $RosarioPlugins as $plugin_title => $activated )
 	{
 		$THIS_RET = [];
@@ -341,8 +339,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! in_array( $plugin_title, $RosarioCorePlugins ) )
 		{
-			$has_non_core_plugins = true;
-
 			if ( $check_updates )
 			{
 				// @since 13.0 Check for add-on updates
@@ -354,6 +350,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$directories_bypass[] = 'plugins/' . $plugin_title;
 	}
+
+	// Scan plugins/ folder for uninstalled plugins.
+	$plugins = array_diff( glob( 'plugins/*', GLOB_ONLYDIR ), $directories_bypass );
+
+	$has_non_core_plugins = ( count( $RosarioCorePlugins ) < count( $RosarioPlugins ) ) || $plugins;
 
 	$check_updates_link = '';
 
@@ -380,9 +381,6 @@ if ( ! $_REQUEST['modfunc'] )
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
-
-	// Scan plugins/ folder for uninstalled plugins.
-	$plugins = array_diff( glob( 'plugins/*', GLOB_ONLYDIR ), $directories_bypass );
 
 	foreach ( $plugins as $plugin )
 	{

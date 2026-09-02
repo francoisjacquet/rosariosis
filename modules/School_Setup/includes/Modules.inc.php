@@ -345,8 +345,6 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$modules_RET = [ '' ];
 
-	$has_non_core_modules = false;
-
 	foreach ( (array) $RosarioModules as $module_title => $activated )
 	{
 		$THIS_RET = [];
@@ -357,8 +355,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! in_array( $module_title, $RosarioCoreModules ) )
 		{
-			$has_non_core_modules = true;
-
 			if ( $check_updates )
 			{
 				// @since 13.0 Check for add-on updates
@@ -370,6 +366,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$directories_bypass[] = 'modules/' . $module_title;
 	}
+
+	// Scan modules/ folder for uninstalled modules.
+	$modules = array_diff( glob( 'modules/*', GLOB_ONLYDIR ), $directories_bypass );
+
+	$has_non_core_modules = ( count( $RosarioCoreModules ) < count( $RosarioModules ) ) || $modules;
 
 	$check_updates_link = '';
 
@@ -396,9 +397,6 @@ if ( ! $_REQUEST['modfunc'] )
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
-
-	// Scan modules/ folder for uninstalled modules.
-	$modules = array_diff( glob( 'modules/*', GLOB_ONLYDIR ), $directories_bypass );
 
 	foreach ( $modules as $module )
 	{
