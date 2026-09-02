@@ -1708,7 +1708,8 @@ function _update126()
  */
 function _update130()
 {
-	global $DatabaseType;
+	global $DatabaseType,
+		$RosarioURL;
 
 	_isCallerUpdate( debug_backtrace() );
 
