@@ -356,6 +356,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				$total_credit_earned = 0;
 				$total_credit_attempted = 0;
 				$total_gpa = 0;
+				$total_gpa_credit = 0;
 
 				$columns = [ 'COURSE_TITLE' => _( 'Course' ) ];
 
@@ -423,6 +424,12 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 							$total_credit_earned += $grade['CREDIT_EARNED'];
 							$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
 							$total_gpa += $grade['WEIGHTED_GP'] * $grade['CREDIT_ATTEMPTED'];
+
+							if ( ! is_null( $grade['WEIGHTED_GP'] ) )
+							{
+								// @since 13.0 Fix cumulative GPA calculation: N/A grade (empty GPA value) does not affect GPA
+								$total_gpa_credit += $grade['CREDIT_ATTEMPTED'];
+							}
 						}
 
 						if ( $show['credithours']
@@ -498,8 +505,8 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 					 *
 					 * @since 11.5.1
 					 */
-					$last_grade['CUM_WEIGHTED_GPA'] = $total_credit_attempted ?
-						$total_gpa / $total_credit_attempted : 0;
+					$last_grade['CUM_WEIGHTED_GPA'] = $total_gpa_credit ?
+						$total_gpa / $total_gpa_credit : 0;
 
 					if ( is_null( $last_grade['SCHOOL_SCALE'] ) )
 					{
