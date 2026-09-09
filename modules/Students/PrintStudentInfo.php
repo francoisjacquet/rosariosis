@@ -211,6 +211,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				if ( ! empty( $_REQUEST['category']['2'] ) )
 				{
+					$_REQUEST['category_id'] = '2';
 					$_ROSARIO['DrawHeader'] = '';
 					DrawHeader( ParseMLField( $categories_RET['2'][1]['TITLE'] ) );
 					echo '<br />';
@@ -220,6 +221,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				if ( ! empty( $_REQUEST['category']['4'] ) )
 				{
+					$_REQUEST['category_id'] = '4';
 					$_ROSARIO['DrawHeader'] = '';
 					DrawHeader( ParseMLField( $categories_RET['4'][1]['TITLE'] ) );
 					echo '<br />';
