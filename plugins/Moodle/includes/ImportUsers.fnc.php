@@ -343,8 +343,7 @@ function MoodleUserImportStudent( $user )
 		AND SYEAR='" . UserSyear() . "'
 		UNION SELECT 'exists'
 		FROM students
-		WHERE UPPER(USERNAME)=UPPER('" . DBEscapeString( $username ) . "')
-		AND STUDENT_ID!='" . UserStudentID() . "'" );
+		WHERE UPPER(USERNAME)=UPPER('" . DBEscapeString( $username ) . "')" );
 
 	if ( $existing_username )
 	{
@@ -372,27 +371,36 @@ function MoodleUserImportStudent( $user )
 		$user['lastname'] = $names[1];
 	}
 
-	$sql = "INSERT INTO students ";
-	$fields = 'STUDENT_ID,FIRST_NAME,LAST_NAME,USERNAME';
-	$values = "'" . $student_id . "','" . $user['firstname'] . "','" . $user['lastname'] . "','" . $username . "'";
+	$insert_columns = [
+		'STUDENT_ID' => (int) $student_id,
+		'FIRST_NAME' => DBEscapeString( $user['firstname'] ),
+		'LAST_NAME' => DBEscapeString( $user['lastname'] ),
+		'USERNAME' => DBEscapeString( $username ),
+	];
 
 	if ( $email_field_key !== 'USERNAME' )
 	{
-		$fields .= ',' . $email_field_key;
-		$values .= ",'" . $user['email'] . "'";
+		$insert_columns[ $email_field_key ] = DBEscapeString( $user['email'] );
 	}
 
 	if ( ! empty( $_REQUEST['values']['PASSWORD_SET_USE_USERNAME'] ) )
 	{
-		$fields .= ',PASSWORD';
-		$values .= ",'" . encrypt_password( $username ) . "'";
+		$insert_columns['PASSWORD'] = encrypt_password( $username );
 	}
 
-	$sql .= '(' . $fields . ') values(' . $values . ')';
-	DBQuery( $sql );
+	DBInsert(
+		'students',
+		$insert_columns
+	);
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('student_id','" . $student_id . "'," . $user['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'student_id',
+			'ROSARIO_ID' => (int) $student_id,
+			'MOODLE_ID' => (int) $user['id'],
+		]
+	);
 
 	return $student_id;
 }
@@ -407,28 +415,25 @@ function MoodleUserImportStudent( $user )
  */
 function MoodleUserEnrollStudent( $student_id )
 {
-	$sql = "INSERT INTO student_enrollment ";
-
-	$fields = 'SYEAR,SCHOOL_ID,STUDENT_ID,';
-
-	$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";
-
-	$fields .= 'START_DATE,GRADE_ID,ENROLLMENT_CODE,NEXT_SCHOOL,CALENDAR_ID';
-
 	$start_date = RequestedDate(
 		$_REQUEST['year_values']['START_DATE'],
 		$_REQUEST['month_values']['START_DATE'],
 		$_REQUEST['day_values']['START_DATE']
 	);
 
-	$values .= "'" . $start_date . "','" .
-		$_REQUEST['values']['GRADE_ID'] . "','" .
-		$_REQUEST['values']['ENROLLMENT_CODE'] . "','" .
-		$_REQUEST['values']['NEXT_SCHOOL'] . "','" .
-		$_REQUEST['values']['CALENDAR_ID'] . "'";
-
-	$sql .= '(' . $fields . ') values(' . $values . ');';
-	DBQuery( $sql );
+	DBInsert(
+		'student_enrollment',
+		[
+			'SYEAR' => UserSyear(),
+			'SCHOOL_ID' => UserSchool(),
+			'STUDENT_ID' => (int) $student_id,
+			'START_DATE' => $start_date,
+			'GRADE_ID' => $_REQUEST['values']['GRADE_ID'],
+			'ENROLLMENT_CODE' => $_REQUEST['values']['ENROLLMENT_CODE'],
+			'NEXT_SCHOOL' => $_REQUEST['values']['NEXT_SCHOOL'],
+			'CALENDAR_ID' => $_REQUEST['values']['CALENDAR_ID'],
+		]
+	);
 }
 
 /**
@@ -452,7 +457,6 @@ function MoodleUserImportUser( $user, $profile )
 		FROM staff
 		WHERE UPPER(USERNAME)=UPPER('" . DBEscapeString( $username ) . "')
 		AND SYEAR='" . UserSyear() . "'
-		AND STAFF_ID!='" . UserStaffID() . "'
 		UNION SELECT 'exists'
 		FROM students
 		WHERE UPPER(USERNAME)=UPPER('" . DBEscapeString( $username ) . "')" );
@@ -487,30 +491,39 @@ function MoodleUserImportUser( $user, $profile )
 		$profile_id = '3';
 	}
 
-	$sql = "INSERT INTO staff ";
-	$fields = 'SYEAR,FIRST_NAME,LAST_NAME,USERNAME,PROFILE,PROFILE_ID';
-	$values = "'" . UserSyear() . "','" . $user['firstname'] . "','" . $user['lastname'] . "','" .
-		$username . "','" . $profile . "','" . $profile_id . "'";
+	$insert_columns = [
+		'SYEAR' => UserSyear(),
+		'FIRST_NAME' => DBEscapeString( $user['firstname'] ),
+		'LAST_NAME' => DBEscapeString( $user['lastname'] ),
+		'USERNAME' => DBEscapeString( $username ),
+		'PROFILE' => $profile,
+		'PROFILE_ID' => (int) $profile_id,
+	];
 
 	if ( ! empty( $user['email'] ) )
 	{
-		$fields .= ',EMAIL';
-		$values .= ",'" . $user['email'] . "'";
+		$insert_columns['EMAIL'] = DBEscapeString( $user['email'] );
 	}
 
 	if ( ! empty( $_REQUEST['values']['PASSWORD_SET_USE_USERNAME'] ) )
 	{
-		$fields .= ',PASSWORD';
-		$values .= ",'" . encrypt_password( $username ) . "'";
+		$insert_columns['PASSWORD'] = encrypt_password( $username );
 	}
 
-	$sql .= '(' . $fields . ') values(' . $values . ')';
-	DBQuery( $sql );
+	$staff_id = DBInsert(
+		'staff',
+		$insert_columns,
+		'id'
+	);
 
-	$staff_id = DBLastInsertID();
-
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('staff_id','" . $staff_id . "'," . $user['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'staff_id',
+			'ROSARIO_ID' => (int) $staff_id,
+			'MOODLE_ID' => (int) $user['id'],
+		]
+	);
 
 	return $staff_id;
 }

@@ -82,6 +82,7 @@ Changes in 13.0
 - Fix cumulative GPA calculation: N/A grade (empty GPA value) does not affect GPA in Transcripts.fnc.php
 - Remove XML-RPC support. Use the REST API instead in plugins/Moodle/
 - SQL fix Calendar ORDER BY in ImportUsers.fnc.php
+- Use DBInsert() & DBUpdate() functions (Moodle plugin) in ImportUsers.fnc.php, Student.php, User.php
 
 Changes in 12.9.4
 -----------------

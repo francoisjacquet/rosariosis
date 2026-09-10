@@ -53,8 +53,15 @@ function core_user_get_users_response( $response )
 		)
 	)
 	 */
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('student_id','" . UserStudentID() . "'," . $response['users'][0]['id'] . ")" );
+
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'student_id',
+			'ROSARIO_ID' => (int) UserStudentID(),
+			'MOODLE_ID' => (int) $response['users'][0]['id'],
+		]
+	);
 
 	$_REQUEST['moodle_create_student'] = false;
 
@@ -173,8 +180,15 @@ function core_user_create_users_response( $response )
 		)
 	)
 	 */
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('student_id','" . UserStudentID() . "'," . $response[0]['id'] . ")" );
+
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'student_id',
+			'ROSARIO_ID' => (int) UserStudentID(),
+			'MOODLE_ID' => (int) $response[0]['id'],
+		]
+	);
 
 	$_REQUEST['moodle_create_student'] = false;
 
@@ -293,7 +307,7 @@ function core_user_update_users_object()
 
 	$users = [ $user ];
 
-	return [ $users ];
+	return [ 'users' => $users ];
 }
 
 /**
@@ -361,10 +375,12 @@ function core_role_assign_roles_object()
 
 	//gather the Moodle user ID
 	$student_id = UserStudentID();
-	$userid = (int) DBGetOne( "SELECT moodle_id
+	$userid = (int) DBGetOne( "SELECT MOODLE_ID
 		FROM moodlexrosario
-		WHERE rosario_id=(SELECT STAFF_ID FROM students_join_users
-			WHERE STUDENT_ID='" . (int) $student_id . "' LIMIT 1)
+		WHERE ROSARIO_ID=(SELECT STAFF_ID
+			FROM students_join_users
+			WHERE STUDENT_ID='" . (int) $student_id . "'
+			LIMIT 1)
 		AND " . DBEscapeIdentifier( 'column' ) . "='staff_id'" );
 
 	if ( empty( $userid ) )

@@ -54,8 +54,15 @@ function core_user_get_users_response( $response )
 		)
 	)
 	 */
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('staff_id','" . UserStaffID() . "'," . $response['users'][0]['id'] . ")" );
+
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'staff_id',
+			'ROSARIO_ID' => (int) UserStaffID(),
+			'MOODLE_ID' => (int) $response['users'][0]['id'],
+		]
+	);
 
 	$_REQUEST['moodle_create_staff'] = false;
 
@@ -66,7 +73,7 @@ function core_user_get_users_response( $response )
 function core_user_create_users_object()
 {
 	//first, gather the necessary variables
-	global $locale, $_REQUEST;
+	global $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -175,8 +182,14 @@ function core_user_create_users_response( $response )
 	)
 	 */
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES ('staff_id','" . UserStaffID() . "'," . $response[0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'staff_id',
+			'ROSARIO_ID' => (int) UserStaffID(),
+			'MOODLE_ID' => (int) $response[0]['id'],
+		]
+	);
 
 	$_REQUEST['moodle_create_user'] = false;
 
