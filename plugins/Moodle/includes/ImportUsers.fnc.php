@@ -230,7 +230,7 @@ function MoodleUsersStudentEnrollmentForm()
 		FROM attendance_calendars
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY DEFAULT_CALENDAR ASC" );
+		ORDER BY DEFAULT_CALENDAR IS NULL,DEFAULT_CALENDAR ASC,TITLE" );
 
 	$options = [];
 
