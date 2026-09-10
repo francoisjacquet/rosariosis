@@ -80,6 +80,7 @@ Changes in 13.0
 - Enforce CSP (Content Security Policy) in Warehouse.php & plugins/Content_Security_Policy/
 - Security fix #398 Cross-School Tenant Isolation Bypass in Side.php, thanks to @rizviirfan7
 - Fix cumulative GPA calculation: N/A grade (empty GPA value) does not affect GPA in Transcripts.fnc.php
+- Remove XML-RPC support. Use the REST API instead in plugins/Moodle/
 
 Changes in 12.9.4
 -----------------

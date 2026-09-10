@@ -1,4 +1,4 @@
-# Moodle Integrator Plugin
+# Moodle plugin
 
 This plugin is part of [RosarioSIS](https://www.rosariosis.org)
 
@@ -10,7 +10,7 @@ This plugin integrates RosarioSIS with [Moodle LMS](https://moodle.org/). It let
 
 RosarioSIS 12.7 removes XML-RPC compatibility classes. Rely on [PHP xmlrpc extension](https://php.watch/versions/8.0/xmlrpc).
 
-RosarioSIS 13.0 will remove XML-RPC support entirely. Use the REST API instead.
+RosarioSIS 13.0 removes XML-RPC support entirely. Use the REST API instead.
 
 ### WARNING & LIMITATION
 

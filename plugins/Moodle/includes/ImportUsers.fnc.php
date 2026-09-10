@@ -45,12 +45,7 @@ function MoodleUsersList( $key, $value )
 		'value' => $value,
 	];
 
-	$object = [ 'criteria' => $criteria ];
-
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		$object = [ 'criteria' => [ $criteria ] ];
-	}
+	$object = [ 'criteria' => [ $criteria ] ];
 
 	$users = MoodleAPICall( $functionname, $object );
 

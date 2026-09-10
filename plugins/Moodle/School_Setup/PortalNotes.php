@@ -46,12 +46,7 @@ function core_notes_create_notes_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'notes' => $notes ];
-	}
-
-	return [ $notes ];
+	return [ 'notes' => $notes ];
 }
 
 /**
@@ -114,12 +109,7 @@ function core_notes_delete_notes_object()
 		$noteid,
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'notes' => $notes ];
-	}
-
-	return [ $notes ];
+	return [ 'notes' => $notes ];
 }
 
 /**
@@ -207,12 +197,7 @@ function core_notes_update_notes_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'notes' => $notes ];
-	}
-
-	return [ $notes ];
+	return [ 'notes' => $notes ];
 }
 
 /**

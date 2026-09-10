@@ -81,12 +81,7 @@ function core_calendar_create_calendar_events_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'events' => $events ];
-	}
-
-	return [ $events ];
+	return [ 'events' => $events ];
 }
 
 /**
@@ -195,12 +190,7 @@ function core_calendar_delete_calendar_events_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'events' => $events ];
-	}
-
-	return [ $events ];
+	return [ 'events' => $events ];
 }
 
 /**

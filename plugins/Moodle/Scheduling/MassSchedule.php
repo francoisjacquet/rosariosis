@@ -51,12 +51,7 @@ function enrol_manual_enrol_users_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'enrolments' => $enrolments ];
-	}
-
-	return [ $enrolments ];
+	return [ 'enrolments' => $enrolments ];
 }
 
 /**

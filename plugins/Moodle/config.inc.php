@@ -254,7 +254,7 @@ if ( empty( $_REQUEST['save'] )
 		ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ),
 		'values[program_config][moodle][MOODLE_API_PROTOCOL]',
 		_( 'API protocol' ),
-		[ '' => 'XML-RPC', 'rest' => 'REST' ],
+		[ 'rest' => 'REST' ],
 		false
 	) . '</td></tr>';
 
@@ -361,12 +361,7 @@ function _validMoodleURLandToken()
 		'value' => $id,
 	];
 
-	$object = [ 'criteria' => $criteria ];
-
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		$object = [ 'criteria' => [ $criteria ] ];
-	}
+	$object = [ 'criteria' => [ $criteria ] ];
 
 	return MoodleAPICall( $functionname, $object );
 }

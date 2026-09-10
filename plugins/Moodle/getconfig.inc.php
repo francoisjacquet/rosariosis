@@ -30,7 +30,7 @@ function MoodleConfig()
 		define(
 			'MOODLE_API_PROTOCOL',
 			( ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ) ?
-				ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ) : 'xmlrpc' )
+				ProgramConfig( 'moodle', 'MOODLE_API_PROTOCOL' ) : 'rest' )
 		);
 
 		// Example: d6c51ea6ffd9857578722831bcb070e1

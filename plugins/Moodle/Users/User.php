@@ -27,12 +27,7 @@ function core_user_get_users_object()
 		'value' => $username,
 	];
 
-	$object = [ 'criteria' => $criteria ];
-
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		$object = [ 'criteria' => [ $criteria ] ];
-	}
+	$object = [ 'criteria' => [ $criteria ] ];
 
 	return $object;
 }
@@ -150,12 +145,7 @@ function core_user_create_users_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'users' => $users ];
-	}
-
-	return [ $users ];
+	return [ 'users' => $users ];
 }
 
 /**
@@ -285,12 +275,7 @@ function core_user_update_users_object()
 
 	$users = [ $user ];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'users' => $users ];
-	}
-
-	return [ $users ];
+	return [ 'users' => $users ];
 }
 
 /**
@@ -321,12 +306,7 @@ function core_user_delete_users_object()
 
 	$user_ids = [ $moodle_id ];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'userids' => $user_ids ];
-	}
-
-	return [ $user_ids ];
+	return [ 'userids' => $user_ids ];
 }
 
 /**
@@ -426,12 +406,7 @@ function core_role_assign_roles_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'assignments' => $assignments ];
-	}
-
-	return [ $assignments ];
+	return [ 'assignments' => $assignments ];
 }
 
 /**
@@ -491,12 +466,7 @@ function core_role_unassign_roles_object()
 		],
 	];
 
-	if ( MOODLE_API_PROTOCOL === 'rest' )
-	{
-		return [ 'unassignments' => $unassignments ];
-	}
-
-	return [ $unassignments ];
+	return [ 'unassignments' => $unassignments ];
 }
 
 /**
