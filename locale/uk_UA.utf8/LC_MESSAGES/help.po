@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS Help\n"
-"POT-Creation-Date: 2025-11-08 15:36+0200\n"
-"PO-Revision-Date: 2025-11-24 03:36+0200\n"
+"POT-Creation-Date: 2026-09-08 17:28+0200\n"
+"PO-Revision-Date: 2026-09-09 23:11+0300\n"
 "Last-Translator: Alexey <support@digiology.org>\n"
 "Language-Team: Alexey, digiology.org\n"
 "Language: uk_UA\n"
@@ -410,7 +410,7 @@ msgstr ""
 "яке з'явиться після натискання. Натисніть кнопку «Зберегти». Вікно "
 "закриється, а календар автоматично оновиться, щоб відобразити зміни."
 
-#: Help_en.php:118 Help_en.php:245
+#: Help_en.php:118 Help_en.php:250
 msgid ""
 "If the school uses a Rotation of Numbered Days, the day's number is "
 "displayed in the day's box."
@@ -849,10 +849,26 @@ msgstr ""
 "завжди могли змінювати відвідуваність"
 
 #: Help_en.php:199
+msgid "The Student Billing module:"
+msgstr "Модуль виставлення рахунків учням:"
+
+#: Help_en.php:201
+msgid ""
+"<i>Credit Food Service Account on Lunch Payment</i>: when a payment is "
+"added, and the \"Lunch Payment\" checkbox is checked, the amount will be "
+"credited to the relevant student's food service account. Select the payment "
+"method for the transactions from the list."
+msgstr ""
+"<i>Кредитування рахунку харчування при оплаті обіду</i>: при додаванні "
+"платежу та встановленому прапорці \"Оплата за обід\", сума буде зарахована "
+"на відповідний рахунок харчування учня. Виберіть метод оплати трансакцій зі "
+"списку."
+
+#: Help_en.php:204
 msgid "The Food Service module:"
 msgstr "Модуль Ідальня:"
 
-#: Help_en.php:201
+#: Help_en.php:206
 msgid ""
 "<i>Food Service Balance minimum amount for warning</i>: set the minimum "
 "amount under which a warning will be displayed to the student and its "
@@ -862,14 +878,14 @@ msgstr ""
 "мінімальну суму, при перевищенні якої учневі та його батькам буде виводитися "
 "попередження на порталі та генеруватися нагадування"
 
-#: Help_en.php:202
+#: Help_en.php:207
 msgid ""
 "<i>Food Service Balance minimum amount</i>: set the minimum amount allowed"
 msgstr ""
 "<i>Мінімальна сума на рахунку в їдальні</i>: встановіть мінімально допустиму "
 "суму"
 
-#: Help_en.php:203
+#: Help_en.php:208
 msgid ""
 "<i>Food Service Balance target amount</i>: set the target amount to "
 "calculate the minimum deposit"
@@ -878,7 +894,7 @@ msgstr ""
 "кількість грошей на рахунку для розрахунку мінімальної суми для його "
 "поповнення"
 
-#: Help_en.php:205
+#: Help_en.php:210
 msgid ""
 "<b>Modules</b> tab: manage RosarioSIS modules. Deactivate any module you "
 "will not use or install new ones."
@@ -886,7 +902,7 @@ msgstr ""
 "Вкладка <b>Модулі</b>: керування модулями RosarioSIS. Вимкніть усі модулі, "
 "які ви не будете використовувати, або встановіть нові."
 
-#: Help_en.php:207
+#: Help_en.php:212
 msgid ""
 "<b>Plugins</b> tab: manage RosarioSIS plugins. Activate, deactivate and "
 "configure plugins. Click on the plugin title to get more information."
@@ -895,7 +911,7 @@ msgstr ""
 "деактивація та налаштування плагінів. Натисніть на назву плагіна, щоб "
 "отримати додаткову інформацію."
 
-#: Help_en.php:209
+#: Help_en.php:214
 msgid ""
 "<i>School Fields</i> allows you to add new fields to the School Information "
 "screen."
@@ -903,11 +919,11 @@ msgstr ""
 "<i>Поля школи</i> дозволяє додавати нові поля на сторінку інформації про "
 "школу."
 
-#: Help_en.php:211 Help_en.php:420 Help_en.php:553
+#: Help_en.php:216 Help_en.php:425 Help_en.php:558
 msgid "Add a new Field"
 msgstr "Додавання нового поля"
 
-#: Help_en.php:213
+#: Help_en.php:218
 msgid ""
 "Click on the \"+\" icon below the \"No School Fields were found\" text. Fill "
 "in the Field Name field(s), and then choose what type of field you wish with "
@@ -917,7 +933,7 @@ msgstr ""
 "знайдені. Заповніть поля з назвами полів школи, а потім виберіть потрібний "
 "тип у спадному списку «Тип даних»."
 
-#: Help_en.php:215 Help_en.php:424 Help_en.php:557
+#: Help_en.php:220 Help_en.php:429 Help_en.php:562
 msgid ""
 "\"Pull-Down\" fields create menus from which you can select one option. To "
 "create this type of field, click on \"Pull-Down\" and then add your options "
@@ -930,7 +946,7 @@ msgstr ""
 "Автоматичний розкривний список/Розкривний список Експорт/Виберіть кілька "
 "варіантів»."
 
-#: Help_en.php:216 Help_en.php:425 Help_en.php:558
+#: Help_en.php:221 Help_en.php:430 Help_en.php:563
 msgid ""
 "\"Auto Pull-Down\" fields create menus from which you can select one option, "
 "and add options. You add options by selecting the \"-Edit-\" option in the "
@@ -946,7 +962,7 @@ msgstr ""
 "інформацію. RosarioSIS отримує всі опції, які були додані до цього поля під "
 "час створення випадаючого меню."
 
-#: Help_en.php:217 Help_en.php:426 Help_en.php:559
+#: Help_en.php:222 Help_en.php:431 Help_en.php:564
 msgid ""
 "\"Export Pull-Down\" fields are created by adding options to the large text "
 "box respecting the following pattern: \"option shown\"|\"option exported\". "
@@ -958,7 +974,7 @@ msgstr ""
 "Наприклад: \"Два|2\", де \"Два\" відображається на екрані для користувача, а "
 "\"2\" - це значення в завантаженій електронній таблиці."
 
-#: Help_en.php:218 Help_en.php:427 Help_en.php:560
+#: Help_en.php:223 Help_en.php:432 Help_en.php:565
 msgid ""
 "\"Select Multiple from options\" fields create multiple checkboxes to choose "
 "one or more options."
@@ -966,7 +982,7 @@ msgstr ""
 "У полях «Вибрати кілька варіантів» встановлюється кілька прапорців для "
 "вибору одного або декількох варіантів."
 
-#: Help_en.php:219 Help_en.php:428 Help_en.php:561
+#: Help_en.php:224 Help_en.php:433 Help_en.php:566
 msgid ""
 "\"Text\" fields create alphanumeric text fields with a maximum capacity of "
 "255 characters."
@@ -974,7 +990,7 @@ msgstr ""
 "Поля «Текст» створюють буквено-цифрові текстові поля максимальною місткістю "
 "255 символів."
 
-#: Help_en.php:220 Help_en.php:429 Help_en.php:562
+#: Help_en.php:225 Help_en.php:434 Help_en.php:567
 msgid ""
 "\"Long Text\" fields create large alphanumeric text boxes with a maximum "
 "length of 5000 characters."
@@ -982,7 +998,7 @@ msgstr ""
 "Поля «Довгий текст» створюють великі буквено-цифрові текстові поля "
 "максимальною довжиною 5000 символів."
 
-#: Help_en.php:221 Help_en.php:430 Help_en.php:563
+#: Help_en.php:226 Help_en.php:435 Help_en.php:568
 msgid ""
 "\"Checkbox\" fields create checkboxes. When checked it means \"yes\" and "
 "when un-checked \"no\"."
@@ -990,16 +1006,16 @@ msgstr ""
 "Поля «Прапорці» створюють, відповідно, прапорці. Якщо позначено, це означає "
 "«так», а якщо знято - «ні»."
 
-#: Help_en.php:222 Help_en.php:431 Help_en.php:564
+#: Help_en.php:227 Help_en.php:436 Help_en.php:569
 msgid "\"Number\" fields create text fields that stores only numeric values."
 msgstr ""
 "Поля «Число» створюють текстові поля, які зберігають лише числові значення."
 
-#: Help_en.php:223 Help_en.php:432 Help_en.php:565
+#: Help_en.php:228 Help_en.php:437 Help_en.php:570
 msgid "\"Date\" field creates pull-downs fields to pick a date from."
 msgstr "Поля «Дата» створюють випадаючі поля для вибору дати."
 
-#: Help_en.php:224 Help_en.php:433 Help_en.php:566
+#: Help_en.php:229 Help_en.php:438 Help_en.php:571
 msgid ""
 "\"Files\" field creates upload file field. Files can be later be downloaded "
 "and deleted."
@@ -1007,7 +1023,7 @@ msgstr ""
 "У полі «Файли» створюється поле для завантаження файлу. Файли можуть бути "
 "пізніше завантажені та видалені."
 
-#: Help_en.php:226 Help_en.php:435 Help_en.php:568
+#: Help_en.php:231 Help_en.php:440 Help_en.php:573
 msgid ""
 "The \"Required\" checkbox, if checked, will make that field required so an "
 "error will be displayed if the field is empty when saving the page."
@@ -1016,7 +1032,7 @@ msgstr ""
 "обов'язковим, тому при збереженні сторінки, якщо поле не заповнене, буде "
 "відображатися помилка."
 
-#: Help_en.php:228
+#: Help_en.php:233
 msgid ""
 "The \"Sort Order\" determines the order in which the fields will be "
 "displayed on the School Information screen."
@@ -1024,11 +1040,11 @@ msgstr ""
 "Параметр «Порядок сортування» визначає порядок, у якому поля "
 "відображатимуться на сторінці інформації про школу."
 
-#: Help_en.php:230 Help_en.php:439 Help_en.php:572
+#: Help_en.php:235 Help_en.php:444 Help_en.php:577
 msgid "Delete a field"
 msgstr "Видалення поля"
 
-#: Help_en.php:232
+#: Help_en.php:237
 msgid ""
 "You can delete any School field simply by clicking on the \"Delete\" button "
 "in the upper right corner. Please note that you will lose all your data if "
@@ -1038,7 +1054,7 @@ msgstr ""
 "«Видалити» в правому верхньому куті. Будь ласка, зверніть увагу, що ви "
 "втратите всі свої дані, якщо видалите вже використовуване поле."
 
-#: Help_en.php:237
+#: Help_en.php:242
 msgid ""
 "<i>School Information</i> displays the name, address, and principal of the "
 "current school."
@@ -1046,7 +1062,7 @@ msgstr ""
 "<i>Інформація про школу</i> містить назву, адресу та ім'я директора поточної "
 "школи."
 
-#: Help_en.php:239
+#: Help_en.php:244
 msgid ""
 "<i>Calendars</i> is a display of school events and your student's "
 "assignments. The calendar also displays whether or not school is in "
@@ -1060,7 +1076,7 @@ msgstr ""
 "і рік можна змінити, за допомогою розкривних меню місяця і року у верхній "
 "частині сторінки."
 
-#: Help_en.php:241
+#: Help_en.php:246
 msgid ""
 "The titles of school events and assignments are displayed in each date's "
 "box. Clicking on these titles will open a popup window that displays more "
@@ -1072,7 +1088,7 @@ msgstr ""
 "додаткова інформація про подію або завдання. Шкільні події позначені чорною "
 "смугою, а завдання - червоною смугою."
 
-#: Help_en.php:243
+#: Help_en.php:248
 msgid ""
 "For days that school is in attendance all day, the date's box is green. On "
 "partial days, the number of minutes that school is in session is displayed. "
@@ -1084,13 +1100,13 @@ msgstr ""
 "яких в школі проводяться заняття. Якщо в будь-який день школа не "
 "відвідується взагалі, прапорець з датою відображається рожевим кольором."
 
-#: Help_en.php:252
+#: Help_en.php:257
 msgid ""
 "<i>Add a Student</i> allows you to add a student to the system and enroll it."
 msgstr ""
 "<i>Додати учня</i> дозволяє вам додати учня в систему та зарахувати його."
 
-#: Help_en.php:254
+#: Help_en.php:259
 msgid ""
 "To add the student, enter the birth date, social security number, ethnicity, "
 "gender, birthplace, and grade. Then, select the effective date of the "
@@ -1110,7 +1126,7 @@ msgstr ""
 "новому учневі. Нарешті, натисніть кнопку «Зберегти» у верхній частині "
 "сторінки."
 
-#: Help_en.php:256
+#: Help_en.php:261
 msgid ""
 "Note: a student cannot be deleted once it is enrolled in courses, has "
 "grades, attendance records, discipline referrals, or billing fees. You can "
@@ -1120,13 +1136,13 @@ msgstr ""
 "оцінки, записи про відвідуваність, рекомендації з дисципліни або оплату "
 "рахунків. Замість цього ви можете прибрати його."
 
-#: Help_en.php:258
+#: Help_en.php:263
 msgid ""
 "<i>Associate Parents with Students</i> allows you to associate parents to "
 "students."
 msgstr "<i>Зв'язок батьків з учнями</i> тут можна зв'язати батьків з учнями."
 
-#: Help_en.php:260
+#: Help_en.php:265
 msgid ""
 "Once a parent's account has been set up, their children must be associated "
 "to their account with this program. If you have not already chosen a student "
@@ -1147,7 +1163,7 @@ msgstr ""
 "Користувача з цього списку, натисніть кнопку «Додати вибраних батьків» у "
 "верхній частині сторінки."
 
-#: Help_en.php:262
+#: Help_en.php:267
 msgid ""
 "At any time after a student has been selected, you can see the parents "
 "already associated with that student. These parents are listed to the top of "
@@ -1162,7 +1178,7 @@ msgstr ""
 "даного учня, натиснувши на значок видалення ( - ) поруч з батьком, якого ви "
 "хочете від'єднати від учня. Вам буде запропоновано підтвердити цю дію."
 
-#: Help_en.php:264
+#: Help_en.php:269
 msgid ""
 "<i>Group Assign Student Info</i> allows you to assign values to any of the "
 "Student data fields for a group of students in one action."
@@ -1170,7 +1186,7 @@ msgstr ""
 "<i>Групове присвоєння інформації про учня</i> дозволяє вам присвоїти "
 "значення будь-якому з полів даних про учня для групи учнів за одну дію."
 
-#: Help_en.php:266
+#: Help_en.php:271
 msgid ""
 "First, search for students. From the search result, you can select any "
 "number of students. You can select all the students in the list by checking "
@@ -1189,7 +1205,7 @@ msgstr ""
 "учня з цього списку та заповнивши кожне інше інформаційне поле, натисніть "
 "кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:268
+#: Help_en.php:273
 msgid ""
 "<i>Print Letters</i> allows you to print form letters for any number of "
 "students."
@@ -1197,7 +1213,7 @@ msgstr ""
 "<i>Друк листів</i> дозволяє друкувати бланки листів для будь-якої кількості "
 "учнів."
 
-#: Help_en.php:270
+#: Help_en.php:275
 msgid ""
 "First, search for students. From the search result, you can select any "
 "number of students. You can select all the students in the list by checking "
@@ -1210,7 +1226,7 @@ msgstr ""
 "прапорець у заголовках стовпців над списком. Після вибору учнів введіть "
 "текст листа в текстове поле «Текст листа» над списком учнів."
 
-#: Help_en.php:272
+#: Help_en.php:277
 msgid ""
 "You can insert certain pieces of student information into your letter with "
 "special variables:"
@@ -1218,35 +1234,35 @@ msgstr ""
 "Ви можете вставити певну інформацію про учня у свій лист за допомогою "
 "спеціальних змінних:"
 
-#: Help_en.php:274
+#: Help_en.php:279
 msgid "Full Name:"
 msgstr "Повне ім'я:"
 
-#: Help_en.php:275
+#: Help_en.php:280
 msgid "First Name:"
 msgstr "Ім'я:"
 
-#: Help_en.php:276
+#: Help_en.php:281
 msgid "Middle Name:"
 msgstr "Друге ім'я (по батькові):"
 
-#: Help_en.php:277
+#: Help_en.php:282
 msgid "Last Name:"
 msgstr "Прізвище:"
 
-#: Help_en.php:278
+#: Help_en.php:283
 msgid "RosarioSIS ID:"
 msgstr "RosarioSIS ID:"
 
-#: Help_en.php:279
+#: Help_en.php:284
 msgid "School:"
 msgstr "Школа:"
 
-#: Help_en.php:280
+#: Help_en.php:285
 msgid "Grade Level:"
 msgstr "Клас:"
 
-#: Help_en.php:282
+#: Help_en.php:287
 msgid ""
 "Also, you can choose to print the letters with mailing labels. The letters "
 "will have mailing labels positioned in such a way as to be visible in a "
@@ -1259,7 +1275,7 @@ msgstr ""
 "коли лист складний втричі. Для кожного учня може бути надруковано більше "
 "одного листа, якщо у нього є опікуни, які проживають за кількома адресами."
 
-#: Help_en.php:284
+#: Help_en.php:289
 msgid ""
 "The letters will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Submit\" button."
@@ -1267,7 +1283,7 @@ msgstr ""
 "Електронні листи будуть автоматично завантажені на ваш комп'ютер у форматі "
 "PDF для друку, коли ви натиснете кнопку «Надіслати»."
 
-#: Help_en.php:286
+#: Help_en.php:291
 msgid ""
 "<i>General Information</i> is a display of a student's fundamental "
 "information. This includes birth date, social security number, ethnicity, "
@@ -1281,13 +1297,13 @@ msgstr ""
 "цих деталей, натиснувши значення, яке потрібно змінити, змінивши значення та "
 "натиснувши кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:288 Help_en.php:458
+#: Help_en.php:293 Help_en.php:463
 msgid ""
 "<i>Addresses & Contacts</i> is a display of a student's address and contact "
 "information."
 msgstr "<i>Адреси та контакти</i> - адреси та контактна інформація про учня."
 
-#: Help_en.php:290
+#: Help_en.php:295
 msgid ""
 "A student can have any number of addresses. To add an address, click the "
 "\"Add a New Address\" link and complete the empty fields in the Address box. "
@@ -1297,7 +1313,7 @@ msgstr ""
 "посилання «Додати нову адресу» та заповніть порожні поля в підрозділі "
 "«Адреса». Нарешті, натисніть кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:292
+#: Help_en.php:297
 msgid ""
 "Now, you can add a contact to this address. To do this, complete the "
 "contact's name, and again, press the \"Save\" button."
@@ -1305,7 +1321,7 @@ msgstr ""
 "Тепер ви можете додати контакт за цією адресою. Для цього введіть ім'я "
 "контакту та знову натисніть кнопку «Зберегти»."
 
-#: Help_en.php:294
+#: Help_en.php:299
 msgid ""
 "You can now add more information about this contact by checking the "
 "\"Custody\" and \"Emergency\" checkboxes, after first clicking on their "
@@ -1319,7 +1335,7 @@ msgstr ""
 "учня, отримують поштові розсилки, а родичі, позначені як «Екстрені», можуть "
 "зв'язатися у разі надзвичайної ситуації."
 
-#: Help_en.php:296
+#: Help_en.php:301
 msgid ""
 "You can add other information about this contact, such as their cell phone "
 "number, fax number, occupation, workplace, etc. by filling in the title of "
@@ -1330,7 +1346,7 @@ msgstr ""
 "мобільного телефону, номер факсу, рід занять, робоче місце тощо, додавши "
 "назву нових даних в поле «Опис» і відповідне значення в поле «Значення»."
 
-#: Help_en.php:298
+#: Help_en.php:303
 msgid ""
 "Contacts and information about contacts can be deleted by clicking on the "
 "delete icon (-) next to the information to be deleted. (Note: you will be "
@@ -1344,11 +1360,11 @@ msgstr ""
 "сторінці можна змінити, спочатку натиснувши на неї, потім змінивши її "
 "значення і, нарешті, натиснувши кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:300
+#: Help_en.php:305
 msgid "<i>Medical</i> is a display of a student's medical information."
 msgstr "<i>Медична інформація</i> - відповідно медична інформація про учня."
 
-#: Help_en.php:302
+#: Help_en.php:307
 msgid ""
 "This includes the student's physician, the physician's phone, the student's "
 "preferred hospital, any medical comments, whether or not the student has a "
@@ -1362,7 +1378,7 @@ msgstr ""
 "лікаря. Щоб змінити будь-яке з цих значень, торкніться потрібного значення, "
 "змініть його та натисніть кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:304
+#: Help_en.php:309
 msgid ""
 "You can also add entries for each immunization or physical received by the "
 "student as well as any medical alerts such as allergies or illnesses."
@@ -1371,7 +1387,7 @@ msgstr ""
 "проведений з учнем, а також про будь-які медичні попередження, такі як "
 "алергія або захворювання."
 
-#: Help_en.php:306
+#: Help_en.php:311
 msgid ""
 "To add an immunization, physical, or medical alert, fill in the blank fields "
 "at the bottom of the appropriate list, and click the \"Save\" button at the "
@@ -1381,7 +1397,7 @@ msgstr ""
 "заповніть порожні поля внизу відповідного списку та натисніть кнопку "
 "«Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:308
+#: Help_en.php:313
 msgid ""
 "To change an immunization, physical, or medical alert, click on the value "
 "you want to change, change it, and click the \"Save\" button at the top of "
@@ -1391,7 +1407,7 @@ msgstr ""
 "допомогу, натисніть на значення, яке потрібно змінити, змініть його та "
 "натисніть кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:310
+#: Help_en.php:315
 msgid ""
 "To delete an immunization, physical, or medical alert, click on the delete "
 "icon (-) next to the item you want to delete. You will be asked to confirm "
@@ -1401,7 +1417,7 @@ msgstr ""
 "торкніться значка видалення (-) поруч із елементом, який потрібно видалити. "
 "Вам буде запропоновано підтвердити видалення."
 
-#: Help_en.php:312
+#: Help_en.php:317
 msgid ""
 "<i>Enrollment</i> can be used to enroll or drop a student from any school. A "
 "student can have only one active enrollment record at any time."
@@ -1410,7 +1426,7 @@ msgstr ""
 "виключення учня з будь-якої школи. Учень може мати лише один активний запис "
 "про зарахування в будь-який момент часу."
 
-#: Help_en.php:314
+#: Help_en.php:319
 msgid ""
 "To drop a student, change the \"Dropped\" date to the effective date of the "
 "student's drop as well as the reason for his drop. Click the \"Save\" button "
@@ -1420,7 +1436,7 @@ msgstr ""
 "виключенням учня, а також причину його виключення. Натисніть кнопку "
 "«Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:316
+#: Help_en.php:321
 msgid ""
 "Now you can reenroll the student. To do this, select the effective date of "
 "the student's enrollment and the reason for his enrollment from the blank "
@@ -1432,7 +1448,7 @@ msgstr ""
 "Крім того, виберіть школу, до якої слід зарахувати учня, і натисніть кнопку "
 "«Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:318
+#: Help_en.php:323
 msgid ""
 "The enrollment and drop dates and reasons can be modified by clicking on the "
 "values, changing them to the desired value, and clicking the \"Save\" button "
@@ -1442,7 +1458,7 @@ msgstr ""
 "значення, змінивши їх на потрібне значення та натиснувши кнопку «Зберегти» у "
 "верхній частині сторінки."
 
-#: Help_en.php:320
+#: Help_en.php:325
 msgid ""
 "<i>Advanced Report</i> is a tool that helps you create any report you want, "
 "easily."
@@ -1450,7 +1466,7 @@ msgstr ""
 "<i>Розширений звіт</i> - це інструмент, який допоможе вам легко створити "
 "будь-який звіт, який ви хочете."
 
-#: Help_en.php:322
+#: Help_en.php:327
 msgid ""
 "Select what you want to see on the report by checking the checkboxes next to "
 "the columns you wish to see on the report. The columns will appear in the "
@@ -1460,7 +1476,7 @@ msgstr ""
 "які ви хочете бачити у звіті. Стовпці з'являться у списку у верхній частині "
 "сторінки в тому порядку, в якому ви їх вибрали."
 
-#: Help_en.php:324
+#: Help_en.php:329
 msgid ""
 "To get the list of students who have their birthday on a specific date, "
 "select the date using the \"Birth Month\" and \"Birth Day\" pull-down menus "
@@ -1470,7 +1486,7 @@ msgstr ""
 "виберіть потрібну дату, використовуючи випадаючі меню «Місяць народження» і "
 "«День народження» в підрозділі «Знайти учня»."
 
-#: Help_en.php:326
+#: Help_en.php:331
 msgid ""
 "<i>Add / Drop Report</i> is a report of all the students who have enrolled "
 "or dropped their enrollment during the time period selected."
@@ -1478,7 +1494,7 @@ msgstr ""
 "<i>Звіт про Зарахування/відрахування</i> - це звіт про всіх учнів, які "
 "зараховані або відраховані протягом обраного періоду часу."
 
-#: Help_en.php:328
+#: Help_en.php:333
 msgid ""
 "To consult other time periods, change the dates in the top part of the page "
 "and click the \"Go\" button on the right of the end date."
@@ -1486,13 +1502,13 @@ msgstr ""
 "Щоб ознайомитися з іншими періодами, змініть дати у верхній частині сторінки "
 "та натисніть кнопку «Перейти» праворуч від дати закінчення."
 
-#: Help_en.php:330
+#: Help_en.php:335
 msgid ""
 "<i>Print Student Labels</i> allows you to generate labels for Student "
 "folders."
 msgstr "<i>Друк ярликів учнів</i> дозволяє створювати ярлики для папок учня."
 
-#: Help_en.php:332
+#: Help_en.php:337
 msgid ""
 "<i>Print Mailing Labels</i> allows you to generate mailing labels for a "
 "group of students, parents or families."
@@ -1500,15 +1516,15 @@ msgstr ""
 "<i>Друк поштових ярликів</i> дозволяє створювати поштові ярлики для групи "
 "учнів, батьків або сімей."
 
-#: Help_en.php:334 Help_en.php:340 Help_en.php:346 Help_en.php:596
-#: Help_en.php:768 Help_en.php:882 Help_en.php:956
+#: Help_en.php:339 Help_en.php:345 Help_en.php:351 Help_en.php:601
+#: Help_en.php:773 Help_en.php:887 Help_en.php:961
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen."
 msgstr ""
 "Спочатку необхідно вибрати учня за допомогою сторінки пошуку «Знайти учня»."
 
-#: Help_en.php:336
+#: Help_en.php:341
 msgid ""
 "Then, select the students & what to print on the label: use the checkboxes "
 "on the left hand side of the student list to select the students, and use "
@@ -1522,7 +1538,7 @@ msgstr ""
 "хочете включити. ви можете вказати на ярлику папки інформацію про "
 "відвідуваність учня, його вчителя і кімнату для занять."
 
-#: Help_en.php:338
+#: Help_en.php:343
 msgid ""
 "<i>Print Student Info</i> will generate a multi-page report out of the "
 "information present in the Student Info tabs."
@@ -1530,7 +1546,7 @@ msgstr ""
 "<i>Друк інформації про учня</i> буде створено багатосторінковий звіт на "
 "основі інформації, представленої на вкладках з інформацією про учня."
 
-#: Help_en.php:342
+#: Help_en.php:347
 msgid ""
 "Then, select the students and the information on the report: use the "
 "checkboxes on the left hand side of the student list to select the students, "
@@ -1546,7 +1562,7 @@ msgstr ""
 "звіт і відправити його в конверті з віконцем. Закінчивши, натисніть «Друк "
 "інформації для обраних учнів»."
 
-#: Help_en.php:344
+#: Help_en.php:349
 msgid ""
 "<i>My Report</i> will generate a report that can be downloaded to your "
 "desktop as an excel spreadsheet, with complete contact information."
@@ -1555,7 +1571,7 @@ msgstr ""
 "на ваш робочий стіл у вигляді електронної таблиці Excel з повною контактною "
 "інформацією."
 
-#: Help_en.php:348
+#: Help_en.php:353
 msgid ""
 "This report will provide a printable listing, or more appropriately, a "
 "spreadsheet of students and their contact information you might use in a "
@@ -1565,7 +1581,7 @@ msgstr ""
 "таблицю з переліком учнів та їх контактною інформацією, яку ви можете "
 "використовувати для розсилок електронною поштою або для інших цілей."
 
-#: Help_en.php:350
+#: Help_en.php:355
 msgid ""
 "Click on the Download icon at the top of the list to export the report to an "
 "Excel spreadsheet."
@@ -1573,7 +1589,7 @@ msgstr ""
 "Торкніться значка завантаження у верхній частині списку, щоб експортувати "
 "звіт до електронної таблиці Excel."
 
-#: Help_en.php:352
+#: Help_en.php:357
 msgid ""
 "<i>Create Parent Users</i> will let you create Parent accounts from the "
 "Contact information recorded for each Student."
@@ -1581,7 +1597,7 @@ msgstr ""
 "<i>Створення користувачів-батьків</i>. Тут можна створювати облікові записи "
 "батьків на основі контактної інформації, записаної для кожного учня."
 
-#: Help_en.php:354
+#: Help_en.php:359
 msgid ""
 "You must first select the Field where parent email addresses are stored. The "
 "drop down list contains Student and Address fields (\"Text\" type only)."
@@ -1589,7 +1605,7 @@ msgstr ""
 "Спочатку потрібно вибрати поле, де зберігаються електронні адреси батьків. "
 "Випадаючий список містить поля для учнів і адреси (тільки текстового типу)."
 
-#: Help_en.php:356
+#: Help_en.php:361
 msgid ""
 "You can create a new Email text field using the <i>Student Fields</i> "
 "program."
@@ -1597,13 +1613,13 @@ msgstr ""
 "Ви можете створити нове текстове поле для електронної пошти, використовуючи "
 "розділ <i>Поля для учнів</i>."
 
-#: Help_en.php:358
+#: Help_en.php:363
 msgid ""
 "You then must select a student by using the \"Find a Student\" search screen."
 msgstr ""
 "Потім ви повинні вибрати учня за допомогою сторінки пошуку «Знайти учня»."
 
-#: Help_en.php:360
+#: Help_en.php:365
 msgid ""
 "The list of students will show the parent name and email. Students will have "
 "a checkbox only if a valid email address was found in the email field."
@@ -1612,7 +1628,7 @@ msgstr ""
 "будуть позначені лише в тому випадку, якщо в полі електронної пошти було "
 "вказано дійсну адресу електронної пошти."
 
-#: Help_en.php:362
+#: Help_en.php:367
 msgid ""
 "Customize the email content sent to parents using the large text boxes and "
 "substitution codes above the list."
@@ -1620,7 +1636,7 @@ msgstr ""
 "Налаштуйте вміст електронного листа для надсилання батькам, за допомогою "
 "великих текстових полів та кодів заміни над списком."
 
-#: Help_en.php:364
+#: Help_en.php:369
 msgid ""
 "To test the Parent Users creation and check the email content, you can enter "
 "your email address in the Test Mode field."
@@ -1629,12 +1645,12 @@ msgstr ""
 "електронного листа, ви можете ввести свою адресу електронної пошти в поле "
 "«Тестовий режим»."
 
-#: Help_en.php:366
+#: Help_en.php:371
 msgid "Click the \"Create Parent Accounts for the Selected Students\" button."
 msgstr ""
 "Натисніть кнопку «Створити батьківські облікові записи для вибраних учнів»."
 
-#: Help_en.php:368
+#: Help_en.php:373
 msgid ""
 "<i>Registration</i> lets you configure the Registration program's form and "
 "preview how it will be displayed to Parents or Students."
@@ -1642,7 +1658,7 @@ msgstr ""
 "<i>Реєстрація</i> дозволяє налаштувати форму розділу реєстрації та "
 "попередньо переглянути, як вона буде відображатися для батьків або учнів."
 
-#: Help_en.php:370
+#: Help_en.php:375
 msgid ""
 "The <i>Registration</i> program is a convenient way to allow Students or "
 "Parents to self register their information once their Student account is "
@@ -1651,7 +1667,7 @@ msgstr ""
 "Розділ <i>Реєстрація</i> - це зручний спосіб, що дозволяє учням або батькам "
 "самостійно реєструвати свої дані після активації їх облікового запису учня."
 
-#: Help_en.php:372
+#: Help_en.php:377
 msgid ""
 "The first Parent fieldset allows you to edit the main Contact relation, "
 "check whether it should be marked as \"Custody\" and \"Emergency\", select "
@@ -1663,7 +1679,7 @@ msgstr ""
 "допомога», вибирати, яку контактну інформацію та категорії контактних полів "
 "ви хотіли б заповнити."
 
-#: Help_en.php:374
+#: Help_en.php:379
 msgid ""
 "If no Contact Information is available, add it first to an existing contact "
 "from the <i>Student Info > Addresses & Contacts</i> tab."
@@ -1671,7 +1687,7 @@ msgstr ""
 "Якщо контактна інформація недоступна, спочатку додайте її до існуючого "
 "контакту на вкладці <i>Інформація про учня > Адреси та контакти</i>."
 
-#: Help_en.php:376
+#: Help_en.php:381
 msgid ""
 "If no Contact Fields are available, you can add some from the <i>Student "
 "Fields</i> program."
@@ -1679,7 +1695,7 @@ msgstr ""
 "Якщо поля для контактів недоступні, ви можете додати їх у розділі <i>Поля "
 "для учнів</i>."
 
-#: Help_en.php:378
+#: Help_en.php:383
 msgid ""
 "Next to the main Parent contact, a similar fieldset allows you to edit the "
 "secondary Contact form. You can select whether it has no address, or to use "
@@ -1690,7 +1706,7 @@ msgstr ""
 "неї відсутня адреса, або використовувати ту саму адресу, що і для учня, або "
 "відобразити нову форму адреси."
 
-#: Help_en.php:380
+#: Help_en.php:385
 msgid ""
 "Below is the Address fieldset which allows you to select which Address Field "
 "categories you would like to be completed."
@@ -1698,7 +1714,7 @@ msgstr ""
 "Нижче наведено набір адресних полів, який дозволяє вибрати, які категорії "
 "адресних полів ви хотіли б заповнити."
 
-#: Help_en.php:382
+#: Help_en.php:387
 msgid ""
 "If no Address Fields are available, you can add some from the <i>Student "
 "Fields</i> program."
@@ -1706,14 +1722,14 @@ msgstr ""
 "Якщо адресні поля недоступні, ви можете додати їх у розділі <i>Поля для "
 "учнів</i>."
 
-#: Help_en.php:384
+#: Help_en.php:389
 msgid ""
 "Below you can activate and configure other Contacts such as Grandparents."
 msgstr ""
 "Нижче ви можете активувати та налаштувати інші контакти, наприклад, бабусь і "
 "дідусів."
 
-#: Help_en.php:386
+#: Help_en.php:391
 msgid ""
 "Finally, the Student fieldset allows you to select which Student Field "
 "categories you would like to be completed."
@@ -1721,13 +1737,13 @@ msgstr ""
 "Нарешті, набір полів для учнів дозволяє вибрати, які категорії полів для "
 "учнів ви хотіли б заповнити."
 
-#: Help_en.php:388
+#: Help_en.php:393
 msgid ""
 "You can add more Student Fields from the <em>Student Fields</em> program."
 msgstr ""
 "Ви можете додати додаткові поля для учнів у розділі <em>Поля для учнів</em>."
 
-#: Help_en.php:390
+#: Help_en.php:395
 msgid ""
 "Click the \"Save\" button once you are ready. To preview the form, click the "
 "\"Preview\" link at the top of the screen."
@@ -1735,7 +1751,7 @@ msgstr ""
 "Натисніть кнопку «Зберегти», коли будете готові. Щоб переглянути форму, "
 "натисніть посилання «Попередній перегляд» у верхній частині сторінки."
 
-#: Help_en.php:392
+#: Help_en.php:397
 msgid ""
 "Parents registering a student who already have siblings in the school will "
 "be shown the \"Use same address and contact information as for [Student name]"
@@ -1745,7 +1761,7 @@ msgstr ""
 "показано прапорець «Використовувати ту саму адресу та контактну інформацію, "
 "що і для [ім'я учня]»."
 
-#: Help_en.php:394
+#: Help_en.php:399
 msgid ""
 "Tip: you can create a Student Field named \"Parent email\" and set it as the "
 "\"Student email field\" from the <i>School > Configuration</i> program. "
@@ -1759,7 +1775,7 @@ msgstr ""
 "батьки, також матимуть прапорець «Використовувати ту саму адресу та "
 "контактну інформацію, що і для [ім'я учня]» під час реєстрації."
 
-#: Help_en.php:396
+#: Help_en.php:401
 msgid ""
 "<i>Remove Access</i> will let you remove access for students and their "
 "associated parents."
@@ -1767,7 +1783,7 @@ msgstr ""
 "Розділ <i>Видалити доступ</i> дозволить вам видалити доступ для учнів і "
 "пов'язаних з ними батьків."
 
-#: Help_en.php:398
+#: Help_en.php:403
 msgid ""
 "To grant access for students and their associated parents, click the \"Grant "
 "Access\" link."
@@ -1775,7 +1791,7 @@ msgstr ""
 "Щоб надати доступ учням та пов'язаним з ними батькам, натисніть посилання "
 "«Надати доступ»."
 
-#: Help_en.php:400
+#: Help_en.php:405
 msgid ""
 "You then must select a student by using the \"Students with Access\" search "
 "screen."
@@ -1783,7 +1799,7 @@ msgstr ""
 "Потім потрібно вибрати учня за допомогою сторінки пошуку «Учні, які мають "
 "доступ»."
 
-#: Help_en.php:402
+#: Help_en.php:407
 msgid ""
 "The list of students will show the student username. Only students having a "
 "username and a password set will be displayed in the list."
@@ -1791,14 +1807,14 @@ msgstr ""
 "У списку учнів буде вказано ім'я користувача. У списку відображатимуться "
 "лише ті учні, які мають псевдонім і пароль."
 
-#: Help_en.php:404
+#: Help_en.php:409
 msgid ""
 "Customize the username prefix you want to add so students cannot guess it."
 msgstr ""
 "Налаштуйте префікс псевдоніму, який ви хочете додати, щоб учні не могли його "
 "вгадати."
 
-#: Help_en.php:406
+#: Help_en.php:411
 msgid ""
 "Check the \"Remove Access for Associated Parents\" checkbox if you wish to "
 "set those parents' profile to No Access."
@@ -1806,11 +1822,11 @@ msgstr ""
 "Установіть прапорець «Видалити доступ для пов'язаних батьків», якщо ви "
 "хочете заборонити доступ до профілю цих батьків."
 
-#: Help_en.php:408
+#: Help_en.php:413
 msgid "Click the \"Remove Access for Selected Students\" button."
 msgstr "Натисніть кнопку «Видалити доступ для вибраних учнів»."
 
-#: Help_en.php:410
+#: Help_en.php:415
 msgid ""
 "<i>Data Fields</i> allows you to setup your school's custom data fields. "
 "These fields are used to store information about a student in the \"General "
@@ -1822,11 +1838,11 @@ msgstr ""
 "«Загальна інформація» / «Адреси та контакти» або на вкладці користувача на "
 "сторінці учня."
 
-#: Help_en.php:412
+#: Help_en.php:417
 msgid "Data Field Categories"
 msgstr "Категорії полів даних"
 
-#: Help_en.php:414
+#: Help_en.php:419
 msgid ""
 "RosarioSIS allows you to add custom categories that will take the form of "
 "new \"Tabs\" of Data Fields in the Students > Student Info program. To "
@@ -1838,11 +1854,11 @@ msgstr ""
 "Щоб створити нову категорію або «вкладку», просто натисніть на значок « + » "
 "під існуючими категоріями."
 
-#: Help_en.php:416 Help_en.php:549 Help_en.php:1064
+#: Help_en.php:421 Help_en.php:554 Help_en.php:1069
 msgid "New Category"
 msgstr "Нова категорія"
 
-#: Help_en.php:418
+#: Help_en.php:423
 msgid ""
 "You can now type in the name of the new Category in the \"Title\" field(s) "
 "provided. Add a sort order (order in which the tabs will appear in the "
@@ -1854,7 +1870,7 @@ msgstr ""
 "інформації про учня) та кількість стовпців, які відображатимуться на вкладці "
 "(необов'язково). Закінчивши, натисніть «Зберегти»."
 
-#: Help_en.php:422
+#: Help_en.php:427
 msgid ""
 "Click on the \"+\" icon below the \"No Student Fields were found\" text. "
 "Fill in the Field Name field(s), and then choose what type of field you wish "
@@ -1864,7 +1880,7 @@ msgstr ""
 "Заповніть поля з назвами полів, а потім виберіть потрібний тип полів у "
 "спадному списку «Тип даних»."
 
-#: Help_en.php:437
+#: Help_en.php:442
 msgid ""
 "The \"Sort Order\" determines the order in which the fields will be "
 "displayed in the Student Info tab."
@@ -1872,7 +1888,7 @@ msgstr ""
 "«Порядок сортування» визначає порядок, у якому поля відображатимуться на "
 "вкладці з інформацією про учня."
 
-#: Help_en.php:441
+#: Help_en.php:446
 msgid ""
 "You can delete any Student field or Category simply by clicking on the "
 "\"Delete\" button in the upper right corner. Please note that you will lose "
@@ -1882,7 +1898,7 @@ msgstr ""
 "кнопку «Видалити» в правому верхньому куті. Будь ласка, зверніть увагу, що "
 "ви втратите всі свої дані, якщо видалите вже використане поле або категорію."
 
-#: Help_en.php:443
+#: Help_en.php:448
 msgid ""
 "<i>Enrollment Codes</i> allows you to setup your school's enrollment codes. "
 "Enrollment codes are used in the Enrollment student screen, and specify the "
@@ -1894,7 +1910,7 @@ msgstr ""
 "вказують причину, чому учень був зарахований до школи або виключений з неї. "
 "Ці коди застосовуються до всіх шкіл у всій системі."
 
-#: Help_en.php:445
+#: Help_en.php:450
 msgid ""
 "The \"Rollover default\" column sets the code used by the Rollover program "
 "when enrolling students in the next school year. There must be exactly one "
@@ -1905,7 +1921,7 @@ msgstr ""
 "навчальний рік. Повинен бути тільки один код для перенесення за "
 "замовчуванням (типу «Додати»)."
 
-#: Help_en.php:447
+#: Help_en.php:452
 msgid ""
 "To add an enrollment code, fill in the enrollment code's title, short name, "
 "and type in the empty fields at the bottom of the enrollment codes list. "
@@ -1915,7 +1931,7 @@ msgstr ""
 "введіть його в порожні поля внизу списку кодів зарахування. Натисніть кнопку "
 "«Зберегти»."
 
-#: Help_en.php:449
+#: Help_en.php:454
 msgid ""
 "To modify an enrollment code, click on any of the enrollment code's "
 "information, change the value, and click the \"Save\" button."
@@ -1923,7 +1939,7 @@ msgstr ""
 "Щоб змінити код зарахування, натисніть будь-яку інформацію про цей код, "
 "змініть значення та натисніть кнопку «Зберегти»."
 
-#: Help_en.php:451
+#: Help_en.php:456
 msgid ""
 "To delete an enrollment code, click the delete icon (-) next to the "
 "enrollment code you want to delete. You will be asked to confirm the "
@@ -1932,7 +1948,7 @@ msgstr ""
 "Щоб видалити код зарахування, торкніться значка видалення (-) поруч із "
 "кодом, який потрібно видалити. Вам буде запропоновано підтвердити видалення."
 
-#: Help_en.php:456
+#: Help_en.php:461
 msgid ""
 "<i>General Information</i> is a display of a student's fundamental "
 "information. This includes birth date, social security number, ethnicity, "
@@ -1942,21 +1958,21 @@ msgstr ""
 "входять: дата народження, номер соціального страхування, етнічна "
 "приналежність, стать, місце народження та клас."
 
-#: Help_en.php:460
+#: Help_en.php:465
 msgid "A student can have any number of addresses."
 msgstr "Учень може мати будь-яку кількість адрес."
 
-#: Help_en.php:462
+#: Help_en.php:467
 msgid "<i>Enrollment</i> is a display of the student's enrollment history."
 msgstr "<i>Зарахування</i> - тут відображається історія зарахування учня."
 
-#: Help_en.php:464
+#: Help_en.php:469
 msgid ""
 "<i>Registration</i> will let you register your child's contacts details."
 msgstr ""
 "<i>Реєстрація</i> дозволить вам зареєструвати контактні дані вашої дитини."
 
-#: Help_en.php:466
+#: Help_en.php:471
 msgid ""
 "Fill in the form fields with your contacts details and their associated "
 "addresses. Then, enter or update the student information."
@@ -1964,13 +1980,13 @@ msgstr ""
 "Заповніть поля форми своїми контактними даними та відповідними адресами. "
 "Потім введіть або оновіть інформацію про учня."
 
-#: Help_en.php:468
+#: Help_en.php:473
 msgid ""
 "Once you have completed the forms, click the \"Save\" button at the bottom "
 "of the screen."
 msgstr "Після заповнення форм натисніть кнопку «Зберегти» внизу сторінки."
 
-#: Help_en.php:475
+#: Help_en.php:480
 msgid ""
 "<i>General Information</i> is a display of a user's fundamental information. "
 "This includes his name, username, password, profile, school, email address, "
@@ -1988,7 +2004,7 @@ msgstr ""
 "сторінки. ви можете видалити користувача, натиснувши на кнопку «Видалити» у "
 "верхній частині сторінки та підтвердивши свою дію."
 
-#: Help_en.php:477
+#: Help_en.php:482
 msgid ""
 "Note: you cannot delete a user, for example a teacher, once they are "
 "assigned to a course; or a parent, once they are associated to a student."
@@ -1996,7 +2012,7 @@ msgstr ""
 "Примітка: ви не можете видалити користувача, наприклад вчителя, якщо він "
 "призначений на курс, або батька, якщо він пов'язаний з учнем."
 
-#: Help_en.php:479
+#: Help_en.php:484
 msgid ""
 "<i>Add a User</i> allows you to add a user to the system. This includes "
 "administrators, teachers, and parents. Simply fill in the new user's name, "
@@ -2008,13 +2024,13 @@ msgstr ""
 "користувача, псевдонім, пароль, роль, школу, адресу електронної пошти та "
 "номер телефону. Натисніть кнопку «Зберегти»."
 
-#: Help_en.php:481
+#: Help_en.php:486
 msgid ""
 "<i>Associate Students with Parents</i> allows you to associate students to "
 "parents."
 msgstr "<i>Зв'язати учнів з батьками</i>. Тут можна зв'язати учнів з батьками."
 
-#: Help_en.php:483
+#: Help_en.php:488
 msgid ""
 "Once a parent's account has been set up, their children must be associated "
 "to their account with this program. If you have not already chosen a user "
@@ -2035,7 +2051,7 @@ msgstr ""
 "з цього списку, натисніть кнопку «Додати вибраних учнів» у верхній частині "
 "сторінки."
 
-#: Help_en.php:485
+#: Help_en.php:490
 msgid ""
 "At any time after a user has been selected, you can see the students already "
 "associated with that user. These students are listed to the top of the "
@@ -2049,7 +2065,7 @@ msgstr ""
 "користувача, натиснувши на піктограму видалення (-) поруч із учнем, якого ви "
 "хочете відключити від користувача. Вам буде запропоновано підтвердити цю дію."
 
-#: Help_en.php:487
+#: Help_en.php:492
 msgid ""
 "<i>My Preferences</i> will let you personalize RosarioSIS to meet your own "
 "needs. You can also change your password, and setup RosarioSIS to show data "
@@ -2059,11 +2075,11 @@ msgstr ""
 "ваших власних потреб. ви також можете змінити свій пароль і налаштувати "
 "RosarioSIS для відображення даних, важливих для вашої роботи."
 
-#: Help_en.php:489
+#: Help_en.php:494
 msgid "Display Options tab"
 msgstr "Вкладка Параметри відображення"
 
-#: Help_en.php:491
+#: Help_en.php:496
 msgid ""
 "It allows you to select your preferred RosarioSIS theme. You can change the "
 "theme (overall color scheme) or within a particular theme, the Highlight "
@@ -2081,11 +2097,11 @@ msgstr ""
 "наприклад, про пропуски занять вчителями, рекомендації з нових дисциплін і "
 "про баланс в їдальні."
 
-#: Help_en.php:493
+#: Help_en.php:498
 msgid "Student Listing tab"
 msgstr "Вкладка зі списком учнів"
 
-#: Help_en.php:495
+#: Help_en.php:500
 msgid ""
 "\"Student Sorting\" lets you choose to have the students in listings listed "
 "by just their \"Name\" or by their Grade Level and Name. \"File Export "
@@ -2104,11 +2120,11 @@ msgstr ""
 "«Відображати екран пошуку учнів» повинен залишатися встановленим, якщо не "
 "вказано інше."
 
-#: Help_en.php:497
+#: Help_en.php:502
 msgid "Password tab"
 msgstr "Вкладка Пароль"
 
-#: Help_en.php:499
+#: Help_en.php:504
 msgid ""
 "It will help you change your password. Simply enter your current password in "
 "the first text field, and your new password in the next two text fields. "
@@ -2118,11 +2134,11 @@ msgstr ""
 "текстове поле, а новий пароль - у наступні два текстові поля. Нарешті, "
 "натисніть «Зберегти»."
 
-#: Help_en.php:501
+#: Help_en.php:506
 msgid "Student Fields tab"
 msgstr "Вкладка «Поля для учнів»"
 
-#: Help_en.php:503
+#: Help_en.php:508
 msgid ""
 "The two columns on the right side of the page lets you choose data fields to "
 "show on either the \"Find a Student\" Page or when you click \"Expanded "
@@ -2143,7 +2159,7 @@ msgstr ""
 "поля так часто, як забажаєте, налаштовуючи сторінку пошуку та звіт про "
 "Розширений перегляд."
 
-#: Help_en.php:505
+#: Help_en.php:510
 msgid ""
 "<i>User Profiles</i> helps you configure how the users access to the "
 "information, and if they can modify it."
@@ -2151,7 +2167,7 @@ msgstr ""
 "<i>Ролі користувачів</i> допомагають вам налаштувати спосіб доступу "
 "користувачів до інформації та можливість її зміни."
 
-#: Help_en.php:507
+#: Help_en.php:512
 msgid ""
 "RosarioSIS comes with four groups as profiles: Administrator, Teacher, "
 "Parent & Student. The Administrator Profile has the most permissions, and "
@@ -2167,7 +2183,7 @@ msgstr ""
 "можуть переглядати лише інформацію про своїх дітей, а учні можуть "
 "переглядати лише свою особисту інформацію."
 
-#: Help_en.php:509
+#: Help_en.php:514
 msgid ""
 "If you click on one of the Profiles, you will see the Permissions Page. This "
 "page shows to which page(s) the profile has access to READ (Can Use) or to "
@@ -2177,7 +2193,7 @@ msgstr ""
 "показано, до яких сторінок роль має доступ для читання (використання) або "
 "запису (редагування) інформації на цій конкретній сторінці."
 
-#: Help_en.php:511
+#: Help_en.php:516
 msgid ""
 "When you uncheck \"Can Edit\", the users belonging to the profile will see "
 "the program in the menu and will see data on the page when clicking on it. "
@@ -2193,11 +2209,11 @@ msgstr ""
 "належать до цієї ролі, не бачитимуть розділ в меню ліворуч і не зможуть "
 "отримати до нього доступ."
 
-#: Help_en.php:513
+#: Help_en.php:518
 msgid "Administrator Profile"
 msgstr "Роль адміністратора"
 
-#: Help_en.php:515
+#: Help_en.php:520
 msgid ""
 "Administrators have access to almost all pages, to read or to write "
 "information on that page. By default, they cannot see the \"Comments\" tab "
@@ -2208,7 +2224,7 @@ msgstr ""
 "«Коментарі» в розділі з інформацією про учнів, але можуть отримувати доступ "
 "до всіх інших сторінок і змінювати їх."
 
-#: Help_en.php:517
+#: Help_en.php:522
 msgid ""
 "You can restrict the User Profile edition if you uncheck the <i>Users > User "
 "Info > General Info > User Profile</i> checkbox. Administrators will then "
@@ -2219,7 +2235,7 @@ msgstr ""
 "користувача. У цьому випадку адміністратори втратять можливість призначати "
 "ролі користувачів (і дозволи)."
 
-#: Help_en.php:519
+#: Help_en.php:524
 msgid ""
 "You can restrict the User Schools edition if you uncheck the <i>Users > User "
 "Info > General Info > Schools</i> checkbox. Administrators will then loose "
@@ -2230,11 +2246,11 @@ msgstr ""
 "i>. Після цього адміністратори втратять можливість додавати або видаляти "
 "школи для/від користувача."
 
-#: Help_en.php:521
+#: Help_en.php:526
 msgid "Teacher Profile"
 msgstr "Роль вчителя"
 
-#: Help_en.php:523
+#: Help_en.php:528
 msgid ""
 "Teachers have the permission to access a more limited set of pages within "
 "RosarioSIS, and their ability to edit those pages is more restricted. By "
@@ -2246,11 +2262,11 @@ msgstr ""
 "замовчуванням вчителі не можуть змінювати будь-які дані про учня, ЗА "
 "ВИНЯТКОМ вкладки коментарів."
 
-#: Help_en.php:525
+#: Help_en.php:530
 msgid "Parent Profile"
 msgstr "Роль батьків"
 
-#: Help_en.php:527
+#: Help_en.php:532
 msgid ""
 "Parents are even more limited. Parents only have access to information that "
 "is specifically of interest to them, the student's demographic information, "
@@ -2260,11 +2276,11 @@ msgstr ""
 "представляє особливий інтерес для них: інформації про учня, його "
 "відвідуваності й оцінках."
 
-#: Help_en.php:529
+#: Help_en.php:534
 msgid "Add a User Profile"
 msgstr "Додавання ролі користувача"
 
-#: Help_en.php:531
+#: Help_en.php:536
 msgid ""
 "For security reasons, it is recommended to add an \"admin\" profile to "
 "\"Administrator\" in order to limit the permissions of administrators. It "
@@ -2280,7 +2296,7 @@ msgstr ""
 "змін до конфігурації невідомими користувачами може стати джерелом проблем "
 "або збоїв в роботі."
 
-#: Help_en.php:533
+#: Help_en.php:538
 msgid ""
 "To add a new Profile, type its name in the \"Title\" text box and then "
 "select its \"Type\" of profile. Finally, click the \"Save\" button in the "
@@ -2290,11 +2306,11 @@ msgstr ""
 "виберіть «Тип» ролі. Нарешті, натисніть кнопку «Зберегти» у верхній частині "
 "сторінки."
 
-#: Help_en.php:535
+#: Help_en.php:540
 msgid "Setting Permissions"
 msgstr "Налаштування дозволів"
 
-#: Help_en.php:537
+#: Help_en.php:542
 msgid ""
 "To configure the permissions your users should have, it is a good practice "
 "to login with a test user belonging to the profile and figure out what can "
@@ -2304,7 +2320,7 @@ msgstr ""
 "увійти під іменем тестового користувача, що належить до ролі, і з'ясувати, "
 "до чого можна отримати доступ. Чим менше, тим краще!"
 
-#: Help_en.php:539
+#: Help_en.php:544
 msgid ""
 "<i>User Permissions</i> allows you to deny access and/or write privileges to "
 "any program for any user."
@@ -2312,7 +2328,7 @@ msgstr ""
 "<i>Дозволи користувача</i>. Тут можна заборонити доступ і/або права на запис "
 "в будь-якому розділі для будь-якого користувача."
 
-#: Help_en.php:541
+#: Help_en.php:546
 msgid ""
 "To assign privileges to a user, first select a user by searching and "
 "clicking on his name on the list. Then, use the checkboxes to define which "
@@ -2333,7 +2349,7 @@ msgstr ""
 "їх. Після того, як ви встановили прапорці в розділі, натисніть кнопку "
 "«Зберегти», щоб зберегти права користувача."
 
-#: Help_en.php:543
+#: Help_en.php:548
 msgid ""
 "<i>User Fields</i> allows you to add new fields and tabs to the User Info "
 "screen."
@@ -2341,11 +2357,11 @@ msgstr ""
 "<i>Поля користувача</i>. Тут можна додавати нові поля і вкладки на сторінку "
 "інформації про користувача."
 
-#: Help_en.php:545
+#: Help_en.php:550
 msgid "User Field Categories"
 msgstr "Категорії полів користувача"
 
-#: Help_en.php:547
+#: Help_en.php:552
 msgid ""
 "RosarioSIS allows you to add custom categories that will take the form of "
 "new \"Tabs\" of User Fields in the Users > User Info program. To create a "
@@ -2357,7 +2373,7 @@ msgstr ""
 "Інформація про користувача. Щоб створити нову категорію або «вкладку», "
 "просто натисніть на значок « + » під існуючими категоріями."
 
-#: Help_en.php:551
+#: Help_en.php:556
 msgid ""
 "You can now type in the name of the new Category in the \"Title\" field(s) "
 "provided. Add a sort order (order in which the tabs will appear in the User "
@@ -2369,7 +2385,7 @@ msgstr ""
 "користувача) та кількість стовпців, які відображатимуться на вкладці "
 "(необов'язково). Закінчивши, натисніть «Зберегти»."
 
-#: Help_en.php:555
+#: Help_en.php:560
 msgid ""
 "Click on the \"+\" icon below the \"No User Fields were found\" text. Fill "
 "in the Field Name field(s), and then choose what type of field you wish with "
@@ -2379,7 +2395,7 @@ msgstr ""
 "знайдені. Заповніть поля з назвами цих полів, а потім виберіть потрібний тип "
 "полів у спадному списку «Тип даних»."
 
-#: Help_en.php:570
+#: Help_en.php:575
 msgid ""
 "The \"Sort Order\" determines the order in which the fields will be "
 "displayed in the User Info tab."
@@ -2387,7 +2403,7 @@ msgstr ""
 "«Порядок сортування» визначає порядок, в якому поля будуть відображатися на "
 "вкладці з інформацією про користувача."
 
-#: Help_en.php:574
+#: Help_en.php:579
 msgid ""
 "You can delete any User field or Category simply by clicking on the "
 "\"Delete\" button in the upper right corner. Please note that you will lose "
@@ -2397,7 +2413,7 @@ msgstr ""
 "натиснувши кнопку «Видалити» у верхньому правому куті. Зверніть увагу, що ви "
 "втратите всі свої дані, якщо видалите вже використовуване поле або категорію."
 
-#: Help_en.php:576
+#: Help_en.php:581
 msgid ""
 "<i>Teacher Programs: Input Final Grades</i> allows you to enter quarter, "
 "semester or progress period grades for all the selected teacher's students "
@@ -2419,7 +2435,7 @@ msgstr ""
 "за допомогою меню періодів навчання у верхній частині сторінки на бажаний "
 "період."
 
-#: Help_en.php:578 Help_en.php:910
+#: Help_en.php:583 Help_en.php:915
 msgid ""
 "Once you are in the correct marking period, you can enter student grades by "
 "selecting the earned grade for each student and entering comments as "
@@ -2431,7 +2447,7 @@ msgstr ""
 "введення всіх оцінок та коментарів натисніть кнопку «Зберегти» у верхній "
 "частині сторінки."
 
-#: Help_en.php:580
+#: Help_en.php:585
 msgid ""
 "If the selected teacher is using the Gradebook, you can have RosarioSIS "
 "calculate each student's quarter grades by clicking on the \"Get Gradebook "
@@ -2444,7 +2460,7 @@ msgstr ""
 "натисканні на це посилання оцінки кожного учня будуть автоматично збережені "
 "список оновиться."
 
-#: Help_en.php:582 Help_en.php:914
+#: Help_en.php:587 Help_en.php:919
 msgid ""
 "If the marking period you are in is a Progress Period, when clicking on the "
 "\"Get Gradebook Grades\" link, the gades taken in account will be limited to "
@@ -2456,7 +2472,7 @@ msgstr ""
 "будуть обмежені тими, термін виконання яких входить в період успішності, або "
 "тими, у яких немає термінів виконання."
 
-#: Help_en.php:584
+#: Help_en.php:589
 msgid ""
 "<i>Teacher Programs: Gradebook Grades</i> allows you to consult and modify "
 "any grade of the students gradebooks. You can select the teachers classes "
@@ -2478,7 +2494,7 @@ msgstr ""
 "у верхній частині списку оцінок. Меню «Підсумки» дозволяє вибрати конкретне "
 "завдання або «загальну кількість» всіх завдань."
 
-#: Help_en.php:586
+#: Help_en.php:591
 msgid ""
 "<i>Teacher Programs: Anomalous Grades</i> is a report that helps a teacher "
 "to keep track of missing, inappropriate and excused grades. The grades "
@@ -2494,7 +2510,7 @@ msgstr ""
 "та негативні оцінки, а також оцінки, які є додатковими або перевищують 100%. "
 "У стовпці «Проблема» вказується причина, по якій оцінка є аномальною."
 
-#: Help_en.php:588
+#: Help_en.php:593
 msgid ""
 "You can select the teachers classes using the course period pull-down in the "
 "upper left corner of the page. You can also select which type of "
@@ -2504,7 +2520,7 @@ msgstr ""
 "періодів проходження курсу у верхньому лівому куті сторінки. ви також можете "
 "вибрати, які саме «аномальні» оцінки ви хочете відобразити у звіті."
 
-#: Help_en.php:590
+#: Help_en.php:595
 msgid ""
 "<i>Teacher Programs: Progress Reports</i> lets you generate Progress Reports "
 "of the students for the current Marking Period, on behalf of a teacher."
@@ -2512,7 +2528,7 @@ msgstr ""
 "<i>Розділи для вчителів: Звіти про успішність</i> дозволяє від імені вчителя "
 "створювати звіти про успішність учнів за поточний період навчання."
 
-#: Help_en.php:592 Help_en.php:975
+#: Help_en.php:597 Help_en.php:980
 msgid ""
 "When teachers have created assignments and entered gradebook grades, a "
 "progress report can be generated."
@@ -2520,7 +2536,7 @@ msgstr ""
 "Коли вчителі створили завдання і ввели оцінки в журнал успішності, можна "
 "створити звіт про успішність."
 
-#: Help_en.php:594
+#: Help_en.php:599
 msgid ""
 "Once you have selected a Teacher and are in the correct period, search the "
 "students and click Submit to get a list of students scheduled with the "
@@ -2532,7 +2548,7 @@ msgstr ""
 "вчителем. ви можете змінити поточний період, вибравши у спадному меню "
 "\"період\" у верхній частині сторінки потрібний період."
 
-#: Help_en.php:598 Help_en.php:828 Help_en.php:958
+#: Help_en.php:603 Help_en.php:833 Help_en.php:963
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -2542,7 +2558,7 @@ msgstr ""
 "вибрати всіх учнів у списку, встановивши прапорець у заголовках стовпців над "
 "списком."
 
-#: Help_en.php:600 Help_en.php:960 Help_en.php:977
+#: Help_en.php:605 Help_en.php:965 Help_en.php:982
 msgid ""
 "Check desired options to appear on the report. Checking \"Assigned Date\" "
 "will display the Assignment's Assigned Date . Checking \"Due Date\" will "
@@ -2560,7 +2576,7 @@ msgstr ""
 "згрупуєте завдання за категоріями та відобразите загальну кількість балів та "
 "вагу для кожної категорії."
 
-#: Help_en.php:602 Help_en.php:962 Help_en.php:979
+#: Help_en.php:607 Help_en.php:967 Help_en.php:984
 msgid ""
 "The progress reports will be automatically downloaded to your computer in "
 "the printable PDF format when you click the \"Create Progress Reports for "
@@ -2570,7 +2586,7 @@ msgstr ""
 "форматі PDF для друку, коли ви натиснете кнопку «Створити звіти про "
 "успішність для обраних учнів»."
 
-#: Help_en.php:604
+#: Help_en.php:609
 msgid ""
 "<i>Teacher Programs: Take Attendance</i> allows you to enter period "
 "attendance for all the selected teacher's students. By default, this program "
@@ -2584,7 +2600,7 @@ msgstr ""
 "перший урок обраного вчителя. ви можете змінити поточний період, вибравши з "
 "меню у верхній частині сторінки потрібний період."
 
-#: Help_en.php:606
+#: Help_en.php:611
 msgid ""
 "Once you are in the correct period, you can enter attendance by selecting "
 "the attendance code corresponding to each student. Once you have entered "
@@ -2596,7 +2612,7 @@ msgstr ""
 "відвідуваність для всіх учнів натисніть кнопку «Зберегти» у верхній частині "
 "сторінки."
 
-#: Help_en.php:608
+#: Help_en.php:613
 msgid ""
 "<i>Teacher Programs: Enter Eligibility</i> allows you to enter eligibility "
 "grades for all the selected teacher's students. By default, this program "
@@ -2609,7 +2625,7 @@ msgstr ""
 "учні з першого класу обраного вчителя. ви можете змінити поточний період, "
 "вибравши в випадаючому меню в лівій рамці потрібний період."
 
-#: Help_en.php:610
+#: Help_en.php:615
 msgid ""
 "Once you are in the correct period, you can enter eligibility grades by "
 "selecting the eligibility code corresponding to each student. Once you have "
@@ -2621,7 +2637,7 @@ msgstr ""
 "введення допусків для всіх учнів натисніть кнопку «Зберегти» у верхній "
 "частині сторінки."
 
-#: Help_en.php:612
+#: Help_en.php:617
 msgid ""
 "If the selected teacher is using the Gradebook, you can have RosarioSIS "
 "calculate each student's eligibility grades by clicking on the \"Use "
@@ -2634,7 +2650,7 @@ msgstr ""
 "посилання оцінки кожного учня будуть автоматично збережені й список "
 "оновиться."
 
-#: Help_en.php:614 Help_en.php:1152
+#: Help_en.php:619 Help_en.php:1157
 msgid ""
 "You must enter eligibility each week during the timeframe specified by your "
 "school's administration."
@@ -2642,12 +2658,12 @@ msgstr ""
 "Вам необхідно вказувати допуски щотижня протягом періоду, визначеного "
 "адміністрацією вашої школи."
 
-#: Help_en.php:621
+#: Help_en.php:626
 msgid ""
 "<i>Student Schedule</i> allows you to modify a student's course schedule."
 msgstr "<i>Розклад занять</i> дозволяє змінювати розклад занять учня."
 
-#: Help_en.php:623
+#: Help_en.php:628
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen. You can search for students who have requested a specific course or "
@@ -2660,7 +2676,7 @@ msgstr ""
 "натиснувши посилання «Вибрати» поруч із параметрами пошуку «Курс» та «Запит» "
 "відповідно та вибравши курс у спливаючому вікні, що з'явиться."
 
-#: Help_en.php:625
+#: Help_en.php:630
 msgid ""
 "To add a course to the student's schedule, click on the \"Add a Course\" "
 "link next to the add icon (+) and select a course from the popup window that "
@@ -2670,7 +2686,7 @@ msgstr ""
 "із піктограмою додавання (+) і виберіть курс у спливаючому вікні, що "
 "з'явиться. Сторінка автоматично оновиться, щоб відобразити додавання курсу."
 
-#: Help_en.php:627
+#: Help_en.php:632
 msgid ""
 "To drop an existing course, select the \"Dropped\" date next to the course "
 "you want to drop from the student's schedule. If you select a \"Dropped\" "
@@ -2683,7 +2699,7 @@ msgstr ""
 "дату до дати \"зарахування\", курс буде видалено, і вам буде запропоновано "
 "підтвердити видалення відповідних записів про пропуски та оцінки."
 
-#: Help_en.php:629
+#: Help_en.php:634
 msgid ""
 "To change the course period of a course for the student, click on the "
 "\"Period - Teacher\" of the course you want to change and select the new "
@@ -2693,7 +2709,7 @@ msgstr ""
 "Вчитель\" курсу, який ви хочете змінити, і виберіть новий період навчання. "
 "ви також можете змінити семестр таким же чином."
 
-#: Help_en.php:631
+#: Help_en.php:636
 msgid ""
 "All deletions, and modifications to a student's schedule are not made "
 "permanent until you click the \"Save\" button at the top of the screen."
@@ -2701,7 +2717,7 @@ msgstr ""
 "Усі видалення та зміни в розкладі учня не враховуються, доки ви не натиснете "
 "кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:633
+#: Help_en.php:638
 msgid ""
 "<i>Student Requests</i> allows you to specify which courses a student "
 "intends to take in the next school year. These requests are used by the "
@@ -2711,7 +2727,7 @@ msgstr ""
 "відвідувати в наступному навчальному році. Ці запити використовуються "
 "планувальником при заповненні розкладу учня."
 
-#: Help_en.php:635
+#: Help_en.php:640
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen. You can search for students who have requested a specific request by "
@@ -2723,7 +2739,7 @@ msgstr ""
 "\"Вибрати\" поруч із параметром пошуку \"Запит\" та вибравши курс у "
 "спливаючому вікні, що з'явиться."
 
-#: Help_en.php:637
+#: Help_en.php:642
 msgid ""
 "You can add a request by selecting the course you want to add from under the "
 "corresponding subject heading. You can add requests from each subject in the "
@@ -2741,7 +2757,7 @@ msgstr ""
 "Після того, як ви додасте всі потрібні запити, натисніть кнопку «Зберегти» у "
 "верхній частині сторінки."
 
-#: Help_en.php:642
+#: Help_en.php:647
 msgid ""
 "Furthermore, when you have saved the student's requests, you will have the "
 "option to specify a teacher or period and to exclude a teacher or period. To "
@@ -2756,7 +2772,7 @@ msgstr ""
 "всіх необхідних змін натисніть кнопку «Зберегти». ви також можете видалити "
 "введений запит, натиснувши на значок видалення (-)."
 
-#: Help_en.php:644
+#: Help_en.php:649
 msgid ""
 "<i>Group Schedule</i> allows you to schedule a group of students into one or "
 "more courses in one action."
@@ -2764,7 +2780,7 @@ msgstr ""
 "<i>Розклад групи</i> дозволяє запланувати розклад для групи учнів на один "
 "або кілька курсів за одну дію."
 
-#: Help_en.php:646 Help_en.php:668 Help_en.php:724
+#: Help_en.php:651 Help_en.php:673 Help_en.php:729
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a "
 "Student\" search screen. You can search for students who have requested a "
@@ -2777,7 +2793,7 @@ msgstr ""
 "вимогу, натиснувши посилання «Вибрати» поруч із параметрами пошуку «Курс» та "
 "«Запит» відповідно та вибравши курс у спливаючому вікні, що з'явиться."
 
-#: Help_en.php:648
+#: Help_en.php:653
 msgid ""
 "Select a course period to add by clicking the \"Choose a Course\" link at "
 "the top of the screen and choosing the course from the popup screen that "
@@ -2789,13 +2805,13 @@ msgstr ""
 "спливаючому вікні, що з'явиться. Вікно закриється, і на сторінці буде "
 "відображено період курсу."
 
-#: Help_en.php:650
+#: Help_en.php:655
 msgid "Repeat the last step to select and add another course period."
 msgstr ""
 "Повторіть останній крок, щоб вибрати та додати ще один період проходження "
 "курсу."
 
-#: Help_en.php:652
+#: Help_en.php:657
 msgid ""
 "Then, select the proper \"Start Date\" (the date that the students will "
 "first attend this course period), and the appropriate \"Marking Period\"."
@@ -2804,7 +2820,7 @@ msgstr ""
 "відвідуватимуть цей період проходження курсу) та відповідний «Період "
 "навчання»."
 
-#: Help_en.php:654
+#: Help_en.php:659
 msgid ""
 "From the search result, you can select any number of students. To select all "
 "the students in the list, check the checkbox in the column headings above "
@@ -2816,14 +2832,14 @@ msgstr ""
 "Вибравши кожного бажаного учня з цього списку, натисніть кнопку «Додати "
 "курси для вибраних учнів» у верхній частині сторінки."
 
-#: Help_en.php:656
+#: Help_en.php:661
 msgid ""
 "<i>Group Requests</i> allows you to add a request to a group of students in "
 "one action."
 msgstr ""
 "<i>Запити групи</i> дозволяє вам додати запит до групи учнів за одну дію."
 
-#: Help_en.php:658
+#: Help_en.php:663
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a "
 "Student\" search screen. You can search for students who have requested a "
@@ -2843,7 +2859,7 @@ msgstr ""
 "просили хімію. Або ви можете додати запит на фізкультурний курс для всіх "
 "учнів у секції з баскетболу."
 
-#: Help_en.php:660
+#: Help_en.php:665
 msgid ""
 "Select a course to add as a request by clicking the \"Choose a Course\" link "
 "at the top of the screen and choosing the course from the popup screen that "
@@ -2853,13 +2869,13 @@ msgstr ""
 "курс» у верхній частині сторінки та вибравши курс у спливаючому вікні, що "
 "з'явиться."
 
-#: Help_en.php:662
+#: Help_en.php:667
 msgid ""
 "Then, select the proper \"With\" or \"Without\" Teacher, and the correct "
 "Period."
 msgstr "Потім виберіть відповідного вчителя «З» або «Без» і правильний період."
 
-#: Help_en.php:664
+#: Help_en.php:669
 msgid ""
 "From the search result, you can select any number of students. To select all "
 "the students in the list, check the checkbox in column headings above the "
@@ -2875,7 +2891,7 @@ msgstr ""
 "курс, який потрібно додати як запит, ви повинні зробити це перед натисканням "
 "цієї кнопки."
 
-#: Help_en.php:666
+#: Help_en.php:671
 msgid ""
 "<i>Group Drops</i> allows you to drop a course for a group of students in "
 "one action."
@@ -2883,7 +2899,7 @@ msgstr ""
 "<i>Відмова групи</i> дозволяє вам відмовитися від курсу для групи учнів за "
 "одну дію."
 
-#: Help_en.php:670
+#: Help_en.php:675
 msgid ""
 "Select a course period to drop by clicking the \"Choose a Course\" link at "
 "the top of the screen and choosing the course from the popup screen that "
@@ -2894,7 +2910,7 @@ msgstr ""
 "сторінки та вибравши курс у спливаючому вікні, що з'явиться. Вікно "
 "закриється, і на сторінці буде відображено період проходження курсу."
 
-#: Help_en.php:672
+#: Help_en.php:677
 msgid ""
 "Then, select the proper \"Drop Date\" (the date that the students will drop "
 "this course period), and the appropriate \"Marking Period\"."
@@ -2902,7 +2918,7 @@ msgstr ""
 "Потім виберіть відповідну «Дату припинення» (дату, коли учні припинять "
 "навчання в цьому періоді проходження курсу) і відповідний «Період навчання»."
 
-#: Help_en.php:674
+#: Help_en.php:679
 msgid ""
 "From the search result, you can select any number of students. To select all "
 "the students in the list, check the checkbox in the column headings above "
@@ -2914,7 +2930,7 @@ msgstr ""
 "Вибравши кожного бажаного учня з цього списку, натисніть кнопку «Скасувати "
 "курс для обраних учнів» у верхній частині сторінки."
 
-#: Help_en.php:676
+#: Help_en.php:681
 msgid ""
 "<i>Print Schedules</i> is a utility that allows you to print schedules for "
 "any number of students."
@@ -2922,7 +2938,7 @@ msgstr ""
 "<i>Друк розкладів</i> - це утиліта, яка дозволяє друкувати розклади для будь-"
 "якої кількості учнів."
 
-#: Help_en.php:678
+#: Help_en.php:683
 msgid ""
 "You can search for students who requested or are enrolled in a specific "
 "course by clicking the \"Choose\" link next to the \"Request\" and "
@@ -2933,7 +2949,7 @@ msgstr ""
 "натиснувши посилання «Вибрати» поруч із параметрами пошуку «Запит» та «Курс» "
 "відповідно та вибравши курс у спливаючому вікні, що з'явиться."
 
-#: Help_en.php:680
+#: Help_en.php:685
 msgid ""
 "Also, you can choose to print the schedules with mailing labels. The "
 "schedules will have mailing labels positioned in such a way as to be visible "
@@ -2947,7 +2963,7 @@ msgstr ""
 "може бути надруковано більше одного розкладу, якщо учень має опікунів, які "
 "проживають за кількома адресами."
 
-#: Help_en.php:682
+#: Help_en.php:687
 msgid ""
 "The schedules will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Create Schedules for Selected "
@@ -2956,7 +2972,7 @@ msgstr ""
 "Розклад буде автоматично завантажено на ваш комп'ютер у форматі PDF для "
 "друку, коли ви натиснете кнопку «Створити розклад для обраних учнів»."
 
-#: Help_en.php:684
+#: Help_en.php:689
 msgid ""
 "<i>Print Class Lists</i> will allow you to print a report of students in "
 "classes. You can narrow the classes by either the Teacher or Subject or "
@@ -2966,11 +2982,11 @@ msgstr ""
 "занять учнями. ви можете звузити список занять за вчителем, предметом або "
 "періодом проходження курсу."
 
-#: Help_en.php:686
+#: Help_en.php:691
 msgid "First, select the Classes"
 msgstr "Спочатку виберіть заняття"
 
-#: Help_en.php:688
+#: Help_en.php:693
 msgid ""
 "Selecting a \"Teacher\" will show all the classes for that one teacher. "
 "Selecting a \"Subject\" will show the classes for that one subject. "
@@ -2983,7 +2999,7 @@ msgstr ""
 "показані всі заняття для цього окремого періоду. Вибравши \"Курс\" "
 "посиланням «Вибрати», ви побачите період проходження курсу з одним вчителем."
 
-#: Help_en.php:690
+#: Help_en.php:695
 msgid ""
 "Then, on the left hand side of the page, check the columns you would like to "
 "see on the list. The fields, in the order you have selected them, will "
@@ -2993,7 +3009,7 @@ msgstr ""
 "списку. Поля в тому порядку, в якому ви їх вибрали, з'являться у списку у "
 "верхній частині сторінки."
 
-#: Help_en.php:692
+#: Help_en.php:697
 msgid ""
 "Finally, select the Classes to List on the report at the bottom of the page "
 "and click \"Create Class Lists for Selected Course Periods\"."
@@ -3001,7 +3017,7 @@ msgstr ""
 "Нарешті, виберіть заняття для відображення у звіті внизу сторінки та "
 "натисніть «Створити списки занять для вибраних періодів проходження курсу»."
 
-#: Help_en.php:694
+#: Help_en.php:699
 msgid ""
 "The Class Lists with the selected columns will be generated as a PDF "
 "document that can be printed or sent by email."
@@ -3009,7 +3025,7 @@ msgstr ""
 "Списки занять із вибраними стовпцями будуть створені як документ PDF, який "
 "можна роздрукувати або надіслати електронною поштою."
 
-#: Help_en.php:696
+#: Help_en.php:701
 msgid ""
 "<i>Print Requests</i> is a utility that allows you to print requests sheets "
 "for any number of students."
@@ -3017,7 +3033,7 @@ msgstr ""
 "<i>Друк запитів</i> - це утиліта, яка дозволяє друкувати аркуші запитів для "
 "будь-якої кількості учнів."
 
-#: Help_en.php:698
+#: Help_en.php:703
 msgid ""
 "You can search for students who requested a specific course by clicking the "
 "\"Choose\" link next to the \"Request\" search option and choosing a course "
@@ -3027,7 +3043,7 @@ msgstr ""
 "«Вибрати» поруч із параметром пошуку «Запит» та вибравши курс у спливаючому "
 "вікні, що з'явиться."
 
-#: Help_en.php:700
+#: Help_en.php:705
 msgid ""
 "Also, you can choose to print the requests sheets with mailing labels. The "
 "requests sheets will have mailing labels positioned in such a way as to be "
@@ -3041,7 +3057,7 @@ msgstr ""
 "Для кожного учня може бути роздруковано більше одного аркуша із запитами, "
 "якщо у учня є опікуни, які проживають за кількома адресами."
 
-#: Help_en.php:702
+#: Help_en.php:707
 msgid ""
 "The request sheets will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Submit\" button."
@@ -3049,7 +3065,7 @@ msgstr ""
 "Бланки запитів будуть автоматично завантажені на ваш комп'ютер у форматі PDF "
 "для друку, коли ви натиснете кнопку «Надіслати»."
 
-#: Help_en.php:704
+#: Help_en.php:709
 msgid ""
 "<i>Schedule Report</i> is a report that shows the students who are scheduled "
 "into each course, the students who requested the course but weren't "
@@ -3061,7 +3077,7 @@ msgstr ""
 "також кількість запитів, вільних місць і загальну кількість місць на кожному "
 "курсі."
 
-#: Help_en.php:706
+#: Help_en.php:711
 msgid ""
 "To navigate through this report, first click on any one of the subjects. You "
 "will now see each course in that subject as well as the number of requests "
@@ -3083,7 +3099,7 @@ msgstr ""
 "курс, але не були записані на нього, натиснувши посилання «Список учнів» та "
 "«Список незапланованих учнів» відповідно."
 
-#: Help_en.php:708
+#: Help_en.php:713
 msgid ""
 "At any point after selecting a subject, you can navigate backwards by "
 "clicking on the links that appear in the grey bar at the top of the screen."
@@ -3092,7 +3108,7 @@ msgstr ""
 "напрямку, перейшовши за посиланнями, які відображаються на сірій смузі у "
 "верхній частині сторінки."
 
-#: Help_en.php:710
+#: Help_en.php:715
 msgid ""
 "<i>Requests Report</i> is a report that shows the number of students who "
 "requested each course and the number of total seats in that course. The "
@@ -3102,7 +3118,7 @@ msgstr ""
 "кожен курс, і загальну кількість місць на цьому курсі. Курси згруповані за "
 "предметами."
 
-#: Help_en.php:712
+#: Help_en.php:717
 msgid ""
 "This report is useful for creating the master schedule since it helps you "
 "determine the number of course periods necessary for each course due to "
@@ -3112,7 +3128,7 @@ msgstr ""
 "визначити кількість періодів проходження курсу, необхідних для кожного "
 "курсу, залежно від попиту на курс."
 
-#: Help_en.php:714
+#: Help_en.php:719
 msgid ""
 "<i>Unfilled Requests</i> is a report of course requests unfilled for a group "
 "of students."
@@ -3120,7 +3136,7 @@ msgstr ""
 "<i>Незаповнені запити</i> - це звіт про незаповнені запити на курс для групи "
 "учнів."
 
-#: Help_en.php:716 Help_en.php:824
+#: Help_en.php:721 Help_en.php:829
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a "
 "Student\" search screen."
@@ -3128,7 +3144,7 @@ msgstr ""
 "Спочатку потрібно вибрати учня (групи) за допомогою сторінки пошуку «Знайти "
 "учня»."
 
-#: Help_en.php:718
+#: Help_en.php:723
 msgid ""
 "The report shows the student information along with the request unfilled "
 "details (teacher and period requested) and the number of sections or course "
@@ -3142,13 +3158,13 @@ msgstr ""
 "Програма курсів). ви також можете перевірити наявність вільних місць, "
 "встановивши прапорець «Показувати вільні місця» у верхній частині сторінки."
 
-#: Help_en.php:720
+#: Help_en.php:725
 msgid ""
 "Clicking on the student's name will redirect you to the Student Requests "
 "program."
 msgstr "Натиснувши на ім'я учня, ви перейдете до розділу «Запити учнів»."
 
-#: Help_en.php:722
+#: Help_en.php:727
 msgid ""
 "<i>Incomplete Schedules</i> is a report of students who have no class "
 "scheduled in a particular period."
@@ -3156,7 +3172,7 @@ msgstr ""
 "<i>Неповні розклади</i> - це звіт про учнів, у яких не заплановані заняття "
 "на певний період."
 
-#: Help_en.php:726
+#: Help_en.php:731
 msgid ""
 "Then, the students in the list are not scheduled in the periods "
 "corresponding to the columns where they have red \"X\" icons. If the period "
@@ -3170,7 +3186,7 @@ msgstr ""
 "Таким чином, червоний значок «X» вказує на вільний, незапланований період, "
 "який можна запланувати."
 
-#: Help_en.php:728
+#: Help_en.php:733
 msgid ""
 "<i>Add / Drop Report</i> is a report of students who have had classes added "
 "to, or dropped from, their schedule during the timeframe selected. You can "
@@ -3187,7 +3203,7 @@ msgstr ""
 "зарахування та виключення. ви можете експортувати звіт в електронну таблицю, "
 "натиснувши на значок «Завантажити»."
 
-#: Help_en.php:730
+#: Help_en.php:735
 msgid ""
 "<i>Courses</i> allows you to setup your school's courses. There are three "
 "tiers of courses: Subjects, Courses, and Course Periods."
@@ -3195,7 +3211,7 @@ msgstr ""
 "<i>Курси</i> дозволяє налаштувати навчальні курси у вашій школі. Існує три "
 "рівні курсів: предмети, курси та періоди проходження курсу."
 
-#: Help_en.php:732
+#: Help_en.php:737
 msgid ""
 "To add any of these three things, click on the Add icon (+) in the column "
 "corresponding to what you want to add. Then, fill in the information "
@@ -3206,7 +3222,7 @@ msgstr ""
 "стовпці, що відповідає тому, що ви хочете додати. Потім заповніть необхідну "
 "інформацію в полях над списком курсів і натисніть кнопку «Зберегти»."
 
-#: Help_en.php:734
+#: Help_en.php:739
 msgid ""
 "To change any of these three things, click on the item you want to change, "
 "and click on whatever value you want to change in the grey area above the "
@@ -3217,7 +3233,7 @@ msgstr ""
 "сірій області над списками. Потім змініть значення та натисніть кнопку "
 "«Зберегти»."
 
-#: Help_en.php:736
+#: Help_en.php:741
 msgid ""
 "Finally, to delete something, select it by clicking on its title on the list "
 "and click the \"Delete\" button at the top of the screen. You will be asked "
@@ -3227,11 +3243,11 @@ msgstr ""
 "натисніть кнопку «Видалити» у верхній частині сторінки. Вам буде "
 "запропоновано підтвердити видалення."
 
-#: Help_en.php:738
+#: Help_en.php:743
 msgid "Course"
 msgstr "Курс"
 
-#: Help_en.php:739
+#: Help_en.php:744
 msgid ""
 "<i>Description</i>: the description is optional. You can, for example, enter "
 "the course syllabus. By default, students and parents can browse the courses "
@@ -3241,7 +3257,7 @@ msgstr ""
 "програму курсу. За замовчуванням учні та батьки можуть переглядати список "
 "курсів і таким чином переглядати описи."
 
-#: Help_en.php:740
+#: Help_en.php:745
 msgid ""
 "<i>Credit Hours</i> (abbreviated \"C.H.\"), or the number of hours to "
 "complete the course; can be displayed on Transcripts. This field is optional."
@@ -3249,11 +3265,11 @@ msgstr ""
 "<i>Залікові години (скорочено «З. Г.») або кількість годин, необхідних для "
 "проходження курсу; може відображатися в протоколах. Це поле необов'язково."
 
-#: Help_en.php:744
+#: Help_en.php:749
 msgid "Course Period (or Class)"
 msgstr "Період проходження курсу (або заняття)"
 
-#: Help_en.php:745
+#: Help_en.php:750
 msgid ""
 "<i>Seats</i>: this field is optional. When set, you can check how many seats "
 "are available (based on the number of students enrolled in the class)."
@@ -3262,7 +3278,7 @@ msgstr ""
 "перевірити, скільки місць доступно (залежно від кількості учнів, які "
 "навчаються в класі)."
 
-#: Help_en.php:746
+#: Help_en.php:751
 msgid ""
 "<i>Period - Days</i>: you can add various Periods, each with their own Days. "
 "Click on the \"Add a Period\" link. To remove a Period, uncheck all Days and "
@@ -3275,7 +3291,7 @@ msgstr ""
 "проходження курсу повинен містити хоча б один період, інакше він не буде "
 "відображатися в лівому меню вчителя."
 
-#: Help_en.php:747
+#: Help_en.php:752
 msgid ""
 "<i>Calendar</i>: associate a Calendar. Students in the class should be "
 "associated to that same Calendar. Note: you can create various calendars "
@@ -3285,7 +3301,7 @@ msgstr ""
 "прив'язані до одного календаря. Примітка: ви можете створювати різні "
 "календарі, використовуючи розділ <i>Школа > Календарі</i>."
 
-#: Help_en.php:748
+#: Help_en.php:753
 msgid ""
 "<i>Grading Scale</i>: choose the \"Not Graded\" option if you do not wish to "
 "enter Final Grades for this class (the Gradebook will still be available). "
@@ -3297,7 +3313,7 @@ msgstr ""
 "доступний). Примітка: ви можете створювати різні шкали оцінок, "
 "використовуючи Розділ <i>Оцінки > Шкали оцінок</i>."
 
-#: Help_en.php:749
+#: Help_en.php:754
 msgid ""
 "<i>Allow Teacher Grade Scale</i>: when checked, the teacher will be able to "
 "define custom Breakoff values for the Grading Scale."
@@ -3305,7 +3321,7 @@ msgstr ""
 "<i>Дозволити шкалу оцінок вчителя</i>: якщо цей прапорець встановлено, "
 "вчитель зможе визначати свої власні порогові значення для шкали оцінок."
 
-#: Help_en.php:750
+#: Help_en.php:755
 msgid ""
 "<i>Credits</i> is both the <b>coefficient</b> used to weigh Final Grades in "
 "order to calculate the overall / cumulative GPA, and the Credits attempted "
@@ -3326,7 +3342,7 @@ msgstr ""
 "розподілите 4 заліки на повний навчальний рік і у вас буде 4 чверті, учні "
 "отримуватимуть по 1 заліку за кожну чверть."
 
-#: Help_en.php:751
+#: Help_en.php:756
 msgid ""
 "<i>Gender Restriction</i>: the <i>Run Scheduler</i>, <i>Student Schedule</i> "
 "(\"Unfilled Requests\" list) and <i>Requests Report</i> programs make use of "
@@ -3336,7 +3352,7 @@ msgstr ""
 "обмеження: <i>Запустити розклад</i>, <i>Розклад учня</i> (список "
 "«Незаповнені запити») і <i>Звіт про запити</i>."
 
-#: Help_en.php:752
+#: Help_en.php:757
 msgid ""
 "<i>Parent Course Period</i>: optionally choose a parent course period. The "
 "<i>Run Scheduler</i> program makes use of it."
@@ -3344,13 +3360,13 @@ msgstr ""
 "<i>Батьківський період проходження курсу</i>: при необхідності виберіть "
 "його. Використовується в розділі <i>Запуск планувальника</i>."
 
-#: Help_en.php:756
+#: Help_en.php:761
 msgid "Note: a course period cannot be deleted once it has students enrolled."
 msgstr ""
 "Примітка: період проходження курсу не може бути видалений після того, як на "
 "нього зараховані учні."
 
-#: Help_en.php:758
+#: Help_en.php:763
 msgid ""
 "<i>Run Scheduler</i> schedules every student at your school according to the "
 "requests entered for them."
@@ -3358,7 +3374,7 @@ msgstr ""
 "<i>Запуск планувальника</i> складіть розклад для кожного учня у вашій школі "
 "відповідно до введених для нього запитів."
 
-#: Help_en.php:760
+#: Help_en.php:765
 msgid ""
 "You first must confirm the Scheduler run. Here, you can also choose to run "
 "the scheduler in \"Test Mode\" which will not save the student schedules."
@@ -3366,7 +3382,7 @@ msgstr ""
 "Спочатку потрібно підтвердити запуск планувальника. Тут ви також можете "
 "запустити планувальник у «Тестовому режимі», який не збереже розклад учнів."
 
-#: Help_en.php:762
+#: Help_en.php:767
 msgid ""
 "Once the scheduler has run, which could take several minutes, it will notify "
 "you of any conflicts. The Scheduler output will also tell you if any course "
@@ -3382,15 +3398,15 @@ msgstr ""
 "щоб забезпечити повний графік. Як тільки розклад буде збережено, вам буде "
 "надана можливість переглянути звіт про розклад."
 
-#: Help_en.php:766
+#: Help_en.php:771
 msgid "<i>Schedule</i> is a display of the student's course schedule."
 msgstr "<i>Розклад</i> - це відображення розкладу занять учня."
 
-#: Help_en.php:773
+#: Help_en.php:778
 msgid "<i>Schedule</i> is a display of your child's course schedule."
 msgstr "<i>Розклад</i> - це відображення розкладу занять вашої дитини."
 
-#: Help_en.php:780
+#: Help_en.php:785
 msgid ""
 "<i>Report Cards</i> is a utility that allows you to print report cards for "
 "any number of students."
@@ -3398,7 +3414,7 @@ msgstr ""
 "<i>Табелі успішності</i> - це утиліта, яка дозволяє друкувати табелі "
 "успішності для будь-якої кількості учнів."
 
-#: Help_en.php:782 Help_en.php:802 Help_en.php:820
+#: Help_en.php:787 Help_en.php:807 Help_en.php:825
 msgid ""
 "You can search for students who are enrolled in a specific course by "
 "clicking the \"Choose\" link next to the \"Course\" search option and "
@@ -3420,7 +3436,7 @@ msgstr ""
 "встигають, або всіх учнів, які не склали принаймні один предмет за вибрані "
 "періоди навчання."
 
-#: Help_en.php:784
+#: Help_en.php:789
 msgid ""
 "Also, you can choose to print the report cards with mailing labels. The "
 "report cards will have mailing labels positioned in such a way as to be "
@@ -3434,7 +3450,7 @@ msgstr ""
 "учня може бути надруковано більше одного табеля, якщо учень має опікунів, "
 "які проживають за кількома адресами."
 
-#: Help_en.php:786 Help_en.php:969
+#: Help_en.php:791 Help_en.php:974
 msgid ""
 "Before printing the report cards, you must select which marking periods to "
 "display on the report card by checking desired marking period checkboxes."
@@ -3443,7 +3459,7 @@ msgstr ""
 "відображатимуться в табелі, встановивши прапорці для потрібних періодів "
 "навчання."
 
-#: Help_en.php:788
+#: Help_en.php:793
 msgid ""
 "The report cards will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Create Report Cards for Selected "
@@ -3452,21 +3468,21 @@ msgstr ""
 "Табелі будуть автоматично завантажені на ваш комп'ютер у форматі PDF для "
 "друку, коли ви натиснете кнопку «Створити табелі для вибраних учнів»."
 
-#: Help_en.php:790
+#: Help_en.php:795
 msgid ""
 "<i>Honor Roll</i> allows you to create honor roll lists or certificates."
 msgstr ""
 "<i>Список відмінників</i> дозволяє створювати списки відмінників або "
 "сертифікати."
 
-#: Help_en.php:792
+#: Help_en.php:797
 msgid ""
 "The Honor Roll GPA values are setup via the Grades > Grading Scales program."
 msgstr ""
 "Значення середнього балу в списку відмінників налаштовуються за допомогою "
 "розділу Оцінки > Шкали оцінок."
 
-#: Help_en.php:794
+#: Help_en.php:799
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a "
 "Student\" search screen. You can search for students who qualify for "
@@ -3481,7 +3497,7 @@ msgstr ""
 "учнів, які запитували певний курс, натиснувши посилання «Вибрати» поруч із "
 "параметром пошуку «Курсу» та вибравши курс у спливаючому вікні, що з'явиться."
 
-#: Help_en.php:796
+#: Help_en.php:801
 msgid ""
 "Alternatively, you can choose a Subject from the dropdown list on the \"Find "
 "a Student\" search screen to create honor roll lists or certificates by "
@@ -3490,7 +3506,7 @@ msgstr ""
 "Крім того, ви можете вибрати предмет зі спадного списку на сторінці пошуку "
 "«Знайти учня», щоб створити списки відмінників або сертифікати з предметів."
 
-#: Help_en.php:798
+#: Help_en.php:803
 msgid ""
 "Then, you can generate \"Certificates\" or a \"List\" of the qualifiers by "
 "selecting the right option at the top of the screen. The Certificate text "
@@ -3507,7 +3523,7 @@ msgstr ""
 "того, ви можете натиснути піктограму «Завантажити», щоб створити електронну "
 "таблицю з цими даними."
 
-#: Help_en.php:800
+#: Help_en.php:805
 msgid ""
 "<i>Transcripts</i> is a utility that allows you to print transcripts for any "
 "number of students."
@@ -3515,7 +3531,7 @@ msgstr ""
 "<i>Стенограми</i> - це утиліта, яка дозволяє друкувати стенограми для будь-"
 "якої кількості учнів."
 
-#: Help_en.php:804 Help_en.php:983
+#: Help_en.php:809 Help_en.php:988
 msgid ""
 "Before printing the transcripts, you must select which marking periods to "
 "display on the transcript by checking desired marking period checkboxes."
@@ -3524,7 +3540,7 @@ msgstr ""
 "навчання відображатимуться в стенограмі, встановивши прапорці для потрібних "
 "періодів."
 
-#: Help_en.php:806 Help_en.php:985
+#: Help_en.php:811 Help_en.php:990
 msgid ""
 "The transcripts will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Submit\" button."
@@ -3532,7 +3548,7 @@ msgstr ""
 "Стенограми будуть автоматично завантажені на ваш комп'ютер у форматі PDF для "
 "друку, коли ви натиснете кнопку «Надіслати»."
 
-#: Help_en.php:808
+#: Help_en.php:813
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered grades for any given marking period."
@@ -3540,7 +3556,7 @@ msgstr ""
 "<i>Невиставлене вчителем</i> - це звіт, в якому показано, які вчителі не "
 "виставили оцінки за той чи інший період навчання."
 
-#: Help_en.php:810
+#: Help_en.php:815
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current "
 "marking period's grades for that period."
@@ -3548,7 +3564,7 @@ msgstr ""
 "Червоні галочки вказують на те, що вчителю не вдалося ввести оцінки за "
 "поточний період навчання."
 
-#: Help_en.php:812
+#: Help_en.php:817
 msgid ""
 "You can select the current quarter, semester from the pull-down menu at the "
 "top of the screen. To change the current quarter, change the marking period "
@@ -3560,7 +3576,7 @@ msgstr ""
 "навчання» ліворуч. Ви також можете відобразити лише один період, вибравши "
 "його зі спадного меню періоду у верхній частині сторінки."
 
-#: Help_en.php:814
+#: Help_en.php:819
 msgid ""
 "<i>Grade Breakdown</i> is a report that shows the number of each grade that "
 "a teacher gave."
@@ -3568,7 +3584,7 @@ msgstr ""
 "<i>Розбивка оцінок</i> - це звіт, в якому відображається кількість оцінок, "
 "виставлених учителем за кожен період."
 
-#: Help_en.php:816
+#: Help_en.php:821
 msgid ""
 "You can select the current quarter, semester from the pull-down menu at the "
 "top of the screen. To change the current quarter, change the marking period "
@@ -3578,12 +3594,12 @@ msgstr ""
 "частині сторінки. Щоб змінити поточну чверть, змініть спадне меню «Період "
 "навчання» ліворуч."
 
-#: Help_en.php:818
+#: Help_en.php:823
 msgid ""
 "<i>Student Grades</i> allows you to view the grades earned by a student."
 msgstr "<i>Оцінки учнів</i> дозволяє переглядати оцінки, отримані учнем."
 
-#: Help_en.php:822
+#: Help_en.php:827
 msgid ""
 "<i>Final Grades</i> allows you to view the final grades earned by any number "
 "of students."
@@ -3591,7 +3607,7 @@ msgstr ""
 "<i>Підсумкові оцінки</i> тут можна переглянути підсумкові оцінки, отримані "
 "будь-якою кількістю учнів."
 
-#: Help_en.php:826
+#: Help_en.php:831
 msgid ""
 "Then, select what you would like to include on the Grade List: \"Teacher\", "
 "\"Comments\" and \"Year-to-date Daily Absences\" are pre-checked by default. "
@@ -3603,11 +3619,11 @@ msgstr ""
 "за рік». Якщо ви хочете включити інші стовпці, будь ласка, позначте їх. Не "
 "забудьте позначити періоди навчання, які відображатимуться у списку оцінок."
 
-#: Help_en.php:830
+#: Help_en.php:835
 msgid "Finally, click the \"Create Grade Lists for Selected Students\" button."
 msgstr "Нарешті, натисніть кнопку «Створити списки оцінок для вибраних учнів»."
 
-#: Help_en.php:832
+#: Help_en.php:837
 msgid ""
 "Please note that if you select only ONE marking period, you will be able to "
 "delete Final Grades by clicking the (-) icon on the left hand side of the "
@@ -3617,7 +3633,7 @@ msgstr ""
 "ви зможете видалити підсумкові оцінки, натиснувши на значок (-) у лівій "
 "частині сторінки, а потім підтвердіть свій вибір."
 
-#: Help_en.php:834
+#: Help_en.php:839
 msgid ""
 "<i>GPA / Class Rank List</i> is a report that shows the unweighted GPA, "
 "weighted GPA, and class rank of each student at your school."
@@ -3626,7 +3642,7 @@ msgstr ""
 "незважений середній бал, зважений середній бал та рейтинг у класі кожного "
 "учня у вашій школі."
 
-#: Help_en.php:836
+#: Help_en.php:841
 msgid ""
 "As with any list in RosarioSIS, you can sort by any value displayed by "
 "clicking on the coresponding column heading. For example, you can sort by "
@@ -3639,7 +3655,7 @@ msgstr ""
 "«оцінка». Аналогічно, ви можете сортувати за незваженим середнім балом, "
 "натиснувши на заголовок стовпця «Незважений середній бал»."
 
-#: Help_en.php:838
+#: Help_en.php:843
 msgid ""
 "<i>Configuration</i> allows you to override individual teacher configuration "
 "and configure the gradebook for them."
@@ -3647,7 +3663,7 @@ msgstr ""
 "<i>Налаштування</i> дозволяє перевизначити налаштування окремих вчителів і "
 "налаштувати для них журнал успішності."
 
-#: Help_en.php:840 Help_en.php:920
+#: Help_en.php:845 Help_en.php:925
 msgid ""
 "By default, grades are weighted by points. This means that the number of "
 "points in each assignment determines its weight, and the total of points in "
@@ -3657,7 +3673,7 @@ msgstr ""
 "за кожне завдання визначає його вагу, а загальна кількість балів за всі "
 "завдання в категорії визначає, наскільки важлива категорія."
 
-#: Help_en.php:842 Help_en.php:922
+#: Help_en.php:847 Help_en.php:927
 msgid ""
 "You can choose to weight grades by assignment categories. This will add a "
 "\"Percent of Final Grade\" field to categories."
@@ -3665,7 +3681,7 @@ msgstr ""
 "Ви можете вибрати зважування оцінок за категоріями завдань. При цьому в "
 "категорії буде додано поле «Відсоток від підсумкової оцінки»."
 
-#: Help_en.php:844 Help_en.php:924
+#: Help_en.php:849 Help_en.php:929
 msgid ""
 "You can also choose to weight assignments. This lets you edit the weight of "
 "each assignment. In case you do not weight categories, the total of weights "
@@ -3675,7 +3691,7 @@ msgstr ""
 "кожного завдання. Якщо ви не зважуєте категорії, загальна кількість ваг у "
 "всіх завданнях у категорії визначає, наскільки важлива категорія."
 
-#: Help_en.php:846 Help_en.php:928
+#: Help_en.php:851 Help_en.php:933
 msgid ""
 "Finally, you can also configure the final grading percentages of each "
 "semester. These values are used when averaging the quarter grades to "
@@ -3685,7 +3701,7 @@ msgstr ""
 "за кожен семестр. Ці значення використовуються при усередненні оцінок за "
 "чверть для розрахунку оцінки за семестр."
 
-#: Help_en.php:848
+#: Help_en.php:853
 msgid ""
 "<i>Grading Scales</i> allows you to setup your school's report card grades. "
 "Report card grades are used in the Input Final Grades program by teachers "
@@ -3699,7 +3715,7 @@ msgstr ""
 "включають літерні оцінки, а також коментарі до оцінок, які вчитель може "
 "вибрати при введенні оцінок."
 
-#: Help_en.php:850
+#: Help_en.php:855
 msgid ""
 "To add a report card grade, fill in the grade's title, GPA value, and sort "
 "order in the empty fields at the bottom of the grades list and click the "
@@ -3709,7 +3725,7 @@ msgstr ""
 "та порядок сортування в порожніх полях внизу списку оцінок і натисніть "
 "кнопку «Зберегти»."
 
-#: Help_en.php:852
+#: Help_en.php:857
 msgid ""
 "To add a comment, enter the new comment's title in the empty field at the "
 "bottom of the comments list."
@@ -3717,7 +3733,7 @@ msgstr ""
 "Щоб додати коментар, введіть заголовок нового коментаря в порожнє поле внизу "
 "списку коментарів."
 
-#: Help_en.php:854
+#: Help_en.php:859
 msgid ""
 "To modify either type of grade, click on any of the grade's information, "
 "change the value, and click the \"Save\" button."
@@ -3725,7 +3741,7 @@ msgstr ""
 "Щоб змінити будь-який тип оцінки, натисніть будь-яку інформацію про оцінку, "
 "змініть значення та натисніть кнопку «Зберегти»."
 
-#: Help_en.php:856
+#: Help_en.php:861
 msgid ""
 "To delete either type of grade, click the delete icon (-) next to the grade "
 "you want to delete. You will be asked to confirm the deletion."
@@ -3734,7 +3750,7 @@ msgstr ""
 "поруч з оцінкою, яку ви хочете видалити. Вам буде запропоновано підтвердити "
 "видалення."
 
-#: Help_en.php:858
+#: Help_en.php:863
 msgid ""
 "To add or edit a grade scale, first click the plus icon (+) tab. For each "
 "grade scale you should adjust their scale value, minimum passing grade "
@@ -3745,7 +3761,7 @@ msgstr ""
 "шкали, мінімальний прохідний бал (мінімальний бал для отримання балів), а "
 "також різні мінімальні середні бали в списку відмінників."
 
-#: Help_en.php:860
+#: Help_en.php:865
 msgid ""
 "<i>Report Card Comments</i> allows you to setup your school's report card "
 "comments, for each course or for all courses."
@@ -3753,7 +3769,7 @@ msgstr ""
 "<i>Коментарі до табеля успішності</i> тут можна налаштувати коментарі до "
 "табеля вашої школи для кожного курсу або для всіх курсів."
 
-#: Help_en.php:862
+#: Help_en.php:867
 msgid ""
 "The \"All Courses\" tab is where you create Comments that apply to All "
 "Courses, for example to grade conduct, or a quality of the students that all "
@@ -3765,7 +3781,7 @@ msgstr ""
 "курсів. На вкладці ( + ) ви можете додавати інші коментарі, зокрема вкладки "
 "коментарів до конкретного курсу."
 
-#: Help_en.php:864
+#: Help_en.php:869
 msgid ""
 "The \"General\" tab contains the comments that are added when entering "
 "students' grades in the \"Input Final Grades\" program. Teachers can use the "
@@ -3787,7 +3803,7 @@ msgstr ""
 "класу непідготовленим» буде перекладено як «Джон прийшов до свого класу "
 "непідготовленим»."
 
-#: Help_en.php:866
+#: Help_en.php:871
 msgid ""
 "The \"All Courses\" tab allows you to create Comments that apply to All "
 "Courses. Enter the Comment name and associate it to a \"Code Scale\" "
@@ -3803,7 +3819,7 @@ msgstr ""
 "підсумкових оцінок» на вкладці «Всі курси». У стовпці з'явиться спадне меню "
 "з відповідними кодами коментарів до шкали."
 
-#: Help_en.php:868
+#: Help_en.php:873
 msgid ""
 "To create course-specific comments, first select a course by using the pull-"
 "downs at the top of the page. Then click on the tab with the (+) icon to "
@@ -3827,7 +3843,7 @@ msgstr ""
 "по одному стовпцю для кожного з коментарів у цій категорії. У стовпцях "
 "відображатиметься спадне меню з відповідними кодами коментарів до шкал."
 
-#: Help_en.php:870
+#: Help_en.php:875
 msgid ""
 "<i>Comment Codes</i> allows you to create comment scales that will generate "
 "pull-down menus of grading codes in the Input Final Grades program. Then, "
@@ -3839,7 +3855,7 @@ msgstr ""
 "оцінок. Потім ці коди відображатимуться разом із відповідним коментарем у "
 "табелі."
 
-#: Help_en.php:872
+#: Help_en.php:877
 msgid ""
 "To create a new Comment Scale, click on the tab with the (+) icon. Give a "
 "name to your comment scale, add an optional comment and then click \"Save\". "
@@ -3857,7 +3873,7 @@ msgstr ""
 "поля «Заголовок» (введіть код сюди), «Коротка назва» та «Коментар» "
 "(позначення запису / коду, яке з'явиться на сторінці). табель успішності)."
 
-#: Help_en.php:874
+#: Help_en.php:879
 msgid ""
 "<i>History Marking Periods</i> allows you to create marking periods for past "
 "years grades."
@@ -3865,7 +3881,7 @@ msgstr ""
 "<i>Історія періодів навчання</i> дозволяє створювати періоди навчання для "
 "оцінок за минулі роки."
 
-#: Help_en.php:876
+#: Help_en.php:881
 msgid ""
 "Use this program first if you want to enter past years grades into "
 "RosarioSIS that were given before installing RosarioSIS, or if you want to "
@@ -3879,7 +3895,7 @@ msgstr ""
 "буде додано період навчання, ви зможете вибрати його за допомогою розділу "
 "історичних оцінок."
 
-#: Help_en.php:878
+#: Help_en.php:883
 msgid ""
 "Please note that the \"Grade Post Date\" field determines the order of the "
 "history marking periods when entering grades or generating the Transcript "
@@ -3891,7 +3907,7 @@ msgstr ""
 "створенні стенограми і тому має бути введено правильно. Крім того, кожен "
 "період виставлення відміток в історії повинен бути створений тільки один раз."
 
-#: Help_en.php:880
+#: Help_en.php:885
 msgid ""
 "<i>Edit Student Grades</i> allows you to enter the past years grades of a "
 "student or the grades of a transferred student."
@@ -3899,7 +3915,7 @@ msgstr ""
 "<i>Редагування оцінок учнів</i> дозволяє ввести оцінки учня за минулі роки "
 "або оцінки переведеного учня."
 
-#: Help_en.php:884
+#: Help_en.php:889
 msgid ""
 "Now, for the selected student, add the marking period (typically an history "
 "marking period you have created via the History Marking Periods program) "
@@ -3911,7 +3927,7 @@ msgstr ""
 "навчання»), вибравши його з меню «Новий період навчання». Потім вкажіть клас "
 "для вибраного учня та натисніть «Зберегти»."
 
-#: Help_en.php:886
+#: Help_en.php:891
 msgid ""
 "You can add the student grades via the \"Grades\" tab. Enter the \"Course "
 "Name\" and the grades associated, then click \"Save\". Please note that you "
@@ -3922,7 +3938,7 @@ msgstr ""
 "що для розрахунку середнього балу ви можете використовувати власну шкалу "
 "оцінок."
 
-#: Help_en.php:888
+#: Help_en.php:893
 msgid ""
 "RosarioSIS needs credits to calculate the GPA. Please check the \"Credits\" "
 "tab and adjust the credits for each course as needed."
@@ -3931,7 +3947,7 @@ msgstr ""
 "одиниці. Будь ласка, перейдіть на вкладку «Залікові одиниці» і при "
 "необхідності скорегуйте кількість залікових одиниць для кожного курсу."
 
-#: Help_en.php:890
+#: Help_en.php:895
 msgid ""
 "<i>Mass Create Assignments</i> allows you to create assignments for multiple "
 "courses at once. There are two tiers involved with assignments: assignment "
@@ -3941,7 +3957,7 @@ msgstr ""
 "курсів одночасно. Завдання діляться на два рівні: типи завдань і самі "
 "завдання."
 
-#: Help_en.php:892
+#: Help_en.php:897
 msgid ""
 "You will probably have assignment types called \"Homework\", \"Tests\", and "
 "perhaps \"Quizzes\". Assignment types are set for every period of a given "
@@ -3951,7 +3967,7 @@ msgstr ""
 "«Тести» і, можливо, «Вікторини». Типи завдань встановлюються для кожного "
 "періоду даного курсу."
 
-#: Help_en.php:894
+#: Help_en.php:899
 msgid ""
 "To add an assignment type, click on the Add icon (+) in the assignment type "
 "column. Then, fill in the information in the fields above the list of "
@@ -3963,7 +3979,7 @@ msgstr ""
 "Виберіть курси у списку внизу сторінки та натисніть кнопку «Створити тип "
 "завдання для обраних курсів»."
 
-#: Help_en.php:896
+#: Help_en.php:901
 msgid ""
 "If you set the \"Percent of Final Grade\", teachers will see it only if they "
 "have checked the \"Weight Assignment Categories\" checkbox in their "
@@ -3973,7 +3989,7 @@ msgstr ""
 "побачать його, тільки якщо вони встановили прапорець щодо вагових категорій "
 "для завдань в налаштуваннях свого журналу успішності."
 
-#: Help_en.php:898
+#: Help_en.php:903
 msgid ""
 "To add an assignment, click on the desired assignment type in the assignment "
 "type column. Then, fill in the information in the fields above the list of "
@@ -3986,14 +4002,14 @@ msgstr ""
 "Виберіть періоди проходження курсу у списку внизу сторінки та натисніть "
 "кнопку «Створити завдання для обраних періодів проходження курсу»."
 
-#: Help_en.php:900 Help_en.php:936
+#: Help_en.php:905 Help_en.php:941
 msgid ""
 "If you enter 0 \"Points\", this will let you give Students Extra Credit."
 msgstr ""
 "Якщо ви введете 0 «балів», це дозволить вам виставити учням додатковий залік "
 "(надати додаткові залікові одиниці)."
 
-#: Help_en.php:902
+#: Help_en.php:907
 msgid ""
 "If you set the \"Weight\", teachers will see it only if they have checked "
 "the \"Weight Assignments\" checkbox in their Gradebook Configuration."
@@ -4001,7 +4017,7 @@ msgstr ""
 "Якщо ви встановите значення «Ваги», вчителі побачать його тільки в тому "
 "випадку, якщо вони встановили прапорець «Зважених завдань» в свойому журналі."
 
-#: Help_en.php:904
+#: Help_en.php:909
 msgid ""
 "If you check \"Enable Assignment Submission\", Students (or Parents) can "
 "submit the assignment (upload a file and/or leave a message). Submissions "
@@ -4015,7 +4031,7 @@ msgstr ""
 "їх подавання. Якщо термін здачі не встановлено, заявки приймаються до кінця "
 "чверті. Пізніше вчителі можуть ознайомитися з матеріалами в розділі «Оцінки»."
 
-#: Help_en.php:908
+#: Help_en.php:913
 msgid ""
 "<i>Input Final Grades</i> allows you to enter quarter, semester or progress "
 "period grades for all your students in the current period. By default, this "
@@ -4033,7 +4049,7 @@ msgstr ""
 "за допомогою меню «Період навчання» у верхній частині сторінки на потрібний "
 "період."
 
-#: Help_en.php:912
+#: Help_en.php:917
 msgid ""
 "If you are using the Gradebook, you can have RosarioSIS calculate each "
 "student's quarter grades by clicking on the \"Use Gradebook Grades\" link at "
@@ -4046,11 +4062,11 @@ msgstr ""
 "посилання оцінки кожного учня будуть автоматично збережені й список "
 "оновиться."
 
-#: Help_en.php:916
+#: Help_en.php:921
 msgid "<i>Configuration</i> allows you to configure the gradebook."
 msgstr "Розділ <i>Налаштування</i> дозволяє налаштувати журнал успішності."
 
-#: Help_en.php:918
+#: Help_en.php:923
 msgid ""
 "You can configure the gradebook to round scores up, down, or normally. "
 "Normal rounding would round 19.5 to 20 but 19.4 to 19."
@@ -4059,7 +4075,7 @@ msgstr ""
 "округлялися в більшу, меншу або звичайну сторону. При звичайному округленні "
 "значення 19,5 стало б як 20, але 19,4 як 19."
 
-#: Help_en.php:926
+#: Help_en.php:931
 msgid ""
 "You can also configure the score breakoff points for each letter grade. For "
 "example, if you set the score breakoff points for A+, A, and A- to 99, 91, "
@@ -4073,7 +4089,7 @@ msgstr ""
 "інший учень, який набрав від 91% до 98%, отримає оцінку А, а учень з 90% з "
 "них мали би А-. Точка відліку для F, ймовірно, повинна дорівнювати 0."
 
-#: Help_en.php:930
+#: Help_en.php:935
 msgid ""
 "<i>Assignments</i> allows you to setup your assignments. There are two tiers "
 "involved with assignments: assignment types and assignments."
@@ -4081,7 +4097,7 @@ msgstr ""
 "Розділ <i>Завдання</i> дозволяє вам налаштовувати свої завдання. Завдання "
 "діляться на два рівні: типи завдань і самі завдання."
 
-#: Help_en.php:932
+#: Help_en.php:937
 msgid ""
 "You will probably have assignment types called \"Homework\", \"Tests\", and "
 "perhaps \"Quizzes\". Assignment types are set for every period on which you "
@@ -4094,7 +4110,7 @@ msgstr ""
 "викладаєте алгебру на 1-му та 3-му уроках, вам потрібно буде додати типи "
 "завдань лише до одного з цих періодів."
 
-#: Help_en.php:934
+#: Help_en.php:939
 msgid ""
 "To add an assignment type or an assignment, click on the Add icon (+) in the "
 "column corresponding to what you want to add. Then, fill in the information "
@@ -4105,7 +4121,7 @@ msgstr ""
 "відповідає тому, що ви хочете додати. Потім заповніть інформацією поля над "
 "списком завдань / типів і натисніть кнопку «Зберегти»."
 
-#: Help_en.php:938
+#: Help_en.php:943
 msgid ""
 "If you check \"Apply to all Periods for this Course\", the assignment will "
 "be added for each period for which you teach a specific course, in the same "
@@ -4115,7 +4131,7 @@ msgstr ""
 "завдання буде додано для кожного періоду, протягом якого ви викладаєте "
 "певний курс, таким же чином, як додаються типи завдань."
 
-#: Help_en.php:940
+#: Help_en.php:945
 msgid ""
 "If you check \"Enable Assignment Submission\", Students (or Parents) can "
 "submit the assignment (upload a file and/or leave a message). Submissions "
@@ -4129,7 +4145,7 @@ msgstr ""
 "їх подачі. Якщо термін здачі не встановлено, заявки приймаються до кінця "
 "чверті. Пізніше ви можете ознайомитися з матеріалами в розділі «Оцінки»."
 
-#: Help_en.php:942
+#: Help_en.php:947
 msgid ""
 "To change an assignment or type, click on the assignment or type you want to "
 "modify and click on the value you want to change in the grey area above the "
@@ -4140,7 +4156,7 @@ msgstr ""
 "області над списками завдань / типу. Потім змініть значення та натисніть "
 "кнопку «Зберегти»."
 
-#: Help_en.php:944
+#: Help_en.php:949
 msgid ""
 "Finally, to delete an item, select it by clicking on its title on the list "
 "and click the \"Delete\" button at the top of the screen. You will be asked "
@@ -4150,7 +4166,7 @@ msgstr ""
 "натисніть кнопку «Видалити» у верхній частині сторінки. Вам буде "
 "запропоновано підтвердити видалення."
 
-#: Help_en.php:946
+#: Help_en.php:951
 msgid ""
 "<i>Grades</i> allows you to input assignment grades for all your students in "
 "the current period. By default, this program will list the students in your "
@@ -4162,7 +4178,7 @@ msgstr ""
 "список учнів вашого першого уроку. ви можете змінити поточний період, "
 "вибравши його в меню ліворуч."
 
-#: Help_en.php:948
+#: Help_en.php:953
 msgid ""
 "Once you have chosen the correct period, you will see the total points and "
 "cumulative grade for each student in your class. You can view the grades for "
@@ -4181,7 +4197,7 @@ msgstr ""
 "клацнувши по отриманих балах і змінивши значення. Після зміни оцінок "
 "натисніть кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:950
+#: Help_en.php:955
 msgid ""
 "You can also view and change all the grades for a single student by clicking "
 "on the student's name in the list. Input grades in the same way that you did "
@@ -4191,7 +4207,7 @@ msgstr ""
 "натиснувши на його ім'я у списку. Введіть оцінки так само, як і зі списком "
 "кількох учнів."
 
-#: Help_en.php:952 Help_en.php:973
+#: Help_en.php:957 Help_en.php:978
 msgid ""
 "<i>Progress Reports</i> lets you generate Progress Reports of the students "
 "for the current Marking Period."
@@ -4199,7 +4215,7 @@ msgstr ""
 "Розділ <i>Звіти про успішність</i> дозволяє створювати звіти про успішність "
 "учнів за поточний період навчання."
 
-#: Help_en.php:954
+#: Help_en.php:959
 msgid ""
 "After having created assignments and entered gradebook grades, a progress "
 "report can be generated."
@@ -4207,14 +4223,14 @@ msgstr ""
 "Після створення завдань і введення оцінок в журнал успішності можна створити "
 "звіт про виконану роботу."
 
-#: Help_en.php:967
+#: Help_en.php:972
 msgid ""
 "<i>Report Cards</i> is a utility that allows you to print report cards for "
 "your child."
 msgstr ""
 "<i>Табелі</i> - це утиліта, яка дозволяє друкувати табелі для вашої дитини."
 
-#: Help_en.php:971
+#: Help_en.php:976
 msgid ""
 "The report cards will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Submit\" button."
@@ -4222,7 +4238,7 @@ msgstr ""
 "Картки звітів будуть автоматично завантажені на ваш комп'ютер у форматі PDF "
 "для друку, коли ви натиснете кнопку «Надіслати»."
 
-#: Help_en.php:981
+#: Help_en.php:986
 msgid ""
 "<i>Transcripts</i> is a utility that allows you to print transcripts for "
 "your child."
@@ -4230,11 +4246,11 @@ msgstr ""
 "<i>Стенограми</i> - це утиліта, яка дозволяє друкувати стенограми для вашої "
 "дитини."
 
-#: Help_en.php:987
+#: Help_en.php:992
 msgid "<i>Assignments</i> allows you to view your child's assignments."
 msgstr "<i>Завдання</i> дозволяє переглядати завдання вашої дитини."
 
-#: Help_en.php:989
+#: Help_en.php:994
 msgid ""
 "In the detailed view of an assignment, you will be able to submit an "
 "assignment if allowed by the teacher. To this effect, you will be given the "
@@ -4244,7 +4260,7 @@ msgstr ""
 "вчитель це дозволить. Для цього вам буде надана можливість завантажити файл "
 "та/або залишити повідомлення."
 
-#: Help_en.php:991
+#: Help_en.php:996
 msgid ""
 "Assignment submissions are opened until the due date. If no due date has "
 "been set, submissions are open until the end of the quarter."
@@ -4252,7 +4268,7 @@ msgstr ""
 "Запити на виконання завдань приймаються до закінчення терміну їх виконання. "
 "Якщо цей термін не встановлено, запити приймаються до кінця чверті."
 
-#: Help_en.php:993 Help_en.php:997
+#: Help_en.php:998 Help_en.php:1002
 msgid ""
 "You can change the marking period using the dropdown list available in the "
 "left frame."
@@ -4260,13 +4276,13 @@ msgstr ""
 "Ви можете змінити період навчання, використовуючи випадаючий список, "
 "доступний ливоруч."
 
-#: Help_en.php:995
+#: Help_en.php:1000
 msgid ""
 "<i>Gradebook Grades</i> allows you to view the grades earned by your child."
 msgstr ""
 "<i>Журнал оцінок</i> дозволяє переглядати оцінки, отримані вашою дитиною."
 
-#: Help_en.php:999
+#: Help_en.php:1004
 msgid ""
 "<i>GPA / Class Rank</i> is a report that shows the unweighted GPA, weighted "
 "GPA, and class rank of your child."
@@ -4274,7 +4290,7 @@ msgstr ""
 "<i>Середній бал / Оцінка в класі</i> - це звіт, який показує незважений "
 "середній бал, зважений середній бал і оцінку в класі вашої дитини."
 
-#: Help_en.php:1006
+#: Help_en.php:1011
 msgid ""
 "<i>Administration</i> allows you to view and change the student attendance "
 "records for any given day."
@@ -4282,7 +4298,7 @@ msgstr ""
 "<i>Адміністрація</i> дозволяє переглядати та змінювати записи про "
 "відвідуваність учнів за будь-який день."
 
-#: Help_en.php:1008
+#: Help_en.php:1013
 msgid ""
 "To change the student's attendance status for any period, click on the "
 "current value and select the short name of the attendance code you would "
@@ -4317,7 +4333,7 @@ msgstr ""
 "другий код відвідуваності, програма відобразить список учнів, які отримали "
 "будь-який із цих кодів протягом дня."
 
-#: Help_en.php:1010
+#: Help_en.php:1015
 msgid ""
 "You can alter the date displayed by clicking on the date on the upper left-"
 "hand side of the screen and changing it to the desired date."
@@ -4325,7 +4341,7 @@ msgstr ""
 "Ви можете змінити відображену дату, натиснувши дату у верхній лівій частині "
 "сторінки та змінивши її на потрібну дату."
 
-#: Help_en.php:1012
+#: Help_en.php:1017
 msgid ""
 "After making changes to the attendance codes displayed or the current date, "
 "click the \"Update\" button to refresh the screen with the new parameters."
@@ -4333,7 +4349,7 @@ msgstr ""
 "Після внесення змін до відображуваних кодів відвідуваності або поточної дати "
 "натисніть кнопку \"Оновити\", щоб оновити сторінку новими параметрами."
 
-#: Help_en.php:1014
+#: Help_en.php:1019
 msgid ""
 "You can also view the attendance code assigned to the student by the teacher "
 "as well as view and enter a comment for each period by clicking on the "
@@ -4343,7 +4359,7 @@ msgstr ""
 "також переглянути та ввести коментар до кожного уроку, натиснувши на ім'я "
 "учня."
 
-#: Help_en.php:1016
+#: Help_en.php:1021
 msgid ""
 "Clicking on \"Current Student\" on the top of the screen will display the "
 "day's attendance records for the current student displayed in the left frame."
@@ -4351,14 +4367,14 @@ msgstr ""
 "Натиснувши на «Поточного учня» у верхній частині сторінки, ви побачите "
 "щоденні записи про його відвідуваність, що відображаються ліворуч."
 
-#: Help_en.php:1018
+#: Help_en.php:1023
 msgid ""
 "<i>Add Absences</i> allows you to add an absence to a group of students in "
 "one action."
 msgstr ""
 "<i>Додати відсутніх</i> дозволяє додати відсутніх до групи учнів за одну дію."
 
-#: Help_en.php:1020
+#: Help_en.php:1025
 msgid ""
 "First, search for students. Notice that you can search for students who are "
 "enrolled in a specific course or are in a certain activity. This can be "
@@ -4372,7 +4388,7 @@ msgstr ""
 "уроці для всіх учнів першого класу місіс Сміт або футбольної команди, які "
 "будуть перебувати на екскурсії протягом усього дня."
 
-#: Help_en.php:1022
+#: Help_en.php:1027
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -4390,7 +4406,7 @@ msgstr ""
 "списку, всі бажані періоди, код відсутності, причину і дату відсутності, "
 "натисніть кнопку «Зберегти» у верхній частині сторінки."
 
-#: Help_en.php:1024
+#: Help_en.php:1029
 msgid ""
 "<i>Average Daily Attendance</i> is a report that shows the number of "
 "students, days possible, the number of student days present, the number of "
@@ -4406,7 +4422,7 @@ msgstr ""
 "день. День для будь-якого діапазону дат у вашій школі. Ці цифри наведені в "
 "розбивці по класах."
 
-#: Help_en.php:1026
+#: Help_en.php:1031
 msgid ""
 "You can alter the date range displayed by changing the date pull-down menus "
 "at the top of the screen and clicking the \"Go\" button. You can also limit "
@@ -4418,7 +4434,7 @@ msgstr ""
 "кількість дат, шукаючи за статтю або будь-яким із користувацьких полів "
 "даних, натиснувши посилання «Додатково»."
 
-#: Help_en.php:1028
+#: Help_en.php:1033
 msgid ""
 "<i>Average Attendance by Day</i> is a report that shows the number of "
 "students, days possible, the number of student days present, the number of "
@@ -4430,7 +4446,7 @@ msgstr ""
 "днів відсутності учнів і середню щоденну відвідуваність у вашій школі за "
 "будь-який період часу. Ці цифри наведені в розбивці по класах."
 
-#: Help_en.php:1030
+#: Help_en.php:1035
 msgid ""
 "<i>Attendance Chart</i> is a report that shows the daily attendance status "
 "of any number of students for every date during any timeframe."
@@ -4439,7 +4455,7 @@ msgstr ""
 "відвідуваності будь-якої кількості учнів на кожну дату протягом будь-якого "
 "періоду часу."
 
-#: Help_en.php:1032 Help_en.php:1088
+#: Help_en.php:1037 Help_en.php:1093
 msgid ""
 "After searching for students, you can alter the date range by changing the "
 "date pull-down menus at the top of the screen and clicking the \"Go\" "
@@ -4455,7 +4471,7 @@ msgstr ""
 "день, жовтий прапорець означає, що учень був відсутній півдня, а зелений "
 "прапорець означає, що учень був присутній цілий день."
 
-#: Help_en.php:1034 Help_en.php:1090
+#: Help_en.php:1039 Help_en.php:1095
 msgid ""
 "You can see the attendance records for each period for any student by "
 "clicking on a student's name from the list. Here, the absence code is "
@@ -4465,7 +4481,7 @@ msgstr ""
 "учня, натиснувши на його ім'я у списку. Тут код відсутності відображається у "
 "кольоровому полі."
 
-#: Help_en.php:1036 Help_en.php:1092 Help_en.php:1101
+#: Help_en.php:1041 Help_en.php:1097 Help_en.php:1106
 msgid ""
 "<i>Absence Summary</i> is a report that shows the days for which a student "
 "has an absence. Select the <i>Absence Summary</i> from the pull-down at the "
@@ -4475,7 +4491,7 @@ msgstr ""
 "відсутній. Виберіть підсумок відсутності у спадному списку у верхній частині "
 "сторінки."
 
-#: Help_en.php:1038
+#: Help_en.php:1043
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered attendance for any given day."
@@ -4483,7 +4499,7 @@ msgstr ""
 "<i>Невиставлене вчителем</i> - це звіт, який показує, які вчителі не вказали "
 "відвідуваність за певний день."
 
-#: Help_en.php:1040
+#: Help_en.php:1045
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current day's "
 "attendance for that period."
@@ -4491,7 +4507,7 @@ msgstr ""
 "Червоні галочки вказують на те, що вчителю не вдалося ввести дані про "
 "відвідуваність за поточний день за цей період."
 
-#: Help_en.php:1042
+#: Help_en.php:1047
 msgid ""
 "You can select the current date from the pull-down menu at the top of the "
 "screen. You can also show only one period by choosing that period from the "
@@ -4503,7 +4519,7 @@ msgstr ""
 "у верхній частині сторінки. Після вибору дати або періоду список буде "
 "автоматично оновлено новими параметрами."
 
-#: Help_en.php:1044
+#: Help_en.php:1049
 msgid ""
 "<i>Recalculate Daily Attendance</i> is a utility to recalculate the daily "
 "attendance for a specific time-frame."
@@ -4511,7 +4527,7 @@ msgstr ""
 "<i>Перерахувати щоденну відвідуваність</i> - це утиліта для перерахунку "
 "щоденної відвідуваності за певний період часу."
 
-#: Help_en.php:1046
+#: Help_en.php:1051
 msgid ""
 "Select the time-frame and click \"OK\". All attendance will be then "
 "calculated for whole day/half day. Please select a shorter time-frame if the "
@@ -4523,7 +4539,7 @@ msgstr ""
 "виберіть коротший проміжок часу. Використання цієї утиліти дозволяє уникнути "
 "проблем, пов'язаних з пропуском періодів проходження курсів."
 
-#: Help_en.php:1048
+#: Help_en.php:1053
 msgid ""
 "<i>Delete Duplicate Attendance</i> is a utility to spot and delete any "
 "attendance that was taken for a student AFTER their enrollment drop date."
@@ -4532,7 +4548,7 @@ msgstr ""
 "видалення будь-яких відвідувань, які були зафіксовані у учня після дати "
 "відрахування."
 
-#: Help_en.php:1050
+#: Help_en.php:1055
 msgid ""
 "In case a student is retro-actively dropped from a course, but attendance "
 "has already been taken by teachers or administrators for dates after the "
@@ -4541,7 +4557,7 @@ msgstr ""
 "У випадку, якщо учень був виключений з курсу заднім числом, але вчителі або "
 "адміністратори вже записали його на заняття після дати виключення."
 
-#: Help_en.php:1052
+#: Help_en.php:1057
 msgid ""
 "<i>Attendance Codes</i> allows you to setup your school's attendance codes. "
 "Attendance codes are used in the teacher's \"Take Attendance\" program (as "
@@ -4553,7 +4569,7 @@ msgstr ""
 "«Контроль відвідуваності» (а також у більшості звітів про відвідуваність) і "
 "вказують, чи був учень присутній на уроці, а якщо ні, то з якої причини."
 
-#: Help_en.php:1054
+#: Help_en.php:1059
 msgid ""
 "To add an attendance code, fill in the attendance code's title, short name, "
 "type, and state code. Select whether or not the code should be a teacher's "
@@ -4573,7 +4589,7 @@ msgstr ""
 "відвідуваності зі своєї програми «Відстеження відвідуваності». "
 "Адміністратори зможуть призначити всі коди учню."
 
-#: Help_en.php:1056
+#: Help_en.php:1061
 msgid ""
 "To modify an attendance code, click on any of the attendance code's "
 "information, change the value, and click the \"Save\" button."
@@ -4581,7 +4597,7 @@ msgstr ""
 "Щоб змінити код відвідуваності, натисніть будь-яку інформацію про код "
 "відвідуваності, змініть значення та натисніть кнопку «Зберегти»."
 
-#: Help_en.php:1058
+#: Help_en.php:1063
 msgid ""
 "To delete an attendance code, click the delete icon (-) next to the "
 "attendance code you want to delete. You will be asked to confirm the "
@@ -4591,11 +4607,11 @@ msgstr ""
 "кодом відвідуваності, який потрібно видалити. Вам буде запропоновано "
 "підтвердити видалення."
 
-#: Help_en.php:1060
+#: Help_en.php:1065
 msgid "Attendance Categories"
 msgstr "Категорії відвідуваності"
 
-#: Help_en.php:1062
+#: Help_en.php:1067
 msgid ""
 "RosarioSIS allows you to add custom categories that will take the form of "
 "new \"Tabs\" in the <i>Scheduling > Take Attendance</i> program. To create a "
@@ -4607,7 +4623,7 @@ msgstr ""
 "створити нову категорію або «вкладку», просто натисніть на значок « + » "
 "поруч з існуючими категоріями."
 
-#: Help_en.php:1066
+#: Help_en.php:1071
 msgid ""
 "You can now type in the name of the new Category in the \"Title\" field(s) "
 "provided. Add a sort order (order in which the tabs will appear in the "
@@ -4617,7 +4633,7 @@ msgstr ""
 "порядок сортування (порядок, в якому вкладки відображатимуться в розділі "
 "<i>Контроль відвідуваності</i>). Закінчивши, натисніть «Зберегти»."
 
-#: Help_en.php:1068
+#: Help_en.php:1073
 msgid ""
 "To activate the Category for a specific course period, check it when editing "
 "the Course Period from the <i>Scheduling > Courses</i> program."
@@ -4625,11 +4641,11 @@ msgstr ""
 "Щоб активувати категорію для певного періоду проходження курсу, відзначте її "
 "при редагуванні періоду навчання в розділі <i>Розклад > Курси</i>."
 
-#: Help_en.php:1070
+#: Help_en.php:1075
 msgid "Lunch Category"
 msgstr "Категорія обідів"
 
-#: Help_en.php:1072
+#: Help_en.php:1077
 msgid ""
 "The Lunch Category comes in handy to take Lunch counts in the morning so the "
 "Food Service staff knows how many meals to prepare."
@@ -4637,7 +4653,7 @@ msgstr ""
 "Категорія обідів зручна для підрахунку обідів вранці, щоб персонал харчової "
 "служби знав, скільки страв потрібно приготувати."
 
-#: Help_en.php:1074
+#: Help_en.php:1079
 msgid ""
 "<i>Attendance Summary</i> is a report that shows a day by day record of each "
 "student's attendance over the school year in one table."
@@ -4645,7 +4661,7 @@ msgstr ""
 "<i>Інформація про відвідуваність</i> - це звіт, в якому в одній таблиці "
 "представлені щоденні дані про відвідуваність кожного учня за навчальний рік."
 
-#: Help_en.php:1076
+#: Help_en.php:1081
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a "
 "Student\" search screen. You can search for students who have requested a "
@@ -4657,7 +4673,7 @@ msgstr ""
 "посилання «Вибрати» поруч із параметром пошуку «Курс» та вибравши курс у "
 "спливаючому вікні, що з'явиться."
 
-#: Help_en.php:1078
+#: Help_en.php:1083
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -4670,7 +4686,7 @@ msgstr ""
 "списком. Вибравши кожного бажаного учня з цього списку, натисніть «Створити "
 "звіт про відвідуваність для вибраних учнів», щоб створити звіт у форматі PDF."
 
-#: Help_en.php:1082
+#: Help_en.php:1087
 msgid ""
 "<i>Take Attendance</i> allows you to enter period attendance for all your "
 "students in the current period. By default, this program will list the "
@@ -4682,7 +4698,7 @@ msgstr ""
 "учнів вашого першого уроку. ви можете змінити поточний період, вибравши в "
 "випадаючому меню ліворуч потрібний період."
 
-#: Help_en.php:1084
+#: Help_en.php:1089
 msgid ""
 "Once you are in the correct period, you can enter attendance by selecting "
 "the attendance code corresponding to each student. Once you have entered "
@@ -4694,7 +4710,7 @@ msgstr ""
 "про відвідуваність для всіх своїх учнів, натисніть кнопку «Зберегти» у "
 "верхній частині сторінки."
 
-#: Help_en.php:1086
+#: Help_en.php:1091
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "any number of students for every date during any timeframe."
@@ -4703,7 +4719,7 @@ msgstr ""
 "відвідуваності будь-якої кількості учнів на кожну дату протягом будь-якого "
 "періоду часу."
 
-#: Help_en.php:1097
+#: Help_en.php:1102
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "your child during any timeframe."
@@ -4711,7 +4727,7 @@ msgstr ""
 "<i>Щоденний підсумок</i> - це звіт, який показує щоденний стан "
 "відвідуваності вашої дитини протягом будь-якого періоду часу."
 
-#: Help_en.php:1099
+#: Help_en.php:1104
 msgid ""
 "You can alter the date range by changing the date pull-down menus at the top "
 "of the screen and clicking the \"Go\" button. The list shows your child's "
@@ -4727,7 +4743,7 @@ msgstr ""
 "зелений прапорець вказує на те, що учень або був присутній, або запізнився в "
 "цей період. У полі відображається код відсутності."
 
-#: Help_en.php:1108
+#: Help_en.php:1113
 msgid ""
 "<i>Student Screen</i> is a display of the student's activities and the "
 "current timeframe's eligibility grades. The program also allows you to add "
@@ -4736,7 +4752,7 @@ msgstr ""
 "<i>Сторінка учня</i>. Тут відображаються дії учня і його оцінки за поточний "
 "період часу. Розділ також дозволяє додавати та видаляти дії учня."
 
-#: Help_en.php:1110
+#: Help_en.php:1115
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen. You can search for students who are enrolled in a specific course by "
@@ -4751,7 +4767,7 @@ msgstr ""
 "вікні, що з'явиться. Ви також можете шукати учнів, які займаються певною "
 "діяльністю, та учнів, які на даний момент не мають права на це."
 
-#: Help_en.php:1112
+#: Help_en.php:1117
 msgid ""
 "To add an activity to the student, select the desired activity from the "
 "activity pull-down next to the add icon (+) and click the \"Add\" button."
@@ -4759,7 +4775,7 @@ msgstr ""
 "Щоб додати заняття для учня, виберіть потрібне заняття зі спадного списку "
 "поруч із піктограмою «Додати» (+) і натисніть кнопку «Додати»."
 
-#: Help_en.php:1114
+#: Help_en.php:1119
 msgid ""
 "To drop an activity, click on the delete icon (-) next to the activity you "
 "want to drop."
@@ -4767,7 +4783,7 @@ msgstr ""
 "Щоб видалити дію, торкніться значка видалення ( - ) поруч із дією, яку "
 "потрібно видалити."
 
-#: Help_en.php:1116
+#: Help_en.php:1121
 msgid ""
 "You can specify the desired eligibility timeframe by choosing the desired "
 "timeframe from the pull-down menu at the top of the screen. These timeframes "
@@ -4777,7 +4793,7 @@ msgstr ""
 "меню у верхній частині сторінки. Ці часові рамки встановлюються в розділі "
 "«Час надходження»."
 
-#: Help_en.php:1118
+#: Help_en.php:1123
 msgid ""
 "<i>Add Activity</i> allows you to add an activity to a group of students in "
 "one action."
@@ -4785,7 +4801,7 @@ msgstr ""
 "<i>Додати заняття</i> дозволяє вам додати заняття для групи учнів за одну "
 "дію."
 
-#: Help_en.php:1120
+#: Help_en.php:1125
 msgid ""
 "First, search for students. Notice that you can search for students who are "
 "in a certain activity or course. From the search result, you can select any "
@@ -4803,11 +4819,11 @@ msgstr ""
 "кожного бажаного учня з цього списку та бажану дію, натисніть кнопку «Додати "
 "заняття для вибраних учнів» у верхній частині сторінки."
 
-#: Help_en.php:1122
+#: Help_en.php:1127
 msgid "<i>Activities</i> allows you to setup your school's activities."
 msgstr "<i>Заняття</i> дозволяє вам налаштувати заняття у вашій школі."
 
-#: Help_en.php:1124
+#: Help_en.php:1129
 msgid ""
 "To add an activity, fill in the activity's title, beginning date, and ending "
 "date in the empty fields at the bottom of the activities list and click the "
@@ -4816,7 +4832,7 @@ msgstr ""
 "Щоб додати заняття, введіть її його, дату початку та закінчення у порожні "
 "поля внизу списку дій та натисніть кнопку «Зберегти»."
 
-#: Help_en.php:1126
+#: Help_en.php:1131
 msgid ""
 "To modify an activity, click on any of the activity's information, change "
 "the value, and click the \"Save\" button."
@@ -4824,7 +4840,7 @@ msgstr ""
 "Щоб змінити заняття, натисніть будь-яку інформацію про нього, змініть "
 "значення та натисніть кнопку «Зберегти»."
 
-#: Help_en.php:1128
+#: Help_en.php:1133
 msgid ""
 "To delete an activity, click the delete icon (-) next to the activity you "
 "want to delete. You will be asked to confirm the deletion."
@@ -4832,7 +4848,7 @@ msgstr ""
 "Щоб видалити дію, натисніть значок видалення ( - ) поруч із заняттям, яке "
 "потрібно видалити. Вам буде запропоновано підтвердити видалення."
 
-#: Help_en.php:1130
+#: Help_en.php:1135
 msgid ""
 "<i>Entry Times</i> allows you to setup the weekly timeframe in which "
 "teachers can enter eligibility. Teachers must enter eligibility every week "
@@ -4845,7 +4861,7 @@ msgstr ""
 "«Вказати допуск» для вчителів, ці часові рамки використовуються в більшості "
 "звітів про відповідність"
 
-#: Help_en.php:1132
+#: Help_en.php:1137
 msgid ""
 "To change the timeframe, simply change the upper and lower bounds of the "
 "timeframe and click the \"Save\" button."
@@ -4853,7 +4869,7 @@ msgstr ""
 "Щоб змінити часові рамки, просто змініть верхню та нижню межі часових рамок "
 "і натисніть кнопку «Зберегти»."
 
-#: Help_en.php:1134
+#: Help_en.php:1139
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to any number of students."
@@ -4861,7 +4877,7 @@ msgstr ""
 "<i>Список учнів</i> - це звіт, який показує кожен курс та кваліфікаційну "
 "оцінку, присвоєну будь-якій кількості учнів."
 
-#: Help_en.php:1136
+#: Help_en.php:1141
 msgid ""
 "After searching for students, you can specify the eligibility timeframe you "
 "want to view. These timeframes are setup in the \"Entry Times\" program."
@@ -4869,7 +4885,7 @@ msgstr ""
 "Після пошуку учнів ви можете вказати часові рамки, які ви хочете "
 "переглянути. Ці часові рамки налаштовуються в розділі «Час надходження»."
 
-#: Help_en.php:1138
+#: Help_en.php:1143
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered eligibility for any given date range. The date range is set in the "
@@ -4879,7 +4895,7 @@ msgstr ""
 "подавали заявки на допуски протягом певного періоду часу. Діапазон дат "
 "вказано в розділі «Час надходження»."
 
-#: Help_en.php:1140
+#: Help_en.php:1145
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current date "
 "range's eligibility for that period."
@@ -4887,7 +4903,7 @@ msgstr ""
 "Червоні галочки вказують на те, що вчитель не зміг вказати поточний діапазон "
 "дат, відповідний вимогам на цей період."
 
-#: Help_en.php:1142
+#: Help_en.php:1147
 msgid ""
 "You can select the current date range from the pull-down menu at the top of "
 "the screen. You can also show only one period by choosing that period from "
@@ -4900,7 +4916,7 @@ msgstr ""
 "спадного меню періоду у верхній частині сторінки. Вибравши діапазон дат або "
 "період, натисніть кнопку «Далі», щоб оновити список новими параметрами."
 
-#: Help_en.php:1146
+#: Help_en.php:1151
 msgid ""
 "<i>Enter Eligibility</i> allows you to enter eligibility grades for all your "
 "students in the current period. By default, this program will list the "
@@ -4912,7 +4928,7 @@ msgstr ""
 "розділі будуть вказані учні з вашого першого класу. ви можете змінити "
 "поточний період, вибравши його в меню ліворуч."
 
-#: Help_en.php:1148
+#: Help_en.php:1153
 msgid ""
 "Once you are in the correct period, you can enter eligibility grades by "
 "selecting the eligibility code corresponding to each student. Once you have "
@@ -4924,7 +4940,7 @@ msgstr ""
 "чи мають допуск всі ваші учні, натисніть кнопку «Зберегти» у верхній частині "
 "сторінки."
 
-#: Help_en.php:1150
+#: Help_en.php:1155
 msgid ""
 "If you are using the Gradebook, you can have RosarioSIS calculate each "
 "student's eligibility grades by clicking on the \"Use Gradebook Grades\" "
@@ -4937,7 +4953,7 @@ msgstr ""
 "посилання оцінки кожного учня будуть автоматично збережені й список "
 "оновиться."
 
-#: Help_en.php:1157
+#: Help_en.php:1162
 msgid ""
 "<i>Student Screen</i> is a display of your child's activities and the "
 "current timeframe's eligibility grades."
@@ -4945,7 +4961,7 @@ msgstr ""
 "<i>Сторінка учня</i>. Тут відображається інформація про заняття вашої дитини "
 "й її оцінках за поточний період."
 
-#: Help_en.php:1159
+#: Help_en.php:1164
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "desired timeframe from the pull-down menu at the top of the screen. "
@@ -4955,7 +4971,7 @@ msgstr ""
 "потрібний період у спадному меню у верхній частині сторінки. Допуск "
 "проводиться один раз на тиждень."
 
-#: Help_en.php:1161
+#: Help_en.php:1166
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to your child."
@@ -4963,7 +4979,7 @@ msgstr ""
 "<i>Список учня</i> - це звіт, який відображає всі курси та оцінки, "
 "призначені вашій дитині."
 
-#: Help_en.php:1163
+#: Help_en.php:1168
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "timeframe from the pull-down menu at the top of the screen and clicking the "

@@ -83,6 +83,7 @@ Changes in 13.0
 - Remove XML-RPC support. Use the REST API instead in plugins/Moodle/
 - SQL fix Calendar ORDER BY in ImportUsers.fnc.php
 - Use DBInsert() & DBUpdate() functions (Moodle plugin) in ImportUsers.fnc.php, Student.php, User.php
+- Update Russian and Ukrainian translations in rosariosis.po & help.po, thanks to Aleksey
 
 Changes in 12.9.4
 -----------------
