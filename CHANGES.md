@@ -86,6 +86,7 @@ Changes in 13.0
 - Update Russian and Ukrainian translations in rosariosis.po & help.po, thanks to Aleksey
 - Remove Portal Notes integration code (Moodle plugin) in PortalNotes.php & functions.php
 - Fix Secondary Teacher dropdown options when Moodle course in Courses.php
+- Use RewriteRule instead of FilesMatch to avoid AllowOverride AuthConfig in assets/FileUploads/.htaccess
 
 Changes in 12.9.4
 -----------------
