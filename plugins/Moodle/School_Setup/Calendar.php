@@ -5,7 +5,7 @@
 function core_calendar_create_calendar_events_object()
 {
 	//first, gather the necessary variables
-	global $_REQUEST;
+	global $calendar_event_id, $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -28,36 +28,31 @@ function core_calendar_create_calendar_events_object()
 	 */
 	//update_calendar_event
 
-	if ( $_REQUEST['event_id'] !== 'new' )
+	if ( empty( $calendar_event_id ) ) //case: update event
 	{
-		//get calendar event title & description
-		$calendar_event = DBGet( "SELECT TITLE,DESCRIPTION
-			FROM calendar_events
-			WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
+		$calendar_event_id = $_REQUEST['event_id'];
 	}
 
-	if ( empty( $_REQUEST['values']['TITLE'] ) )
+	// Get calendar event title, description & date
+	$calendar_event_RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
+		FROM calendar_events
+		WHERE ID='" . (int) $calendar_event_id . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
+
+	if ( empty( $calendar_event_RET[1] ) )
 	{
-		$name = $calendar_event[1]['TITLE'];
-	}
-	else
-	{
-		$name = $_REQUEST['values']['TITLE'];
+		return false;
 	}
 
-	if ( ! isset( $_REQUEST['values']['DESCRIPTION'] ) )
-	{
-		$description = $calendar_event[1]['DESCRIPTION'];
-	}
-	else
-	{
-		$description = $_REQUEST['values']['DESCRIPTION'];
-	}
+	$calendar_event = $calendar_event_RET[1];
 
+	$name = $calendar_event['TITLE'];
+	$description = $calendar_event['DESCRIPTION'];
 	$format = 4;
 	$courseid = 1;
 	$eventtype = 'site';
-	$timestart = strtotime( $_REQUEST['values']['SCHOOL_DATE'] );
+	$timestart = strtotime( $calendar_event['SCHOOL_DATE'] );
 
 	$events = [
 		[
@@ -139,8 +134,14 @@ function core_calendar_create_calendar_events_response( $response )
 		$calendar_event_id = $_REQUEST['event_id'];
 	}
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('calendar_event_id', '" . $calendar_event_id . "', " . $response['events'][0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'calendar_event_id',
+			'ROSARIO_ID' => (int) $calendar_event_id,
+			'MOODLE_ID' => (int) $response['events'][0]['id'],
+		]
+	);
 
 	return null;
 }
