@@ -5,7 +5,28 @@
 function core_user_create_users_object()
 {
 	//first, gather the necessary variables
-	global $id, $username, $password, $locale, $user, $students;
+	global $id, $password, $student_id;
+
+	// Gather the Moodle student ID.
+	$studentid = MoodleXRosarioGet( 'student_id', $student_id );
+
+	if ( empty( $studentid ) )
+	{
+		// Student not in Moodle, do not create Parent.
+		return null;
+	}
+
+	$user_RET = DBGet( "SELECT USERNAME,FIRST_NAME,LAST_NAME,EMAIL
+		FROM staff
+		WHERE STAFF_ID='" . (int) $id . "'
+		AND SYEAR='" . UserSyear() . "'" );
+
+	if ( empty( $user_RET[1] ) )
+	{
+		return null;
+	}
+
+	$user = $user_RET[1];
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -41,11 +62,11 @@ function core_user_create_users_object()
 	)}
 	)
 	 */
-	$username = mb_strtolower( $username );
+	$username = mb_strtolower( $user['USERNAME'] );
 	$password = $password;
 	$firstname = $user['FIRST_NAME'];
 	$lastname = $user['LAST_NAME'];
-	$email = $students[1]['EMAIL'];
+	$email = $user['EMAIL'];
 	$auth = 'manual';
 	$idnumber = (string) $id;
 
@@ -91,8 +112,14 @@ function core_user_create_users_response( $response )
 		return null;
 	}
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
-		VALUES('staff_id', '" . $id . "', " . $response[0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'staff_id',
+			'ROSARIO_ID' => (int) $id,
+			'MOODLE_ID' => (int) $response[0]['id'],
+		]
+	);
 
 	return null;
 }
