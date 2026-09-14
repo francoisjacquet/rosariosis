@@ -84,6 +84,7 @@ Changes in 13.0
 - SQL fix Calendar ORDER BY in ImportUsers.fnc.php
 - Use DBInsert() & DBUpdate() functions (Moodle plugin) in ImportUsers.fnc.php, Student.php, User.php, CreateParents.php, Calendar.php
 - Update Russian and Ukrainian translations in rosariosis.po & help.po, thanks to Aleksey
+- Remove Portal Notes integration code (Moodle plugin) in PortalNotes.php & functions.php
 
 Changes in 12.9.4
 -----------------

@@ -71,11 +71,6 @@ elseif ( MoodleConfig() )
 	add_action( 'School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered' );
 	add_action( 'School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered' );
 
-	add_action( 'School_Setup/PortalNotes.php|portal_note_field', 'MoodleTriggered', 2 );
-	add_action( 'School_Setup/PortalNotes.php|create_portal_note', 'MoodleTriggered' );
-	add_action( 'School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered' );
-	add_action( 'School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered' );
-
 	add_action( 'School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered' );
 
 	add_action( 'School_Setup/Rollover.php|rollover_after', 'MoodleTriggered' );
@@ -611,45 +606,6 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			{
 				echo ErrorMessage( [ $error ], 'fatal' ); //display inside popup, before JS closing
 			}
-
-			break;
-
-		/*School_Setup/PortalNotes.php*/
-		case 'School_Setup/PortalNotes.php|portal_note_field':
-			$id = $arg1;
-			global $return;
-
-			//only if new note
-
-			if ( $id == 'new' )
-			{
-				$return .= '<tr class="st"><td colspan="2"><b>' . _( 'Publish Note in Moodle?' ) . '</b> <label><input type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> ' . _( 'Yes' ) . '</label></td></tr>';
-			}
-
-			break;
-
-		case 'School_Setup/PortalNotes.php|create_portal_note':
-			if ( ! empty( $_REQUEST['MOODLE_PUBLISH_NOTE'] ) )
-			{
-				Moodle( $modname, 'core_notes_create_notes' );
-			}
-
-			break;
-
-		case 'School_Setup/PortalNotes.php|update_portal_note':
-			global $columns;
-
-			//update note if title or content modified
-
-			if ( isset( $columns['TITLE'] ) || isset( $columns['CONTENT'] ) )
-			{
-				Moodle( $modname, 'core_notes_update_notes' );
-			}
-
-			break;
-
-		case 'School_Setup/PortalNotes.php|delete_portal_note':
-			Moodle( $modname, 'core_notes_delete_notes' );
 
 			break;
 
