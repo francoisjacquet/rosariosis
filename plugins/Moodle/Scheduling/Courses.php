@@ -6,7 +6,7 @@
 function core_course_create_categories_object()
 {
 	//first, gather the necessary variables
-	global $columns, $_REQUEST, $table_name;
+	global $_REQUEST, $table_name;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -22,22 +22,50 @@ function core_course_create_categories_object()
 	}
 	)*/
 
-	// @since 12.3 Multilingual course title
-	// @todo send to Moodle using https://docs.moodle.org/38/en/Multi-language_content_filter
-	$name = ParseMLField( DBUnescapeString( $columns['TITLE'] ) );
-
 	if ( $table_name == 'course_subjects' )
 	{
+		$subject_RET = DBGet( "SELECT TITLE
+			FROM course_subjects
+			WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'" );
+
+		if ( empty( $subject_RET[1] ) )
+		{
+			return null;
+		}
+
+		$subject = $subject_RET[1];
+
+		// @since 12.3 Multilingual course title
+		// @todo send to Moodle using https://docs.moodle.org/38/en/Multi-language_content_filter
+		$name = ParseMLField( $subject['TITLE'] );
+
 		// @since 5.8 Ability to set a Parent Category to Subjects. Used by Iomad plugin.
 		$parent = ! empty( $_REQUEST['MOODLE_COURSE_SUBJECT_PARENT_CATEGORY'] ) ?
 			$_REQUEST['MOODLE_COURSE_SUBJECT_PARENT_CATEGORY'] : 0;
-
-		//$idnumber = (string)$_REQUEST['subject_id'];
 
 		$description = '';
 	}
 	elseif ( $table_name == 'courses' )
 	{
+		$course_RET = DBGet( "SELECT TITLE,DESCRIPTION
+			FROM courses
+			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'" );
+
+		if ( empty( $course_RET[1] ) )
+		{
+			return null;
+		}
+
+		$course = $course_RET[1];
+
+		// @since 12.3 Multilingual course title
+		// @todo send to Moodle using https://docs.moodle.org/38/en/Multi-language_content_filter
+		$name = ParseMLField( $course['TITLE'] );
+
 		//get the Moodle parent category
 		$parent = MoodleXRosarioGet( 'subject_id', $_REQUEST['subject_id'] );
 
@@ -46,13 +74,10 @@ function core_course_create_categories_object()
 			return null;
 		}
 
-		//$idnumber = (string)$_REQUEST['course_id'];
-
 		// @since 11.5 Send Course description to Moodle
-		$description = DBUnescapeString( $columns['DESCRIPTION'] );
+		$description = $course['DESCRIPTION'];
 	}
 	else //error...
-
 	{
 		return null;
 	}
@@ -107,8 +132,14 @@ function core_course_create_categories_response( $response )
 		$rosario_id = (string) $_REQUEST['course_id'];
 	}
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
-		VALUES('" . $column . "', '" . $rosario_id . "', " . $response[0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => $column,
+			'ROSARIO_ID' => (int) $rosario_id,
+			'MOODLE_ID' => (int) $response[0]['id'],
+		]
+	);
 
 	return null;
 }
@@ -118,7 +149,7 @@ function core_course_create_categories_response( $response )
 function core_course_update_categories_object()
 {
 	//first, gather the necessary variables
-	global $columns, $_REQUEST, $table_name;
+	global $_REQUEST, $table_name;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -154,23 +185,52 @@ function core_course_update_categories_object()
 		return null;
 	}
 
-	if ( empty( $columns['TITLE'] ) )
+	if ( $table_name == 'course_subjects' )
+	{
+		$subject_RET = DBGet( "SELECT TITLE
+			FROM course_subjects
+			WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'" );
+
+		if ( empty( $subject_RET[1] ) )
+		{
+			return null;
+		}
+
+		$subject = $subject_RET[1];
+
+		// @since 12.3 Multilingual course title
+		// @todo send to Moodle using https://docs.moodle.org/38/en/Multi-language_content_filter
+		$name = ParseMLField( $subject['TITLE'] );
+
+		$description = '';
+	}
+	elseif ( $table_name == 'courses' )
+	{
+		$course_RET = DBGet( "SELECT TITLE,DESCRIPTION
+			FROM courses
+			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'" );
+
+		if ( empty( $course_RET[1] ) )
+		{
+			return null;
+		}
+
+		$course = $course_RET[1];
+
+		// @since 12.3 Multilingual course title
+		// @todo send to Moodle using https://docs.moodle.org/38/en/Multi-language_content_filter
+		$name = ParseMLField( $course['TITLE'] );
+
+		// @since 11.5 Send Course description to Moodle
+		$description = $course['DESCRIPTION'];
+	}
+	else //error...
 	{
 		return null;
-	}
-
-	// @since 12.3 Multilingual course title
-	// @todo send to Moodle using https://docs.moodle.org/38/en/Multi-language_content_filter
-	$name = ParseMLField( DBUnescapeString( $columns['TITLE'] ) );
-
-	if ( $table_name == 'courses' )
-	{
-		// @since 11.5 Send Course description to Moodle
-		$description = DBUnescapeString( $columns['DESCRIPTION'] );
-	}
-	elseif ( $table_name == 'course_subjects' )
-	{
-		$description = '';
 	}
 
 	$descriptionformat = 1;
@@ -270,7 +330,7 @@ function core_course_delete_categories_response( $response )
 function core_course_create_courses_object()
 {
 	//first, gather the necessary variables
-	global $columns, $_REQUEST, $base_title;
+	global $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -305,9 +365,23 @@ function core_course_create_courses_object()
 	}
 	)
 	 */
+
+	$course_period_RET = DBGet( "SELECT TITLE,SHORT_NAME,MARKING_PERIOD_ID
+		FROM course_periods
+		WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
+
+	if ( empty( $course_period_RET[1] ) )
+	{
+		return null;
+	}
+
+	$course_period = $course_period_RET[1];
+
 	//add the year to the course name
-	$fullname = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . ' - ' . $base_title;
-	$shortname = $columns['SHORT_NAME'];
+	$fullname = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . ' - ' . $course_period['TITLE'];
+	$shortname = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . ' ' . $course_period['SHORT_NAME'];
 
 	//get the Moodle category
 	$categoryid = MoodleXRosarioGet( 'course_id', $_REQUEST['course_id'] );
@@ -323,11 +397,11 @@ function core_course_create_courses_object()
 	$showgrades = 1;
 	$newsitems = 5;
 	//convert YYYY-MM-DD to timestamp
-	$startdate = strtotime( GetMP( $columns['MARKING_PERIOD_ID'], 'START_DATE' ) );
+	$startdate = strtotime( GetMP( $course_period['MARKING_PERIOD_ID'], 'START_DATE' ) );
 	//convert YYYY-MM-DD to timestamp
-	$enddate = strtotime( GetMP( $columns['MARKING_PERIOD_ID'], 'END_DATE' ) );
+	$enddate = strtotime( GetMP( $course_period['MARKING_PERIOD_ID'], 'END_DATE' ) );
 	$numsections = 10;
-	$maxbytes = 8388608;
+	$maxbytes = 0;
 	$showreports = 1;
 	$hiddensections = 0;
 	$groupmode = 0;
@@ -376,8 +450,14 @@ function core_course_create_courses_response( $response )
 	}
 	)*/
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
-		VALUES('course_period_id', '" . $_REQUEST['course_period_id'] . "', " . $response[0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'course_period_id',
+			'ROSARIO_ID' => (int) $_REQUEST['course_period_id'],
+			'MOODLE_ID' => (int) $response[0]['id'],
+		]
+	);
 
 	$_REQUEST['moodle_create_course_period'] = false;
 
