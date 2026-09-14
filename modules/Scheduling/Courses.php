@@ -1050,13 +1050,11 @@ if (  ( ! $_REQUEST['modfunc']
 			$header = '<table class="width-100p valign-top fixed-col" id="coursesTable">';
 			$header .= '<tr class="st">';
 
-			// FJ Moodle integrator.
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['SHORT_NAME'], '' ),
 				'tables[course_periods][' . $_REQUEST['course_period_id'] . '][SHORT_NAME]',
 				_( 'Short Name' ),
-				'required maxlength=25',
-				empty( $_REQUEST['moodle_create_course_period'] )
+				'required maxlength=25'
 			) . '</td>';
 
 			// @since 9.2.1 SQL replace use of STRPOS() with LIKE, compatible with MySQL.
@@ -1074,6 +1072,11 @@ if (  ( ! $_REQUEST['modfunc']
 				if ( ! empty( $_REQUEST['moodle_create_course_period'] )
 					&& ! MoodleXRosarioGet( 'staff_id', $teacher['STAFF_ID'] ) )
 				{
+					if ( $RET['TEACHER_ID'] == $teacher['STAFF_ID'] )
+					{
+						$RET['TEACHER_ID'] = '';
+					}
+
 					// @since 5.8 Only display Teachers in Moodle when creating a Course Period in Moodle.
 					continue;
 				}
@@ -1093,7 +1096,12 @@ if (  ( ! $_REQUEST['modfunc']
 			) . '</td>';
 
 			// @since 6.8 Add Secondary Teacher.
-			$secondary_teachers = $teachers;
+			$secondary_teachers = [];
+
+			foreach ( (array) $teachers_RET as $teacher )
+			{
+				$secondary_teachers[$teacher['STAFF_ID']] = GetTeacher( $teacher['STAFF_ID'] );
+			}
 
 			if ( ! empty( $RET['TEACHER_ID'] )
 				&& isset( $teachers[$RET['TEACHER_ID']] ) )
@@ -1176,8 +1184,7 @@ if (  ( ! $_REQUEST['modfunc']
 					_( 'Marking Period' ),
 					$options,
 					false,
-					'required',
-					empty( $_REQUEST['moodle_create_course_period'] )
+					'required'
 				) . '</td>';
 			}
 			else
