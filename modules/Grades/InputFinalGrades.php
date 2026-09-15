@@ -551,7 +551,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 		elseif ( ( isset( $columns['percent'] ) && $columns['percent'] != '' )
 			|| ! empty( $columns['grade'] )
-			|| $columns['comment'] )
+			|| ! empty( $columns['comment'] ) )
 		{
 			if ( isset( $columns['percent'] ) && $columns['percent'] != '' )
 			{
