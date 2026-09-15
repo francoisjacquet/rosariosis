@@ -5,7 +5,7 @@
 function core_calendar_create_calendar_events_object()
 {
 	//first, gather the necessary variables
-	global $columns;
+	global $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -27,37 +27,6 @@ function core_calendar_create_calendar_events_object()
 	)
 	 */
 
-	//assignment due date must be set (due date = Moodle event time start)
-
-	if ( ! isset( $columns['TITLE'] )
-		&& ! empty( $_REQUEST['assignment_id'] ) )
-	{
-		// Fix PHP notice undefined array key "TITLE" on Assignment update
-		$columns = DBGet( "SELECT TITLE,DUE_DATE,ASSIGNED_DATE,DESCRIPTION
-			FROM gradebook_assignments
-			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
-
-		if ( empty( $columns[1] ) )
-		{
-			return null;
-		}
-
-		$columns = $columns[1];
-	}
-
-	if ( empty( $columns['DUE_DATE'] ) )
-	{
-		return null;
-	}
-
-	$name = $columns['TITLE'];
-
-	$description = ( ! empty( $columns['ASSIGNED_DATE'] ) ?
-		_( 'Assigned Date' ) . ': ' . ProperDate( $columns['ASSIGNED_DATE'] ) . '<br />' : '' ) .
-		$columns['DESCRIPTION'];
-
-	$format = 1;
-
 	//gather the Moodle course ID
 	$courseid = MoodleXRosarioGet( 'course_period_id', UserCoursePeriod() );
 
@@ -66,9 +35,31 @@ function core_calendar_create_calendar_events_object()
 		return null;
 	}
 
-	$eventtype = 'course';
+	$assignment_RET = DBGet( "SELECT TITLE,DUE_DATE,ASSIGNED_DATE,DESCRIPTION
+		FROM gradebook_assignments
+		WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
+		AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 
-	$timestart = strtotime( $columns['DUE_DATE'] );
+	if ( empty( $assignment_RET[1] ) )
+	{
+		return null;
+	}
+
+	$assignment = $assignment_RET[1];
+
+	if ( empty( $assignment['DUE_DATE'] ) )
+	{
+		//assignment due date must be set (due date = Moodle event time start)
+		return null;
+	}
+
+	$name = $assignment['TITLE'];
+	$description = ( ! empty( $assignment['ASSIGNED_DATE'] ) ?
+		_( 'Assigned Date' ) . ': ' . ProperDate( $assignment['ASSIGNED_DATE'] ) . '<br />' : '' ) .
+		$assignment['DESCRIPTION'];
+	$format = 1;
+	$eventtype = 'course';
+	$timestart = strtotime( $assignment['DUE_DATE'] );
 
 	$events = [
 		[
@@ -90,7 +81,7 @@ function core_calendar_create_calendar_events_object()
 function core_calendar_create_calendar_events_response( $response )
 {
 	//first, gather the necessary variables
-	global $id;
+	global $_REQUEST;
 
 	//then, save the ID in the moodlexrosario cross-reference table if no error:
 	/*
@@ -140,9 +131,14 @@ function core_calendar_create_calendar_events_response( $response )
 		return false;
 	}
 
-	$assignment_id = $id;
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ", rosario_id, moodle_id)
-		VALUES('assignment_id', '" . $assignment_id . "', " . $response['events'][0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'assignment_id',
+			'ROSARIO_ID' => (int) $_REQUEST['assignment_id'],
+			'MOODLE_ID' => (int) $response['events'][0]['id'],
+		]
+	);
 
 	return null;
 }
@@ -151,7 +147,7 @@ function core_calendar_create_calendar_events_response( $response )
 function core_calendar_delete_calendar_events_object()
 {
 	//first, gather the necessary variables
-	global $id, $_REQUEST;
+	global $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -166,13 +162,6 @@ function core_calendar_delete_calendar_events_object()
 
 	//gather the Moodle Event ID
 	$assignment_id = issetVal( $_REQUEST['assignment_id'] );
-
-	//update
-
-	if ( ! empty( $id ) )
-	{
-		$assignment_id = $id;
-	}
 
 	$eventid = MoodleXRosarioGet( 'assignment_id', $assignment_id );
 
@@ -199,25 +188,12 @@ function core_calendar_delete_calendar_events_object()
 function core_calendar_delete_calendar_events_response( $response )
 {
 	//first, gather the necessary variables
-	global $id, $columns, $_REQUEST;
-
-	$assignment_id = issetVal( $_REQUEST['assignment_id'] );
-
-	if ( ! empty( $id ) ) //update
-	{
-		$assignment_id = $id;
-		//get the Gradebook Assignment columns needed by the core_calendar_create_calendar_events function
-		$gradebook_assignment = DBGet( "SELECT ASSIGNED_DATE,DUE_DATE,DESCRIPTION,TITLE
-			FROM gradebook_assignments
-			WHERE ASSIGNMENT_ID='" . (int) $id . "'" );
-
-		$columns = $gradebook_assignment[1];
-	}
+	global $_REQUEST;
 
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM moodlexrosario
 		WHERE " . DBEscapeIdentifier( 'column' ) . "='assignment_id'
-		AND rosario_id='" . (int) $assignment_id . "'" );
+		AND rosario_id='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 	return null;
 }
