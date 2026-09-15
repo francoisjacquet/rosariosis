@@ -5,7 +5,7 @@
 function core_course_create_courses_object()
 {
 	//first, gather the necessary variables
-	global $rolled_course_period, $next_syear;
+	global $rolled_course_period;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -40,34 +40,10 @@ function core_course_create_courses_object()
 	)
 	 */
 
-	$mp_short_name = '';
-
-	//if marking period != full year, add short name
-
-	if ( $rolled_course_period['MP'] != 'FY' )
-	{
-		$mp_short_name = DBGetOne( "SELECT SHORT_NAME
-			FROM school_marking_periods
-			WHERE MARKING_PERIOD_ID='" . (int) $rolled_course_period['MARKING_PERIOD_ID'] . "'" );
-
-		$mp_short_name = ' - ' . $mp_short_name;
-	}
+	$next_syear = UserSyear() + 1;
 
 	//add the year to the course name
-	$fullname = FormatSyear( $next_syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . $mp_short_name . ' - ' .
-		$rolled_course_period['SHORT_NAME'];
-
-	$teacher_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-		FROM staff
-		WHERE SYEAR='" . $next_syear . "'
-		AND PROFILE='teacher'
-		AND STAFF_ID='" . (int) $rolled_course_period['TEACHER_ID'] . "'" );
-
-	if ( $teacher_name )
-	{
-		$fullname .= ' - ' . $teacher_name;
-	}
-
+	$fullname = FormatSyear( $next_syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . ' - ' . $rolled_course_period['TITLE'];
 	// Fix Moodle error Short name is already used for another course
 	$shortname = FormatSyear( $next_syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . ' ' . $rolled_course_period['SHORT_NAME'];
 
@@ -84,10 +60,19 @@ function core_course_create_courses_object()
 	$format = 'weeks';
 	$showgrades = 1;
 	$newsitems = 5;
+
+	$marking_period_RET = DBGet( "SELECT START_DATE,END_DATE
+		FROM school_marking_periods
+		WHERE MARKING_PERIOD_ID='" . (int) $rolled_course_period['MARKING_PERIOD_ID'] . "'
+		AND SYEAR='" . $next_syear . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
+
 	//convert YYYY-MM-DD to timestamp
-	$startdate = strtotime( GetMP( $rolled_course_period['MARKING_PERIOD_ID'], 'START_DATE' ) );
+	$startdate = strtotime( $marking_period_RET[1]['START_DATE'] );
+	//convert YYYY-MM-DD to timestamp
+	$enddate = strtotime( $marking_period_RET[1]['END_DATE'] );
 	$numsections = 10;
-	$maxbytes = 8388608;
+	$maxbytes = 0;
 	$showreports = 1;
 	$hiddensections = 0;
 	$groupmode = 0;
@@ -105,6 +90,7 @@ function core_course_create_courses_object()
 			'showgrades' => $showgrades,
 			'newsitems' => $newsitems,
 			'startdate' => $startdate,
+			'enddate' => $enddate,
 			'numsections' => $numsections,
 			'maxbytes' => $maxbytes,
 			'showreports' => $showreports,
@@ -135,8 +121,14 @@ function core_course_create_courses_response( $response )
 	}
 	)*/
 
-	DBQuery( "INSERT INTO moodlexrosario (" . DBEscapeIdentifier( 'column' ) . ",rosario_id,moodle_id)
-		VALUES('course_period_id','" . $rolled_course_period['COURSE_PERIOD_ID'] . "'," . $response[0]['id'] . ")" );
+	DBInsert(
+		'moodlexrosario',
+		[
+			'COLUMN' => 'course_period_id',
+			'ROSARIO_ID' => (int) $rolled_course_period['COURSE_PERIOD_ID'],
+			'MOODLE_ID' => (int) $response[0]['id'],
+		]
+	);
 
 	return null;
 }
