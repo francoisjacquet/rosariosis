@@ -124,7 +124,9 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 				$total /= $total_percent;
 			}
 
-			$grade = $grades_RET[_makeLetterGrade( $total, 0, 0, 'ID' )][1];
+			$grade_id = _makeLetterGrade( $total, 0, 0, 'ID' );
+
+			$grade = isset( $grades_RET[ $grade_id ][1] ) ? $grades_RET[ $grade_id ][1] : [];
 
 			$code = 'PASSING';
 
@@ -138,7 +140,9 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 				 */
 				$code = 'INCOMPLETE';
 			}
-			elseif ( $grade['GPA_VALUE'] == '0' || ! $grade['GPA_VALUE'] )
+			elseif ( ! $grade // Grade not found
+				|| $grade['GPA_VALUE'] == '0'
+				|| ! $grade['GPA_VALUE'] )
 			{
 				$code = 'FAILING';
 			}
