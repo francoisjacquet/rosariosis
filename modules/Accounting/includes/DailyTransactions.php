@@ -270,8 +270,8 @@ if ( ! empty( $_REQUEST['student_billing'] )
 		$RET[$i++] = $student_payment;
 	}
 
-	$credit_col[] = _( 'Fee' );
-	$debit_col[] = _( 'Student Payment' );
+	$credit_col[] = _( 'Student Payment' );
+	$debit_col[] = _( 'Fee' );
 
 	if ( empty( $_REQUEST['staff_payroll'] ) )
 	{
