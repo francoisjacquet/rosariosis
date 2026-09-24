@@ -3,7 +3,6 @@
 <IfModule mod_rewrite.c>
 
     RewriteEngine On
-    RewriteOptions InheritDownBefore
 
     RewriteRule (?i)\.(php.?|phar|[psx]?html?|xml|svg|js)$ - [F]
 </IfModule>
