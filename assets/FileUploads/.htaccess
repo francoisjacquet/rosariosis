@@ -4,7 +4,7 @@
 
     RewriteEngine On
 
-    RewriteRule (?i)\.(php.?|phar|[psx]?html?|xml|svg|js)$ - [F]
+    RewriteRule (?i)\.(php.?|phar|[psx]?html?|xml|svg|js|pl|py|cgi|sh|bat)$ - [F]
 </IfModule>
 #
 ## End - Security
