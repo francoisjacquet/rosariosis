@@ -21,6 +21,8 @@ Activate them from the _School > Configuration > Plugins_ menu
 
 You can base your work or reuse any existing plugin. The list of available plugins can be found at https://www.rosariosis.org/add-ons/
 
+General recommandations for developers can be found in the [CONTRIBUTING.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/CONTRIBUTING.md) file.
+
 ## Action hooks
 
 You typically want to register your functions to be hooked on certain actions. The list of actions is available in the [`functions/Actions.php`](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/functions/Actions.php) file.

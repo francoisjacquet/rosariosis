@@ -49,3 +49,12 @@ The [meta](https://gitlab.com/francoisjacquet/rosariosis-meta/) repository provi
 
 Freely study and reuse the [Example module](https://gitlab.com/francoisjacquet/Example)
 
+### Security
+
+If you have found a security vulnerability in RosarioSIS, please consult the [SECURITY.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/SECURITY.md) file.
+
+Security guidance for developers can be found in the Example module's [wiki](https://gitlab.com/francoisjacquet/Example/-/wikis/Security).
+
+### MySQL and PostgreSQL
+
+RosarioSIS both supports MySQL and PostgreSQL databases. Standard SQL will work on both DBMS, but some queries make use of proprietary functions. Here is a [wiki article](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/Convert-PostgreSQL-to-MySQL) to help convert PostgreSQL to MySQL.

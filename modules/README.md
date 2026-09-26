@@ -19,6 +19,8 @@ Activate them from the _School > Configuration > Modules_ menu
 
 To create a custom module, or add a program to an existing module, please refer to https://gitlab.com/francoisjacquet/Example
 
+General recommandations for developers can be found in the [CONTRIBUTING.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/CONTRIBUTING.md) file.
+
 ## Action hooks
 
 You typically want to register your `functions.php` file functions to be hooked on certain actions. The list of actions is available in the [`functions/Actions.php`](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/functions/Actions.php) file.
