@@ -88,6 +88,7 @@ Changes in 13.0
 - Fix Secondary Teacher dropdown options when Moodle course in Courses.php
 - Use RewriteRule instead of FilesMatch to avoid AllowOverride AuthConfig in assets/FileUploads/.htaccess
 - Fix swap "Fee" and "Student Payment" column labels in DailyTransactions.php
+- Update Portuguese (Brazil) translation in rosariosis.po & help.po
 
 Changes in 12.9.4
 -----------------
