@@ -96,6 +96,23 @@ if ( $csp_report['violated-directive'] === 'script-src-elem'
 }
 
 /**
+ * Really common violation but was not able to trace it...
+ *
+ * "violated-directive": "script-src-elem",
+ * "blocked-uri": "inline",
+ * "script-sample": "(function () {\n            try {\n       "
+ * "column-number": 709
+ */
+if ( $csp_report['violated-directive'] === 'script-src-elem'
+	&& $csp_report['blocked-uri'] === 'inline'
+	&& $csp_report['column-number'] === 709
+	&& ! empty( $csp_report['script-sample'] )
+	&& mb_strpos( $csp_report['script-sample'], '(function () {' ) !== false )
+{
+	return _skipDie( 'Skip CSP violation triggered by script sample: "' . $csp_report['script-sample'] . '", column 709' );
+}
+
+/**
  * Violation triggered just before AJAX request to Google Analytics (see above)
  *
  * "violated-directive": "script-src-elem",
