@@ -414,7 +414,7 @@ function GetCurrentMP( $mp, $date, $error = true )
 	static $current_mp = null;
 
 	if ( is_null( $current_mp )
-		|| ! isset( $current_mp[ $date ][ $mp ] ) )
+		|| ! isset( $current_mp[ $date ][ $mp ][1]['MARKING_PERIOD_ID'] ) )
 	{
 		$current_mp[ $date ][ $mp ] = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM school_marking_periods

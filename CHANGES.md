@@ -90,6 +90,7 @@ Changes in 13.0
 - Fix swap "Fee" and "Student Payment" column labels in DailyTransactions.php
 - Update Portuguese (Brazil) translation in rosariosis.po & help.po
 - Skip CSP violation triggered by script sample: "(function () {", column 709 in SaveReport.php
+- Fix regression since 2.8 set current MarkingPeriod (Quarter) for parents in Side.php & GetMP.php
 
 Changes in 12.9.4
 -----------------

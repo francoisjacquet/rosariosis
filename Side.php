@@ -326,7 +326,8 @@ else
 	}
 
 	// Set current MarkingPeriod (Quarter).
-	if ( ! UserMP() )
+	if ( ! UserMP()
+		&& User( 'PROFILE' ) !== 'parent' )
 	{
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
 	}
@@ -483,7 +484,16 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 				<?php // Set current School.
 				if ( UserStudentID() == $student['STUDENT_ID'] )
 				{
+					$is_school_update = UserSchool() != $student['SCHOOL_ID'];
+
 					$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
+
+					// Set current MarkingPeriod (Quarter).
+					if ( ! UserMP()
+						|| $is_school_update )
+					{
+						$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
+					}
 				}
 
 			endforeach;
