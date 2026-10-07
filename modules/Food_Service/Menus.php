@@ -124,7 +124,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		if ( $_REQUEST['tab_id'] !== 'new' )
 		{
-			if ( $menus_RET[$_REQUEST['tab_id']] )
+			if ( ! empty( $menus_RET[$_REQUEST['tab_id']] ) )
 			{
 				$_SESSION['FSA_menu_id'] = $_REQUEST['tab_id'];
 			}
@@ -142,7 +142,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		if ( ! empty( $_SESSION['FSA_menu_id'] ) )
 		{
-			if ( $menus_RET[$_SESSION['FSA_menu_id']] )
+			if ( ! empty( $menus_RET[$_SESSION['FSA_menu_id']] ) )
 			{
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'];
 			}

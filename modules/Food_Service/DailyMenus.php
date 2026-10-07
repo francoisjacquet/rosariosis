@@ -51,7 +51,8 @@ $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER IS NULL,SORT_ORDER", [], [ 'MENU_ID' ] );
 
-if ( empty( $_REQUEST['menu_id'] ) )
+if ( empty( $_REQUEST['menu_id'] )
+	|| empty( $menus_RET[$_REQUEST['menu_id']] ) )
 {
 	if ( empty( $_SESSION['FSA_menu_id'] ) )
 	{
