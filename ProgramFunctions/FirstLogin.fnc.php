@@ -301,10 +301,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 		{
 			$data = $_REQUEST['poll'];
 
-			$data['ip'] = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
-				// Filter IP, HTTP_* headers can be forged.
-				&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
-				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
+			$data['ip'] = (new RosarioSIS\Functions\ClientIp)->get();
 			$data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 			$data['url'] = RosarioURL();
 			$data['locale'] = $_SESSION['locale'];

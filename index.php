@@ -168,10 +168,7 @@ elseif ( isset( $_POST['USERNAME'] )
 
 	$is_banned = false;
 
-	$ip = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
-		// Filter IP, HTTP_* headers can be forged.
-		&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
-		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
+	$ip = (new RosarioSIS\Functions\ClientIp)->get();
 
 	if ( Config( 'FAILED_LOGIN_LIMIT' ) )
 	{

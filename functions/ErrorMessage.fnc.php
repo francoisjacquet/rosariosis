@@ -160,10 +160,7 @@ function ErrorSendEmail( $error = [], $title = 'PHP Fatal error' )
 		return false;
 	}
 
-	$ip = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
-		// Filter IP, HTTP_* headers can be forged.
-		&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
-		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
+	$ip = (new RosarioSIS\Functions\ClientIp)->get();
 
 	$debug_backtrace = debug_backtrace();
 
