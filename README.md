@@ -1,3 +1,5 @@
+#  **RosarioSIS code is now hosted at [GitLab](https://gitlab.com/francoisjacquet/rosariosis)!**
+
 RosarioSIS Student Information System
 =====================================
 
