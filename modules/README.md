@@ -19,7 +19,7 @@ Activate them from the _School > Configuration > Modules_ menu
 
 To create a custom module, or add a program to an existing module, please refer to https://gitlab.com/francoisjacquet/Example
 
-General recommandations for developers can be found in the [CONTRIBUTING.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/CONTRIBUTING.md) file.
+General recommendations for developers can be found in the [CONTRIBUTING.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/CONTRIBUTING.md) file.
 
 ## Action hooks
 
