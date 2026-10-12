@@ -167,7 +167,14 @@ function bump_amount( $value, $column )
 
 	if ( ! empty( $types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']] ) )
 	{
-		$types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']][$value] += $THIS_RET['AMOUNT'];
+		if ( empty( $types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']][$value] ) )
+		{
+			$types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']][$value] = $THIS_RET['AMOUNT'];
+		}
+		else
+		{
+			$types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']][$value] += $THIS_RET['AMOUNT'];
+		}
 	}
 	else
 	{
@@ -175,7 +182,7 @@ function bump_amount( $value, $column )
 		$types_rows[$THIS_RET['SHORT_NAME']] = $THIS_RET['SHORT_NAME'];
 	}
 
-	if ( ! $types_columns[$value] )
+	if ( empty( $types_columns[$value] ) )
 	{
 		$types_columns += [ $value => $value ];
 		$types_totals['Student'][$value] = 0;
