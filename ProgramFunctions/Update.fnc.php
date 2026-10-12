@@ -289,6 +289,10 @@ function Update()
 		case version_compare( $from_version, '12.6', '<' ) :
 
 			$return = _update126();
+
+		case version_compare( $from_version, '13.0.1', '<' ) :
+
+			$return = _update1301();
 	}
 
 	// Update version in DB config table.
@@ -1702,11 +1706,11 @@ function _update126()
  *
  * Local function
  *
- * @since 13.0
+ * @since 13.0.1
  *
  * @return boolean false if update failed or if not called by Update(), else true
  */
-function _update130()
+function _update1301()
 {
 	global $DatabaseType,
 		$RosarioURL;

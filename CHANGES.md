@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 13.0.1
+-----------------
+- Run updates for version 13.0 in Update.fnc.php
+
 Changes in 13.0
 ---------------
 - Add `&modfunc=save` to form in Courses.php, Assignments.php & MarkingPeriods.php
