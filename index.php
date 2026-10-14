@@ -537,7 +537,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 				<label>
 					<input type="password" name="PASSWORD" id="PASSWORD" value="<?php
 						echo AttrEscape( $default_password );
-					?>" size="20" maxlength="42" required />
+					?>" size="20" maxlength="72" required />
 					<?php echo _( 'Password' ); ?>
 				</label>
 				<div class="align-right">

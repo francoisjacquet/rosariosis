@@ -264,7 +264,7 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 				'',
 				'first_login[PASSWORD]',
 				_( 'New Password' ),
-				'required strength autofocus'
+				'maxlength="72" required strength autofocus'
 			);
 
 			AllowEditTemporary( 'stop' );

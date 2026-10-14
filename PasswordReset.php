@@ -420,7 +420,7 @@ function _passwordResetForm( $hash, $user_id )
 				'',
 				'PASSWORD',
 				_( 'New Password' ),
-				'strength maxlength="42" tabindex="1" required'
+				'maxlength="72" required strength tabindex="1"'
 			);
 
 			AllowEditTemporary( 'stop' );

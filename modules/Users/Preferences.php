@@ -529,7 +529,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<table class="cellpadding-5"><tr><td>';
 
 		// Current Password
-		echo PasswordInput( '', 'values[current]', _( 'Current Password' ), 'required' );
+		echo PasswordInput( '', 'values[current]', _( 'Current Password' ), 'maxlength="72" required' );
 
 		echo '</td></tr><tr><td>';
 
@@ -540,7 +540,7 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 
 		// New Password.
-		echo PasswordInput( '', 'values[new]', _( 'New Password' ), 'required strength' );
+		echo PasswordInput( '', 'values[new]', _( 'New Password' ), 'maxlength="72" required strength' );
 
 		echo '</td></tr></table>';
 

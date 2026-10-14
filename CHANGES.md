@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 13.1
+---------------
+- Increase password maxlength to 72 in index.php, PasswordReset.php, General_Info.inc.php, Preferences.php & FirstLogin.fnc.php
+
 Changes in 13.0.1
 -----------------
 - Run updates for version 13.0 in Update.fnc.php
