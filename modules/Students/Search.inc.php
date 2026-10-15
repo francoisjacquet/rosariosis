@@ -358,13 +358,13 @@ else
 			}
 		}
 
-		if ( ! empty( $_REQUEST['address_group'] ) )
+		if ( ! empty( $extra['singular'] ) && ! empty( $extra['plural'] ) )
 		{
 			ListOutput(
 				$students_RET,
 				$columns,
-				'Family',
-				'Families',
+				$extra['singular'],
+				$extra['plural'],
 				$link,
 				$extra['LO_group'],
 				$extra['options']
@@ -372,30 +372,15 @@ else
 		}
 		else
 		{
-			if ( ! empty( $extra['singular'] ) && ! empty( $extra['plural'] ) )
-			{
-				ListOutput(
-					$students_RET,
-					$columns,
-					$extra['singular'],
-					$extra['plural'],
-					$link,
-					$extra['LO_group'],
-					$extra['options']
-				);
-			}
-			else
-			{
-				ListOutput(
-					$students_RET,
-					$columns,
-					'Student',
-					'Students',
-					$link,
-					$extra['LO_group'],
-					$extra['options']
-				);
-			}
+			ListOutput(
+				$students_RET,
+				$columns,
+				'Student',
+				'Students',
+				$link,
+				$extra['LO_group'],
+				$extra['options']
+			);
 		}
 	}
 	elseif ( count( (array) $students_RET ) == 1 )
