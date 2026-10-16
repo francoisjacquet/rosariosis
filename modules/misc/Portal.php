@@ -544,22 +544,27 @@ switch ( User( 'PROFILE' ) )
 
 		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
-		// FJ Portal Assignments.
+		// Portal Assignments.
+		// @since 13.0.2 Fix SQL do not list Assignments created in Quarters outside course's Marking Period
 		$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
 			a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
-			c.TITLE AS COURSE,a.MARKING_PERIOD_ID,
-			(SELECT cp.COURSE_PERIOD_ID FROM course_periods cp
-				WHERE cp.COURSE_ID=c.COURSE_ID
-				AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
-				LIMIT 1) AS COURSE_PERIOD_ID
-		FROM gradebook_assignments a,courses c,school_marking_periods mp
-		WHERE (a.COURSE_ID=c.COURSE_ID
-		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			c.TITLE AS COURSE,a.MARKING_PERIOD_ID,cp.COURSE_PERIOD_ID
+		FROM gradebook_assignments a,courses c,course_periods cp,school_marking_periods mp
+		WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 		AND a.DUE_DATE>=CURRENT_DATE
+		AND cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID
+		AND cp.COURSE_ID=c.COURSE_ID
+		AND cp.TEACHER_ID=a.STAFF_ID
+		AND cp.SYEAR='" . UserSyear() . "'
 		AND mp.MARKING_PERIOD_ID=a.MARKING_PERIOD_ID
-		AND mp.SYEAR='" . UserSyear() . "'
+		AND mp.SYEAR=cp.SYEAR
+		AND (cp.MP='FY'
+			OR (cp.MP='QTR' AND cp.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID)
+			OR (cp.MP='SEM' AND mp.MARKING_PERIOD_ID IN(SELECT MARKING_PERIOD_ID
+				FROM school_marking_periods mp2
+				WHERE mp2.MP='QTR'
+				AND mp2.PARENT_ID=cp.MARKING_PERIOD_ID)))
 		ORDER BY a.DUE_DATE,a.TITLE",
 			[
 				'COURSE' => 'ParseMLField',
@@ -813,13 +818,14 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		// FJ Portal Assignments.
-
 		if ( $RosarioModules['Grades']
 			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
+			// Portal Assignments.
+			// @since 13.0.2 Fix SQL do not list Assignments created in Quarters outside course's Marking Period
+			// @since 13.0.2 Fix SQL do not list Assignments created in Quarters outside schedule's Term
 			$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
 				a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 				c.TITLE AS COURSE,a.SUBMISSION,a.MARKING_PERIOD_ID,
@@ -827,17 +833,35 @@ switch ( User( 'PROFILE' ) )
 				FROM student_assignments sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-			FROM gradebook_assignments a,schedule s,courses c,school_marking_periods mp
-			WHERE (a.COURSE_ID=c.COURSE_ID
-			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+			FROM gradebook_assignments a,schedule s,courses c,course_periods cp,school_marking_periods mp
+			WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID
+			AND a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 			AND s.STUDENT_ID='" . UserStudentID() . "'
+			AND s.SYEAR='" . UserSyear() . "'
+			AND s.SCHOOL_ID='" . UserSchool() . "'
 			AND (s.END_DATE IS NULL OR s.END_DATE>=CURRENT_DATE)
 			AND s.START_DATE<=CURRENT_DATE
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
+			AND cp.COURSE_ID=c.COURSE_ID
+			AND cp.TEACHER_ID=a.STAFF_ID
+			AND cp.SYEAR=s.SYEAR
+			AND cp.SCHOOL_ID=s.SCHOOL_ID
 			AND mp.MARKING_PERIOD_ID=a.MARKING_PERIOD_ID
-			AND mp.SYEAR='" . UserSyear() . "'
+			AND mp.SYEAR=cp.SYEAR
+			AND mp.SCHOOL_ID=cp.SCHOOL_ID
+			AND (cp.MP='FY'
+				OR (cp.MP='QTR' AND cp.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID)
+				OR (cp.MP='SEM' AND mp.MARKING_PERIOD_ID IN(SELECT MARKING_PERIOD_ID
+					FROM school_marking_periods mp2
+					WHERE mp2.MP='QTR'
+					AND mp2.PARENT_ID=cp.MARKING_PERIOD_ID)))
+			AND (s.MP='FY'
+				OR (s.MP='QTR' AND s.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID)
+				OR (s.MP='SEM' AND mp.MARKING_PERIOD_ID IN(SELECT MARKING_PERIOD_ID
+					FROM school_marking_periods mp2
+					WHERE mp2.MP='QTR'
+					AND mp2.PARENT_ID=s.MARKING_PERIOD_ID)))
 			ORDER BY a.DUE_DATE,a.TITLE",
 				[
 					'COURSE' => 'ParseMLField',
@@ -998,13 +1022,14 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		// FJ Portal Assignments.
-
 		if ( $RosarioModules['Grades']
 			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
+			// Portal Assignments.
+			// @since 13.0.2 Fix SQL do not list Assignments created in Quarters outside course's Marking Period
+			// @since 13.0.2 Fix SQL do not list Assignments created in Quarters outside schedule's Term
 			$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
 				a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 				c.TITLE AS COURSE,a.SUBMISSION,a.MARKING_PERIOD_ID,
@@ -1012,17 +1037,35 @@ switch ( User( 'PROFILE' ) )
 				FROM student_assignments sa
 				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-			FROM gradebook_assignments a,schedule s,courses c,school_marking_periods mp
-			WHERE (a.COURSE_ID=c.COURSE_ID
-			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM course_periods cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+			FROM gradebook_assignments a,schedule s,courses c,course_periods cp,school_marking_periods mp
+			WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID
+			AND a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 			AND s.STUDENT_ID='" . UserStudentID() . "'
+			AND s.SYEAR='" . UserSyear() . "'
+			AND s.SCHOOL_ID='" . UserSchool() . "'
 			AND (s.END_DATE IS NULL OR s.END_DATE>=CURRENT_DATE)
 			AND s.START_DATE<=CURRENT_DATE
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
+			AND cp.COURSE_ID=c.COURSE_ID
+			AND cp.TEACHER_ID=a.STAFF_ID
+			AND cp.SYEAR=s.SYEAR
+			AND cp.SCHOOL_ID=s.SCHOOL_ID
 			AND mp.MARKING_PERIOD_ID=a.MARKING_PERIOD_ID
-			AND mp.SYEAR='" . UserSyear() . "'
+			AND mp.SYEAR=cp.SYEAR
+			AND mp.SCHOOL_ID=cp.SCHOOL_ID
+			AND (cp.MP='FY'
+				OR (cp.MP='QTR' AND cp.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID)
+				OR (cp.MP='SEM' AND mp.MARKING_PERIOD_ID IN(SELECT MARKING_PERIOD_ID
+					FROM school_marking_periods mp2
+					WHERE mp2.MP='QTR'
+					AND mp2.PARENT_ID=cp.MARKING_PERIOD_ID)))
+			AND (s.MP='FY'
+				OR (s.MP='QTR' AND s.MARKING_PERIOD_ID=mp.MARKING_PERIOD_ID)
+				OR (s.MP='SEM' AND mp.MARKING_PERIOD_ID IN(SELECT MARKING_PERIOD_ID
+					FROM school_marking_periods mp2
+					WHERE mp2.MP='QTR'
+					AND mp2.PARENT_ID=s.MARKING_PERIOD_ID)))
 			ORDER BY a.DUE_DATE,a.TITLE",
 				[
 					'COURSE' => 'ParseMLField',

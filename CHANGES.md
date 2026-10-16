@@ -1,10 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 13.1
----------------
+Changes in 13.0.2
+-----------------
 - Increase password maxlength to 72 in index.php, PasswordReset.php, General_Info.inc.php, Preferences.php & FirstLogin.fnc.php
 - Group by Family: results are now listed as "Students", not "Families" in Search.inc.php
+- Fix SQL do not list Assignments created in Quarters outside course's Marking Period in Portal.php
+- Fix SQL do not list Assignments created in Quarters outside schedule's Term in Portal.php
 
 Changes in 13.0.1
 -----------------
