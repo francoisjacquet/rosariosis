@@ -486,13 +486,13 @@ function AddonMakeUpdateAvailable( $type, $addon_dir )
 
 		$date = $addon_info->get( [ 'time' ] );
 
-		$date_remote = $addon_info->remoteGet( $type, $addon_dir, [ 'time' ] );
+		$date_remote = $addon_info->remoteGet( [ 'time' ] );
 
 		require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-		$msg = '<table><tr><td>' . NoInput( $version, ProperDate( $date ) ) .
+		$msg = '<table><tr><td>' . NoInput( $version, ProperDate( $date, 'short' ) ) .
 			'</td><td> → </td><td>' .
-			NoInput( $version_remote, ProperDate( $date_remote ) ) . '</td></tr></table>';
+			NoInput( $version_remote, ProperDate( $date_remote, 'short' ) ) . '</td></tr></table>';
 
 		return MakeTipMessage( $msg, _( 'Update available' ), button( 'check' ) );
 	}

@@ -7,6 +7,7 @@ Changes in 13.0.2
 - Group by Family: results are now listed as "Students", not "Families" in Search.inc.php
 - Fix SQL do not list Assignments created in Quarters outside course's Marking Period in Portal.php
 - Fix SQL do not list Assignments created in Quarters outside schedule's Term in Portal.php
+- Fix get remote add-on date & display short dates in Addon.fnc.php
 
 Changes in 13.0.1
 -----------------
