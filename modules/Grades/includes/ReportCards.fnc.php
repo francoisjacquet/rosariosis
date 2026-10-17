@@ -750,11 +750,19 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						// It's time to calculate Subject GPA.
 						foreach ( (array) array_keys( $mps ) as $mp )
 						{
-							$subject_gpa = ( array_sum( $subject_i[$mp] ) / $subject_i['CREDIT_ATTEMPTED'] ) *
-								SchoolInfo( 'REPORTING_GP_SCALE' );
+							// Fix PHP fatal error division by zero when credit attempted for subject is 0
+							if ( $subject_i['CREDIT_ATTEMPTED'] )
+							{
+								$subject_gpa = ( array_sum( $subject_i[$mp] ) / $subject_i['CREDIT_ATTEMPTED'] ) *
+									SchoolInfo( 'REPORTING_GP_SCALE' );
 
-							$subject_i[$mp] = '<B>' . number_format( $subject_gpa, 2, '.', '' ) . '</B> /' .
-								(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+								$subject_i[$mp] = '<B>' . number_format( $subject_gpa, 2, '.', '' ) . '</B> /' .
+									(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+							}
+							else
+							{
+								$subject_i[$mp] = '';
+							}
 
 							if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
 							{

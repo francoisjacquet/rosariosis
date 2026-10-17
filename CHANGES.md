@@ -8,6 +8,7 @@ Changes in 13.0.2
 - Fix SQL do not list Assignments created in Quarters outside course's Marking Period in Portal.php
 - Fix SQL do not list Assignments created in Quarters outside schedule's Term in Portal.php
 - Fix get remote add-on date & display short dates in Addon.fnc.php
+- Fix PHP fatal error division by zero when "Group by Subject" credit is 0 in ReportCards.fnc.php
 
 Changes in 13.0.1
 -----------------
