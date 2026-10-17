@@ -857,9 +857,30 @@ window.onload = function() {
 	 */
 	var token = $('meta[name=token]').attr('content');
 
+	var getToken = function() {
+		return token;
+	};
+
+	if ('localStorage' in window && window['localStorage'] !== null) {
+		/**
+		 * Fix wrong CSRF token sent: store token in localStorage (shared between browser tabs)
+		 *
+		 * Happens with multiple tabs open, logout, login again (new token), and submit form (old tab, old token)
+		 *
+		 * @since 13.0.2
+		 */
+		localStorage.setItem('token', token);
+
+		var getToken = function() {
+			return localStorage.getItem('token');
+		};
+	}
+
 	const originalFetch = window.fetch;
 
 	window.fetch = function(input, init) {
+		var token = getToken();
+
 		if (!init) init = {};
 
 		if (!init.headers) init.headers = new Headers();
@@ -878,6 +899,8 @@ window.onload = function() {
 
 	XMLHttpRequest.prototype.origOpen = XMLHttpRequest.prototype.open;
 	XMLHttpRequest.prototype.open = function() {
+		var token = getToken();
+
 		this.origOpen.apply(this, arguments);
 		this.setRequestHeader('X-CSRF-Token', token);
 	};
