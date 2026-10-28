@@ -4,6 +4,7 @@
 Changes in 13.0.3
 -----------------
 - Fix SQL do not round average GPA per grade level in Dashboard.inc.php
+- Fix set current MarkingPeriod (Quarter) for teachers & admins on first login in Side.php
 
 Changes in 13.0.2
 -----------------
