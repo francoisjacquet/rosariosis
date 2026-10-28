@@ -132,8 +132,8 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			$label => ( $gpa ? number_format( $gpa, 2, '.', '' ) : _( 'N/A' ) ),
 		];
 
-		$gpa_gradelevel_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
-		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA,
+		$gpa_gradelevel_RET = DBGet( "SELECT AVG(CUM_WEIGHTED_GPA) AS CUM_WEIGHTED_GPA,
+		AVG(UNWEIGHTED_GPA) AS CUM_UNWEIGHTED_GPA,
 		GRADE_LEVEL_SHORT
 		FROM transcript_grades
 		WHERE SYEAR='" . UserSyear() . "'

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 13.0.3
+-----------------
+- Fix SQL do not round average GPA per grade level in Dashboard.inc.php
+
 Changes in 13.0.2
 -----------------
 - Increase password maxlength to 72 in index.php, PasswordReset.php, General_Info.inc.php, Preferences.php & FirstLogin.fnc.php
