@@ -6,6 +6,7 @@ Changes in 13.0.3
 - Fix SQL do not round average GPA per grade level in Dashboard.inc.php
 - Fix set current MarkingPeriod (Quarter) for teachers & admins on first login in Side.php
 - SQL fix regression since 13.0 change grade_level_short column type to varchar(4) (was varchar(3)) in rosariosis.sql & rosariosis_mysql.sql
+- Update to version 13.0.3 in Update.fnc.php
 
 Changes in 13.0.2
 -----------------
