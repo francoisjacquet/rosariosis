@@ -1890,7 +1890,7 @@ CREATE TABLE student_mp_stats (
     sum_unweighted_factors numeric(22,16),
     count_weighted_factors integer,
     count_unweighted_factors integer,
-    grade_level_short varchar(3),
+    grade_level_short varchar(4),
     cr_weighted_factors numeric(22,16),
     cr_unweighted_factors numeric(22,16),
     count_cr_factors integer,
