@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 13.1
+---------------
+- Move upgrade instructions to its own file, ref #406 in UPGRADE.md & WHATS_NEW.md
+
 Changes in 13.0.3
 -----------------
 - Fix SQL do not round average GPA per grade level in Dashboard.inc.php
