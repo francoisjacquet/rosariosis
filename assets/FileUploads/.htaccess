@@ -5,6 +5,11 @@
     RewriteEngine On
 
     RewriteRule (?i)\.(php.?|phar|[psx]?html?|xml|svg|js|pl|py|cgi|sh|bat)$ - [F]
+
+    # Block script followed by a path (`file.php/x`) still runs as `file.php`
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{PATH_INFO} ^/
+    RewriteRule ^ - [F]
 </IfModule>
 #
 ## End - Security
