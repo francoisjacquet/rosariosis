@@ -73,59 +73,55 @@ Please upgrade the following [plugins](https://www.rosariosis.org/plugins/):
 
 Third-party add-ons are not listed here, please contact the developer or your system administrator for help.
 
-### Deprecated
+### Deprecations
 
 Deprecated functions will be removed in version 14.0.
 
-- Deprecate `Dashboard()` function in Dashboard.fnc.php
+#### PHP
 
-- Deprecate `DashboardAdd()` function in Dashboard.fnc.php
+- The `Dashboard()` function in `Dashboard.fnc.php` is deprecated without replacement.
 
-- Deprecate `DashboardOutput()` function in Dashboard.fnc.php
- - Use `(new RosarioSIS\Functions\Dashboard)->output()` instead
+- The `DashboardAdd()` function in `Dashboard.fnc.php` is deprecated without replacement.
 
-- Deprecate `DashboardModule()` function in DashboardModule.fnc.php
-  - Use `(new RosarioSIS\Functions\DashboardModule)->add( $module, $data )` instead
+- The `DashboardOutput()` function in `Dashboard.fnc.php` is deprecated, use `(new RosarioSIS\Functions\Dashboard)->output()` instead.
 
-- Deprecate `DashboardModuleTitle()` function in DashboardModule.fnc.php
-  - Use `(new RosarioSIS\Functions\DashboardModule)->module( $module )` instead
+- The `DashboardModule()` function in `DashboardModule.fnc.php` is deprecated, use `(new RosarioSIS\Functions\DashboardModule)->add( $module, $data )` instead.
 
-- Deprecate `DashboardModuleData()` function in DashboardModule.fnc.php
-  - Use `(new RosarioSIS\Functions\DashboardModule)->data( $data, $columns )` instead
+- The `DashboardModuleTitle()` function in `DashboardModule.fnc.php` is deprecated, use `(new RosarioSIS\Functions\DashboardModule)->module( $module )` instead.
 
-- Deprecate `HackingLog()` function in HackingLog.fnc.php
-  - Use `(new RosarioSIS\Functions\Hacking)->log()` instead
+- The `DashboardModuleData()` function in `DashboardModule.fnc.php` is deprecated, use `(new RosarioSIS\Functions\DashboardModule)->data( $data, $columns )` instead.
 
-- Deprecate `Linkify()` function in Linkify.fnc.php
-  - Use your own function instead
+- The `HackingLog()` function in `HackingLog.fnc.php` is deprecated, use `(new RosarioSIS\Functions\Hacking)->log()` instead.
 
-- Deprecate `SendEmail()` function in SendEmail.fnc.php
-  - Use `(new RosarioSIS\Functions\Email)->send()` instead
+- The `Linkify()` function in `Linkify.fnc.php` is deprecated, use your own function instead.
 
-- Deprecate 'ProgramFunctions/SendEmail.fnc.php|before_send' action hook in Email.php & Actions.php
-  - Use 'RosarioSIS/Functions/Email.php|before_send' instead
+- The `SendEmail()` function in `SendEmail.fnc.php` is deprecated, use `(new RosarioSIS\Functions\Email)->send()` instead.
 
-- Deprecate 'ProgramFunctions/SendEmail.fnc.php|send_error' action hook in Email.php & Actions.php
-  - Use 'RosarioSIS/Functions/Email.php|send_error' instead
+#### Action hook
 
-- JS deprecate `LO_search()` function in warehouse.js, csp/functions.js & ListOutput.fnc.php
-  - Use `instantList.search()` instead
+- The `ProgramFunctions/SendEmail.fnc.php|before_send` action hook in `Email.php` and `Actions.php` is deprecated use `RosarioSIS/Functions/Email.php|before_send` instead.
 
-### Removed
+- The `ProgramFunctions/SendEmail.fnc.php|send_error` action hook in `Email.php` and `Actions.php` is deprecated use `RosarioSIS/Functions/Email.php|send_error` instead.
 
-Calling removed functions or variables will result in a fatal error.
+#### JavaScript
 
-- Remove deprecated `_updateSchedulesCPMP()` function in Courses.php
+- The `LO_search()` function in `warehouse.js`, `csp/functions.js` & `ListOutput.fnc.php` is deprecated, use `instantList.search()` instead.
 
-- Remove deprecated `jqPlotChart()` function in Charts.fnc.php
+### Backwards compatibility removal
 
-- Remove deprecated `_printPageHead()` function in PasswordReset.php
+Calling removed functions or variables will result in a fatal error. Check your custom modules and plugins for any usage of these functions or variables.
 
-- Remove deprecated `_rosarioLoginURL()` function in SendNotification.fnc.php
+- Remove deprecated `_updateSchedulesCPMP()` function in `Courses.php`
 
-- Remove deprecated `_myURLEncode()` function in PreparePHP_SELF.fnc.php
+- Remove deprecated `jqPlotChart()` function in `Charts.fnc.php`
 
-- Remove deprecated `ColorInputMiniColors()` function in Inputs.php
-  - Remove related JS files in assets/js/jquery-minicolors/
+- Remove deprecated `_printPageHead()` function in `PasswordReset.php`
 
-- Remove deprecated `$_ROSARIO['ReferralInput']` global var in Referral.fnc.php
+- Remove deprecated `_rosarioLoginURL()` function in `SendNotification.fnc.php`
+
+- Remove deprecated `_myURLEncode()` function in `PreparePHP_SELF.fnc.php`
+
+- Remove deprecated `ColorInputMiniColors()` function in `Inputs.php`
+  - Remove related JS files in `assets/js/jquery-minicolors/`
+
+- Remove deprecated `$_ROSARIO['ReferralInput']` global var in `Referral.fnc.php`
