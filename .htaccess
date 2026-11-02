@@ -10,7 +10,7 @@ RewriteRule (^|/)locale/.*\.(po|pot)$ - [F]
 # Block direct access to .md and .sql files except for those uploaded to assets/FileUploads/
 RewriteRule ^(?!assets/FileUploads/).*\.(md|sql)$ - [F]
 # Block direct access to files and folders beginning with a dot
-RewriteRule (^|/)\.(?!well-known) - [F]
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F]
 # Block direct access to specific files
 RewriteRule (^|/)(LICENSE|COPYRIGHT|composer\.lock|composer\.json|package\.json)$ - [F]
 #

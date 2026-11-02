@@ -5,6 +5,7 @@ Changes in 13.1
 ---------------
 - Move upgrade instructions to its own file, ref #406 in UPGRADE.md & WHATS_NEW.md
 - Security Block script followed by a path (`file.php/x`) still runs as `file.php` in assets/FileUploads/.htaccess
+- Security Limit the dot-file exception to the .well-known folder itself in .htaccess
 
 Changes in 13.0.3
 -----------------
