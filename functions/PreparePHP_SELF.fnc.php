@@ -20,6 +20,7 @@
  * @uses URLEscape()
  *
  * @since 11.3 Remove null values from URL
+ * @since 13.1 Fix &token= added twice to links, remove CSRF token when generating URL
  *
  * @param  array  $tmp_REQUEST REQUEST vars (optional). Defaults to $_REQUEST array.
  * @param  array  $remove      Remove indexes from $tmp_REQUEST (optional).
@@ -48,6 +49,12 @@ function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 	foreach ( (array) $_COOKIE as $key => $value )
 	{
 		unset( $tmp_REQUEST[ $key ] );
+	}
+
+	if ( ! empty( $tmp_REQUEST['modfunc'] ) )
+	{
+		// @since 13.1 Fix &token= added twice to links, remove CSRF token when generating URL
+		$remove[] = 'token';
 	}
 
 	// Remove vars in $remove.
