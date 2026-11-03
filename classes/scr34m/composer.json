@@ -1,0 +1,18 @@
+{
+  "name": "scr34m/php-malware-scanner",
+  "type": "library",
+  "description": "Scans PHP files for malwares and known threats",
+  "keywords": ["malware", "scanner", "commandline"],
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/scr34m/php-malware-scanner",
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "suggest": {
+    "nikic/php-parser": "Enables AST-based scanning via --ast flag (^3.0 for PHP 5.5+, ^4.0 for PHP 7+, ^5.0 for PHP 7.4+)"
+  },
+  "autoload": {
+  },
+  "minimum-stability": "dev",
+  "bin": ["scan"]
+}

@@ -9,6 +9,7 @@ Changes in 13.1
 - Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus
 - Add action hooks to add your own tab in Actions.php & Preferences.php, thanks to @macintoshplus
 - Add add-on version to installation statistics in Addon.fnc.php
+- Add scr34m\MalwareScanner class in MalwareScanner.php
 
 Changes in 13.0.3
 -----------------

@@ -1,0 +1,63 @@
+# This file contains raw strings that will be matched case-insensitive.
+# Comments and whitespace are possible, but comments must have '#' at the first character of the line.
+
+# List of security service providers that phishers often block.
+abovenet
+avira
+bitdefender
+comodo
+cyveillance
+kaspersky
+internap
+mcafee
+netcraft
+oneandone
+opendns
+phishtank
+sophos
+surfright
+# symantec - removed because already a TLD too so generate many false positives
+
+# SEO poison, pharmacy redirect
+dealonline.su
+
+# functions escaped as hexadecimal string
+7068705f756e616d65
+70687076657273696f6e
+6368646972
+676574637764
+707265675f73706c6974
+636f7079
+66696c655f6765745f636f6e74656e7473
+6261736536345f6465636f6465
+69735f646972
+6f625f656e645f636c65616e28293b
+756e6c696e6b
+6d6b646972
+63686d6f64
+7363616e646972
+7374725f7265706c616365
+68746d6c7370656369616c6368617273
+7661725f64756d70
+666f70656e
+667772697465
+66636c6f7365
+64617465
+66696c656d74696d65
+737562737472
+737072696e7466
+66696c657065726d73
+746f756368
+66696c655f657869737473
+72656e616d65
+69735f6172726179
+69735f6f626a656374
+737472706f73
+69735f7772697461626c65
+69735f7265616461626c65
+737472746f74696d65
+66696c6573697a65
+726d646972
+6f625f6765745f636c65616e
+7265616466696c65
+617373657274

@@ -1,0 +1,167 @@
+#eval /* */
+eval\/\*[a-z0-9]+\*\/
+
+#
+eval\([a-z0-9]{4,}\(\$[a-z0-9]{4,}, \$[0-9a-z]{4,}\)\);
+
+# chr(101).chr(118).chr(97)
+(chr\(\d+\^\d+\)\.){4,}
+
+# $_uU(101).$_uU(118).$_uU(97)
+(\$\_[a-z0-9]{2,}\(\d+\)\.){4,}
+
+# $uUx[101].$uUx[118].$uUx[97]
+(\$[a-z0-9]{3,}\[\d+\]\.){4,}
+
+#
+chr\(\d+\)\.""\.""\.""\.""\.""
+
+# escaped commands pl.: "eval(base64_decode(" equal "\145\166\141\154\050\142\141\163\145\066\064\137\144\145\143\157\144\145\050"
+(\\[0-9]{3}){6,}
+
+#
+\$GLOBALS\[\$GLOBALS['[a-z0-9]{4,}'\]\[\d+\]\.\$GLOBALS\['[a-z-0-9]{4,}'\]\[\d+\].
+
+#
+\$GLOBALS\['[a-z0-9]{5,}'\] = \$[a-z]+\d+\[\d+\]\.\$[a-z]+\d+\[\d+\]\.\$[a-z]+\d+\[\d+\]\.\$[a-z]+\d+\[\d+\]\.
+
+#
+eval\([a-z0-9_]+\(base64_decode\(
+
+#
+\$[a-z]{3,}=\$[a-z]{3,}\("",\$[a-z]{3,}\);\$[a-z]{3,}\(\);
+
+#
+{\s*eval\s*\(\s*\$
+
+#
+Googlebot['"]{0,1}\s*\)\){echo\s+file_get_contents
+
+#execute base64 code
+eVaL\(\s*trim\(\s*baSe64_deCoDe\(
+
+# execute escaped code
+exec\("(\\[0-9a-fx]{2,3}){3,}
+
+#
+if\s*\(\s*mail\s*\(\s*\$mails\[\$i\]\s*,\s*\$tema\s*,\s*base64_encode\s*\(\s*\$text
+
+# Write HTTP Request to File
+fwrite\s*\(\s*\$fh\s*,\s*stripslashes\s*\(\s*@*\$_(GET|POST|SERVER|COOKIE|REQUEST)\[
+
+# Download Remote Code
+echo\s+file_get_contents\s*\(\s*base64_url_decode\s*\(\s*@*\$_(GET|POST|SERVER|COOKIE|REQUEST)
+
+# 'eval' in ascii chr() chars
+chr\s*\(\s*101\s*\)\s*\.\s*chr\s*\(\s*118\s*\)\s*\.\s*chr\s*\(\s*97\s*\)\s*\.\s*chr\s*\(\s*108\s*\)
+
+#
+(\$OOO_O_000_\{\d+\}.){3,}
+
+#Detects the '_' character encoded in a string like "\x5F".  '_' is present in many functions that malware would want to hide.
+# '_' as "\x5f"
+# \\[Xx](5[Ff]) - removed because generate many false positives
+
+#Detects the '_' character placed inside a call to the 'chr()' function
+# '_' as 'chr(95)' or 'chr(0x5f)'
+chr\s*\(\s*['"]?\s*((95)|(0[Xx]5[Ff]))\s*['"]?\s*\)
+
+#Detects generic base64 strings longer than 260 characters enclosed in quotes ending with 0-3 '=' chars.
+#260 was a threshold chosen because strings of 256 characters are common enough.  Might increase later to reduce false positives.
+#Long base64 quoted string.
+['"][A-Za-z0-9+\/]{260,}={0,3}['"]
+
+#Detects long single lines contained within PHP tags.
+#We can increase from 1100 later if we need to.
+#Long single line of PHP.
+^.*<\?php.{1100,}\?>.*$
+
+#Escaped path characters: \x2fho\x6de/\x69mp\x75ls\x69oq\x65/w\x77w. or \x2fhome\x2fimpu\x6csioq\x65/www\x2emusc
+(\\x[0-9abcdef]{2}[a-z0-9.-\/]{1,4}){4,}
+
+#Malware infected files sometimes marked with comments like /*87cda*/ to avoid infect again
+\/\*[a-z0-9]{5}\*\/
+
+# XOR-ed strings with custom math
+%\(\d+\-\d+\+\d+\)==\(\-\d+\+\d+\+\d+\)
+
+# XOR-ed strings with custom math 2.
+\(\$[a-zA-Z0-9]+%\d==\(\d+\-\d+\+\d+\)
+
+# eval code from POST on second nested level
+eval\(\$[a-z0-9_]+\(\$_POST
+
+# characted concated with chr() alteast 3 times
+("[a-z0-9]+"\.chr\(\d+\)\.){3,}
+
+# nested function call used variables
+\$[a-z0-9_]+\(\$[a-z0-9_]+\(
+
+# GLOBALS inject with escaped content
+\$GLOBALS;\$\{"\\x
+
+# web shells host type extraction RE
+php_uname\(["'asrvm]+\)
+
+# XOR decode POST-ed payload
+(\^\s*\$\w+\[\$\w+\s*%\s*strlen\(\$\w+\)\]\s*){2,}
+
+# uncommon function name underscore with many numbers
+function\s+_[0-9]{8,}\(
+
+# escaped include with error hiding
+@include ".*?(\\x[0-9a-f]{2,}.*?){2,}.*?";
+
+# create_function is dangerous as like eval() see http://php.net/manual/en/function.create-function.php
+create_function\s*\(\s*['"]{2}
+
+# control concated from cookie at the call
+(\$[a-z]{2,}=urldecode\(\$_COOKIE\['[a-z]{2,}'\]\);){3,}
+
+# ${$O{18}.$O{7}.$O{24}.$O{2}.$O{50}.$O{8}
+(\$[A-Z]+\{\d+\}\.){3,}
+
+# comment in variable name $_REQUEST /*YUsrqpbzvXTSa...QpDNTPYQvLSFPCqsSnWNVqPdSIAYaQj*/[
+\$_REQUEST\s*\/\*[A-Za-z]+\*\/\[
+
+# cookie payload if(isset($_COOKIE)){$p=$_COOKIE;(count($p)==55&&in_array(gettype($p).count($p),$p))?(($p[68]=$p[68].$p[22])&&($p[35]=$p[68]($p[35]))&&($p=$p[35]($p[13],$p[68]($p[45])))&&$p()):$p;}
+\(count\(\$p\)==\d+&&in_array\(gettype\(\$p\)\.count\(\$p\),\$p\)\)
+
+# gzipped payload post process
+explode\('\|\x01\|\x03\|\x03', gzinflate\(
+
+# backdoor reported #71
+@header\(\w{3,5}::\w{1,2}\('_\w{1,3}' \. '\w{1,3}', '_\w{1,3}'\)\);
+@header\(\w{3,5}::\w{1,2}\('_\w{1,3}', '_' \. '\w{1,3}' . '\w{1,3}'\)\);
+
+# backdoor reported #72
+@\$[a-z]{1}\[\d+\]\(\$[a-z]{1}\[\d+\]\);
+
+# reported #77
+\$[a-z]11 \^ [a-z]8\(\$[a-z]6, \$[a-z]14, \$[a-z]6\[13\]\(\$[a-z]11\)\)\)\);
+
+# eval function return and concat
+eval\([A-Za-z0-9]{5,}\(\) \. '
+
+# eval function return, parameter is a hex string
+eval\([A-Za-z0-9]{5,}\(\"[A-Z0-9]{16,}
+
+eval\(\s+'\?>'
+
+# gzip payload called by variable named function
+\$[a-zA-Z0-9]{6,}\('\x78\x9C\xAD\x90\x41\x0E
+
+# obfuscated code return with error suppression
+return @\$[a-z]{2}\d+\[\d+\]\(\$[a-z]{2}\d+\[\d+\],
+
+# htaccess alternating
+[a-z]{1}\([a-z]{1}\(\$[a-z]{2}\.'\/\.htaccess'\)
+
+# Javascript specific rules
+
+# JS - escaped command
+\.fromCharCode\([0-9,]{4,}\)
+\+-parseInt\(\w\('0x[0-9a-z]+'\)\)\/
+
+# concated hash value
+('[a-z0-9]{2,}'\.){4,}
