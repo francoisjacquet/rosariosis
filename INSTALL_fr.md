@@ -51,14 +51,15 @@ Décompressez la [dernière version](https://www.rosariosis.org/fr/download/) de
 #### Variables optionelles
 
 - `$DatabasePort` Numéro du port pour accéder au serveur de base de données. Défaut : 5432 pour PostgreSQL et 3306 pour MySQL.
+- `$RosarioErrorsAddress` Adresse email pour les erreurs (PHP fatal, base de donnée, tentatives de piratage).
+- `$Timezone` Fuseau horaire utilisé par les fonctions de date/heure. [Liste des Fuseaux Horaires Supportés](http://php.net/manual/fr/timezones.php).
+- `$TrustedProxies` Serveurs proxy de confiance. Liste d'adresses IP ou plages CIDR (séparées par des virugles). À définir si RosarioSIS est derrière un proxy inverse ou un load balancer.
 - `$RosarioPath` Chemin complet vers l'installation de RosarioSIS.
 - `$StudentPicturesPath` Chemin vers les photos des élèves.
 - `$UserPicturesPath` Chemin vers les photos des utilisateurs.
 - `$FileUploadsPath` Chemin vers les fichiers uploadés.
 - `$LocalePath` Chemin vers les packs de langue. Redémarrer Apache après modification.
 - `$PNGQuantPath` Chemin vers [PNGQuant](https://pngquant.org/) (compression des images PNG).
-- `$RosarioErrorsAddress` Adresse email pour les erreurs (PHP fatal, base de donnée, tentatives de piratage).
-- `$Timezone` Fuseau horaire utilisé par les fonctions de date/heure. [Liste des Fuseaux Horaires Supportés](http://php.net/manual/fr/timezones.php).
 - `$ETagCache` Passer à `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et sécurité](https://secure.php.net/manual/fr/session.security.php).
 - `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limiter la taille de `$_POST` (16MB par défaut). Détails [ici](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L322).
 - `define( 'ROSARIO_DEBUG', true );` Mode debug activé.

@@ -95,13 +95,11 @@ $RosarioLocales = [ 'en_US.utf8' ];
 /**
  * Trusted proxies (reverse proxy, load balancer)
  *
- * The client IP address (access log, failed login ban) is the IP address of the connection (REMOTE_ADDR).
- * The X-Forwarded-For HTTP header can be forged by the client:
- * it is only used if the request comes from one of the IP addresses or CIDR ranges listed here
- * (comma separated values).
+ * Safely get the real client's IP address from the `X-Forwarded-For` HTTP header
+ * Leave empty if RosarioSIS is not behind a reverse proxy or load balancer (nginx, Traefik, HAProxy...)
  *
- * Leave empty if RosarioSIS is not behind a reverse proxy or load balancer
+ * Comma-separated list of IP addresses or CIDR ranges:
  *
- * @example '10.0.0.5,172.16.0.0/12,fd00::/8';
+ * @example '10.0.0.5, 172.16.0.0/12, fd00::/8';
  */
 $TrustedProxies = '';

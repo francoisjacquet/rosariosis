@@ -51,14 +51,15 @@ Unzip the [latest version](https://www.rosariosis.org/download/) of RosarioSIS, 
 #### Optional variables
 
 - `$DatabasePort` Port number to access the database server. Default is 5432 for PostgreSQL & 3306 for MySQL.
+- `$RosarioErrorsAddress` Email address to receive errors (PHP fatal, database, hacking).
+- `$Timezone` Default time zone used by date/time functions. [List of Supported Timezones](http://php.net/manual/en/timezones.php).
+- `$TrustedProxies` Trusted proxies. List of IP addresses or CIDR ranges (comma separated values). Set it if RosarioSIS is behind a reverse proxy or load balancer.
 - `$RosarioPath` Full path to RosarioSIS installation.
 - `$StudentPicturesPath` Path to student pictures.
 - `$UserPicturesPath` Path to user pictures.
 - `$FileUploadsPath` Path to file uploads.
 - `$LocalePath` Path to language packs. Restart Apache after changes to this directory.
 - `$PNGQuantPath` Path to [PNGQuant](https://pngquant.org/) (PNG images compression).
-- `$RosarioErrorsAddress` Email address to receive errors (PHP fatal, database, hacking).
-- `$Timezone` Default time zone used by date/time functions. [List of Supported Timezones](http://php.net/manual/en/timezones.php).
 - `$ETagCache` Set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](https://secure.php.net/manual/en/session.security.php).
 - `define( 'ROSARIO_POST_MAX_SIZE_LIMIT', 16 * 1024 * 1024 );` Limit `$_POST` array size (default is 16MB). More info [here](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/Warehouse.php#L322).
 - `define( 'ROSARIO_DEBUG', true );` Debug mode activated.

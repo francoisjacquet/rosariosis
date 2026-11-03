@@ -13,6 +13,8 @@ Changes in 13.1
 - Security fix #380 Authenticated Unrestricted Module Upload Leading to Remote Code Execution in Addon.fnc.php, Modules.inc.php & Plugins.inc.php
 - Fix &token= added twice to links, remove CSRF token when generating URL in PreparePHP_SELF.fnc.php
 - Add RosarioSIS\Functions\Deprecation class in Deprecation.php, thanks to @macintoshplus
+- Add RosarioSIS\Functions\ClientIp class in ClientIp.php, thanks to @macintoshplus
+- Add $TrustedProxies optional config variable in config.inc.sample.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md, thanks to @macintoshplus
 
 Changes in 13.0.3
 -----------------
