@@ -3,7 +3,7 @@
 
 Changes in 13.1
 ---------------
-- Move upgrade instructions to its own file, ref #406 in UPGRADE.md & WHATS_NEW.md
+- Move upgrade instructions to its own file, ref #401 in UPGRADE.md & WHATS_NEW.md
 - Security Block script followed by a path (`file.php/x`) still runs as `file.php` in assets/FileUploads/.htaccess
 - Security Limit the dot-file exception to the .well-known folder itself in .htaccess
 - Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus

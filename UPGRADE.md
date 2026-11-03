@@ -111,17 +111,17 @@ Deprecated functions will be removed in version 14.0.
 
 Calling removed functions or variables will result in a fatal error. Check your custom modules and plugins for any usage of these functions or variables.
 
-- Remove deprecated `_updateSchedulesCPMP()` function in `Courses.php`
+- Remove deprecated `_updateSchedulesCPMP()` function in `Courses.php`, use `CoursePeriodUpdateMP()` instead.
 
-- Remove deprecated `jqPlotChart()` function in `Charts.fnc.php`
+- Remove deprecated `jqPlotChart()` function in `Charts.fnc.php`, use `ChartjsChart()` instead.
 
 - Remove deprecated `_printPageHead()` function in `PasswordReset.php`
 
-- Remove deprecated `_rosarioLoginURL()` function in `SendNotification.fnc.php`
+- Remove deprecated `_rosarioLoginURL()` function in `SendNotification.fnc.php`, use `RosarioURL()` instead.
 
-- Remove deprecated `_myURLEncode()` function in `PreparePHP_SELF.fnc.php`
+- Remove deprecated `_myURLEncode()` function in `PreparePHP_SELF.fnc.php`, use `URLEscape()` instead.
 
-- Remove deprecated `ColorInputMiniColors()` function in `Inputs.php`
+- Remove deprecated `ColorInputMiniColors()` function in `Inputs.php`, use `ColorInput()` instead.
   - Remove related JS files in `assets/js/jquery-minicolors/`
 
 - Remove deprecated `$_ROSARIO['ReferralInput']` global var in `Referral.fnc.php`
