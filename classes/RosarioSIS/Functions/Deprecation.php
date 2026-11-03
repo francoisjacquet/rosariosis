@@ -77,7 +77,8 @@ class Deprecation
 		$line = 0;
 
 		// Only compute backtrace in debug mode for caller info.
-		if ( defined( 'ROSARIO_DEBUG' ) && ROSARIO_DEBUG ) {
+		if ( defined( 'ROSARIO_DEBUG' ) && ROSARIO_DEBUG )
+		{
 			$trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 );
 			$caller = isset( $trace[1] ) ? $trace[1] : [];
 			$file = isset( $caller['file'] ) ? $caller['file'] : 'unknown';
@@ -89,7 +90,8 @@ class Deprecation
 		// fixing appears in the logs.
 		$key = $message . '@' . $file . ':' . $line;
 
-		if ( isset( self::$notified[ $key ] ) ) {
+		if ( isset( self::$notified[ $key ] ) )
+		{
 			return;
 		}
 
@@ -99,7 +101,8 @@ class Deprecation
 			( $args ? vsprintf( $message, $args ) : $message );
 
 		// Always show deprecation message, but only show caller info in debug mode.
-		if ( defined( 'ROSARIO_DEBUG' ) && ROSARIO_DEBUG ) {
+		if ( defined( 'ROSARIO_DEBUG' ) && ROSARIO_DEBUG )
+		{
 			$deprecation_message .= " Called in $file on line $line.";
 		}
 

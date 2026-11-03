@@ -12,6 +12,7 @@ Changes in 13.1
 - Add scr34m\MalwareScanner class in MalwareScanner.php
 - Security fix #380 Authenticated Unrestricted Module Upload Leading to Remote Code Execution in Addon.fnc.php, Modules.inc.php & Plugins.inc.php
 - Fix &token= added twice to links, remove CSRF token when generating URL in PreparePHP_SELF.fnc.php
+- Add RosarioSIS\Functions\Deprecation class in Deprecation.php, thanks to @macintoshplus
 
 Changes in 13.0.3
 -----------------
