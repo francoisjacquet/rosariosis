@@ -7,6 +7,7 @@ Changes in 13.1
 - Security Block script followed by a path (`file.php/x`) still runs as `file.php` in assets/FileUploads/.htaccess
 - Security Limit the dot-file exception to the .well-known folder itself in .htaccess
 - Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus
+- Add action hooks to add your own tab in Actions.php & Preferences.php, thanks to @macintoshplus
 
 Changes in 13.0.3
 -----------------

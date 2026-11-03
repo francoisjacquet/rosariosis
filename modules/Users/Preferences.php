@@ -98,6 +98,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 	}
 	else
 	{
+		/**
+		 * Add your own tab: save
+		 *
+		 * @since 13.1
+		 */
 		do_action( 'Users/Preferences.php|save_tab' );
 
 		if ( $_REQUEST['tab'] == 'student_listing' && $_REQUEST['values']['Preferences']['SEARCH'] != 'Y' )
@@ -265,7 +270,12 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 	}
 
-	do_action( 'Users/Preferences.php|tabs', [&$tabs] );
+	/**
+	 * Add your own tab: filter &$tabs variable
+	 *
+	 * @since 13.1
+	 */
+	do_action( 'Users/Preferences.php|tabs', [ &$tabs ] );
 
 	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'];
 
@@ -923,6 +933,11 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 	}
 
+	/**
+	 * Add your own tab: tab content
+	 *
+	 * @since 13.1
+	 */
 	do_action( 'Users/Preferences.php|tab_content' );
 
 	if ( ! in_array( $_REQUEST['tab'], [ 'student_fields', 'staff_fields' ] ) )

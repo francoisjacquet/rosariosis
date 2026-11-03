@@ -43,7 +43,12 @@ $RosarioActions = [];
 	'Users/Preferences.php|update_password_checks' => [],
 	'Users/Preferences.php|update_password' => [],
 
-	'Users/Preferences.php|tabs' => [&$tabs],
+	/**
+	 * Add your own tab
+	 *
+	 * @since 13.1
+	 */
+	/*'Users/Preferences.php|tabs' => [ &$tabs ],
 	'Users/Preferences.php|save_tab' => [],
 	'Users/Preferences.php|tab_content' => [],
 
