@@ -29,7 +29,6 @@ if ( $_REQUEST['tab'] === 'print_options' )
 	// Set page size options for use by SelectInput() and to check if page size is valid before save
 	$page_size_options = [ 'A4' => 'A4', 'LETTER' => _( 'US Letter' ) ];
 }
-
 if ( $_REQUEST['modfunc'] === 'save'
 	&& ! empty( $_REQUEST['values'] )
 	&& ! empty( $_POST['values'] ) )
@@ -99,6 +98,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 	}
 	else
 	{
+		do_action( 'Users/Preferences.php|save_tab' );
+
 		if ( $_REQUEST['tab'] == 'student_listing' && $_REQUEST['values']['Preferences']['SEARCH'] != 'Y' )
 		{
 			$_REQUEST['values']['Preferences']['SEARCH'] = 'N';
@@ -137,12 +138,15 @@ if ( $_REQUEST['modfunc'] === 'save'
 			unset( $_REQUEST['values']['Preferences']['PAGE_SIZE'] );
 		}
 
-		foreach ( (array) $_REQUEST['values'] as $program => $values )
+		if ( ! empty( $_REQUEST['values'] ) )
 		{
-			ProgramUserConfig( $program, 0, $values );
-		}
+			foreach ( (array) $_REQUEST['values'] as $program => $values )
+			{
+				ProgramUserConfig( $program, 0, $values );
+			}
 
-		$note[] = button( 'check' ) . '&nbsp;' . _( 'Your preferences were saved.' );
+			$note[] = button( 'check' ) . '&nbsp;' . _( 'Your preferences were saved.' );
+		}
 
 		$old_theme = Preferences( 'THEME' );
 
@@ -260,6 +264,8 @@ if ( ! $_REQUEST['modfunc'] )
 			],
 		];
 	}
+
+	do_action( 'Users/Preferences.php|tabs', [&$tabs] );
 
 	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'];
 
@@ -916,6 +922,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$LO_options
 		);
 	}
+
+	do_action( 'Users/Preferences.php|tab_content' );
 
 	if ( ! in_array( $_REQUEST['tab'], [ 'student_fields', 'staff_fields' ] ) )
 	{

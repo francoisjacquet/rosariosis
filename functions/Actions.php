@@ -43,6 +43,10 @@ $RosarioActions = [];
 	'Users/Preferences.php|update_password_checks' => [],
 	'Users/Preferences.php|update_password' => [],
 
+	'Users/Preferences.php|tabs' => [&$tabs],
+	'Users/Preferences.php|save_tab' => [],
+	'Users/Preferences.php|tab_content' => [],
+
 	'Users/AddStudents.php|user_assign_role' => [],
 	'Users/AddStudents.php|user_unassign_role' => [],
 
