@@ -8,6 +8,7 @@ Changes in 13.1
 - Security Limit the dot-file exception to the .well-known folder itself in .htaccess
 - Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus
 - Add action hooks to add your own tab in Actions.php & Preferences.php, thanks to @macintoshplus
+- Add add-on version to installation statistics in Addon.fnc.php
 
 Changes in 13.0.3
 -----------------

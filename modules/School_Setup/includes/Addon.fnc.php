@@ -286,6 +286,7 @@ function AddonZipCanUnzip( $zip_path )
  *
  * @since 12.0
  * @since 12.2 Send RosarioSIS version
+ * @since 13.1 Send add-on version
  *
  * @param string $type      Add-on type: module|plugin.
  * @param string $addon_dir Add-on directory. For example: 'My_Module'.
@@ -319,6 +320,11 @@ function AddonInstallationStatisticsPost( $type, $addon_dir )
 
 		$ip = (new RosarioSIS\Functions\ClientIp)->get();
 
+		$addon_info = new RosarioSIS\Functions\AddonInfo( $type, $addon_dir );
+
+		// @since 13.1 Add add-on version to installation statistics
+		$addon_version = (string) $addon_info->get( [ 'version' ] );
+
 		$data = [
 			'type' => $type,
 			'addon_dir' => $addon_dir,
@@ -326,11 +332,13 @@ function AddonInstallationStatisticsPost( $type, $addon_dir )
 			'rosario_version' => ROSARIO_VERSION,
 			'user_agent' => $_SERVER['HTTP_USER_AGENT'],
 			'ip' => $ip,
+			'addon_version' => $addon_version,
 		];
 
 		// @since 12.5 CPS remove unsafe-inline Javascript
 		try
 		{
+			// CURL asynchronous call, default timeout (30 seconds) is OK
 			$curl = new curl;
 
 			$curl->post(
