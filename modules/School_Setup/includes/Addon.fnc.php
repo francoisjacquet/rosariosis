@@ -504,3 +504,76 @@ function AddonMakeUpdateAvailable( $type, $addon_dir )
 
 	return ! empty( $_REQUEST['LO_save'] ) ? _( 'No' ) : button( 'x' );
 }
+
+/**
+ * Scan add-on for malware
+ *
+ * @since 13.1 Security fix #380 Authenticated Unrestricted Module Upload Leading to Remote Code Execution
+ *
+ * @global $error Error messages.
+ *
+ * @uses scr34m\MalwareScanner class
+ * @link https://github.com/scr34m/php-malware-scanner/issues/98
+ *
+ * @param string $path  Path to add-on.
+ * @param string $array Extra: [ 'base64' => true ].
+ *
+ * @return bool True if malware found, false otherwise.
+ */
+function AddonScanMalware( $path, $extra = [] )
+{
+	global $error;
+
+	if ( ! $path
+		|| ! is_dir( $path ) )
+	{
+		return false;
+	}
+
+	$scan = new scr34m\MalwareScanner( false );
+
+	$scan->setExtensions( [ 'php', 'phar', 'phtml', 'php3', 'php4', 'php5' ] );
+
+	// Only output errors, if any.
+	$scan->setFlagHideWhitelist( true );
+
+	$scan->setFlagHideOk( true );
+
+	$scan->setFlagPattern( true );
+
+	$scan->setFlagLineNumber( true );
+
+	$scan->setFlagDisableStats( true );
+
+	// Ignore false positive (pattern "#\$[a-z0-9_]+\(\$[a-z0-9_]+\(")
+	// Safe as direct access to files inside the vendor folder is blocked in .htaccess
+	$scan->setIgnore( [ 'vendor/guzzlehttp/guzzle/src/Middleware.php' ] );
+
+	if ( ! empty( $extra['base64'] ) )
+	{
+		$scan->setFlagBase64( true );
+	}
+
+	ob_start();
+
+	$run = $scan->run( $path );
+
+	$output = ob_get_clean();
+
+	if ( ! $run )
+	{
+		if ( $output )
+		{
+			$error[] = 'scr34m\MalwareScanner: ' . nl2br( $output );
+		}
+
+		return false;
+	}
+
+	if ( $output )
+	{
+		$error[] = _( 'Malware was found' ) . ': ' . nl2br( $output );
+	}
+
+	return ! empty( $output );
+}

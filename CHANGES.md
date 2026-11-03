@@ -10,6 +10,7 @@ Changes in 13.1
 - Add action hooks to add your own tab in Actions.php & Preferences.php, thanks to @macintoshplus
 - Add add-on version to installation statistics in Addon.fnc.php
 - Add scr34m\MalwareScanner class in MalwareScanner.php
+- Security fix #380 Authenticated Unrestricted Module Upload Leading to Remote Code Execution in Addon.fnc.php, Modules.inc.php & Plugins.inc.php
 
 Changes in 13.0.3
 -----------------

@@ -42,6 +42,9 @@ if ( isset( $_REQUEST['module'] ) && strpos( $_REQUEST['module'], '..' ) !== fal
 if ( $_REQUEST['modfunc'] === 'upload'
 	&& AllowEdit() )
 {
+	// Fix add-on partly installed due to user abort
+	ignore_user_abort( true );
+
 	// @since 6.4 Add-on zip upload.
 	if ( ( ! defined( 'ROSARIO_DISABLE_ADDON_UPLOAD' )
 			|| ! ROSARIO_DISABLE_ADDON_UPLOAD )
@@ -52,7 +55,10 @@ if ( $_REQUEST['modfunc'] === 'upload'
 
 		$addon_dir_path = AddonUnzip( 'module', $addon_zip_path, $extract_to_path );
 
-		if ( $addon_dir_path )
+		if ( $addon_dir_path
+			// @since 13.1 Security fix #380 Authenticated Unrestricted Module Upload Leading to Remote Code Execution
+			// Scan add-on for malware
+			&& ! ( $malware_found = AddonScanMalware( $addon_dir_path ) ) )
 		{
 			// Remove path.
 			$addon_dir = str_replace( $extract_to_path, '', $addon_dir_path );
@@ -105,6 +111,12 @@ if ( $_REQUEST['modfunc'] === 'upload'
 		AddonDelTree( $extract_to_path );
 
 		FileDelete( $addon_zip_path, '.zip' );
+
+		if ( $malware_found )
+		{
+			// Send email, do not redirect, display error.
+			(new RosarioSIS\Functions\Hacking)->log( true, false );
+		}
 	}
 
 	// Unset modfunc & redirect URL.
