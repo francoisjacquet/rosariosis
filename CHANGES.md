@@ -15,6 +15,8 @@ Changes in 13.1
 - Add RosarioSIS\Functions\Deprecation class in Deprecation.php, thanks to @macintoshplus
 - Add RosarioSIS\Functions\ClientIp class in ClientIp.php, thanks to @macintoshplus
 - Add $TrustedProxies optional config variable in config.inc.sample.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md, thanks to @macintoshplus
+- Add PHP CS Fixer rules in .php-cs-fixer.dist.php, thanks to @macintoshplus
+- Fix recalculate credits if new or old credits are 0 in Courses.fnc.php
 
 Changes in 13.0.3
 -----------------

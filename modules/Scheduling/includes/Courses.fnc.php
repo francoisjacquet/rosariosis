@@ -802,8 +802,6 @@ function CoursePeriodUpdateCredits( $cp_id, $old_credits, $new_credits )
 	global $DatabaseType;
 
 	if ( ! $cp_id
-		|| ! $old_credits
-		|| ! $new_credits
 		|| $old_credits == $new_credits )
 	{
 		return false;
