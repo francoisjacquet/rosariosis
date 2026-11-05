@@ -16,6 +16,9 @@
 	"require": {
 		"php": ">=5.5.9"
 	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.95"
+	},
 	"suggest": {
 		"ext-pgsql": "RosarioSIS relies on the pgsql extension (used to connect to the PostgreSQL database).",
 		"ext-mysqli": "RosarioSIS relies on the mysql (or mysqli) extension (used to connect to the MySQL database).",
