@@ -84,40 +84,48 @@ else
 	{
 		require_once 'modules/Custom/includes/RegistrationSave.fnc.php';
 
-		// Add eventual Dates to $_REQUEST['parent'].
-		AddRequestedDates( 'parent' );
+		// @since 13.1 Prevent submitting Registration form twice
+		$registration_done = DBGetOne( "SELECT 1
+			FROM students_join_address
+			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
-		// Add eventual Dates to $_REQUEST['address'].
-		AddRequestedDates( 'address' );
-
-		// Add eventual Dates to $_REQUEST['contact'].
-		AddRequestedDates( 'contact' );
-
-		// Add eventual Dates to $_REQUEST['students'].
-		AddRequestedDates( 'students' );
-
-		$values = [
-			'parent' => issetVal( $_REQUEST['parent'], [] ),
-			'address' => issetVal( $_REQUEST['address'], [] ),
-			'contact' => issetVal( $_REQUEST['contact'], [] ),
-			'student' => issetVal( $_REQUEST['students'], [] ),
-		];
-
-		$config = RegistrationFormConfig();
-
-		if ( ! empty( $_REQUEST['sibling_use_contacts_address'] ) )
+		if ( ! $registration_done )
 		{
-			// Security fix check sibling belongs to the authenticated parent
-			$sibling_id = RegistrationSiblingRegistered();
+			// Add eventual Dates to $_REQUEST['parent'].
+			AddRequestedDates( 'parent' );
 
-			$save_ok = RegistrationSaveSibling( $config, $values, $sibling_id );
-		}
-		else
-		{
-			$save_ok = RegistrationSave( $config, $values );
+			// Add eventual Dates to $_REQUEST['address'].
+			AddRequestedDates( 'address' );
+
+			// Add eventual Dates to $_REQUEST['contact'].
+			AddRequestedDates( 'contact' );
+
+			// Add eventual Dates to $_REQUEST['students'].
+			AddRequestedDates( 'students' );
+
+			$values = [
+				'parent' => issetVal( $_REQUEST['parent'], [] ),
+				'address' => issetVal( $_REQUEST['address'], [] ),
+				'contact' => issetVal( $_REQUEST['contact'], [] ),
+				'student' => issetVal( $_REQUEST['students'], [] ),
+			];
+
+			$config = RegistrationFormConfig();
+
+			if ( ! empty( $_REQUEST['sibling_use_contacts_address'] ) )
+			{
+				// Security fix check sibling belongs to the authenticated parent
+				$sibling_id = RegistrationSiblingRegistered();
+
+				$save_ok = RegistrationSaveSibling( $config, $values, $sibling_id );
+			}
+			else
+			{
+				$save_ok = RegistrationSave( $config, $values );
+			}
 		}
 
-		if ( $save_ok )
+		if ( ! empty( $save_ok ) )
 		{
 			// @todo Move to ProgramFunctions/SendNotification.fnc.php.
 			// Send New Registration email to Notify.
