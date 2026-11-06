@@ -22,6 +22,7 @@ Changes in 13.1
 - Prevent submitting Registration form twice in Registration.php
 - SQL fix do not save Contacts twice in RegistrationSave.fnc.php
 - Fix set size to 22 for empty Email student field in StudentsUsersInfo.fnc.php
+- Security fix #409 Unauthenticated RCE via Host header written to config.inc.php in Update.fnc.php & FirstLogin.fnc.php, thanks to @MDnyn
 
 Changes in 13.0.3
 -----------------

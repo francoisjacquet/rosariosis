@@ -100,7 +100,7 @@ function FirstLoginForm()
  * @example https://rosariosis.mydomain.com
  * @example http://localhost/rosariosis/
  */
-$RosarioURL = \'' . RosarioURL() . '\';';
+$RosarioURL = ' . var_export( RosarioURL(), true ) . ';';
 
 			$config = file_get_contents( 'config.inc.php' );
 
