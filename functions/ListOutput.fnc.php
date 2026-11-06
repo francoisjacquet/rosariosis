@@ -888,9 +888,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 function _ReindexResults( $array )
 {
 	// Raise deprecation notice.
-	trigger_error(
-		'_ReindexResults() function is deprecated since RosarioSIS 12.0. It will be removed in RosarioSIS 13.0.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'12.0',
+		'_ReindexResults() function is deprecated. It will be removed in 14.0.'
 	);
 
 	$new = [];

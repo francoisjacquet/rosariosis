@@ -23,9 +23,10 @@
  */
 function HackingLog()
 {
-	trigger_error(
-		'HackingLog() function is deprecated since RosarioSIS 13.0. Please use (new RosarioSIS\Functions\Hacking)->log() instead.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'13.0',
+		'HackingLog() function is deprecated, use (new RosarioSIS\Functions\Hacking)->log() instead.'
 	);
 
 	(new RosarioSIS\Functions\Hacking)->log();

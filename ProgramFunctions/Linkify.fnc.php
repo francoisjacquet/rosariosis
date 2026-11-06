@@ -23,9 +23,10 @@
  */
 function Linkify( $text )
 {
-	trigger_error(
-		'Linkify() function is deprecated since RosarioSIS 13.0. Please use your own function instead.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'13.0',
+		'Linkify() function is deprecated, use your own function instead.'
 	);
 
 	$pattern = '((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,8}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))';

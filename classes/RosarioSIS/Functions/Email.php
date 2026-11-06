@@ -126,9 +126,10 @@ class Email
 				// @deprecated since 13.0
 				do_action( 'ProgramFunctions/SendEmail.fnc.php|before_send' );
 
-				trigger_error(
-					'ProgramFunctions/SendEmail.fnc.php|before_send action hook is deprecated since RosarioSIS 13.0. Please use RosarioSIS/Functions/Email.php|before_send action hook instead.',
-					E_USER_DEPRECATED
+				RosarioSIS\Functions\Deprecation::trigger(
+					'RosarioSIS',
+					'13.0',
+					'ProgramFunctions/SendEmail.fnc.php|before_send action hook is deprecated, use RosarioSIS/Functions/Email.php|before_send instead.'
 				);
 			}
 
@@ -146,9 +147,10 @@ class Email
 				// @deprecated since 13.0
 				do_action( 'ProgramFunctions/SendEmail.fnc.php|send_error', $e->errorMessage() );
 
-				trigger_error(
-					'ProgramFunctions/SendEmail.fnc.php|send_error action hook is deprecated since RosarioSIS 13.0. Please use RosarioSIS/Functions/Email.php|send_error action hook instead.',
-					E_USER_DEPRECATED
+				RosarioSIS\Functions\Deprecation::trigger(
+					'RosarioSIS',
+					'13.0',
+					'ProgramFunctions/SendEmail.fnc.php|send_error action hook is deprecated, use RosarioSIS/Functions/Email.php|send_error instead.'
 				);
 			}
 

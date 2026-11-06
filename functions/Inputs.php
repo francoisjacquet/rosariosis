@@ -1180,9 +1180,10 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
 function ChosenSelectInput( $value, $name, $title = '', $options = [], $allow_na = 'N/A', $extra = '', $div = true )
 {
 	// Raise deprecation notice.
-	trigger_error(
-		'ChosenSelectInput() function is deprecated since RosarioSIS 10.7. Use Select2Input() instead.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'10.7',
+		'ChosenSelectInput() function is deprecated, use Select2Input() instead. It will be removed in 14.0.'
 	);
 
 	return Select2Input( $value, $name, $title, $options, $allow_na, $extra, $div );

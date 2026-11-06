@@ -22,6 +22,12 @@ if ( ! function_exists( 'DashboardModule' ) )
 	 */
 	function DashboardModule( $module, $data )
 	{
+		RosarioSIS\Functions\Deprecation::trigger(
+			'RosarioSIS',
+			'13.0',
+			'DashboardModule() function is deprecated, use (new RosarioSIS\Functions\DashboardModule)->add( $module, $data ) instead.'
+		);
+
 		return $data;
 	}
 }
@@ -41,9 +47,10 @@ if ( ! function_exists( 'DashboardModuleTitle' ) )
 	 */
 	function DashboardModuleTitle( $module )
 	{
-		trigger_error(
-			'DashboardModuleTitle() function is deprecated since RosarioSIS 13.0. Please use (new RosarioSIS\Functions\DashboardModule)->title() instead.',
-			E_USER_DEPRECATED
+		RosarioSIS\Functions\Deprecation::trigger(
+			'RosarioSIS',
+			'13.0',
+			'DashboardModuleTitle() function is deprecated, use (new RosarioSIS\Functions\DashboardModule)->title() instead.'
 		);
 
 		return (new RosarioSIS\Functions\DashboardModule)->title( $module );
@@ -65,9 +72,10 @@ if ( ! function_exists( 'DashboardModuleData' ) )
 	 */
 	function DashboardModuleData( $data, $columns = 0 )
 	{
-		trigger_error(
-			'DashboardModuleData() function is deprecated since RosarioSIS 13.0. Please use (new RosarioSIS\Functions\DashboardModule)->data() instead.',
-			E_USER_DEPRECATED
+		RosarioSIS\Functions\Deprecation::trigger(
+			'RosarioSIS',
+			'13.0',
+			'DashboardModuleData() function is deprecated, use (new RosarioSIS\Functions\DashboardModule)->data() instead.'
 		);
 
 		return (new RosarioSIS\Functions\DashboardModule)->data( $data, $columns );

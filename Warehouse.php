@@ -867,9 +867,10 @@ function WarehouseHeaderJS()
 function isPopup( $modname = '', $modfunc = '' )
 {
 	// Raise deprecation notice.
-	trigger_error(
-		'isPopup() function is deprecated since RosarioSIS 12.0. Use colorBox instead of popup window.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'12.0',
+		'isPopup() function is deprecated, use colorBox instead of popup window. It will be removed in 14.0.'
 	);
 
 	// Always return false.

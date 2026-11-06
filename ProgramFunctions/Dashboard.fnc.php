@@ -27,9 +27,10 @@
  */
 function Dashboard()
 {
-	trigger_error(
-		'Dashboard() function is deprecated since RosarioSIS 13.0.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'13.0',
+		'Dashboard() function is deprecated.'
 	);
 }
 
@@ -46,9 +47,10 @@ function Dashboard()
  */
 function DashboardOutput( $rows = 4 )
 {
-	trigger_error(
-		'DashboardOutput() function is deprecated since RosarioSIS 13.0. Please use (new RosarioSIS\Functions\Dashboard)->output() instead.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'13.0',
+		'DashboardOutput() function is deprecated, use (new RosarioSIS\Functions\Dashboard)->output() instead.'
 	);
 
 	(new RosarioSIS\Functions\Dashboard)->output( $rows );
@@ -67,8 +69,9 @@ function DashboardOutput( $rows = 4 )
  */
 function DashboardAdd( $module, $html, $append = true )
 {
-	trigger_error(
-		'DashboardAdd() function is deprecated since RosarioSIS 13.0.',
-		E_USER_DEPRECATED
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'13.0',
+		'DashboardAdd() function is deprecated.'
 	);
 }

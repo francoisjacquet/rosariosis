@@ -18,6 +18,12 @@ function PhpDebugBar()
 {
 	global $debugbarRenderer;
 
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'12.7',
+		'PhpDebugBar() function is deprecated. It will be removed in 14.0.'
+	);
+
 	if ( ! file_exists( 'meta/debug/php-debugbar/vendor/autoload.php' ) )
 	{
 		return false;
@@ -71,6 +77,12 @@ function PhpDebugBar()
  */
 function Kint()
 {
+	RosarioSIS\Functions\Deprecation::trigger(
+		'RosarioSIS',
+		'12.7',
+		'Kint() function is deprecated. It will be removed in 14.0.'
+	);
+
 	return false;
 
 	if ( ! file_exists( 'meta/debug/kint.phar' ) )
