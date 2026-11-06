@@ -351,6 +351,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 						continue;
 					}
+					elseif ( $column == 'EMAIL' )
+					{
+						// @since 13.1 Trim whitespaces in Email address so it passes validation filter
+						$value = trim( $value );
+					}
 
 					$update_columns[ $column ] = $value;
 				}
@@ -421,6 +426,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 					elseif ( $column == 'PASSWORD' )
 					{
 						$value = encrypt_password( $_POST['staff']['PASSWORD'] );
+					}
+					elseif ( $column == 'EMAIL' )
+					{
+						// @since 13.1 Trim whitespaces in Email address so it passes validation filter
+						$value = trim( $value );
 					}
 
 					$insert_columns[ $column ] = $value;
