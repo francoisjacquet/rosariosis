@@ -19,6 +19,7 @@ Changes in 13.1
 - Fix recalculate credits if new or old credits are 0 in Courses.fnc.php
 - Trim whitespaces in Email address so it passes validation filter in RegistrationSave.fnc.php, Student.php & User.php
 - Prevent submitting Registration form twice in Registration.php
+- SQL fix do not save Contacts twice in RegistrationSave.fnc.php
 
 Changes in 13.0.3
 -----------------

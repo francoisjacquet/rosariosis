@@ -176,13 +176,20 @@ function RegistrationSaveSibling( $config, $values, $student_id )
 /**
  * Save Registration Join Sibling Contacts to Student
  *
+ * @since 13.1 SQL fix do not save Contacts twice
+ *
  * @param int $student_id Sibling ID.
  */
 function RegistrationSaveSiblingContacts( $student_id )
 {
-	$contacts_RET = DBGet( "SELECT PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
-		FROM students_join_people
-		WHERE STUDENT_ID='" . (int) $student_id . "'" );
+	$contacts_RET = DBGet( "SELECT sjp.PERSON_ID,sjp.ADDRESS_ID,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
+		FROM students_join_people sjp
+		WHERE sjp.STUDENT_ID='" . (int) $student_id . "'
+		AND NOT EXISTS(SELECT 1
+			FROM students_join_people sjp2
+			WHERE sjp2.PERSON_ID=sjp.PERSON_ID
+			AND sjp2.ADDRESS_ID=sjp.ADDRESS_ID
+			AND sjp2.STUDENT_ID='" . UserStudentID() . "')" );
 
 	foreach ( (array) $contacts_RET as $contact )
 	{
