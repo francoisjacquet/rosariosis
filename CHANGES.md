@@ -21,6 +21,7 @@ Changes in 13.1
 - Trim whitespaces in Email address so it passes validation filter in RegistrationSave.fnc.php, Student.php & User.php
 - Prevent submitting Registration form twice in Registration.php
 - SQL fix do not save Contacts twice in RegistrationSave.fnc.php
+- Fix set size to 22 for empty Email student field in StudentsUsersInfo.fnc.php
 
 Changes in 13.0.3
 -----------------

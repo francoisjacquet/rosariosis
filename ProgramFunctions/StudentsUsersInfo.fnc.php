@@ -55,7 +55,8 @@ function _makeTextInput( $column, $name, $request )
 			$div = false;
 		}
 
-		if ( _isNew( $request ) )
+		if ( _isNew( $request )
+			|| empty( $value[ $column ] ) )
 		{
 			$options .= ' size=22';
 		}
