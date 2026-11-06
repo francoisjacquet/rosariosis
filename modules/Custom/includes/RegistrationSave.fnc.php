@@ -241,6 +241,12 @@ function RegistrationSaveStudent( $config, $values )
 			// Select Multiple from Options field type format.
 			$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 		}
+		elseif ( $value
+			&& filter_var( trim( $value ), FILTER_VALIDATE_EMAIL ) )
+		{
+			// @since 13.1 Trim whitespaces in Email address so it passes validation filter
+			$value = trim( $value );
+		}
 
 		$insert_columns[ $column ] = $value;
 	}

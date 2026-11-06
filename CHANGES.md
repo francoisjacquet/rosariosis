@@ -17,7 +17,7 @@ Changes in 13.1
 - Add $TrustedProxies optional config variable in config.inc.sample.php, INSTALL.md, INSTALL_es.md & INSTALL_fr.md, thanks to @macintoshplus
 - Add PHP CS Fixer rules in .php-cs-fixer.dist.php, thanks to @macintoshplus
 - Fix recalculate credits if new or old credits are 0 in Courses.fnc.php
-- Trim whitespaces in Email address so it passes validation filter in Student.php & User.php
+- Trim whitespaces in Email address so it passes validation filter in RegistrationSave.fnc.php, Student.php & User.php
 - Prevent submitting Registration form twice in Registration.php
 
 Changes in 13.0.3
