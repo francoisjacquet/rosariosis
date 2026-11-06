@@ -49,7 +49,7 @@ if ( isset( $csp_report['source-file'] )
 $domain_skip = [
 	'https://www.google-analytics.com', // AJAX request to Google Analytics
 	'https://www.gstatic.com', // CSS file injected by Google Translate
-	'kis.v2.scr.kaspersk', // JS script injected by Kaspersk-y antivirus
+	'v2.scr.kaspersk', // JS script injected by Kaspersk-y antivirus
 	'https://connect.facebook.net', // JS file injected by Facebook
 	'https://safesearchinc.com', // ??
 	'https://infird.com', // JS file injected by malware
