@@ -366,11 +366,11 @@ function RosarioURL( $mode = 'dir' )
 
 	if ( $mode === 'script' )
 	{
-		$url .= str_replace( $dir, '', $_SERVER['SCRIPT_NAME'] );
+		$url .= ltrim( str_replace( $dir, '', $_SERVER['SCRIPT_NAME'] ), '/' );
 	}
 	elseif ( $mode === 'request' )
 	{
-		$url .= str_replace( $dir, '', $_SERVER['REQUEST_URI'] );
+		$url .= ltrim( str_replace( $dir, '', $_SERVER['REQUEST_URI'] ), '/' );
 	}
 
 	return URLEscape( $url );
