@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 13.0.4
+-----------------
+- Fix remove extra slash "/" added to URL in PreparePHP_SELF.fnc.php
+
 Changes in 13.0.3
 -----------------
 - Fix SQL do not round average GPA per grade level in Dashboard.inc.php
