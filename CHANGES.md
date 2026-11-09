@@ -6,6 +6,7 @@ Changes in 13.0.4
 - Fix remove extra slash "/" added to URL in PreparePHP_SELF.fnc.php
 - Fix regression since 13.0 wrong URL when called from plugin or module file in PreparePHP_SELF.fnc.php
 - Security fix #409 Unauthenticated RCE via Host header written to config.inc.php in Update.fnc.php & FirstLogin.fnc.php, thanks to @MDnyn
+- Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus
 
 Changes in 13.0.3
 -----------------

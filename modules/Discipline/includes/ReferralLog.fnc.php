@@ -243,6 +243,7 @@ function ReferralLogsGetReferralHTML( $referral )
  * Get $extra for Referral Logs SQL query
  *
  * @since 5.3
+ * @since 13.1 Security fix #407 SQL Injection in ReferralLog
  *
  * @param array $extra Extra.
  *
@@ -258,7 +259,7 @@ function ReferralLogsGetExtra( $extra )
 	{
 		if ( $yes )
 		{
-			$extra['SELECT'] .= ',dr.' . $column;
+			$extra['SELECT'] .= ',dr.' . DBEscapeIdentifier( $column );
 		}
 	}
 
