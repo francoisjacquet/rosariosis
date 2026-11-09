@@ -4,6 +4,7 @@
 Changes in 13.0.4
 -----------------
 - Fix remove extra slash "/" added to URL in PreparePHP_SELF.fnc.php
+- Fix regression since 13.0 wrong URL when called from plugin or module file in PreparePHP_SELF.fnc.php
 
 Changes in 13.0.3
 -----------------

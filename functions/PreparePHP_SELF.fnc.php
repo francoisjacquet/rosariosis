@@ -331,6 +331,13 @@ function RosarioURL( $mode = 'dir' )
 	if ( ! empty( $RosarioURL ) )
 	{
 		$url = rtrim( $RosarioURL, '/' ) . '/';
+
+		if ( ( $pos = mb_strpos( $dir, 'plugins/' ) ) !== false
+			|| ( $pos = mb_strpos( $dir, 'modules/' ) ) !== false )
+		{
+			// @since 13.0.4 Fix wrong URL when called from plugin or module file
+			$dir = mb_substr( $dir, 0, $pos );
+		}
 	}
 	else
 	{
