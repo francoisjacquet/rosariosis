@@ -6,7 +6,6 @@ Changes in 13.1
 - Move upgrade instructions to its own file, ref #401 in UPGRADE.md & WHATS_NEW.md
 - Security Block script followed by a path (`file.php/x`) still runs as `file.php` in assets/FileUploads/.htaccess
 - Security Limit the dot-file exception to the .well-known folder itself in .htaccess
-- Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus
 - Add action hooks to add your own tab in Actions.php & Preferences.php, thanks to @macintoshplus
 - Add add-on version to installation statistics in Addon.fnc.php
 - Add scr34m\MalwareScanner class in MalwareScanner.php
@@ -22,12 +21,13 @@ Changes in 13.1
 - Prevent submitting Registration form twice in Registration.php
 - SQL fix do not save Contacts twice in RegistrationSave.fnc.php
 - Fix set size to 22 for empty Email student field in StudentsUsersInfo.fnc.php
-- Security fix #409 Unauthenticated RCE via Host header written to config.inc.php in Update.fnc.php & FirstLogin.fnc.php, thanks to @MDnyn
 
 Changes in 13.0.4
 -----------------
 - Fix remove extra slash "/" added to URL in PreparePHP_SELF.fnc.php
 - Fix regression since 13.0 wrong URL when called from plugin or module file in PreparePHP_SELF.fnc.php
+- Security fix #409 Unauthenticated RCE via Host header written to config.inc.php in Update.fnc.php & FirstLogin.fnc.php, thanks to @MDnyn
+- Security fix #407 SQL Injection in ReferralLog in ReferralLog.fnc.php, thanks to @macintoshplus
 
 Changes in 13.0.3
 -----------------
