@@ -22,6 +22,7 @@ Changes in 13.1
 - SQL fix do not save Contacts twice in RegistrationSave.fnc.php
 - Fix set size to 22 for empty Email student field in StudentsUsersInfo.fnc.php
 - Security use bcrypt algorithm to encrypt passwords in Password.php, PasswordReset.php, index.php, rosariosis.sql & rosariosis_mysql.sql
+- Remove link to meta repo, add instructions for PHP CS Fixer, ref !248 in CONTRIBUTING.md, thanks to @macintoshplus
 
 Changes in 13.0.4
 -----------------

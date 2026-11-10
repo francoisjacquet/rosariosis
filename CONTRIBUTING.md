@@ -25,7 +25,7 @@ You have PHP web development skills? Please head to the next section & send a [m
 
 ## Contributing to RosarioSIS
 
-Please head to the offical [Contribute page](https://www.rosariosis.org/contribute) to learn about how you can contribute to the project.
+Please head to the offical [Contribute page](https://www.rosariosis.org/contribute) to learn about other ways to contribute to the project.
 
 ### Coding standards
 
@@ -33,17 +33,15 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 2. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): we use PHPDoc.
 
-3. Quality Assurance: we use code linters & other [QA tools](https://phpqa.io/)
+3. Fix code style
+   - Install composer dev dependencies: `php composer install`
+   - Run [PHP CS Fixer](https://cs.symfony.com/) only on modified file: `php vendor/bin/php-cs-fixer fix <modified file path>`
 
 4. Testing: Activate [debug mode](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#optional-variables); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
 ### Architecture
 
 https://www.rosariosis.org/wp-content/uploads/2016/06/rosariosis-folders-files-architecture.png
-
-### Meta
-
-The [meta](https://gitlab.com/francoisjacquet/rosariosis-meta/) repository provides tools to debug and scripts to run tests, QA and prepare RosarioSIS release.
 
 ### Example Module
 
