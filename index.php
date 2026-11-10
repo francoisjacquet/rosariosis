@@ -509,7 +509,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 	$default_username = $default_password = '';
 
-	if ( Config( 'LOGIN' ) === 'No'
+	if ( ( Config( 'LOGIN' ) === 'No'
+			|| defined( 'ROSARIO_DEMO' ) && ROSARIO_DEMO )
 		&& DBGetOne( "SELECT 1 FROM staff
 			WHERE USERNAME='admin'
 			AND PASSWORD='$2y$12\$DpkRkDztVJPBBKxDDWlHhupFY9ilhPVb7bAInHgZeIZgrpwWOTmv6'" ) )
