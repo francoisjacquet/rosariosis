@@ -37,11 +37,6 @@ The localization system is `gettext`, and the `*.po` files can be edited using [
 `.pot` files are available in `locale/en_US.utf8/LC_MESSAGES/`
 
 
-Reference
----------
-A reference of the currently available translations, including their code, language, country, completion and other useful information is available in the [REFERENCE.md](REFERENCE.md) file.
-
-
 Help texts
 ----------
 The `Help_en.php` file serves as a reference to generate the Gettext `help.pot` / `help.po` files
@@ -56,3 +51,64 @@ Place a `flag.png` file inside your locale folder. It will be displayed for lang
 [Rounded flag icons](https://www.flaticon.com/packs/countrys-flags)
 
 Copyright: Freepik
+
+
+Translations reference
+----------------------
+Below is a reference of the currently available translations, including their code, language, country, completion and translator.
+
+Do not forget to add the `.utf8` suffix to the locale code.
+
+`*`: includes help.
+
+| Code  | Language (Country)            | Completed | Translator          |
+| ----- | ----------------------------- | --------- | ------------------- |
+| af_ZA | Afrikaans (South Africa)      | 32%       |                     |
+| ar_AE | Arabic (United Arab Emirates) | 83%       | Husam Shabeeb, Ali Al-Hassan |
+| ar_DZ | Arabic (Saudi Arabia)         | 33%       |                     |
+| be_BY | Belarusian (Belarus)          | 32%       |                     |
+| bg_BG | Bulgarian (Bulgaria)          | **92%**   | Vanyo Georgiev, Martin Krastev |
+| bn_BD | Bengali (Bangladesh)          | 32%       |                     |
+| cs_CZ | Czech (Czech Republic)        | **99%***  | David Kapitančik    |
+| da_DK | Danish (Denmark)              | 32%       |                     |
+| de_DE | German (Germany)              | **96%**   | Heike Gutsche, @0xD0M1M0 |
+| el_GR | Greek (Greece)                | **98%***  | Georgios Katakalos  |
+| en_CA | English (Canada)              | 1%        | RDH Associates Inc. |
+| es_ES | Spanish (Spain)               | **100%*** | RosarioSIS          |
+| et_EE | Estonian (Estonia)            | 33%       |                     |
+| fa_IR | Persian (Iran)                | 32%       |                     |
+| fi_FI | Finnish (Finland)             | 33%       |                     |
+| ga_IE | Irish (Ireland)               | 33%       |                     |
+| fr_FR | French (France)               | **100%*** | RosarioSIS, Étienne de Blois |
+| gl_GL | Galician                      | 33%       |                     |
+| hr_HR | Croatian (Croatia)            | 33%       |                     |
+| hu_HU | Hungarian (Hungary)           | 33%       |                     |
+| id_ID | Indonesian (Indonesia)        | 33%       |                     |
+| is_IS | Icelandic (Iceland)           | 33%       |                     |
+| it_IT | Italian (Italy)               | **99%***  | Stefania Binda      |
+| ja_JP | Japanese (Japan)              | 32%       |                     |
+| km_KH | Khmer (Cambodia)              | 85%       | Lyle Kozloff        |
+| ko_KR | Korean (South Korea)          | 31%       |                     |
+| lt_LT | Lithuanian (Lithuania)        | 33%       |                     |
+| lv_LV | Latvian (Latvia)              | 33%       |                     |
+| mk_MK | Macedonian (Macedonia)        | 33%       |                     |
+| ms_MY | Malay (Malaysia)              | 32%       |                     |
+| nl_NL | Dutch (Netherlands)           | 32%       |                     |
+| nn_NO | Norwegian Nynorsk (Norway)    | 33%       |                     |
+| pl_PL | Polish (Poland)               | 33%       |                     |
+| pt_BR | Portuguese (Brazil)           | **99%***  | Emerson Barros      |
+| pt_PT | Portuguese (Portugal)         | 37%       |                     |
+| ro_RO | Romanian (Romania)            | 33%       |                     |
+| ru_RU | Russian (Russia)              | **99%***  | Aleksey             |
+| sk_SK | Slovak (Slovakia)             | 33%       |                     |
+| sl_SI | Slovenian (Slovenia)          | 76%       | AT group            |
+| sq_AL | Albanian (Albania)            | 33%       |                     |
+| sr_RS | Serbian (Cyrillic, Bosnia)    | 33%       |                     |
+| sv_SE | Swedish (Sweden)              | 33%       |                     |
+| th_TH | Thai (Thailand)               | 33%       |                     |
+| tr_TR | Turkish (Turkey)              | **98%***  | Georgios Katakalos  |
+| uk_UA | Ukrainian (Ukraine)           | **99%***  | Aleksey             |
+| vi_VN | Vietnamese (Vietnam)          | **96%**   | Steven M. Haag & Trân Thi Kim Thanh |
+| wa_BE | Walloon (Belgium)             | 33%       |                     |
+| zh_CN | Chinese (Simplified, China)   | 32%       |                     |
+| zh_TW | Chinese (Traditional, Taiwan) | 33%       |                     |

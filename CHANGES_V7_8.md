@@ -367,7 +367,7 @@ Changes in 7.3
 - Attendance dashboard limit Absences to past days in Dashboard.inc.php
 - Fix #299 Remove trailing slash "/" or dash "-" or dot "." from date in DailySummary.php
 - Fix #300 Include Full Day and Half Day school periods in the schedule table in PrintSchedules.php, thanks to @dzungdo
-- Update translations complete % in locale/REFERENCE.md
+- Update translations complete % in locale/README.md
 - Add tested on CentOS & Google Chrome in INSTALL.md & INSTALL.pdf, thanks to @dd02
 - Add Before First Login form action hook in index.php & Actions.php
 - Fix regression since 7.0 not rolled items are checked in Rollover.php

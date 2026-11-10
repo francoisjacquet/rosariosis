@@ -15,8 +15,8 @@ Changes in 10.9.7
 Changes in 10.9.6
 -----------------
 - Do not use strtok(), can't handle nested calls for multiple files in InstallDatabase.php & database.inc.php
-- Add Vietnamese (Vietnam) translation in locale/vi_VN.utf8/ & locale/REFERENCE.md
-- Update German (Germany) translation in locale/de_DE.utf8/ & locale/REFERENCE.md
+- Add Vietnamese (Vietnam) translation in locale/vi_VN.utf8/ & locale/README.md
+- Update German (Germany) translation in locale/de_DE.utf8/ & locale/README.md
 - Fix Portuguese (Brazil) translation for "Gradebook": "livro de notas" in locale/pt_BR.utf8/
 
 Changes in 10.9.5
@@ -86,7 +86,7 @@ Changes in 10.9
 - Fix wkhtmltopdf not rendering URL in CSS in PDF.php
 - CSS Fix breaking words inside .header2 in stylesheet.css
 - SQL set N/A grade GPA to NULL in rosariosis.sql, rosariosis_es.sql, rosariosis_fr.sql & rosariosis_mysql.sql
-- Add Portuguese (Brazil) translation in InstallDatabase.php, REFERENCE.md, locale/pt_BR.utf8/ & rosariosis_pt_BR.sql, thanks to Emerson Barros
+- Add Portuguese (Brazil) translation in InstallDatabase.php, locale/README.md, locale/pt_BR.utf8/ & rosariosis_pt_BR.sql, thanks to Emerson Barros
 
 Changes in 10.8.5
 -----------------

@@ -582,7 +582,7 @@ Changes in 3.4
 - Fix #193 PHP error: do not call button(), not logged in in PortalPollsNotes.fnc.php
 - New translations (37% completed) in locale/
 - Add new translations flag icons in assets/flags/
-- Update README.md & add translations REFERENCE.md in locale/
+- Update README.md & add translations in locale/README.md
 - International proof no_accents function in FileUpload.fnc.php
 - Fix SQL error field type numeric(5,0) in Registration.php
 - Fix PHP error typo SchoolInfo() in HonorRoll.php

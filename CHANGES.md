@@ -935,6 +935,7 @@ Changes in 11.5.1
 - Fix HTML display Transcript footer when Credits unchecked in Transcripts.fnc.php
 - Format Credit Earned, display 0.33 instead of 0.333333333333333 in Transcripts.fnc.php
 - Fix PHP8.3 fatal error Duplicate declaration of static variable in classes/Markdownify/Converter.php
+- Move/regroup locale/REFERENCE.md in locale/README.md
 
 Changes in 11.5
 ---------------
@@ -946,7 +947,7 @@ Changes in 11.5
 - No error message if error code 4 (no file was attached) in FileUpload.fnc.php
 - DBInsertSQL() & DBUpdateSQL() better check empty values ('', false, null) in DBUpsert.php
 - Breaking change: Use `$_ROSARIO` global var instead of `$_SESSION` in School.php
-- Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/ & locale/REFERENCE.md
+- Slovenian translation (71% complete), thanks to AT group in locale/sl_SI.utf8/ & locale/README.md
 - Use DBUpdate() & DBInsert() functions in ReportCardGrades.php, Student.php & User.php
 - Fix PHP Fatal error maximum execution time of 120 seconds exceeded in InstallDatabase.php
 - Update French & Spanish translations in rosariosis.po
