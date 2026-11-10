@@ -2144,16 +2144,16 @@ INSERT INTO schools VALUES (2026, NULL, 'Default School', '500 S. Street St.', '
 -- Data for Name: students; Type: TABLE DATA;
 --
 
-INSERT INTO students VALUES (NULL, 'Student', 'Student', 'S', NULL, 'student', '$6$f03d507b27b8b9ff$WKtYRdFZGNjRKUr4btzq/p90hbKRAyB8HmrZpgpUhbAh.GtOCveXtXt43IaEDZJ31rVUYZ7ID8xPgKkCiRyzZ1', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '2015-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP, NULL);
+INSERT INTO students VALUES (NULL, 'Student', 'Student', 'S', NULL, 'student', '$2y$12$OAD6vnoFRWcrZtetnIiHfOt.Kd3eiyOT3xW1unmU9H7FcITgYRNdS', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '2015-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP, NULL);
 
 
 --
 -- Data for Name: staff; Type: TABLE DATA;
 --
 
-INSERT INTO staff VALUES (2026, NULL, 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', ',1,', NULL, NULL, 1, NULL, CURRENT_TIMESTAMP, NULL);
-INSERT INTO staff VALUES (2026, NULL, 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', ',1,', NULL, NULL, 2, NULL, CURRENT_TIMESTAMP, NULL);
-INSERT INTO staff VALUES (2026, NULL, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$6$947c923597601364$Kgbb0Ey3lYTYnqM66VkFRgJVFDW48cBAfNF7t0CVjokL7drcEFId61whqpLrRI1w0q2J2VPfg86Obaf1tG2Ng1', NULL, NULL, 'parent', NULL, NULL, NULL, 3, NULL, CURRENT_TIMESTAMP, NULL);
+INSERT INTO staff VALUES (2026, NULL, 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$2y$12$DpkRkDztVJPBBKxDDWlHhupFY9ilhPVb7bAInHgZeIZgrpwWOTmv6', NULL, NULL, 'admin', ',1,', NULL, NULL, 1, NULL, CURRENT_TIMESTAMP, NULL);
+INSERT INTO staff VALUES (2026, NULL, 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$2y$12$3hUdHjZnhl3I.DQVTHCf7u2CwM1TGJBvIHQ1OElqd6P.F7YcMBB52', NULL, NULL, 'teacher', ',1,', NULL, NULL, 2, NULL, CURRENT_TIMESTAMP, NULL);
+INSERT INTO staff VALUES (2026, NULL, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$2y$12$tk3YSQKYBUCUICCNs4GC4OJ5phxkP7UTeQZ.Umr8hIBJupjMVRIFm', NULL, NULL, 'parent', NULL, NULL, NULL, 3, NULL, CURRENT_TIMESTAMP, NULL);
 
 
 --

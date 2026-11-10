@@ -100,9 +100,7 @@ if ( isset( $_POST['email'] )
 
 // Password reset form.
 if ( ! empty( $_REQUEST['h'] )
-	&& ( mb_strlen( $_REQUEST['h'] ) == 106
-		|| mb_strlen( $_REQUEST['h'] ) == 105 )
-	&& mb_substr( $_REQUEST['h'], 0, 3 ) == '$6$' )
+	&& mb_substr( $_REQUEST['h'], 0, 1 ) === '$' )
 {
 	// Select Staff where last login > now.
 	$staff_RET = DBGet( "SELECT STAFF_ID AS ID, USERNAME, PASSWORD, EMAIL,

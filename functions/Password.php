@@ -6,18 +6,12 @@
  * @subpackage functions
  */
 
-// We use SHA512 algorithm.
-if ( ! defined( 'CRYPT_SHA512' ) )
-{
-	define( 'CRYPT_SHA512', 1 );
-}
-
 /**
  * Encrypt Password
  *
- * @see http://php.net/crypt
+ * @see http://php.net/password_hash
  *
- * @uses SHA512 algorithm (PHP 5.3.2+ required)
+ * @since 13.1 Security use bcrypt algorithm to encrypt passwords
  *
  * @param  string $plain Plain text password.
  *
@@ -30,23 +24,21 @@ function encrypt_password( $plain )
 		return '';
 	}
 
-	$rand = rand( 999999999, 9999999999 );
-
-	$salt = '$6$' . mb_substr( sha1( $rand ), 0, 16	);
-
-	return crypt( (string) $plain, $salt );
+	return password_hash( (string) $plain, PASSWORD_BCRYPT );
 }
 
 
 /**
  * Match Password
  *
- * @see http://php.net/hash-equals
+ * @see http://php.net/password_verify
  *
- * @param  string $crypted Crypted password.
+ * @since 13.1 Security use bcrypt algorithm to encrypt passwords
+ *
+ * @param  string $crypted Encrypted password.
  * @param  string $plain   Plain text password.
  *
- * @return boolean true if password match, else false
+ * @return bool True if password match, else false
  */
 function match_password( $crypted, $plain )
 {
@@ -66,10 +58,5 @@ function match_password( $crypted, $plain )
 	 */
 	do_action( 'functions/Password.php|match_password', [ &$crypted, $plain ] );
 
-	return function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
-		hash_equals(
-			(string) $crypted,
-			crypt( (string) $plain, (string) $crypted )
-		) :
-		$crypted == crypt( (string) $plain, (string) $crypted );
+	return password_verify( (string) $plain, (string) $crypted );
 }

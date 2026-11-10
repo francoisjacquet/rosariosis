@@ -512,7 +512,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	if ( Config( 'LOGIN' ) === 'No'
 		&& DBGetOne( "SELECT 1 FROM staff
 			WHERE USERNAME='admin'
-			AND PASSWORD='$6\$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.'" ) )
+			AND PASSWORD='$2y$12\$DpkRkDztVJPBBKxDDWlHhupFY9ilhPVb7bAInHgZeIZgrpwWOTmv6'" ) )
 	{
 		// @since 12.9 First login, prefill form inputs with default "admin" username & password
 		$default_username = $default_password = 'admin';
