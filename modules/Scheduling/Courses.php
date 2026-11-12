@@ -154,7 +154,12 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		$link = [];
 
 		$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=' . $_REQUEST['modfunc'] . '&last_year=' . $_REQUEST['last_year'];
+			'&last_year=' . $_REQUEST['last_year'];
+
+		if ( $_REQUEST['modfunc'] )
+		{
+			$link['TITLE']['link'] .= '&modfunc=' . $_REQUEST['modfunc'];
+		}
 
 		if ( $_REQUEST['modfunc'] === 'choose_course'
 			&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' )
@@ -204,19 +209,18 @@ if ( isset( $_REQUEST['course_modfunc'] )
 				&& ! $_REQUEST['include_child_mps'] ) )
 		{
 			$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-				'&modfunc=' . $_REQUEST['modfunc'] . '&last_year=' . $_REQUEST['last_year'];
+				'&last_year=' . $_REQUEST['last_year'];
+
+			if ( $_REQUEST['modfunc'] )
+			{
+				$link['TITLE']['link'] .= '&modfunc=' . $_REQUEST['modfunc'];
+			}
 
 			$link['TITLE']['variables'] = [
 				'subject_id' => 'SUBJECT_ID',
 				'course_id' => 'COURSE_ID',
 				'course_period_id' => 'COURSE_PERIOD_ID',
 			];
-
-			if ( $_REQUEST['modfunc'] === 'choose_course' )
-			{
-				$link['TITLE']['link'] .= '&modfunc=' . $_REQUEST['modfunc'] .
-					'&last_year=' . $_REQUEST['last_year'];
-			}
 		}
 
 		//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
@@ -1657,6 +1661,7 @@ if (  ( ! $_REQUEST['modfunc']
 		'',
 		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&course_modfunc=search&last_year=' . $_REQUEST['last_year'] .
+		( $_REQUEST['modfunc'] ? '&modfunc=' . $_REQUEST['modfunc'] : '' ) .
 		( $_REQUEST['modfunc'] == 'choose_course' && $_REQUEST['modname'] == 'Scheduling/Schedule.php' ?
 			'&include_child_mps=' . issetVal( $_REQUEST['include_child_mps'], '' ) .
 			'&year_date=' . $_REQUEST['year_date'] . '&month_date=' . $_REQUEST['month_date'] .
