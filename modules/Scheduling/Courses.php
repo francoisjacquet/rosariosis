@@ -1705,6 +1705,11 @@ if (  ( ! $_REQUEST['modfunc']
 
 	echo '<div class="st">';
 
+	// @since 13.1 Search list of Subjects
+	$LO_options_search = $LO_options;
+
+	$LO_options_search['search'] = true;
+
 	ListOutput(
 		$subjects_RET,
 		$columns,
@@ -1712,7 +1717,7 @@ if (  ( ! $_REQUEST['modfunc']
 		'Subjects',
 		$link,
 		[],
-		$LO_options
+		$LO_options_search
 	);
 
 	echo '</div>';

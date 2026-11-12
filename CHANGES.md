@@ -23,6 +23,7 @@ Changes in 13.1
 - Fix set size to 22 for empty Email student field in StudentsUsersInfo.fnc.php
 - Security use bcrypt algorithm to encrypt passwords in Password.php, PasswordReset.php, index.php, rosariosis.sql & rosariosis_mysql.sql
 - Remove link to meta repo, add instructions for PHP CS Fixer, ref !248 in CONTRIBUTING.md, thanks to @macintoshplus
+- Search list of Subjects in Courses.php
 
 Changes in 13.0.4
 -----------------
