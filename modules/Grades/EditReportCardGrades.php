@@ -501,7 +501,7 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'COURSE_TITLE' )
 	{
-		$extra = 'size=13 maxlength=100';
+		$extra = 'size=17 maxlength=100';
 
 		if ( $id !== 'new' )
 		{
