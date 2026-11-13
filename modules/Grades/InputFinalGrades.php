@@ -664,7 +664,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					'MARKING_PERIOD_ID' => (int) $_REQUEST['mp'],
 					'REPORT_CARD_GRADE_ID' => $grade,
 					'GRADE_PERCENT' => $percent,
-					'COMMENT' => $columns['comment'],
+					'COMMENT' => issetVal( $columns['comment'] ),
 					'GRADE_LETTER' => DBEscapeString( $letter ),
 					'WEIGHTED_GP' => $weighted,
 					'UNWEIGHTED_GP' => $unweighted,
