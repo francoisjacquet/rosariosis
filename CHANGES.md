@@ -25,6 +25,7 @@ Changes in 13.1
 - Remove link to meta repo, add instructions for PHP CS Fixer, ref !248 in CONTRIBUTING.md, thanks to @macintoshplus
 - Search list of Subjects in Courses.php
 - Fix regression since 12.9 add &modfunc= to Search link (+ remove &modfunc= when no modfunc) in Courses.php
+- Fix do not display missing attendance if Attendance module is inactive in Portal.php
 
 Changes in 13.0.4
 -----------------

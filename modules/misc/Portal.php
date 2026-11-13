@@ -273,7 +273,8 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
+		if ( $RosarioModules['Attendance']
+			&& Preferences( 'HIDE_ALERTS' ) !== 'Y' )
 		{
 			// Warn if missing attendances.
 			// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
@@ -589,7 +590,8 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
+		if ( $RosarioModules['Attendance']
+			&& Preferences( 'HIDE_ALERTS' ) !== 'Y' )
 		{
 			// Warn if missing attendances.
 			// Fix PostgreSQL error invalid ORDER BY, only result column names can be used
@@ -717,7 +719,8 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		if ( $RosarioModules['Food_Service'] && Preferences( 'HIDE_ALERTS' ) != 'Y' )
+		if ( $RosarioModules['Food_Service']
+			&& Preferences( 'HIDE_ALERTS' ) !== 'Y' )
 		{
 			// warn if negative food service balance
 			$staff = DBGet( "SELECT (SELECT STATUS FROM food_service_staff_accounts WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
