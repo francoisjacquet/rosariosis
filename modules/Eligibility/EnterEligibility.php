@@ -190,6 +190,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	$course_period_id = UserCoursePeriod();
 
+	$_REQUEST['values'] = issetVal( $_REQUEST['values'], [] );
+
 	// Security fix #377 IDOR: Unauthorized Cross-Roster Data Assignment
 	$st_list = implode( ',', array_map( 'intval', array_keys( $_REQUEST['values'] ) ) );
 
