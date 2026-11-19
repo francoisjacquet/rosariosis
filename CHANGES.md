@@ -29,6 +29,7 @@ Changes in 13.1
 - Harden captcha: remove captchaXXXX-n1 & captchaXXXX-n2 span in jquery-captcha.js & Inputs.php
 - JS fix Print searched and/or sorted list in jquery-instant-list-search-sorting.js & warehouse.js
 - JS fix repeatListTHead() for compatibility with the Responsive List Unfold plugin in warehouse.js
+- Security SQL raise minimum password strength to 3 (was 2) in rosariosis.sql & rosariosis_mysql.sql
 
 Changes in 13.0.4
 -----------------
