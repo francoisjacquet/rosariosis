@@ -965,21 +965,19 @@ var repeatListTHead = function($lists) {
 		return;
 
 	$lists.each(function(i, tbl) {
-		var trs = $(tbl).children("thead,tbody").children("tr:visible"),
+		var trs = $(tbl).find("tbody tr:visible"),
 			tr_num = trs.length,
 			tr_max = 20;
 
 		// If more than 20 rows.
 		if (tr_num > tr_max) {
-			var th = trs[0];
-
 			// Each 20 rows, or at the end if number of rows <= 40.
-			for (var j = (tr_num > tr_max * 2 ? tr_max : tr_num - 1), trs2th = []; j < tr_num; j += tr_max) {
-				trs2th.push(trs[j]);
+			for (var j = (tr_num > tr_max * 2 ? tr_max : tr_num), trs2th = []; j <= tr_num; j += tr_max) {
+				trs2th.push(trs[j - 1]);
 			}
 
 			// Clone header.
-			$(th).clone().addClass('thead-repeat').insertAfter(trs2th);
+			$(tbl).find("thead tr").clone().addClass('thead-repeat').insertAfter(trs2th);
 		}
 	});
 }

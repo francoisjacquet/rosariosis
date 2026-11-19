@@ -60,7 +60,7 @@ var captcha = function(id) {
 			n2 = Math.floor(Math.random() * 11); // Between 0-10.
 
 		// Display them before captcha input.
-		$('.captcha').prepend(n1 + ' &#43; ' + n2);
+		$('#' + id).prepend(n1 + ' &#43; ' + n2);
 
 		return (n1 + n2).toString();
 	}
