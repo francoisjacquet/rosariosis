@@ -1440,8 +1440,9 @@ function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
  * @example CaptchaInput( 'captcha' . rand( 100, 9999 ), _( 'Captcha' ) );
  *
  * @since 3.5
+ * @since 13.1 Harden captcha: remove captchaXXXX-n1 & captchaXXXX-n2 span
  *
- * @see assets/js/warehouse.js for captcha JS functions.
+ * @see assets/js/jquery-captcha/jquery-captcha.js for captcha JS functions.
  *
  * @uses $_SESSION['CaptchaInput']
  * Places input name in session
@@ -1466,7 +1467,7 @@ function CaptchaInput( $name, $title, $extra = '' )
 	// @since 12.5 CSP remove unsafe-inline Javascript
 	ob_start(); ?>
 	<div class="captcha" id="<?php echo $id_base; ?>">
-		<span id="<?php echo $id_base; ?>-n1"></span> + <span id="<?php echo $id_base; ?>-n2"></span> = <input id="<?php echo $id_base; ?>-input" name="<?php echo AttrEscape( $name ); ?>[input]" type="number" required>
+		 = <input id="<?php echo $id_base; ?>-input" name="<?php echo AttrEscape( $name ); ?>[input]" type="number" required>
 		<input id="<?php echo $id_base; ?>-answer" name="<?php echo AttrEscape( $name ); ?>[answer]" type="hidden" <?php echo $extra; ?>>
 		<?php echo FormatInputTitle( $title, $id_base . '-input', $required ); ?>
 	</div>

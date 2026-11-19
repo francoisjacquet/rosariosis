@@ -2,6 +2,7 @@
  * Captcha jQuery plugin
  *
  * @since 3.5
+ * @since 13.1 Harden captcha: remove captchaXXXX-n1 & captchaXXXX-n2 span
  *
  * @see CatpchaInput() in Inputs.php
  *
@@ -59,8 +60,7 @@ var captcha = function(id) {
 			n2 = Math.floor(Math.random() * 11); // Between 0-10.
 
 		// Display them before captcha input.
-		$('#' + id + '-n1').html(n1);
-		$('#' + id + '-n2').html(n2);
+		$('.captcha').prepend(n1 + ' &#43; ' + n2);
 
 		return (n1 + n2).toString();
 	}
