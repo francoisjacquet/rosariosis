@@ -27,6 +27,7 @@ Changes in 13.1
 - Fix regression since 12.9 add &modfunc= to Search link (+ remove &modfunc= when no modfunc) in Courses.php
 - Fix do not display missing attendance if Attendance module is inactive in Portal.php
 - Harden captcha: remove captchaXXXX-n1 & captchaXXXX-n2 span in jquery-captcha.js & Inputs.php
+- JS fix Print searched and/or sorted list in jquery-instant-list-search-sorting.js & warehouse.js
 
 Changes in 13.0.4
 -----------------

@@ -135,6 +135,8 @@ instantList.search = function() {
 				$('#BottomButtonBack').attr('href', url);
 			}
 
+			instantList.url = url.href;
+
 			// Trigger the search event on the `.list` element
 			$list.trigger('search');
 		}, 400));
@@ -199,6 +201,8 @@ instantList.sorting = function() {
 				$('#BottomButtonBack').attr('href', e.target.href);
 			}
 
+			instantList.url = e.target.href;
+
 			var dir = th.asc ? 1 : -1;
 
 			// Update th link href: &LO_dir
@@ -262,3 +266,12 @@ instantList.setURLParam = function(url, name, value) {
 	url.searchParams.set(name, value);
 	return url;
 }
+
+/**
+ * Searched and/or sorted list URL
+ *
+ * @type {String}
+ *
+ * @since 13.1
+ */
+instantList.url = '';

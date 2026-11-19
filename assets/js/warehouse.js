@@ -761,6 +761,7 @@ var ajaxPrepare = function(target, scrollTop) {
 		});
 
 		// @since 13.0 add Instant List Search and Sorting plugin to core
+		instantList.url = '';
 		instantList.search();
 		instantList.sorting();
 	}
@@ -1132,7 +1133,16 @@ bottomButtonClick = function() {
 	}
 
 	if (this.id === 'BottomButtonPrint') {
-		this.href = 'Bottom.php?bottomfunc=print&' + window.location.search.substring(1);
+		this.href = 'Bottom.php?bottomfunc=print&';
+
+		if (typeof instantList.url === 'string' && instantList.url.indexOf('?') !== -1) {
+			// @since 13.1 Fix Print searched and/or sorted list
+			this.href += instantList.url.substring(instantList.url.indexOf('?') + 1);
+
+			return;
+		}
+
+		this.href += window.location.search.substring(1);
 
 		return;
 	}
