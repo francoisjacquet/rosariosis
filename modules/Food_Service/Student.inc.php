@@ -48,7 +48,10 @@ if ( ! $_REQUEST['modfunc']
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	echo NoInput(  ( $student['BALANCE'] < 0 ? '<span style="color:red">' : '' ) . $student['BALANCE'] . ( $student['BALANCE'] < 0 ? '</span>' : '' ), _( 'Balance' ) );
+	echo NoInput(
+		( $student['BALANCE'] < 0 ? '<span style="color:red">' : '' ) . $student['BALANCE'] . ( $student['BALANCE'] < 0 ? '</span>' : '' ),
+		_( 'Balance' )
+	);
 
 	echo '</td></tr></table>';
 	echo '<hr>';

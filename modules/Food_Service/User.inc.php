@@ -40,7 +40,10 @@ if ( ! $_REQUEST['modfunc']
 	echo '<td class="valign-top">';
 	echo '<table class="width-100p"><tr>';
 
-	echo '<td class="valign-top">' . NoInput(  ( $staff['BALANCE'] < 0 ? '<span style="color:red">' : '' ) . $staff['BALANCE'] . ( $staff['BALANCE'] < 0 ? '</span>' : '' ), 'Balance' );
+	echo '<td class="valign-top">' . NoInput(
+		( $staff['BALANCE'] < 0 ? '<span style="color:red">' : '' ) . $staff['BALANCE'] . ( $staff['BALANCE'] < 0 ? '</span>' : '' ),
+		_( 'Balance' )
+	);
 
 	// warn if account non-existent (balance query failed)
 
