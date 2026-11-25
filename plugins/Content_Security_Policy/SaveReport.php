@@ -101,11 +101,11 @@ if ( $csp_report['violated-directive'] === 'script-src-elem'
  * "violated-directive": "script-src-elem",
  * "blocked-uri": "inline",
  * "script-sample": "(function () {\n            try {\n       "
- * "column-number": 709
+ * "column-number": "709"
  */
 if ( $csp_report['violated-directive'] === 'script-src-elem'
 	&& $csp_report['blocked-uri'] === 'inline'
-	&& $csp_report['column-number'] === 709
+	&& $csp_report['column-number'] === '709'
 	&& ! empty( $csp_report['script-sample'] )
 	&& mb_strpos( $csp_report['script-sample'], '(function () {' ) !== false )
 {
@@ -117,13 +117,13 @@ if ( $csp_report['violated-directive'] === 'script-src-elem'
  *
  * "violated-directive": "script-src-elem",
  * "blocked-uri": "blob",
- * "line-number": 1,
- * "column-number": 267 (or 155)
+ * "line-number": "1",
+ * "column-number": "267" (or "155")
  */
 if ( $csp_report['violated-directive'] === 'script-src-elem'
 	&& $csp_report['blocked-uri'] === 'blob'
-	&& $csp_report['line-number'] === 1
-	&& ( $csp_report['column-number'] === 267 || $csp_report['column-number'] === 155 ) )
+	&& $csp_report['line-number'] === '1'
+	&& ( $csp_report['column-number'] === '267' || $csp_report['column-number'] === '155' ) )
 {
 	return _skipDie( 'Skip CSP violation triggered by blob script: line 1, column 267 or 155' );
 }
